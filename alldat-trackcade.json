@@ -1,0 +1,148 @@
+{
+  "artist": "Forever Humble PDX",
+  "title": "ALLDAT",
+  "audioUrl": "https://raw.githubusercontent.com/4everhumblepdx/trackcade-test/main/ALLDAT_ruffmix.mp3",
+  "coverUrl": "",
+  "logoUrl": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/neon-dash/logo-82e76a85b8.png",
+  "highScoreKey": "trackcade.alldat.v1",
+  "bpm": 136,
+  "beatOffset": 0,
+  "songLength": 196.08,
+  "finishBonus": 500,
+  "events": [
+    {
+      "t": 0,
+      "kind": "section",
+      "name": "intro"
+    },
+    {
+      "t": 15.5,
+      "kind": "drop",
+      "name": "opening-hook",
+      "duration": 15
+    },
+    {
+      "t": 31,
+      "kind": "section",
+      "name": "verse-one"
+    },
+    {
+      "t": 56,
+      "kind": "energy",
+      "name": "verse-lift"
+    },
+    {
+      "t": 76,
+      "kind": "peak",
+      "name": "verse-peak"
+    },
+    {
+      "t": 90,
+      "kind": "section",
+      "name": "hook-build"
+    },
+    {
+      "t": 102,
+      "kind": "drop",
+      "name": "main-hook",
+      "duration": 15
+    },
+    {
+      "t": 117,
+      "kind": "section",
+      "name": "break"
+    },
+    {
+      "t": 131,
+      "kind": "energy",
+      "name": "verse-two-lift"
+    },
+    {
+      "t": 155,
+      "kind": "peak",
+      "name": "final-verse-peak"
+    },
+    {
+      "t": 177,
+      "kind": "drop",
+      "name": "final-hook",
+      "duration": 12
+    },
+    {
+      "t": 189,
+      "kind": "section",
+      "name": "outro"
+    }
+  ],
+  "energyCurve": [
+    0.2,
+    0.36,
+    0.82,
+    0.95,
+    0.95,
+    0.82,
+    0.92,
+    0.9,
+    1.0,
+    0.9,
+    0.55,
+    0.6,
+    0.91,
+    0.92,
+    0.96,
+    0.92,
+    0.91,
+    0.96,
+    0.88,
+    0.22
+  ],
+  "palette": {
+    "skyTop": "#070a1e",
+    "skyBottom": "#1b1440",
+    "road": "#1a2142",
+    "roadAlt": "#121831",
+    "laneGlow": "#19e3ff",
+    "edgeLeft": "#ff2fb0",
+    "edgeRight": "#19e3ff",
+    "primary": "#19e3ff",
+    "secondary": "#ff2fb0",
+    "collectible": "#ffd147",
+    "hazard": "#ff4d6d",
+    "overdriveA": "#ff9a3d",
+    "overdriveB": "#ff2fb0"
+  },
+  "art": {
+    "player": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/sprites/sprites-1-bfce0e8a60.png",
+    "obstacleLow": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/sprites/sprites-2-5f5d8022bd.png",
+    "obstacleWall": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/sprites/sprites-3-79403a17ad.png",
+    "orb": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/sprites/sprites-4-bcdd52ebee.png",
+    "cell": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/sprites/sprites-5-7e5f29fce2.png",
+    "skyline": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/background/bg-5baf40d2d6.png"
+  },
+  "lanes": 3,
+  "baseSpeed": 92,
+  "maxSpeed": 285,
+  "speedRampPerSec": 0.55,
+  "energySpeedBoost": 14,
+  "overdriveSpeedMult": 1.18,
+  "jumpTime": 0.62,
+  "jumpHeight": 48,
+  "laneSwitchTime": 0.14,
+  "maxHits": 3,
+  "invincibleTime": 0.95,
+  "spawnRowEveryBeats": 1,
+  "spawnMinGapZ": 108,
+  "scorePerMeter": 1,
+  "orbScore": 25,
+  "nearMissScore": 15,
+  "comboEvery": 4,
+  "comboCap": 8,
+  "overdriveComboBonus": 2,
+  "overdriveOrbChance": 0.5,
+  "overdriveBloom": 1.5,
+  "baseBloom": 0.9,
+  "crashScoreFraction": 0.2,
+  "crashScoreFlat": 200,
+  "crashStunTime": 1.0,
+  "crashInvincibleTime": 2.8
+}
