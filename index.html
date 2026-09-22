@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Neon Dash — Trackcade</title>
+<style>
+  html,body{width:100%;height:100%;margin:0;background:#070a1e;overflow:hidden}
+  #game{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none}
+  #boot{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#8fa3d9;font:14px system-ui,sans-serif;background:#070a1e;z-index:10}
+  body.booted #boot{display:none}
+</style>
+<script>
+window.Desktop = window.Desktop || {
+  steam:{status:async()=>({ok:false}),unlock:async()=>({ok:false}),clear:async()=>({ok:false})},
+  window:{move(){},resize(){},title(){},center(){},fullscreen(){},toggleFullscreen(){}}
+};
+</script>
+</head>
+<body>
+<div id="game"></div>
+<div id="boot">loading Neon Dash…</div>
+<script type="module">
+try {
+  await import('./src/main.js');
+  requestAnimationFrame(()=>document.body.classList.add('booted'));
+} catch (e) {
+  console.error(e);
+  const boot=document.getElementById('boot');
+  boot.textContent='failed to load: '+(e?.message||String(e));
+  boot.style.color='#ff8080';
+}
+</script>
+</body>
+</html>
