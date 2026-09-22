@@ -1,42 +1,98 @@
-// Docs: engine/webgpu/index.md — usage, recipes & traps (this file = exact type signatures)
-import { BackdropHandle, type BackdropDef, type BackgroundSource } from '../backdrop.js';
-export declare const GLSL_BACKDROP_SNIPPETS: Record<string, string>;
-/** Splice a GLSL snippet into the fullscreen backdrop template — the GLSL
- *  mirror of buildBackdropWGSL (headless-testable string assembly). */
-export declare function buildBackdropGLSL(def: BackdropDef, snippet: string): string;
-/** Fullscreen blit that draws the background image (opaque) beneath the
- *  layers — the GLSL twin of BG_BLIT_WGSL. */
-export declare const BG_BLIT_FS_GLSL: string;
-export declare class GlBackdropChain {
-    private gl;
-    private handles;
-    private programs;
-    private warned;
-    private warnedGpuTex;
-    private bgProgram;
-    private bgTex;
+// Docs: engine/webgpu/backdrops.md — usage, recipes & traps (this file = exact type signatures)
+/** A backdrop as pure data — the MCP-block delivery shape. */
+export interface BackdropDef {
+    name: string;
+    /** Scalar params (max 8) with defaults — retune live via handle.set(). */
+    params?: Record<string, number>;
+    /** Up to two named colour slots (declaration order → c0, c1). */
+    colors?: Record<string, string>;
+    /** The WGSL snippet — writes `color`. See the module header contract. */
+    code: string;
+    /** Optional GLSL ES 3.0 twin of `code` — same variable scope (`uv`, `px`,
+     * `time`, `view`, `c0`/`c1`, named params, `TAU`, hash21/noise2/fbm2,
+     * `bg`/`bgAt(p)`, result in `color`), spliced by the WebGL fallback. A def
+     * without one is SKIPPED there (one console warn). */
+    glsl?: string;
+}
+/** Pure WGSL assembly (headless-testable). */
+export declare function buildBackdropWGSL(def: BackdropDef): string;
+export declare const BACKDROPS: Record<string, BackdropDef>;
+export declare const BACKDROP_PACK: Record<string, BackdropDef>;
+/** A live backdrop layer — retune (`set`/`setColor`) or `remove()` it. */
+export declare class BackdropHandle {
+    readonly def: BackdropDef;
+    private chain;
+    /** Update a scalar parameter (by the name declared in the def). */
+    set(param: string, value: number): this;
+    /** Update a colour slot (by the name declared in the def). */
+    setColor(name: string, hex: string): this;
+    /** Remove this backdrop layer. */
+    remove(): void;
+}
+/** Anything that can become the backdrops' background image. */
+export type BackgroundSource = GPUTexture | HTMLCanvasElement | OffscreenCanvas | HTMLImageElement | ImageBitmap;
+/**
+ * All active backdrop layers. Drawn first in the frame — into the 3D pass
+ * when a world exists (behind the meshes), else into the scene pass —
+ * with pipelines cached per (def, sampleCount). Device-loss rebuildable.
+ */
+export declare class BackdropChain {
+    private format;
+    private layers;
+    private pipelines;
+    private layout;
+    private device;
+    private sampler;
     private defaultTex;
+    private bgTex;
     private hasBg;
-    private bgSource;
-    constructor(gl: WebGL2RenderingContext);
-    /** A layer draws only when its name has a GLSL port. */
-    private runnable;
-    /** Anything to draw? True when a drawable layer or a background exists. */
-    get active(): boolean;
+    private bgLayout;
+    private bgPipelines;
+    private bgBind;
+    private bgBindTex;
+    constructor(device: GPUDevice, format: GPUTextureFormat);
     /**
-     * Set (or clear, with null) the background image the backdrops render OVER.
-     * Canvas / image / bitmap sources upload to a texture (straight alpha — the
-     * same recipe as the original's textureFromCanvas); GPUTexture sources are
-     * WebGPU-only and are ignored with one warn.
+     * Set (or clear, with null) the background image the backdrops render OVER. It is
+     * drawn beneath the layers (so overlays composite over the real pixels) and is
+     * sampleable inside a snippet via `bg` / `bgAt(uv)`. Accepts a GPUTexture or any
+     * canvas / image / bitmap (uploaded to a texture).
      */
     setBackground(source: BackgroundSource | null): void;
+    /** Anything to draw? (Game skips the frame + draw entirely when not.) True when
+     *  there are layers, or a background image is set (drawn even with no layer over it). */
+    get active(): boolean;
     /** Append a layer (built-in name or a custom BackdropDef — the block path). */
     add(backdrop: string | BackdropDef, params?: Record<string, number>): BackdropHandle;
-    drop(handle: BackdropHandle): void;
+    /** Remove every layer. */
     clear(): void;
-    /** (Re)create GL objects — the context-restore recovery path. */
-    rebuild(gl: WebGL2RenderingContext): void;
-    private programFor;
-    /** 1x1 transparent texture so the uBg sampler is always complete. */
-    private ensureDefaultTex;
+    /** (Re)create GPU objects — the device-loss recovery path. */
+    rebuild(device: GPUDevice): void;
+    private bgPipelineFor;
+    private pipelineFor;
+}
+/**
+ * THE BACKDROP STACK — full-screen layers drawn BEHIND the world and
+ * camera-aware (a starfield parallaxes with the view): `game.backdrop.add('stars')`,
+ * `game.backdrop.clear()`, `game.backdrop.background(img)`. Built-ins by name
+ * ('sky', 'stars', 'aurora', 'nebula', 'sunset') or a custom BackdropDef.
+ *
+ * Behind the world; `game.post` is the twin that draws OVER the finished frame.
+ */
+export declare class BackdropLayer {
+    private readonly chain;
+    /**
+     * Add a backdrop layer (layers stack in add order). Returns a handle:
+     * `.set(param, v)` / `.setColor(name, hex)` to retune live, `.remove()` to drop.
+     */
+    add(backdrop: string | BackdropDef, params?: Record<string, number>): BackdropHandle;
+    /** Remove every backdrop layer. */
+    clear(): void;
+    /**
+     * Set (or clear, with null) the BACKGROUND IMAGE the layers render OVER — a
+     * game's title art, a level's photo, or (in the Foundry) a checkerboard. It is
+     * drawn beneath the backdrop layers and is sampleable inside a snippet via the
+     * pre-sampled `bg` (vec4f at the current pixel) or `bgAt(uv)` (sample elsewhere,
+     * e.g. for displacement / warp). Accepts a GPUTexture or any canvas / image / bitmap.
+     */
+    background(source: BackgroundSource | null): void;
 }

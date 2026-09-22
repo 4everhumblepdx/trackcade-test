@@ -1,120 +1,167 @@
 // Docs: engine/webgpu/index.md — usage, recipes & traps (this file = exact type signatures)
-/** Tween / motion / animation system. The Game owns one as `this.tween`. Animate / ease / interpolate any numeric or colour-string property with `this.tween.to(sprite, { x: 200 })`. Driven by the game clock — tweens freeze automatically when the game pauses. */
-import { interpolate as shiftyInterpolate } from './shifty/index.js';
-import type { TweenState } from './shifty/index.js';
-/** An easing curve: a named standard curve (e.g. `'easeOutBounce'`), a short alias (`'bounce'`/`'quad'`/`'linear'`), a custom `(pos) => value` function, or a CSS cubic-bezier `[x1,y1,x2,y2]` array. See `EASING` for all accepted names. */
-export type Ease = string | ((pos: number) => number) | number[];
-/** All easing curve names accepted by `TweenOptions.ease` — standard shifty curves plus the short aliases. */
-export declare const EASING: string[];
-/** Options for `tween.to / from / fromTo`. All fields are optional. */
-export interface TweenOptions<T = object> {
-    /** Duration in seconds. Default 0.5. */
-    duration?: number;
-    /** Easing curve name, function, or cubic-bezier array. Default `'easeInOutQuad'`. See `Ease` / `EASING`. */
-    ease?: Ease;
-    /** Delay in seconds before the animation starts. Default 0. */
-    delay?: number;
-    /** Called once when the tween begins (after any delay). */
-    onStart?: (target: T) => void;
-    /** Called every frame with the mutated target and progress 0→1 through the current run. */
-    onUpdate?: (target: T, progress: number) => void;
-    /** Called once when the tween (and all loops) finish. */
-    onComplete?: (target: T) => void;
-    /** Repeat the tween: `true` = loop forever, a number = that many additional repeats. Default none. */
-    loop?: boolean | number;
-    /** With `loop` — reverse direction on each repeat (ping-pong / yo-yo). */
-    yoyo?: boolean;
-}
-/**
- * A running tween handle. Returned by `tween.to` / `tween.from` / `tween.fromTo`. Supports `pause`, `resume`, `stop`, `seek`, and `await` (resolves when the tween finishes; never resolves for infinite loops).
- */
-export declare class TweenHandle {
-    private readonly _owner;
-    private _tw;
-    private _target;
-    private _from;
-    private _to;
-    private _opts;
-    private _loopsLeft;
-    private _yoyo;
-    private _done;
-    private _started;
-    private _progress;
-    private _resolve;
-    private _promise;
-    /** @ignore — construct via `tween.to / from / fromTo`, not directly. */
-    constructor(owner: Tween, target: object, from: TweenState, to: TweenState, opts: TweenOptions);
-    private _run;
-    private _onFinish;
-    /** Pause this tween. Resume with `resume()`. */
-    pause(): this;
-    /** Resume this tween from where `pause()` left it. */
-    resume(): this;
-    /** Stop this tween immediately. Pass `jumpToEnd = true` to snap the target to its end values first. Cancels any remaining loop repeats. */
-    stop(jumpToEnd?: boolean): this;
-    /** Jump the tween's playhead to `seconds` from its start (scrub / seek). */
-    seek(seconds: number): this;
-    /** `true` while the tween is advancing (not paused, not finished). */
-    get isPlaying(): boolean;
-    /** `true` once the tween (and all loop repeats) have finished. */
-    get isDone(): boolean;
-    /** Normalised progress through the current run, 0→1. Poll this instead of tracking elapsed time yourself. */
-    get progress(): number;
-    /** Makes the handle thenable — `await handle` resolves when the tween finishes. Never resolves for infinite loops. */
-    then<R = void>(onFulfilled?: (() => R | PromiseLike<R>) | null, onRejected?: ((reason: unknown) => R | PromiseLike<R>) | null): Promise<R>;
-}
-/** A batch handle over several `TweenHandle` instances — pause, resume, stop, or await all of them together. Returned by `tween.group(...)`. */
-export interface TweenGroup {
-    /** Pause all handles in the group. */
-    pause(): void;
-    /** Resume all handles in the group. */
-    resume(): void;
-    /** Stop all handles in the group. Pass `true` to jump each to its end values. */
-    stop(jumpToEnd?: boolean): void;
-    /** Resolves when every handle in the group has finished. */
-    then<R = void>(onFulfilled?: () => R | PromiseLike<R>): Promise<R>;
-}
-/**
- * The motion / animation / tween system. The Game owns one as `this.tween` (accessed on any scene as `this.tween`). The Game advances it every frame — call `this.tween.to(sprite, { x: 200 })` and the rest is automatic.
- */
-export declare class Tween {
-    private clockMs;
-    private _paused;
-    constructor();
-    /** Animate `target`'s properties FROM their current values TO `props`. The most common tween call — e.g. `tween.to(sprite, { x: 200, alpha: 0 }, { duration: 0.4 })`. */
-    to<T extends object>(target: T, props: Partial<Record<keyof T & string, number | string>>, opts?: TweenOptions<T>): TweenHandle;
-    /** Animate `target`'s properties FROM `props` TO their current values — use to animate / slide / fade something in from a starting position. */
-    from<T extends object>(target: T, props: Partial<Record<keyof T & string, number | string>>, opts?: TweenOptions<T>): TweenHandle;
-    /** Animate `target`'s properties from `fromProps` to `toProps` with full explicit control over both endpoints. */
-    fromTo<T extends object>(target: T, fromProps: Partial<Record<keyof T & string, number | string>>, toProps: Partial<Record<keyof T & string, number | string>>, opts?: TweenOptions<T>): TweenHandle;
-    /**
-     * Run tween steps one after another in a chain — each step starts when the previous one finishes. Each element is a function that returns a `TweenHandle` or any `Promise`. Returns a promise that resolves when the whole sequence is done.
-     */
-    sequence(steps: Array<() => TweenHandle | Promise<unknown> | void>): Promise<void>;
-    /** Group several `TweenHandle` instances for unified pause/resume/stop/await. */
-    group(...handles: TweenHandle[]): TweenGroup;
-    /**
-     * Compute a one-off interpolated / lerped snapshot (no animation, no handle). Works on numbers and colour strings: `tween.interpolate({ v: 0 }, { v: 10 }, 0.5).v === 5`.
-     */
-    interpolate: typeof shiftyInterpolate;
-    /** All easing curve names accepted by `TweenOptions.ease`. */
-    get EASING(): string[];
-    /** Advance the clock by `deltaSeconds` and step all active tweens. Called automatically by the Game loop — do not call this yourself. */
-    update(deltaSeconds: number): void;
-    /** Freeze every active tween WITHOUT stopping the game loop — use when displaying a pause overlay. */
-    pauseAll(): void;
-    /** Unfreeze every tween after `pauseAll()`. */
-    resumeAll(): void;
-    /** Alias of `pauseAll()` — the hook a state machine's suspend calls. */
-    pause(): void;
-    /** Alias of `resumeAll()`. */
-    resume(): void;
-    /** Stop every active tween (e.g. on a level reset). Pass `true` to snap each tween to its end values. */
-    stopAll(jumpToEnd?: boolean): void;
-    /** Number of currently active (running or paused) tweens. */
-    get count(): number;
-    /** `true` when the whole system is frozen by `pauseAll()`. */
-    get isPaused(): boolean;
-    /** Stop all tweens and tear down the system. Called automatically by `Game.destroy()`. */
-    destroy(): void;
-}
+export { Game } from './game.js';
+export type { GameOptions, ViewRect } from './game.js';
+export * from './util.js';
+export { Sprite, overlaps } from './sprite.js';
+export type { SpriteConfig, AnimDef } from './sprite.js';
+export { Scene, separate } from './scene.js';
+export type { SceneClass, SceneRoster, SpriteClass } from './scene.js';
+export { Physics } from './physics.js';
+export type { Contact } from './physics.js';
+export { TileGrid } from './tile-grid.js';
+export { CollisionGrid, type TileDef, type TileDefs, type TraceResult, type SlopeNormal, type CollisionGridLike, } from './collision-grid.js';
+export { Tilemap } from './tilemap.js';
+export type { TileAnim, TileDrawLike } from './tilemap.js';
+export { Maze } from './maze.js';
+export type { Dir, MazeOptions, MazeAlgorithm, RoomOptions, ExitSpec, Exit, Room, TileOptions, WallSeg, } from './maze.js';
+export { FlowGrid } from './flowgrid.js';
+export type { FlowGridOptions, FlowDir, } from './flowgrid.js';
+export { Track, TrackWalker } from './track.js';
+export type { TrackData, TrackEdgeData, TrackEdge, TrackOptions, } from './track.js';
+export { Dungeon } from './dungeon.js';
+export type { DungeonOptions, DungeonRoom, DungeonTileOptions, RoomTag, } from './dungeon.js';
+export { Cave } from './cave.js';
+export type { CaveOptions, CaveTileOptions, } from './cave.js';
+export { FogGrid } from './fog.js';
+export type { FogGridOptions, FogLight, FogState, LightFalloff, } from './fog.js';
+export { Visibility2d } from './visibility2d.js';
+export type { Segment, RayHit2d, } from './visibility2d.js';
+export { Lights2d } from './lights2d.js';
+export type { Light2d, PointLight2dOptions, SpotLight2dOptions, } from './lights2d.js';
+export { loadLevel, getMapByName, type LevelData, type LevelSpriteData, type LevelLayerData, } from './level.js';
+export { Effector, AreaEffector, SurfaceEffector, PointEffector, BuoyancyEffector, type Falloff, type AreaEffectorOptions, type SurfaceEffectorOptions, type PointEffectorOptions, type BuoyancyEffectorOptions, } from './effectors.js';
+export { Joint, type JointMode, type JointOptions } from './joints.js';
+export { SpritePool } from './sprite-pool.js';
+export type { PooledClass, PoolableSprite } from './sprite-pool.js';
+export { Path, PathWalker, type PathData, type PathSegmentData, type PathOptions, type PathEase, type PathPoint, } from './path.js';
+export { on, solid, type HitFn, type EventFn, type HitReg, type EventReg, type SolidReg, type EventDescriptor, } from './glue.js';
+export { DefaultTitle, DefaultGameOver } from './defaults.js';
+export { Preload, LoadingScene, LOADING_MIN_MS, loadingBarProgress, easeLoadingFill } from './preload.js';
+export { loadImage, loadText, loadJson, loadBinary, loadFont, getImage, isImageCached, isTextCached, isBinaryCached, isModelCached, isFontCached, isFontUsable, fontsSettled } from './assets.js';
+export { Input, KEY } from './input.js';
+export type { KeyCode } from './input.js';
+export { PointerTracker, spriteContainsPoint } from './pointer.js';
+export type { Pointer, PointerEventBase, TapEvent, DoubleTapEvent, LongPressEvent, PanEvent, SwipeEvent, SwipeDirection, TapHandler, DoubleTapHandler, LongPressHandler, PanHandler, SwipeHandler, PointerHandler, GestureOptions, } from './pointer.js';
+export { SceneInput } from './scene-input.js';
+export type { KeyState, InteractiveSprite } from './scene-input.js';
+export { Camera } from './camera.js';
+export { Screen } from './screen.js';
+export { Assets } from './game-assets.js';
+export { Draw } from './draw.js';
+export type { SpriteOpts, PanelState } from './draw.js';
+export { FixedClock } from './clock.js';
+export { rgba, WHITE } from './color.js';
+export type { Rgba } from './color.js';
+export { VectorLayer, VectorShape, VecTrail, VecStarfield, buildLineWGSL, buildFillWGSL, buildFill, polySegs, chainJoins, segJoins, segmentStyles, shapeOrigin, spawnFragment, stepFragment, fragmentAlpha, clipToScissor, LINE_FLOATS, FILL_FLOATS, XFORM_FLOATS, } from './vector.js';
+export type { VecClipRect, VecFill, VecTrailOptions, LineStyle, VectorShapeOptions, VecPt, VecFragment, VecEmitOptions, VecShapeKind, VecColorSource, PackedStyle, VecStar, VecStarMode, VecStarfieldOptions } from './vector.js';
+export type { VecTextOptions, VecTextAlign } from './vecfont.js';
+export type { RingSection, RingSectionOptions, Tube, TubeOptions, TubeProfile, LanePose, Vec3, WireModel, WireCamera, WireView, WireEdge, WireBounds } from './vecshapes.js';
+export { Gpu, installErrorOverlay, shaderModule, BITS } from './gpu.js';
+export type { GpuOptions } from './gpu.js';
+export { Atlas, packShelves, textureFromCanvas, rasterText } from './atlas.js';
+export type { Frame, PackedBox } from './atlas.js';
+export { BitmapFont, bakeFont } from './font.js';
+export type { FontOptions, Glyph } from './font.js';
+export { MsdfFont, parseMsdfFont, msdfTextureFrom } from './msdf-font.js';
+export type { MsdfFontData, MsdfGlyph, MsdfFontJSON } from './msdf-font.js';
+export { MsdfRenderer, packColor, packParams, packSolidParams, packDashParams, SOLID_PARAMS, BITMAP_PARAMS } from './msdf.js';
+export { MsdfText } from './msdf-text.js';
+export { UiRenderer, packUiColor, UI_STRIDE, sameClip, clipToPixels } from './ui.js';
+export type { ClipRect } from './ui.js';
+export { UI_STYLES, defineUiStyle, resolveUiStyle } from './ui-style.js';
+export type { UiStyle, UiStateStyle, UiState, UiRadius, ResolvedUiStyle } from './ui-style.js';
+export { Ui, UI_THEMES, buildUiTheme, isLatinText } from './ui-widgets.js';
+export type { MsdfAlign, MsdfColor, MsdfOutline, MsdfShadow, MsdfRule, MsdfHighlight, MsdfStyle, MsdfSegment, MsdfTextOptions, MsdfDrawOptions, } from './msdf-text.js';
+export { UnicodeText, detectDirection, isRtlCodePoint, breakOpportunities, graphemes } from './unicode-text.js';
+export type { UnicodeAlign, UnicodeDirection, UnicodeTextOptions, UnicodeDrawOptions, TextFill, TextGradient, TextStroke, TextShadow, TextGlow, TextBackground, TextRule, TextAppearance, TextStateStyle, } from './unicode-text.js';
+export { textOverlaps, makeBounds, transformedBounds, boundsOverlap, boundsIntersection, boundsUnion, } from './text-bounds.js';
+export type { TextBounds, TextTransform, BoundedText, TextItem, TextOverlap } from './text-bounds.js';
+export { Particles, RAMPS, resolveRamp } from './particles.js';
+export type { EmitOptions, RampName } from './particles.js';
+export type { Particles3d, SurfaceSampler } from './particles3d.js';
+export type { Emit3dOptions, Burst3dOptions, Fx3dWriter } from './particles3d.js';
+export type { GpuParticles, GpuEmitter } from './particles-gpu.js';
+export type { GpuEmitterOptions, GpuForce, GpuP, GpuSpawn } from './particles-gpu.js';
+export { particleCanvas } from './particle-tex.js';
+export type { ParticleTexKind, ParticleTexOptions } from './particle-tex.js';
+export { PostChain, PostHandle, PostLayer } from './post.js';
+export { BackdropChain, BackdropHandle, BackdropLayer, BACKDROPS, BACKDROP_PACK, buildBackdropWGSL } from './backdrop.js';
+export { VfxSystem, TrailEmitter, registerVfx, resolveVfx, VFX, VFX_PACK } from './vfx.js';
+export { DebugOverlay, normalizeDebug } from './debug.js';
+export type { DebugOptions } from './debug.js';
+export type { VfxDef, BurstLayer, TrailSparks } from './vfx.js';
+export type { BackdropDef, BackgroundSource } from './backdrop.js';
+export { EFFECTS, EFFECT_PACK, buildEffectWGSL, effectDefaults, effectParamIndex, MAX_EFFECT_PARAMS } from './effects.js';
+export type { EffectDef } from './effects.js';
+export { FxBatch, fxNeedsShader } from './fxbatch.js';
+export type { SpriteFx } from './fxbatch.js';
+export { GlowPass } from './glowpass.js';
+export { GridBatch, facing, buildGridWGSL } from './gridbatch.js';
+export type { Deform, DeformDef, GridBatchOptions } from './gridbatch.js';
+export type { World3d, Mesh3d, Box3d, Billboard3d, BlobShadow3d, Group3d } from './world3d.js';
+export type { Group3dConfig } from './world3d.js';
+export { eulerToQuat, quatMul, quatRotate, quatToEuler, composeChain, lookAtEuler, forward } from './transform3d.js';
+export type { Quat, ParentLike } from './transform3d.js';
+export { McControls, mcControls, cubeEdges } from './mccontrols.js';
+export type { McOptions, McHotbar, McWalkSpeeds } from './mccontrols.js';
+export type { World3dOptions, Mesh3dConfig, Box3dConfig, Billboard3dConfig, BlobShadow3dConfig, BeamConfig } from './world3d.js';
+export { Physics2d, Body2d } from './physics2d.js';
+export type { Physics2dOptions, BindOptions as Bind2dOptions, BindShapeOptions, ChainOptions, DebugDrawOptions, DebugDrawTarget, Joint2d, PinOptions, RopeOptions, SliderOptions as Slider2dOptions, WheelOptions as Wheel2dOptions, GrabOptions as Grab2dOptions, Grab2d, RayHit, } from './physics2d.js';
+export { Physics3d, Body3d, Character3d } from './physics3d.js';
+export type { Physics3dOptions, MeshLike3d, BindOptions as Bind3dOptions, Character3dOptions, Joint3d, HingeOptions, SliderOptions as Slider3dOptions, SpringOptions, SocketOptions, WheelOptions as Wheel3dOptions, GrabOptions as Grab3dOptions, } from './physics3d.js';
+export { Builder } from './geometry3d.js';
+export { Solid, transformVerts, unionVerts, subtractVerts, intersectVerts } from './csg3d.js';
+export type { Transform } from './csg3d.js';
+export type { OrbitRig } from './orbit3d.js';
+export type { OrbitOptions } from './orbit3d.js';
+export type { Agents3d, Agent3d, Field3d, Obstacle3d, SpatialHash3 } from './agents3d.js';
+export type { AgentsOptions, AgentConfig, BehaviorSpec, FieldOptions, ObstacleOptions, TargetLike } from './agents3d.js';
+export type { NavGrid, FlowField, NavGridOptions, NavVec3 } from './navgrid3d.js';
+export type { NavMesh3d, Crowd3d, NavMeshOptions, PathPlanner } from './agentnav3d.js';
+export type { ObjData, ObjGroup, ObjMaterial } from './obj.js';
+export type { GlbData, GlbMaterial, GlbImage, GlbPrimitiveOut, GlbRig, GlbNodeOut, GlbChannel, GlbAnimOut, GlbSkinOut, } from './glb.js';
+export { quatSlerp, trsToMat4, mat4MulTo, sampleChannel, composeWorlds, jointPalette, decomposeTRS, AnimMixer, } from './anim3d.js';
+export { quickhull, hullOfVerts } from './hull3d.js';
+export type { Lights3d, Light3d } from './lights3d.js';
+export type { LightConfig, ClusterCfg } from './lights3d.js';
+export type { SsaoPass } from './ssao.js';
+export type { SsaoOptions } from './ssao.js';
+export type { Model3d, AnimatedModel3d } from './model3d.js';
+export type { ModelConfig } from './model3d.js';
+export type { Wisp3d, Trail3d } from './world3d.js';
+export type { WispConfig, Trail3dOptions } from './world3d.js';
+export { mulberry32, noisePerm, perlin2, fbm2, noiseData, noiseCanvas } from './noise.js';
+export type { NoiseTextureOptions, FbmOptions } from './noise.js';
+export { cubeVerts, sphereVerts, cylinderVerts, torusVerts, roundedBoxVerts, coneVerts, capsuleVerts, wedgeVerts, planeVerts, panelVerts, discVerts, circleVerts, ringVerts, torusKnotVerts, tubeVerts, polyhedronVerts, latheVerts, shapeVerts, extrudeVerts, earClip, } from './geometry3d.js';
+export { vec3, mat4Perspective, mat4Ortho, mat4LookAt, mat4Mul, mat4Project, mat4Inverse, viewBasis, frustumPlanes, sphereVsFrustum, rayFromNdc, raySphere, rayPlaneY, rayObb, rayObbLocal } from './math3d.js';
+export { Path3d, DynamicPath3d, catmullRom3 } from './path3d.js';
+export type { Heightfield, Terrain3d, DeformMap } from './terrain3d.js';
+export type { TerrainOptions, TerrainBand, TerrainShape, TerrainSurface, TerrainChunk, DeformOptions } from './terrain3d.js';
+export { TerrainRider, footprintTaps, buildFootprint } from './rider3d.js';
+export type { TerrainRiderOptions, ContactShape } from './rider3d.js';
+export type { Grass3d } from './grass3d.js';
+export type { GrassOptions } from './grass3d.js';
+export type { Voxels3d, VoxelWorld, VoxelBody, VoxelAgent } from './voxel3d.js';
+export type { VoxelOptions, VoxelWorldOptions, VoxelHit, BlockDef, VoxelTerrainType, VoxelTerrainOptions, VoxelBodyOptions, VoxelAgentMode, VoxelAgentOptions, } from './voxel3d.js';
+export type { VoxelEditor } from './voxeledit3d.js';
+export type { VoxelEditorOptions, VoxelEditInput, VoxelEditEvent, VoxelHitEvent, VoxelEditResult, } from './voxeledit3d.js';
+export type { Sky3d, Sky3dLayer } from './sky3d.js';
+export type { SkyOptions, SkyState } from './sky3d.js';
+export type { Water3d, Water3dLayer } from './water3d.js';
+export type { WaterOptions, WaterWellOptions, WaterWell, WaveDef, WaterPreset, WaterTint } from './water3d.js';
+export type { Underwater3d, Underwater3dLayer } from './underwater3d.js';
+export type { UnderwaterOptions, UnderwaterPreset, UnderwaterPresetName, CausticOptions } from './underwater3d.js';
+export type { RaysOptions } from './rays.js';
+export type { Vector3dLayer, VectorShape3d } from './vector3d.js';
+export type { VectorShape3dOptions } from './vector3d.js';
+export type { Path3dOptions, PathFrame } from './path3d.js';
+export type { V3, Mat4 } from './math3d.js';
+export { QuadBatch, Z_RANGE, DEPTH_FORMAT } from './batch.js';
+export type { BatchOptions } from './batch.js';
+export { Audio, noteFreq, type Sound, type SoundSpec, type SoundFilter, type SoundVibrato, type MusicOptions, } from './audio.js';
+export { createStateMachine, type StateMachine, type StateHooks, } from './state.js';
+export { Tween, TweenHandle, EASING, type TweenOptions, type TweenGroup, type Ease, } from './tween/index.js';
+export { persist } from './persistence.js';
+export * as vectorKit from './vectorkit.js';
+export type { Segment as VecSegment, Fragment as VecPolyFragment, GravitySource, Body as VecBody } from './vectorkit.js';
+export * as colorKit from './colorkit.js';
