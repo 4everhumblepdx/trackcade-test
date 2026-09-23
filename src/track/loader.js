@@ -69,7 +69,72 @@ export async function loadManifest(url, fetchImpl) {
     catch {
         throw new ManifestError('the track file is not valid JSON');
     }
-    return validateManifest(data);
+    return validateManifest(normalizeLegacyManifest(data));
+}
+// ── Compatibility ────────────────────────────────────────────────────────────
+// Canonical Trackcade uses songLength plus event { t, kind }. Legacy v1
+// manifests used a few alternate names. Normalize them before validation so
+// old releases continue to play without weakening the internal game config.
+const LEGACY_SECTION_KINDS = new Set([
+    'intro', 'verse', 'chorus', 'hook', 'bridge', 'break', 'breakdown',
+    'build', 'buildup', 'build-up', 'outro', 'prechorus', 'pre-chorus',
+]);
+function finiteNumber(value) {
+    if (typeof value === 'number' && Number.isFinite(value))
+        return value;
+    if (typeof value === 'string' && value.trim() !== '') {
+        const n = Number(value);
+        return Number.isFinite(n) ? n : undefined;
+    }
+    return undefined;
+}
+function normalizeLegacyEvent(raw) {
+    if (!isRecord(raw))
+        return raw;
+    const out = { ...raw };
+    const t = finiteNumber(raw.t ?? raw.time ?? raw.timestamp ?? raw.start ?? raw.startTime ?? raw.seconds);
+    if (t !== undefined)
+        out.t = t;
+    const rawKind = raw.kind ?? raw.type ?? raw.event;
+    if (typeof rawKind === 'string') {
+        const normalizedKind = rawKind.trim().toLowerCase();
+        if (EVENT_KINDS.has(normalizedKind)) {
+            out.kind = normalizedKind;
+        }
+        else if (LEGACY_SECTION_KINDS.has(normalizedKind)) {
+            out.kind = 'section';
+            if (out.name === undefined)
+                out.name = raw.name ?? raw.label ?? raw.section ?? rawKind;
+        }
+    }
+    if (out.name === undefined) {
+        const name = raw.label ?? raw.section;
+        if (typeof name === 'string')
+            out.name = name;
+    }
+    const duration = finiteNumber(raw.duration ?? raw.length);
+    if (duration !== undefined)
+        out.duration = duration;
+    return out;
+}
+function normalizeLegacyManifest(data) {
+    if (!isRecord(data))
+        return data;
+    const out = { ...data };
+    if (out.songLength === undefined) {
+        const duration = finiteNumber(data.duration ?? data.trackLength ?? data.song_duration);
+        if (duration !== undefined)
+            out.songLength = duration;
+    }
+    const bpm = finiteNumber(data.bpm);
+    if (bpm !== undefined)
+        out.bpm = bpm;
+    const beatOffset = finiteNumber(data.beatOffset ?? data.beat_offset);
+    if (beatOffset !== undefined)
+        out.beatOffset = beatOffset;
+    if (Array.isArray(data.events))
+        out.events = data.events.map(normalizeLegacyEvent);
+    return out;
 }
 // ── Validation ───────────────────────────────────────────────────────────────
 const EVENT_KINDS = new Set([
