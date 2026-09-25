@@ -1,4 +1,4 @@
-# trigger independent Candombe validation v1
+# dynamic archive discovery v2
 name: Trackcade v0.19-dev — Independent Candombe Phase Stability
 
 on:
@@ -40,16 +40,45 @@ jobs:
           command -v ffmpeg
           command -v ffprobe
 
-      - name: Download and verify independent Candombe corpus
+      - name: Discover, download and verify independent Candombe corpus
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p stress-run/candombe/raw stress-run/candombe/beats stress-run/candombe-results
-          URL='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/candombe_dataset.tar.gz'
-          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 600 -o stress-run/candombe_dataset.tar.gz "$URL"
-          test -s stress-run/candombe_dataset.tar.gz
-          tar -tzf stress-run/candombe_dataset.tar.gz | head -40
-          tar -xzf stress-run/candombe_dataset.tar.gz -C stress-run/candombe/raw
+          PAGE='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/dataset.html'
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 60 \
+            -o stress-run/candombe_dataset.html "$PAGE"
+          ARCHIVE_URL=$(python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urljoin
+          PAGE='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/dataset.html'
+          class P(HTMLParser):
+              def __init__(self): super().__init__(); self.hrefs=[]
+              def handle_starttag(self, tag, attrs):
+                  if tag.lower()=='a':
+                      d=dict(attrs)
+                      if d.get('href'): self.hrefs.append(d['href'])
+          p=P(); p.feed(Path('stress-run/candombe_dataset.html').read_text(errors='ignore'))
+          hits=[h for h in p.hrefs if 'candombe_dataset' in h.lower() and ('.tar' in h.lower() or '.tgz' in h.lower() or '.zip' in h.lower())]
+          if len(hits)!=1:
+              raise SystemExit(f'FAIL-CLOSED: expected one archive href, found {len(hits)}: {hits}')
+          print(urljoin(PAGE,hits[0]))
+          PY
+          )
+          echo "resolved_archive_url=$ARCHIVE_URL"
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 900 \
+            -o stress-run/candombe_dataset.archive "$ARCHIVE_URL"
+          test -s stress-run/candombe_dataset.archive
+          file stress-run/candombe_dataset.archive
+          if tar -tzf stress-run/candombe_dataset.archive >/dev/null 2>&1; then
+            tar -xzf stress-run/candombe_dataset.archive -C stress-run/candombe/raw
+          elif unzip -tq stress-run/candombe_dataset.archive >/dev/null 2>&1; then
+            unzip -q stress-run/candombe_dataset.archive -d stress-run/candombe/raw
+          else
+            echo 'FAIL-CLOSED: downloaded Candombe archive is neither tar.gz nor zip' >&2
+            exit 1
+          fi
           audio_count=$(find stress-run/candombe/raw -type f \( -iname '*.flac' -o -iname '*.wav' -o -iname '*.mp3' -o -iname '*.ogg' -o -iname '*.m4a' \) | wc -l)
           csv_count=$(find stress-run/candombe/raw -type f -iname '*.csv' | wc -l)
           echo "audio_count=$audio_count csv_count=$csv_count"
@@ -115,7 +144,7 @@ jobs:
         if: always()
         shell: bash
         run: |
-          rm -rf stress-run/candombe/raw stress-run/tools stress-run/tools-v017.tgz stress-run/candombe_dataset.tar.gz
+          rm -rf stress-run/candombe/raw stress-run/tools stress-run/tools-v017.tgz stress-run/candombe_dataset.archive stress-run/candombe_dataset.html
 
       - name: Upload compact Candombe evidence only
         if: always()
