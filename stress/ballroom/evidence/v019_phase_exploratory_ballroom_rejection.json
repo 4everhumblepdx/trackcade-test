@@ -1,0 +1,37 @@
+{
+  "status": "REJECTED",
+  "candidate": "half_window_wins >= 2 && window_std_delta > 0",
+  "candidate_origin": "Exploratory rule identified after inspecting independent Candombe results; frozen before this Ballroom collateral check.",
+  "production_impact": "none",
+  "production_analyzer": "v0.18",
+  "production_runner_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+  "ballroom_source": {
+    "workflow_run_id": 36189055628,
+    "workflow_head_sha": "10b570cb2e49e1a19bdd7feb476c0bb4d3d88922",
+    "artifact_id": 10887896574,
+    "artifact_name": "trackcade-v018-ballroom-phase-stability",
+    "artifact_sha256": "ecf501e1d65e815c87fdd09079054ae60cd571d7d17937d0f9b777e037aff210"
+  },
+  "population": {
+    "rows": 698,
+    "usable_rows": 673,
+    "processing_errors": 0
+  },
+  "result": {
+    "triggers": 24,
+    "big_helps_delta_f1_gte_0_2": 5,
+    "big_hurts_delta_f1_lte_minus_0_2": 5,
+    "neutral": 14,
+    "worst_trigger_delta_f1": -0.9919999999999999,
+    "best_trigger_delta_f1": 0.9904761904761905
+  },
+  "largest_harmful_triggers": [
+    {"track": "Albums-I_Like_It2-09", "delta_f1": -0.9919999999999999},
+    {"track": "Media-106011", "delta_f1": -0.9591836734693878},
+    {"track": "Media-103701", "delta_f1": -0.944},
+    {"track": "Media-103815", "delta_f1": -0.853932584269663},
+    {"track": "Albums-GloriaEstefan_MiTierra-04", "delta_f1": -0.43388429752066104}
+  ],
+  "decision": "Kill this candidate. Do not retune it after seeing Ballroom, and do not advance it to a second held-out corpus.",
+  "notes": "The same frozen candidate had zero triggers on the 83 usable v0.19 metrical-mirror controls, but Ballroom exposes unacceptable false-positive harm."
+}
