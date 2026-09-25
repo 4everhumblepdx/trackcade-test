@@ -42,7 +42,7 @@ def nearest_signed(pred,ref):
 
 def shift_search(pred,ref,tol=.070):
     best=(greedy(pred,ref,tol),0.0)
-    for i in range(-125,126):
+    for i in range(-200,201):
         sh=i*.002
         f=greedy([t+sh for t in pred],ref,tol)
         if f>best[0]:best=(f,sh)
@@ -73,12 +73,26 @@ def one(audio,ann,runner,timeout):
     signed=nearest_signed(pred,refs); med=statistics.median(signed) if signed else 0
     residual=[abs(x-med) for x in signed]
     shifted_f70,shift=shift_search(pred,refs,.070)
-    row={'track':audio.stem,'genre':audio.parent.name,'tier':(js.get('timingGuardrail') or {}).get('tier'),
+    diag=js.get('timingDiagnostics') or js.get('diagnostics') or {}
+    guard=js.get('timingGuardrail') or {}
+    tactus=js.get('tactusCandidates') or []
+    primary=max((float(c.get('confidence',0)) for c in tactus if c.get('isPrimary')),default=0.0)
+    non_oct=max((float(c.get('confidence',0)) for c in tactus if c.get('relationToSource') not in ('same','half','double')),default=0.0)
+    tactus_margin=(primary-non_oct) if non_oct>0 else None
+    meter=js.get('meter') or {}
+    row={'track':audio.stem,'genre':audio.parent.name,'tier':guard.get('tier'),
+         'strict_scoring_allowed':guard.get('strictScoringAllowed'),'guard_reasons':'|'.join(guard.get('reasons') or []),
          'bpm':js.get('bpm'),'reference_beats':len(refs),'predicted_beats':len(pred),
          'beat_count_ratio':len(pred)/len(refs) if refs else None,
-         'phase_coherence':(js.get('diagnostics') or {}).get('phaseCoherence'),
-         'metrical_grid_coherence':(js.get('diagnostics') or {}).get('metricalGridCoherence'),
-         'pulse_family_ambiguity':(js.get('diagnostics') or {}).get('pulseFamilyAmbiguity'),
+         'phase_coherence':diag.get('phaseCoherence'),
+         'metrical_grid_coherence':diag.get('metricalGridCoherence'),
+         'pulse_family_ambiguity':diag.get('pulseFamilyAmbiguity'),
+         'detector_agreement':diag.get('detectorAgreement'),
+         'timing_confidence':js.get('timingConfidence'),
+         'tactus_primary_margin':tactus_margin,
+         'tactus_candidate_count':len(tactus),
+         'meter_numerator':meter.get('numerator') if isinstance(meter,dict) else None,
+         'meter_denominator':meter.get('denominator') if isinstance(meter,dict) else None,
          'median_signed_offset_ms':med*1000,
          'residual_p95_after_median_shift_ms':(percentile(residual,.95) or 0)*1000,
          'best_shift_70ms_ms':shift*1000,'best_shift_f1_70ms':shifted_f70,
