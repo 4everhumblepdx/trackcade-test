@@ -1,0 +1,124 @@
+name: Trackcade v0.19-dev — Independent SMC Phase Stability
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-smc-phase-stability.yml'
+  workflow_dispatch:
+
+jobs:
+  smc-phase-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore exact v0.18 and build windowed debug runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/tools
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+          python stress/ballroom/make_phase_stability_runner.py stress-run/tools/official-v018-runner.js stress-run/tools/official-v018-phase-stability.js
+          node --check stress-run/tools/official-v018-phase-stability.js
+          python -m py_compile stress/ballroom/run_phase_stability_ballroom.py
+
+      - name: Install and verify media/archive tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg p7zip-full
+          fi
+          command -v ffmpeg
+          command -v ffprobe
+
+      - name: Download independent SMC audio and current beat annotations
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/smc/audio stress-run/smc/annotations
+          SMC_URL='https://upbeduco-my.sharepoint.com/:u:/g/personal/joser_zapata_upb_edu_co/EWBsAq6xn2dGqvvzA-MoVDYB0DbnQIlSKjEgy1Lz01K5sw?e=VLnsb8&download=1'
+          curl -fL --retry 3 --retry-delay 5 -o stress-run/smc/smc_download "$SMC_URL"
+          echo 'SMC download:'
+          file stress-run/smc/smc_download
+          ls -lh stress-run/smc/smc_download
+          if unzip -tq stress-run/smc/smc_download >/dev/null 2>&1; then
+            unzip -q stress-run/smc/smc_download -d stress-run/smc/audio
+          elif tar -tf stress-run/smc/smc_download >/dev/null 2>&1; then
+            tar -xf stress-run/smc/smc_download -C stress-run/smc/audio
+          else
+            7z x -y -ostress-run/smc/audio stress-run/smc/smc_download >/dev/null
+          fi
+          git clone --depth 1 https://github.com/CPJKU/beat_this_annotations.git stress-run/smc/annotations/repo
+          echo "audio_files=$(find stress-run/smc/audio -type f \( -iname '*.wav' -o -iname '*.mp3' -o -iname '*.flac' -o -iname '*.ogg' -o -iname '*.m4a' \) | wc -l)"
+          echo "beat_files=$(find stress-run/smc/annotations/repo/smc/annotations/beats -type f -name '*.beats' | wc -l)"
+          find stress-run/smc/audio -type f | head -20
+
+      - name: Run exact-v0.18 windowed phase diagnostics on SMC
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/ballroom/run_phase_stability_ballroom.py \
+            --audio-root stress-run/smc/audio \
+            --annotations-root stress-run/smc/annotations/repo/smc/annotations/beats \
+            --runner stress-run/tools/official-v018-phase-stability.js \
+            --output stress-run/smc-results
+
+      - name: Evaluate frozen Ballroom-derived rule without retuning
+        if: always()
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          p=Path('stress-run/smc-results/phase_stability.csv')
+          if not p.exists():
+              print(json.dumps({'status':'no-results'})); raise SystemExit(0)
+          rows=list(csv.DictReader(p.open()))
+          ok=[]
+          for r in rows:
+              if r.get('status')!='ok': continue
+              try:
+                  d=float(r['delta_f1']); wins=float(r['half_window_wins']); md=float(r['window_mean_delta']); sd=float(r['window_std_delta'])
+              except: continue
+              trigger=wins>=2 and md>0 and sd>0
+              ok.append((r,trigger,d))
+          trig=[x for x in ok if x[1]]
+          summary={
+            'rule':'wins2_meanpos_stdpos_v1_FIXED_FROM_BALLROOM',
+            'rows':len(rows),'ok':len(ok),'triggers':len(trig),
+            'big_helps':sum(d>=.2 for _,_,d in trig),
+            'big_hurts':sum(d<=-.2 for _,_,d in trig),
+            'neutral':sum(-.2<d<.2 for _,_,d in trig),
+            'mean_delta_if_trigger':sum(d for _,_,d in trig)/max(1,len(trig)),
+            'trigger_tracks':[{'track':r['track'],'delta_f1':d,'selected_f1_70':float(r['selected_f1_70']),'half_f1_70':float(r['half_f1_70']),'half_window_wins':float(r['half_window_wins']),'window_mean_delta':float(r['window_mean_delta']),'window_std_delta':float(r['window_std_delta'])} for r,_,d in trig]
+          }
+          Path('stress-run/smc-results/fixed_rule_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          print(json.dumps(summary,indent=2))
+          PY
+
+      - name: Remove SMC audio and Analyzer files before artifact upload
+        if: always()
+        shell: bash
+        run: |
+          rm -rf stress-run/smc stress-run/tools stress-run/tools-v017.tgz
+
+      - name: Upload compact SMC evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-smc-phase-stability
+          path: |
+            stress-run/smc-results/phase_stability.csv
+            stress-run/smc-results/summary.json
+            stress-run/smc-results/fixed_rule_summary.json
+            stress-run/smc-results/errors.json
+          if-no-files-found: warn
+          retention-days: 14
