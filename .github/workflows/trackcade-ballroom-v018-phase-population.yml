@@ -1,0 +1,92 @@
+name: Trackcade Analyzer v0.18 — Ballroom Phase Population
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-ballroom-v018-phase-population.yml'
+  workflow_dispatch:
+
+jobs:
+  phase-population:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore exact v0.18 and build debug-only runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/tools
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+          python stress/ballroom/make_phase_debug_runner.py stress-run/tools/official-v018-runner.js stress-run/tools/official-v018-phase-debug.js
+          node --check stress-run/tools/official-v018-phase-debug.js
+          python -m py_compile stress/ballroom/run_phase_population_ballroom.py
+
+      - name: Install and verify ffmpeg / ffprobe
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffmpeg
+          command -v ffprobe
+
+      - name: Download Ballroom audio and annotations
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/data/audio stress-run/data/annotations
+          curl -fL --retry 3 --retry-delay 5 -o stress-run/data/data1.tar.gz https://mtg.upf.edu/ismir2004/contest/tempoContest/data1.tar.gz || \
+            curl -fL --retry 3 --retry-delay 5 -o stress-run/data/data1.tar.gz http://mtg.upf.edu/ismir2004/contest/tempoContest/data1.tar.gz
+          echo '2872a3e52070bc342a4510a95e2fa0b8  stress-run/data/data1.tar.gz' | md5sum -c -
+          tar -xzf stress-run/data/data1.tar.gz -C stress-run/data/audio
+          curl -fL --retry 3 --retry-delay 3 -o stress-run/data/annotations.tar.gz https://github.com/CPJKU/BallroomAnnotations/archive/refs/heads/master.tar.gz
+          tar -xzf stress-run/data/annotations.tar.gz -C stress-run/data/annotations
+
+      - name: Probe full Ballroom population
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/ballroom/run_phase_population_ballroom.py \
+            --audio-root stress-run/data/audio \
+            --annotations-root stress-run/data/annotations \
+            --runner stress-run/tools/official-v018-phase-debug.js \
+            --output stress-run/phase-population
+
+      - name: Print compact population summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          p=Path('stress-run/phase-population/phase_summary.csv')
+          if p.exists():
+              r=list(csv.DictReader(p.open()))
+              print(json.dumps({'rows':len(r),'selected_ge_08':sum(float(x['selected_f1_70'] or 0)>=.8 for x in r),'human_candidate_ge_08':sum(float(x['human_best_f1_70'] or 0)>=.8 for x in r)},indent=2))
+          e=Path('stress-run/phase-population/errors.json')
+          if e.exists(): print(e.read_text())
+          PY
+
+      - name: Remove audio before artifact upload
+        if: always()
+        run: rm -rf stress-run/data stress-run/tools
+
+      - name: Upload compact population diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v018-ballroom-phase-population
+          path: |
+            stress-run/phase-population/phase_candidates.csv
+            stress-run/phase-population/phase_summary.csv
+            stress-run/phase-population/errors.json
+          if-no-files-found: warn
+          retention-days: 14
