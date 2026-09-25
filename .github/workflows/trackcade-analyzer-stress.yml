@@ -1,0 +1,82 @@
+name: Trackcade Analyzer Stress
+
+on:
+  push:
+    branches:
+      - trackcade-analyzer-stress
+    paths:
+      - '.github/workflows/trackcade-analyzer-stress.yml'
+      - 'analyzer-stress/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  giantsteps-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout stress branch
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Restore Trackcade Stress Lab
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p analyzer-stress/lab
+          base64 -d analyzer-stress/stresslab-bundle.tgz.b64 | tar -xzf - -C analyzer-stress/lab
+          chmod +x analyzer-stress/lab/*.py
+          node --version
+          python --version
+          ffmpeg -version | head -1
+
+      - name: Download 25 labeled GiantSteps tracks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python analyzer-stress/lab/fetch_giantsteps.py \
+            --output "$RUNNER_TEMP/giantsteps" \
+            --limit 25 \
+            --shuffle-seed 42 \
+            --workers 6 \
+            --timeout 120
+          echo '--- manifest rows ---'
+          wc -l "$RUNNER_TEMP/giantsteps/manifest.csv"
+          if [ -f "$RUNNER_TEMP/giantsteps/download_failures.csv" ]; then
+            echo '--- download failures ---'
+            cat "$RUNNER_TEMP/giantsteps/download_failures.csv"
+          fi
+
+      - name: Run Trackcade v0.14 mass stress
+        shell: bash
+        run: |
+          set -euo pipefail
+          python analyzer-stress/lab/mass_stress.py \
+            --manifest "$RUNNER_TEMP/giantsteps/manifest.csv" \
+            --runner analyzer-stress/lab/official-v014-runner.js \
+            --output "$RUNNER_TEMP/results" \
+            --source giantsteps-v2 \
+            --jobs 2 \
+            --timeout 240 \
+            --keep-json anomalies
+          echo '--- Trackcade summary ---'
+          cat "$RUNNER_TEMP/results/summary.json"
+
+      - name: Save stress evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-giantsteps-25
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            ${{ runner.temp }}/results/**
+            ${{ runner.temp }}/giantsteps/manifest.csv
+            ${{ runner.temp }}/giantsteps/download_failures.csv
