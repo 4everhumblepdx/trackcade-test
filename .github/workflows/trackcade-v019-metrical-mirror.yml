@@ -1,0 +1,74 @@
+name: Trackcade v0.19-dev — Metrical Mirror Validation
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-metrical-mirror.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-mirror-corpus:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore exact v0.18 and build descriptive-triple dev runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/tools
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+          python stress/v019-mirror/patch_v018_add_descriptive_triples.py stress-run/tools/official-v018-runner.js stress-run/tools/official-v019-triples-dev.js
+          node --check stress-run/tools/official-v019-triples-dev.js
+          python -m py_compile stress/v019-mirror/generate_metrical_mirror_corpus.py stress/v019-mirror/run_mirror_validation.py
+
+      - name: Generate new 32 hard + 64 mirror corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/v019-mirror/generate_metrical_mirror_corpus.py --output stress-run/mirror-corpus
+
+      - name: Run frozen v0.18 versus descriptive-triple dev validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/v019-mirror/run_mirror_validation.py \
+            --corpus stress-run/mirror-corpus \
+            --baseline-runner stress-run/tools/official-v018-runner.js \
+            --dev-runner stress-run/tools/official-v019-triples-dev.js \
+            --output stress-run/mirror-results
+
+      - name: Print compact validation summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f stress-run/mirror-results/summary.json ]; then cat stress-run/mirror-results/summary.json; fi
+          if [ -f stress-run/mirror-results/errors.json ]; then cat stress-run/mirror-results/errors.json; fi
+          if [ -f stress-run/mirror-results/invariance_failures.json ]; then cat stress-run/mirror-results/invariance_failures.json; fi
+
+      - name: Remove generated audio and reconstructed Analyzer files before upload
+        if: always()
+        shell: bash
+        run: |
+          find stress-run/mirror-corpus -type f -name '*.wav' -delete 2>/dev/null || true
+          rm -rf stress-run/tools stress-run/tools-v017.tgz
+
+      - name: Upload compact mirror validation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-metrical-mirror-validation
+          path: |
+            stress-run/mirror-corpus/manifest.json
+            stress-run/mirror-results/summary.json
+            stress-run/mirror-results/results.csv
+            stress-run/mirror-results/errors.json
+            stress-run/mirror-results/invariance_failures.json
+          if-no-files-found: warn
+          retention-days: 14
