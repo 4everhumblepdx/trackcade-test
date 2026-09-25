@@ -31,7 +31,17 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p analyzer-stress/lab
-          cat analyzer-stress/bundle-parts/part-* > "$RUNNER_TEMP/stresslab.b64"
+          echo '--- remote chunk hashes ---'
+          sha256sum analyzer-stress/bundle-parts/part-*
+          cat analyzer-stress/bundle-parts/part-00 \
+              analyzer-stress/bundle-parts/part-01 \
+              analyzer-stress/bundle-parts/part-02 \
+              analyzer-stress/bundle-parts/part-03 \
+              analyzer-stress/bundle-parts/part-04_06 \
+              analyzer-stress/bundle-parts/part-07_09 \
+              analyzer-stress/bundle-parts/part-10 > "$RUNNER_TEMP/stresslab.b64"
+          echo "combined_bytes=$(wc -c < "$RUNNER_TEMP/stresslab.b64")"
+          echo "combined_sha=$(sha256sum "$RUNNER_TEMP/stresslab.b64" | awk '{print $1}')"
           test "$(wc -c < "$RUNNER_TEMP/stresslab.b64")" -eq 60700
           echo "66e017a3fe1db7b038731bd470c8aaf8c7cb9211d150401a25788202b689f581  $RUNNER_TEMP/stresslab.b64" | sha256sum -c -
           base64 -d "$RUNNER_TEMP/stresslab.b64" > "$RUNNER_TEMP/stresslab-ci-bundle.tgz"
