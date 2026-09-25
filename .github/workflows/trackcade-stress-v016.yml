@@ -1,0 +1,82 @@
+name: Trackcade Analyzer Stress v0.16
+
+on:
+  push:
+    branches: [analyzer-stress-v016-volume]
+    paths:
+      - 'stress/v016/**'
+      - '.github/workflows/trackcade-stress-v016.yml'
+  workflow_dispatch:
+
+jobs:
+  giantsteps-100:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore exact v0.16 stress tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress/v016/tools
+          base64 -d stress/v016/trackcade-stress-bundle.b64 > stress/v016/tools.tgz
+          echo '021a88fd66e84521faee42b53006de6cee8a91120098c41e8049d2d5a75cff08  stress/v016/tools.tgz' | sha256sum -c -
+          tar -xzf stress/v016/tools.tgz -C stress/v016/tools
+          node --check stress/v016/tools/official-v016-runner.js
+          python -m py_compile stress/v016/tools/mass_stress.py stress/v016/tools/fetch_giantsteps.py
+
+      - name: Confirm ffmpeg
+        run: |
+          ffmpeg -version | head -1
+          ffprobe -version | head -1
+
+      - name: Fetch 100 labeled GiantSteps tracks
+        run: |
+          python stress/v016/tools/fetch_giantsteps.py \
+            --output stress-run/giantsteps \
+            --limit 100 \
+            --workers 8 \
+            --timeout 120
+
+      - name: Analyze GiantSteps 100
+        run: |
+          python stress/v016/tools/mass_stress.py \
+            --manifest stress-run/giantsteps/manifest.csv \
+            --runner stress/v016/tools/official-v016-runner.js \
+            --output stress-run/results \
+            --source giantsteps-v2 \
+            --jobs 4 \
+            --timeout 240 \
+            --keep-json anomalies
+
+      - name: Print compact result
+        if: always()
+        run: |
+          if [ -f stress-run/results/summary.json ]; then
+            cat stress-run/results/summary.json
+          fi
+          if [ -f stress-run/giantsteps/download_failures.csv ]; then
+            echo '--- download failures ---'
+            cat stress-run/giantsteps/download_failures.csv
+          fi
+
+      - name: Remove downloaded audio before artifact upload
+        if: always()
+        run: rm -rf stress-run/giantsteps/audio stress-run/results/full
+
+      - name: Upload compact stress results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v016-giantsteps-100
+          path: |
+            stress-run/results/summary.json
+            stress-run/results/results.jsonl
+            stress-run/results/ranked.jsonl
+            stress-run/results/deep_probe_queue.csv
+            stress-run/results/stress.sqlite3
+            stress-run/giantsteps/manifest.csv
+            stress-run/giantsteps/download_failures.csv
+          if-no-files-found: warn
+          retention-days: 14
