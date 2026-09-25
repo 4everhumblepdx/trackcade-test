@@ -31,7 +31,12 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p analyzer-stress/lab
-          base64 -d analyzer-stress/stresslab-bundle.tgz.b64 | tar -xzf - -C analyzer-stress/lab
+          cat analyzer-stress/bundle-parts/part-* > "$RUNNER_TEMP/stresslab.b64"
+          test "$(wc -c < "$RUNNER_TEMP/stresslab.b64")" -eq 60700
+          echo "66e017a3fe1db7b038731bd470c8aaf8c7cb9211d150401a25788202b689f581  $RUNNER_TEMP/stresslab.b64" | sha256sum -c -
+          base64 -d "$RUNNER_TEMP/stresslab.b64" > "$RUNNER_TEMP/stresslab-ci-bundle.tgz"
+          echo "6d6f72c5786a51b73b9fe88c366f2425bc5ef419130dcff8237969c91fac4625  $RUNNER_TEMP/stresslab-ci-bundle.tgz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/stresslab-ci-bundle.tgz" -C analyzer-stress/lab
           chmod +x analyzer-stress/lab/*.py
           node --version
           python --version
