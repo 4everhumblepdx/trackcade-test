@@ -1,4 +1,4 @@
-name: Trackcade Analyzer Stress v0.17 Smoke
+name: Trackcade Analyzer Stress v0.17 — 100 Labeled Tracks
 
 on:
   push:
@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  giantsteps-smoke:
+  giantsteps-100:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
 
@@ -42,21 +42,21 @@ jobs:
           ffmpeg -version | sed -n '1p'
           ffprobe -version | sed -n '1p'
 
-      - name: Fetch 10 labeled GiantSteps tracks
+      - name: Fetch 100 labeled GiantSteps tracks
         shell: bash
         run: |
           set +e
           mkdir -p stress-run
           python stress/v017/tools/fetch_giantsteps.py \
             --output stress-run/giantsteps \
-            --limit 10 \
-            --workers 5 \
+            --limit 100 \
+            --workers 10 \
             --timeout 120
           code=$?
           echo "$code" > stress-run/fetch_exit_code.txt
           exit 0
 
-      - name: Analyze GiantSteps smoke batch
+      - name: Analyze GiantSteps 100-track batch
         shell: bash
         run: |
           set +e
@@ -68,7 +68,7 @@ jobs:
               --runner stress/v017/tools/official-v017-runner.js \
               --output stress-run/results \
               --source giantsteps-v2 \
-              --jobs 4 \
+              --jobs 6 \
               --timeout 240 \
               --keep-json anomalies
             code=$?
@@ -97,11 +97,11 @@ jobs:
         if: always()
         run: rm -rf stress-run/giantsteps/audio stress-run/results/full
 
-      - name: Upload compact smoke results
+      - name: Upload compact 100-track results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: trackcade-v017-giantsteps-smoke
+          name: trackcade-v017-giantsteps-100
           path: |
             stress-run/fetch_exit_code.txt
             stress-run/analyze_exit_code.txt
@@ -115,5 +115,3 @@ jobs:
             stress-run/giantsteps/download_failures.csv
           if-no-files-found: warn
           retention-days: 14
-
-# trigger: repaired bundle verified on branch
