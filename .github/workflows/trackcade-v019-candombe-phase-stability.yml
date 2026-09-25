@@ -1,0 +1,131 @@
+name: Trackcade v0.19-dev — Independent Candombe Phase Stability
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-candombe-phase-stability.yml'
+  workflow_dispatch:
+
+jobs:
+  candombe-phase-stability:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore exact v0.18 and build windowed debug runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/tools
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+          python stress/ballroom/make_phase_stability_runner.py stress-run/tools/official-v018-runner.js stress-run/tools/official-v018-phase-stability.js
+          node --check stress-run/tools/official-v018-phase-stability.js
+          python -m py_compile stress/ballroom/map_candombe_dataset.py stress/ballroom/run_phase_stability_ballroom.py
+
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffmpeg
+          command -v ffprobe
+
+      - name: Download and verify independent Candombe corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/candombe/raw stress-run/candombe/beats stress-run/candombe-results
+          URL='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/candombe_dataset.tar.gz'
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 600 -o stress-run/candombe_dataset.tar.gz "$URL"
+          test -s stress-run/candombe_dataset.tar.gz
+          tar -tzf stress-run/candombe_dataset.tar.gz | head -40
+          tar -xzf stress-run/candombe_dataset.tar.gz -C stress-run/candombe/raw
+          audio_count=$(find stress-run/candombe/raw -type f \( -iname '*.flac' -o -iname '*.wav' -o -iname '*.mp3' -o -iname '*.ogg' -o -iname '*.m4a' \) | wc -l)
+          csv_count=$(find stress-run/candombe/raw -type f -iname '*.csv' | wc -l)
+          echo "audio_count=$audio_count csv_count=$csv_count"
+          test "$audio_count" -ge 30
+          test "$csv_count" -ge 30
+          python stress/ballroom/map_candombe_dataset.py \
+            --dataset-root stress-run/candombe/raw \
+            --output stress-run/candombe/beats
+
+      - name: Run exact-v0.18 windowed phase diagnostics on Candombe
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/ballroom/run_phase_stability_ballroom.py \
+            --audio-root stress-run/candombe/raw \
+            --annotations-root stress-run/candombe/beats \
+            --runner stress-run/tools/official-v018-phase-stability.js \
+            --output stress-run/candombe-results
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('stress-run/candombe-results/summary.json')
+          if not p.exists(): raise SystemExit('FAIL-CLOSED: missing phase summary')
+          s=json.loads(p.read_text())
+          print(json.dumps(s,indent=2))
+          if s.get('tracks',0) < 30: raise SystemExit(f"FAIL-CLOSED: only {s.get('tracks')} tracks discovered")
+          if s.get('ok',0) < 1: raise SystemExit('FAIL-CLOSED: zero successfully evaluated tracks')
+          PY
+
+      - name: Evaluate frozen Ballroom-derived rule without retuning
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          p=Path('stress-run/candombe-results/phase_stability.csv')
+          rows=list(csv.DictReader(p.open()))
+          ok=[]
+          for r in rows:
+              if r.get('status')!='ok': continue
+              try:
+                  d=float(r['delta_f1']); wins=float(r['half_window_wins']); md=float(r['window_mean_delta']); sd=float(r['window_std_delta'])
+              except Exception: continue
+              trigger=wins>=2 and md>0 and sd>0
+              ok.append((r,trigger,d))
+          if not ok: raise SystemExit('FAIL-CLOSED: no valid rows for fixed rule')
+          trig=[x for x in ok if x[1]]
+          summary={
+            'rule':'wins2_meanpos_stdpos_v1_FIXED_FROM_BALLROOM',
+            'rows':len(rows),'ok':len(ok),'triggers':len(trig),
+            'big_helps':sum(d>=.2 for _,_,d in trig),
+            'big_hurts':sum(d<=-.2 for _,_,d in trig),
+            'neutral':sum(-.2<d<.2 for _,_,d in trig),
+            'mean_delta_if_trigger':sum(d for _,_,d in trig)/max(1,len(trig)),
+            'trigger_tracks':[{'track':r['track'],'delta_f1':d,'selected_f1_70':float(r['selected_f1_70']),'half_f1_70':float(r['half_f1_70']),'half_window_wins':float(r['half_window_wins']),'window_mean_delta':float(r['window_mean_delta']),'window_std_delta':float(r['window_std_delta'])} for r,_,d in trig]
+          }
+          Path('stress-run/candombe-results/fixed_rule_summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          print(json.dumps(summary,indent=2))
+          PY
+
+      - name: Remove corpus audio and Analyzer files before artifact upload
+        if: always()
+        shell: bash
+        run: |
+          rm -rf stress-run/candombe/raw stress-run/tools stress-run/tools-v017.tgz stress-run/candombe_dataset.tar.gz
+
+      - name: Upload compact Candombe evidence only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-candombe-phase-stability
+          path: |
+            stress-run/candombe/beats/mapping_summary.json
+            stress-run/candombe-results/phase_stability.csv
+            stress-run/candombe-results/summary.json
+            stress-run/candombe-results/fixed_rule_summary.json
+            stress-run/candombe-results/errors.json
+          if-no-files-found: warn
+          retention-days: 14
