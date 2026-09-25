@@ -17,28 +17,42 @@ jobs:
       - name: Restore and verify exact v0.18 benchmark tools
         shell: bash
         run: |
-          set -euo pipefail
-          mkdir -p stress/v018-ballroom/tools
-          cat stress/v018-ballroom/bundle.part00 stress/v018-ballroom/bundle.part01 stress/v018-ballroom/bundle.part02 stress/v018-ballroom/bundle.part03 stress/v018-ballroom/bundle.part04 | base64 -d > stress/v018-ballroom/tools.tgz
-          echo '54e962177636e299a9bafe3b0496a5331802e7d949aa7c5f8a62386fb957b151  stress/v018-ballroom/tools.tgz' | sha256sum -c -
-          tar -xzf stress/v018-ballroom/tools.tgz -C stress/v018-ballroom/tools
-          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress/v018-ballroom/tools/official-v018-runner.js' | sha256sum -c -
-          echo 'a0d30c7faaf1658f5debb290b44eae33e7ab72e9122ee2bf2003b595809e1b10  stress/v018-ballroom/tools/evaluate_ballroom.py' | sha256sum -c -
-          node --check stress/v018-ballroom/tools/official-v018-runner.js
-          python -m py_compile stress/v018-ballroom/tools/evaluate_ballroom.py
+          set +e
+          mkdir -p stress-run/logs stress/v018-ballroom/tools
+          (
+            set -euo pipefail
+            cat stress/v018-ballroom/bundle.part00 stress/v018-ballroom/bundle.part01 stress/v018-ballroom/bundle.part02 stress/v018-ballroom/bundle.part03 stress/v018-ballroom/bundle.part04 | base64 -d > stress/v018-ballroom/tools.tgz
+            echo '54e962177636e299a9bafe3b0496a5331802e7d949aa7c5f8a62386fb957b151  stress/v018-ballroom/tools.tgz' | sha256sum -c -
+            tar -xzf stress/v018-ballroom/tools.tgz -C stress/v018-ballroom/tools
+            echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress/v018-ballroom/tools/official-v018-runner.js' | sha256sum -c -
+            echo 'a0d30c7faaf1658f5debb290b44eae33e7ab72e9122ee2bf2003b595809e1b10  stress/v018-ballroom/tools/evaluate_ballroom.py' | sha256sum -c -
+            node --check stress/v018-ballroom/tools/official-v018-runner.js
+            python -m py_compile stress/v018-ballroom/tools/evaluate_ballroom.py
+          ) > stress-run/logs/tool_restore.txt 2>&1
+          code=$?
+          echo "$code" > stress-run/tool_restore_exit_code.txt
+          cat stress-run/logs/tool_restore.txt
+          exit 0
 
       - name: Install and verify ffmpeg / ffprobe
         shell: bash
         run: |
-          set -euo pipefail
-          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
-            sudo apt-get update -qq
-            sudo apt-get install -y -qq ffmpeg
-          fi
-          command -v ffmpeg
-          command -v ffprobe
-          ffmpeg -version | sed -n '1p'
-          ffprobe -version | sed -n '1p'
+          set +e
+          (
+            set -euo pipefail
+            if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+              sudo apt-get update -qq
+              sudo apt-get install -y -qq ffmpeg
+            fi
+            command -v ffmpeg
+            command -v ffprobe
+            ffmpeg -version | sed -n '1p'
+            ffprobe -version | sed -n '1p'
+          ) > stress-run/logs/ffmpeg_setup.txt 2>&1
+          code=$?
+          echo "$code" > stress-run/ffmpeg_setup_exit_code.txt
+          cat stress-run/logs/ffmpeg_setup.txt
+          exit 0
 
       - name: Fetch Ballroom audio corpus
         shell: bash
@@ -87,7 +101,9 @@ jobs:
         run: |
           set +e
           mkdir -p stress-run/results
-          if [ "$(cat stress-run/audio_extract_exit_code.txt 2>/dev/null || echo 2)" = "0" ] && \
+          if [ "$(cat stress-run/tool_restore_exit_code.txt 2>/dev/null || echo 2)" = "0" ] && \
+             [ "$(cat stress-run/ffmpeg_setup_exit_code.txt 2>/dev/null || echo 2)" = "0" ] && \
+             [ "$(cat stress-run/audio_extract_exit_code.txt 2>/dev/null || echo 2)" = "0" ] && \
              [ "$(cat stress-run/annotations_fetch_exit_code.txt 2>/dev/null || echo 2)" = "0" ]; then
             python stress/v018-ballroom/tools/evaluate_ballroom.py \
               --audio-root stress-run/audio-extracted \
@@ -108,6 +124,8 @@ jobs:
         if: always()
         shell: bash
         run: |
+          echo 'tool_restore_exit_code:' "$(cat stress-run/tool_restore_exit_code.txt 2>/dev/null || echo missing)"
+          echo 'ffmpeg_setup_exit_code:' "$(cat stress-run/ffmpeg_setup_exit_code.txt 2>/dev/null || echo missing)"
           echo 'audio_fetch_exit_code:' "$(cat stress-run/audio_fetch_exit_code.txt 2>/dev/null || echo missing)"
           echo 'audio_extract_exit_code:' "$(cat stress-run/audio_extract_exit_code.txt 2>/dev/null || echo missing)"
           echo 'annotations_fetch_exit_code:' "$(cat stress-run/annotations_fetch_exit_code.txt 2>/dev/null || echo missing)"
@@ -126,6 +144,8 @@ jobs:
         with:
           name: trackcade-v018-ballroom-beat-timing
           path: |
+            stress-run/tool_restore_exit_code.txt
+            stress-run/ffmpeg_setup_exit_code.txt
             stress-run/audio_fetch_exit_code.txt
             stress-run/audio_extract_exit_code.txt
             stress-run/annotations_fetch_exit_code.txt
