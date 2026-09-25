@@ -1,17 +1,32 @@
-name: Trackcade Analyzer Stress v0.17 — 100 Labeled Tracks
+name: Trackcade Analyzer Stress v0.17 — Full GiantSteps 664
 
 on:
   push:
     branches: [analyzer-stress-v017-volume]
     paths:
-      - 'stress/v017/**'
       - '.github/workflows/trackcade-stress-v017.yml'
   workflow_dispatch:
 
 jobs:
-  giantsteps-100:
+  giantsteps-shard:
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - shard: 0
+            offset: 0
+            limit: 166
+          - shard: 1
+            offset: 166
+            limit: 166
+          - shard: 2
+            offset: 332
+            limit: 166
+          - shard: 3
+            offset: 498
+            limit: 166
     steps:
       - uses: actions/checkout@v4
 
@@ -39,24 +54,22 @@ jobs:
           fi
           command -v ffmpeg
           command -v ffprobe
-          ffmpeg -version | sed -n '1p'
-          ffprobe -version | sed -n '1p'
 
-      - name: Fetch 100 labeled GiantSteps tracks
+      - name: Fetch labeled GiantSteps shard
         shell: bash
         run: |
           set +e
           mkdir -p stress-run
           python stress/v017/tools/fetch_giantsteps.py \
             --output stress-run/giantsteps \
-            --limit 100 \
+            --offset ${{ matrix.offset }} \
+            --limit ${{ matrix.limit }} \
             --workers 10 \
             --timeout 120
-          code=$?
-          echo "$code" > stress-run/fetch_exit_code.txt
+          echo "$?" > stress-run/fetch_exit_code.txt
           exit 0
 
-      - name: Analyze GiantSteps 100-track batch
+      - name: Analyze shard
         shell: bash
         run: |
           set +e
@@ -83,25 +96,20 @@ jobs:
         if: always()
         shell: bash
         run: |
+          echo 'shard:' '${{ matrix.shard }}' 'offset:' '${{ matrix.offset }}' 'limit:' '${{ matrix.limit }}'
           echo 'fetch_exit_code:' "$(cat stress-run/fetch_exit_code.txt 2>/dev/null || echo missing)"
           echo 'analyze_exit_code:' "$(cat stress-run/analyze_exit_code.txt 2>/dev/null || echo missing)"
-          if [ -f stress-run/results/summary.json ]; then
-            cat stress-run/results/summary.json
-          fi
-          if [ -f stress-run/giantsteps/download_failures.csv ]; then
-            echo '--- download failures ---'
-            cat stress-run/giantsteps/download_failures.csv
-          fi
+          if [ -f stress-run/results/summary.json ]; then cat stress-run/results/summary.json; fi
 
       - name: Remove downloaded audio before artifact upload
         if: always()
         run: rm -rf stress-run/giantsteps/audio stress-run/results/full
 
-      - name: Upload compact 100-track results
+      - name: Upload compact shard results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: trackcade-v017-giantsteps-100
+          name: trackcade-v017-giantsteps-shard-${{ matrix.shard }}
           path: |
             stress-run/fetch_exit_code.txt
             stress-run/analyze_exit_code.txt
