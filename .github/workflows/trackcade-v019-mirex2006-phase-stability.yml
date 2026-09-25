@@ -1,3 +1,4 @@
+# TLS hostname fix: music-ir.org certificate does not cover www.music-ir.org
 name: Trackcade v0.19-dev — Independent MIREX 2006 Phase Stability
 
 on:
@@ -44,7 +45,7 @@ jobs:
         run: |
           set -u
           mkdir -p stress-run/mirex/archive stress-run/mirex/extracted stress-run/mirex/prepared
-          URL='https://www.music-ir.org/evaluation/MIREX/data/2006/beat/beattrack_train_2006.tgz'
+          URL='https://music-ir.org/evaluation/MIREX/data/2006/beat/beattrack_train_2006.tgz'
           if ! curl -fL --retry 2 --retry-delay 3 -u 'beattrack:b34trx' -o stress-run/mirex/archive/beattrack_train_2006.tgz "$URL"; then
             printf '{"status":"download-failed","url":"%s"}\n' "$URL" > stress-run/mirex/prepared/download_status.json
             exit 0
