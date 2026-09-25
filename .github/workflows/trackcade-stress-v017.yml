@@ -20,7 +20,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p stress/v017/tools
-          cat stress/v017/bundle.part00 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05 | base64 -d > stress/v017/tools.tgz
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress/v017/tools.tgz
           echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress/v017/tools.tgz' | sha256sum -c -
           tar -xzf stress/v017/tools.tgz -C stress/v017/tools
           echo 'c2ea889eca7506ce58e5989b84cef5406f57e656f670f0e1fb7b5a32870a8703  stress/v017/tools/official-v017-runner.js' | sha256sum -c -
