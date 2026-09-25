@@ -1,0 +1,67 @@
+name: Trackcade — Recover Archived v0.17 Controls
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-recover-v017-controls.yml'
+  workflow_dispatch:
+
+jobs:
+  recover-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reconstruct and verify exact archived v0.17 bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/recovery
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+
+      - name: Inventory archived text and control-corpus clues
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/recovery/recover_v017_bundle_manifest.py \
+            --archive stress-run/tools-v017.tgz \
+            --output stress-run/recovery
+
+      - name: Print compact recovery summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f stress-run/recovery/summary.json ]; then cat stress-run/recovery/summary.json; fi
+          if [ -f stress-run/recovery/keyword_hits.json ]; then
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('stress-run/recovery/keyword_hits.json')
+          if p.exists():
+              rows=json.loads(p.read_text())
+              for row in rows:
+                  print('\n###', row['name'])
+                  for m in row.get('matches', [])[:20]:
+                      print(f"{m['line']}: {m['text']}")
+          PY
+          fi
+
+      - name: Remove reconstructed archive before upload
+        if: always()
+        run: rm -f stress-run/tools-v017.tgz
+
+      - name: Upload compact recovery manifest
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v017-archived-control-manifest
+          path: |
+            stress-run/recovery/summary.json
+            stress-run/recovery/bundle_listing.json
+            stress-run/recovery/text_inventory.json
+            stress-run/recovery/keyword_hits.json
+          if-no-files-found: warn
+          retention-days: 14
