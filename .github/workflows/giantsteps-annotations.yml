@@ -1,0 +1,33 @@
+name: GiantSteps Annotation Export
+
+on:
+  push:
+    branches:
+      - trackcade-analyzer-stress
+    paths:
+      - '.github/workflows/giantsteps-annotations.yml'
+      - 'tools/giantsteps_annotation_export.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Export GiantSteps tempo votes
+        run: python tools/giantsteps_annotation_export.py
+      - name: Upload tempo-vote metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: giantsteps-annotations-v2
+          retention-days: 14
+          path: |
+            giantsteps_annotations.jsonl
+            giantsteps_annotations_summary.json
