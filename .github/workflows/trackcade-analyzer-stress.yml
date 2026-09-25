@@ -15,7 +15,7 @@ permissions:
 jobs:
   giantsteps-stress:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     steps:
       - name: Checkout stress branch
@@ -52,15 +52,15 @@ jobs:
           tar -xzf "$RUNNER_TEMP/stresslab-ci-bundle.tgz" -C analyzer-stress/lab
           chmod +x analyzer-stress/lab/*.py
 
-      - name: Download 100 labeled GiantSteps tracks
+      - name: Download all 664 labeled GiantSteps tracks
         shell: bash
         run: |
           set -euo pipefail
           python analyzer-stress/lab/fetch_giantsteps.py \
             --output "$RUNNER_TEMP/giantsteps" \
-            --limit 100 \
+            --limit 664 \
             --shuffle-seed 42 \
-            --workers 8 \
+            --workers 12 \
             --timeout 120
           echo '--- manifest rows ---'
           wc -l "$RUNNER_TEMP/giantsteps/manifest.csv"
@@ -78,9 +78,9 @@ jobs:
             --runner analyzer-stress/lab/official-v014-runner.js \
             --output "$RUNNER_TEMP/results" \
             --source giantsteps-v2 \
-            --jobs 4 \
+            --jobs 8 \
             --timeout 240 \
-            --keep-json anomalies
+            --keep-json none
           echo '--- Trackcade summary ---'
           cat "$RUNNER_TEMP/results/summary.json"
 
@@ -88,7 +88,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: trackcade-giantsteps-100
+          name: trackcade-giantsteps-664
           retention-days: 14
           if-no-files-found: warn
           path: |
