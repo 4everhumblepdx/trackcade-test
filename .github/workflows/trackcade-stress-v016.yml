@@ -20,7 +20,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p stress/v016/tools
-          base64 -d stress/v016/trackcade-stress-bundle.b64 > stress/v016/tools.tgz
+          cat stress/v016/bundle.part00 stress/v016/bundle.part01 stress/v016/bundle.part02 stress/v016/bundle.part03 stress/v016/bundle.part04 stress/v016/bundle.part05 | base64 -d > stress/v016/tools.tgz
           echo '021a88fd66e84521faee42b53006de6cee8a91120098c41e8049d2d5a75cff08  stress/v016/tools.tgz' | sha256sum -c -
           tar -xzf stress/v016/tools.tgz -C stress/v016/tools
           node --check stress/v016/tools/official-v016-runner.js
