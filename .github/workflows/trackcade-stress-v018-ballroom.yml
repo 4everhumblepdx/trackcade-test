@@ -1,0 +1,141 @@
+name: Trackcade Analyzer Stress v0.18 — Ballroom Beat Timing
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-stress-v018-ballroom.yml'
+  workflow_dispatch:
+
+jobs:
+  ballroom-beat-timing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore and verify exact v0.18 benchmark tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress/v018-ballroom/tools
+          cat stress/v018-ballroom/bundle.part00 stress/v018-ballroom/bundle.part01 stress/v018-ballroom/bundle.part02 stress/v018-ballroom/bundle.part03 stress/v018-ballroom/bundle.part04 | base64 -d > stress/v018-ballroom/tools.tgz
+          echo '54e962177636e299a9bafe3b0496a5331802e7d949aa7c5f8a62386fb957b151  stress/v018-ballroom/tools.tgz' | sha256sum -c -
+          tar -xzf stress/v018-ballroom/tools.tgz -C stress/v018-ballroom/tools
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress/v018-ballroom/tools/official-v018-runner.js' | sha256sum -c -
+          echo 'a0d30c7faaf1658f5debb290b44eae33e7ab72e9122ee2bf2003b595809e1b10  stress/v018-ballroom/tools/evaluate_ballroom.py' | sha256sum -c -
+          node --check stress/v018-ballroom/tools/official-v018-runner.js
+          python -m py_compile stress/v018-ballroom/tools/evaluate_ballroom.py
+
+      - name: Install and verify ffmpeg / ffprobe
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffmpeg
+          command -v ffprobe
+          ffmpeg -version | sed -n '1p'
+          ffprobe -version | sed -n '1p'
+
+      - name: Fetch Ballroom audio corpus
+        shell: bash
+        run: |
+          set +e
+          mkdir -p stress-run/audio-extracted stress-run/logs
+          archive=stress-run/data1.tar.gz
+          code=1
+          curl -fL --retry 3 --connect-timeout 30 --max-time 1800 \
+            'https://mtg.upf.edu/ismir2004/contest/tempoContest/data1.tar.gz' \
+            -o "$archive"
+          code=$?
+          if [ "$code" -ne 0 ]; then
+            curl -fL --retry 3 --connect-timeout 30 --max-time 1800 \
+              'http://mtg.upf.edu/ismir2004/contest/tempoContest/data1.tar.gz' \
+              -o "$archive"
+            code=$?
+          fi
+          echo "$code" > stress-run/audio_fetch_exit_code.txt
+          if [ "$code" -eq 0 ] && [ -s "$archive" ]; then
+            md5sum "$archive" | tee stress-run/logs/audio_archive_md5.txt
+            tar -xzf "$archive" -C stress-run/audio-extracted
+            echo "$?" > stress-run/audio_extract_exit_code.txt
+          else
+            echo 2 > stress-run/audio_extract_exit_code.txt
+            echo 'Ballroom audio download unavailable.' | tee stress-run/logs/audio_fetch_failure.txt
+          fi
+          exit 0
+
+      - name: Fetch human beat annotations
+        shell: bash
+        run: |
+          set +e
+          git clone --depth 1 https://github.com/CPJKU/BallroomAnnotations.git stress-run/BallroomAnnotations
+          code=$?
+          echo "$code" > stress-run/annotations_fetch_exit_code.txt
+          if [ "$code" -eq 0 ]; then
+            git -C stress-run/BallroomAnnotations rev-parse HEAD | tee stress-run/annotations_commit.txt
+          else
+            echo 'Ballroom annotation clone failed.' | tee stress-run/logs/annotations_fetch_failure.txt
+          fi
+          exit 0
+
+      - name: Evaluate v0.18 beat grid against human annotations
+        shell: bash
+        run: |
+          set +e
+          mkdir -p stress-run/results
+          if [ "$(cat stress-run/audio_extract_exit_code.txt 2>/dev/null || echo 2)" = "0" ] && \
+             [ "$(cat stress-run/annotations_fetch_exit_code.txt 2>/dev/null || echo 2)" = "0" ]; then
+            python stress/v018-ballroom/tools/evaluate_ballroom.py \
+              --audio-root stress-run/audio-extracted \
+              --annotations-root stress-run/BallroomAnnotations \
+              --runner stress/v018-ballroom/tools/official-v018-runner.js \
+              --output stress-run/results \
+              --jobs 6 \
+              --timeout 180
+            code=$?
+          else
+            echo 'Benchmark prerequisites unavailable; analysis not attempted.' | tee stress-run/results/no_analysis.txt
+            code=2
+          fi
+          echo "$code" > stress-run/analyze_exit_code.txt
+          exit 0
+
+      - name: Print compact benchmark result
+        if: always()
+        shell: bash
+        run: |
+          echo 'audio_fetch_exit_code:' "$(cat stress-run/audio_fetch_exit_code.txt 2>/dev/null || echo missing)"
+          echo 'audio_extract_exit_code:' "$(cat stress-run/audio_extract_exit_code.txt 2>/dev/null || echo missing)"
+          echo 'annotations_fetch_exit_code:' "$(cat stress-run/annotations_fetch_exit_code.txt 2>/dev/null || echo missing)"
+          echo 'analyze_exit_code:' "$(cat stress-run/analyze_exit_code.txt 2>/dev/null || echo missing)"
+          if [ -f stress-run/results/summary.json ]; then cat stress-run/results/summary.json; fi
+
+      - name: Remove audio before artifact upload
+        if: always()
+        shell: bash
+        run: |
+          rm -rf stress-run/audio-extracted stress-run/data1.tar.gz stress-run/BallroomAnnotations/.git
+
+      - name: Upload compact Ballroom results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v018-ballroom-beat-timing
+          path: |
+            stress-run/audio_fetch_exit_code.txt
+            stress-run/audio_extract_exit_code.txt
+            stress-run/annotations_fetch_exit_code.txt
+            stress-run/annotations_commit.txt
+            stress-run/analyze_exit_code.txt
+            stress-run/logs/**
+            stress-run/results/summary.json
+            stress-run/results/results.csv
+            stress-run/results/worst_70ms.csv
+            stress-run/results/missing_annotations.txt
+            stress-run/results/no_analysis.txt
+          if-no-files-found: warn
+          retention-days: 14
