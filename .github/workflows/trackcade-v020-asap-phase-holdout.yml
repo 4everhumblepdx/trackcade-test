@@ -1,0 +1,149 @@
+name: Trackcade v0.20 Research — Independent ASAP Phase Holdout
+
+on:
+  push:
+    branches: [analyzer-v020-phase-context]
+    paths:
+      - '.github/workflows/trackcade-v020-asap-phase-holdout.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  shard:
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact frozen holdout manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-v020-asap-phase-holdout-plan
+          path: holdout-plan
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36268613281
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen selector, manifest, and build exact v0.19
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'c5d0da75f6fecb97e9fd7eb45ea3cc4db3b900c68737d5f4eab3ea97e3b47bff  holdout-plan/selected_performances.json' | sha256sum -c -
+          python - <<'PY'
+          import json
+          h=json.load(open('research/v020-phase-context/ASAP_PHASE_HOLDOUT_V1_FROZEN.json'))
+          assert h['status']=='selection-frozen-before-analyzer-output', h
+          assert h['plan_workflow']['run_id']==36268613281, h
+          assert h['manifest_hashes']['selected_performances_json_sha256']=='c5d0da75f6fecb97e9fd7eb45ea3cc4db3b900c68737d5f4eab3ea97e3b47bff', h
+          s=json.load(open('research/v020-phase-context/FROZEN_SELECTOR_V1.json'))
+          assert s['status']=='frozen-shadow-selector-candidate-not-production', s
+          assert s['rule']['trigger_if_all']==[
+            'delta_medianBeatStrength >= 0.05',
+            'max_periodicity_gain >= 0.05',
+            'delta_meanBeatConfidence >= -0.05'
+          ], s
+          p=json.load(open('holdout-plan/summary.json'))
+          assert p['selection_frozen_before_analyzer_output'] is True, p
+          assert p['selected_performances']==100 and p['selected_unique_sources']==100 and p['prior_holdout_overlap']==0, p
+          PY
+          mkdir -p tools shard-output
+          python release/analyzer-v019/build_release.py --output tools/trackcade-analyzer-v0.19.js --manifest tools/build_manifest.json
+          echo '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432  tools/trackcade-analyzer-v0.19.js' | sha256sum -c -
+          python research/v020-phase-context/make_phase_context_debug_runner.py tools/trackcade-analyzer-v0.19.js tools/trackcade-analyzer-v0.20-phase-context-debug.js
+          node --check tools/trackcade-analyzer-v0.20-phase-context-debug.js
+          python -m py_compile research/v020-phase-context/run_asap_phase_holdout.py research/v020-phase-context/aggregate_asap_phase_holdout.py
+
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+
+      - name: Run frozen holdout shard ${{ matrix.shard }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/v020-phase-context/run_asap_phase_holdout.py \
+            --holdout-json holdout-plan/selected_performances.json \
+            --zip-url https://storage.googleapis.com/magentadata/datasets/maestro/v2.0.0/maestro-v2.0.0.zip \
+            --baseline-runner tools/trackcade-analyzer-v0.19.js \
+            --debug-runner tools/trackcade-analyzer-v0.20-phase-context-debug.js \
+            --output shard-output \
+            --shard-index '${{ matrix.shard }}' \
+            --shard-count 4 \
+            --expected-runner-sha 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
+
+      - name: Remove Analyzer and frozen plan from shard workspace
+        if: always()
+        shell: bash
+        run: rm -rf tools holdout-plan
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v020-asap-phase-holdout-shard-${{ matrix.shard }}
+          path: |
+            shard-output/results.csv
+            shard-output/summary.json
+            shard-output/errors.json
+            shard-output/invariance_failures.json
+            shard-output/sources.json
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    needs: shard
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact frozen holdout manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-v020-asap-phase-holdout-plan
+          path: holdout-plan
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36268613281
+          github-token: ${{ github.token }}
+
+      - name: Download all shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: trackcade-v020-asap-phase-holdout-shard-*
+          path: shard-artifacts
+          merge-multiple: false
+
+      - name: Aggregate frozen independent phase evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'c5d0da75f6fecb97e9fd7eb45ea3cc4db3b900c68737d5f4eab3ea97e3b47bff  holdout-plan/selected_performances.json' | sha256sum -c -
+          mkdir -p aggregate-output
+          python research/v020-phase-context/aggregate_asap_phase_holdout.py \
+            --shards-root shard-artifacts \
+            --holdout-json holdout-plan/selected_performances.json \
+            --output aggregate-output
+          cat aggregate-output/summary.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v020-asap-phase-holdout-full
+          path: |
+            aggregate-output/results.csv
+            aggregate-output/summary.json
+            aggregate-output/errors.json
+            aggregate-output/invariance_failures.json
+            aggregate-output/shard_summaries.json
+          if-no-files-found: error
+          retention-days: 30
