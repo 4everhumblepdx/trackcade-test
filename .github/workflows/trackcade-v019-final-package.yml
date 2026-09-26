@@ -1,0 +1,113 @@
+name: Trackcade Analyzer v0.19 — Final Package
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-final-package.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    env:
+      SEALED_RUN_ID: '36248701399'
+      TESTED_SOURCE_COMMIT: 'e308d867980fb1877c3f2e4ce27950deecac0855'
+      RC_SHA256: '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+      FROZEN_V018_SHA256: 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15'
+      ASAP_RUN_ID: '36254584857'
+      ASAP_ARTIFACT_ID: '10910319601'
+      ASAP_ARTIFACT_SHA256: '3f2d9fbe6a51213e67a107d379b789df4048b56132ef236d98e136af0cd826cf'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact sealed RC1 package
+        uses: actions/download-artifact@v4
+        with:
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.SEALED_RUN_ID }}
+          github-token: ${{ github.token }}
+          name: trackcade-analyzer-v0.19-rc1-sealed
+          path: rc1
+
+      - name: Verify sealed evidence and promote exact bits
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$RC_SHA256  rc1/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          python - <<'PY'
+          import json, os, shutil, hashlib
+          from pathlib import Path
+
+          rc = Path('rc1')
+          sealed = json.loads((rc/'RELEASE_MANIFEST.json').read_text())
+          asap = json.loads(Path('stress/v019-asap/evidence/asap_triple_holdout_full.json').read_text())
+
+          assert sealed['status'] == 'FINAL_RELEASE_GATE_PASSED', sealed
+          assert sealed['source_commit'] == os.environ['TESTED_SOURCE_COMMIT'], sealed
+          assert sealed['runner_sha256'] == os.environ['RC_SHA256'], sealed
+          assert sealed['frozen_v018_sha256'] == os.environ['FROZEN_V018_SHA256'], sealed
+          assert sealed['automatic_tactus_switching'] is False, sealed
+          assert asap['status'] == 'PASS_INDEPENDENT_USEFULNESS', asap
+          assert str(asap['workflow_run_id']) == os.environ['ASAP_RUN_ID'], asap
+          assert asap['analyzers']['v019_rc1_sha256'] == os.environ['RC_SHA256'], asap
+          assert asap['results']['reference_recall_regressions'] == 0, asap
+          assert asap['results']['canonical_invariance_failures'] == 0, asap
+          assert asap['results']['timing_tier_changes'] == 0, asap
+          assert asap['results']['reference_recall_improvements'] == 2, asap
+
+          out = Path('final')
+          out.mkdir()
+          shutil.copy2(rc/'trackcade-analyzer-v0.19-rc1.js', out/'trackcade-analyzer-v0.19.js')
+          shutil.copy2(rc/'RELEASE_SPEC.json', out/'RELEASE_SPEC.json')
+          shutil.copy2(rc/'build_manifest.json', out/'build_manifest.json')
+          shutil.copytree(rc/'evidence', out/'evidence')
+          shutil.copy2('stress/v019-asap/evidence/asap_triple_holdout_full.json', out/'evidence'/'asap_triple_holdout_full.json')
+
+          final_manifest = {
+              'release': 'trackcade-analyzer-v0.19',
+              'status': 'FINAL_RELEASE_PROMOTED',
+              'promotion_type': 'bit-for-bit promotion of sealed v0.19-rc1; no Analyzer code change',
+              'tested_source_commit': os.environ['TESTED_SOURCE_COMMIT'],
+              'release_branch': 'release/analyzer-v0.19',
+              'runner_sha256': os.environ['RC_SHA256'],
+              'frozen_v018_sha256': os.environ['FROZEN_V018_SHA256'],
+              'sealed_rc1_run_id': int(os.environ['SEALED_RUN_ID']),
+              'independent_asap_run_id': int(os.environ['ASAP_RUN_ID']),
+              'independent_asap_artifact_id': int(os.environ['ASAP_ARTIFACT_ID']),
+              'independent_asap_artifact_sha256': os.environ['ASAP_ARTIFACT_SHA256'],
+              'automatic_tactus_switching': False,
+              'added_descriptive_relations': ['one-third', 'triple'],
+              'evidence': {
+                  'metrical_mirror_96': 'PASS safety',
+                  'candombe_35': 'PASS safety',
+                  'ballroom_698': 'PASS safety + 5 candidate-recall improvements, 0 regressions',
+                  'giantsteps_664': 'PASS safety, 0 regressions',
+                  'asap_maestro_holdout_100': 'PASS independent usefulness + 2 candidate-recall improvements, 0 regressions'
+              },
+              'excluded': [
+                  'automatic tactus switching',
+                  'automatic triple selector v1',
+                  'automatic triple selector v2',
+                  'phase-selection experiments'
+              ]
+          }
+          (out/'FINAL_RELEASE_MANIFEST.json').write_text(json.dumps(final_manifest, indent=2) + '\n')
+
+          h = hashlib.sha256((out/'trackcade-analyzer-v0.19.js').read_bytes()).hexdigest()
+          assert h == os.environ['RC_SHA256'], h
+          print(json.dumps(final_manifest, indent=2))
+          PY
+          (cd final && find . -type f ! -name SHA256SUMS -print0 | sort -z | xargs -0 sha256sum > SHA256SUMS)
+          grep "  ./trackcade-analyzer-v0.19.js$" final/SHA256SUMS
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-analyzer-v0.19-final
+          path: final
+          if-no-files-found: error
+          retention-days: 90
