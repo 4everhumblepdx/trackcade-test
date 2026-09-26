@@ -1,0 +1,46 @@
+{
+  "release": "trackcade-analyzer-v0.19-rc1",
+  "status": "release-candidate-pending-final-gate",
+  "architecture": "frozen v0.18 canonical timing core plus descriptive tactus metadata",
+  "frozen_v018_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+  "frozen_v017_archive_sha256": "218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8",
+  "included_change": {
+    "patch": "stress/v019-mirror/patch_v018_add_descriptive_triples.py",
+    "relations": [
+      {"name": "one-third", "factor": 0.3333333333333333},
+      {"name": "triple", "factor": 3.0}
+    ],
+    "canonical_behavior": "descriptive only; excluded from v0.18 primary-vs-non-octave confidence margin"
+  },
+  "excluded_experiments": [
+    "automatic triple selector v1",
+    "automatic triple selector v2",
+    "phase-selection rule experiments",
+    "counterfactual meter diagnostics",
+    "triple subdivision diagnostics"
+  ],
+  "timing_guardrail_contract": {
+    "standard": "confidence >= 0.78; full rhythm gameplay",
+    "loose": "0.52 <= confidence < 0.78; forgiving/supportive gameplay",
+    "visual-only": "confidence < 0.52; no deceptive precise interaction timing"
+  },
+  "pre_rc_evidence": {
+    "metrical_mirror_96": "safe: zero canonical/tier drift",
+    "candombe_35": "safe: zero canonical/tier drift",
+    "ballroom_full_698": "safe and useful: candidate reference recall 688 -> 693, five improvements, zero regressions, zero canonical/tier drift",
+    "giantsteps_full_664": "safe: candidate reference recall 648 -> 648, zero regressions, zero canonical/tier drift",
+    "selector_v1_gtzan": "rejected",
+    "selector_v2_meter2800": "rejected"
+  },
+  "release_gate": {
+    "required_corpora": ["metrical mirror 96", "Candombe 35", "Ballroom 698", "GiantSteps 664"],
+    "requirements": [
+      "the exact packaged runner is used by every gate",
+      "zero processing errors",
+      "zero canonical invariance failures",
+      "zero timing-tier changes",
+      "zero candidate reference-recall regressions",
+      "expected corpus denominators are preserved"
+    ]
+  }
+}
