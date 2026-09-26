@@ -1,0 +1,66 @@
+{
+  "schema": "trackcade-v020-phase-context-selector-v2",
+  "status": "frozen-discovery-candidate-not-production",
+  "frozen_after_selector_v1_rejection": true,
+  "production_switch_authorized": false,
+  "baseline": {
+    "release": "v0.19",
+    "source_commit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "descriptor_definition": "research/v020-phase-context/DIAGNOSTIC_V1.md",
+  "hypothesis": "A rare wrong half-cycle phase may reveal itself as a stable long-context reorganization in which the half-cycle grid suppresses 2-beat periodicity while materially strengthening 3-beat periodicity across a sufficiently long existing tempo segment. This is a directional cross-periodicity hypothesis, not a retune of selector v1.",
+  "rule": {
+    "candidate": "exact half-cycle phase relative to currently selected phase at unchanged BPM",
+    "trigger_if_all": [
+      "delta_g2_periodicity <= -0.18",
+      "delta_g3_periodicity >= 0.12",
+      "min(selected_g2_windows, half_g2_windows, selected_g3_windows, half_g3_windows) >= 4",
+      "min(selected_beatCount, half_beatCount) >= 32"
+    ],
+    "fallback": "retain existing selected phase",
+    "nonfinite_or_unavailable_evidence": "retain existing selected phase",
+    "multi_segment_policy": "evaluate each existing segment independently; do not alter segment boundaries or BPM",
+    "confidence_tier_policy": "unchanged",
+    "canonical_output_policy": "shadow-only until independent validation and implementation regression testing"
+  },
+  "discovery_evidence": {
+    "ballroom": {
+      "workflow_run_id": 36258700079,
+      "artifact_id": 10912155152,
+      "artifact_digest": "sha256:d4dacd2ba3435eea444b1234f313f6aab97da18962ac7cbafcf1112e77a59276",
+      "segments": 723,
+      "triggers": 2,
+      "large_helps": 2,
+      "large_hurts": 0,
+      "neutral_or_small_effect": 0,
+      "trigger_deltas_f1_70": [0.9904761904761904, 0.9615384615384616],
+      "worst_trigger_delta_f1_70": 0.9615384615384616,
+      "mean_trigger_delta_f1_70": 0.976007326007326
+    },
+    "candombe": {
+      "workflow_run_id": 36267624306,
+      "artifact_id": 10913539705,
+      "artifact_digest": "sha256:525f20f8880bf841c1defab72716eb9afa3b681837fd96355969786b5d672edf",
+      "segments": 97,
+      "triggers": 0,
+      "large_helps": 0,
+      "large_hurts": 0
+    }
+  },
+  "selector_v1_separation": [
+    "Selector v1 required median beat-strength gain, any of g2/g3/g4 periodicity gain, and a mean beat-confidence floor.",
+    "Selector v2 does not use median beat strength or mean beat confidence.",
+    "Selector v2 requires a directional relationship between two distinct long-context periodicities plus minimum repeated-window evidence.",
+    "No selector-v1 threshold was moved or reused as a hidden gate."
+  ],
+  "scientific_guardrails": [
+    "The failed ASAP/MAESTRO V1 holdout was not used as validation for this rule and must not be described as independent evidence for V2.",
+    "Because the ASAP corpus has already been opened for selector-v1 evaluation, any V2 evaluation on it is post-hoc regression screening only.",
+    "Do not retune V2 thresholds from the burned ASAP corpus.",
+    "If V2 shows a catastrophic regression on any burned-corpus trigger, reject V2 rather than patching tracks or moving thresholds.",
+    "Any claim of V2 validation requires a genuinely new frozen independent holdout selected before its Analyzer-derived V2 evidence is inspected.",
+    "Do not add track IDs, composers, genres, annotation labels, or benchmark-specific exceptions.",
+    "No production phase switch is authorized by this file."
+  ]
+}
