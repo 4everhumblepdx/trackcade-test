@@ -1,0 +1,78 @@
+name: Trackcade Structure v1 — Product Fixture Audit
+
+on:
+  push:
+    branches: [trackcade-musical-structure-v1]
+    paths:
+      - '.github/workflows/trackcade-structure-v1-product-fixtures.yml'
+      - 'research/structure-v1/evaluate_product_fixtures.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ffmpeg
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+
+      - name: Build exact released v0.19
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p tools evidence/raw evidence/analysis evidence/audit
+          python release/analyzer-v019/build_release.py \
+            --output tools/trackcade-analyzer-v0.19.js \
+            --manifest evidence/build_manifest.json
+          echo '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432  tools/trackcade-analyzer-v0.19.js' | sha256sum -c -
+          python -m py_compile research/structure-v1/evaluate_product_fixtures.py
+
+      - name: Analyze ALLDAT with exact v0.19
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -v error -y -i ALLDAT_ruffmix.mp3 -ac 1 -ar 44100 -f f32le -acodec pcm_f32le evidence/raw/alldat.f32
+          node tools/trackcade-analyzer-v0.19.js evidence/raw/alldat.f32 44100 1 ALLDAT_ruffmix.mp3 > evidence/analysis/alldat-v019.json
+          test -s evidence/analysis/alldat-v019.json
+
+      - name: Analyze CVB G.E.M.F. with exact v0.19
+        shell: bash
+        run: |
+          set -euo pipefail
+          ffmpeg -v error -y -i cvb-gemf-sample.mp3 -ac 1 -ar 44100 -f f32le -acodec pcm_f32le evidence/raw/cvb-gemf.f32
+          node tools/trackcade-analyzer-v0.19.js evidence/raw/cvb-gemf.f32 44100 1 cvb-gemf-sample.mp3 > evidence/analysis/cvb-gemf-v019.json
+          test -s evidence/analysis/cvb-gemf-v019.json
+
+      - name: Evaluate product fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/structure-v1/evaluate_product_fixtures.py \
+            --fixture ALLDAT alldat-trackcade.json evidence/analysis/alldat-v019.json \
+            --fixture CVB-GEMF cvb-gemf-trackcade.json evidence/analysis/cvb-gemf-v019.json \
+            --output evidence/audit/product-fixture-audit.json
+          sha256sum evidence/analysis/*.json evidence/audit/product-fixture-audit.json
+
+      - name: Remove raw PCM and built runner
+        if: always()
+        shell: bash
+        run: rm -rf evidence/raw tools/trackcade-analyzer-v0.19.js
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-structure-v1-product-fixture-audit
+          path: |
+            evidence/analysis/*.json
+            evidence/audit/product-fixture-audit.json
+            evidence/build_manifest.json
+          if-no-files-found: error
+          retention-days: 30
