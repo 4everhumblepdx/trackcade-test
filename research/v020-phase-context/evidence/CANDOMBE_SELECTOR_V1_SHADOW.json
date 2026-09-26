@@ -1,0 +1,35 @@
+{
+  "schema": "trackcade-v020-phase-context-candombe-selector-v1-shadow",
+  "status": "safe-but-inconclusive-zero-triggers",
+  "selector_definition": "research/v020-phase-context/FROZEN_SELECTOR_V1.json",
+  "selector_freeze_commit": "08a6e0cea4463413401e8824e857ba34c825f877",
+  "thresholds_retuned_after_freeze": false,
+  "baseline": {
+    "release": "v0.19",
+    "source_commit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "candombe_evidence": {
+    "workflow_run_id": 36267624306,
+    "workflow_head": "825221b996e0863fca91a2753a21158a544fb6f9",
+    "artifact_id": 10913539705,
+    "artifact_digest": "sha256:525f20f8880bf841c1defab72716eb9afa3b681837fd96355969786b5d672edf",
+    "tracks_discovered": 35,
+    "tracks_analyzed": 35,
+    "segments_analyzed": 97,
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "single_segment_tracks": 19,
+    "single_segment_large_half_cycle_helps": 1,
+    "single_segment_large_half_cycle_hurts": 2
+  },
+  "frozen_rule_shadow_result": {
+    "evaluated_segments": 97,
+    "triggers": 0,
+    "large_helps": 0,
+    "large_hurts": 0,
+    "neutral_or_small_effect": 0,
+    "interpretation": "No Candombe segment satisfied the already-frozen Ballroom-derived rule. This is a safety/non-activation observation only and provides no usefulness evidence. The rule remains unchanged."
+  },
+  "next_gate": "Freeze an independent ASAP/MAESTRO non-pure-triple phase holdout before inspecting Analyzer output on that holdout."
+}
