@@ -36,7 +36,7 @@ def curve_points(curve, duration):
             return [(0.0, float(curve[0]))]
         return [(duration * i / (n - 1), float(v)) for i, v in enumerate(curve)]
     out = []
-    for i, row in enumerate(curve):
+    for row in curve:
         if not isinstance(row, dict):
             continue
         t = row.get('t', row.get('time'))
@@ -97,18 +97,58 @@ def prf(matches, ref_count, pred_count):
     return {'matches': m, 'precision': p, 'recall': r, 'f1': f1}
 
 
-def manual_major_boundaries(manifest):
-    # Section and drop events are the authored structural state changes.
+def timing_metric(reference_times, predicted_times):
+    out = {
+        'reference_times': reference_times,
+        'predicted_times': predicted_times,
+        'reference_count': len(reference_times),
+        'predicted_count': len(predicted_times),
+        'tolerances': {},
+    }
+    for tol in (1.0, 2.0, 4.0):
+        matches = unique_greedy_matches(reference_times, predicted_times, tol)
+        stats = prf(matches, len(reference_times), len(predicted_times))
+        if matches:
+            stats['mean_abs_error_s'] = sum(m['abs_error_s'] for m in matches) / len(matches)
+            stats['max_abs_error_s'] = max(m['abs_error_s'] for m in matches)
+        else:
+            stats['mean_abs_error_s'] = None
+            stats['max_abs_error_s'] = None
+        stats['pairs'] = matches
+        out['tolerances'][str(int(tol))] = stats
+    return out
+
+
+def event_rows(data):
+    """Normalize the two real schemas without changing their semantics.
+
+    Trackcade manifests use {kind,t,name}; v0.19 Analyzer events use
+    {type,time,intensity}. We normalize field names only. We intentionally do
+    not map Analyzer `build` to authored `energy`, or section labels to event
+    kinds, because semantic disagreement is exactly what this audit measures.
+    """
     out = []
-    for e in manifest.get('events', []):
+    for e in data.get('events', []):
         if not isinstance(e, dict):
             continue
-        if e.get('kind') not in {'section', 'drop'}:
-            continue
-        t = e.get('t')
-        if finite_number(t) and float(t) > 0:
-            out.append(float(t))
-    return sorted(set(out))
+        t = e.get('t', e.get('time'))
+        kind = e.get('kind', e.get('type'))
+        if finite_number(t) and isinstance(kind, str):
+            out.append({
+                't': float(t),
+                'kind': kind,
+                'name': e.get('name'),
+                'intensity': e.get('intensity'),
+            })
+    return out
+
+
+def manual_major_boundaries(manifest):
+    # Section and drop events are the authored structural state changes.
+    return sorted({
+        e['t'] for e in event_rows(manifest)
+        if e['kind'] in {'section', 'drop'} and e['t'] > 0
+    })
 
 
 def analyzer_boundaries(analysis):
@@ -123,21 +163,33 @@ def analyzer_boundaries(analysis):
     return sorted(set(out))
 
 
-def event_rows(data):
+def manual_landmarks(manifest):
+    duration = float(manifest.get('songLength') or 0)
     out = []
-    for e in data.get('events', []):
-        if not isinstance(e, dict):
+    for e in event_rows(manifest):
+        if e['kind'] in {'beat', 'end'}:
             continue
-        t = e.get('t')
-        kind = e.get('kind')
-        if finite_number(t) and isinstance(kind, str):
-            out.append({'t': float(t), 'kind': kind, 'name': e.get('name')})
-    return out
+        if e['t'] <= 0:
+            continue
+        if duration > 0 and e['t'] >= duration - 0.001:
+            continue
+        out.append(e['t'])
+    return sorted(set(out))
+
+
+def analyzer_landmarks(analysis):
+    duration = float(analysis.get('duration') or 0)
+    times = []
+    for e in event_rows(analysis):
+        if e['t'] > 0.001 and (duration <= 0 or e['t'] < duration - 0.001):
+            times.append(e['t'])
+    times.extend(analyzer_boundaries(analysis))
+    return sorted(set(times))
 
 
 def nearest_event_semantics(manual, predicted, tolerance=2.0):
-    refs = event_rows(manual)
-    preds = event_rows(predicted)
+    refs = [e for e in event_rows(manual) if e['kind'] not in {'beat', 'end'} and e['t'] > 0]
+    preds = [e for e in event_rows(predicted) if e['t'] > 0]
     candidates = []
     for ri, r in enumerate(refs):
         for pi, p in enumerate(preds):
@@ -154,8 +206,12 @@ def nearest_event_semantics(manual, predicted, tolerance=2.0):
         used_p.add(pi)
         r, p = refs[ri], preds[pi]
         matches.append({
-            'manual_t': r['t'], 'manual_kind': r['kind'], 'manual_name': r.get('name'),
-            'analyzer_t': p['t'], 'analyzer_kind': p['kind'],
+            'manual_t': r['t'],
+            'manual_kind': r['kind'],
+            'manual_name': r.get('name'),
+            'analyzer_t': p['t'],
+            'analyzer_kind': p['kind'],
+            'analyzer_intensity': p.get('intensity'),
             'abs_error_s': d,
             'kind_match': r['kind'] == p['kind'],
         })
@@ -165,6 +221,7 @@ def nearest_event_semantics(manual, predicted, tolerance=2.0):
         'manual_events': len(refs),
         'analyzer_events': len(preds),
         'time_matches': len(matches),
+        'time_match_recall': len(matches) / len(refs) if refs else 0.0,
         'exact_kind_matches': exact_kind,
         'exact_kind_fraction_of_time_matches': exact_kind / len(matches) if matches else 0.0,
         'matches': matches,
@@ -182,10 +239,11 @@ def energy_comparison(manifest, analysis):
     n = len(manual)
     times = [duration * i / (n - 1) for i in range(n)]
     predicted = [interpolate(points, t) for t in times]
-    corr = pearson([float(v) for v in manual], predicted)
-    mae = sum(abs(float(a) - float(b)) for a, b in zip(manual, predicted) if b is not None) / n
+    valid = [(float(a), float(b)) for a, b in zip(manual, predicted) if b is not None]
+    corr = pearson([a for a, _ in valid], [b for _, b in valid])
+    mae = sum(abs(a - b) for a, b in valid) / len(valid) if valid else None
     return {
-        'available': True,
+        'available': bool(valid),
         'manual_samples': n,
         'analyzer_samples': len(points),
         'pearson_r': corr,
@@ -218,26 +276,8 @@ def tempo_comparison(manifest, analysis):
 def evaluate_fixture(name, manifest_path, analysis_path):
     manifest = json.loads(manifest_path.read_text())
     analysis = json.loads(analysis_path.read_text())
-    refs = manual_major_boundaries(manifest)
-    preds = analyzer_boundaries(analysis)
-    boundary = {
-        'manual_major_boundaries': refs,
-        'analyzer_section_boundaries': preds,
-        'manual_count': len(refs),
-        'analyzer_count': len(preds),
-        'tolerances': {},
-    }
-    for tol in (1.0, 2.0, 4.0):
-        matches = unique_greedy_matches(refs, preds, tol)
-        stats = prf(matches, len(refs), len(preds))
-        if matches:
-            stats['mean_abs_error_s'] = sum(m['abs_error_s'] for m in matches) / len(matches)
-            stats['max_abs_error_s'] = max(m['abs_error_s'] for m in matches)
-        else:
-            stats['mean_abs_error_s'] = None
-            stats['max_abs_error_s'] = None
-        stats['pairs'] = matches
-        boundary['tolerances'][str(int(tol))] = stats
+    boundaries = timing_metric(manual_major_boundaries(manifest), analyzer_boundaries(analysis))
+    landmarks = timing_metric(manual_landmarks(manifest), analyzer_landmarks(analysis))
     return {
         'fixture': name,
         'manifest': str(manifest_path),
@@ -247,7 +287,8 @@ def evaluate_fixture(name, manifest_path, analysis_path):
         'tempo': tempo_comparison(manifest, analysis),
         'structureConfidence': analysis.get('structureConfidence'),
         'structureDiagnostics': analysis.get('structureDiagnostics'),
-        'boundary': boundary,
+        'boundary': boundaries,
+        'landmarks': landmarks,
         'energy': energy_comparison(manifest, analysis),
         'semantic_events': nearest_event_semantics(manifest, analysis, 2.0),
         'analyzer_sections': analysis.get('sections', []),
@@ -257,21 +298,31 @@ def evaluate_fixture(name, manifest_path, analysis_path):
 
 def compact_fixture(x):
     b = x['boundary']['tolerances']
+    l = x['landmarks']['tolerances']
     return {
         'fixture': x['fixture'],
         'timing_tier': (x.get('tempo') or {}).get('timing_tier'),
         'structureConfidence': x.get('structureConfidence'),
-        'manual_major_boundaries': x['boundary']['manual_count'],
-        'analyzer_section_boundaries': x['boundary']['analyzer_count'],
+        'manual_major_boundaries': x['boundary']['reference_count'],
+        'analyzer_section_boundaries': x['boundary']['predicted_count'],
         'boundary_f1_1s': b['1']['f1'],
         'boundary_f1_2s': b['2']['f1'],
         'boundary_f1_4s': b['4']['f1'],
         'boundary_recall_2s': b['2']['recall'],
         'boundary_precision_2s': b['2']['precision'],
         'boundary_mean_abs_error_2s': b['2']['mean_abs_error_s'],
+        'manual_landmarks': x['landmarks']['reference_count'],
+        'analyzer_landmarks': x['landmarks']['predicted_count'],
+        'landmark_f1_1s': l['1']['f1'],
+        'landmark_f1_2s': l['2']['f1'],
+        'landmark_f1_4s': l['4']['f1'],
+        'landmark_recall_2s': l['2']['recall'],
+        'landmark_precision_2s': l['2']['precision'],
+        'landmark_mean_abs_error_2s': l['2']['mean_abs_error_s'],
         'energy_pearson_r': x['energy'].get('pearson_r'),
         'energy_mae': x['energy'].get('mean_absolute_error'),
         'semantic_time_matches_2s': x['semantic_events']['time_matches'],
+        'semantic_time_match_recall_2s': x['semantic_events']['time_match_recall'],
         'semantic_exact_kind_matches_2s': x['semantic_events']['exact_kind_matches'],
         'semantic_exact_kind_fraction': x['semantic_events']['exact_kind_fraction_of_time_matches'],
     }
@@ -286,11 +337,12 @@ def main():
     for name, manifest, analysis in args.fixture:
         results.append(evaluate_fixture(name, Path(manifest), Path(analysis)))
     summary = {
-        'schema': 'trackcade-structure-v1-product-fixture-audit',
+        'schema': 'trackcade-structure-v1-product-fixture-audit-v2',
         'interpretation': {
-            'boundary_metrics': 'manual section/drop times compared with Analyzer section starts; this evaluates timing only, not semantic names',
-            'energy_metrics': 'manual uniformly-spaced energyCurve compared with Analyzer energyCurve interpolated at the same normalized song positions',
-            'semantic_metrics': 'nearest authored/analyzer events within 2 seconds; exact event-kind agreement is reported separately from timing agreement',
+            'boundary_metrics': 'authored section/drop times compared with Analyzer section starts; timing only',
+            'landmark_metrics': 'all authored non-beat/non-end landmarks compared with the union of Analyzer event times and section starts; timing only',
+            'energy_metrics': 'authored uniformly-spaced energyCurve compared with Analyzer energyCurve interpolated at the same normalized song positions',
+            'semantic_metrics': 'nearest authored and Analyzer events within 2 seconds using the real {kind,t} versus {type,time} schemas; exact kind agreement is reported separately and no semantic aliases are applied',
             'scientific_limit': 'These two hand-authored product fixtures are qualitative product evidence, not an independent scientific benchmark.'
         },
         'fixtures': results,
