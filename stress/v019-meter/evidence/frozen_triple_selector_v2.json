@@ -1,0 +1,34 @@
+{
+  "status": "frozen-development-hypothesis",
+  "name": "triple_selector_v2_subdivision_guard",
+  "development_corpus": "Ballroom balanced 350-track cohort",
+  "development_run_id": 36214361366,
+  "development_head_sha": "a441a6e978cbcfe396cd89bf454aad3abcac3085",
+  "artifact": {
+    "id": 10896995900,
+    "name": "trackcade-v019-ballroom-triple-subdivision",
+    "sha256": "64feab24bbbde446cfca074adc1fca200b091bcc740becbcf46abdb4921aa5b1"
+  },
+  "rule": {
+    "candidate_relation": "triple",
+    "cf_phase_coherence_min": 0.12,
+    "low_ratio_max": 0.75
+  },
+  "development_result": {
+    "candidate_rows": 137,
+    "triggered_rows": 27,
+    "triggered_reference_correct": 27,
+    "triggered_reference_wrong": 0,
+    "tracks_analyzed": 350,
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "timing_tier_changes": 0
+  },
+  "interpretation": "Development-only hypothesis. The candidate must show coherent 3x timing and low-frequency inner pulses weaker than current-beat anchors, intended to distinguish true faster tactus from subdivision/bar-accent illusions.",
+  "guardrails": [
+    "Do not retune this rule after viewing independent holdout outcomes.",
+    "Run shadow-only on independent audio before any canonical tactus switch.",
+    "A holdout failure kills this exact rule; do not threshold-chase on the same holdout.",
+    "Frozen v0.18 outputs remain authoritative until a later promotion gate explicitly passes."
+  ]
+}
