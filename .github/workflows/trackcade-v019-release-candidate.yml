@@ -1,0 +1,454 @@
+name: Trackcade Analyzer v0.19 RC1 — Final Release Gate
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-release-candidate.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      candidate_sha: ${{ steps.hash.outputs.candidate_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact release candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-out
+          python release/analyzer-v019/build_release.py \
+            --output release-out/trackcade-analyzer-v0.19-rc1.js \
+            --manifest release-out/build_manifest.json
+      - name: Capture release hash
+        id: hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha=$(sha256sum release-out/trackcade-analyzer-v0.19-rc1.js | awk '{print $1}')
+          echo "candidate_sha=$sha" >> "$GITHUB_OUTPUT"
+          echo "candidate_sha=$sha"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: |
+            release-out/trackcade-analyzer-v0.19-rc1.js
+            release-out/build_manifest.json
+          retention-days: 30
+
+  mirror:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: release-in
+      - name: Verify packaged runner and frozen baseline
+        env:
+          EXPECTED_RC_SHA: ${{ needs.build.outputs.candidate_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$EXPECTED_RC_SHA  release-in/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          node --check release-in/trackcade-analyzer-v0.19-rc1.js
+          mkdir -p stress-run/tools
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+      - name: Generate and validate 96-track metrical mirror
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/v019-mirror/generate_metrical_mirror_corpus.py --output stress-run/mirror-corpus
+          python stress/v019-mirror/run_mirror_validation.py \
+            --corpus stress-run/mirror-corpus \
+            --baseline-runner stress-run/tools/official-v018-runner.js \
+            --dev-runner release-in/trackcade-analyzer-v0.19-rc1.js \
+            --output stress-run/mirror-results
+          python - <<'PY'
+          import csv,json
+          from pathlib import Path
+          p=Path('stress-run/mirror-results')
+          s=json.loads((p/'summary.json').read_text())
+          assert s['tracks_expected']==96, s
+          assert s['tracks_analyzed']==96, s
+          assert s['errors']==0, s
+          assert s['canonical_invariance_failures']==0, s
+          assert s['timing_tier_changes']==0, s
+          rows=list(csv.DictReader((p/'results.csv').open()))
+          regress=[r['file'] for r in rows if r['baseline_recall_both']=='True' and r['dev_recall_both']!='True']
+          assert not regress, regress
+          print({'mirror_gate':'PASS','tracks':96})
+          PY
+      - name: Remove generated audio and Analyzer files
+        if: always()
+        shell: bash
+        run: |
+          find stress-run/mirror-corpus -type f -name '*.wav' -delete 2>/dev/null || true
+          rm -rf stress-run/tools stress-run/tools-v017.tgz release-in
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rc1-mirror-evidence
+          path: |
+            stress-run/mirror-corpus/manifest.json
+            stress-run/mirror-results/summary.json
+            stress-run/mirror-results/results.csv
+            stress-run/mirror-results/errors.json
+            stress-run/mirror-results/invariance_failures.json
+          if-no-files-found: error
+          retention-days: 30
+
+  candombe:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: release-in
+      - name: Verify packaged runner and frozen baseline
+        env:
+          EXPECTED_RC_SHA: ${{ needs.build.outputs.candidate_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$EXPECTED_RC_SHA  release-in/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          node --check release-in/trackcade-analyzer-v0.19-rc1.js
+          mkdir -p stress-run/tools stress-run/candombe/raw stress-run/candombe/beats stress-run/results
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+      - name: Download and map Candombe
+        shell: bash
+        run: |
+          set -euo pipefail
+          PAGE='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/dataset.html'
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 60 -o stress-run/candombe_dataset.html "$PAGE"
+          ARCHIVE_URL=$(python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urljoin
+          PAGE='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/dataset.html'
+          class P(HTMLParser):
+              def __init__(self): super().__init__(); self.hrefs=[]
+              def handle_starttag(self,tag,attrs):
+                  if tag.lower()=='a':
+                      h=dict(attrs).get('href')
+                      if h: self.hrefs.append(h)
+          p=P(); p.feed(Path('stress-run/candombe_dataset.html').read_text(errors='ignore'))
+          hits=[h for h in p.hrefs if 'candombe_dataset' in h.lower() and ('.tar' in h.lower() or '.tgz' in h.lower() or '.zip' in h.lower())]
+          if len(hits)!=1: raise SystemExit(f'FAIL-CLOSED: expected one archive href, found {len(hits)}: {hits}')
+          print(urljoin(PAGE,hits[0]))
+          PY
+          )
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 900 -o stress-run/candombe_dataset.archive "$ARCHIVE_URL"
+          if tar -tzf stress-run/candombe_dataset.archive >/dev/null 2>&1; then
+            tar -xzf stress-run/candombe_dataset.archive -C stress-run/candombe/raw
+          elif unzip -tq stress-run/candombe_dataset.archive >/dev/null 2>&1; then
+            unzip -q stress-run/candombe_dataset.archive -d stress-run/candombe/raw
+          else
+            echo 'FAIL-CLOSED: Candombe archive format' >&2; exit 1
+          fi
+          python stress/ballroom/map_candombe_dataset.py --dataset-root stress-run/candombe/raw --output stress-run/candombe/beats
+      - name: Validate packaged runner on Candombe
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/v019-mirror/run_candombe_triple_validation.py \
+            --audio-root stress-run/candombe/raw \
+            --beats-root stress-run/candombe/beats \
+            --baseline-runner stress-run/tools/official-v018-runner.js \
+            --dev-runner release-in/trackcade-analyzer-v0.19-rc1.js \
+            --output stress-run/results
+          python - <<'PY'
+          import json
+          s=json.load(open('stress-run/results/summary.json'))
+          assert s['tracks_discovered']==35, s
+          assert s['tracks_analyzed']==35, s
+          assert s['errors']==0, s
+          assert s['canonical_invariance_failures']==0, s
+          assert s['reference_recall_regressions']==0, s
+          assert s['timing_tier_changes']==0, s
+          print({'candombe_gate':'PASS','tracks':35})
+          PY
+      - name: Remove corpus audio and Analyzer files
+        if: always()
+        shell: bash
+        run: rm -rf stress-run/candombe/raw stress-run/tools stress-run/tools-v017.tgz stress-run/candombe_dataset.archive stress-run/candombe_dataset.html release-in
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rc1-candombe-evidence
+          path: |
+            stress-run/candombe/beats/mapping_summary.json
+            stress-run/results/results.csv
+            stress-run/results/summary.json
+            stress-run/results/errors.json
+            stress-run/results/invariance_failures.json
+          if-no-files-found: error
+          retention-days: 30
+
+  ballroom:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: release-in
+      - name: Verify packaged runner and frozen baseline
+        env:
+          EXPECTED_RC_SHA: ${{ needs.build.outputs.candidate_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$EXPECTED_RC_SHA  release-in/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          node --check release-in/trackcade-analyzer-v0.19-rc1.js
+          mkdir -p stress-run/tools stress-run/data/audio stress-run/data/annotations stress-run/results
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+      - name: Download verified Ballroom corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 5 -o stress-run/data/data1.tar.gz https://mtg.upf.edu/ismir2004/contest/tempoContest/data1.tar.gz || curl -fL --retry 3 --retry-delay 5 -o stress-run/data/data1.tar.gz http://mtg.upf.edu/ismir2004/contest/tempoContest/data1.tar.gz
+          echo '2872a3e52070bc342a4510a95e2fa0b8  stress-run/data/data1.tar.gz' | md5sum -c -
+          tar -xzf stress-run/data/data1.tar.gz -C stress-run/data/audio
+          curl -fL --retry 3 --retry-delay 3 -o stress-run/data/annotations.tar.gz https://github.com/CPJKU/BallroomAnnotations/archive/refs/heads/master.tar.gz
+          tar -xzf stress-run/data/annotations.tar.gz -C stress-run/data/annotations
+          test "$(find stress-run/data/audio -type f \( -iname '*.wav' -o -iname '*.mp3' -o -iname '*.flac' \) | wc -l)" -eq 698
+          test "$(find stress-run/data/annotations -type f -name '*.beats' | wc -l)" -ge 698
+      - name: Validate packaged runner on all 698 Ballroom tracks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/v019-mirror/run_ballroom_full_triple_validation.py \
+            --audio-root stress-run/data/audio \
+            --annotations-root stress-run/data/annotations \
+            --baseline-runner stress-run/tools/official-v018-runner.js \
+            --dev-runner release-in/trackcade-analyzer-v0.19-rc1.js \
+            --output stress-run/results
+          python - <<'PY'
+          import json
+          s=json.load(open('stress-run/results/summary.json'))
+          assert s['tracks_discovered']==698 and s['tracks_analyzed']==698, s
+          assert s['errors']==0 and s['canonical_invariance_failures']==0, s
+          assert s['reference_recall_regressions']==0 and s['timing_tier_changes']==0, s
+          print({'ballroom_gate':'PASS','tracks':698,'improvements':s['reference_recall_improvements']})
+          PY
+      - name: Remove corpus audio and Analyzer files
+        if: always()
+        shell: bash
+        run: rm -rf stress-run/data/audio stress-run/data/data1.tar.gz stress-run/data/annotations stress-run/data/annotations.tar.gz stress-run/tools stress-run/tools-v017.tgz release-in
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rc1-ballroom-evidence
+          path: |
+            stress-run/results/results.csv
+            stress-run/results/summary.json
+            stress-run/results/errors.json
+            stress-run/results/invariance_failures.json
+          if-no-files-found: error
+          retention-days: 30
+
+  giantsteps:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: release-in
+      - name: Verify packaged runner and frozen baseline
+        env:
+          EXPECTED_RC_SHA: ${{ needs.build.outputs.candidate_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$EXPECTED_RC_SHA  release-in/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          node --check release-in/trackcade-analyzer-v0.19-rc1.js
+          mkdir -p stress-run/tools stress-run/giantsteps stress-run/results
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > stress-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  stress-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf stress-run/tools-v017.tgz -C stress-run/tools
+          python stress/ballroom/patch_v017_to_v018.py stress-run/tools/official-v017-runner.js stress-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  stress-run/tools/official-v018-runner.js' | sha256sum -c -
+      - name: Install media tools and pinned GiantSteps metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+          git clone --no-checkout https://github.com/GiantSteps/giantsteps-tempo-dataset.git stress-run/giantsteps/repo
+          git -C stress-run/giantsteps/repo checkout --detach d51ab2422e76abacfaa86616a57054bc222ec9fd
+          test "$(find stress-run/giantsteps/repo/annotations/tempo -type f -name '*.bpm' | wc -l)" -eq 664
+          test "$(find stress-run/giantsteps/repo/md5 -type f | wc -l)" -eq 664
+      - name: Download and verify all 664 GiantSteps audio files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/giantsteps/repo/audio
+          export ROOT="$PWD/stress-run/giantsteps/repo"
+          python - <<'PY'
+          import concurrent.futures, hashlib, os, pathlib, urllib.request
+          root=pathlib.Path(os.environ['ROOT']); md5_dir=root/'md5'; audio=root/'audio'
+          items=sorted(md5_dir.iterdir()); assert len(items)==664, len(items)
+          def one(p):
+              name=p.stem+'.mp3'; target=audio/name; expected=p.read_text().strip().lower(); last=None
+              for base in ('https://www.cp.jku.at/datasets/giantsteps/backup/','http://geo-samples.beatport.com/lofi/'):
+                  try:
+                      req=urllib.request.Request(base+name,headers={'User-Agent':'TrackcadeReleaseGate/1.0'})
+                      with urllib.request.urlopen(req,timeout=90) as r, target.open('wb') as f:
+                          while True:
+                              b=r.read(1024*1024)
+                              if not b: break
+                              f.write(b)
+                      actual=hashlib.md5(target.read_bytes()).hexdigest().lower()
+                      if actual==expected: return name
+                      last=f'md5 mismatch {actual} != {expected}'
+                  except Exception as e: last=repr(e)
+                  target.unlink(missing_ok=True)
+              raise RuntimeError(f'{name}: {last}')
+          errors=[]
+          with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+              futs=[ex.submit(one,p) for p in items]
+              for n,fut in enumerate(concurrent.futures.as_completed(futs),1):
+                  try: fut.result()
+                  except Exception as e: errors.append(str(e))
+                  if n%50==0: print({'processed':n,'errors':len(errors)},flush=True)
+          if errors: raise SystemExit(f'FAIL-CLOSED: {len(errors)} GiantSteps downloads failed: {errors[:10]}')
+          assert len(list(audio.glob('*.mp3')))==664
+          PY
+      - name: Validate packaged runner on all 664 GiantSteps tracks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python stress/v019-mirror/run_giantsteps_triple_validation.py \
+            --audio-root stress-run/giantsteps/repo/audio \
+            --annotations-root stress-run/giantsteps/repo/annotations/tempo \
+            --baseline-runner stress-run/tools/official-v018-runner.js \
+            --dev-runner release-in/trackcade-analyzer-v0.19-rc1.js \
+            --output stress-run/results
+          python - <<'PY'
+          import json
+          s=json.load(open('stress-run/results/summary.json'))
+          assert s['tracks_discovered']==664 and s['annotations_discovered']==664 and s['tracks_analyzed']==664, s
+          assert s['errors']==0 and s['canonical_invariance_failures']==0, s
+          assert s['reference_recall_regressions']==0 and s['timing_tier_changes']==0, s
+          print({'giantsteps_gate':'PASS','tracks':664})
+          PY
+      - name: Remove corpus audio and Analyzer files
+        if: always()
+        shell: bash
+        run: rm -rf stress-run/giantsteps/repo/audio stress-run/giantsteps/repo/.git stress-run/tools stress-run/tools-v017.tgz release-in
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rc1-giantsteps-evidence
+          path: |
+            stress-run/results/results.csv
+            stress-run/results/summary.json
+            stress-run/results/errors.json
+            stress-run/results/invariance_failures.json
+          if-no-files-found: error
+          retention-days: 30
+
+  package:
+    needs: [build, mirror, candombe, ballroom, giantsteps]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: package
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-mirror-evidence
+          path: package/evidence/mirror
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-candombe-evidence
+          path: package/evidence/candombe
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-ballroom-evidence
+          path: package/evidence/ballroom
+      - uses: actions/download-artifact@v4
+        with:
+          name: rc1-giantsteps-evidence
+          path: package/evidence/giantsteps
+      - name: Seal release manifest
+        env:
+          CANDIDATE_SHA: ${{ needs.build.outputs.candidate_sha }}
+          RUN_ID: ${{ github.run_id }}
+          SOURCE_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$CANDIDATE_SHA  package/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          cp release/analyzer-v019/RELEASE_SPEC.json package/RELEASE_SPEC.json
+          cp stress/v019-meter/evidence/gtzan_frozen_selector_v1_rejection.json package/evidence/
+          cp stress/v019-meter/evidence/meter2800_frozen_selector_v2_rejection.json package/evidence/
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path('package')
+          spec=json.loads((p/'RELEASE_SPEC.json').read_text())
+          build=json.loads((p/'build_manifest.json').read_text())
+          summaries={}
+          for name in ('mirror','candombe','ballroom','giantsteps'):
+              summaries[name]=json.loads((p/'evidence'/name/'summary.json').read_text())
+          final={
+              'release':'trackcade-analyzer-v0.19-rc1',
+              'status':'FINAL_RELEASE_GATE_PASSED',
+              'source_commit':os.environ['SOURCE_SHA'],
+              'workflow_run_id':int(os.environ['RUN_ID']),
+              'runner_sha256':os.environ['CANDIDATE_SHA'],
+              'frozen_v018_sha256':build['frozen_v018_sha256'],
+              'automatic_tactus_switching':False,
+              'added_descriptive_relations':['one-third','triple'],
+              'confidence_tiers':spec['timing_guardrail_contract'],
+              'gates':summaries,
+              'rejected_automatic_selectors':['v1 GTZAN rejection','v2 Meter2800 rejection']
+          }
+          (p/'RELEASE_MANIFEST.json').write_text(json.dumps(final,indent=2)+'\n')
+          PY
+          (cd package && sha256sum trackcade-analyzer-v0.19-rc1.js RELEASE_SPEC.json RELEASE_MANIFEST.json build_manifest.json > SHA256SUMS)
+          cat package/RELEASE_MANIFEST.json
+          cat package/SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-analyzer-v019-rc1
+          path: package
+          if-no-files-found: error
+          retention-days: 90
