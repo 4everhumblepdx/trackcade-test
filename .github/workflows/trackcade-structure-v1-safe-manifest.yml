@@ -1,0 +1,128 @@
+name: Trackcade Structure v1 — Safe Manifest Generation
+
+on:
+  push:
+    branches: [trackcade-musical-structure-v1]
+    paths:
+      - '.github/workflows/trackcade-structure-v1-safe-manifest.yml'
+      - 'research/structure-v1/generate_safe_manifest_v1.py'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact audited v0.19 product analyses
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-product-fixture-audit
+          path: audited
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36280612767
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen inputs and generator syntax
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405  audited/analysis/alldat-v019.json' | sha256sum -c -
+          echo '35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c  audited/analysis/cvb-gemf-v019.json' | sha256sum -c -
+          python -m py_compile research/structure-v1/generate_safe_manifest_v1.py
+
+      - name: Generate safe baseline manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p generated
+          python research/structure-v1/generate_safe_manifest_v1.py \
+            --analysis audited/analysis/alldat-v019.json \
+            --template-manifest alldat-trackcade.json \
+            --output generated/alldat-auto-safe-v1.json
+          python research/structure-v1/generate_safe_manifest_v1.py \
+            --analysis audited/analysis/cvb-gemf-v019.json \
+            --template-manifest cvb-gemf-trackcade.json \
+            --output generated/cvb-gemf-auto-safe-v1.json
+
+      - name: Verify exact timing/energy transfer and no semantic commands
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import copy,json,subprocess,sys,tempfile
+          cases=[
+            ('audited/analysis/alldat-v019.json','generated/alldat-auto-safe-v1.json',590,14),
+            ('audited/analysis/cvb-gemf-v019.json','generated/cvb-gemf-auto-safe-v1.json',812,8),
+          ]
+          for analysis_path,manifest_path,beat_count,section_count in cases:
+              a=json.load(open(analysis_path));m=json.load(open(manifest_path))
+              g=m['generation']
+              assert g['schema']=='trackcade-safe-gameplay-baseline-v1',g
+              assert g['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432',g
+              assert g['timingTier'] in {'standard','loose'},g
+              assert g['policy']['semanticEventsGenerated']==[],g
+              assert g['policy']['dropPeakEnergyCommandsGenerated'] is False,g
+              kinds=[e['kind'] for e in m['events']]
+              assert set(kinds)<= {'beat','section'},set(kinds)
+              beats=[e['t'] for e in m['events'] if e['kind']=='beat']
+              sections=[e['t'] for e in m['events'] if e['kind']=='section']
+              expected_beats=[round(float(t),6) for t in a['beatTimes'] if 0<=float(t)<=float(a['duration'])+1e-6]
+              expected_sections=[]
+              for s in a['sections']:
+                  t=round(float(s['start']),6)
+                  if t not in expected_sections: expected_sections.append(t)
+              expected_energy=[round(max(0,min(1,float(r['energy']))),6) for r in sorted(a['energyCurve'],key=lambda r:float(r['time']))]
+              assert beats==expected_beats,(len(beats),len(expected_beats))
+              assert sections==expected_sections,(sections,expected_sections)
+              assert m['energyCurve']==expected_energy
+              assert len(beats)==beat_count,(len(beats),beat_count)
+              assert len(sections)==section_count,(len(sections),section_count)
+              assert m['songLength']==round(float(a['duration']),6)
+              assert m['bpm']==round(float(a['bpm']),6)
+              assert m['beatOffset']==round(float(a['beatOffset']),6)
+
+          # The visual-only tier must fail closed rather than produce fake beat gameplay.
+          base=json.load(open('audited/analysis/alldat-v019.json'))
+          base=copy.deepcopy(base);base['timingGuardrail']['tier']='visual-only'
+          with tempfile.NamedTemporaryFile('w',suffix='.json',delete=False) as f:
+              json.dump(base,f); visual_path=f.name
+          q=subprocess.run([
+              sys.executable,'research/structure-v1/generate_safe_manifest_v1.py',
+              '--analysis',visual_path,'--template-manifest','alldat-trackcade.json',
+              '--output','generated/SHOULD_NOT_EXIST.json'
+          ],capture_output=True,text=True)
+          assert q.returncode!=0,q.stdout
+          assert 'REFUSE:' in (q.stderr+q.stdout),(q.stdout,q.stderr)
+          PY
+
+      - name: Validate generated manifests with Trackcade's real loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { validateManifest } from './src/track/loader.js';
+          for (const path of ['generated/alldat-auto-safe-v1.json','generated/cvb-gemf-auto-safe-v1.json']) {
+            const raw=JSON.parse(fs.readFileSync(path,'utf8'));
+            const cfg=validateManifest(raw);
+            const kinds=new Set(cfg.events.map(e=>e.kind));
+            if ([...kinds].some(k=>!['beat','section'].includes(k))) throw new Error(`${path}: unsafe kind`);
+            if (cfg.events.filter(e=>e.kind==='beat').length<2) throw new Error(`${path}: no authored grid`);
+            if (!cfg.energyCurve.length) throw new Error(`${path}: no energy curve`);
+            console.log(path, {events:cfg.events.length, energy:cfg.energyCurve.length, bpm:cfg.bpm, songLength:cfg.songLength});
+          }
+          JS
+          sha256sum generated/*.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: generated/*.json
+          if-no-files-found: error
+          retention-days: 30
