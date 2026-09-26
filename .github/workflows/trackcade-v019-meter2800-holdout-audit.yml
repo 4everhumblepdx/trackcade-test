@@ -1,0 +1,100 @@
+name: Trackcade v0.19-dev — Meter2800 Holdout Audit
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-meter2800-holdout-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  meter2800-holdout-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download pinned Meter2800 test labels
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit
+          url='https://huggingface.co/datasets/pianistprogrammer/meter2800/resolve/a6f4ac84a70a451030f950ec9001f31e2c2c1b91/data_test_4_classes.csv?download=true'
+          curl -fL --retry 3 --retry-delay 3 "$url" -o audit/data_test_4_classes.csv
+          sha256sum audit/data_test_4_classes.csv | tee audit/sha256.txt
+
+      - name: Audit independent non-GTZAN holdout denominator
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json, hashlib
+          from collections import Counter, defaultdict
+          from pathlib import Path
+
+          p = Path('audit/data_test_4_classes.csv')
+          raw = p.read_bytes()
+          rows = list(csv.DictReader(raw.decode('utf-8-sig').splitlines()))
+          if len(rows) != 700:
+              raise SystemExit(f'expected 700 test rows, got {len(rows)}')
+
+          source = Counter()
+          meter = Counter()
+          independent_meter = Counter()
+          independent_source = Counter()
+          names = []
+          independent = []
+          for r in rows:
+              fn = (r.get('filename') or '').strip()
+              if not fn:
+                  raise SystemExit('blank filename')
+              names.append(fn)
+              parts = fn.lstrip('/').split('/', 1)
+              if len(parts) != 2:
+                  raise SystemExit(f'bad filename {fn}')
+              src = parts[0]
+              if src not in {'GTZAN','FMA','MAG','OWN'}:
+                  raise SystemExit(f'unexpected source {src}')
+              m = (r.get('meter') or '').strip()
+              source[src] += 1
+              meter[m] += 1
+              if src != 'GTZAN':
+                  independent.append(r)
+                  independent_source[src] += 1
+                  independent_meter[m] += 1
+
+          if len(set(names)) != len(names):
+              raise SystemExit('duplicate filenames in test split')
+          if not independent:
+              raise SystemExit('no non-GTZAN holdout rows')
+
+          summary = {
+              'dataset': 'Meter2800 4-class test split',
+              'source_commit': 'a6f4ac84a70a451030f950ec9001f31e2c2c1b91',
+              'csv_sha256': hashlib.sha256(raw).hexdigest(),
+              'total_test_rows': len(rows),
+              'source_counts': dict(sorted(source.items())),
+              'meter_counts': dict(sorted(meter.items())),
+              'independent_definition': 'all test rows whose filename source prefix is FMA, MAG, or OWN; exclude every GTZAN row',
+              'independent_rows': len(independent),
+              'independent_source_counts': dict(sorted(independent_source.items())),
+              'independent_meter_counts': dict(sorted(independent_meter.items())),
+              'gtzan_rows_excluded': source['GTZAN'],
+          }
+          Path('audit/summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+          with Path('audit/non_gtzan_test.csv').open('w', newline='') as f:
+              w = csv.DictWriter(f, fieldnames=['filename','label','meter','alt_meter'])
+              w.writeheader(); w.writerows(independent)
+          print(json.dumps(summary, indent=2))
+          PY
+
+      - name: Upload compact holdout audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-meter2800-holdout-audit
+          path: |
+            audit/summary.json
+            audit/sha256.txt
+            audit/non_gtzan_test.csv
+          if-no-files-found: error
+          retention-days: 14
