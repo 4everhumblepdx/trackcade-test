@@ -1,0 +1,82 @@
+name: Trackcade v0.19-dev — Exact v0.18 Source Map
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/trackcade-v019-v018-source-map.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  source-map:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reconstruct and verify exact frozen v0.18
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p source-map/tools source-map/out
+          cat stress/v017/bundle.part00.fix0 \
+              stress/v017/bundle.part00.fix1 \
+              stress/v017/bundle.part01 \
+              stress/v017/bundle.part02 \
+              stress/v017/bundle.part03 \
+              stress/v017/bundle.part04 \
+              stress/v017/bundle.part05.fix0 \
+              stress/v017/bundle.part05.fix1 \
+            | base64 -d > source-map/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  source-map/tools-v017.tgz' | sha256sum -c -
+          tar -xzf source-map/tools-v017.tgz -C source-map/tools
+          python stress/ballroom/patch_v017_to_v018.py \
+            source-map/tools/official-v017-runner.js \
+            source-map/out/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  source-map/out/official-v018-runner.js' | sha256sum -c -
+          node --check source-map/out/official-v018-runner.js
+          sha256sum source-map/out/official-v018-runner.js > source-map/out/SHA256.txt
+
+      - name: Build focused source map
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          src = Path('source-map/out/official-v018-runner.js').read_text().splitlines()
+          needles = [
+              'tactusCandidates', 'layeredPulse', 'beatGrid', 'phaseCoherence',
+              'metricalGridCoherence', 'onset', 'spectral', 'band', 'fft',
+              'energy', 'detectorAgreement', 'timingConfidence'
+          ]
+          hits=[]
+          for i,line in enumerate(src):
+              low=line.lower()
+              if any(n.lower() in low for n in needles):
+                  hits.append(i)
+          intervals=[]
+          for i in hits:
+              a=max(0,i-18); b=min(len(src),i+19)
+              if intervals and a <= intervals[-1][1]+1:
+                  intervals[-1]=(intervals[-1][0],max(intervals[-1][1],b))
+              else:
+                  intervals.append((a,b))
+          out=[]
+          for a,b in intervals:
+              out.append(f'===== lines {a+1}-{b} =====')
+              out.extend(f'{j+1:05d}: {src[j]}' for j in range(a,b))
+          Path('source-map/out/source-map.txt').write_text('\n'.join(out)+'\n')
+          print({'source_lines':len(src),'matched_neighborhoods':len(intervals),'mapped_lines':sum(b-a for a,b in intervals)})
+          PY
+
+      - name: Upload exact runner and source map
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v018-exact-source-map
+          path: |
+            source-map/out/official-v018-runner.js
+            source-map/out/source-map.txt
+            source-map/out/SHA256.txt
+          if-no-files-found: error
+          retention-days: 2
