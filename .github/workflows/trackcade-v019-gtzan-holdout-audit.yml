@@ -1,0 +1,132 @@
+name: Trackcade v0.19-dev — GTZAN Holdout Audit
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-gtzan-holdout-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  gtzan-holdout-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download pinned GTZAN-Rhythm annotation archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p holdout-audit/extracted holdout-audit/out
+          url='https://huggingface.co/datasets/m-a-p/GTZAN/resolve/67998a1d0e77484bb0d8744ed04204070a9222ab/GTZAN-Rhythm_v2_ismir2015_lbd_2015-10-28.tar_.gz?download=true'
+          curl -fL --retry 3 --retry-delay 3 "$url" -o holdout-audit/gtzan-rhythm.tar.gz
+          echo 'a5f8b910f5dd16937352d4a40e0652e4f689b3fea5ed33f845a465f719868c96  holdout-audit/gtzan-rhythm.tar.gz' | sha256sum -c -
+          tar -xzf holdout-audit/gtzan-rhythm.tar.gz -C holdout-audit/extracted
+          find holdout-audit/extracted -type f | sort > holdout-audit/out/archive_listing.txt
+
+      - name: Audit annotation denominator, meters, and filename joins
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, json, shutil
+          from collections import Counter
+          from pathlib import Path
+
+          root = Path('holdout-audit/extracted')
+          out = Path('holdout-audit/out')
+          stats = list(root.rglob('stats.csv'))
+          if len(stats) != 1:
+              raise SystemExit(f'FAIL-CLOSED: expected one stats.csv, found {len(stats)}')
+          stats_path = stats[0]
+          with stats_path.open(newline='', encoding='utf-8-sig', errors='replace') as f:
+              rows = list(csv.DictReader(f))
+              fields = list(rows[0].keys()) if rows else []
+          if not rows:
+              raise SystemExit('FAIL-CLOSED: stats.csv has zero rows')
+
+          def pick(names):
+              lower = {str(k).strip().lower(): k for k in fields}
+              for name in names:
+                  if name in lower:
+                      return lower[name]
+              for k in fields:
+                  lk = str(k).strip().lower()
+                  if any(name in lk for name in names):
+                      return k
+              return None
+
+          filename_col = pick(['filename', 'file', 'track'])
+          meter_col = pick(['meter', 'metre'])
+          tempo_col = pick(['tempo', 'bpm'])
+          if not filename_col or not meter_col:
+              raise SystemExit(f'FAIL-CLOSED: could not resolve filename/meter columns from {fields}')
+
+          def clean(v):
+              return str(v or '').strip()
+          meters = Counter(clean(r.get(meter_col)) for r in rows)
+          filenames = [clean(r.get(filename_col)) for r in rows]
+          duplicate_filenames = sorted(k for k,v in Counter(filenames).items() if k and v > 1)
+          blank_filenames = sum(not x for x in filenames)
+          blank_meter = sum(not clean(r.get(meter_col)) for r in rows)
+
+          jams = sorted(root.rglob('*.jams'))
+          xmls = sorted(root.rglob('*.xml'))
+          jam_stems = {p.stem for p in jams}
+          def base_stem(name):
+              n = Path(name).name
+              return Path(n).stem
+          stats_stems = {base_stem(x) for x in filenames if x}
+          exact_stem_intersection = len(stats_stems & jam_stems)
+
+          sample = None
+          if jams:
+              sample = json.loads(jams[0].read_text(encoding='utf-8', errors='replace'))
+              (out/'sample.jams').write_text(json.dumps(sample, indent=2)[:200000] + '\n')
+
+          summary = {
+              'source_commit': '67998a1d0e77484bb0d8744ed04204070a9222ab',
+              'annotation_archive_sha256': 'a5f8b910f5dd16937352d4a40e0652e4f689b3fea5ed33f845a465f719868c96',
+              'stats_path': str(stats_path),
+              'stats_rows': len(rows),
+              'stats_fields': fields,
+              'filename_column': filename_col,
+              'meter_column': meter_col,
+              'tempo_column': tempo_col,
+              'unique_filenames': len(set(filenames)),
+              'blank_filenames': blank_filenames,
+              'duplicate_filenames': duplicate_filenames,
+              'blank_meter_rows': blank_meter,
+              'meter_counts': dict(sorted(meters.items())),
+              'jams_files': len(jams),
+              'xml_files': len(xmls),
+              'stats_unique_stems': len(stats_stems),
+              'jams_unique_stems': len(jam_stems),
+              'exact_stats_jams_stem_intersection': exact_stem_intersection,
+              'first_jams_path': str(jams[0]) if jams else None,
+          }
+          (out/'summary.json').write_text(json.dumps(summary, indent=2) + '\n')
+          shutil.copy2(stats_path, out/'stats.csv')
+          print(json.dumps(summary, indent=2))
+
+          if len(rows) != 1000:
+              raise SystemExit(f'FAIL-CLOSED: expected 1000 stats rows, got {len(rows)}')
+          if blank_filenames or duplicate_filenames:
+              raise SystemExit('FAIL-CLOSED: filename integrity failure')
+          if len(jams) != 1000:
+              raise SystemExit(f'FAIL-CLOSED: expected 1000 JAMS files, got {len(jams)}')
+          PY
+
+      - name: Upload compact holdout audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-gtzan-holdout-audit
+          path: |
+            holdout-audit/out/summary.json
+            holdout-audit/out/stats.csv
+            holdout-audit/out/archive_listing.txt
+            holdout-audit/out/sample.jams
+          if-no-files-found: warn
+          retention-days: 14
