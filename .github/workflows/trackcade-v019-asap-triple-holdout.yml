@@ -1,0 +1,156 @@
+name: Trackcade v0.19 RC1 — Independent ASAP Triple Holdout
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-asap-triple-holdout.yml'
+      - 'stress/v019-asap/run_asap_triple_holdout.py'
+      - 'stress/v019-asap/aggregate_asap_triple_holdout.py'
+      - 'stress/v019-asap/inspect_maestro_remote_zip.py'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  shard:
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download frozen ASAP holdout plan
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-v019-asap-triple-holdout-plan
+          path: holdout-plan
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36254145100
+          github-token: ${{ github.token }}
+
+      - name: Download exact sealed v0.19 RC1 package
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-analyzer-v0.19-rc1-sealed
+          path: sealed-rc1
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36248701399
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen plan, sealed RC1, and reconstruct exact v0.18
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          p=json.load(open('holdout-plan/summary.json'))
+          assert p['selection_frozen_before_analyzer_output'] is True, p
+          assert p['asap_commit']=='afc815c75c42e83a79c03feb6da8a35e77d4c6b8', p
+          assert p['eligible_performances']==100 and p['eligible_unique_maestro_source_wavs']==98, p
+          m=json.load(open('sealed-rc1/RELEASE_MANIFEST.json'))
+          assert m['status']=='FINAL_RELEASE_GATE_PASSED', m
+          assert m['source_commit']=='e308d867980fb1877c3f2e4ce27950deecac0855', m
+          assert m['runner_sha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432', m
+          assert m['frozen_v018_sha256']=='baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15', m
+          assert m['automatic_tactus_switching'] is False, m
+          PY
+          echo '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432  sealed-rc1/trackcade-analyzer-v0.19-rc1.js' | sha256sum -c -
+          node --check sealed-rc1/trackcade-analyzer-v0.19-rc1.js
+          mkdir -p tools
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  tools-v017.tgz' | sha256sum -c -
+          tar -xzf tools-v017.tgz -C tools
+          python stress/ballroom/patch_v017_to_v018.py tools/official-v017-runner.js tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  tools/official-v018-runner.js' | sha256sum -c -
+          node --check tools/official-v018-runner.js
+
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+
+      - name: Run frozen held-out shard ${{ matrix.shard }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p shard-output
+          python stress/v019-asap/run_asap_triple_holdout.py \
+            --eligible-json holdout-plan/eligible_performances.json \
+            --zip-url https://storage.googleapis.com/magentadata/datasets/maestro/v2.0.0/maestro-v2.0.0.zip \
+            --baseline-runner tools/official-v018-runner.js \
+            --dev-runner sealed-rc1/trackcade-analyzer-v0.19-rc1.js \
+            --output shard-output \
+            --shard-index '${{ matrix.shard }}' \
+            --shard-count 4 \
+            --expected-baseline-sha baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15 \
+            --expected-dev-sha 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
+
+      - name: Remove Analyzer and transient reconstruction files
+        if: always()
+        shell: bash
+        run: rm -rf tools tools-v017.tgz sealed-rc1 holdout-plan
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v019-asap-triple-holdout-shard-${{ matrix.shard }}
+          path: |
+            shard-output/results.csv
+            shard-output/summary.json
+            shard-output/errors.json
+            shard-output/invariance_failures.json
+            shard-output/sources.json
+          if-no-files-found: error
+          retention-days: 30
+
+  aggregate:
+    needs: shard
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all shard evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: trackcade-v019-asap-triple-holdout-shard-*
+          path: shard-artifacts
+          merge-multiple: false
+
+      - name: Aggregate full 100-performance held-out evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p aggregate-output
+          python stress/v019-asap/aggregate_asap_triple_holdout.py \
+            --shards-root shard-artifacts \
+            --output aggregate-output \
+            --expected-baseline-sha baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15 \
+            --expected-dev-sha 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
+          cat aggregate-output/summary.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v019-asap-triple-holdout-full
+          path: |
+            aggregate-output/results.csv
+            aggregate-output/summary.json
+            aggregate-output/errors.json
+            aggregate-output/invariance_failures.json
+            aggregate-output/sources.json
+            aggregate-output/shard_summaries.json
+          if-no-files-found: error
+          retention-days: 30
