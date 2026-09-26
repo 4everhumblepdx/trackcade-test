@@ -1,0 +1,111 @@
+{
+  "schema": "trackcade-v020-asap-phase-holdout-v1-rejection",
+  "status": "rejected",
+  "classification": "scientific_failure_not_infrastructure_failure",
+  "selector": "research/v020-phase-context/FROZEN_SELECTOR_V1.json",
+  "selector_freeze_commit": "08a6e0cea4463413401e8824e857ba34c825f877",
+  "protocol": "research/v020-phase-context/ASAP_PHASE_HOLDOUT_PROTOCOL_V1.md",
+  "frozen_manifest": "research/v020-phase-context/ASAP_PHASE_HOLDOUT_V1_FROZEN.json",
+  "holdout_run": {
+    "workflow": "Trackcade v0.20 Research — Independent ASAP Phase Holdout",
+    "run_id": 36268897761,
+    "head_commit": "655cab1708bcc844b7af71f79d8f2c695030bb75",
+    "conclusion": "success",
+    "full_artifact_id": 10915267428,
+    "full_artifact_name": "trackcade-v020-asap-phase-holdout-full",
+    "full_artifact_digest": "sha256:459b801606a814970c1738084e493d5dd71a3342b5faf921e04a7a0d4b772663"
+  },
+  "corpus_integrity": {
+    "selected_performances": 100,
+    "selected_unique_maestro_sources": 100,
+    "analyzed_performances": 100,
+    "segments": 950,
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "baseline_runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "integrity_pass": true
+  },
+  "selector_result": {
+    "triggers": 8,
+    "mean_trigger_delta_f1_70": -0.04774050970116284,
+    "sum_trigger_delta_f1_70": -0.3819240776093027,
+    "best_trigger_delta_f1_70": 0.1628415300546448,
+    "worst_trigger_delta_f1_70": -0.23076923076923078,
+    "large_helps_at_or_above_0_20": 0,
+    "large_hurts_at_or_below_minus_0_20": 1,
+    "small_negative_triggers": 4
+  },
+  "preregistered_criteria": {
+    "min_triggers_for_conclusion": 2,
+    "reject_any_trigger_at_or_below": -0.2,
+    "reject_worst_below": -0.1,
+    "require_positive_mean": true,
+    "require_large_help_at_or_above": 0.2
+  },
+  "failed_criteria": [
+    "A triggered segment had delta_f1_70 <= -0.20.",
+    "Worst triggered delta_f1_70 was below -0.10.",
+    "Mean triggered delta_f1_70 was not positive.",
+    "No triggered segment reached the preregistered +0.20 large-help threshold."
+  ],
+  "trigger_rows": [
+    {
+      "track": "Chopin/Ballades/3/Ko11M.mid",
+      "segment": 10,
+      "selected_f1_70": 0.24000000000000002,
+      "half_f1_70": 0.253968253968254,
+      "delta_f1_70": 0.01396825396825399
+    },
+    {
+      "track": "Chopin/Ballades/1/Mo07M.mid",
+      "segment": 6,
+      "selected_f1_70": 0.2,
+      "half_f1_70": 0.10526315789473685,
+      "delta_f1_70": -0.09473684210526316
+    },
+    {
+      "track": "Beethoven/Piano_Sonatas/30-1/MaslovV02M.mid",
+      "segment": 6,
+      "selected_f1_70": 0.06666666666666667,
+      "half_f1_70": 0.22950819672131148,
+      "delta_f1_70": 0.1628415300546448
+    },
+    {
+      "track": "Schubert/Impromptu_op142/3/YoungS06M.mid",
+      "segment": 23,
+      "selected_f1_70": 0.11764705882352941,
+      "half_f1_70": 0.04,
+      "delta_f1_70": -0.0776470588235294
+    },
+    {
+      "track": "Chopin/Ballades/1/JIA06M.mid",
+      "segment": 15,
+      "selected_f1_70": 0.21875,
+      "half_f1_70": 0.15384615384615385,
+      "delta_f1_70": -0.06490384615384615
+    },
+    {
+      "track": "Beethoven/Piano_Sonatas/23-1/Teo02M.mid",
+      "segment": 5,
+      "selected_f1_70": 0.27586206896551724,
+      "half_f1_70": 0.33333333333333337,
+      "delta_f1_70": 0.05747126436781613
+    },
+    {
+      "track": "Schumann/Toccata/DupreeF13M.mid",
+      "segment": 11,
+      "selected_f1_70": 0.38461538461538464,
+      "half_f1_70": 0.15384615384615385,
+      "delta_f1_70": -0.23076923076923078
+    },
+    {
+      "track": "Liszt/Annees_de_pelerinage_2/1_Gondoliera/LeungM08M.mid",
+      "segment": 1,
+      "selected_f1_70": 0.2962962962962963,
+      "half_f1_70": 0.14814814814814814,
+      "delta_f1_70": -0.14814814814814814
+    }
+  ],
+  "conclusion": "Frozen selector v1 is rejected by its independent preregistered ASAP/MAESTRO holdout. The workflow and corpus integrity passed, but the algorithm failed the safety/usefulness criteria. Do not retune selector v1 from this holdout, alter thresholds, remove failed tracks, or reinterpret the preregistered criteria. Any further phase research must use a genuinely different hypothesis and a newly frozen independent holdout before exposure.",
+  "production_impact": "none; v0.19 canonical Analyzer output was unchanged and remains the released baseline"
+}
