@@ -1,0 +1,39 @@
+{
+  "name": "triple_selector_v1_FIXED_FROM_BALLROOM_DEV",
+  "status": "frozen development hypothesis; shadow-only; not production; thresholds must not be retuned after independent holdout inspection",
+  "created_from": {
+    "workflow_run_id": 36209041248,
+    "workflow_head_sha": "f2e99ab8712731fd1a6611b29ff8bff45ed3de0e",
+    "artifact_id": 10894079201,
+    "artifact_name": "trackcade-v019-ballroom-counterfactual-meter",
+    "artifact_digest": "sha256:5fddc8573162ad1a1a0dd1ee5f7868d035b44acef5b25eea9524ec7cb9353956",
+    "development_corpus": "Ballroom: all 175 Waltz/VienneseWaltz tracks plus 175 deterministic non-waltz controls",
+    "tracks_analyzed": 350,
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "timing_tier_changes": 0
+  },
+  "rule": {
+    "candidate_relation_to_source": "triple",
+    "candidate_confidence_min_inclusive": 0.65,
+    "counterfactual_triple_family_advantage_min_inclusive": 0.05,
+    "counterfactual_phase_coherence_min_inclusive": 0.08,
+    "counterfactual_meter_ambiguity_max_inclusive": 0.30
+  },
+  "development_observation": {
+    "triggers": 26,
+    "trigger_reference_relation_triple": 26,
+    "trigger_candidate_within_4pct_reference": 26,
+    "false_triggers_on_non_triple_reference_tracks": 0,
+    "non_triple_reference_tracks": 296,
+    "triple_family_reference_tracks_total": 54,
+    "notes": "All observed triggers were Ballroom waltz tracks. This is development evidence only and must not be treated as independent validation. The selector must remain shadow-only until it survives a genuinely independent real-audio holdout and broad regression gates."
+  },
+  "guardrails": {
+    "may_change_canonical_output": false,
+    "may_change_timing_tier": false,
+    "may_change_gameplay_timing": false,
+    "retune_on_holdout_failure": false,
+    "required_next_step": "Evaluate this exact frozen rule on an independent real-audio corpus with meter/beat ground truth before any selector activation."
+  }
+}
