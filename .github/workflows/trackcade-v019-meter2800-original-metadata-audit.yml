@@ -1,0 +1,120 @@
+name: Trackcade v0.19-dev — Meter2800 Original Metadata Audit
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-meter2800-original-metadata-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  meter2800-original-metadata-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Harvard Dataverse dataset metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit/small-files
+          api='https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/0CLXBQ'
+          curl -fL --retry 3 --retry-delay 3 "$api" -o audit/dataverse.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          obj=json.loads(Path('audit/dataverse.json').read_text())
+          if obj.get('status') != 'OK':
+              raise SystemExit(obj)
+          data=obj['data']
+          v=data.get('latestVersion') or {}
+          files=v.get('files') or []
+          rows=[]
+          for item in files:
+              df=item.get('dataFile') or {}
+              rows.append({
+                  'id': df.get('id'),
+                  'filename': df.get('filename'),
+                  'contentType': df.get('contentType'),
+                  'filesize': df.get('filesize'),
+                  'md5': df.get('md5'),
+                  'storageIdentifier': df.get('storageIdentifier'),
+                  'directoryLabel': item.get('directoryLabel'),
+                  'description': item.get('description'),
+              })
+          summary={
+              'persistent_id':'doi:10.7910/DVN/0CLXBQ',
+              'dataset_version': v.get('versionNumber'),
+              'version_state': v.get('versionState'),
+              'release_time': v.get('releaseTime'),
+              'file_count': len(rows),
+              'files': rows,
+          }
+          Path('audit/file_inventory.json').write_text(json.dumps(summary, indent=2)+'\n')
+          print(json.dumps(summary, indent=2))
+          PY
+
+      - name: Download and inspect small tabular/text files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          from pathlib import Path
+          inv=json.loads(Path('audit/file_inventory.json').read_text())
+          selected=[]
+          for f in inv['files']:
+              size=int(f.get('filesize') or 0)
+              name=(f.get('filename') or '')
+              ctype=(f.get('contentType') or '')
+              low=name.lower()
+              if size <= 20_000_000 and (low.endswith(('.csv','.tsv','.txt','.json','.tab','.xlsx','.xls')) or 'csv' in ctype or 'text' in ctype):
+                  selected.append(f)
+          Path('audit/selected_small_files.json').write_text(json.dumps(selected, indent=2)+'\n')
+          for f in selected:
+              fid=f['id']; name=f['filename']
+              safe=''.join(c if c.isalnum() or c in '._-' else '_' for c in name)
+              out=Path('audit/small-files')/f'{fid}__{safe}'
+              url=f'https://dataverse.harvard.edu/api/access/datafile/{fid}?format=original'
+              subprocess.run(['curl','-fL','--retry','3','--retry-delay','2',url,'-o',str(out)],check=True)
+          PY
+          python - <<'PY'
+          import csv, json
+          from pathlib import Path
+          report=[]
+          for p in sorted(Path('audit/small-files').iterdir()):
+              entry={'file':p.name,'size':p.stat().st_size}
+              try:
+                  text=p.read_text(errors='replace')
+                  lines=text.splitlines()
+                  entry['first_lines']=lines[:5]
+                  if lines:
+                      sample='\n'.join(lines[:20])
+                      try:
+                          dialect=csv.Sniffer().sniff(sample, delimiters=',\t;')
+                          rows=list(csv.reader(lines[:5], dialect))
+                          entry['parsed_first_rows']=rows
+                      except Exception:
+                          pass
+                  low=text[:50000].lower()
+                  entry['mentions_tempo']=('tempo' in low or 'bpm' in low)
+                  entry['mentions_meter']=('meter' in low or 'time signature' in low)
+              except Exception as e:
+                  entry['read_error']=str(e)
+              report.append(entry)
+          Path('audit/small_file_report.json').write_text(json.dumps(report, indent=2)+'\n')
+          print(json.dumps(report, indent=2))
+          PY
+
+      - name: Upload metadata audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-meter2800-original-metadata-audit
+          path: |
+            audit/file_inventory.json
+            audit/selected_small_files.json
+            audit/small_file_report.json
+            audit/small-files/
+          if-no-files-found: error
+          retention-days: 14
