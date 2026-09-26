@@ -1,0 +1,94 @@
+{
+  "experiment": "v0.19 descriptive one-third/triple tactus candidates — GiantSteps full regression gate",
+  "decision": "SAFE_NON_IMPROVING_DO_NOT_PROMOTE_BY_ITSELF",
+  "source": {
+    "repository": "4everhumblepdx/trackcade-test",
+    "branch": "analyzer-stress-v018-ballroom",
+    "head_sha": "dfa8f6cc7cb632610afceb6b5cfa51406b1f2137",
+    "workflow_run_id": 36199278370,
+    "workflow_job_id": 108282127013,
+    "artifact_id": 10892219888,
+    "artifact_name": "trackcade-v019-giantsteps-triple-regression",
+    "artifact_sha256": "b1ca84dd43de4be28e0fe44df5016502fe8532db3dead873bc90fc1e09a263e8",
+    "giantsteps_commit": "d51ab2422e76abacfaa86616a57054bc222ec9fd"
+  },
+  "frozen_baseline": {
+    "version": "v0.18",
+    "runner_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15"
+  },
+  "candidate_patch": {
+    "file": "stress/v019-mirror/patch_v018_add_descriptive_triples.py",
+    "added_relations": [
+      {"name": "one-third", "factor": 0.3333333333333333},
+      {"name": "triple", "factor": 3.0}
+    ],
+    "canonical_guardrail": "one-third and triple are excluded from the v0.18 primary-vs-non-octave confidence margin"
+  },
+  "results": {
+    "tracks_discovered": 664,
+    "annotations_discovered": 664,
+    "tracks_analyzed": 664,
+    "errors": 0,
+    "canonical_invariance_passed": true,
+    "canonical_invariance_failures": 0,
+    "baseline_reference_recall": 648,
+    "dev_reference_recall": 648,
+    "reference_recall_improvements": 0,
+    "reference_recall_regressions": 0,
+    "triple_family_reference_tracks": 10,
+    "triple_family_baseline_recall": 7,
+    "triple_family_dev_recall": 7,
+    "timing_tier_changes": 0,
+    "mean_runtime_ratio": 0.9998063027108435,
+    "max_runtime_ratio": 1.049557
+  },
+  "triple_family_breakdown": {
+    "one-third": {
+      "tracks": 1,
+      "baseline_reference_recall": 0,
+      "dev_reference_recall": 0
+    },
+    "triple": {
+      "tracks": 9,
+      "baseline_reference_recall": 7,
+      "dev_reference_recall": 7
+    }
+  },
+  "unrecalled_triple_family_tracks": [
+    {
+      "track": "3391054.LOFI",
+      "reference_bpm": 199.0,
+      "selected_bpm": 69.848,
+      "nominal_relation": "triple",
+      "exact_transform_bpm": 209.544,
+      "transform_relative_difference_percent": -5.031878746229901,
+      "reason": "human reference lies outside the validator's 4 percent candidate-match tolerance from exact 3x selected tempo"
+    },
+    {
+      "track": "4304445.LOFI",
+      "reference_bpm": 190.0,
+      "selected_bpm": 60.0,
+      "nominal_relation": "triple",
+      "exact_transform_bpm": 180.0,
+      "transform_relative_difference_percent": 5.555555555555555,
+      "reason": "human reference lies outside the validator's 4 percent candidate-match tolerance from exact 3x selected tempo"
+    },
+    {
+      "track": "3980001.LOFI",
+      "reference_bpm": 53.0,
+      "selected_bpm": 165.981,
+      "nominal_relation": "one-third",
+      "exact_transform_bpm": 55.327,
+      "transform_relative_difference_percent": -4.205903085292892,
+      "reason": "human reference lies outside the validator's 4 percent candidate-match tolerance from exact one-third selected tempo"
+    }
+  ],
+  "interpretation": [
+    "The descriptive one-third/triple additions are canonically safe on the full 664-track GiantSteps corpus: zero output invariance failures and zero timing-tier changes.",
+    "They do not improve GiantSteps candidate reference recall: overall recall remains 648/664 and triple-family recall remains 7/10.",
+    "The three triple-family misses are not evidence of a transform-construction bug; their references differ by more than 4 percent from the exact one-third/3x transform of the selected tempo.",
+    "Runtime impact is effectively neutral on average.",
+    "This gate is regression/safety evidence, not independent proof that the triple relations should become primary tactus selections."
+  ],
+  "next_gate": "Develop and evaluate a new deterministic multi-window accent/grouping diagnostic for choosing among existing tactus candidates, with no genre hard-coding. Validate on real meter-labeled holdout audio before any promotion decision."
+}
