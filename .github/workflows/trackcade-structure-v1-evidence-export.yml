@@ -1,0 +1,82 @@
+name: Trackcade Structure v1 — Evidence Export
+
+on:
+  push:
+    branches: [trackcade-musical-structure-v1]
+    paths:
+      - '.github/workflows/trackcade-structure-v1-evidence-export.yml'
+      - 'research/structure-v1/export_structure_evidence_v1.py'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact audited v0.19 product analyses
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-product-fixture-audit
+          path: audited
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36280612767
+          github-token: ${{ github.token }}
+
+      - name: Verify audited Analyzer inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405  audited/analysis/alldat-v019.json' | sha256sum -c -
+          echo '35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c  audited/analysis/cvb-gemf-v019.json' | sha256sum -c -
+          python -m py_compile research/structure-v1/export_structure_evidence_v1.py
+
+      - name: Export objective structure evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          python research/structure-v1/export_structure_evidence_v1.py \
+            --analysis audited/analysis/alldat-v019.json \
+            --output evidence/alldat-structure-evidence-v1.json
+          python research/structure-v1/export_structure_evidence_v1.py \
+            --analysis audited/analysis/cvb-gemf-v019.json \
+            --output evidence/cvb-gemf-structure-evidence-v1.json
+
+      - name: Fail closed on semantics and source identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          expected = {
+              'evidence/alldat-structure-evidence-v1.json': (240, 14, 13, 24),
+              'evidence/cvb-gemf-structure-evidence-v1.json': (240, 8, 7, 26),
+          }
+          for path, counts in expected.items():
+              x=json.load(open(path))
+              assert x['schema']=='trackcade-structure-evidence-v1', x
+              assert x['source']['analyzerRelease']=='v0.19', x
+              assert x['source']['analyzerSourceCommit']=='e308d867980fb1877c3f2e4ce27950deecac0855', x
+              assert x['source']['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432', x
+              assert x['policy']['semanticGameplayEventsAuthorized'] is False, x
+              assert x['policy']['authorizedGameplayKinds']==[], x
+              assert x['policy']['requiresInterpretationLayer'] is True, x
+              assert all(b['semanticGameplayAuthorized'] is False for b in x['boundaries']), x
+              assert all(e['semanticGameplayAuthorized'] is False for e in x['landmarks']), x
+              got=(len(x['energy']['curve']),len(x['sections']),len(x['boundaries']),len(x['landmarks']))
+              assert got==counts,(path,got,counts)
+          PY
+          sha256sum evidence/*.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-structure-v1-evidence-export
+          path: evidence/*.json
+          if-no-files-found: error
+          retention-days: 30
