@@ -1,0 +1,51 @@
+{
+  "experiment": "GTZAN independent frozen triple-selector shadow validation",
+  "decision": "REJECT_SELECTOR_V1",
+  "selector": "triple_selector_v1_FIXED_FROM_BALLROOM_DEV",
+  "rule": {
+    "relation": "triple",
+    "confidence_min": 0.65,
+    "triple_advantage_min": 0.05,
+    "phase_coherence_min": 0.08,
+    "meter_ambiguity_max": 0.3
+  },
+  "frozen_v018_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+  "workflow_run_id": 36212368790,
+  "workflow_head_sha": "97faa42376b544beb0faa96f19ea4fb821cd71b0",
+  "artifact": {
+    "id": 10896886134,
+    "name": "trackcade-v019-gtzan-frozen-selector-shadow",
+    "digest": "sha256:07e4bf119d265bdfa74c26332fe883d3a8ac0e42bd92322de3bfa0d8cd5562c7"
+  },
+  "corpus": {
+    "name": "GTZAN-Rhythm independent holdout",
+    "stats_rows": 1000,
+    "audio_matches": 1000,
+    "tracks_analyzed": 999,
+    "known_corrupt_excluded": "jazz.00054.wav",
+    "unexpected_processing_errors": 0
+  },
+  "safety": {
+    "canonical_invariance_failures": 0,
+    "timing_tier_changes": 0
+  },
+  "result": {
+    "shadow_triggers": 10,
+    "shadow_correct_triggers": 0,
+    "shadow_wrong_triggers": 10,
+    "shadow_rescues": 0,
+    "selector_gate": "fail"
+  },
+  "wrong_triggers_by_meter": {
+    "12/8": 3,
+    "3/4": 2,
+    "4/4": 5
+  },
+  "interpretation": [
+    "The Ballroom-derived selector does not generalize to GTZAN and must not be promoted.",
+    "The diagnostic architecture remained safe: frozen canonical output and timing tiers were unchanged.",
+    "The descriptive 1/3x and 3x tactus candidates remain diagnostic/research candidates only; this rejection applies to selector_v1, not to their existence.",
+    "Do not retune selector_v1 thresholds after observing GTZAN. GTZAN is now consumed as an independent rejection holdout for this rule family.",
+    "Any future selector must arise from a genuinely new hypothesis and must be validated on a new independent holdout before promotion."
+  ]
+}
