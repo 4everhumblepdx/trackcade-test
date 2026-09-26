@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
 import argparse, copy, csv, json, math, subprocess, tempfile, time
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 AUDIO_EXTS={'.wav','.mp3','.flac','.ogg','.m4a'}
 RULE={'relation':'triple','cf_phase_coherence_min':0.12,'low_ratio_max':0.75}
-EXPECTED_SOURCE_COUNTS={'FMA':230,'MAG':217,'OWN':32}
-EXPECTED_INDEPENDENT=479
+EXPECTED_ANNOTATION_SOURCE_COUNTS={'FMA':230,'MAG':217,'OWN':32}
+EXPECTED_TRACK_SOURCE_COUNTS={'FMA':229,'MAG':217,'OWN':32}
+EXPECTED_INDEPENDENT_ANNOTATIONS=479
+EXPECTED_INDEPENDENT_TRACKS=478
+EXPECTED_DUPLICATE_LABEL_PATH='FMA/006358.wav'
+EXPECTED_DUPLICATE_METERS={'5','7'}
 
 def num(v,default=None):
     try:
@@ -43,26 +47,57 @@ def fires(c):
     phase=num(cf(c).get('phaseCoherence')); low=low_ratio(c)
     return bool(phase is not None and low is not None and phase>=RULE['cf_phase_coherence_min'] and low<=RULE['low_ratio_max'])
 
+def normalize_filename(filename):
+    return filename.strip().lstrip('/')
+
 def source_and_basename(filename):
-    rel=filename.strip().lstrip('/'); parts=rel.split('/',1)
-    if len(parts)!=2 or parts[0] not in EXPECTED_SOURCE_COUNTS: raise ValueError(f'bad independent filename {filename}')
+    rel=normalize_filename(filename); parts=rel.split('/',1)
+    if len(parts)!=2 or parts[0] not in EXPECTED_ANNOTATION_SOURCE_COUNTS: raise ValueError(f'bad independent filename {filename}')
     return parts[0],Path(parts[1]).name
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--audio-root',type=Path,required=True); ap.add_argument('--labels-csv',type=Path,required=True); ap.add_argument('--baseline-runner',type=Path,required=True); ap.add_argument('--dev-runner',type=Path,required=True); ap.add_argument('--output',type=Path,required=True); ap.add_argument('--node',default='node'); a=ap.parse_args(); a.output.mkdir(parents=True,exist_ok=True)
     with a.labels_csv.open(newline='',encoding='utf-8-sig',errors='replace') as f: all_rows=list(csv.DictReader(f))
     if len(all_rows)!=700: raise SystemExit(f'FAIL-CLOSED labels rows {len(all_rows)} != 700')
-    labels=[]; counts=Counter()
+
+    annotations=[]; annotation_counts=Counter()
     for r in all_rows:
         fn=(r.get('filename') or '').strip(); src=fn.lstrip('/').split('/',1)[0] if '/' in fn.lstrip('/') else ''
         if src=='GTZAN': continue
-        if src not in EXPECTED_SOURCE_COUNTS: raise SystemExit(f'FAIL-CLOSED unexpected source {src!r} for {fn!r}')
-        labels.append(r); counts[src]+=1
-    if len(labels)!=EXPECTED_INDEPENDENT or dict(counts)!=EXPECTED_SOURCE_COUNTS: raise SystemExit(f'FAIL-CLOSED independent denominator={len(labels)} counts={dict(counts)}')
-    keys=[source_and_basename(r['filename']) for r in labels]; keyset=set(keys)
-    if len(keyset)!=len(keys): raise SystemExit('FAIL-CLOSED duplicate independent source/basename keys')
+        if src not in EXPECTED_ANNOTATION_SOURCE_COUNTS: raise SystemExit(f'FAIL-CLOSED unexpected source {src!r} for {fn!r}')
+        annotations.append(r); annotation_counts[src]+=1
+    if len(annotations)!=EXPECTED_INDEPENDENT_ANNOTATIONS or dict(annotation_counts)!=EXPECTED_ANNOTATION_SOURCE_COUNTS:
+        raise SystemExit(f'FAIL-CLOSED independent annotations={len(annotations)} counts={dict(annotation_counts)}')
+
+    # Harvard's original test split intentionally/accidentally contains one duplicated audio path:
+    # FMA/006358.wav is listed once as meter 5 and once as meter 7. Analyze the waveform once and
+    # preserve the complete accepted meter set. Reject any other duplicate/collision.
+    grouped=defaultdict(list)
+    for r in annotations:
+        grouped[normalize_filename(r['filename'])].append(r)
+    duplicate_groups={fn:rr for fn,rr in grouped.items() if len(rr)>1}
+    if set(duplicate_groups)!={EXPECTED_DUPLICATE_LABEL_PATH}:
+        raise SystemExit(f'FAIL-CLOSED unexpected duplicate annotation paths: {sorted(duplicate_groups)}')
+    duplicate_meters={str(r.get('meter') or '').strip() for r in duplicate_groups[EXPECTED_DUPLICATE_LABEL_PATH]}
+    if len(duplicate_groups[EXPECTED_DUPLICATE_LABEL_PATH])!=2 or duplicate_meters!=EXPECTED_DUPLICATE_METERS:
+        raise SystemExit(f'FAIL-CLOSED unexpected duplicate annotation content: meters={sorted(duplicate_meters)}')
+
+    tracks=[]; track_counts=Counter(); key_to_path={}
+    for rel,rr in sorted(grouped.items()):
+        src,base=source_and_basename(rel); key=(src,base)
+        if key in key_to_path and key_to_path[key]!=rel:
+            raise SystemExit(f'FAIL-CLOSED distinct paths collide on source/basename: {key_to_path[key]} vs {rel}')
+        key_to_path[key]=rel
+        meters=sorted({str(r.get('meter') or '').strip() for r in rr})
+        if not meters or any(not m for m in meters): raise SystemExit(f'FAIL-CLOSED blank meter for {rel}')
+        tracks.append({'filename':rel,'source':src,'basename':base,'meters':meters})
+        track_counts[src]+=1
+    if len(tracks)!=EXPECTED_INDEPENDENT_TRACKS or dict(track_counts)!=EXPECTED_TRACK_SOURCE_COUNTS:
+        raise SystemExit(f'FAIL-CLOSED unique tracks={len(tracks)} counts={dict(track_counts)}')
+
+    keyset={(t['source'],t['basename']) for t in tracks}
     audio={}
-    for src in EXPECTED_SOURCE_COUNTS:
+    for src in EXPECTED_ANNOTATION_SOURCE_COUNTS:
         roots=[p for p in [a.audio_root/src,a.audio_root/src.lower()] if p.exists()]
         if not roots: raise SystemExit(f'FAIL-CLOSED missing extracted source directory {src}')
         for root in roots:
@@ -74,9 +109,10 @@ def main():
                     audio[key]=p
     missing=sorted(keyset-set(audio))
     if missing: raise SystemExit(f'FAIL-CLOSED missing independent audio count={len(missing)} examples={missing[:20]}')
+
     rows=[]; errors=[]; inv=[]; tiers=[]
-    for idx,meta in enumerate(labels,1):
-        src,base=source_and_basename(meta['filename']); p=audio[(src,base)]; name=f'{src}/{base}'
+    for idx,meta in enumerate(tracks,1):
+        src=meta['source']; base=meta['basename']; p=audio[(src,base)]; name=f'{src}/{base}'; meters=meta['meters']; meter_set=set(meters)
         try:
             sr=probe_sr(p)
             with tempfile.NamedTemporaryFile(suffix='.f32',delete=False) as tf: raw=Path(tf.name)
@@ -87,20 +123,24 @@ def main():
             bt=(base_out.get('timingGuardrail') or {}).get('tier'); dt=(dev.get('timingGuardrail') or {}).get('tier')
             if bt!=dt: tiers.append(name)
             cands=[c for c in (dev.get('tactusCandidates') or []) if c.get('relationToSource')=='triple' and cf(c).get('tripleSubdivision')]
-            passing=[c for c in cands if fires(c)]; unique=passing[0] if len(passing)==1 else None; meter=str(meta.get('meter') or '').strip()
-            rows.append({'filename':meta['filename'],'source':src,'meter':meter,'passing_candidate_count':len(passing),'shadow_trigger':bool(unique),'ambiguous_suppressed':len(passing)>1,'shadow_candidate_bpm':num(unique.get('bpm')) if unique else '','shadow_candidate_confidence':num(unique.get('confidence')) if unique else '','shadow_phase_coherence':num(cf(unique).get('phaseCoherence')) if unique else '','shadow_low_ratio':low_ratio(unique) if unique else '','nontriple_meter_trigger':bool(unique and meter!='3'),'canonical_invariant':invariant,'timing_tier_baseline':bt,'timing_tier_dev':dt,'runtime_ratio':td/max(tb,1e-9)})
-        except Exception as e: errors.append({'filename':meta['filename'],'error':str(e)})
+            passing=[c for c in cands if fires(c)]; unique=passing[0] if len(passing)==1 else None
+            has_meter3='3' in meter_set
+            rows.append({'filename':'/'+meta['filename'],'source':src,'meters':'|'.join(meters),'has_meter3_label':has_meter3,'passing_candidate_count':len(passing),'shadow_trigger':bool(unique),'ambiguous_suppressed':len(passing)>1,'shadow_candidate_bpm':num(unique.get('bpm')) if unique else '','shadow_candidate_confidence':num(unique.get('confidence')) if unique else '','shadow_phase_coherence':num(cf(unique).get('phaseCoherence')) if unique else '','shadow_low_ratio':low_ratio(unique) if unique else '','nontriple_meter_trigger':bool(unique and not has_meter3),'canonical_invariant':invariant,'timing_tier_baseline':bt,'timing_tier_dev':dt,'runtime_ratio':td/max(tb,1e-9)})
+        except Exception as e: errors.append({'filename':'/'+meta['filename'],'error':str(e)})
         if idx%50==0: print(json.dumps({'processed':idx,'rows':len(rows),'errors':len(errors),'triggers':sum(bool(r['shadow_trigger']) for r in rows),'non3_triggers':sum(bool(r['nontriple_meter_trigger']) for r in rows),'ambiguous':sum(bool(r['ambiguous_suppressed']) for r in rows)}),flush=True)
+
     if errors: raise SystemExit(f'FAIL-CLOSED processing errors={len(errors)} examples={errors[:5]}')
-    if len(rows)!=EXPECTED_INDEPENDENT: raise SystemExit(f'FAIL-CLOSED analyzed {len(rows)} != {EXPECTED_INDEPENDENT}')
+    if len(rows)!=EXPECTED_INDEPENDENT_TRACKS: raise SystemExit(f'FAIL-CLOSED analyzed {len(rows)} != {EXPECTED_INDEPENDENT_TRACKS}')
     if inv: raise SystemExit(f'FAIL-CLOSED canonical invariance failures={len(inv)}')
     if tiers: raise SystemExit(f'FAIL-CLOSED timing tier changes={len(tiers)}')
+
     with (a.output/'results.csv').open('w',newline='') as f: w=csv.DictWriter(f,fieldnames=list(rows[0].keys())); w.writeheader(); w.writerows(rows)
     (a.output/'errors.json').write_text(json.dumps(errors,indent=2)+'\n'); (a.output/'invariance_failures.json').write_text(json.dumps(inv,indent=2)+'\n')
-    trig=[r for r in rows if r['shadow_trigger']]; non3=[r for r in trig if r['meter']!='3']; meter3=[r for r in trig if r['meter']=='3']; amb=[r for r in rows if r['ambiguous_suppressed']]
-    by_meter={m:{'tracks':sum(r['meter']==m for r in rows),'shadow_triggers':sum(r['meter']==m and r['shadow_trigger'] for r in rows),'ambiguous_suppressed':sum(r['meter']==m and r['ambiguous_suppressed'] for r in rows)} for m in sorted({r['meter'] for r in rows})}
+    trig=[r for r in rows if r['shadow_trigger']]; non3=[r for r in trig if not r['has_meter3_label']]; meter3=[r for r in trig if r['has_meter3_label']]; amb=[r for r in rows if r['ambiguous_suppressed']]
+    meter_labels=sorted({m for t in tracks for m in t['meters']},key=lambda x:int(x) if x.isdigit() else x)
+    by_meter={m:{'tracks_with_label':sum(m in r['meters'].split('|') for r in rows),'shadow_triggers':sum(m in r['meters'].split('|') and r['shadow_trigger'] for r in rows),'ambiguous_suppressed':sum(m in r['meters'].split('|') and r['ambiguous_suppressed'] for r in rows)} for m in meter_labels}
     gate='fail' if non3 else ('pass' if meter3 else 'inconclusive')
-    summary={'study':'Meter2800 non-GTZAN independent v2 meter-specificity shadow gate','scope_limitation':'Meter labels only; this gate tests false-positive meter specificity and does NOT prove candidate tactus correctness.','selector':'triple_selector_v2_subdivision_guard_FIXED_FROM_BALLROOM_DEV','rule':RULE,'decision_semantics':{'0':'no-switch','1':'shadow-switch','>1':'suppress-as-ambiguous'},'labels_rows_total':len(all_rows),'gtzan_excluded':221,'independent_expected':EXPECTED_INDEPENDENT,'independent_source_counts':dict(counts),'tracks_analyzed':len(rows),'processing_errors':len(errors),'canonical_invariance_failures':len(inv),'timing_tier_changes':len(tiers),'shadow_triggers':len(trig),'meter3_shadow_triggers':len(meter3),'non_meter3_shadow_triggers':len(non3),'ambiguous_suppressed':len(amb),'meter_specificity_gate':gate,'by_meter':by_meter,'non_meter3_triggered_tracks':[{'filename':r['filename'],'meter':r['meter'],'candidate_bpm':r['shadow_candidate_bpm']} for r in non3],'meter3_triggered_tracks':[{'filename':r['filename'],'candidate_bpm':r['shadow_candidate_bpm']} for r in meter3]}
+    summary={'study':'Meter2800 non-GTZAN independent v2 meter-specificity shadow gate','scope_limitation':'Meter labels only; this gate tests false-positive meter specificity and does NOT prove candidate tactus correctness.','selector':'triple_selector_v2_subdivision_guard_FIXED_FROM_BALLROOM_DEV','rule':RULE,'decision_semantics':{'0':'no-switch','1':'shadow-switch','>1':'suppress-as-ambiguous'},'labels_rows_total':len(all_rows),'gtzan_excluded_annotation_rows':221,'independent_annotation_rows':len(annotations),'independent_unique_tracks':len(tracks),'known_duplicate_annotation':{'filename':'/'+EXPECTED_DUPLICATE_LABEL_PATH,'meters':sorted(EXPECTED_DUPLICATE_METERS)},'independent_annotation_source_counts':dict(annotation_counts),'independent_unique_track_source_counts':dict(track_counts),'tracks_analyzed':len(rows),'processing_errors':len(errors),'canonical_invariance_failures':len(inv),'timing_tier_changes':len(tiers),'shadow_triggers':len(trig),'meter3_shadow_triggers':len(meter3),'non_meter3_shadow_triggers':len(non3),'ambiguous_suppressed':len(amb),'meter_specificity_gate':gate,'by_meter':by_meter,'non_meter3_triggered_tracks':[{'filename':r['filename'],'meters':r['meters'],'candidate_bpm':r['shadow_candidate_bpm']} for r in non3],'meter3_triggered_tracks':[{'filename':r['filename'],'meters':r['meters'],'candidate_bpm':r['shadow_candidate_bpm']} for r in meter3]}
     (a.output/'summary.json').write_text(json.dumps(summary,indent=2)+'\n'); print(json.dumps(summary,indent=2))
 
 if __name__=='__main__': main()
