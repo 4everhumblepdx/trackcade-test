@@ -1,0 +1,44 @@
+{
+  "schema": "trackcade-v020-asap-phase-holdout-v2-frozen",
+  "status": "selection-frozen-before-analyzer-output",
+  "protocol": "research/v020-phase-context/ASAP_PHASE_HOLDOUT_V2_PROTOCOL.md",
+  "selector": "research/v020-phase-context/FROZEN_SELECTOR_V2.json",
+  "selector_freeze_commit": "ae88e5087d4a8e6d85970a38f54cca0873b300f1",
+  "plan_workflow": {
+    "run_id": 36271993835,
+    "head_commit": "b8858b5ad729eee7c7be4c1144bc354269468eae",
+    "artifact_id": 10916385608,
+    "artifact_name": "trackcade-v020-asap-phase-holdout-v2-plan",
+    "artifact_digest": "sha256:f4855985411cdfff2dcb9ff4c8792462a6392ecf9285e1ecda5574f57a132e2a"
+  },
+  "pinned_sources": {
+    "asap_commit": "afc815c75c42e83a79c03feb6da8a35e77d4c6b8",
+    "asap_metadata_sha256": "b327d92e498e281b381161ee387dacfd4b1c360c9c240d9107171f78e571b2a5",
+    "asap_annotations_sha256": "02e4b80f0a78150d1bd0fc21c9cee72ed65a61710c1b1f84368c52216b3e0ff7",
+    "maestro_metadata_sha256": "b29131ce89a49df044c54974d11d9977dc7bc53d35aeb39b4d3747f59a34092d",
+    "prior_v019_triple_manifest_sha256": "277b25c294cc74fe710380e5bb23428b6a2d21891d1842ebb20f7af7d3d3ef70",
+    "v1_selected_manifest_reproduced_sha256": "c5d0da75f6fecb97e9fd7eb45ea3cc4db3b900c68737d5f4eab3ea97e3b47bff"
+  },
+  "v2_manifest_hashes": {
+    "summary_json_sha256": "47cda1f8763303a2fd8d886d690da59742bbf28acda27ef7c9d7902de3247196",
+    "selected_performances_json_sha256": "b5ae9a419cf3d81bf933d6947a31ec684163731f5e0d91f331dd66c4cafff045",
+    "eligible_population_json_sha256": "5bd4703120239fefd792b9bf816a09b95025281e59dd8eb4e2198bf45e9b161f",
+    "unique_maestro_sources_txt_sha256": "49fc2017fb16e29752141628ca60ff5b20829cf6ff2505e9020690d1ac603b0f"
+  },
+  "selection_counts": {
+    "asap_metadata_rows": 1067,
+    "asap_annotation_entries": 1067,
+    "maestro_metadata_rows": 1282,
+    "eligible_population": 419,
+    "eligible_unique_sources": 366,
+    "v1_reproduced_performances": 100,
+    "v1_reproduced_unique_sources": 100,
+    "selected_performances": 100,
+    "selected_unique_sources": 100,
+    "v1_midi_overlap": 0,
+    "v1_source_overlap": 0,
+    "prior_triple_overlap": 0
+  },
+  "selection_method": "reproduce exact frozen V1 first 100 unique sources in the same SHA-ordered eligible population, verify the V1 selected-manifest hash, then take the next 100 unique sources disjoint by MIDI performance and MAESTRO source",
+  "integrity_statement": "No Analyzer output from these 100 V2 performances was used to select, filter, rank, or freeze this terminal holdout. Any later change to this manifest or the preregistered criteria constitutes a new experiment and may not be reported as this V2 holdout."
+}
