@@ -1,0 +1,75 @@
+{
+  "release": "trackcade-analyzer-v0.19-rc1",
+  "status": "FINAL_RELEASE_GATE_PASSED",
+  "release_marker_branch": "release/analyzer-v0.19-rc1",
+  "source_commit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+  "source_workflow_run_id": 36244573974,
+  "source_runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+  "frozen_v018_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+  "seal_workflow_commit": "9892c8e0c3e05539ae7bdbf7f20760b22088dc20",
+  "seal_workflow_run_id": 36248701399,
+  "sealed_artifact": {
+    "id": 10908875324,
+    "name": "trackcade-analyzer-v0.19-rc1-sealed",
+    "zip_sha256": "b7f8f443654572f181bdad0ef7c0ed64b22c23fb32f5de1de230e450f6bfb092",
+    "retention_expires": "2026-12-25T14:29:54Z"
+  },
+  "architecture": {
+    "canonical_timing_core": "exact frozen v0.18",
+    "automatic_tactus_switching": false,
+    "added_descriptive_relations": [
+      "one-third",
+      "triple"
+    ]
+  },
+  "final_gates": {
+    "metrical_mirror": {
+      "tracks_analyzed": 96,
+      "errors": 0,
+      "canonical_invariance_failures": 0,
+      "timing_tier_changes": 0,
+      "candidate_recall": "96 -> 96"
+    },
+    "candombe": {
+      "tracks_analyzed": 35,
+      "errors": 0,
+      "canonical_invariance_failures": 0,
+      "timing_tier_changes": 0,
+      "reference_recall": "35 -> 35"
+    },
+    "ballroom": {
+      "tracks_analyzed": 698,
+      "errors": 0,
+      "canonical_invariance_failures": 0,
+      "timing_tier_changes": 0,
+      "reference_recall": "688 -> 693",
+      "improvements": 5,
+      "regressions": 0
+    },
+    "giantsteps": {
+      "tracks_analyzed": 664,
+      "errors": 0,
+      "canonical_invariance_failures": 0,
+      "timing_tier_changes": 0,
+      "reference_recall": "648 -> 648",
+      "improvements": 0,
+      "regressions": 0
+    }
+  },
+  "rejected_experiments": [
+    "automatic triple selector v1 — GTZAN rejection",
+    "automatic triple selector v2 — Meter2800 specificity rejection",
+    "phase-selection rule experiments"
+  ],
+  "packaging_note": {
+    "original_package_job_id": 108421524706,
+    "original_failure_type": "artifact-layout path assumption only; Analyzer validation had already passed",
+    "superseded_by_seal_run_id": 36248701399
+  },
+  "local_independent_verification": {
+    "all_packaged_sha256_entries_verified": true,
+    "sha256_entries": 24,
+    "release_manifest_status": "FINAL_RELEASE_GATE_PASSED",
+    "runner_sha256_verified": true
+  }
+}
