@@ -1,0 +1,106 @@
+name: Trackcade v0.20 Research — Candombe Phase Context Diagnostics
+
+on:
+  push:
+    branches: [analyzer-v020-phase-context]
+    paths:
+      - '.github/workflows/trackcade-v020-candombe-phase-context.yml'
+  workflow_dispatch:
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build exact v0.19 final baseline and debug runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p stress-run/tools stress-run/candombe/raw stress-run/candombe/beats stress-run/results
+          python release/analyzer-v019/build_release.py --output stress-run/tools/trackcade-analyzer-v0.19.js --manifest stress-run/tools/build_manifest.json
+          echo '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432  stress-run/tools/trackcade-analyzer-v0.19.js' | sha256sum -c -
+          python research/v020-phase-context/make_phase_context_debug_runner.py stress-run/tools/trackcade-analyzer-v0.19.js stress-run/tools/trackcade-analyzer-v0.20-phase-context-debug.js
+          node --check stress-run/tools/trackcade-analyzer-v0.20-phase-context-debug.js
+          python -m py_compile research/v020-phase-context/run_phase_context_candombe.py stress/ballroom/map_candombe_dataset.py
+
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg; fi
+
+      - name: Discover, download, verify, and map Candombe corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          PAGE='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/dataset.html'
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 60 -o stress-run/candombe_dataset.html "$PAGE"
+          ARCHIVE_URL=$(python - <<'PY'
+          from html.parser import HTMLParser
+          from pathlib import Path
+          from urllib.parse import urljoin
+          PAGE='https://www.eumus.edu.uy/candombe/datasets/ISMIR2015/dataset.html'
+          class P(HTMLParser):
+              def __init__(self): super().__init__(); self.hrefs=[]
+              def handle_starttag(self, tag, attrs):
+                  if tag.lower()=='a':
+                      d=dict(attrs)
+                      if d.get('href'): self.hrefs.append(d['href'])
+          p=P(); p.feed(Path('stress-run/candombe_dataset.html').read_text(errors='ignore'))
+          hits=[h for h in p.hrefs if 'candombe_dataset' in h.lower() and ('.tar' in h.lower() or '.tgz' in h.lower() or '.zip' in h.lower())]
+          if len(hits)!=1: raise SystemExit(f'FAIL-CLOSED: expected one archive href, found {len(hits)}: {hits}')
+          print(urljoin(PAGE,hits[0]))
+          PY
+          )
+          echo "resolved_archive_url=$ARCHIVE_URL"
+          curl -fL --retry 3 --retry-delay 5 --connect-timeout 20 --max-time 900 -o stress-run/candombe_dataset.archive "$ARCHIVE_URL"
+          test -s stress-run/candombe_dataset.archive
+          if tar -tzf stress-run/candombe_dataset.archive >/dev/null 2>&1; then
+            tar -xzf stress-run/candombe_dataset.archive -C stress-run/candombe/raw
+          elif unzip -tq stress-run/candombe_dataset.archive >/dev/null 2>&1; then
+            unzip -q stress-run/candombe_dataset.archive -d stress-run/candombe/raw
+          else
+            echo 'FAIL-CLOSED: downloaded Candombe archive is neither tar.gz nor zip' >&2
+            exit 1
+          fi
+          test "$(find stress-run/candombe/raw -type f \( -iname '*.flac' -o -iname '*.wav' -o -iname '*.mp3' -o -iname '*.ogg' -o -iname '*.m4a' \) | wc -l)" -ge 30
+          python stress/ballroom/map_candombe_dataset.py --dataset-root stress-run/candombe/raw --output stress-run/candombe/beats
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('stress-run/candombe/beats/mapping_summary.json')
+          s=json.loads(p.read_text())
+          print(json.dumps(s,indent=2))
+          PY
+
+      - name: Run diagnostic-only long-context phase study
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/v020-phase-context/run_phase_context_candombe.py \
+            --audio-root stress-run/candombe/raw \
+            --annotations-root stress-run/candombe/beats \
+            --baseline-runner stress-run/tools/trackcade-analyzer-v0.19.js \
+            --debug-runner stress-run/tools/trackcade-analyzer-v0.20-phase-context-debug.js \
+            --output stress-run/results
+          cat stress-run/results/summary.json
+
+      - name: Remove corpus audio and Analyzer files
+        if: always()
+        shell: bash
+        run: rm -rf stress-run/candombe/raw stress-run/candombe_dataset.archive stress-run/candombe_dataset.html stress-run/tools
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v020-candombe-phase-context-diagnostics
+          path: |
+            stress-run/candombe/beats/mapping_summary.json
+            stress-run/results/summary.json
+            stress-run/results/phase_context.csv
+            stress-run/results/errors.json
+            stress-run/results/invariance_failures.json
+          if-no-files-found: error
+          retention-days: 30
