@@ -1,0 +1,61 @@
+{
+  "schema": "trackcade-v020-phase-context-selector-v1",
+  "status": "frozen-shadow-selector-candidate-not-production",
+  "frozen_from_discovery_corpus_only": true,
+  "production_switch_authorized": false,
+  "baseline": {
+    "release": "v0.19",
+    "source_commit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "frozen_v018_core_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15"
+  },
+  "descriptor_definition": "research/v020-phase-context/DIAGNOSTIC_V1.md",
+  "discovery_evidence": {
+    "corpus": "Ballroom full 698",
+    "workflow_run_id": 36258700079,
+    "artifact_id": 10912155152,
+    "artifact_digest": "sha256:d4dacd2ba3435eea444b1234f313f6aab97da18962ac7cbafcf1112e77a59276",
+    "tracks_analyzed": 698,
+    "segments_analyzed": 723,
+    "single_segment_tracks": 673,
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "large_half_cycle_help_population": 16,
+    "large_half_cycle_hurt_population": 505
+  },
+  "rule": {
+    "candidate": "exact half-cycle phase relative to currently selected phase at unchanged BPM",
+    "max_periodicity_gain": "max(delta_g2_periodicity, delta_g3_periodicity, delta_g4_periodicity)",
+    "trigger_if_all": [
+      "delta_medianBeatStrength >= 0.05",
+      "max_periodicity_gain >= 0.05",
+      "delta_meanBeatConfidence >= -0.05"
+    ],
+    "fallback": "retain existing selected phase",
+    "nonfinite_or_unavailable_evidence": "retain existing selected phase",
+    "multi_segment_policy": "evaluate each existing segment independently; this frozen shadow rule does not alter segment boundaries or BPM",
+    "confidence_tier_policy": "unchanged; confidence tiers retain v0.19 gameplay meaning",
+    "canonical_output_policy": "shadow-only; do not change canonical output during validation"
+  },
+  "ballroom_discovery_result": {
+    "trigger_tracks": 10,
+    "large_helps": 7,
+    "large_hurts": 0,
+    "neutral_or_small_effect": 3,
+    "negative_small_effect": 2,
+    "worst_trigger_delta_f1_70": -0.029463171,
+    "mean_trigger_delta_f1_70": 0.6533062557,
+    "sum_trigger_delta_f1_70": 6.533062557,
+    "threshold_neighborhood_note": "Nearby round thresholds around 0.04-0.06 for median strength and periodicity, and -0.06 to -0.04 for confidence, also produced zero large-hurt triggers on Ballroom; exact thresholds above are now frozen."
+  },
+  "scientific_guardrails": [
+    "This selector was chosen from Ballroom discovery evidence only.",
+    "The Candombe v0.20 diagnostic run 36267624306 completed before this file was committed, but its artifact had not been fetched, downloaded, opened, or inspected when these thresholds were frozen.",
+    "Do not retune thresholds from Candombe or any later holdout result.",
+    "Do not add track IDs, genres, annotation labels, BPM-reference labels, or benchmark-specific exceptions.",
+    "Do not reuse or combine the rejected v0.19 phase predicates as hidden gates.",
+    "Any catastrophic triggered phase regression on a previously strong track rejects this rule rather than authorizing track-specific patching.",
+    "A genuine independent real-audio holdout must be selected and frozen before Analyzer outputs from that holdout are inspected.",
+    "Production promotion requires canonical regression testing after any real switch implementation; this file alone authorizes no switch."
+  ]
+}
