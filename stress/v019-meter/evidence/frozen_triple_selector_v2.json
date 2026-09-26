@@ -14,9 +14,16 @@
     "cf_phase_coherence_min": 0.12,
     "low_ratio_max": 0.75
   },
+  "decision_semantics": {
+    "zero_passing_candidates": "no-switch",
+    "exactly_one_passing_candidate": "shadow-switch",
+    "multiple_passing_candidates": "suppress-as-ambiguous"
+  },
   "development_result": {
     "candidate_rows": 137,
     "triggered_rows": 27,
+    "triggered_tracks": 27,
+    "tracks_with_multiple_passing_candidates": 0,
     "triggered_reference_correct": 27,
     "triggered_reference_wrong": 0,
     "tracks_analyzed": 350,
@@ -29,6 +36,7 @@
     "Do not retune this rule after viewing independent holdout outcomes.",
     "Run shadow-only on independent audio before any canonical tactus switch.",
     "A holdout failure kills this exact rule; do not threshold-chase on the same holdout.",
+    "Multiple passing candidates are ambiguous and must be suppressed rather than tie-broken post hoc.",
     "Frozen v0.18 outputs remain authoritative until a later promotion gate explicitly passes."
   ]
 }
