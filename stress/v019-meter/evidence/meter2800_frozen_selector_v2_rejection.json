@@ -1,0 +1,51 @@
+{
+  "experiment": "Meter2800 non-GTZAN independent frozen triple-selector v2 specificity validation",
+  "decision": "REJECT_SELECTOR_V2",
+  "selector": "triple_selector_v2_subdivision_guard_FIXED_FROM_BALLROOM_DEV",
+  "rule": {
+    "relation": "triple",
+    "cf_phase_coherence_min": 0.12,
+    "low_ratio_max": 0.75
+  },
+  "frozen_v018_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+  "workflow_run_id": 36242438849,
+  "workflow_head_sha": "af44ffbb6bb6b3d149aa2a2f7c9485ab7f4d9b2d",
+  "artifact": {
+    "id": 10906882034,
+    "name": "trackcade-v019-meter2800-v2-specificity-shadow",
+    "digest": "sha256:f6fdb94d283a390700b795ae2a5460b793db53df0545a052a8edfa906c0aa448"
+  },
+  "corpus": {
+    "name": "Meter2800 non-GTZAN independent holdout",
+    "labels_rows_total": 700,
+    "gtzan_excluded_annotation_rows": 221,
+    "independent_annotation_rows": 479,
+    "independent_unique_tracks": 478,
+    "tracks_analyzed": 478,
+    "processing_errors": 0
+  },
+  "safety": {
+    "canonical_invariance_failures": 0,
+    "timing_tier_changes": 0
+  },
+  "result": {
+    "shadow_triggers": 16,
+    "meter3_shadow_triggers": 12,
+    "non_meter3_shadow_triggers": 4,
+    "ambiguous_suppressed": 0,
+    "meter_specificity_gate": "fail"
+  },
+  "non_meter3_triggered_tracks": [
+    {"filename": "/FMA/006358.wav", "meters": "5|7", "candidate_bpm": 198.303},
+    {"filename": "/FMA/009560.wav", "meters": "4", "candidate_bpm": 180.249},
+    {"filename": "/MAG/00890.wav", "meters": "5", "candidate_bpm": 204.468},
+    {"filename": "/OWN/0006.wav", "meters": "5", "candidate_bpm": 170.349}
+  ],
+  "interpretation": [
+    "Frozen selector_v2 fails independent meter-specificity validation and must not be promoted or used to change canonical gameplay timing.",
+    "The diagnostic architecture remained safe: frozen canonical output and timing tiers were unchanged across all 478 analyzed tracks.",
+    "The descriptive 1/3x and 3x tactus candidates remain admissible as diagnostic metadata; this rejection applies to automatic selector_v2 switching only.",
+    "Do not retune selector_v2 after observing Meter2800. Meter2800 is now consumed as an independent rejection holdout for this rule family.",
+    "Any future automatic tactus selector must arise from a genuinely new hypothesis and must clear a new independent holdout before promotion."
+  ]
+}
