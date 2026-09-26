@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/trackcade-v019-meter2800-v2-specificity-shadow.yml'
       - 'stress/v019-meter/run_meter2800_v2_specificity_shadow.py'
+      - 'stress/v019-meter/patch_meter2800_native_extension_join.py'
       - 'stress/v019-meter/evidence/frozen_triple_selector_v2.json'
   workflow_dispatch:
 
@@ -30,6 +31,7 @@ jobs:
           python stress/v019-meter/patch_add_counterfactual_meter_diagnostics.py meter-run/tools/official-v019-triple-dev.js meter-run/tools/official-v019-meter-dev.js
           python stress/v019-meter/patch_add_triple_subdivision_diagnostics.py meter-run/tools/official-v019-meter-dev.js meter-run/tools/official-v019-v2-shadow.js
           node --check meter-run/tools/official-v019-v2-shadow.js
+          python stress/v019-meter/patch_meter2800_native_extension_join.py stress/v019-meter/run_meter2800_v2_specificity_shadow.py
           python -m py_compile stress/v019-meter/run_meter2800_v2_specificity_shadow.py
           test -f stress/v019-meter/evidence/frozen_triple_selector_v2.json
 
