@@ -1,0 +1,68 @@
+name: Trackcade v0.19-dev — ASAP MAESTRO Remote ZIP Smoke
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-asap-maestro-remote-zip-smoke.yml'
+      - 'stress/v019-asap/inspect_maestro_remote_zip.py'
+  workflow_dispatch:
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      actions: read
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download frozen ASAP holdout plan artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-v019-asap-triple-holdout-plan
+          path: holdout-plan
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36254145100
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen plan identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          s=json.load(open('holdout-plan/summary.json'))
+          assert s['selection_frozen_before_analyzer_output'] is True, s
+          assert s['asap_commit']=='afc815c75c42e83a79c03feb6da8a35e77d4c6b8', s
+          assert s['asap_metadata_rows']==1067 and s['asap_annotation_entries']==1067, s
+          assert s['maestro_metadata_rows']==1282, s
+          assert s['eligible_performances']==100, s
+          assert s['eligible_unique_maestro_source_wavs']==98, s
+          print({'frozen_plan':'PASS','performances':100,'sources':98})
+          PY
+
+      - name: Inspect remote MAESTRO ZIP and CRC-smoke smallest eligible WAV
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p remote-zip-output
+          python stress/v019-asap/inspect_maestro_remote_zip.py \
+            --zip-url https://storage.googleapis.com/magentadata/datasets/maestro/v2.0.0/maestro-v2.0.0.zip \
+            --eligible-json holdout-plan/eligible_performances.json \
+            --output remote-zip-output \
+            --plan-run-id 36254145100 \
+            --plan-artifact-id 10910171359
+          cat remote-zip-output/summary.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v019-asap-maestro-remote-zip-smoke
+          path: |
+            remote-zip-output/summary.json
+            remote-zip-output/mapped_sources.json
+            remote-zip-output/mapping_failures.json
+          if-no-files-found: error
+          retention-days: 30
