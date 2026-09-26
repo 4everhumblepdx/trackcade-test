@@ -1,0 +1,68 @@
+{
+  "experiment": "v0.19 descriptive triple candidates — independent ASAP/MAESTRO holdout",
+  "status": "PASS_INDEPENDENT_USEFULNESS",
+  "source_commit": "c1d7332f36309637c673e4b92f75841c6d79edf9",
+  "workflow_run_id": 36254584857,
+  "aggregate_job_id": 108445806048,
+  "artifact": {
+    "id": 10910319601,
+    "name": "trackcade-v019-asap-triple-holdout-full",
+    "sha256": "3f2d9fbe6a51213e67a107d379b789df4048b56132ef236d98e136af0cd826cf"
+  },
+  "dataset": {
+    "asap_version": "v1.2",
+    "asap_commit": "afc815c75c42e83a79c03feb6da8a35e77d4c6b8",
+    "maestro_version": "v2.0.0",
+    "selection": "frozen pure-three-beat holdout",
+    "selection_frozen_before_analyzer_output": true,
+    "selection_plan_run_id": 36254145100,
+    "selection_plan_artifact_id": 10910171359,
+    "remote_zip_smoke_run_id": 36254313279,
+    "remote_zip_smoke_artifact_id": 10910300658,
+    "tracks_expected": 100,
+    "tracks_analyzed": 100,
+    "unique_maestro_sources": 98
+  },
+  "analyzers": {
+    "frozen_v018_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+    "v019_rc1_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "canonical_change": "none; dev adds descriptive one-third/triple tactus candidates only",
+    "automatic_tactus_switching": false
+  },
+  "results": {
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "timing_tier_changes": 0,
+    "baseline_reference_recall": 56,
+    "dev_reference_recall": 58,
+    "reference_recall_improvements": 2,
+    "reference_recall_regressions": 0,
+    "triple_family_reference_tracks": 4,
+    "triple_family_baseline_recall": 1,
+    "triple_family_dev_recall": 1,
+    "mean_runtime_ratio": 0.99935149,
+    "max_runtime_ratio": 1.026897
+  },
+  "improved_tracks": [
+    {
+      "track": "Rachmaninoff/Preludes_op_23/4/ChenGuang12M.mid",
+      "reference_bpm": 56.748751,
+      "selected_bpm": 123.041,
+      "baseline_reference_rank": null,
+      "dev_reference_rank": 11,
+      "new_triple_relation_count": 2,
+      "timing_tier": "unsafe"
+    },
+    {
+      "track": "Schubert/Impromptu_op.90_D.899/2/Levitsky09M.mid",
+      "reference_bpm": 204.345753,
+      "selected_bpm": 115.818,
+      "baseline_reference_rank": null,
+      "dev_reference_rank": 2,
+      "new_triple_relation_count": 2,
+      "timing_tier": "loose"
+    }
+  ],
+  "interpretation": "Independent held-out real-audio evidence demonstrates candidate-set usefulness outside Ballroom: two references absent from frozen v0.18 candidates are recalled by the unchanged v0.19 RC1 descriptive candidate expansion, with zero canonical/tier regressions and essentially flat runtime. The gains do not require automatic tactus switching and do not alter canonical timing output.",
+  "promotion_decision": "Evidence bar satisfied for promoting the exact sealed RC1 bits to v0.19 final; no Analyzer retuning or code change is warranted."
+}
