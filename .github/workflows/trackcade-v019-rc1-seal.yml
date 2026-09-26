@@ -1,0 +1,94 @@
+name: Trackcade Analyzer v0.19 RC1 — Seal Existing Evidence
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-rc1-seal.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+env:
+  SOURCE_RUN_ID: '36244573974'
+  SOURCE_COMMIT: 'e308d867980fb1877c3f2e4ce27950deecac0855'
+  CANDIDATE_SHA: '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+
+jobs:
+  seal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact RC1 analyzer build
+        uses: actions/download-artifact@v4
+        with:
+          name: rc1-analyzer-build
+          path: package
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download mirror evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: rc1-mirror-evidence
+          path: package/evidence/mirror
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Candombe evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: rc1-candombe-evidence
+          path: package/evidence/candombe
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download Ballroom evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: rc1-ballroom-evidence
+          path: package/evidence/ballroom
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download GiantSteps evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: rc1-giantsteps-evidence
+          path: package/evidence/giantsteps
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Seal exact tested release candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "$CANDIDATE_SHA  package/trackcade-analyzer-v0.19-rc1.js" | sha256sum -c -
+          mkdir -p package/evidence/rejections
+          cp stress/v019-meter/evidence/gtzan_frozen_selector_v1_rejection.json package/evidence/rejections/
+          cp stress/v019-meter/evidence/meter2800_frozen_selector_v2_rejection.json package/evidence/rejections/
+          python release/analyzer-v019/seal_release.py \
+            --package-dir package \
+            --source-run-id "$SOURCE_RUN_ID" \
+            --source-commit "$SOURCE_COMMIT" \
+            --candidate-sha "$CANDIDATE_SHA" \
+            --release-spec release/analyzer-v019/RELEASE_SPEC.json
+          cat package/RELEASE_MANIFEST.json
+          cat package/SHA256SUMS
+
+      - name: Upload sealed RC1 package
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-analyzer-v0.19-rc1-sealed
+          path: package
+          if-no-files-found: error
+          retention-days: 90
