@@ -1,0 +1,103 @@
+name: Trackcade v0.19-dev — GTZAN Frozen Selector Shadow
+
+on:
+  push:
+    branches: [analyzer-stress-v018-ballroom]
+    paths:
+      - '.github/workflows/trackcade-v019-gtzan-frozen-selector-shadow.yml'
+  workflow_dispatch:
+
+jobs:
+  gtzan-frozen-selector-shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reconstruct exact v0.18 and build frozen shadow diagnostic runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p shadow-run/tools shadow-run/data/audio shadow-run/data/annotations shadow-run/results
+          cat stress/v017/bundle.part00.fix0 stress/v017/bundle.part00.fix1 stress/v017/bundle.part01 stress/v017/bundle.part02 stress/v017/bundle.part03 stress/v017/bundle.part04 stress/v017/bundle.part05.fix0 stress/v017/bundle.part05.fix1 | base64 -d > shadow-run/tools-v017.tgz
+          echo '218067133985608dfdc900a508f6dade652f7f3961f268e670bdf89c05e681d8  shadow-run/tools-v017.tgz' | sha256sum -c -
+          tar -xzf shadow-run/tools-v017.tgz -C shadow-run/tools
+          python stress/ballroom/patch_v017_to_v018.py shadow-run/tools/official-v017-runner.js shadow-run/tools/official-v018-runner.js
+          echo 'baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15  shadow-run/tools/official-v018-runner.js' | sha256sum -c -
+          python stress/v019-mirror/patch_v018_add_descriptive_triples.py shadow-run/tools/official-v018-runner.js shadow-run/tools/official-v019-triple-dev.js
+          python stress/v019-meter/patch_add_counterfactual_meter_diagnostics.py shadow-run/tools/official-v019-triple-dev.js shadow-run/tools/official-v019-shadow-dev.js
+          node --check shadow-run/tools/official-v019-shadow-dev.js
+          python -m py_compile stress/v019-meter/run_gtzan_frozen_selector_shadow.py
+          test -f stress/v019-meter/evidence/frozen_triple_selector_v1.json
+
+      - name: Install media tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffmpeg
+          command -v ffprobe
+
+      - name: Download pinned GTZAN audio and rhythm annotations
+        shell: bash
+        run: |
+          set -euo pipefail
+          ann_url='https://huggingface.co/datasets/m-a-p/GTZAN/resolve/67998a1d0e77484bb0d8744ed04204070a9222ab/GTZAN-Rhythm_v2_ismir2015_lbd_2015-10-28.tar_.gz?download=true'
+          audio_url='https://huggingface.co/datasets/m-a-p/GTZAN/resolve/67998a1d0e77484bb0d8744ed04204070a9222ab/gtzan-dataset-music-genre-classification.zip?download=true'
+          curl -fL --retry 3 --retry-delay 5 "$ann_url" -o shadow-run/data/gtzan-rhythm.tar.gz
+          echo 'a5f8b910f5dd16937352d4a40e0652e4f689b3fea5ed33f845a465f719868c96  shadow-run/data/gtzan-rhythm.tar.gz' | sha256sum -c -
+          curl -fL --retry 3 --retry-delay 5 "$audio_url" -o shadow-run/data/gtzan-audio.zip
+          echo '01eb047f4d8bc85d8ab7b655ec99a741836fd8c57f527840366dc2ca0c1f7f6f  shadow-run/data/gtzan-audio.zip' | sha256sum -c -
+          tar -xzf shadow-run/data/gtzan-rhythm.tar.gz -C shadow-run/data/annotations
+          unzip -q shadow-run/data/gtzan-audio.zip -d shadow-run/data/audio
+          stats=$(find shadow-run/data/annotations -type f -name stats.csv -print -quit)
+          test -n "$stats"
+          rows=$(( $(wc -l < "$stats") - 1 ))
+          wavs=$(find shadow-run/data/audio -type f -iname '*.wav' | wc -l)
+          echo "stats_rows=$rows wav_files=$wavs stats=$stats"
+          test "$rows" -eq 1000
+          test "$wavs" -ge 1000
+          printf '%s\n' "$stats" > shadow-run/data/stats-path.txt
+
+      - name: Run frozen selector in shadow on independent GTZAN
+        shell: bash
+        run: |
+          set -euo pipefail
+          stats=$(cat shadow-run/data/stats-path.txt)
+          python stress/v019-meter/run_gtzan_frozen_selector_shadow.py \
+            --audio-root shadow-run/data/audio \
+            --stats-csv "$stats" \
+            --baseline-runner shadow-run/tools/official-v018-runner.js \
+            --dev-runner shadow-run/tools/official-v019-shadow-dev.js \
+            --output shadow-run/results
+
+      - name: Print independent shadow summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f shadow-run/results/summary.json ]; then cat shadow-run/results/summary.json; fi
+          if [ -f shadow-run/results/errors.json ]; then cat shadow-run/results/errors.json; fi
+          if [ -f shadow-run/results/invariance_failures.json ]; then cat shadow-run/results/invariance_failures.json; fi
+
+      - name: Remove corpus and Analyzer files before artifact upload
+        if: always()
+        shell: bash
+        run: |
+          rm -rf shadow-run/data shadow-run/tools shadow-run/tools-v017.tgz
+
+      - name: Upload compact independent shadow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v019-gtzan-frozen-selector-shadow
+          path: |
+            shadow-run/results/results.csv
+            shadow-run/results/summary.json
+            shadow-run/results/errors.json
+            shadow-run/results/invariance_failures.json
+            stress/v019-meter/evidence/frozen_triple_selector_v1.json
+          if-no-files-found: warn
+          retention-days: 14
