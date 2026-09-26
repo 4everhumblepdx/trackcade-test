@@ -1,0 +1,77 @@
+name: Trackcade v0.20 Research — Freeze ASAP Phase Holdout
+
+on:
+  push:
+    branches: [analyzer-v020-phase-context]
+    paths:
+      - '.github/workflows/trackcade-v020-asap-phase-holdout-plan.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download prior v0.19 pure-triple holdout manifest
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-v019-asap-triple-holdout-plan
+          path: prior-triple
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36254145100
+          github-token: ${{ github.token }}
+
+      - name: Fetch pinned ASAP v1.2 and MAESTRO v2 metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p holdout/asap holdout/input holdout/output
+          git clone --filter=blob:none --no-checkout https://github.com/fosfrancesco/asap-dataset.git holdout/asap
+          git -C holdout/asap checkout --detach afc815c75c42e83a79c03feb6da8a35e77d4c6b8
+          test "$(git -C holdout/asap rev-parse HEAD)" = 'afc815c75c42e83a79c03feb6da8a35e77d4c6b8'
+          curl -fL --retry 3 --retry-delay 3 \
+            -o holdout/input/maestro-v2.0.0.csv \
+            https://storage.googleapis.com/magentadata/datasets/maestro/v2.0.0/maestro-v2.0.0.csv
+
+      - name: Freeze deterministic non-pure-triple phase holdout
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/v020-phase-context/plan_asap_phase_holdout.py \
+            --asap-root holdout/asap \
+            --maestro-metadata holdout/input/maestro-v2.0.0.csv \
+            --prior-triple-json prior-triple/eligible_performances.json \
+            --output holdout/output
+          cat holdout/output/summary.json
+          python - <<'PY'
+          import json
+          s=json.load(open('holdout/output/summary.json'))
+          assert s['selection_frozen_before_analyzer_output'] is True, s
+          assert s['selected_performances']==100, s
+          assert s['selected_unique_sources']==100, s
+          assert s['prior_holdout_overlap']==0, s
+          PY
+
+      - name: Remove cloned repository internals
+        if: always()
+        shell: bash
+        run: rm -rf holdout/asap/.git prior-triple
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trackcade-v020-asap-phase-holdout-plan
+          path: |
+            holdout/output/summary.json
+            holdout/output/selected_performances.json
+            holdout/output/selected_performances.csv
+            holdout/output/eligible_population.json
+            holdout/output/unique_maestro_sources.txt
+          if-no-files-found: error
+          retention-days: 30
