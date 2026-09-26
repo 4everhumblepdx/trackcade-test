@@ -1,0 +1,71 @@
+{
+  "schema": "trackcade-v020-asap-selector-v2-posthoc-screen",
+  "status": "safe-zero-triggers-not-validation",
+  "selector": "research/v020-phase-context/FROZEN_SELECTOR_V2.json",
+  "selector_freeze_commit": "ae88e5087d4a8e6d85970a38f54cca0873b300f1",
+  "source_evidence": {
+    "workflow_run_id": 36268897761,
+    "artifact_id": 10915267428,
+    "artifact_name": "trackcade-v020-asap-phase-holdout-full",
+    "artifact_digest": "sha256:459b801606a814970c1738084e493d5dd71a3342b5faf921e04a7a0d4b772663",
+    "selected_performances": 100,
+    "analyzed_performances": 100,
+    "segments": 950,
+    "errors": 0,
+    "canonical_invariance_failures": 0
+  },
+  "scientific_status": "This corpus was already opened for selector-v1 evaluation before selector v2 was frozen. Therefore this is a post-hoc regression screen only and cannot be cited as independent validation for selector v2.",
+  "screen_result": {
+    "segments_meeting_raw_cross_periodicity_pair": 15,
+    "segments_meeting_complete_frozen_v2_rule": 0,
+    "complete_rule_triggers": 0,
+    "large_helps": 0,
+    "large_hurts": 0,
+    "interpretation": "Safe/non-activation only; no usefulness evidence."
+  },
+  "long_context_gate_check": {
+    "rule_requires": [
+      "min(selected_g2_windows, half_g2_windows, selected_g3_windows, half_g3_windows) >= 4",
+      "min(selected_beatCount, half_beatCount) >= 32"
+    ],
+    "window_definition": "For g2/g3 the diagnostic uses 16-beat windows with 8-beat stride, so four complete windows require at least 40 grid beats.",
+    "verification_method": "The aggregate V1 artifact does not retain per-grid window counts. For each segment, floor((end-start)/(60/bpm)) is a phase-independent lower bound on grid-beat count. None of the 15 raw cross-periodicity matches reached 40; the maximum lower bound was 36. Therefore no segment can satisfy the frozen four-window V2 gate.",
+    "max_lower_bound_grid_beats_among_raw_matches": 36
+  },
+  "raw_pair_adversarial_observation": {
+    "note": "The length/window gate is materially safety-relevant. If it were removed, the raw periodicity pair would fire on severe negative examples in this already-open corpus.",
+    "raw_pair_worst_delta_f1_70": -0.8108108108108109,
+    "raw_pair_negative_examples_include": [
+      {
+        "track": "Beethoven/Piano_Sonatas/7-1/Hebert01M.mid",
+        "segment": 4,
+        "lower_bound_grid_beats": 36,
+        "delta_g2_periodicity": -0.248155,
+        "delta_g3_periodicity": 0.149828,
+        "delta_f1_70": -0.8108108108108109
+      },
+      {
+        "track": "Beethoven/Piano_Sonatas/17-1_no_repeat/WangH03M.mid",
+        "segment": 1,
+        "lower_bound_grid_beats": 14,
+        "delta_g2_periodicity": -0.217289,
+        "delta_g3_periodicity": 0.178846,
+        "delta_f1_70": -0.3870967741935484
+      },
+      {
+        "track": "Haydn/Keyboard_Sonatas/46-1/YuP03M.mid",
+        "segment": 11,
+        "lower_bound_grid_beats": 11,
+        "delta_g2_periodicity": -0.187087,
+        "delta_g3_periodicity": 0.573563,
+        "delta_f1_70": -0.3594771241830065
+      }
+    ]
+  },
+  "guardrails": [
+    "Do not loosen or remove V2's long-context gate based on this corpus.",
+    "Do not move the V2 periodicity thresholds from this corpus.",
+    "Do not describe zero triggers here as validation or a pass.",
+    "Any V2 validation claim requires a newly frozen independent holdout selected before V2 Analyzer-derived evidence from that holdout is inspected."
+  ]
+}
