@@ -5,6 +5,8 @@ on:
     branches: [analyzer-stress-v018-ballroom]
     paths:
       - '.github/workflows/trackcade-v019-meter2800-v2-specificity-shadow.yml'
+      - 'stress/v019-meter/run_meter2800_v2_specificity_shadow.py'
+      - 'stress/v019-meter/evidence/frozen_triple_selector_v2.json'
   workflow_dispatch:
 
 jobs:
@@ -111,7 +113,7 @@ jobs:
         shell: bash
         run: |
           python - <<'PY'
-          import json, pathlib, sys
+          import json, pathlib
           p=pathlib.Path('meter-run/results/summary.json')
           if not p.exists():
               raise SystemExit('missing summary')
