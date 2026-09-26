@@ -1,0 +1,89 @@
+{
+  "schema": "trackcade-v020-asap-phase-holdout-v2-terminal",
+  "status": "terminal_inconclusive_stop_deterministic_phase_selector_v020",
+  "classification": "valid_scientific_result_after_timeout_only_infrastructure_recovery",
+  "selector": "research/v020-phase-context/FROZEN_SELECTOR_V2.json",
+  "selector_freeze_commit": "ae88e5087d4a8e6d85970a38f54cca0873b300f1",
+  "protocol": "research/v020-phase-context/ASAP_PHASE_HOLDOUT_V2_PROTOCOL.md",
+  "frozen_manifest": "research/v020-phase-context/ASAP_PHASE_HOLDOUT_V2_FROZEN.json",
+  "original_run": {
+    "run_id": 36272132321,
+    "head_commit": "155f92b00371ff424f038c879656cf82d6b4c5c7",
+    "conclusion": "failure",
+    "failure_classification": "infrastructure_timeout_not_scientific_failure",
+    "failed_shard": 1,
+    "failed_track": "Liszt/Sonata/Yeletskiy05M.mid",
+    "failure_detail": "exact v0.19 Analyzer subprocess exceeded the research harness 900-second timeout",
+    "canonical_invariance_failures_before_recovery": 0
+  },
+  "recovery_run": {
+    "run_id": 36275007610,
+    "head_commit": "a5abf631f806cee0a59b91bf3c0bb7a43fdcca85",
+    "conclusion": "success",
+    "recovery_scope": "timeout-only; frozen selector, thresholds, corpus, v0.19 bits, and evaluation semantics unchanged",
+    "recovered_shard_artifact_id": 10916944026,
+    "recovered_shard_artifact_digest": "sha256:88ad2678fdfcb6aa5ba88358cf1c4b676e42d2efd11d26c828cc6e7124f89fcb",
+    "full_aggregate_artifact_id": 10916799081,
+    "full_aggregate_artifact_name": "trackcade-v020-asap-phase-holdout-v2-full-recovered",
+    "full_aggregate_artifact_digest": "sha256:8b81bbcc8590bd02131eb4faa0e7cd104a4ce0aa63949554f946be5991abbde1"
+  },
+  "corpus_integrity": {
+    "selected_performances": 100,
+    "selected_unique_sources": 100,
+    "v1_midi_overlap": 0,
+    "v1_source_overlap": 0,
+    "analyzed_performances": 100,
+    "segments": 999,
+    "errors": 0,
+    "canonical_invariance_failures": 0,
+    "baseline_runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "integrity_pass": true
+  },
+  "selector_result": {
+    "raw_cross_periodicity_matches": 6,
+    "raw_pair_worst_delta_f1_70": -0.4,
+    "complete_rule_triggers": 0,
+    "large_helps": 0,
+    "large_hurts": 0,
+    "small_negative_triggers": 0,
+    "status": "inconclusive_fewer_than_2_triggers"
+  },
+  "raw_pair_observation": {
+    "note": "All six raw cross-periodicity matches failed the frozen long-context length/window gate. One raw match had delta_f1_70=-0.4, reinforcing that the gate was safety-relevant and must not be loosened post-hoc.",
+    "examples": [
+      {
+        "track": "Chopin/Ballades/3/LinPeng06M.mid",
+        "segment": 9,
+        "delta_f1_70": 0.24390243902439024,
+        "selected_beatCount": 20,
+        "selected_g2_windows": 1,
+        "selected_g3_windows": 1
+      },
+      {
+        "track": "Beethoven/Piano_Sonatas/17-1/KaszoS09M.mid",
+        "segment": 23,
+        "delta_f1_70": -0.4,
+        "selected_beatCount": 15,
+        "selected_g2_windows": 1,
+        "selected_g3_windows": 1
+      },
+      {
+        "track": "Liszt/Sonata/Yeletskiy05M.mid",
+        "segment": 14,
+        "delta_f1_70": -0.15220483641536267,
+        "selected_beatCount": 17,
+        "selected_g2_windows": 1,
+        "selected_g3_windows": 1
+      }
+    ]
+  },
+  "preregistered_terminal_rule": {
+    "inconclusive_if_fewer_than_2_triggers": true,
+    "on_inconclusive": "stop automatic deterministic phase switching for v0.20",
+    "do_not_create_v2_1": true,
+    "do_not_retune_from_holdout": true
+  },
+  "terminal_decision": "stop_deterministic_phase_selector_v020_keep_v019",
+  "production_impact": "none; v0.19 remains the production Analyzer baseline and no automatic phase switch is promoted",
+  "research_closeout": "Deterministic half-cycle phase switching is closed for v0.20. Phase ambiguity remains confidence-aware and may be revisited later only as a genuinely separate higher-level or learned problem, not by retuning these selectors."
+}
