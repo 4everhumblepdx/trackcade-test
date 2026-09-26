@@ -55,7 +55,12 @@ jobs:
           unzip -q shadow-run/data/gtzan-audio.zip -d shadow-run/data/audio
           stats=$(find shadow-run/data/annotations -type f -name stats.csv -print -quit)
           test -n "$stats"
-          rows=$(( $(wc -l < "$stats") - 1 ))
+          rows=$(python - "$stats" <<'PY'
+          import csv, sys
+          with open(sys.argv[1], newline='', encoding='utf-8-sig') as handle:
+              print(sum(1 for _ in csv.DictReader(handle)))
+          PY
+          )
           wavs=$(find shadow-run/data/audio -type f -iname '*.wav' | wc -l)
           echo "stats_rows=$rows wav_files=$wavs stats=$stats"
           test "$rows" -eq 1000
