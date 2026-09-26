@@ -1,0 +1,39 @@
+{
+  "release": "trackcade-analyzer-v0.19",
+  "status": "FINAL_RELEASE_PROMOTED",
+  "tested_source_commit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+  "release_branch": "release/analyzer-v0.19",
+  "research_branch_promotion_commit": "f5e2ce5e7f3537b594b2698acc2ef529b96b28b0",
+  "runner_sha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+  "frozen_v018_sha256": "baf6c3701f9b3ccbe67237b04dcca2e9a158f180ceabb6e1c3e9f0b1a8594c15",
+  "final_package": {
+    "workflow_run_id": 36257438174,
+    "job_id": 108446793951,
+    "artifact_id": 10910744049,
+    "artifact_name": "trackcade-analyzer-v0.19-final",
+    "artifact_sha256": "22525126e3e3020c9c2621a71f62b694a81085b910929dfb473057293c5300ec",
+    "files": 26,
+    "sha256_entries_verified": 25,
+    "checksum_failures": 0
+  },
+  "sealed_rc1": {
+    "workflow_run_id": 36248701399,
+    "artifact_id": 10908875324,
+    "artifact_sha256": "b7f8f443654572f181bdad0ef7c0ed64b22c23fb32f5de1de230e450f6bfb092"
+  },
+  "validation": {
+    "metrical_mirror_96": {"status": "PASS", "canonical_or_tier_regressions": 0},
+    "candombe_35": {"status": "PASS", "canonical_or_tier_regressions": 0},
+    "ballroom_698": {"status": "PASS", "candidate_recall": "688->693", "improvements": 5, "regressions": 0},
+    "giantsteps_664": {"status": "PASS", "candidate_recall": "648->648", "improvements": 0, "regressions": 0},
+    "asap_maestro_holdout_100": {"status": "PASS_INDEPENDENT_USEFULNESS", "candidate_recall": "56->58", "improvements": 2, "regressions": 0, "canonical_invariance_failures": 0, "timing_tier_changes": 0}
+  },
+  "included_change": "descriptive one-third and triple tactus candidates only",
+  "automatic_tactus_switching": false,
+  "excluded_experiments": [
+    "automatic triple selector v1",
+    "automatic triple selector v2",
+    "phase-selection rule experiments"
+  ],
+  "promotion_note": "v0.19 final is a bit-for-bit promotion of the exact sealed RC1 Analyzer runner; no Analyzer retuning or code change occurred during promotion."
+}
