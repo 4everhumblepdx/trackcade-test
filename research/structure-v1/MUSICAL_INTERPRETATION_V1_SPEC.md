@@ -50,7 +50,7 @@ The proposal is not allowed to supply or alter:
   "schema": "trackcade-musical-interpretation-v1",
   "source": {
     "analyzerRunnerSha256": "...",
-    "sourceFingerprint": "..."
+    "analysisJsonSha256": "..."
   },
   "events": [
     {
@@ -74,13 +74,16 @@ The interpreter chooses **what** an objective evidence anchor means. It does not
 
 Compilation fails closed unless all three inputs agree on:
 
-- Analyzer release identity;
 - Analyzer runner SHA-256;
-- source fingerprint;
+- SHA-256 of the exact v0.19 analysis JSON used to create both the safe manifest and Structure Evidence;
 - song duration within floating-point tolerance;
 - timing tier.
 
-A proposal for one song may never be applied to another song.
+The exact analysis JSON hash is the primary per-song source identity for this layer.
+
+During fixture work, v0.19 `sourceFingerprint` was observed as 64 zeroes on multiple distinct raw-run tracks. Therefore `sourceFingerprint` is preserved only as diagnostic metadata and is **not** accepted as a uniqueness/security key.
+
+A proposal for one analysis/song may never be applied to another song even if its diagnostic `sourceFingerprint` value happens to match.
 
 ## Evidence anchors
 
