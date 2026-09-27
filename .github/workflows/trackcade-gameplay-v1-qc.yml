@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/trackcade-gameplay-v1-qc.yml'
       - 'research/gameplay-v1/audit_gameplay_v1.mjs'
+      - 'research/gameplay-v1/preflight_gameplay_v1.mjs'
       - 'research/gameplay-v1/GAMEPLAY_QC_SPEC.md'
   workflow_dispatch:
 
@@ -76,6 +77,45 @@ jobs:
           cmp audit/a/cvb-gemf-minimal.json audit/b/cvb-gemf-minimal.json
           cmp audit/a/fallback.json audit/b/fallback.json
 
+      - name: Prove fail-closed gameplay preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p preflight
+
+          node research/gameplay-v1/preflight_gameplay_v1.mjs \
+            --manifest safe/alldat-minimal-auto-safe-v1.json \
+            --output "$PWD/preflight/alldat-minimal.json" --label ALLDAT-MINIMAL
+          node research/gameplay-v1/preflight_gameplay_v1.mjs \
+            --manifest fixtures/cvb-gemf-minimal.json \
+            --output "$PWD/preflight/cvb-gemf-minimal.json" --label CVB-GEMF-MINIMAL
+
+          set +e
+          node research/gameplay-v1/preflight_gameplay_v1.mjs \
+            --manifest safe/alldat-auto-safe-v1.json \
+            --output "$PWD/preflight/alldat-template.json" --label ALLDAT-TEMPLATE
+          alldat_rc=$?
+          node research/gameplay-v1/preflight_gameplay_v1.mjs \
+            --manifest safe/cvb-gemf-auto-safe-v1.json \
+            --output "$PWD/preflight/cvb-template.json" --label CVB-GEMF-TEMPLATE
+          cvb_rc=$?
+          set -e
+          test "$alldat_rc" -eq 2
+          test "$cvb_rc" -eq 2
+
+          python - <<'PY'
+          import json
+          expected={
+              'alldat-minimal':'qc_pass',
+              'cvb-gemf-minimal':'qc_pass',
+              'alldat-template':'pool_overflow_risk',
+              'cvb-template':'pool_overflow_risk',
+          }
+          for name,status in expected.items():
+              x=json.load(open(f'preflight/{name}.json'))
+              assert x['status']==status,(name,x['status'],status)
+          PY
+
       - name: Verify audit integrity and summarize findings
         shell: bash
         run: |
@@ -109,6 +149,8 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: trackcade-gameplay-v1-whole-song-qc
-          path: audit/a/*.json
+          path: |
+            audit/a/*.json
+            preflight/*.json
           if-no-files-found: error
           retention-days: 30
