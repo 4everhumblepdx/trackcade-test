@@ -209,13 +209,52 @@ function candidateStarts(cfg, rows) {
 function covers(start, req) {
   return req.kind === 'low' && req.feasible && start >= req.lower - EPS && start <= req.upper + EPS;
 }
+function lowerBound(a, x) {
+  let lo = 0, hi = a.length;
+  while (lo < hi) {
+    const mid = (lo + hi) >> 1;
+    if (a[mid] < x) lo = mid + 1; else hi = mid;
+  }
+  return lo;
+}
+function pruneExpiredStates(states, starts, clearEndRel, nextEntry) {
+  if (!finite(nextEntry) || clearEndRel === null) return states;
+  const lanes = new Map();
+  for (const state of states.values()) {
+    if (!lanes.has(state.lane)) lanes.set(state.lane, { noJump: null, active: [], expired: [] });
+    const bucket = lanes.get(state.lane);
+    if (state.jumpIdx < 0) {
+      bucket.noJump = state;
+    } else if (starts[state.jumpIdx] + clearEndRel >= nextEntry - EPS) {
+      bucket.active.push(state);
+    } else {
+      bucket.expired.push(state);
+    }
+  }
+  const out = new Map();
+  for (const [lane, bucket] of lanes) {
+    if (bucket.noJump) out.set(`${lane}|-1`, bucket.noJump);
+    for (const state of bucket.active) out.set(`${lane}|${state.jumpIdx}`, state);
+    // Once a jump can no longer clear the next or any later row, its only
+    // remaining effect is when a future jump may begin. No-jump dominates all
+    // expired jumps; otherwise the earliest expired jump dominates later ones.
+    if (!bucket.noJump && bucket.expired.length) {
+      let best = bucket.expired[0];
+      for (const state of bucket.expired) {
+        if (starts[state.jumpIdx] < starts[best.jumpIdx]) best = state;
+      }
+      out.set(`${lane}|${best.jumpIdx}`, best);
+    }
+  }
+  return out;
+}
 function jumpAwarePath(cfg, rows) {
   const { starts, clearStartRel, clearEndRel } = candidateStarts(cfg, rows);
   const initialLane = Math.floor(cfg.lanes / 2);
-  // state key = lane|candidate-index, where -1 means no jump has ever been needed.
   let states = new Map([[`${initialLane}|-1`, { lane: initialLane, jumpIdx: -1 }]]);
   let previousCollision = 0;
   let maxStates = states.size;
+  let maxStatesBeforePrune = states.size;
   let firstDeadRow = null;
   let lowTransitions = 0;
   let newJumpTransitions = 0;
@@ -248,11 +287,11 @@ function jumpAwarePath(cfg, rows) {
         }
 
         const readyTime = state.jumpIdx >= 0 ? starts[state.jumpIdx] + cfg.jumpTime : 0;
-        for (let j = 0; j < starts.length; j++) {
+        const first = lowerBound(starts, Math.max(req.lower - EPS, readyTime - EPS));
+        for (let j = first; j < starts.length; j++) {
           const s = starts[j];
-          if (s + EPS < readyTime) continue;
-          if (s < req.lower - EPS) continue;
           if (s > req.upper + EPS) break;
+          if (s + EPS < readyTime) continue;
           const key = `${lane}|${j}`;
           if (!next.has(key)) {
             next.set(key, { lane, jumpIdx: j });
@@ -274,7 +313,9 @@ function jumpAwarePath(cfg, rows) {
       states = next;
       break;
     }
-    states = next;
+    maxStatesBeforePrune = Math.max(maxStatesBeforePrune, next.size);
+    const nextEntry = i + 1 < rows.length ? rows[i + 1].entryTime : Infinity;
+    states = pruneExpiredStates(next, starts, clearEndRel, nextEntry);
     maxStates = Math.max(maxStates, states.size);
     previousCollision = row.collisionTime;
   }
@@ -290,6 +331,7 @@ function jumpAwarePath(cfg, rows) {
       duration: clearEndRel - clearStartRel,
     },
     maxReachableStates: maxStates,
+    maxReachableStatesBeforeDominancePrune: maxStatesBeforePrune,
     finalStateCount: states.size,
     lowTransitionsConsidered: lowTransitions,
     newJumpTransitionsMaterialized: newJumpTransitions,
