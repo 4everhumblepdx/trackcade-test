@@ -29,7 +29,7 @@ jobs:
           run-id: 36281637484
           github-token: ${{ github.token }}
 
-      - name: Materialize built-in fallback manifest
+      - name: Materialize fallback and minimal-tuning fixtures
         shell: bash
         run: |
           set -euo pipefail
@@ -38,6 +38,14 @@ jobs:
           import fs from 'node:fs';
           import { FALLBACK_TRACK } from './src/track.config.js';
           fs.writeFileSync('fixtures/fallback-track.json', JSON.stringify(FALLBACK_TRACK, null, 2) + '\n');
+
+          // Diagnostic only: keep CVB's exact Structure-v1 music facts/identity,
+          // but remove optional visual/game tuning so validateManifest supplies
+          // the same FALLBACK_TRACK defaults used by the minimal new-upload path.
+          const source = JSON.parse(fs.readFileSync('safe/cvb-gemf-auto-safe-v1.json', 'utf8'));
+          const keep = ['artist','title','audioUrl','bpm','beatOffset','songLength','events','energyCurve','generation'];
+          const minimal = Object.fromEntries(keep.map(k => [k, source[k]]));
+          fs.writeFileSync('fixtures/cvb-gemf-minimal.json', JSON.stringify(minimal, null, 2) + '\n');
           JS
 
       - name: Run deterministic gameplay audits twice
@@ -56,12 +64,16 @@ jobs:
               --manifest safe/alldat-minimal-auto-safe-v1.json \
               --output "$PWD/audit/$pass/alldat-minimal.json" --label ALLDAT-MINIMAL
             node research/gameplay-v1/audit_gameplay_v1.mjs \
+              --manifest fixtures/cvb-gemf-minimal.json \
+              --output "$PWD/audit/$pass/cvb-gemf-minimal.json" --label CVB-GEMF-MINIMAL
+            node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest fixtures/fallback-track.json \
               --output "$PWD/audit/$pass/fallback.json" --label BUILTIN-FALLBACK
           done
           cmp audit/a/alldat.json audit/b/alldat.json
           cmp audit/a/cvb-gemf.json audit/b/cvb-gemf.json
           cmp audit/a/alldat-minimal.json audit/b/alldat-minimal.json
+          cmp audit/a/cvb-gemf-minimal.json audit/b/cvb-gemf-minimal.json
           cmp audit/a/fallback.json audit/b/fallback.json
 
       - name: Verify audit integrity and summarize findings
@@ -70,7 +82,7 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           import json
-          for name in ('alldat','cvb-gemf','alldat-minimal','fallback'):
+          for name in ('alldat','cvb-gemf','alldat-minimal','cvb-gemf-minimal','fallback'):
               x=json.load(open(f'audit/a/{name}.json'))
               assert x['schema']=='trackcade-gameplay-qc-v1',x
               assert x['integrity']['finiteRows'] is True,x
