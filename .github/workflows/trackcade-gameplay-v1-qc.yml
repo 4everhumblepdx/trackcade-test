@@ -48,16 +48,20 @@ jobs:
             mkdir -p "audit/$pass"
             node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest safe/alldat-auto-safe-v1.json \
-              --output "$PWD/audit/$pass/alldat.json" --label ALLDAT
+              --output "$PWD/audit/$pass/alldat.json" --label ALLDAT-TEMPLATE
             node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest safe/cvb-gemf-auto-safe-v1.json \
-              --output "$PWD/audit/$pass/cvb-gemf.json" --label CVB-GEMF
+              --output "$PWD/audit/$pass/cvb-gemf.json" --label CVB-GEMF-TEMPLATE
+            node research/gameplay-v1/audit_gameplay_v1.mjs \
+              --manifest safe/alldat-minimal-auto-safe-v1.json \
+              --output "$PWD/audit/$pass/alldat-minimal.json" --label ALLDAT-MINIMAL
             node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest fixtures/fallback-track.json \
               --output "$PWD/audit/$pass/fallback.json" --label BUILTIN-FALLBACK
           done
           cmp audit/a/alldat.json audit/b/alldat.json
           cmp audit/a/cvb-gemf.json audit/b/cvb-gemf.json
+          cmp audit/a/alldat-minimal.json audit/b/alldat-minimal.json
           cmp audit/a/fallback.json audit/b/fallback.json
 
       - name: Verify audit integrity and summarize findings
@@ -66,7 +70,7 @@ jobs:
           set -euo pipefail
           python - <<'PY'
           import json
-          for name in ('alldat','cvb-gemf','fallback'):
+          for name in ('alldat','cvb-gemf','alldat-minimal','fallback'):
               x=json.load(open(f'audit/a/{name}.json'))
               assert x['schema']=='trackcade-gameplay-qc-v1',x
               assert x['integrity']['finiteRows'] is True,x
