@@ -1,0 +1,119 @@
+name: Trackcade Musical Interpretation v1 — Gameplay Safety
+
+on:
+  push:
+    branches: [trackcade-musical-interpretation-v1]
+    paths:
+      - '.github/workflows/trackcade-musical-interpretation-gameplay-v1.yml'
+      - 'research/interpretation-v1/CROSS_LAYER_GAMEPLAY_SPEC.md'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  gameplay-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact interpretation proof artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-evidence-only
+          path: interpretation
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36323696425
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen compiled semantic manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '893194f4f647011296b2a9c2b26f1367cdbed1773e91cea6ba134222abe1d30c  interpretation/compiled/a/alldat.json' | sha256sum -c -
+          echo '8654ea474c3f92fcec70d76d6ceef1e3549f62f8d0e0e5995e373f9029c9f5ba  interpretation/compiled/a/cvb-gemf.json' | sha256sum -c -
+          node --check research/gameplay-v1/generate_difficulty_variants_v1.mjs
+          node --check research/gameplay-v1/preflight_gameplay_v1.mjs
+
+      - name: Generate and preflight fixed difficulty modes twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p gameplay/a gameplay/b
+          for fixture in alldat cvb-gemf; do
+            for pass in a b; do
+              node research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+                --manifest "$PWD/interpretation/compiled/a/${fixture}.json" \
+                --output "$PWD/gameplay/${pass}/${fixture}" \
+                --label "interpretation-v1::${fixture}"
+            done
+            diff -ru "gameplay/a/${fixture}" "gameplay/b/${fixture}"
+          done
+
+      - name: Validate semantic preservation and mandatory safety
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,pathlib
+          for fixture in ('alldat','cvb-gemf'):
+              source=json.load(open(f'interpretation/compiled/a/{fixture}.json'))
+              report=json.load(open(f'gameplay/a/{fixture}/difficulty-variants-report.json'))
+              assert report['standardPassed'] is True,report
+              assert 'standard' in report['publishedModes'],report
+              for mode in report['modes']:
+                  candidate=json.load(open(f"gameplay/a/{fixture}/candidates/{mode['id']}.json"))
+                  assert candidate['events']==source['events'],(fixture,mode['id'],'semantic/events drift')
+                  assert candidate['energyCurve']==source['energyCurve'],(fixture,mode['id'],'energy drift')
+                  assert candidate.get('interpretation')==source.get('interpretation'),(fixture,mode['id'],'interpretation provenance drift')
+                  for key in ('bpm','beatOffset','songLength','artist','title','audioUrl'):
+                      assert candidate.get(key)==source.get(key),(fixture,mode['id'],key)
+                  high=[e for e in candidate['events'] if e.get('kind') in ('drop','peak','energy')]
+                  assert high,(fixture,mode['id'],'semantic events disappeared')
+              print(fixture,{
+                  'standardPassed':report['standardPassed'],
+                  'publishedModes':report['publishedModes'],
+                  'modes':[(m['id'],m['qcStatus'],m['publishable'],m['qc']['obstaclePoolMax'],m['qc']['bottleneckSlackSeconds']) for m in report['modes']],
+              })
+          PY
+
+      - name: Validate publishable manifests with real loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { validateManifest } from './src/track/loader.js';
+          for (const fixture of ['alldat','cvb-gemf']) {
+            const root=`gameplay/a/${fixture}/publishable`;
+            for (const name of fs.readdirSync(root).filter(x=>x.endsWith('.json')).sort()) {
+              const raw=JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
+              const cfg=validateManifest(raw);
+              const semantics=cfg.events.filter(e=>['drop','peak','energy'].includes(e.kind)).length;
+              if (!semantics) throw new Error(`${fixture}/${name}: semantic events missing`);
+              console.log(`${fixture}/${name}`,{events:cfg.events.length,semantics});
+            }
+          }
+          JS
+
+      - name: Freeze cross-layer evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/interpretation-v1/CROSS_LAYER_GAMEPLAY_SPEC.md \
+            gameplay/a/*/difficulty-variants-report.json \
+            gameplay/a/*/qc/*.json \
+            gameplay/a/*/publishable/*.json | tee interpretation-gameplay-v1-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-gameplay-safety
+          path: |
+            gameplay/a/**
+            interpretation-gameplay-v1-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
