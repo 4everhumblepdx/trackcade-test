@@ -1,0 +1,138 @@
+name: Trackcade Art Assets v1 — Skyline Normalizer
+
+on:
+  push:
+    branches: [trackcade-art-assets-v1]
+    paths:
+      - '.github/workflows/trackcade-art-assets-v1-skyline-normalizer.yml'
+      - 'research/art-assets-v1/ART_ASSET_REPLACEMENT_SPEC.md'
+      - 'research/art-assets-v1/SKYLINE_NORMALIZATION_V1_SPEC.md'
+      - 'research/art-assets-v1/normalize_skyline_v1.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build deterministic transparent 1536x1024 PNG fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p fixture out/a out/b evidence
+          python - <<'PY'
+          import binascii,struct,zlib
+          W,H=1536,1024
+          sig=b'\x89PNG\r\n\x1a\n'
+          def chunk(t,d):
+              return struct.pack('>I',len(d))+t+d+struct.pack('>I',binascii.crc32(t+d)&0xffffffff)
+          raw=bytearray()
+          for y in range(H):
+              raw.append(0)
+              for x in range(W):
+                  r=(x//6+y//11)%256
+                  g=(x//13+40)%256
+                  b=(y//7+80)%256
+                  # Exercise compositing: transparent upper corners, mixed-alpha band, opaque lower field.
+                  if y < 120 and (x < 260 or x > W-261): a=0
+                  elif y < 360: a=(x+y)%256
+                  else: a=255
+                  raw.extend((r,g,b,a))
+          ihdr=struct.pack('>IIBBBBB',W,H,8,6,0,0,0)
+          png=sig+chunk(b'IHDR',ihdr)+chunk(b'IDAT',zlib.compress(bytes(raw),9))+chunk(b'IEND',b'')
+          open('fixture/source.png','wb').write(png)
+          PY
+
+      - name: Normalize both frozen palettes twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            node research/art-assets-v1/normalize_skyline_v1.mjs \
+              --input fixture/source.png \
+              --output out/$pass/alldat.png \
+              --report out/$pass/alldat-report.json \
+              --sky-top '#08061a' \
+              --sky-bottom '#24134a' \
+              --label ALLDAT
+            node research/art-assets-v1/normalize_skyline_v1.mjs \
+              --input fixture/source.png \
+              --output out/$pass/cvb-gemf.png \
+              --report out/$pass/cvb-gemf-report.json \
+              --sky-top '#070a1e' \
+              --sky-bottom '#1b1440' \
+              --label CVB-GEMF
+          done
+
+      - name: Prove byte-identical normalization
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmp out/a/alldat.png out/b/alldat.png
+          cmp out/a/cvb-gemf.png out/b/cvb-gemf.png
+          cmp out/a/alldat-report.json out/b/alldat-report.json
+          cmp out/a/cvb-gemf-report.json out/b/cvb-gemf-report.json
+
+      - name: Validate frozen algorithm output
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,re
+          for label,path,top,bottom in [
+              ('ALLDAT','out/a/alldat-report.json','#08061a','#24134a'),
+              ('CVB-GEMF','out/a/cvb-gemf-report.json','#070a1e','#1b1440'),
+          ]:
+              x=json.load(open(path))
+              assert x['schema']=='trackcade-skyline-normalization-v1'
+              assert x['specCommit']=='0154bf24d3ab7128f01055cb1efac78b76336843'
+              assert x['label']==label
+              assert x['input']['width']==1536 and x['input']['height']==1024
+              assert x['input']['bitDepth']==8 and x['input']['colorType']==6
+              assert x['crop']=={'x':0,'y':32,'width':1536,'height':960}
+              assert x['background']=={'skyTop':top,'skyBottom':bottom,'blend':'straight alpha in 8-bit sRGB'}
+              assert x['downsample']=={'algorithm':'non-overlapping 4x4 sRGB box average','rounding':'floor((sum+8)/16)','width':384,'height':240}
+              o=x['output']
+              assert o['width']==384 and o['height']==240
+              assert o['bitDepth']==8 and o['colorType']==6 and o['interlace']==0
+              assert o['alphaGt0Coverage']==1 and o['alphaGe128Coverage']==1
+              assert o['fullyTransparentPixels']==0
+              assert o['fullyOpaquePixels']==384*240
+              assert o['fullImageBbox'] is True
+              assert o['distinctOpaqueishRgbColors']>=2
+              assert re.fullmatch(r'[0-9a-f]{64}',o['sha256'])
+              print(label,o['sha256'],o['byteLength'],o['distinctOpaqueishRgbColors'])
+          PY
+
+      - name: Freeze hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum fixture/source.png out/a/*.png out/a/*-report.json > evidence/output-sha256.txt
+          sha256sum \
+            research/art-assets-v1/ART_ASSET_REPLACEMENT_SPEC.md \
+            research/art-assets-v1/SKYLINE_NORMALIZATION_V1_SPEC.md \
+            research/art-assets-v1/normalize_skyline_v1.mjs \
+            > evidence/source-sha256.txt
+          cat evidence/output-sha256.txt
+          cat evidence/source-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-art-assets-v1-skyline-normalizer-proof
+          path: |
+            fixture/source.png
+            out/a/*.png
+            out/a/*-report.json
+            evidence/output-sha256.txt
+            evidence/source-sha256.txt
+            research/art-assets-v1/ART_ASSET_REPLACEMENT_SPEC.md
+            research/art-assets-v1/SKYLINE_NORMALIZATION_V1_SPEC.md
+            research/art-assets-v1/normalize_skyline_v1.mjs
+          if-no-files-found: error
+          retention-days: 30
