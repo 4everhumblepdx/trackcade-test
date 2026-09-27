@@ -22,6 +22,8 @@ def validate_analysis(x):
             raise SystemExit(f"invalid v0.19 analysis: {key} missing/nonfinite")
     if float(x["duration"]) <= 0 or float(x["bpm"]) <= 0:
         raise SystemExit("invalid v0.19 analysis: duration/bpm nonpositive")
+    if not isinstance(x.get("sourceFingerprint"), str) or not x["sourceFingerprint"].strip():
+        raise SystemExit("invalid v0.19 analysis: sourceFingerprint missing/blank")
     if not isinstance(x.get("beatTimes"), list) or len(x["beatTimes"]) < 2:
         raise SystemExit("invalid v0.19 analysis: beatTimes missing/too short")
     if not isinstance(x.get("energyCurve"), list) or len(x["energyCurve"]) < 2:
@@ -126,6 +128,7 @@ def build_manifest(template, analysis):
         "analyzerRelease": ANALYZER_RELEASE,
         "analyzerSourceCommit": ANALYZER_SOURCE_COMMIT,
         "analyzerRunnerSha256": ANALYZER_RUNNER_SHA256,
+        "sourceFingerprint": analysis["sourceFingerprint"],
         "timingTier": tier,
         "timingConfidence": analysis.get("timingConfidence"),
         "structureConfidence": analysis.get("structureConfidence"),
@@ -166,6 +169,7 @@ def main():
         "artist": manifest["artist"],
         "title": manifest["title"],
         "timingTier": generated["timingTier"],
+        "sourceFingerprint": generated["sourceFingerprint"],
         "bpm": manifest["bpm"],
         "songLength": manifest["songLength"],
         "beatEvents": generated["counts"]["beatEvents"],
