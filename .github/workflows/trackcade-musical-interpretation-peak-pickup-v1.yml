@@ -1,0 +1,175 @@
+name: Trackcade Musical Interpretation v1 — Peak Pickup Pool QC
+
+on:
+  push:
+    branches: [trackcade-musical-interpretation-v1]
+    paths:
+      - '.github/workflows/trackcade-musical-interpretation-peak-pickup-v1.yml'
+      - 'research/interpretation-v1/PEAK_PICKUP_QC_SPEC.md'
+      - 'research/interpretation-v1/audit_peak_pickup_qc_v1.mjs'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  peak-pickup-pool-qc:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact frozen interpretation/gameplay v1.1 artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-gameplay-safety-v1-1
+          path: upstream
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36324127397
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen handoff and implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check research/interpretation-v1/audit_peak_pickup_qc_v1.mjs
+          node --check research/gameplay-v1/audit_gameplay_v1.mjs
+          python - <<'PY'
+          import json, pathlib
+          RUNNER='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          expected={'relaxed.json','standard.json','rush.json'}
+          for fixture in ('alldat','cvb-gemf'):
+              root=pathlib.Path('upstream/gameplay/a')/fixture/'publishable'
+              files={p.name for p in root.glob('*.json')}
+              assert files==expected,(fixture,files,expected)
+              for name in sorted(files):
+                  raw=json.load(open(root/name))
+                  assert raw['generation']['analyzerRunnerSha256']==RUNNER,(fixture,name,raw['generation'])
+                  peaks=[e for e in raw.get('events',[]) if e.get('kind')=='peak']
+                  assert peaks,(fixture,name,'expected at least one frozen accepted peak')
+          print('frozen v1.1 handoff verified')
+          PY
+
+      - name: Run all six preregistered cases twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf peak-qc
+          mkdir -p peak-qc/a peak-qc/b
+          for pass in a b; do
+            for fixture in alldat cvb-gemf; do
+              mkdir -p "peak-qc/$pass/$fixture"
+              for manifest in upstream/gameplay/a/$fixture/publishable/*.json; do
+                mode="$(basename "$manifest" .json)"
+                out="$PWD/peak-qc/$pass/$fixture/$mode.json"
+                trusted="$PWD/peak-qc/$pass/$fixture/$mode.trusted.json"
+                exitfile="$PWD/peak-qc/$pass/$fixture/$mode.exitcode"
+                set +e
+                node research/interpretation-v1/audit_peak_pickup_qc_v1.mjs \
+                  --manifest "$PWD/$manifest" \
+                  --output "$out" \
+                  --trusted-output "$trusted" \
+                  --label "peak-pickup-v1::$fixture::$mode"
+                rc=$?
+                set -e
+                if [ "$rc" -ne 0 ] && [ "$rc" -ne 2 ]; then
+                  echo "Infrastructure failure: $fixture/$mode exited $rc" >&2
+                  exit "$rc"
+                fi
+                printf '%s\n' "$rc" > "$exitfile"
+              done
+            done
+          done
+          diff -ru peak-qc/a peak-qc/b
+
+      - name: Validate evidence shape and write terminal summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib
+          rows=[]
+          allowed={'qc_pass','peak_pickup_pool_overflow_risk','trusted_gameplay_not_qc_pass','reconstruction_parity_failure','not_applicable_no_peak','invalid_reconstruction'}
+          for fixture in ('alldat','cvb-gemf'):
+              for mode in ('relaxed','standard','rush'):
+                  p=pathlib.Path('peak-qc/a')/fixture/f'{mode}.json'
+                  q=json.load(open(p))
+                  rc=int((pathlib.Path('peak-qc/a')/fixture/f'{mode}.exitcode').read_text().strip())
+                  assert q['schema']=='trackcade-peak-pickup-qc-v1',q
+                  assert q['status'] in allowed,q['status']
+                  assert q['trustedGameplayAudit']['status']=='qc_pass',q
+                  assert q['parity']['pass'] is True,q['parity']
+                  assert q['integrity']['allFinite'] is True,q['integrity']
+                  assert q['peaks']['count']>=1,q['peaks']
+                  assert q['runtime']['pickupPoolCapacity']==24,q['runtime']
+                  assert q['runtime']['currentRuntimePeakOrbBound']==13,q['runtime']
+                  assert q['runtime']['queueCapStressPeakOrbBound']==14,q['runtime']
+                  expected_rc=0 if q['status']=='qc_pass' else 2
+                  assert rc==expected_rc,(fixture,mode,rc,q['status'])
+                  rows.append({
+                    'fixture':fixture,
+                    'mode':mode,
+                    'status':q['status'],
+                    'peakCount':q['peaks']['count'],
+                    'peakTimes':q['peaks']['times'],
+                    'rowOnlyMax':q['reconstruction']['rowOnlyMaxConcurrentPickups'],
+                    'combined13':q['bounds']['currentRuntime13']['maxConcurrentCombinedPickups'],
+                    'combined14':q['bounds']['queueCapStress14']['maxConcurrentCombinedPickups'],
+                    'capacity':24,
+                    'overflow13':q['bounds']['currentRuntime13']['overflowCount'],
+                    'overflow14':q['bounds']['queueCapStress14']['overflowCount'],
+                  })
+          summary={
+            'schema':'trackcade-peak-pickup-qc-summary-v1',
+            'frozenUpstream':{
+              'analyzerSourceCommit':'e308d867980fb1877c3f2e4ce27950deecac0855',
+              'analyzerRunnerSha256':'9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432',
+              'interpretationGameplayRunId':36324127397,
+              'interpretationGameplayArtifactId':10933222747,
+              'interpretationGameplayArtifactDigest':'sha256:cd6c00e9886d167f54f120f8ad8511fb059cbf9789f95b8d1965e2c67f67a40b',
+            },
+            'cases':rows,
+            'allPass':all(r['status']=='qc_pass' for r in rows),
+            'failedCases':[f"{r['fixture']}/{r['mode']}" for r in rows if r['status']!='qc_pass'],
+          }
+          pathlib.Path('peak-qc-summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+          print(json.dumps(summary,indent=2))
+          PY
+
+      - name: Freeze evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/interpretation-v1/PEAK_PICKUP_QC_SPEC.md \
+            research/interpretation-v1/audit_peak_pickup_qc_v1.mjs \
+            upstream/gameplay/a/alldat/publishable/*.json \
+            upstream/gameplay/a/cvb-gemf/publishable/*.json \
+            peak-qc/a/alldat/* \
+            peak-qc/a/cvb-gemf/* \
+            peak-qc-summary.json | tee peak-pickup-qc-sha256.txt
+
+      - name: Upload peak pickup evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-peak-pickup-qc
+          path: |
+            peak-qc/a/**
+            peak-qc-summary.json
+            peak-pickup-qc-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Enforce preregistered product gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          s=json.load(open('peak-qc-summary.json'))
+          if not s['allPass']:
+              raise SystemExit('peak pickup pool gate failed: '+', '.join(s['failedCases']))
+          print('peak pickup pool gate passed for all six frozen cases')
+          PY
