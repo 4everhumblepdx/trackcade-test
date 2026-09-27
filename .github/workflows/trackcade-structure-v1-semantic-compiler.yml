@@ -1,0 +1,209 @@
+name: Trackcade Structure v1 — Semantic QC Compiler
+
+on:
+  push:
+    branches: [trackcade-musical-structure-v1]
+    paths:
+      - '.github/workflows/trackcade-structure-v1-semantic-compiler.yml'
+      - 'research/structure-v1/compile_semantic_events_v1.py'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact safe baseline manifests
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: safe
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281323636
+          github-token: ${{ github.token }}
+
+      - name: Download exact structure evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-evidence-export
+          path: evidence
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281298997
+          github-token: ${{ github.token }}
+
+      - name: Verify immutable source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile research/structure-v1/compile_semantic_events_v1.py
+          python - <<'PY'
+          import json
+          cases=[
+            ('safe/alldat-auto-safe-v1.json','evidence/alldat-structure-evidence-v1.json','a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405'),
+            ('safe/cvb-gemf-auto-safe-v1.json','evidence/cvb-gemf-structure-evidence-v1.json','35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c'),
+          ]
+          for safe_path,evidence_path,expected in cases:
+              s=json.load(open(safe_path));e=json.load(open(evidence_path))
+              assert s['generation']['analysisJsonSha256']==expected,s['generation']
+              assert e['source']['analysisJsonSha256']==expected,e['source']
+              assert s['generation']['analysisJsonSha256']==e['source']['analysisJsonSha256']
+              assert s['generation']['sourceFingerprint']=='0'*64
+              assert e['source']['sourceFingerprint']=='0'*64
+              assert s['generation']['sourceFingerprintPolicy']=='diagnostic-only-not-identity'
+              assert e['source']['sourceFingerprintPolicy']=='diagnostic-only-not-identity'
+          PY
+
+      - name: Build synthetic QC proposals from real evidence anchors
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p proposals compiled reports
+          python - <<'PY'
+          import json
+          RUNNER='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          alldat={
+            'schema':'trackcade-musical-interpretation-v1',
+            'purpose':'compiler-qc-only-not-musical-claim',
+            'source':{'analyzerRunnerSha256':RUNNER,'analysisJsonSha256':'a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405'},
+            'events':[
+              {'kind':'section','semanticConfidence':0.95,'name':'qc-section','anchor':{'type':'boundary','index':0},'rationale':'QC valid section merge'},
+              {'kind':'drop','semanticConfidence':0.97,'duration':12,'anchor':{'type':'landmark','index':1},'rationale':'QC valid high-energy drop'},
+              {'kind':'peak','semanticConfidence':0.95,'anchor':{'type':'landmark','index':2},'rationale':'QC valid peak'},
+              {'kind':'peak','semanticConfidence':0.99,'anchor':{'type':'landmark','index':3},'rationale':'QC must reject same-kind cooldown'},
+              {'kind':'drop','semanticConfidence':0.40,'anchor':{'type':'landmark','index':6},'rationale':'QC must reject low confidence'},
+              {'kind':'peak','semanticConfidence':0.99,'anchor':{'type':'landmark','index':5},'rationale':'QC must reject weak objective peak evidence'},
+              {'kind':'drop','semanticConfidence':0.99,'anchor':{'type':'landmark','index':0},'rationale':'QC must reject high-impact event in low-demand window'},
+              {'kind':'peak','semanticConfidence':0.99,'anchor':{'type':'landmark','index':999},'rationale':'QC must reject invalid anchor'},
+              {'kind':'energy','semanticConfidence':0.93,'anchor':{'type':'landmark','index':12},'rationale':'QC valid energy command'},
+            ],
+          }
+          cvb_empty={
+            'schema':'trackcade-musical-interpretation-v1',
+            'purpose':'empty-proposal-fallback-test',
+            'source':{'analyzerRunnerSha256':RUNNER,'analysisJsonSha256':'35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c'},
+            'events':[],
+          }
+          wrong_song={
+            'schema':'trackcade-musical-interpretation-v1',
+            'purpose':'wrong-song-source-test',
+            'source':{'analyzerRunnerSha256':RUNNER,'analysisJsonSha256':'35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c'},
+            'events':[{'kind':'section','semanticConfidence':0.99,'name':'wrong-song','anchor':{'type':'boundary','index':0}}],
+          }
+          json.dump(alldat,open('proposals/alldat-qc.json','w'),indent=2)
+          json.dump(cvb_empty,open('proposals/cvb-empty.json','w'),indent=2)
+          json.dump(wrong_song,open('proposals/wrong-song.json','w'),indent=2)
+          PY
+
+      - name: Compile valid/mixed proposal
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/structure-v1/compile_semantic_events_v1.py \
+            --safe-manifest safe/alldat-auto-safe-v1.json \
+            --evidence evidence/alldat-structure-evidence-v1.json \
+            --proposal proposals/alldat-qc.json \
+            --output compiled/alldat-qc-compiled.json \
+            --report reports/alldat-qc-report.json
+
+      - name: Verify accepted and rejected QC behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          safe=json.load(open('safe/alldat-auto-safe-v1.json'))
+          out=json.load(open('compiled/alldat-qc-compiled.json'))
+          report=json.load(open('reports/alldat-qc-report.json'))
+          assert report['proposalEventCount']==9,report
+          assert report['acceptedEventCount']==4,report
+          assert report['rejectedEventCount']==5,report
+          accepted=[(r['kind'],round(r['compiledTime'],3),r['action']) for r in report['accepted']]
+          assert accepted==[
+            ('section',15.498,'named_existing_section'),
+            ('drop',31.107,'appended_event'),
+            ('peak',37.417,'appended_event'),
+            ('energy',116.789,'appended_event'),
+          ],accepted
+          reasons={i: set(r['reasons']) for i,r in [(r['proposalIndex'],r) for r in report['rejected']]}
+          assert 'same_kind_cooldown' in reasons[3],reasons
+          assert 'semantic_confidence_below_threshold' in reasons[4],reasons
+          assert 'objective_peak_gate_failed' in reasons[5],reasons
+          assert 'anchor_inside_low_demand_window' in reasons[6],reasons
+          assert 'anchor_index_out_of_range' in reasons[7],reasons
+          assert [e for e in out['events'] if e.get('kind')=='beat']==[e for e in safe['events'] if e.get('kind')=='beat']
+          assert out['energyCurve']==safe['energyCurve']
+          for key in ('bpm','beatOffset','songLength','artist','title','audioUrl'):
+              assert out[key]==safe[key],key
+          assert out['interpretation']['fallbackSafeBaselinePreserved'] is True
+          assert set(e['kind'] for e in out['events']) <= {'beat','section','drop','peak','energy'}
+          PY
+
+      - name: Verify empty interpretation leaves gameplay baseline unchanged
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/structure-v1/compile_semantic_events_v1.py \
+            --safe-manifest safe/cvb-gemf-auto-safe-v1.json \
+            --evidence evidence/cvb-gemf-structure-evidence-v1.json \
+            --proposal proposals/cvb-empty.json \
+            --output compiled/cvb-empty-compiled.json \
+            --report reports/cvb-empty-report.json
+          python - <<'PY'
+          import json
+          safe=json.load(open('safe/cvb-gemf-auto-safe-v1.json'))
+          out=json.load(open('compiled/cvb-empty-compiled.json'))
+          report=json.load(open('reports/cvb-empty-report.json'))
+          assert report['acceptedEventCount']==0 and report['rejectedEventCount']==0,report
+          assert out['events']==safe['events']
+          assert out['energyCurve']==safe['energyCurve']
+          assert out['bpm']==safe['bpm'] and out['beatOffset']==safe['beatOffset'] and out['songLength']==safe['songLength']
+          PY
+
+      - name: Wrong-song proposal must fail closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if python research/structure-v1/compile_semantic_events_v1.py \
+            --safe-manifest safe/alldat-auto-safe-v1.json \
+            --evidence evidence/alldat-structure-evidence-v1.json \
+            --proposal proposals/wrong-song.json \
+            --output compiled/SHOULD_NOT_EXIST.json \
+            --report reports/SHOULD_NOT_EXIST.json >wrong-song.out 2>wrong-song.err; then
+            echo 'wrong-song proposal unexpectedly compiled' >&2
+            exit 1
+          fi
+          grep -q 'analysis JSON SHA-256 mismatch' wrong-song.err
+          test ! -e compiled/SHOULD_NOT_EXIST.json
+
+      - name: Validate compiled manifests with real Trackcade loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { validateManifest } from './src/track/loader.js';
+          for (const path of ['compiled/alldat-qc-compiled.json','compiled/cvb-empty-compiled.json']) {
+            const raw=JSON.parse(fs.readFileSync(path,'utf8'));
+            const cfg=validateManifest(raw);
+            if (cfg.events.filter(e=>e.kind==='beat').length<2) throw new Error(`${path}: beat grid missing`);
+            if (!cfg.energyCurve.length) throw new Error(`${path}: energy curve missing`);
+            console.log(path,{events:cfg.events.length,beats:cfg.events.filter(e=>e.kind==='beat').length});
+          }
+          JS
+          sha256sum compiled/*.json reports/*.json proposals/*.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-structure-v1-semantic-compiler-qc
+          path: |
+            compiled/*.json
+            reports/*.json
+            proposals/*.json
+          if-no-files-found: error
+          retention-days: 30
