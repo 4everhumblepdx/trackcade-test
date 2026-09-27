@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -17,6 +18,14 @@ def finite(x):
 
 def clamp(x, lo, hi):
     return max(lo, min(hi, x))
+
+
+def sha256_file(path: Path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
 
 
 def energy_points(analysis):
@@ -88,8 +97,10 @@ def validate_analysis(analysis):
         raise SystemExit("invalid v0.19 analysis: timingGuardrail missing/unknown tier")
 
 
-def export(analysis):
+def export(analysis, analysis_json_sha256):
     validate_analysis(analysis)
+    if not isinstance(analysis_json_sha256, str) or len(analysis_json_sha256) != 64:
+        raise SystemExit("invalid analysis JSON SHA-256")
     duration = float(analysis["duration"])
     bpm = float(analysis["bpm"])
     timing_guardrail = analysis["timingGuardrail"]
@@ -176,7 +187,9 @@ def export(analysis):
             "analyzerRelease": ANALYZER_RELEASE,
             "analyzerSourceCommit": ANALYZER_SOURCE_COMMIT,
             "analyzerRunnerSha256": ANALYZER_RUNNER_SHA256,
+            "analysisJsonSha256": analysis_json_sha256,
             "sourceFingerprint": analysis.get("sourceFingerprint"),
+            "sourceFingerprintPolicy": "diagnostic-only-not-identity",
             "duration": duration,
             "bpm": bpm,
             "beatOffset": analysis.get("beatOffset"),
@@ -218,12 +231,14 @@ def main():
     ap.add_argument("--analysis", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
+    analysis_sha = sha256_file(args.analysis)
     analysis = json.loads(args.analysis.read_text())
-    evidence = export(analysis)
+    evidence = export(analysis, analysis_sha)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(evidence, indent=2) + "\n")
     print(json.dumps({
         "schema": evidence["schema"],
+        "analysisJsonSha256": evidence["source"]["analysisJsonSha256"],
         "duration": evidence["source"]["duration"],
         "timingTier": evidence["timingTrust"]["tier"],
         "structureConfidence": evidence["structureTrust"]["structureConfidence"],
