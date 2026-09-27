@@ -1,0 +1,212 @@
+name: Trackcade Gameplay v1 — Difficulty Variants
+
+on:
+  push:
+    branches: [trackcade-gameplay-difficulty-v1]
+    paths:
+      - '.github/workflows/trackcade-gameplay-v1-difficulty-variants.yml'
+      - 'research/gameplay-v1/GAMEPLAY_DIFFICULTY_VARIANTS_SPEC.md'
+      - 'research/gameplay-v1/generate_difficulty_variants_v1.mjs'
+      - 'research/gameplay-v1/preflight_gameplay_v1.mjs'
+      - 'research/gameplay-v1/audit_gameplay_v1.mjs'
+      - 'src/track/loader.js'
+      - 'src/logic/director.js'
+      - 'src/logic/difficulty.js'
+      - 'src/logic/spawner.js'
+      - 'src/track.config.js'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  variants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact closed Structure v1 safe manifests
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: safe
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281637484
+          github-token: ${{ github.token }}
+
+      - name: Materialize frozen CVB minimal fixture and provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p fixtures evidence
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const source = JSON.parse(fs.readFileSync('safe/cvb-gemf-auto-safe-v1.json', 'utf8'));
+          const keep = ['artist','title','audioUrl','bpm','beatOffset','songLength','events','energyCurve','generation'];
+          const minimal = Object.fromEntries(keep.map(k => [k, source[k]]));
+          fs.writeFileSync('fixtures/cvb-gemf-minimal.json', JSON.stringify(minimal, null, 2) + '\n');
+          JS
+          cat > evidence/provenance.json <<'JSON'
+          {
+            "structureSafeManifestRun": 36281637484,
+            "structureSafeManifestArtifactId": 10918568524,
+            "structureSafeManifestArtifactDigest": "sha256:10a67643cf985652c2a5974f59f0b95183ee0f2921253e525b8945eceae63c87",
+            "analyzerReleaseBranch": "release/analyzer-v0.19",
+            "analyzerSourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+            "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+            "difficultyVariantsSpecCommit": "c6027dbe3a0f6e5f535a8bd5645ee06e46150f50"
+          }
+          JSON
+
+      - name: Generate both product variant packs twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          node research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+            --manifest safe/alldat-minimal-auto-safe-v1.json \
+            --output variants/a/alldat \
+            --label ALLDAT
+          node research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+            --manifest fixtures/cvb-gemf-minimal.json \
+            --output variants/a/cvb-gemf \
+            --label CVB-GEMF
+          node research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+            --manifest safe/alldat-minimal-auto-safe-v1.json \
+            --output variants/b/alldat \
+            --label ALLDAT
+          node research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+            --manifest fixtures/cvb-gemf-minimal.json \
+            --output variants/b/cvb-gemf \
+            --label CVB-GEMF
+
+      - name: Prove deterministic duplicate outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          diff -qr variants/a/alldat variants/b/alldat
+          diff -qr variants/a/cvb-gemf variants/b/cvb-gemf
+
+      - name: Validate generated variant packs
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os
+
+          SPEC='c6027dbe3a0f6e5f535a8bd5645ee06e46150f50'
+          expected={
+              'alldat': {
+                  'rows': {'relaxed':295,'standard':590,'rush':590},
+                  'obstacles': {'relaxed':14,'standard':27,'rush':20},
+              },
+              'cvb-gemf': {
+                  'rows': {'relaxed':406,'standard':812,'rush':812},
+                  'obstacles': {'relaxed':12,'standard':24,'rush':18},
+              },
+          }
+          runtime={
+              'relaxed': {'spawnRowEveryBeats':2,'baseSpeed':120,'maxSpeed':380,'speedRampPerSec':1.1},
+              'standard': {'spawnRowEveryBeats':1,'baseSpeed':120,'maxSpeed':380,'speedRampPerSec':1.1},
+              'rush': {'spawnRowEveryBeats':1,'baseSpeed':160,'maxSpeed':500,'speedRampPerSec':2.0},
+          }
+          expected_overrides={
+              'relaxed': {'spawnRowEveryBeats':2},
+              'standard': {},
+              'rush': {'baseSpeed':160,'maxSpeed':500,'speedRampPerSec':2.0,'spawnRowEveryBeats':1},
+          }
+
+          for fixture in ('alldat','cvb-gemf'):
+              root=f'variants/a/{fixture}'
+              report=json.load(open(f'{root}/difficulty-variants-report.json'))
+              assert report['schema']=='trackcade-gameplay-difficulty-variants-v1',report.get('schema')
+              assert report['specCommit']==SPEC
+              assert report['standardPassed'] is True
+              assert report['publishedModes']==['relaxed','standard','rush'],report['publishedModes']
+              assert report['invariants']=={
+                  'analyzerOrStructureModified': False,
+                  'semanticHighImpactEventsAdded': False,
+                  'poolCapacitiesModified': False,
+                  'candidateSearchAfterFailure': False,
+                  'existingWholeSongPreflightAuthoritative': True,
+              }
+              assert [m['id'] for m in report['modes']]==['relaxed','standard','rush']
+              for mode in report['modes']:
+                  mid=mode['id']
+                  assert mode['overrides']==expected_overrides[mid],(fixture,mid,mode['overrides'])
+                  assert mode['preflightExitCode']==0,(fixture,mid,mode['preflightExitCode'])
+                  assert mode['qcStatus']=='qc_pass',(fixture,mid,mode['qcStatus'])
+                  assert mode['publishable'] is True,(fixture,mid)
+                  assert mode['integrity']['pass'] is True,(fixture,mid,mode['integrity'])
+                  assert mode['qc']['laneOnlyPass'] is True,(fixture,mid)
+                  assert mode['qc']['obstaclePoolCapacity']==28,(fixture,mid)
+                  assert mode['qc']['pickupPoolCapacity']==24,(fixture,mid)
+                  assert mode['qc']['rows']==expected[fixture]['rows'][mid],(fixture,mid,mode['qc']['rows'])
+                  assert mode['qc']['obstaclePoolMax']==expected[fixture]['obstacles'][mid],(fixture,mid,mode['qc']['obstaclePoolMax'])
+                  for key,val in runtime[mid].items():
+                      assert mode['qc']['runtime'][key]==val,(fixture,mid,key,mode['qc']['runtime'][key])
+                  assert mode['qc']['runtime']['laneSwitchTime']==0.12,(fixture,mid)
+                  assert mode['qc']['runtime']['jumpTime']==0.58,(fixture,mid)
+                  assert mode['qc']['runtime']['spawnMinGapZEnforcedByCurrentBeatSpawnPath'] is False
+
+                  pub=f'{root}/publishable/{mid}.json'
+                  qc=f'{root}/qc/{mid}.json'
+                  assert os.path.isfile(pub),pub
+                  assert os.path.isfile(qc),qc
+                  manifest=json.load(open(pub))
+                  meta=manifest['generation']['gameplayDifficultyV1']
+                  assert meta['schema']=='trackcade-gameplay-difficulty-variants-v1'
+                  assert meta['specCommit']==SPEC
+                  assert meta['mode']==mid
+                  assert meta['overrides']==expected_overrides[mid]
+
+              print(fixture, report['publishedModes'], {
+                  m['id']: {
+                      'rows': m['qc']['rows'],
+                      'obstacles': m['qc']['obstaclePoolMax'],
+                      'pickups': m['qc']['pickupPoolMax'],
+                      'slack': m['qc']['bottleneckSlackSeconds'],
+                  }
+                  for m in report['modes']
+              })
+          PY
+
+      - name: Freeze output and source hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            variants/a/alldat/difficulty-variants-report.json \
+            variants/a/cvb-gemf/difficulty-variants-report.json \
+            > evidence/report-sha256.txt
+          find variants/a -path '*/publishable/*.json' -type f -print0 | sort -z | xargs -0 sha256sum > evidence/publishable-sha256.txt
+          find variants/a -path '*/qc/*.json' -type f -print0 | sort -z | xargs -0 sha256sum > evidence/qc-sha256.txt
+          sha256sum \
+            research/gameplay-v1/GAMEPLAY_DIFFICULTY_VARIANTS_SPEC.md \
+            research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+            research/gameplay-v1/preflight_gameplay_v1.mjs \
+            research/gameplay-v1/audit_gameplay_v1.mjs \
+            > evidence/variant-source-sha256.txt
+          cat evidence/report-sha256.txt
+          cat evidence/variant-source-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-gameplay-v1-difficulty-variants
+          path: |
+            variants/a/alldat/difficulty-variants-report.json
+            variants/a/alldat/publishable/*.json
+            variants/a/alldat/qc/*.json
+            variants/a/cvb-gemf/difficulty-variants-report.json
+            variants/a/cvb-gemf/publishable/*.json
+            variants/a/cvb-gemf/qc/*.json
+            evidence/provenance.json
+            evidence/report-sha256.txt
+            evidence/publishable-sha256.txt
+            evidence/qc-sha256.txt
+            evidence/variant-source-sha256.txt
+            research/gameplay-v1/GAMEPLAY_DIFFICULTY_VARIANTS_SPEC.md
+            research/gameplay-v1/generate_difficulty_variants_v1.mjs
+          if-no-files-found: error
+          retention-days: 30
