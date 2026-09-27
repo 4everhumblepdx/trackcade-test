@@ -1,0 +1,183 @@
+name: Trackcade Musical Interpretation v1 — Evidence-Only Integration
+
+on:
+  push:
+    branches: [trackcade-musical-interpretation-v1]
+    paths:
+      - '.github/workflows/trackcade-musical-interpretation-v1.yml'
+      - 'research/interpretation-v1/**'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact closed Structure Evidence artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-evidence-export
+          path: evidence
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281298997
+          github-token: ${{ github.token }}
+
+      - name: Download exact closed safe-manifest artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: safe
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281637484
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen upstream identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/interpretation-v1/build_interpretation_packet_v1.py \
+            research/structure-v1/compile_semantic_events_v1.py
+          python - <<'PY'
+          import hashlib,json
+          RUNNER='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          cases=[
+            ('safe/alldat-auto-safe-v1.json','evidence/alldat-structure-evidence-v1.json','a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405','bc6e7d289a71dc25447b6771c58fccba05d3adfa9fb4012b21595fa999658cee'),
+            ('safe/cvb-gemf-auto-safe-v1.json','evidence/cvb-gemf-structure-evidence-v1.json','35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c','d7bf1e2c904d70dad898c69e6c43d66f3dd97532c021db4d878a8f5cb0c9f284'),
+          ]
+          for safe_path,evidence_path,analysis_sha,evidence_sha in cases:
+              s=json.load(open(safe_path)); e=json.load(open(evidence_path))
+              assert s['generation']['analyzerRunnerSha256']==RUNNER
+              assert e['source']['analyzerRunnerSha256']==RUNNER
+              assert s['generation']['analysisJsonSha256']==analysis_sha
+              assert e['source']['analysisJsonSha256']==analysis_sha
+              got=hashlib.sha256(open(evidence_path,'rb').read()).hexdigest()
+              assert got==evidence_sha,(evidence_path,got,evidence_sha)
+          PY
+
+      - name: Build label-blind interpretation packets twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p packets/a packets/b
+          for fixture in alldat cvb-gemf; do
+            python research/interpretation-v1/build_interpretation_packet_v1.py \
+              --evidence evidence/${fixture}-structure-evidence-v1.json \
+              --output packets/a/${fixture}.json
+            python research/interpretation-v1/build_interpretation_packet_v1.py \
+              --evidence evidence/${fixture}-structure-evidence-v1.json \
+              --output packets/b/${fixture}.json
+            cmp packets/a/${fixture}.json packets/b/${fixture}.json
+            if grep -qi diagnostic packets/a/${fixture}.json; then
+              echo "${fixture}: diagnostic semantic hint leaked into interpretation packet" >&2
+              exit 1
+            fi
+          done
+          sha256sum packets/a/*.json
+
+      - name: Compile evidence-only proposals twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p compiled/a compiled/b reports/a reports/b
+          for fixture in alldat cvb-gemf; do
+            proposal="research/interpretation-v1/proposals/${fixture}-evidence-only-v1.json"
+            for pass in a b; do
+              python research/structure-v1/compile_semantic_events_v1.py \
+                --safe-manifest safe/${fixture}-auto-safe-v1.json \
+                --evidence evidence/${fixture}-structure-evidence-v1.json \
+                --proposal "$proposal" \
+                --output compiled/${pass}/${fixture}.json \
+                --report reports/${pass}/${fixture}.json
+            done
+            cmp compiled/a/${fixture}.json compiled/b/${fixture}.json
+            cmp reports/a/${fixture}.json reports/b/${fixture}.json
+          done
+
+      - name: Validate semantic trust boundary and immutable baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import copy,json
+          cases=[
+            ('alldat','safe/alldat-auto-safe-v1.json','evidence/alldat-structure-evidence-v1.json'),
+            ('cvb-gemf','safe/cvb-gemf-auto-safe-v1.json','evidence/cvb-gemf-structure-evidence-v1.json'),
+          ]
+          for fixture,safe_path,evidence_path in cases:
+              safe=json.load(open(safe_path))
+              evidence=json.load(open(evidence_path))
+              out=json.load(open(f'compiled/a/{fixture}.json'))
+              report=json.load(open(f'reports/a/{fixture}.json'))
+              proposal=json.load(open(f'research/interpretation-v1/proposals/{fixture}-evidence-only-v1.json'))
+
+              assert report['proposalEventCount']==len(proposal['events'])
+              assert report['acceptedEventCount']>=1,report
+              assert report['fallbackSafeBaselinePreserved'] is True
+              assert out['interpretation']['fallbackSafeBaselinePreserved'] is True
+              assert out['interpretation']['analysisJsonSha256']==safe['generation']['analysisJsonSha256']
+
+              protected_safe={k:copy.deepcopy(v) for k,v in safe.items() if k!='events'}
+              protected_out={k:copy.deepcopy(v) for k,v in out.items() if k not in ('events','interpretation')}
+              assert protected_out==protected_safe,f'{fixture}: protected top-level manifest fields changed'
+
+              safe_beats=[e for e in safe['events'] if e.get('kind')=='beat']
+              out_beats=[e for e in out['events'] if e.get('kind')=='beat']
+              assert out_beats==safe_beats,f'{fixture}: beat grid changed'
+
+              for accepted in report['accepted']:
+                  anchor=accepted['anchor']
+                  family=evidence['boundaries'] if anchor['type']=='boundary' else evidence['landmarks']
+                  expected=float(family[anchor['index']]['time'])
+                  assert abs(float(accepted['compiledTime'])-expected)<=0.75, (fixture,accepted,expected)
+                  assert accepted['kind'] in ('section','energy','peak','drop')
+          PY
+
+      - name: Validate compiled manifests with real Trackcade loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { validateManifest } from './src/track/loader.js';
+          for (const fixture of ['alldat','cvb-gemf']) {
+            const raw=JSON.parse(fs.readFileSync(`compiled/a/${fixture}.json`,'utf8'));
+            const cfg=validateManifest(raw);
+            const beats=cfg.events.filter(e=>e.kind==='beat').length;
+            const semantics=cfg.events.filter(e=>['drop','peak','energy'].includes(e.kind)).length;
+            if (beats<2) throw new Error(`${fixture}: beat grid missing`);
+            if (!cfg.energyCurve.length) throw new Error(`${fixture}: energy curve missing`);
+            if (semantics<1) throw new Error(`${fixture}: no high-impact semantic event survived QC`);
+            console.log(fixture,{events:cfg.events.length,beats,semantics});
+          }
+          JS
+
+      - name: Freeze evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/interpretation-v1/INTEGRATION_PROOF_SPEC.md \
+            research/interpretation-v1/build_interpretation_packet_v1.py \
+            research/interpretation-v1/proposals/*.json \
+            packets/a/*.json \
+            compiled/a/*.json \
+            reports/a/*.json | tee interpretation-v1-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-evidence-only
+          path: |
+            packets/a/*.json
+            compiled/a/*.json
+            reports/a/*.json
+            research/interpretation-v1/proposals/*.json
+            interpretation-v1-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
