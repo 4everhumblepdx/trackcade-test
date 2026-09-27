@@ -1,0 +1,69 @@
+{
+  "schema": "trackcade-musical-interpretation-v1",
+  "source": {
+    "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "analysisJsonSha256": "35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c"
+  },
+  "events": [
+    {
+      "kind": "section",
+      "semanticConfidence": 0.88,
+      "name": "opening-expansion",
+      "anchor": {"type": "boundary", "index": 0},
+      "rationale": "High-confidence opening boundary with a large positive change in section energy."
+    },
+    {
+      "kind": "drop",
+      "semanticConfidence": 0.95,
+      "duration": 12,
+      "anchor": {"type": "landmark", "index": 0},
+      "rationale": "Strong rise and net positive local-energy change at an intense landmark."
+    },
+    {
+      "kind": "peak",
+      "semanticConfidence": 0.93,
+      "anchor": {"type": "landmark", "index": 7},
+      "rationale": "Very high landmark intensity with high local energy and clear separation from the first impact."
+    },
+    {
+      "kind": "section",
+      "semanticConfidence": 0.86,
+      "name": "contrast-passage",
+      "anchor": {"type": "boundary", "index": 2},
+      "rationale": "High-confidence structural boundary accompanied by a sustained local energy reduction."
+    },
+    {
+      "kind": "drop",
+      "semanticConfidence": 0.96,
+      "duration": 12,
+      "anchor": {"type": "landmark", "index": 11},
+      "rationale": "Large positive local-energy rise and net change at a high-intensity landmark."
+    },
+    {
+      "kind": "peak",
+      "semanticConfidence": 0.93,
+      "anchor": {"type": "landmark", "index": 18},
+      "rationale": "Very high intensity and local energy at a well-separated deterministic landmark."
+    },
+    {
+      "kind": "section",
+      "semanticConfidence": 0.84,
+      "name": "low-demand-passage",
+      "anchor": {"type": "boundary", "index": 4},
+      "rationale": "High-confidence boundary enters an objectively low-demand structural window; section semantics remain allowed there."
+    },
+    {
+      "kind": "energy",
+      "semanticConfidence": 0.88,
+      "anchor": {"type": "landmark", "index": 22},
+      "rationale": "Very high energy and maximum landmark intensity support a persistent gameplay energy lift."
+    },
+    {
+      "kind": "section",
+      "semanticConfidence": 0.84,
+      "name": "closing-release",
+      "anchor": {"type": "boundary", "index": 6},
+      "rationale": "High-confidence terminal boundary aligns with a low-demand closing window; no high-impact command is requested."
+    }
+  ]
+}
