@@ -1,12 +1,30 @@
 {
   "schemaVersion": 1,
-  "status": "frozen_before_analysis_or_semantic_generation",
-  "purpose": "Internal fresh-track generalization set using user-provided audio that was not used in the prior ALLDAT/CVB Astra or Sol semantic comparisons.",
+  "status": "frozen_before_semantic_generation",
+  "purpose": "Internal semantic generalization set using user-provided audio that was not used in the prior ALLDAT/CVB Astra or Sol semantic comparisons. These tracks are not Analyzer-unseen: prior project notes identify them as an established real-song Analyzer regression set.",
   "baseCommit": "d04649893aaf550f4594670a27694b6c4aa3b82e",
   "productionAnalyzer": {
     "version": "v0.19",
     "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
     "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "priorAnalyzerRegressionContext": {
+    "knownSetMembers": [
+      "I Feel Music",
+      "Retro 9",
+      "luda",
+      "Muddy Waters",
+      "M&Ms",
+      "retro-not",
+      "vlado"
+    ],
+    "knownExpectations": [
+      "I Feel remains strict",
+      "Retro remains conservative/standard",
+      "luda should stay around ~149, not jump to ~200",
+      "Muddy should avoid bogus tempo fragments"
+    ],
+    "note": "These expectations are inherited regression knowledge and must not be presented as discoveries from the new semantic experiment."
   },
   "rawAudioStorage": {
     "location": "user ChatGPT Library",
@@ -69,6 +87,7 @@
   "rules": {
     "priorAstraSemanticExposure": false,
     "priorSolSemanticExposure": false,
+    "priorAnalyzerRegressionExposure": true,
     "noTrackRemovalAfterFreeze": true,
     "noHashReplacementAfterFreeze": true,
     "noPromptOrCompilerRetuningFromTheseResults": true
