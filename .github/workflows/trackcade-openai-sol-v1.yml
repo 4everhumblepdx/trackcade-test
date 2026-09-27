@@ -1,0 +1,450 @@
+name: Trackcade Learned Interpretation v1 — GPT-6 Sol Comparison
+
+on:
+  push:
+    branches: [trackcade-openai-sol-v1-freeze]
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout label-blind generation code only
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            research/learned-interpretation-v1
+            research/interpretation-v1/build_interpretation_packet_v1.py
+          sparse-checkout-cone-mode: false
+
+      - name: Verify frozen Sol branch and generation isolation
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_NAME" = 'trackcade-openai-sol-v1-freeze'
+          test -f research/learned-interpretation-v1/OPENAI_SOL_V1_PROTOCOL.md
+          test ! -e alldat-trackcade.json
+          test ! -e cvb-gemf-trackcade.json
+          test ! -e research/semantic-quality-v1/evaluate_semantic_quality_v1.py
+          python -m py_compile \
+            research/interpretation-v1/build_interpretation_packet_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            research/learned-interpretation-v1/ingest_provider_response_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+          meta="$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36281298997/artifacts --jq '.artifacts[] | select(.id == 10919375182) | [.id,.name,.digest] | @tsv')"
+          test "$meta" = $'10919375182\ttrackcade-structure-v1-evidence-export\tsha256:3d4364ab01ee51b4b244f0033aeb5ca598393164e805c6149d4f25c37d9805fc'
+
+      - name: Download exact frozen Structure Evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-evidence-export
+          path: evidence
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281298997
+          github-token: ${{ github.token }}
+
+      - name: Rebuild exact frozen packets and provider-neutral requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p live/packets live/requests live/prepared
+          for fixture in alldat cvb-gemf; do
+            python research/interpretation-v1/build_interpretation_packet_v1.py \
+              --evidence "evidence/${fixture}-structure-evidence-v1.json" \
+              --output "$PWD/live/packets/$fixture.json"
+            if grep -qi diagnostic "live/packets/$fixture.json"; then
+              echo "$fixture: semantic hint leaked into provider packet" >&2
+              exit 1
+            fi
+            python research/learned-interpretation-v1/build_learned_request_v1.py \
+              --packet "live/packets/$fixture.json" \
+              --output "$PWD/live/requests/$fixture.json"
+          done
+          test "$(sha256sum live/packets/alldat.json | awk '{print $1}')" = '579cbdb6a0ec06e46f93230929949077079d8272b4fb86c2cb274edeb5dabdfa'
+          test "$(sha256sum live/packets/cvb-gemf.json | awk '{print $1}')" = '69df2dba4ae905a96d51149feed5a57394412c5dba1972085f33e5633a88516f'
+          test "$(sha256sum live/requests/alldat.json | awk '{print $1}')" = '409ce78afcd4c6062827a0ba60aeb94f6ec311aaa1ccf6e292fd137686c2e03a'
+          test "$(sha256sum live/requests/cvb-gemf.json | awk '{print $1}')" = '2d6650e1ceb72ddff9f40f13e8f04dbaacc84f7b7935b8843e1ba25088e85e93'
+
+      - name: Freeze exact Sol API payloads before provider calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          for fixture in alldat cvb-gemf; do
+            mkdir -p "live/prepared/$fixture"
+            python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+              --request "live/requests/$fixture.json" \
+              --packet "live/packets/$fixture.json" \
+              --model gpt-6-sol \
+              --reasoning-effort high \
+              --max-output-tokens 4096 \
+              --payload-output "$PWD/live/prepared/$fixture/openai-payload.json" \
+              --adapter-report-output "$PWD/live/prepared/$fixture/prepare-report.json" \
+              --prepare-only
+          done
+          sha256sum live/prepared/*/openai-payload.json | tee live/prepared-payload-sha256.txt
+
+      - name: Require secure API key
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}"
+
+      - name: Live Sol response — ALLDAT — exactly once
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -uo pipefail
+          fixture=alldat
+          mkdir -p "live/provider/$fixture"
+          python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            --request "live/requests/$fixture.json" \
+            --packet "live/packets/$fixture.json" \
+            --model gpt-6-sol \
+            --reasoning-effort high \
+            --max-output-tokens 4096 \
+            --timeout-seconds 300 \
+            --payload-output "$PWD/live/provider/$fixture/openai-payload.json" \
+            --raw-response-output "$PWD/live/provider/$fixture/raw-response.json" \
+            --proposal-candidate-output "$PWD/live/provider/$fixture/proposal-candidate.json" \
+            --adapter-report-output "$PWD/live/provider/$fixture/adapter-report.json"
+          rc=$?
+          date -u +%Y-%m-%dT%H:%M:%SZ > "live/provider/$fixture/executed-at.txt"
+          printf '%s\n' "$rc" > "live/provider/$fixture/adapter-return-code.txt"
+          if [ -f "live/provider/$fixture/openai-payload.json" ]; then
+            cmp "live/prepared/$fixture/openai-payload.json" "live/provider/$fixture/openai-payload.json"
+          fi
+          exit "$rc"
+
+      - name: Live Sol response — CVB G.E.M.F. — exactly once
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -uo pipefail
+          fixture=cvb-gemf
+          mkdir -p "live/provider/$fixture"
+          python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            --request "live/requests/$fixture.json" \
+            --packet "live/packets/$fixture.json" \
+            --model gpt-6-sol \
+            --reasoning-effort high \
+            --max-output-tokens 4096 \
+            --timeout-seconds 300 \
+            --payload-output "$PWD/live/provider/$fixture/openai-payload.json" \
+            --raw-response-output "$PWD/live/provider/$fixture/raw-response.json" \
+            --proposal-candidate-output "$PWD/live/provider/$fixture/proposal-candidate.json" \
+            --adapter-report-output "$PWD/live/provider/$fixture/adapter-report.json"
+          rc=$?
+          date -u +%Y-%m-%dT%H:%M:%SZ > "live/provider/$fixture/executed-at.txt"
+          printf '%s\n' "$rc" > "live/provider/$fixture/adapter-return-code.txt"
+          if [ -f "live/provider/$fixture/openai-payload.json" ]; then
+            cmp "live/prepared/$fixture/openai-payload.json" "live/provider/$fixture/openai-payload.json"
+          fi
+          exit "$rc"
+
+      - name: Validate and ingest extracted Sol candidates without retry
+        if: always()
+        shell: bash
+        run: |
+          set -uo pipefail
+          for fixture in alldat cvb-gemf; do
+            root="live/provider/$fixture"
+            mkdir -p "$root"
+            if [ ! -f "$root/proposal-candidate.json" ] || [ ! -f "$root/adapter-report.json" ]; then
+              printf '%s\n' 'not_attempted_no_extracted_candidate' > "$root/ingestion-status.txt"
+              continue
+            fi
+            python - "$root/adapter-report.json" "$root/parameters.json" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1]))
+          p={
+              'adapter':'openai-responses-v1',
+              'requestedModel':a['requestedModel'],
+              'responseModel':a['responseModel'],
+              'reasoningEffort':a['reasoningEffort'],
+              'maxOutputTokens':a['maxOutputTokens'],
+              'store':a['store'],
+              'openaiResponseId':a['responseId'],
+              'httpRequestId':a.get('httpRequestId'),
+              'clientRequestId':a.get('clientRequestId'),
+              'usage':a.get('usage'),
+          }
+          json.dump(p,open(sys.argv[2],'w'),indent=2,sort_keys=True)
+          open(sys.argv[2],'a').write('\n')
+          PY
+            response_model="$(python -c 'import json,sys;print(json.load(open(sys.argv[1]))["responseModel"])' "$root/adapter-report.json")"
+            response_id="$(python -c 'import json,sys;print(json.load(open(sys.argv[1]))["responseId"])' "$root/adapter-report.json")"
+            executed_at="$(cat "$root/executed-at.txt")"
+            set +e
+            python research/learned-interpretation-v1/ingest_provider_response_v1.py \
+              --request "live/requests/$fixture.json" \
+              --packet "live/packets/$fixture.json" \
+              --raw-provider-response "$root/raw-response.json" \
+              --proposal-candidate "$root/proposal-candidate.json" \
+              --provider openai \
+              --model "$response_model" \
+              --provider-request-id "$response_id" \
+              --parameters "$root/parameters.json" \
+              --executed-at "$executed_at" \
+              --harness-source-commit "$GITHUB_SHA" \
+              --normalized-proposal "$root/normalized-proposal.json" \
+              --validation-report "$root/validation-report.json" \
+              --run-manifest "$root/provider-run-manifest.json"
+            rc=$?
+            set -e
+            printf '%s\n' "$rc" > "$root/ingestion-return-code.txt"
+            if [ "$rc" -eq 0 ]; then
+              printf '%s\n' 'valid_provider_proposal' > "$root/ingestion-status.txt"
+            elif [ "$rc" -eq 2 ]; then
+              printf '%s\n' 'provider_proposal_rejected_no_retry' > "$root/ingestion-status.txt"
+            else
+              printf '%s\n' 'ingestion_infrastructure_failure' > "$root/ingestion-status.txt"
+            fi
+          done
+
+      - name: Freeze Sol generation status and hashes
+        if: always()
+        shell: bash
+        run: |
+          set -uo pipefail
+          python - <<'PY'
+          import hashlib,json,pathlib,os
+          root=pathlib.Path('live/provider')
+          out={'schema':'trackcade-openai-sol-v1-generation-status','harnessSourceCommit':os.environ.get('GITHUB_SHA'),'requestedModel':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':4096,'store':False,'semanticRetryCount':0,'fixtures':{}}
+          for fixture in ('alldat','cvb-gemf'):
+              d=root/fixture
+              def text(name):
+                  p=d/name; return p.read_text().strip() if p.exists() else None
+              def sh(name):
+                  p=d/name; return hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None
+              out['fixtures'][fixture]={
+                  'adapterReturnCode':text('adapter-return-code.txt'),
+                  'ingestionReturnCode':text('ingestion-return-code.txt'),
+                  'ingestionStatus':text('ingestion-status.txt'),
+                  'rawResponsePresent':(d/'raw-response.json').exists(),
+                  'candidatePresent':(d/'proposal-candidate.json').exists(),
+                  'normalizedProposalPresent':(d/'normalized-proposal.json').exists(),
+                  'openaiPayloadSha256':sh('openai-payload.json'),
+                  'rawResponseSha256':sh('raw-response.json'),
+                  'candidateSha256':sh('proposal-candidate.json'),
+                  'normalizedProposalSha256':sh('normalized-proposal.json'),
+                  'adapterReportSha256':sh('adapter-report.json'),
+                  'providerRunManifestSha256':sh('provider-run-manifest.json'),
+              }
+          vals=list(out['fixtures'].values())
+          if all(v['normalizedProposalPresent'] for v in vals): out['classification']='both_valid_provider_proposals_frozen'
+          elif any(v['rawResponsePresent'] or v['candidatePresent'] for v in vals): out['classification']='partial_or_format_semantic_outcome_frozen_no_retry'
+          else: out['classification']='infrastructure_no_provider_response_observed'
+          pathlib.Path('live/generation-status.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+          find live -type f -print0 | sort -z | xargs -0 sha256sum > live-generation-sha256.txt
+
+      - name: Upload immutable Sol generation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-openai-sol-v1-generation
+          path: |
+            live/**
+            live-generation-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Fail only when no Sol provider response was observed
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          d=json.load(open('live/generation-status.json'))
+          if d['classification']=='infrastructure_no_provider_response_observed':
+              raise SystemExit('infrastructure inconclusive: no Sol provider response observed')
+          print('Sol generation reached a frozen semantic outcome; no semantic retry authorized.')
+          PY
+
+  postprocess:
+    needs: generate
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout frozen Sol experiment source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Verify frozen upstream identities
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -m py_compile research/structure-v1/compile_semantic_events_v1.py research/semantic-quality-v1/evaluate_semantic_quality_v1.py
+          test "$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36281298997/artifacts --jq '.artifacts[] | select(.id == 10919375182) | [.id,.digest] | @tsv')" = $'10919375182\tsha256:3d4364ab01ee51b4b244f0033aeb5ca598393164e805c6149d4f25c37d9805fc'
+          test "$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36281637484/artifacts --jq '.artifacts[] | select(.id == 10918568524) | [.id,.digest] | @tsv')" = $'10918568524\tsha256:10a67643cf985652c2a5974f59f0b95183ee0f2921253e525b8945eceae63c87'
+          test "$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36342720212/artifacts --jq '.artifacts[] | select(.id == 10939642086) | [.id,.digest] | @tsv')" = $'10939642086\tsha256:5d08033b38f0bc479da225b8a4c7aff9ac630131a53ab69a10c476634029ce7a'
+          test "$(gh api repos/${GITHUB_REPOSITORY}/actions/artifacts/10941901727 --jq '[.id,.digest] | @tsv')" = $'10941901727\tsha256:66c92e45d2e6a7d0f05a82baaa9a534fc76bfb55f274a3928ac9a7fe4bfbb909'
+
+      - name: Download Sol generation evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-openai-sol-v1-generation
+          path: generation
+
+      - name: Download frozen Structure Evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-evidence-export
+          path: evidence
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281298997
+          github-token: ${{ github.token }}
+
+      - name: Download frozen safe manifests
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: safe
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281637484
+          github-token: ${{ github.token }}
+
+      - name: Download frozen semantic-quality baseline
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-semantic-quality-v1-baseline
+          path: baseline
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36342720212
+          github-token: ${{ github.token }}
+
+      - name: Verify Sol generation status and baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum baseline/semantic-quality/a.json | awk '{print $1}')" = '264f18ebbff76adae1614958476a50f5b49e7339c0b69bfbd3c7635129cec890'
+          python - <<'PY'
+          import json,os
+          d=json.load(open('generation/live/generation-status.json'))
+          assert d['harnessSourceCommit']==os.environ['GITHUB_SHA']
+          assert d['requestedModel']=='gpt-6-sol'
+          assert d['reasoningEffort']=='high'
+          assert d['maxOutputTokens']==4096
+          assert d['semanticRetryCount']==0
+          PY
+
+      - name: Compile every valid Sol proposal with frozen compiler
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p live-post/compiled live-post/reports
+          for fixture in alldat cvb-gemf; do
+            proposal="generation/live/provider/$fixture/normalized-proposal.json"
+            if [ ! -f "$proposal" ]; then continue; fi
+            python research/structure-v1/compile_semantic_events_v1.py \
+              --safe-manifest "safe/${fixture}-auto-safe-v1.json" \
+              --evidence "evidence/${fixture}-structure-evidence-v1.json" \
+              --proposal "$proposal" \
+              --output "live-post/compiled/$fixture.json" \
+              --report "live-post/reports/$fixture.json"
+          done
+
+      - name: Audit deterministic timing authority
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import copy,json,pathlib
+          for fixture in ('alldat','cvb-gemf'):
+              rp=pathlib.Path(f'live-post/reports/{fixture}.json')
+              if not rp.exists(): continue
+              safe=json.load(open(f'safe/{fixture}-auto-safe-v1.json'))
+              evidence=json.load(open(f'evidence/{fixture}-structure-evidence-v1.json'))
+              out=json.load(open(f'live-post/compiled/{fixture}.json'))
+              report=json.load(open(rp))
+              assert report['fallbackSafeBaselinePreserved'] is True
+              assert [e for e in out['events'] if e.get('kind')=='beat']==[e for e in safe['events'] if e.get('kind')=='beat']
+              for key in ('bpm','beatOffset','songLength','artist','title','audioUrl','energyCurve'): assert out[key]==safe[key],(fixture,key)
+              protected_safe={k:copy.deepcopy(v) for k,v in safe.items() if k!='events'}
+              protected_out={k:copy.deepcopy(v) for k,v in out.items() if k not in ('events','interpretation')}
+              assert protected_out==protected_safe,fixture
+              for accepted in report['accepted']:
+                  a=accepted['anchor']; rows=evidence['boundaries'] if a['type']=='boundary' else evidence['landmarks']
+                  assert float(accepted['compiledTime'])==float(rows[a['index']]['time'])
+          print('Sol semantics did not acquire timing authority')
+          PY
+
+      - name: Run frozen semantic-quality benchmark
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f live-post/reports/alldat.json ] && [ -f live-post/reports/cvb-gemf.json ]; then
+            python research/semantic-quality-v1/evaluate_semantic_quality_v1.py \
+              --case "alldat::alldat-trackcade.json::generation/live/provider/alldat/normalized-proposal.json::live-post/reports/alldat.json" \
+              --case "cvb-gemf::cvb-gemf-trackcade.json::generation/live/provider/cvb-gemf/normalized-proposal.json::live-post/reports/cvb-gemf.json" \
+              --output "$PWD/live-post/semantic-quality.json"
+          fi
+
+      - name: Build frozen Sol vs baseline vs Astra comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,pathlib,hashlib,os
+          gen=json.load(open('generation/live/generation-status.json'))
+          astra={
+            '1.0':{'proposal_intent':{'exactKind':0.07692307692307693,'landmarkOnly':0.15384615384615385},'accepted_compiled':{'exactKind':0.0975609756097561,'landmarkOnly':0.1951219512195122}},
+            '2.0':{'proposal_intent':{'exactKind':0.11538461538461538,'landmarkOnly':0.23076923076923075},'accepted_compiled':{'exactKind':0.14634146341463414,'landmarkOnly':0.2926829268292683}},
+            '4.0':{'proposal_intent':{'exactKind':0.19230769230769232,'landmarkOnly':0.4230769230769231},'accepted_compiled':{'exactKind':0.1951219512195122,'landmarkOnly':0.3902439024390244}},
+          }
+          out={'schema':'trackcade-openai-sol-v1-result','harnessSourceCommit':os.environ['GITHUB_SHA'],'generationClassification':gen['classification'],'requestedModel':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':4096,'semanticRetryCount':0,'analyzerRunnerSha256':'9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432','claimBoundary':'same two visible product fixtures; descriptive model comparison only, not an independent holdout','fixtures':gen['fixtures'],'benchmarkAvailable':pathlib.Path('live-post/semantic-quality.json').exists()}
+          usage={}
+          totals={'input_tokens':0,'output_tokens':0,'reasoning_tokens':0,'cache_write_tokens':0,'cached_tokens':0}
+          for fixture in ('alldat','cvb-gemf'):
+              p=pathlib.Path(f'generation/live/provider/{fixture}/parameters.json')
+              if not p.exists(): continue
+              u=json.load(open(p)).get('usage') or {}
+              usage[fixture]=u
+              totals['input_tokens']+=int(u.get('input_tokens') or 0)
+              totals['output_tokens']+=int(u.get('output_tokens') or 0)
+              totals['reasoning_tokens']+=int((u.get('output_tokens_details') or {}).get('reasoning_tokens') or 0)
+              totals['cache_write_tokens']+=int((u.get('input_tokens_details') or {}).get('cache_write_tokens') or 0)
+              totals['cached_tokens']+=int((u.get('input_tokens_details') or {}).get('cached_tokens') or 0)
+          out['usage']={'fixtures':usage,'totals':totals,'astraObservedTotals':{'input_tokens':16862,'output_tokens':3577}}
+          if out['benchmarkAvailable']:
+              base=json.load(open('baseline/semantic-quality/a.json')); sol=json.load(open('live-post/semantic-quality.json')); comp={}
+              for wk in ('1.0','2.0','4.0'):
+                  comp[wk]={}
+                  for view in ('proposal_intent','accepted_compiled'):
+                      comp[wk][view]={}
+                      for mode in ('exactKind','landmarkOnly'):
+                          b=base['aggregate'][wk][view][mode]['micro']['f1']; s=sol['aggregate'][wk][view][mode]['micro']['f1']; a=astra[wk][view][mode]
+                          comp[wk][view][mode]={'baselineF1':b,'astraF1':a,'solF1':s,'solVsBaseline':None if b is None or s is None else s-b,'solVsAstra':None if a is None or s is None else s-a}
+              out['comparison']=comp
+              out['solSemanticQualitySha256']=hashlib.sha256(pathlib.Path('live-post/semantic-quality.json').read_bytes()).hexdigest()
+          pathlib.Path('live-post/result.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+          find live-post -type f -print0 | sort -z | xargs -0 sha256sum > live-post-sha256.txt
+
+      - name: Upload complete Sol comparison evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-openai-sol-v1-result
+          path: |
+            generation/**
+            live-post/**
+            live-post-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
