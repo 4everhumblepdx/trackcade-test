@@ -1,0 +1,53 @@
+{
+  "schema": "trackcade-semantic-internal-holdout-compiler-inputs-v1",
+  "status": "frozen-before-sol-semantic-generation",
+  "bundle": {
+    "archiveName": "compiler-inputs-v1.tgz",
+    "archiveSizeBytes": 49885,
+    "archiveSha256": "d89d23ebde2f47e46113c834f60ec18308fef1834ed6e81e2bbacdae8048832a"
+  },
+  "cases": [
+    {
+      "id": "i-feel-music-instrumental-1",
+      "evidenceSha256": "5eaf3fa6aadead43bc9ac1cd6f9f929e8e1e978aa114a1b57f93a0a1854807cd",
+      "safeManifestSha256": "18fb14e9dd70c68cc06b673b8211d7e8c1dfd4ec9a520c7808bf6f6b3ff3e13f",
+      "timingTier": "strict"
+    },
+    {
+      "id": "luda-20bars",
+      "evidenceSha256": "501aa8f92ffa69c9d5dd6065bd0dff3eeef54320ba9a7ae7fc2618f90f224b90",
+      "safeManifestSha256": "332da2c2243b5a830053c8bbd04e54079af9e01b3901697f95b97523300b0f6b",
+      "timingTier": "loose"
+    },
+    {
+      "id": "m-and-ms-melts-in-your-mind-v1bl-so-11102013",
+      "evidenceSha256": "56a114fed793e86510692fec555ea9169040ea84fbf3bfd49a277832bd7a9610",
+      "safeManifestSha256": "77d15b34483f597af79a08445cdebda83df1d2a1f926ab129d5880336d497dba",
+      "timingTier": "standard"
+    },
+    {
+      "id": "muddywatersrough",
+      "evidenceSha256": "c0791943246ea10067d451f667917bdd1c7951b844972f75a93aa04c28bfe02e",
+      "safeManifestSha256": "b375b5e73dc18543222b243273c5a57efaf9d62167fa39a1f2fd4dfbc3e90c5e",
+      "timingTier": "loose"
+    },
+    {
+      "id": "retro-9-samp",
+      "evidenceSha256": "cd3b9be6764184fb9fcb3b094f2e969b288e68f4003d52e18dafc64cb58a8e93",
+      "safeManifestSha256": "129f3d92e6e31f8a7b905337740f2316b6f1cbd87bbe0cfe17f6b6832b44a988",
+      "timingTier": "standard"
+    },
+    {
+      "id": "retro-not-2",
+      "evidenceSha256": "25e269c5bd7432964ace9f0e53ffb45bba31a4b47a7eaa97f1a77ba0a5e908ee",
+      "safeManifestSha256": "63aa394d07d9724ff33c49d90e811b6d3e9f8452d6c6dcb3cb44cfefc28f966a",
+      "timingTier": "standard"
+    },
+    {
+      "id": "vlado",
+      "evidenceSha256": "49a818d46128b47273df8b6109745d14a7064857a7107a6881ae6f8e43a0fe1a",
+      "safeManifestSha256": "28fc5283005b5bc8de0b82747c29a7c809deefba47916daf1b256102471b576e",
+      "timingTier": "standard"
+    }
+  ]
+}
