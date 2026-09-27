@@ -1,0 +1,64 @@
+{
+  "schema": "trackcade-semantic-internal-holdout-packets-v1",
+  "status": "frozen-before-sol-semantic-generation",
+  "protocolCommit": "30c985442bd42d9bc126ca8828811f796df4043c",
+  "bundle": {
+    "archiveName": "packets-v1.tgz",
+    "archiveSha256": "6484057569732e6064203efeb92cc1909516ff8387a5f86e2f66ab255210a848",
+    "base64File": "packets-v1.tgz.b64",
+    "base64Sha256": "5a001b643b59c6ca3bbe559e3e2c4e2801db17cc51d54079978faa6675c63892",
+    "archiveSizeBytes": 26841,
+    "packetCount": 7
+  },
+  "packets": [
+    {
+      "id": "i-feel-music-instrumental-1",
+      "packetSha256": "9c640f2cc2a74e01dbbd6f7201f4248ecdeced146a61be1c8f9e33fa03682599",
+      "evidenceSha256": "5eaf3fa6aadead43bc9ac1cd6f9f929e8e1e978aa114a1b57f93a0a1854807cd",
+      "analysisJsonSha256": "99398eb027583339a8c288e63712991b475f5c7b27f8045aa44daa24667fd39d",
+      "sourceAudioSha256": "890dbe77dd952d36cc55e491e3836b276e149264f62701de814f93845152d96d"
+    },
+    {
+      "id": "luda-20bars",
+      "packetSha256": "957c4e18254c2eb545f1c23f981bb223ac7fdbbb8d4352fc2b9f257097872654",
+      "evidenceSha256": "501aa8f92ffa69c9d5dd6065bd0dff3eeef54320ba9a7ae7fc2618f90f224b90",
+      "analysisJsonSha256": "250a53547cfe6ea7f2859320afaf1c07b4fbcee3791f2de14fb8df3b23baf34c",
+      "sourceAudioSha256": "9a9f7133009adbbca631352675293bd4468f89eb1abcc24414001e18507a26de"
+    },
+    {
+      "id": "m-and-ms-melts-in-your-mind-v1bl-so-11102013",
+      "packetSha256": "1c28b872b89cd57c4d76dd439ea0f57b444a459a874bceb26f57b229d6bc2e4f",
+      "evidenceSha256": "56a114fed793e86510692fec555ea9169040ea84fbf3bfd49a277832bd7a9610",
+      "analysisJsonSha256": "95d9923f9bf2afc6ad757c8d31d4e8ce184cfa315bf61f2293c772dd31e857b0",
+      "sourceAudioSha256": "fd7b553138b14773f5f0c6477e401eadd0a3e4ecb686b5e985b3f4a6592d01b3"
+    },
+    {
+      "id": "muddywatersrough",
+      "packetSha256": "b25aceb5b0939e866d34aae1457e3681601a107b33f7061b19631cccf66590c7",
+      "evidenceSha256": "c0791943246ea10067d451f667917bdd1c7951b844972f75a93aa04c28bfe02e",
+      "analysisJsonSha256": "959bbab3b6a7ab5108f09b43908befd6610b17db9b9c306589eeb14b76568669",
+      "sourceAudioSha256": "8846281e7341358198e8daada77b464d3514d022e00502146edc6803f4014fac"
+    },
+    {
+      "id": "retro-9-samp",
+      "packetSha256": "82d9f1c65d459532fc717462cd6876dc7595c52bdc5ab7c04bb737044985d91e",
+      "evidenceSha256": "cd3b9be6764184fb9fcb3b094f2e969b288e68f4003d52e18dafc64cb58a8e93",
+      "analysisJsonSha256": "8577fadb0920902d932c808a7461ffb4c38ea7ab35c075f2f388fa1d6743be87",
+      "sourceAudioSha256": "1e473e6a6149adb7611138201360ae22d2e19f762e3b212e68ece50b4c665c33"
+    },
+    {
+      "id": "retro-not-2",
+      "packetSha256": "545f58738db4a092a7646cee975423d67ac1ab5b66262472b07d507f2ccbd4bb",
+      "evidenceSha256": "25e269c5bd7432964ace9f0e53ffb45bba31a4b47a7eaa97f1a77ba0a5e908ee",
+      "analysisJsonSha256": "aa0424858cb79561bb84765803a6707c639a71795f133ffe7368a9df864270a1",
+      "sourceAudioSha256": "1684bd605baa3233d8cf529cf6be5622615595d87d31991cc725fab61979b722"
+    },
+    {
+      "id": "vlado",
+      "packetSha256": "0fcc3c3538e575c5b88a6ba10df97eba0784349c113099af077851b333290c13",
+      "evidenceSha256": "49a818d46128b47273df8b6109745d14a7064857a7107a6881ae6f8e43a0fe1a",
+      "analysisJsonSha256": "47b4552a52bd37d11e6c94ef9e7ad9ae87ec6cf5d8a0293661a6568ea3ab2a6d",
+      "sourceAudioSha256": "8e13ce1fd5f120eb21ebae9b5915d2fc30b2cedde5604c80c6aa2228198a2bc6"
+    }
+  ]
+}
