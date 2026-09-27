@@ -1,0 +1,124 @@
+name: Trackcade v1 — Audio to Safe Game
+
+on:
+  push:
+    branches: [trackcade-musical-structure-v1]
+    paths:
+      - '.github/workflows/trackcade-audio-to-game-v1.yml'
+      - 'research/structure-v1/run_audio_to_trackcade_v1.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  end-to-end:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install ffmpeg
+        shell: bash
+        run: |
+          set -euo pipefail
+          if ! command -v ffmpeg >/dev/null 2>&1 || ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+
+      - name: Create minimal uploader metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p metadata output
+          cat > metadata/alldat-upload.json <<'JSON'
+          {
+            "artist": "Forever Humble PDX",
+            "title": "ALLDAT — Upload Pipeline",
+            "audioUrl": "https://raw.githubusercontent.com/4everhumblepdx/trackcade-test/main/ALLDAT_ruffmix.mp3"
+          }
+          JSON
+
+      - name: Run one-command audio to game pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/structure-v1/run_audio_to_trackcade_v1.py \
+            research/structure-v1/export_structure_evidence_v1.py \
+            research/structure-v1/generate_safe_manifest_v1.py \
+            research/structure-v1/compile_semantic_events_v1.py
+          python research/structure-v1/run_audio_to_trackcade_v1.py \
+            --audio ALLDAT_ruffmix.mp3 \
+            --track-metadata metadata/alldat-upload.json \
+            --output-dir output
+
+      - name: Verify exact v0.19 reproducibility and pipeline safety
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo 'a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405  output/analysis-v019.json' | sha256sum -c -
+          python - <<'PY'
+          import json
+          report=json.load(open('output/pipeline-report-v1.json'))
+          safe=json.load(open('output/trackcade-safe-v1.json'))
+          final=json.load(open('output/trackcade-final-v1.json'))
+          evidence=json.load(open('output/structure-evidence-v1.json'))
+          assert report['schema']=='trackcade-audio-to-game-pipeline-v1',report
+          assert report['analyzer']['runnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432',report
+          assert report['analyzer']['analysisJsonSha256']=='a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405',report
+          assert report['analyzer']['timingTier']=='loose',report
+          assert report['outputs']['finalMode']=='safe-baseline',report
+          assert report['counts']['beatEvents']==590,report
+          assert report['counts']['sectionEvents']==14,report
+          assert report['counts']['energySamples']==240,report
+          assert report['counts']['finalSemanticEvents']==0,report
+          assert report['hashes']['safeManifestSha256']==report['hashes']['finalManifestSha256'],report
+          assert report['safety']=={
+            'beatGridPreserved':True,
+            'energyCurvePreserved':True,
+            'visualOnlyGameplayGenerationAllowed':False,
+            'safeBaselineAvailable':True,
+          },report
+          assert safe==final
+          assert safe['generation']['analysisJsonSha256']==report['analyzer']['analysisJsonSha256']
+          assert evidence['source']['analysisJsonSha256']==report['analyzer']['analysisJsonSha256']
+          assert safe['artist']=='Forever Humble PDX'
+          assert safe['title']=='ALLDAT — Upload Pipeline'
+          assert set(e['kind'] for e in safe['events']) <= {'beat','section'}
+          for key in ('palette','art','baseSpeed','maxSpeed','spawnRowEveryBeats','jumpTime'):
+            assert key not in safe,key
+          PY
+
+      - name: Validate final generated game with real Trackcade loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { validateManifest } from './src/track/loader.js';
+          import { FALLBACK_TRACK } from './src/track.config.js';
+          const raw=JSON.parse(fs.readFileSync('output/trackcade-final-v1.json','utf8'));
+          const cfg=validateManifest(raw);
+          if (cfg.events.filter(e=>e.kind==='beat').length !== 590) throw new Error('generated authored beat grid count mismatch');
+          if (cfg.energyCurve.length !== 240) throw new Error('generated energy curve count mismatch');
+          if (cfg.baseSpeed !== FALLBACK_TRACK.baseSpeed) throw new Error('fallback baseSpeed not applied');
+          if (cfg.spawnRowEveryBeats !== FALLBACK_TRACK.spawnRowEveryBeats) throw new Error('fallback spawnRowEveryBeats not applied');
+          if (cfg.jumpTime !== FALLBACK_TRACK.jumpTime) throw new Error('fallback jumpTime not applied');
+          console.log({artist:cfg.artist,title:cfg.title,bpm:cfg.bpm,events:cfg.events.length,energySamples:cfg.energyCurve.length,baseSpeed:cfg.baseSpeed});
+          JS
+          sha256sum output/*.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-audio-to-game-v1-alldat
+          path: |
+            output/analysis-v019.json
+            output/analyzer-build-manifest.json
+            output/structure-evidence-v1.json
+            output/trackcade-safe-v1.json
+            output/trackcade-final-v1.json
+            output/pipeline-report-v1.json
+          if-no-files-found: error
+          retention-days: 30
