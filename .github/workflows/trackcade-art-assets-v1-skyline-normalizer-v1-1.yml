@@ -1,0 +1,108 @@
+name: Trackcade Art Assets v1 — Skyline Normalizer v1.1
+
+on:
+  push:
+    branches: [trackcade-art-assets-v1]
+    paths:
+      - '.github/workflows/trackcade-art-assets-v1-skyline-normalizer-v1-1.yml'
+      - 'research/art-assets-v1/SKYLINE_NORMALIZATION_V1_1_SPEC.md'
+      - 'research/art-assets-v1/normalize_skyline_v1_1.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build deterministic variable-size RGB/RGBA fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p fixture out/a out/b evidence
+          python - <<'PY'
+          import binascii,struct,zlib
+          def write(path,w,h,color_type):
+              sig=b'\x89PNG\r\n\x1a\n'
+              def chunk(t,d): return struct.pack('>I',len(d))+t+d+struct.pack('>I',binascii.crc32(t+d)&0xffffffff)
+              raw=bytearray()
+              for y in range(h):
+                  raw.append(0)
+                  for x in range(w):
+                      r=(x//7+y//13)%256; g=(x//17+37)%256; b=(y//9+71)%256
+                      if color_type==6:
+                          a=0 if (y<80 and (x<180 or x>w-181)) else ((x+y)%256 if y<260 else 255)
+                          raw.extend((r,g,b,a))
+                      else: raw.extend((r,g,b))
+              ihdr=struct.pack('>IIBBBBB',w,h,8,color_type,0,0,0)
+              open(path,'wb').write(sig+chunk(b'IHDR',ihdr)+chunk(b'IDAT',zlib.compress(bytes(raw),9))+chunk(b'IEND',b''))
+          write('fixture/wide-rgba.png',2076,758,6)
+          write('fixture/wide-rgb.png',1947,808,2)
+          PY
+
+      - name: Normalize both fixtures twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            node research/art-assets-v1/normalize_skyline_v1_1.mjs \
+              --input fixture/wide-rgba.png --output out/$pass/alldat.png --report out/$pass/alldat-report.json \
+              --sky-top '#08061a' --sky-bottom '#24134a' --label ALLDAT
+            node research/art-assets-v1/normalize_skyline_v1_1.mjs \
+              --input fixture/wide-rgb.png --output out/$pass/cvb-gemf.png --report out/$pass/cvb-gemf-report.json \
+              --sky-top '#070a1e' --sky-bottom '#1b1440' --label CVB-GEMF
+          done
+          cmp out/a/alldat.png out/b/alldat.png
+          cmp out/a/cvb-gemf.png out/b/cvb-gemf.png
+          cmp out/a/alldat-report.json out/b/alldat-report.json
+          cmp out/a/cvb-gemf-report.json out/b/cvb-gemf-report.json
+
+      - name: Validate exact v1.1 crop math and final gates
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          cases=[
+            ('out/a/alldat-report.json',(2076,758),3,{'x':462,'y':19,'width':1152,'height':720}),
+            ('out/a/cvb-gemf-report.json',(1947,808),3,{'x':397,'y':44,'width':1152,'height':720}),
+          ]
+          for p,src,k,crop in cases:
+              x=json.load(open(p))
+              assert x['schema']=='trackcade-skyline-normalization-v1.1'
+              assert x['specCommit']=='14ec1c1ef541145dd4895c031291c2b6646add78'
+              assert (x['input']['width'],x['input']['height'])==src
+              assert x['integerScale']==k
+              assert x['crop']==crop
+              o=x['output']
+              assert o['width']==384 and o['height']==240 and o['bitDepth']==8 and o['colorType']==6 and o['interlace']==0
+              assert o['alphaGt0Coverage']==1 and o['alphaGe128Coverage']==1 and o['fullyTransparentPixels']==0
+              assert o['fullyOpaquePixels']==384*240 and o['fullImageBbox'] is True and o['distinctOpaqueishRgbColors']>=2
+              print(p,x['integerScale'],x['crop'],o['sha256'])
+          PY
+
+      - name: Freeze proof hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum fixture/*.png out/a/*.png out/a/*-report.json > evidence/output-sha256.txt
+          sha256sum research/art-assets-v1/SKYLINE_NORMALIZATION_V1_1_SPEC.md research/art-assets-v1/normalize_skyline_v1_1.mjs > evidence/source-sha256.txt
+          cat evidence/output-sha256.txt
+          cat evidence/source-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-art-assets-v1-skyline-normalizer-v1-1-proof
+          path: |
+            fixture/*.png
+            out/a/*.png
+            out/a/*-report.json
+            evidence/*.txt
+            research/art-assets-v1/SKYLINE_NORMALIZATION_V1_1_SPEC.md
+            research/art-assets-v1/normalize_skyline_v1_1.mjs
+          if-no-files-found: error
+          retention-days: 30
