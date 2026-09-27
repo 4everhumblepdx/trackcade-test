@@ -1,0 +1,188 @@
+name: Trackcade Musical Interpretation v1 — Gameplay Safety v1.1
+
+on:
+  push:
+    branches: [trackcade-musical-interpretation-v1]
+    paths:
+      - '.github/workflows/trackcade-musical-interpretation-gameplay-v1-1.yml'
+      - 'research/interpretation-v1/CROSS_LAYER_GAMEPLAY_V1_1_SPEC.md'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  loader-default-gameplay-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact closed Structure Evidence artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-evidence-export
+          path: evidence
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281298997
+          github-token: ${{ github.token }}
+
+      - name: Download exact closed Structure safe-manifest artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: safe
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281637484
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen source binding and materialize CVB minimal product path
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile research/structure-v1/compile_semantic_events_v1.py
+          node --check research/gameplay-v1/generate_difficulty_variants_v1.mjs
+          node --check research/gameplay-v1/preflight_gameplay_v1.mjs
+          python - <<'PY'
+          import hashlib,json
+          RUNNER='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          cases=[
+            ('safe/alldat-minimal-auto-safe-v1.json','evidence/alldat-structure-evidence-v1.json','a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405','bc6e7d289a71dc25447b6771c58fccba05d3adfa9fb4012b21595fa999658cee'),
+            ('safe/cvb-gemf-auto-safe-v1.json','evidence/cvb-gemf-structure-evidence-v1.json','35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c','d7bf1e2c904d70dad898c69e6c43d66f3dd97532c021db4d878a8f5cb0c9f284'),
+          ]
+          for safe_path,evidence_path,analysis_sha,evidence_sha in cases:
+              s=json.load(open(safe_path));e=json.load(open(evidence_path))
+              assert s['generation']['analyzerRunnerSha256']==RUNNER,s['generation']
+              assert e['source']['analyzerRunnerSha256']==RUNNER,e['source']
+              assert s['generation']['analysisJsonSha256']==analysis_sha,s['generation']
+              assert e['source']['analysisJsonSha256']==analysis_sha,e['source']
+              got=hashlib.sha256(open(evidence_path,'rb').read()).hexdigest()
+              assert got==evidence_sha,(evidence_path,got,evidence_sha)
+          PY
+          mkdir -p fixtures
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const source=JSON.parse(fs.readFileSync('safe/cvb-gemf-auto-safe-v1.json','utf8'));
+          const keep=['artist','title','audioUrl','bpm','beatOffset','songLength','events','energyCurve','generation'];
+          const minimal=Object.fromEntries(keep.map(k=>[k,source[k]]));
+          fs.writeFileSync('fixtures/cvb-gemf-minimal.json',JSON.stringify(minimal,null,2)+'\n');
+          const forbidden=['palette','art','baseSpeed','maxSpeed','speedRampPerSec','spawnRowEveryBeats','laneSwitchTime','jumpTime','jumpHeight'];
+          for (const key of forbidden) {
+            if (Object.hasOwn(minimal,key)) throw new Error(`CVB minimal retained forbidden optional field ${key}`);
+          }
+          JS
+
+      - name: Compile unchanged semantic proposals onto loader-default manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p interpreted reports
+          python research/structure-v1/compile_semantic_events_v1.py \
+            --safe-manifest safe/alldat-minimal-auto-safe-v1.json \
+            --evidence evidence/alldat-structure-evidence-v1.json \
+            --proposal research/interpretation-v1/proposals/alldat-evidence-only-v1.json \
+            --output interpreted/alldat.json \
+            --report reports/alldat.json
+          python research/structure-v1/compile_semantic_events_v1.py \
+            --safe-manifest fixtures/cvb-gemf-minimal.json \
+            --evidence evidence/cvb-gemf-structure-evidence-v1.json \
+            --proposal research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json \
+            --output interpreted/cvb-gemf.json \
+            --report reports/cvb-gemf.json
+          python - <<'PY'
+          import json
+          expected={'alldat':(6,5,1),'cvb-gemf':(9,9,0)}
+          for fixture,(proposed,accepted,rejected) in expected.items():
+              r=json.load(open(f'reports/{fixture}.json'))
+              assert (r['proposalEventCount'],r['acceptedEventCount'],r['rejectedEventCount'])==(proposed,accepted,rejected),r
+              assert r['fallbackSafeBaselinePreserved'] is True
+              for item in r['accepted']:
+                  assert item['anchor']['type'] in ('boundary','landmark')
+                  assert item['action'] in ('named_existing_section','appended_event')
+          PY
+
+      - name: Run fixed Gameplay v1 difficulty generation twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p gameplay/a gameplay/b
+          for fixture in alldat cvb-gemf; do
+            for pass in a b; do
+              node research/gameplay-v1/generate_difficulty_variants_v1.mjs \
+                --manifest "$PWD/interpreted/${fixture}.json" \
+                --output "$PWD/gameplay/${pass}/${fixture}" \
+                --label "interpretation-v1.1::${fixture}"
+            done
+            diff -ru "gameplay/a/${fixture}" "gameplay/b/${fixture}"
+          done
+
+      - name: Validate semantic preservation and mandatory product baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          for fixture in ('alldat','cvb-gemf'):
+              source=json.load(open(f'interpreted/{fixture}.json'))
+              report=json.load(open(f'gameplay/a/{fixture}/difficulty-variants-report.json'))
+              assert report['standardPassed'] is True,report
+              assert 'standard' in report['publishedModes'],report
+              for mode in report['modes']:
+                  candidate=json.load(open(f"gameplay/a/{fixture}/candidates/{mode['id']}.json"))
+                  assert candidate['events']==source['events'],(fixture,mode['id'],'events')
+                  assert candidate['energyCurve']==source['energyCurve'],(fixture,mode['id'],'energyCurve')
+                  assert candidate.get('interpretation')==source.get('interpretation'),(fixture,mode['id'],'interpretation')
+                  for key in ('bpm','beatOffset','songLength','artist','title','audioUrl'):
+                      assert candidate.get(key)==source.get(key),(fixture,mode['id'],key)
+              print(fixture,{
+                  'standardPassed':report['standardPassed'],
+                  'publishedModes':report['publishedModes'],
+                  'modes':[(m['id'],m['qcStatus'],m['publishable'],m['qc']['obstaclePoolMax'],m['qc']['obstaclePoolCapacity'],m['qc']['bottleneckSlackSeconds']) for m in report['modes']],
+              })
+          PY
+
+      - name: Validate publishable modes with real Trackcade loader
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { validateManifest } from './src/track/loader.js';
+          for (const fixture of ['alldat','cvb-gemf']) {
+            const root=`gameplay/a/${fixture}/publishable`;
+            for (const name of fs.readdirSync(root).filter(x=>x.endsWith('.json')).sort()) {
+              const raw=JSON.parse(fs.readFileSync(path.join(root,name),'utf8'));
+              const cfg=validateManifest(raw);
+              const beats=cfg.events.filter(e=>e.kind==='beat').length;
+              const semantics=cfg.events.filter(e=>['drop','peak','energy'].includes(e.kind)).length;
+              if (beats<2) throw new Error(`${fixture}/${name}: beat grid missing`);
+              if (semantics<1) throw new Error(`${fixture}/${name}: semantic events missing`);
+              console.log(`${fixture}/${name}`,{events:cfg.events.length,beats,semantics});
+            }
+          }
+          JS
+
+      - name: Freeze v1.1 cross-layer evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/interpretation-v1/CROSS_LAYER_GAMEPLAY_V1_1_SPEC.md \
+            interpreted/*.json \
+            reports/*.json \
+            gameplay/a/*/difficulty-variants-report.json \
+            gameplay/a/*/qc/*.json \
+            gameplay/a/*/publishable/*.json | tee interpretation-gameplay-v1-1-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-gameplay-safety-v1-1
+          path: |
+            interpreted/*.json
+            reports/*.json
+            gameplay/a/**
+            interpretation-gameplay-v1-1-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
