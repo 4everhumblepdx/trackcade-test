@@ -8,6 +8,7 @@ import os
 import sys
 import urllib.error
 import urllib.request
+import uuid
 from pathlib import Path
 
 from build_learned_request_v1 import INSTRUCTION, PROPOSAL_SCHEMA, REQUEST_SCHEMA
@@ -37,32 +38,31 @@ def load_json_bytes_strict(data: bytes, label: str):
         raise SystemExit(f"{label} is not strict JSON: {exc}") from exc
 
 
-def verify_trackcade_request(path: Path):
-    request_bytes = path.read_bytes()
-    request = load_json_strict(path)
+def verify_trackcade_request(request_path: Path, packet_path: Path):
+    request_bytes = request_path.read_bytes()
+    request = load_json_strict(request_path)
     if request.get("schema") != REQUEST_SCHEMA:
         raise SystemExit("Trackcade request schema mismatch")
     if request.get("instruction") != INSTRUCTION:
         raise SystemExit("Trackcade request instruction mismatch")
 
-    packet = request.get("packet")
+    packet_bytes = packet_path.read_bytes()
+    packet = load_json_strict(packet_path)
     packet_errors = validate_packet(packet)
     if packet_errors:
         raise SystemExit("Trackcade packet invalid: " + "; ".join(packet_errors))
+    if request.get("packet") != packet:
+        raise SystemExit("Trackcade request packet does not equal supplied exact packet")
 
     integrity = request.get("integrity") or {}
-    packet_bytes = (json.dumps(packet, indent=2, sort_keys=True) + "\n").encode("utf-8")
-    # build_learned_request_v1 hashes the exact source packet bytes. The request also
-    # carries the packet object, so source identities are independently rechecked here.
+    if integrity.get("packetSha256") != sha256_bytes(packet_bytes):
+        raise SystemExit("Trackcade request packet hash does not match supplied exact packet bytes")
     if integrity.get("analyzerRunnerSha256") != packet["source"]["analyzerRunnerSha256"]:
         raise SystemExit("Trackcade request Analyzer identity mismatch")
     if integrity.get("analysisJsonSha256") != packet["source"]["analysisJsonSha256"]:
         raise SystemExit("Trackcade request analysis identity mismatch")
     if integrity.get("instructionSha256") != sha256_bytes(INSTRUCTION.encode("utf-8")):
         raise SystemExit("Trackcade request instruction hash mismatch")
-    packet_sha = integrity.get("packetSha256")
-    if not isinstance(packet_sha, str) or len(packet_sha) != 64:
-        raise SystemExit("Trackcade request packet hash missing/invalid")
 
     return request_bytes, request, packet, packet_bytes
 
@@ -81,8 +81,10 @@ def proposal_json_schema(request: dict) -> dict:
     if max_events != 64:
         raise SystemExit("response contract maxEvents mismatch")
 
-    packet = request["packet"]
-    source = packet["source"]
+    source = request["packet"]["source"]
+    # This is deliberately a strict subset of the provider-neutral proposal schema.
+    # Every event gets a name and rationale; optional drop duration is omitted so the
+    # provider output can pass through byte-for-byte without null stripping/repair.
     return {
         "type": "object",
         "additionalProperties": False,
@@ -110,7 +112,7 @@ def proposal_json_schema(request: dict) -> dict:
                 "items": {
                     "type": "object",
                     "additionalProperties": False,
-                    "required": ["kind", "semanticConfidence", "anchor", "name", "duration", "rationale"],
+                    "required": ["kind", "semanticConfidence", "anchor", "name", "rationale"],
                     "properties": {
                         "kind": {"type": "string", "enum": allowed_kinds},
                         "semanticConfidence": {"type": "number", "minimum": 0, "maximum": 1},
@@ -123,9 +125,8 @@ def proposal_json_schema(request: dict) -> dict:
                                 "index": {"type": "integer", "minimum": 0},
                             },
                         },
-                        "name": {"type": ["string", "null"]},
-                        "duration": {"type": ["number", "null"]},
-                        "rationale": {"type": ["string", "null"]},
+                        "name": {"type": "string", "minLength": 1, "maxLength": 80},
+                        "rationale": {"type": "string", "minLength": 1, "maxLength": 500},
                     },
                 },
             },
@@ -147,7 +148,7 @@ def build_api_payload(request: dict, model: str, reasoning_effort: str, max_outp
         "responseContract": request["responseContract"],
         "integrity": request["integrity"],
     }
-    payload = {
+    return {
         "model": model,
         "store": False,
         "instructions": request["instruction"],
@@ -163,7 +164,6 @@ def build_api_payload(request: dict, model: str, reasoning_effort: str, max_outp
             }
         },
     }
-    return payload
 
 
 def extract_candidate(raw_response_bytes: bytes):
@@ -203,8 +203,7 @@ def extract_candidate(raw_response_bytes: bytes):
     if len(texts) != 1:
         raise SystemExit(f"expected exactly one OpenAI output_text candidate, got {len(texts)}")
 
-    candidate_text = texts[0]
-    candidate_bytes = candidate_text.encode("utf-8")
+    candidate_bytes = texts[0].encode("utf-8")
     candidate = load_json_bytes_strict(candidate_bytes, "OpenAI proposal candidate")
     if not isinstance(candidate, dict):
         raise SystemExit("OpenAI proposal candidate must be one JSON object")
@@ -212,6 +211,7 @@ def extract_candidate(raw_response_bytes: bytes):
 
 
 def perform_request(payload_bytes: bytes, api_key: str, timeout_s: int):
+    client_request_id = str(uuid.uuid4())
     req = urllib.request.Request(
         ENDPOINT,
         data=payload_bytes,
@@ -220,6 +220,7 @@ def perform_request(payload_bytes: bytes, api_key: str, timeout_s: int):
             "Content-Type": "application/json",
             "Accept": "application/json",
             "User-Agent": "trackcade-learned-interpretation-v1",
+            "X-Client-Request-Id": client_request_id,
         },
         method="POST",
     )
@@ -230,19 +231,24 @@ def perform_request(payload_bytes: bytes, api_key: str, timeout_s: int):
             status = resp.status
     except urllib.error.HTTPError as exc:
         body = exc.read()
-        sys.stderr.write(f"OpenAI HTTP error {exc.code}; response sha256={sha256_bytes(body)}\n")
+        sys.stderr.write(
+            f"OpenAI HTTP error {exc.code}; client_request_id={client_request_id}; "
+            f"response_sha256={sha256_bytes(body)}\n"
+        )
         raise SystemExit(3) from exc
     except urllib.error.URLError as exc:
-        raise SystemExit(f"OpenAI transport error: {exc.reason}") from exc
+        raise SystemExit(f"OpenAI transport error; client_request_id={client_request_id}: {exc.reason}") from exc
 
     if status != 200:
         raise SystemExit(f"unexpected OpenAI HTTP status {status}")
-    return raw, request_id
+    return raw, request_id, client_request_id
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--request", type=Path, required=True)
+    ap.add_argument("--packet", type=Path, required=True,
+                    help="Exact packet bytes used to build the Trackcade provider-neutral request")
     ap.add_argument("--model", required=True)
     ap.add_argument("--reasoning-effort", default="medium", choices=sorted(REASONING_EFFORTS))
     ap.add_argument("--max-output-tokens", type=int, default=4096)
@@ -256,7 +262,7 @@ def main():
     ap.add_argument("--prepare-only", action="store_true")
     args = ap.parse_args()
 
-    request_bytes, request, packet, _packet_bytes = verify_trackcade_request(args.request)
+    request_bytes, request, packet, packet_bytes = verify_trackcade_request(args.request, args.packet)
     payload = build_api_payload(request, args.model, args.reasoning_effort, args.max_output_tokens)
     payload_bytes = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
     args.payload_output.parent.mkdir(parents=True, exist_ok=True)
@@ -272,6 +278,7 @@ def main():
         "store": False,
         "integrity": {
             "trackcadeRequestSha256": sha256_bytes(request_bytes),
+            "packetSha256": sha256_bytes(packet_bytes),
             "apiPayloadSha256": sha256_bytes(payload_bytes),
             "analyzerRunnerSha256": packet["source"]["analyzerRunnerSha256"],
             "analysisJsonSha256": packet["source"]["analysisJsonSha256"],
@@ -293,6 +300,7 @@ def main():
     if args.response_fixture:
         raw_response_bytes = args.response_fixture.read_bytes()
         http_request_id = None
+        client_request_id = None
         execution_mode = "offline_fixture"
     else:
         api_key = os.environ.get("OPENAI_API_KEY")
@@ -300,10 +308,12 @@ def main():
             raise SystemExit("OPENAI_API_KEY is required for live OpenAI execution")
         if not 1 <= args.timeout_seconds <= 900:
             raise SystemExit("timeout-seconds outside adapter bounds")
-        raw_response_bytes, http_request_id = perform_request(payload_bytes, api_key, args.timeout_seconds)
+        raw_response_bytes, http_request_id, client_request_id = perform_request(
+            payload_bytes, api_key, args.timeout_seconds
+        )
         execution_mode = "live"
 
-    # Preserve the provider bytes even if extraction subsequently fails.
+    # Preserve provider bytes even if framing/extraction subsequently fails.
     args.raw_response_output.parent.mkdir(parents=True, exist_ok=True)
     args.raw_response_output.write_bytes(raw_response_bytes)
 
@@ -318,6 +328,7 @@ def main():
         "responseId": response["id"],
         "responseModel": response["model"],
         "httpRequestId": http_request_id,
+        "clientRequestId": client_request_id,
     })
     report["integrity"] = dict(base_report["integrity"])
     report["integrity"].update({
