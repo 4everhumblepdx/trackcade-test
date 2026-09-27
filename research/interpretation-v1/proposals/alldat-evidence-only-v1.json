@@ -1,0 +1,48 @@
+{
+  "schema": "trackcade-musical-interpretation-v1",
+  "source": {
+    "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "analysisJsonSha256": "a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405"
+  },
+  "events": [
+    {
+      "kind": "section",
+      "semanticConfidence": 0.88,
+      "name": "full-entry",
+      "anchor": {"type": "boundary", "index": 0},
+      "rationale": "High-confidence first structural boundary with a large positive section-energy change."
+    },
+    {
+      "kind": "drop",
+      "semanticConfidence": 0.94,
+      "duration": 12,
+      "anchor": {"type": "landmark", "index": 0},
+      "rationale": "Large positive local energy rise and net change at a strong deterministic landmark."
+    },
+    {
+      "kind": "peak",
+      "semanticConfidence": 0.93,
+      "anchor": {"type": "landmark", "index": 4},
+      "rationale": "Very high landmark intensity with sustained high local energy."
+    },
+    {
+      "kind": "drop",
+      "semanticConfidence": 0.95,
+      "duration": 12,
+      "anchor": {"type": "landmark", "index": 12},
+      "rationale": "Strong long-context rise into a high-energy landmark after a structural transition."
+    },
+    {
+      "kind": "energy",
+      "semanticConfidence": 0.88,
+      "anchor": {"type": "landmark", "index": 19},
+      "rationale": "Large rise into an intense high-energy landmark supports a persistent gameplay energy lift."
+    },
+    {
+      "kind": "peak",
+      "semanticConfidence": 0.93,
+      "anchor": {"type": "landmark", "index": 22},
+      "rationale": "High-energy, high-intensity landmark late in the track and outside low-demand windows."
+    }
+  ]
+}
