@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import copy
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -16,14 +17,20 @@ def finite(x):
     return isinstance(x, (int, float)) and math.isfinite(float(x))
 
 
+def sha256_file(path: Path):
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
 def validate_analysis(x):
     for key in ("duration", "bpm", "beatOffset"):
         if not finite(x.get(key)):
             raise SystemExit(f"invalid v0.19 analysis: {key} missing/nonfinite")
     if float(x["duration"]) <= 0 or float(x["bpm"]) <= 0:
         raise SystemExit("invalid v0.19 analysis: duration/bpm nonpositive")
-    if not isinstance(x.get("sourceFingerprint"), str) or not x["sourceFingerprint"].strip():
-        raise SystemExit("invalid v0.19 analysis: sourceFingerprint missing/blank")
     if not isinstance(x.get("beatTimes"), list) or len(x["beatTimes"]) < 2:
         raise SystemExit("invalid v0.19 analysis: beatTimes missing/too short")
     if not isinstance(x.get("energyCurve"), list) or len(x["energyCurve"]) < 2:
@@ -64,9 +71,6 @@ def clean_energy_curve(x):
     rows.sort()
     if len(rows) < 2:
         raise SystemExit("invalid v0.19 analysis: insufficient energyCurve samples")
-    # Trackcade's current manifest format stores uniformly indexed samples.
-    # v0.19 already emits a fixed-size evenly sampled curve; preserve the
-    # values and retain exact sample times in generation provenance.
     return rows, [round(e, 6) for _, e in rows]
 
 
@@ -84,14 +88,14 @@ def generic_section_events(x):
         if key in seen:
             continue
         seen.add(key)
-        # Deliberately omit v0.19's semantic section label. This is a generic
-        # visual world-change cue only; no musical meaning is asserted.
         events.append({"t": key, "kind": "section"})
     return events
 
 
-def build_manifest(template, analysis):
+def build_manifest(template, analysis, analysis_json_sha256):
     validate_analysis(analysis)
+    if not isinstance(analysis_json_sha256, str) or len(analysis_json_sha256) != 64:
+        raise SystemExit("invalid analysis JSON SHA-256")
     tier = analysis["timingGuardrail"]["tier"]
     if tier == "visual-only":
         raise SystemExit(
@@ -121,14 +125,14 @@ def build_manifest(template, analysis):
     out["events"] = events
     out["energyCurve"] = energy_values
 
-    # Unknown manifest fields are ignored by the current loader, so provenance
-    # travels with generated files without changing runtime behavior.
     out["generation"] = {
         "schema": "trackcade-safe-gameplay-baseline-v1",
         "analyzerRelease": ANALYZER_RELEASE,
         "analyzerSourceCommit": ANALYZER_SOURCE_COMMIT,
         "analyzerRunnerSha256": ANALYZER_RUNNER_SHA256,
-        "sourceFingerprint": analysis["sourceFingerprint"],
+        "analysisJsonSha256": analysis_json_sha256,
+        "sourceFingerprint": analysis.get("sourceFingerprint"),
+        "sourceFingerprintPolicy": "diagnostic-only-not-identity",
         "timingTier": tier,
         "timingConfidence": analysis.get("timingConfidence"),
         "structureConfidence": analysis.get("structureConfidence"),
@@ -157,9 +161,10 @@ def main():
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
 
+    analysis_sha = sha256_file(args.analysis)
     analysis = json.loads(args.analysis.read_text())
     template = json.loads(args.template_manifest.read_text())
-    manifest = build_manifest(template, analysis)
+    manifest = build_manifest(template, analysis, analysis_sha)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(manifest, indent=2) + "\n")
 
@@ -169,7 +174,7 @@ def main():
         "artist": manifest["artist"],
         "title": manifest["title"],
         "timingTier": generated["timingTier"],
-        "sourceFingerprint": generated["sourceFingerprint"],
+        "analysisJsonSha256": generated["analysisJsonSha256"],
         "bpm": manifest["bpm"],
         "songLength": manifest["songLength"],
         "beatEvents": generated["counts"]["beatEvents"],
