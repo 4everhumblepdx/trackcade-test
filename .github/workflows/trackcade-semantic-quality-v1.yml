@@ -1,0 +1,148 @@
+name: Trackcade Semantic Quality Benchmark v1
+
+on:
+  push:
+    branches: [trackcade-semantic-quality-v1]
+    paths:
+      - '.github/workflows/trackcade-semantic-quality-v1.yml'
+      - 'research/semantic-quality-v1/**'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  semantic-quality-benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify frozen repository inputs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -m py_compile research/semantic-quality-v1/evaluate_semantic_quality_v1.py
+
+          # Benchmark work must not mutate the product references or frozen v1 proposals.
+          git diff --exit-code 76c247a5df79a8dc169c4cd933e4499a0ced1fa5 HEAD -- \
+            alldat-trackcade.json \
+            cvb-gemf-trackcade.json \
+            research/interpretation-v1/proposals/alldat-evidence-only-v1.json \
+            research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json
+
+          test "$(git rev-parse 76c247a5df79a8dc169c4cd933e4499a0ced1fa5:research/interpretation-v1/proposals/alldat-evidence-only-v1.json)" = "bd260f6f43bbca70e1dfb2e4a79c60eb7ea8e046"
+          test "$(git rev-parse 76c247a5df79a8dc169c4cd933e4499a0ced1fa5:research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json)" = "901c2c66bd94cd556ae021f62caa178a603d0890"
+
+          meta="$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36323696425/artifacts --jq '.artifacts[] | select(.id == 10933550802) | [.id,.name,.digest] | @tsv')"
+          expected=$'10933550802\ttrackcade-musical-interpretation-v1-evidence-only\tsha256:6a6b05b6da7c5f59d4473cbb497edce7de2ad2a3ecc7a4d795a6d6f63bc784ab'
+          test "$meta" = "$expected"
+          echo "Frozen repository/artifact identities verified"
+
+      - name: Download exact frozen Musical Interpretation v1 integration artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-evidence-only
+          path: upstream
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36323696425
+          github-token: ${{ github.token }}
+
+      - name: Verify artifact payload matches frozen proposals
+        shell: bash
+        run: |
+          set -euo pipefail
+          cmp \
+            research/interpretation-v1/proposals/alldat-evidence-only-v1.json \
+            upstream/research/interpretation-v1/proposals/alldat-evidence-only-v1.json
+          cmp \
+            research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json \
+            upstream/research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json
+          test -f upstream/reports/a/alldat.json
+          test -f upstream/reports/a/cvb-gemf.json
+          echo "Frozen integration payload verified"
+
+      - name: Run semantic quality benchmark twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf semantic-quality
+          mkdir -p semantic-quality
+
+          for pass in a b; do
+            python research/semantic-quality-v1/evaluate_semantic_quality_v1.py \
+              --case "alldat::alldat-trackcade.json::upstream/research/interpretation-v1/proposals/alldat-evidence-only-v1.json::upstream/reports/a/alldat.json" \
+              --case "cvb-gemf::cvb-gemf-trackcade.json::upstream/research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json::upstream/reports/a/cvb-gemf.json" \
+              --output "$PWD/semantic-quality/$pass.json"
+          done
+
+          cmp semantic-quality/a.json semantic-quality/b.json
+          echo "Duplicate semantic-quality outputs are byte-identical"
+
+      - name: Validate benchmark integrity and print compact scorecard
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          p='semantic-quality/a.json'
+          d=json.load(open(p))
+          assert d['schema']=='trackcade-semantic-quality-benchmark-v1'
+          assert d['status']=='benchmark_valid'
+          assert d['frozen']['musicalInterpretationV1ClosureCommit']=='76c247a5df79a8dc169c4cd933e4499a0ced1fa5'
+          assert d['frozen']['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          assert d['frozen']['integrationArtifactId']==10933550802
+          assert d['frozen']['qualityThreshold'] is None
+          assert d['integrity']['fixtureCount']==2
+          assert d['integrity']['referenceLabelsUsedForProposalGeneration'] is False
+          assert d['integrity']['compilerTimingShiftAllowed'] is False
+          assert d['integrity']['qualityGateApplied'] is False
+          assert set(d['fixtures'])=={'alldat','cvb-gemf'}
+          expected_counts={
+            'alldat': {'reference':12,'proposal':6,'accepted':5},
+            'cvb-gemf': {'reference':17,'proposal':9,'accepted':9},
+          }
+          for name,c in expected_counts.items():
+            f=d['fixtures'][name]
+            assert len(f['referenceEvents'])==c['reference']
+            assert len(f['candidateViews']['proposal_intent'])==c['proposal']
+            assert len(f['candidateViews']['accepted_compiled'])==c['accepted']
+            assert set(f['windowsSeconds'])=={'1.0','2.0','4.0'}
+
+          print('=== frozen semantic-quality baseline ===')
+          for wk in ('1.0','2.0','4.0'):
+            print(f'window={wk}s')
+            for view in ('proposal_intent','accepted_compiled'):
+              a=d['aggregate'][wk][view]
+              ex=a['exactKind']['micro']
+              lm=a['landmarkOnly']['micro']
+              print(f"  {view}: exact matched={ex['matchedCount']}/{ex['candidateCount']} cand, ref={ex['referenceCount']}, P={ex['precision']}, R={ex['recall']}, F1={ex['f1']}; landmark matched={lm['matchedCount']}, F1={lm['f1']}")
+          PY
+
+      - name: Freeze evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/semantic-quality-v1/SEMANTIC_QUALITY_BENCHMARK_V1_SPEC.md \
+            research/semantic-quality-v1/evaluate_semantic_quality_v1.py \
+            alldat-trackcade.json \
+            cvb-gemf-trackcade.json \
+            upstream/research/interpretation-v1/proposals/alldat-evidence-only-v1.json \
+            upstream/research/interpretation-v1/proposals/cvb-gemf-evidence-only-v1.json \
+            upstream/reports/a/alldat.json \
+            upstream/reports/a/cvb-gemf.json \
+            semantic-quality/a.json | tee semantic-quality-sha256.txt
+
+      - name: Upload semantic quality evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-quality-v1-baseline
+          path: |
+            semantic-quality/a.json
+            semantic-quality-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
