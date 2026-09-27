@@ -1,0 +1,185 @@
+name: Trackcade Learned Interpretation v1 — Harness Conformance
+
+on:
+  push:
+    branches: [trackcade-learned-interpretation-v1]
+    paths:
+      - '.github/workflows/trackcade-learned-interpretation-v1-conformance.yml'
+      - 'research/learned-interpretation-v1/**'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  harness-conformance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify frozen upstream artifact identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36323696425/artifacts --jq '.artifacts[] | select(.id == 10933550802) | [.id,.name,.digest] | @tsv')"
+          expected=$'10933550802\ttrackcade-musical-interpretation-v1-evidence-only\tsha256:6a6b05b6da7c5f59d4473cbb497edce7de2ad2a3ecc7a4d795a6d6f63bc784ab'
+          test "$meta" = "$expected"
+          python -m py_compile \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/make_conformance_fixtures_v1.py
+          echo "Frozen upstream identity and harness syntax verified"
+
+      - name: Download exact frozen interpretation packets/proposals
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-evidence-only
+          path: upstream
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36323696425
+          github-token: ${{ github.token }}
+
+      - name: Build deterministic label-blind provider requests twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf learned-conformance
+          mkdir -p learned-conformance/requests/a learned-conformance/requests/b
+          for pass in a b; do
+            for fixture in alldat cvb-gemf; do
+              python research/learned-interpretation-v1/build_learned_request_v1.py \
+                --packet "upstream/packets/a/$fixture.json" \
+                --output "$PWD/learned-conformance/requests/$pass/$fixture.json"
+            done
+          done
+          diff -ru learned-conformance/requests/a learned-conformance/requests/b
+
+          python - <<'PY'
+          import json
+          for fixture in ('alldat','cvb-gemf'):
+              packet=json.load(open(f'upstream/packets/a/{fixture}.json'))
+              req=json.load(open(f'learned-conformance/requests/a/{fixture}.json'))
+              assert req['schema']=='trackcade-learned-interpretation-request-v1'
+              assert req['packet']==packet
+              assert req['responseContract']['independentTimestampsAllowed'] is False
+              assert req['responseContract']['beatOrBpmEditsAllowed'] is False
+              assert req['responseContract']['outputFormat']=='json_object_only'
+              assert req['integrity']['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+              text=json.dumps(req,sort_keys=True).lower()
+              assert 'diagnosticlabelhint' not in text
+              assert 'diagnostictypehint' not in text
+          print('provider request packages verified label-blind and deterministic')
+          PY
+
+      - name: Validate both frozen schema-positive proposal fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p learned-conformance/positive/a learned-conformance/positive/b
+          for pass in a b; do
+            for fixture in alldat cvb-gemf; do
+              python research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+                --packet "upstream/packets/a/$fixture.json" \
+                --proposal "upstream/research/interpretation-v1/proposals/${fixture}-evidence-only-v1.json" \
+                --output "$PWD/learned-conformance/positive/$pass/$fixture.normalized.json" \
+                --report "$PWD/learned-conformance/positive/$pass/$fixture.report.json"
+            done
+          done
+          diff -ru learned-conformance/positive/a learned-conformance/positive/b
+
+          python - <<'PY'
+          import json
+          for fixture in ('alldat','cvb-gemf'):
+              src=json.load(open(f'upstream/research/interpretation-v1/proposals/{fixture}-evidence-only-v1.json'))
+              norm=json.load(open(f'learned-conformance/positive/a/{fixture}.normalized.json'))
+              report=json.load(open(f'learned-conformance/positive/a/{fixture}.report.json'))
+              assert src==norm,(fixture,'normalizer changed semantic content')
+              assert report['status']=='valid' and report['errors']==[]
+          print('both frozen proposal fixtures pass without semantic repair')
+          PY
+
+      - name: Generate and reject all preregistered negative mutations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/learned-interpretation-v1/make_conformance_fixtures_v1.py \
+            --proposal upstream/research/interpretation-v1/proposals/alldat-evidence-only-v1.json \
+            --output-dir learned-conformance/negative/fixtures
+
+          mkdir -p learned-conformance/negative/reports
+          python - <<'PY'
+          import json, subprocess, pathlib, sys
+          manifest=json.load(open('learned-conformance/negative/fixtures/manifest.json'))
+          cases=manifest['negative']
+          assert len(cases)==14,len(cases)
+          packet='upstream/packets/a/alldat.json'
+          for row in cases:
+              src='learned-conformance/negative/fixtures/'+row['file']
+              report='learned-conformance/negative/reports/'+row['file'].replace('.json','.report.json')
+              cmd=[sys.executable,'research/learned-interpretation-v1/validate_learned_proposal_v1.py',
+                   '--packet',packet,'--proposal',src,'--report',report]
+              p=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+              if p.returncode != 2:
+                  raise SystemExit(f"{row['file']} expected exit 2, got {p.returncode}\n{p.stdout}\n{p.stderr}")
+              d=json.load(open(report))
+              assert d['status']=='rejected',d
+              hay='\n'.join(d['errors'])
+              if row['expectedErrorSubstring'] not in hay:
+                  raise SystemExit(f"{row['file']} missing expected error {row['expectedErrorSubstring']}: {d['errors']}")
+              print(row['file'], 'REJECTED', row['expectedErrorSubstring'])
+          PY
+
+      - name: Reject duplicate-key JSON without repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          good=Path('upstream/research/interpretation-v1/proposals/alldat-evidence-only-v1.json').read_text()
+          # Duplicate the top-level schema key without changing the rest of the provider payload.
+          bad=good.replace('{\n  "schema":', '{\n  "schema": "duplicate-key-probe",\n  "schema":', 1)
+          Path('learned-conformance/negative/fixtures/duplicate-key.json').write_text(bad)
+          PY
+          set +e
+          python research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            --packet upstream/packets/a/alldat.json \
+            --proposal learned-conformance/negative/fixtures/duplicate-key.json \
+            --report learned-conformance/negative/reports/duplicate-key.report.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2
+          grep -q 'duplicate JSON key' learned-conformance/negative/reports/duplicate-key.report.json
+          echo "duplicate-key provider JSON rejected without repair"
+
+      - name: Freeze conformance evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/learned-interpretation-v1/LEARNED_INTERPRETATION_V1_CONTRACT.md \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/make_conformance_fixtures_v1.py \
+            upstream/packets/a/alldat.json \
+            upstream/packets/a/cvb-gemf.json \
+            learned-conformance/requests/a/*.json \
+            learned-conformance/positive/a/*.json \
+            learned-conformance/negative/fixtures/*.json \
+            learned-conformance/negative/reports/*.json | tee learned-conformance-sha256.txt
+
+      - name: Upload harness conformance evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-learned-interpretation-v1-harness-conformance
+          path: |
+            learned-conformance/requests/a/**
+            learned-conformance/positive/a/**
+            learned-conformance/negative/fixtures/**
+            learned-conformance/negative/reports/**
+            learned-conformance-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
