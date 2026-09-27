@@ -12,7 +12,22 @@ from validate_learned_proposal_v1 import load_json_strict, validate_and_normaliz
 from build_learned_request_v1 import REQUEST_SCHEMA, INSTRUCTION
 
 RUN_SCHEMA = "trackcade-learned-interpretation-provider-run-v1"
-SENSITIVE_PARAM_TOKENS = ("secret", "token", "password", "authorization", "apikey", "api_key", "credential")
+SENSITIVE_PARAM_KEY_PARTS = (
+    "secret",
+    "token",
+    "password",
+    "authorization",
+    "apikey",
+    "api_key",
+    "credential",
+    "credentials",
+    "access_token",
+    "refresh_token",
+    "bearer_token",
+    "auth_token",
+    "client_secret",
+    "openai_api_key",
+)
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
@@ -40,11 +55,28 @@ def validate_timestamp(value):
     return text
 
 
+def normalize_param_key(key):
+    text = str(key)
+    text = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", text)
+    text = text.replace("-", "_").lower()
+    return re.sub(r"_+", "_", text).strip("_")
+
+
+def sensitive_param_key(key):
+    low = normalize_param_key(key)
+    # Match credential words as complete snake-case segments only. This rejects
+    # apiKey/authToken/password/etc. while allowing ordinary generation metrics
+    # such as maxOutputTokens, inputTokens, and outputTokens.
+    return any(
+        re.search(rf"(?:^|_){re.escape(part)}(?:$|_)", low)
+        for part in SENSITIVE_PARAM_KEY_PARTS
+    )
+
+
 def reject_sensitive_params(value, path="parameters"):
     if isinstance(value, dict):
         for key, child in value.items():
-            low = str(key).lower().replace("-", "_")
-            if any(token in low for token in SENSITIVE_PARAM_TOKENS):
+            if sensitive_param_key(key):
                 raise SystemExit(f"sensitive parameter key forbidden: {path}.{key}")
             reject_sensitive_params(child, f"{path}.{key}")
     elif isinstance(value, list):
