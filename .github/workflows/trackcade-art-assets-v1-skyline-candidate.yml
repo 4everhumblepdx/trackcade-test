@@ -1,0 +1,199 @@
+name: Trackcade Art Assets v1 — Skyline Candidate Intake
+
+on:
+  workflow_dispatch:
+    inputs:
+      alldat_url:
+        description: 'HTTPS URL for the frozen ALLDAT 1536x1024 PNG candidate'
+        required: true
+        type: string
+      alldat_sha256:
+        description: 'Expected SHA-256 of the exact ALLDAT candidate bytes'
+        required: true
+        type: string
+      cvb_url:
+        description: 'HTTPS URL for the frozen CVB-GEMF 1536x1024 PNG candidate'
+        required: true
+        type: string
+      cvb_sha256:
+        description: 'Expected SHA-256 of the exact CVB-GEMF candidate bytes'
+        required: true
+        type: string
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify branch contract identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f research/art-assets-v1/ART_ASSET_REPLACEMENT_SPEC.md
+          test -f research/art-assets-v1/SKYLINE_NORMALIZATION_V1_SPEC.md
+          test -f research/art-assets-v1/SKYLINE_NORMALIZATION_V1_RESULT.md
+          test -f research/art-assets-v1/normalize_skyline_v1.mjs
+
+      - name: Download exact closed Visual v1 manifests
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-visual-world-v1-skins
+          path: visual-base
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36291338021
+          github-token: ${{ github.token }}
+
+      - name: Fetch candidate bytes and verify supplied hashes
+        shell: bash
+        env:
+          ALLDAT_URL: ${{ inputs.alldat_url }}
+          ALLDAT_SHA: ${{ inputs.alldat_sha256 }}
+          CVB_URL: ${{ inputs.cvb_url }}
+          CVB_SHA: ${{ inputs.cvb_sha256 }}
+        run: |
+          set -euo pipefail
+          mkdir -p candidates normalized/a normalized/b evidence
+          python - <<'PY'
+          import os,re,sys
+          for key in ('ALLDAT_URL','CVB_URL'):
+              v=os.environ[key]
+              if not v.startswith('https://'):
+                  raise SystemExit(f'REFUSE: {key} must be HTTPS')
+          for key in ('ALLDAT_SHA','CVB_SHA'):
+              v=os.environ[key].lower()
+              if not re.fullmatch(r'[0-9a-f]{64}',v):
+                  raise SystemExit(f'REFUSE: {key} must be 64 hex characters')
+          PY
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --output candidates/alldat.png "$ALLDAT_URL"
+          curl --fail --location --proto '=https' --tlsv1.2 --retry 2 --output candidates/cvb-gemf.png "$CVB_URL"
+          got_alldat="$(sha256sum candidates/alldat.png | awk '{print $1}')"
+          got_cvb="$(sha256sum candidates/cvb-gemf.png | awk '{print $1}')"
+          test "$got_alldat" = "$(printf '%s' "$ALLDAT_SHA" | tr 'A-F' 'a-f')" || { echo "REFUSE: ALLDAT candidate SHA mismatch"; exit 65; }
+          test "$got_cvb" = "$(printf '%s' "$CVB_SHA" | tr 'A-F' 'a-f')" || { echo "REFUSE: CVB candidate SHA mismatch"; exit 65; }
+          printf '%s  %s\n' "$got_alldat" candidates/alldat.png "$got_cvb" candidates/cvb-gemf.png > evidence/candidate-sha256.txt
+
+      - name: Normalize each candidate twice with frozen song palette
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            node research/art-assets-v1/normalize_skyline_v1.mjs \
+              --input candidates/alldat.png \
+              --output normalized/$pass/alldat.png \
+              --report normalized/$pass/alldat-report.json \
+              --sky-top '#08061a' \
+              --sky-bottom '#24134a' \
+              --label ALLDAT
+            node research/art-assets-v1/normalize_skyline_v1.mjs \
+              --input candidates/cvb-gemf.png \
+              --output normalized/$pass/cvb-gemf.png \
+              --report normalized/$pass/cvb-gemf-report.json \
+              --sky-top '#070a1e' \
+              --sky-bottom '#1b1440' \
+              --label CVB-GEMF
+          done
+          cmp normalized/a/alldat.png normalized/b/alldat.png
+          cmp normalized/a/cvb-gemf.png normalized/b/cvb-gemf.png
+          cmp normalized/a/alldat-report.json normalized/b/alldat-report.json
+          cmp normalized/a/cvb-gemf-report.json normalized/b/cvb-gemf-report.json
+
+      - name: Prove closed manifests remain release fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import { validateManifest } from './src/track/loader.js';
+          const songs = {
+            alldat: { expectedSkin:'violet-circuit', expectedSkyTop:'#08061a', expectedSkyBottom:'#24134a' },
+            'cvb-gemf': { expectedSkin:'neon-night', expectedSkyTop:'#070a1e', expectedSkyBottom:'#1b1440' },
+          };
+          const proposal={
+            schema:'trackcade-art-assets-v1-skyline-candidate-evidence',
+            replacementSpecCommit:'9053a0b9045450460558607876da68ccfc03f9b7',
+            normalizationSpecCommit:'0154bf24d3ab7128f01055cb1efac78b76336843',
+            productionUrlChanged:false,
+            reason:'No stable production hosting URL is established by this evidence workflow; closed Visual-v1 skyline remains release fallback.',
+            songs:{},
+          };
+          for (const [song,expect] of Object.entries(songs)) {
+            const modes={};
+            let originalSkyline=null;
+            for (const mode of ['relaxed','standard','rush']) {
+              const p=`visual-base/visual/a/${song}/publishable/${mode}.json`;
+              const raw=JSON.parse(fs.readFileSync(p,'utf8'));
+              const cfg=validateManifest(raw);
+              const visual=raw?.generation?.visualWorldV1;
+              if (!visual || visual.skinId!==expect.expectedSkin) throw new Error(`${song}/${mode}: unexpected closed visual skin`);
+              if (raw.palette.skyTop!==expect.expectedSkyTop || raw.palette.skyBottom!==expect.expectedSkyBottom) throw new Error(`${song}/${mode}: frozen palette mismatch`);
+              if (originalSkyline===null) originalSkyline=cfg.art.skyline;
+              if (cfg.art.skyline!==originalSkyline) throw new Error(`${song}: skyline differs by difficulty mode`);
+              modes[mode]={
+                sourceManifestSha256:crypto.createHash('sha256').update(fs.readFileSync(p)).digest('hex'),
+                currentSkylineUrl:cfg.art.skyline,
+              };
+            }
+            const report=JSON.parse(fs.readFileSync(`normalized/a/${song}-report.json`,'utf8'));
+            proposal.songs[song]={
+              skinId:expect.expectedSkin,
+              currentSkylineUrl:originalSkyline,
+              candidateSourceSha256:report.input.sha256,
+              normalizedSkylineSha256:report.output.sha256,
+              normalizedSkylineBytes:report.output.byteLength,
+              normalizedQcPass:report.output.width===384 && report.output.height===240 && report.output.colorType===6 && report.output.alphaGe128Coverage===1 && report.output.distinctOpaqueishRgbColors>=2,
+              modes,
+            };
+          }
+          fs.writeFileSync('evidence/candidate-proposal.json',JSON.stringify(proposal,null,2)+'\n');
+          console.log(JSON.stringify(proposal,null,2));
+          JS
+
+      - name: Validate evidence report and freeze hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          x=json.load(open('evidence/candidate-proposal.json'))
+          assert x['schema']=='trackcade-art-assets-v1-skyline-candidate-evidence'
+          assert x['productionUrlChanged'] is False
+          assert set(x['songs'])=={'alldat','cvb-gemf'}
+          for song in x['songs'].values():
+              assert song['normalizedQcPass'] is True
+              assert set(song['modes'])=={'relaxed','standard','rush'}
+              urls={m['currentSkylineUrl'] for m in song['modes'].values()}
+              assert urls=={song['currentSkylineUrl']}
+          PY
+          sha256sum normalized/a/*.png normalized/a/*-report.json evidence/candidate-proposal.json > evidence/final-sha256.txt
+          sha256sum \
+            research/art-assets-v1/ART_ASSET_REPLACEMENT_SPEC.md \
+            research/art-assets-v1/SKYLINE_NORMALIZATION_V1_SPEC.md \
+            research/art-assets-v1/normalize_skyline_v1.mjs \
+            > evidence/source-sha256.txt
+          cat evidence/candidate-sha256.txt
+          cat evidence/final-sha256.txt
+          cat evidence/source-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-art-assets-v1-skyline-candidates
+          path: |
+            candidates/*.png
+            normalized/a/*.png
+            normalized/a/*-report.json
+            evidence/candidate-sha256.txt
+            evidence/candidate-proposal.json
+            evidence/final-sha256.txt
+            evidence/source-sha256.txt
+            research/art-assets-v1/ART_ASSET_REPLACEMENT_SPEC.md
+            research/art-assets-v1/SKYLINE_NORMALIZATION_V1_SPEC.md
+            research/art-assets-v1/normalize_skyline_v1.mjs
+          if-no-files-found: error
+          retention-days: 30
