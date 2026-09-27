@@ -1,0 +1,131 @@
+name: Trackcade Art Assets v1 — Baseline Audit
+
+on:
+  push:
+    branches: [trackcade-art-assets-v1]
+    paths:
+      - '.github/workflows/trackcade-art-assets-v1-baseline.yml'
+      - 'research/art-assets-v1/ART_ASSET_BASELINE_AUDIT_SPEC.md'
+      - 'research/art-assets-v1/audit_baseline_assets_v1.mjs'
+      - 'src/track.config.js'
+      - 'src/scenes/play.js'
+      - 'engine/webgpu.js'
+      - 'engine/shared-kkws-wjJ.js'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Audit exact production art twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit/a audit/b evidence
+          node research/art-assets-v1/audit_baseline_assets_v1.mjs \
+            --output audit/a/report.json \
+            --download-dir audit/a/assets
+          node research/art-assets-v1/audit_baseline_assets_v1.mjs \
+            --output audit/b/report.json \
+            --download-dir audit/b/assets
+
+      - name: Prove byte-identical downloads and reports
+        shell: bash
+        run: |
+          set -euo pipefail
+          diff -qr audit/a/assets audit/b/assets
+          cmp audit/a/report.json audit/b/report.json
+
+      - name: Independently validate audit completeness
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, re
+          p='audit/a/report.json'
+          x=json.load(open(p))
+          assert x['schema']=='trackcade-art-assets-baseline-audit-v1'
+          assert x['specCommit']=='b6ef8090d570e0e01d8cc5a8f232ae788d75497c'
+          assert x['engineFrameBehavior']=={
+              'preloadMethod':'load.image(url)',
+              'lookupMethod':'game.assets.framesOf(url)',
+              'frameWidthArgument':None,
+              'frameHeightArgument':None,
+              'fullHeightRow':True,
+              'atlasDefaultFrameWidth':'src.width',
+              'effectiveFramesPerRole':1,
+          }
+          assert x['recommendations']==[]
+          assert x['acceptanceThresholds']==[]
+          roles=['player','obstacleLow','obstacleWall','orb','cell','skyline']
+          assert list(x['roles'])==roles
+          expected_runtime={
+              'player':(49,64), 'obstacleLow':(64,33), 'obstacleWall':(59,64),
+              'orb':(63,64), 'cell':(36,64), 'skyline':(384,240),
+          }
+          for role in roles:
+              r=x['roles'][role]
+              assert r['role']==role
+              assert r['pngSignatureValid'] is True
+              assert r['pixelAnalysisSupported'] is True
+              assert r['byteLength']>0
+              assert re.fullmatch(r'[0-9a-f]{64}',r['sha256'])
+              assert r['structure']['width']>0 and r['structure']['height']>0
+              assert r['structure']['bitDepth']==8
+              assert r['structure']['interlaceMethod']==0
+              assert r['structure']['colorType'] in (0,2,3,4,6)
+              assert r['alpha']['totalPixels']==r['structure']['width']*r['structure']['height']
+              assert 0 <= r['alpha']['gt0']['coverageFraction'] <= 1
+              assert 0 <= r['alpha']['ge128']['coverageFraction'] <= 1
+              assert r['alpha']['gt0']['count'] >= r['alpha']['ge128']['count']
+              rw,rh=expected_runtime[role]
+              assert r['runtimePresentation']['width']==rw
+              assert r['runtimePresentation']['height']==rh
+              assert os.path.isfile(f'audit/a/assets/{role}.png')
+          print({role:{
+              'source':(x['roles'][role]['structure']['width'],x['roles'][role]['structure']['height']),
+              'runtime':expected_runtime[role],
+              'alpha_gt0':x['roles'][role]['alpha']['gt0']['coverageFraction'],
+              'alpha_ge128':x['roles'][role]['alpha']['ge128']['coverageFraction'],
+              'bbox_gt0':x['roles'][role]['alpha']['gt0']['bbox'],
+              'sha256':x['roles'][role]['sha256'],
+          } for role in roles})
+          PY
+
+      - name: Freeze evidence hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum audit/a/report.json > evidence/report-sha256.txt
+          find audit/a/assets -type f -name '*.png' -print0 | sort -z | xargs -0 sha256sum > evidence/asset-sha256.txt
+          sha256sum \
+            research/art-assets-v1/ART_ASSET_BASELINE_AUDIT_SPEC.md \
+            research/art-assets-v1/audit_baseline_assets_v1.mjs \
+            src/track.config.js \
+            src/scenes/play.js \
+            engine/webgpu.js \
+            engine/shared-kkws-wjJ.js \
+            > evidence/source-sha256.txt
+          cat evidence/report-sha256.txt
+          cat evidence/asset-sha256.txt
+          cat evidence/source-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-art-assets-v1-baseline-audit
+          path: |
+            audit/a/report.json
+            audit/a/assets/*.png
+            evidence/report-sha256.txt
+            evidence/asset-sha256.txt
+            evidence/source-sha256.txt
+            research/art-assets-v1/ART_ASSET_BASELINE_AUDIT_SPEC.md
+            research/art-assets-v1/audit_baseline_assets_v1.mjs
+          if-no-files-found: error
+          retention-days: 30
