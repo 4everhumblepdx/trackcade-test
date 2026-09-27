@@ -1,0 +1,76 @@
+{
+  "schemaVersion": 1,
+  "status": "frozen_before_analysis_or_semantic_generation",
+  "purpose": "Internal fresh-track generalization set using user-provided audio that was not used in the prior ALLDAT/CVB Astra or Sol semantic comparisons.",
+  "baseCommit": "d04649893aaf550f4594670a27694b6c4aa3b82e",
+  "productionAnalyzer": {
+    "version": "v0.19",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "rawAudioStorage": {
+    "location": "user ChatGPT Library",
+    "committedToGitHub": false,
+    "reason": "Current GitHub connector write path is UTF-8/text oriented and cannot safely ingest these multi-megabyte binary files without an additional byte-preserving transfer mechanism. Exact source bytes are frozen by SHA-256 below."
+  },
+  "tracks": [
+    {
+      "id": "muddy-waters-rough",
+      "filename": "MuddyWatersRough.mp3",
+      "sizeBytes": 10032091,
+      "durationSeconds": 250.8,
+      "sha256": "8846281e7341358198e8daada77b464d3514d022e00502146edc6803f4014fac"
+    },
+    {
+      "id": "m-and-ms-melts-in-your-mind",
+      "filename": "M and Ms - MELTS IN YOUR MIND v1BL-SO-11102013.mp3",
+      "sizeBytes": 7795565,
+      "durationSeconds": 278.386939,
+      "sha256": "fd7b553138b14773f5f0c6477e401eadd0a3e4ecb686b5e985b3f4a6592d01b3"
+    },
+    {
+      "id": "retro-9-samp",
+      "filename": "Retro 9 Samp.mp3",
+      "sizeBytes": 2026265,
+      "durationSeconds": 126.61551,
+      "sha256": "1e473e6a6149adb7611138201360ae22d2e19f762e3b212e68ece50b4c665c33"
+    },
+    {
+      "id": "luda-20bars",
+      "filename": "luda_20bars.mp3",
+      "sizeBytes": 2583949,
+      "durationSeconds": 64.496325,
+      "sha256": "9a9f7133009adbbca631352675293bd4468f89eb1abcc24414001e18507a26de"
+    },
+    {
+      "id": "retro-not-2",
+      "filename": "retro not (2).mp3",
+      "sizeBytes": 1441122,
+      "durationSeconds": 90.044082,
+      "sha256": "1684bd605baa3233d8cf529cf6be5622615595d87d31991cc725fab61979b722"
+    },
+    {
+      "id": "vlado",
+      "filename": "vlado.mp3",
+      "sizeBytes": 8317304,
+      "durationSeconds": 207.8302,
+      "sha256": "8e13ce1fd5f120eb21ebae9b5915d2fc30b2cedde5604c80c6aa2228198a2bc6"
+    },
+    {
+      "id": "i-feel-music-instrumental",
+      "filename": "I Feel Music (Instrumental) (1).mp3",
+      "sizeBytes": 5113124,
+      "durationSeconds": 255.4514,
+      "sha256": "890dbe77dd952d36cc55e491e3836b276e149264f62701de814f93845152d96d"
+    }
+  ],
+  "trackCount": 7,
+  "totalSizeBytes": 37304620,
+  "rules": {
+    "priorAstraSemanticExposure": false,
+    "priorSolSemanticExposure": false,
+    "noTrackRemovalAfterFreeze": true,
+    "noHashReplacementAfterFreeze": true,
+    "noPromptOrCompilerRetuningFromTheseResults": true
+  }
+}
