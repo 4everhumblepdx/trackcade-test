@@ -1,0 +1,94 @@
+name: Trackcade OpenAI Infrastructure Diagnostic v1
+
+on:
+  push:
+    branches: [trackcade-openai-infra-diagnostic-v1]
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Require API key
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}"
+
+      - name: Probe Responses API without Trackcade song data
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY' > payload.json
+          import json
+          # Deliberately unrelated to either Trackcade fixture. Large inert input plus the
+          # same model/reasoning/output-token envelope helps distinguish billing/quota
+          # failures from request/token rate-limit failures without consuming a fixture.
+          payload={
+              "model":"gpt-6-astra",
+              "store":False,
+              "reasoning":{"effort":"high"},
+              "max_output_tokens":4096,
+              "input":"Infrastructure diagnostic only. Return the single word OK.\n" + ("x"*24000),
+          }
+          print(json.dumps(payload,separators=(",",":")))
+          PY
+          set +e
+          code="$(curl -sS -D headers.txt -o body.json -w '%{http_code}' \
+            https://api.openai.com/v1/responses \
+            -H "Authorization: Bearer ${OPENAI_API_KEY}" \
+            -H 'Content-Type: application/json' \
+            -H 'Accept: application/json' \
+            --data-binary @payload.json)"
+          curl_rc=$?
+          set -e
+          python - "$code" "$curl_rc" <<'PY'
+          import json,sys,pathlib,re
+          http_code=sys.argv[1]
+          curl_rc=int(sys.argv[2])
+          headers=pathlib.Path('headers.txt').read_text(errors='replace') if pathlib.Path('headers.txt').exists() else ''
+          body_bytes=pathlib.Path('body.json').read_bytes() if pathlib.Path('body.json').exists() else b''
+          try:
+              body=json.loads(body_bytes.decode('utf-8')) if body_bytes else None
+          except Exception:
+              body=None
+          req_id=None
+          retry_after=None
+          for line in headers.splitlines():
+              if ':' not in line: continue
+              k,v=line.split(':',1)
+              if k.lower()=='x-request-id': req_id=v.strip()
+              if k.lower()=='retry-after': retry_after=v.strip()
+          out={
+              'schema':'trackcade-openai-infra-diagnostic-v1',
+              'trackcadeSongDataUsed':False,
+              'semanticFixtureConsumed':False,
+              'requestedModel':'gpt-6-astra',
+              'reasoningEffort':'high',
+              'maxOutputTokens':4096,
+              'httpStatus':http_code,
+              'curlReturnCode':curl_rc,
+              'requestId':req_id,
+              'retryAfter':retry_after,
+          }
+          if isinstance(body,dict) and isinstance(body.get('error'),dict):
+              e=body['error']
+              out['error']={k:e.get(k) for k in ('message','type','code','param')}
+          elif isinstance(body,dict):
+              out['response']={k:body.get(k) for k in ('object','status','model','id')}
+          pathlib.Path('diagnostic.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+          rm -f body.json payload.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-openai-infra-diagnostic-v1
+          path: diagnostic.json
+          if-no-files-found: error
+          retention-days: 30
