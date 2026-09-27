@@ -92,7 +92,7 @@ def generic_section_events(x):
     return events
 
 
-def build_manifest(template, analysis, analysis_json_sha256):
+def build_manifest(track_metadata, analysis, analysis_json_sha256):
     validate_analysis(analysis)
     if not isinstance(analysis_json_sha256, str) or len(analysis_json_sha256) != 64:
         raise SystemExit("invalid analysis JSON SHA-256")
@@ -103,10 +103,10 @@ def build_manifest(template, analysis, analysis_json_sha256):
             "a beat-driven gameplay manifest that pretends reliable interaction timing exists"
         )
 
-    out = copy.deepcopy(template)
+    out = copy.deepcopy(track_metadata)
     for required in ("artist", "title", "audioUrl"):
         if not isinstance(out.get(required), str) or not out[required].strip():
-            raise SystemExit(f"template manifest missing required string {required!r}")
+            raise SystemExit(f"track metadata missing required string {required!r}")
 
     duration = float(analysis["duration"])
     beat_times = clean_beat_times(analysis)
@@ -143,6 +143,7 @@ def build_manifest(template, analysis, analysis_json_sha256):
             "semanticEventsGenerated": [],
             "dropPeakEnergyCommandsGenerated": False,
             "requiresInterpretationForSemanticGameplay": True,
+            "missingArtPaletteTuningPolicy": "Trackcade loader FALLBACK_TRACK defaults",
         },
         "counts": {
             "beatEvents": len(beat_events),
@@ -156,15 +157,19 @@ def build_manifest(template, analysis, analysis_json_sha256):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument(
+        "--track-metadata", "--template-manifest",
+        dest="track_metadata", type=Path, required=True,
+        help="JSON containing at minimum artist, title, and audioUrl; richer Trackcade fields are optional",
+    )
     ap.add_argument("--analysis", type=Path, required=True)
-    ap.add_argument("--template-manifest", type=Path, required=True)
     ap.add_argument("--output", type=Path, required=True)
     args = ap.parse_args()
 
     analysis_sha = sha256_file(args.analysis)
     analysis = json.loads(args.analysis.read_text())
-    template = json.loads(args.template_manifest.read_text())
-    manifest = build_manifest(template, analysis, analysis_sha)
+    track_metadata = json.loads(args.track_metadata.read_text())
+    manifest = build_manifest(track_metadata, analysis, analysis_sha)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(manifest, indent=2) + "\n")
 
