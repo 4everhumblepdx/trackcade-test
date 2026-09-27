@@ -1,0 +1,286 @@
+name: Trackcade Learned Interpretation v1 — OpenAI Adapter Conformance
+
+on:
+  push:
+    branches: [trackcade-learned-interpretation-v1]
+    paths:
+      - '.github/workflows/trackcade-openai-adapter-v1-conformance.yml'
+      - 'research/learned-interpretation-v1/openai_responses_adapter_v1.py'
+      - 'research/learned-interpretation-v1/make_openai_adapter_fixtures_v1.py'
+      - 'research/learned-interpretation-v1/build_learned_request_v1.py'
+      - 'research/learned-interpretation-v1/validate_learned_proposal_v1.py'
+      - 'research/learned-interpretation-v1/ingest_provider_response_v1.py'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  openai-adapter-conformance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify frozen upstream artifact and adapter syntax
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api repos/${GITHUB_REPOSITORY}/actions/runs/36323696425/artifacts --jq '.artifacts[] | select(.id == 10933550802) | [.id,.name,.digest] | @tsv')"
+          expected=$'10933550802\ttrackcade-musical-interpretation-v1-evidence-only\tsha256:6a6b05b6da7c5f59d4473cbb497edce7de2ad2a3ecc7a4d795a6d6f63bc784ab'
+          test "$meta" = "$expected"
+          python -m py_compile \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/make_openai_adapter_fixtures_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            research/learned-interpretation-v1/ingest_provider_response_v1.py
+          echo "Frozen upstream identity and OpenAI adapter syntax verified"
+
+      - name: Download exact frozen interpretation packets/proposals
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-musical-interpretation-v1-evidence-only
+          path: upstream
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36323696425
+          github-token: ${{ github.token }}
+
+      - name: Build provider-neutral requests
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf openai-conformance
+          mkdir -p openai-conformance/requests
+          for fixture in alldat cvb-gemf; do
+            python research/learned-interpretation-v1/build_learned_request_v1.py \
+              --packet "upstream/packets/a/$fixture.json" \
+              --output "$PWD/openai-conformance/requests/$fixture.json"
+          done
+
+      - name: Build deterministic OpenAI payloads twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            mkdir -p "openai-conformance/payloads/$pass" "openai-conformance/prepare-reports/$pass"
+            for fixture in alldat cvb-gemf; do
+              python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+                --request "openai-conformance/requests/$fixture.json" \
+                --packet "upstream/packets/a/$fixture.json" \
+                --model gpt-conformance-sentinel \
+                --reasoning-effort medium \
+                --max-output-tokens 4096 \
+                --payload-output "$PWD/openai-conformance/payloads/$pass/$fixture.json" \
+                --adapter-report-output "$PWD/openai-conformance/prepare-reports/$pass/$fixture.json" \
+                --prepare-only
+            done
+          done
+          diff -ru openai-conformance/payloads/a openai-conformance/payloads/b
+          diff -ru openai-conformance/prepare-reports/a openai-conformance/prepare-reports/b
+
+          python - <<'PY'
+          import json
+          for fixture in ('alldat','cvb-gemf'):
+              d=json.load(open(f'openai-conformance/payloads/a/{fixture}.json'))
+              assert d['model']=='gpt-conformance-sentinel'
+              assert d['store'] is False
+              assert d['reasoning']=={'effort':'medium'}
+              fmt=d['text']['format']
+              assert fmt['type']=='json_schema' and fmt['strict'] is True
+              s=fmt['schema']
+              assert s['additionalProperties'] is False
+              event=s['properties']['events']['items']
+              assert set(event['required'])=={'kind','semanticConfidence','anchor','name','rationale'}
+              assert 'duration' not in event['properties']
+              assert event['additionalProperties'] is False
+              req=json.load(open(f'openai-conformance/requests/{fixture}.json'))
+              assert json.loads(d['input'])['packet']==req['packet']
+          print('OpenAI payloads deterministic, strict, label-blind, and timing-subordinate')
+          PY
+
+      - name: Generate offline OpenAI response fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          for fixture in alldat cvb-gemf; do
+            python research/learned-interpretation-v1/make_openai_adapter_fixtures_v1.py \
+              --packet "upstream/packets/a/$fixture.json" \
+              --known-good-proposal "upstream/research/interpretation-v1/proposals/${fixture}-evidence-only-v1.json" \
+              --output-dir "$PWD/openai-conformance/fixtures/$fixture"
+          done
+
+      - name: Extract valid provider responses byte-exactly and validate them
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p openai-conformance/valid
+          for fixture in alldat cvb-gemf; do
+            mkdir -p "openai-conformance/valid/$fixture"
+            python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+              --request "openai-conformance/requests/$fixture.json" \
+              --packet "upstream/packets/a/$fixture.json" \
+              --model gpt-conformance-sentinel \
+              --payload-output "$PWD/openai-conformance/valid/$fixture/payload.json" \
+              --raw-response-output "$PWD/openai-conformance/valid/$fixture/raw-response.json" \
+              --proposal-candidate-output "$PWD/openai-conformance/valid/$fixture/candidate.json" \
+              --adapter-report-output "$PWD/openai-conformance/valid/$fixture/adapter-report.json" \
+              --response-fixture "openai-conformance/fixtures/$fixture/valid.json"
+            cmp \
+              "openai-conformance/fixtures/$fixture/expected-candidate.json" \
+              "openai-conformance/valid/$fixture/candidate.json"
+            python research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+              --packet "upstream/packets/a/$fixture.json" \
+              --proposal "openai-conformance/valid/$fixture/candidate.json" \
+              --output "$PWD/openai-conformance/valid/$fixture/normalized.json" \
+              --report "$PWD/openai-conformance/valid/$fixture/validation.json"
+          done
+          echo "valid OpenAI responses extracted byte-exactly and pass provider-neutral validation"
+
+      - name: Pass valid extracted outputs through auditable provider ingestion
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p openai-conformance/ingested
+          cat > openai-conformance/parameters.json <<'JSON'
+          {
+            "adapter": "openai-responses-v1",
+            "maxOutputTokens": 4096,
+            "reasoningEffort": "medium",
+            "store": false
+          }
+          JSON
+          for fixture in alldat cvb-gemf; do
+            mkdir -p "openai-conformance/ingested/$fixture"
+            python research/learned-interpretation-v1/ingest_provider_response_v1.py \
+              --request "openai-conformance/requests/$fixture.json" \
+              --packet "upstream/packets/a/$fixture.json" \
+              --raw-provider-response "openai-conformance/valid/$fixture/raw-response.json" \
+              --proposal-candidate "openai-conformance/valid/$fixture/candidate.json" \
+              --provider openai \
+              --model gpt-fixture-snapshot \
+              --provider-request-id resp_fixture_001 \
+              --parameters openai-conformance/parameters.json \
+              --executed-at 2026-09-27T00:00:00Z \
+              --harness-source-commit "$GITHUB_SHA" \
+              --normalized-proposal "$PWD/openai-conformance/ingested/$fixture/normalized.json" \
+              --validation-report "$PWD/openai-conformance/ingested/$fixture/validation.json" \
+              --run-manifest "$PWD/openai-conformance/ingested/$fixture/run-manifest.json"
+          done
+          python - <<'PY'
+          import json
+          for fixture in ('alldat','cvb-gemf'):
+              m=json.load(open(f'openai-conformance/ingested/{fixture}/run-manifest.json'))
+              assert m['provider']=='openai'
+              assert m['trust']['providerResponseTrusted'] is False
+              assert m['trust']['proposalValidated'] is True
+              assert m['trust']['timingAuthority']=='deterministic-structure-evidence-only'
+              assert m['trust']['semanticCompilerStillRequired'] is True
+              assert m['trust']['benchmarkReferencesUsedForGeneration'] is False
+          print('OpenAI adapter output crosses existing auditable ingestion boundary without gaining trust')
+          PY
+
+      - name: Reject malformed/refused/incomplete OpenAI responses without repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p openai-conformance/rejected
+          python - <<'PY'
+          import pathlib, subprocess, sys
+          fixture='alldat'
+          cases=[
+              'incomplete.json','refusal.json','two-output-text.json','wrong-object.json',
+              'missing-id.json','missing-model.json','duplicate-candidate-key.json'
+          ]
+          for name in cases:
+              root=pathlib.Path('openai-conformance/rejected')/name.replace('.json','')
+              root.mkdir(parents=True,exist_ok=True)
+              cmd=[sys.executable,'research/learned-interpretation-v1/openai_responses_adapter_v1.py',
+                   '--request',f'openai-conformance/requests/{fixture}.json',
+                   '--packet',f'upstream/packets/a/{fixture}.json',
+                   '--model','gpt-conformance-sentinel',
+                   '--payload-output',str(root/'payload.json'),
+                   '--raw-response-output',str(root/'raw-response.json'),
+                   '--proposal-candidate-output',str(root/'candidate.json'),
+                   '--adapter-report-output',str(root/'adapter-report.json'),
+                   '--response-fixture',f'openai-conformance/fixtures/{fixture}/{name}']
+              p=subprocess.run(cmd,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+              if p.returncode == 0:
+                  raise SystemExit(f'{name}: expected rejection')
+              if not (root/'raw-response.json').exists():
+                  raise SystemExit(f'{name}: raw response evidence not preserved')
+              if (root/'candidate.json').exists():
+                  raise SystemExit(f'{name}: candidate must not be emitted on framing failure')
+              print(name,'REJECTED')
+          PY
+
+      - name: Prove exact packet-byte binding and missing-key fail-closed behavior
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp upstream/packets/a/alldat.json openai-conformance/alldat-whitespace-mutated.json
+          printf '\n' >> openai-conformance/alldat-whitespace-mutated.json
+          set +e
+          python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            --request openai-conformance/requests/alldat.json \
+            --packet openai-conformance/alldat-whitespace-mutated.json \
+            --model gpt-conformance-sentinel \
+            --payload-output openai-conformance/should-not-exist-payload.json \
+            --adapter-report-output openai-conformance/should-not-exist-report.json \
+            --prepare-only >openai-conformance/packet-mismatch.stdout 2>openai-conformance/packet-mismatch.stderr
+          rc=$?
+          set -e
+          test "$rc" -ne 0
+          grep -q 'packet hash does not match supplied exact packet bytes' openai-conformance/packet-mismatch.stderr
+          test ! -f openai-conformance/should-not-exist-payload.json
+
+          set +e
+          env -u OPENAI_API_KEY python research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            --request openai-conformance/requests/alldat.json \
+            --packet upstream/packets/a/alldat.json \
+            --model gpt-conformance-sentinel \
+            --payload-output openai-conformance/no-key-payload.json \
+            --raw-response-output openai-conformance/no-key-raw.json \
+            --proposal-candidate-output openai-conformance/no-key-candidate.json \
+            --adapter-report-output openai-conformance/no-key-report.json \
+            >openai-conformance/no-key.stdout 2>openai-conformance/no-key.stderr
+          rc=$?
+          set -e
+          test "$rc" -ne 0
+          grep -q 'OPENAI_API_KEY is required for live OpenAI execution' openai-conformance/no-key.stderr
+          test ! -f openai-conformance/no-key-raw.json
+          test ! -f openai-conformance/no-key-candidate.json
+          echo "exact packet bytes and live API key both fail closed"
+
+      - name: Freeze OpenAI adapter conformance hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/make_openai_adapter_fixtures_v1.py \
+            upstream/packets/a/alldat.json \
+            upstream/packets/a/cvb-gemf.json \
+            openai-conformance/requests/*.json \
+            openai-conformance/payloads/a/*.json \
+            openai-conformance/prepare-reports/a/*.json \
+            openai-conformance/fixtures/alldat/*.json \
+            openai-conformance/fixtures/cvb-gemf/*.json \
+            openai-conformance/valid/alldat/*.json \
+            openai-conformance/valid/cvb-gemf/*.json \
+            openai-conformance/ingested/alldat/*.json \
+            openai-conformance/ingested/cvb-gemf/*.json \
+            openai-conformance/parameters.json | tee openai-conformance-sha256.txt
+
+      - name: Upload OpenAI adapter conformance evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-openai-adapter-v1-conformance
+          path: |
+            openai-conformance/**
+            openai-conformance-sha256.txt
+          if-no-files-found: error
+          retention-days: 30
