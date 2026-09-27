@@ -36,11 +36,23 @@ jobs:
           echo '35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c  audited/analysis/cvb-gemf-v019.json' | sha256sum -c -
           python -m py_compile research/structure-v1/generate_safe_manifest_v1.py
 
+      - name: Create minimal new-song metadata fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p metadata generated
+          cat > metadata/alldat-minimal.json <<'JSON'
+          {
+            "artist": "Forever Humble PDX",
+            "title": "ALLDAT — Auto Minimal",
+            "audioUrl": "https://raw.githubusercontent.com/4everhumblepdx/trackcade-test/main/ALLDAT_ruffmix.mp3"
+          }
+          JSON
+
       - name: Generate safe baseline manifests
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p generated
           python research/structure-v1/generate_safe_manifest_v1.py \
             --analysis audited/analysis/alldat-v019.json \
             --template-manifest alldat-trackcade.json \
@@ -49,6 +61,10 @@ jobs:
             --analysis audited/analysis/cvb-gemf-v019.json \
             --template-manifest cvb-gemf-trackcade.json \
             --output generated/cvb-gemf-auto-safe-v1.json
+          python research/structure-v1/generate_safe_manifest_v1.py \
+            --analysis audited/analysis/alldat-v019.json \
+            --track-metadata metadata/alldat-minimal.json \
+            --output generated/alldat-minimal-auto-safe-v1.json
 
       - name: Verify exact timing/energy transfer and no semantic commands
         shell: bash
@@ -57,14 +73,17 @@ jobs:
           python - <<'PY'
           import copy,json,subprocess,sys,tempfile
           cases=[
-            ('audited/analysis/alldat-v019.json','generated/alldat-auto-safe-v1.json',590,14),
-            ('audited/analysis/cvb-gemf-v019.json','generated/cvb-gemf-auto-safe-v1.json',812,8),
+            ('audited/analysis/alldat-v019.json','generated/alldat-auto-safe-v1.json',590,14,'a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405'),
+            ('audited/analysis/cvb-gemf-v019.json','generated/cvb-gemf-auto-safe-v1.json',812,8,'35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c'),
+            ('audited/analysis/alldat-v019.json','generated/alldat-minimal-auto-safe-v1.json',590,14,'a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405'),
           ]
-          for analysis_path,manifest_path,beat_count,section_count in cases:
+          for analysis_path,manifest_path,beat_count,section_count,analysis_sha in cases:
               a=json.load(open(analysis_path));m=json.load(open(manifest_path))
               g=m['generation']
               assert g['schema']=='trackcade-safe-gameplay-baseline-v1',g
               assert g['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432',g
+              assert g['analysisJsonSha256']==analysis_sha,g
+              assert g['sourceFingerprintPolicy']=='diagnostic-only-not-identity',g
               assert g['timingTier'] in {'standard','loose'},g
               assert g['policy']['semanticEventsGenerated']==[],g
               assert g['policy']['dropPeakEnergyCommandsGenerated'] is False,g
@@ -87,6 +106,11 @@ jobs:
               assert m['bpm']==round(float(a['bpm']),6)
               assert m['beatOffset']==round(float(a['beatOffset']),6)
 
+          minimal=json.load(open('generated/alldat-minimal-auto-safe-v1.json'))
+          for key in ('palette','art','baseSpeed','maxSpeed','spawnRowEveryBeats','jumpTime'):
+              assert key not in minimal,(key,minimal.get(key))
+          assert minimal['generation']['policy']['missingArtPaletteTuningPolicy']=='Trackcade loader FALLBACK_TRACK defaults'
+
           # The visual-only tier must fail closed rather than produce fake beat gameplay.
           base=json.load(open('audited/analysis/alldat-v019.json'))
           base=copy.deepcopy(base);base['timingGuardrail']['tier']='visual-only'
@@ -94,7 +118,7 @@ jobs:
               json.dump(base,f); visual_path=f.name
           q=subprocess.run([
               sys.executable,'research/structure-v1/generate_safe_manifest_v1.py',
-              '--analysis',visual_path,'--template-manifest','alldat-trackcade.json',
+              '--analysis',visual_path,'--track-metadata','metadata/alldat-minimal.json',
               '--output','generated/SHOULD_NOT_EXIST.json'
           ],capture_output=True,text=True)
           assert q.returncode!=0,q.stdout
@@ -108,7 +132,8 @@ jobs:
           node --experimental-default-type=module --input-type=module <<'JS'
           import fs from 'node:fs';
           import { validateManifest } from './src/track/loader.js';
-          for (const path of ['generated/alldat-auto-safe-v1.json','generated/cvb-gemf-auto-safe-v1.json']) {
+          import { FALLBACK_TRACK } from './src/track.config.js';
+          for (const path of ['generated/alldat-auto-safe-v1.json','generated/cvb-gemf-auto-safe-v1.json','generated/alldat-minimal-auto-safe-v1.json']) {
             const raw=JSON.parse(fs.readFileSync(path,'utf8'));
             const cfg=validateManifest(raw);
             const kinds=new Set(cfg.events.map(e=>e.kind));
@@ -116,6 +141,14 @@ jobs:
             if (cfg.events.filter(e=>e.kind==='beat').length<2) throw new Error(`${path}: no authored grid`);
             if (!cfg.energyCurve.length) throw new Error(`${path}: no energy curve`);
             console.log(path, {events:cfg.events.length, energy:cfg.energyCurve.length, bpm:cfg.bpm, songLength:cfg.songLength});
+          }
+          const minimalRaw=JSON.parse(fs.readFileSync('generated/alldat-minimal-auto-safe-v1.json','utf8'));
+          const minimal=validateManifest(minimalRaw);
+          for (const key of ['baseSpeed','maxSpeed','speedRampPerSec','energySpeedBoost','spawnRowEveryBeats','jumpTime','laneSwitchTime']) {
+            if (minimal[key] !== FALLBACK_TRACK[key]) throw new Error(`minimal metadata did not use fallback ${key}`);
+          }
+          for (const key of Object.keys(FALLBACK_TRACK.palette)) {
+            if (minimal.palette[key] !== FALLBACK_TRACK.palette[key]) throw new Error(`minimal metadata did not use fallback palette ${key}`);
           }
           JS
           sha256sum generated/*.json
