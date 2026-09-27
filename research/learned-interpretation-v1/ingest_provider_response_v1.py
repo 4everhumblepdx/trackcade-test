@@ -8,7 +8,7 @@ import re
 from datetime import datetime
 from pathlib import Path
 
-from validate_learned_proposal_v1 import load_json_strict, validate_and_normalize
+from validate_learned_proposal_v1 import load_json_strict, validate_and_normalize, validate_packet
 from build_learned_request_v1 import REQUEST_SCHEMA, INSTRUCTION
 
 RUN_SCHEMA = "trackcade-learned-interpretation-provider-run-v1"
@@ -55,6 +55,8 @@ def reject_sensitive_params(value, path="parameters"):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--request", type=Path, required=True)
+    ap.add_argument("--packet", type=Path, required=True,
+                    help="Exact packet bytes used to build the provider request")
     ap.add_argument("--raw-provider-response", type=Path, required=True)
     ap.add_argument("--proposal-candidate", type=Path, required=True,
                     help="Exact JSON content extracted from provider response by a provider-specific adapter; no repair")
@@ -75,28 +77,44 @@ def main():
         raise SystemExit("request schema mismatch")
     if request.get("instruction") != INSTRUCTION:
         raise SystemExit("request instruction mismatch")
-    packet = request.get("packet")
-    if not isinstance(packet, dict):
-        raise SystemExit("request packet missing")
+
+    packet_bytes = args.packet.read_bytes()
+    packet = load_json_strict(args.packet)
+    packet_errors = validate_packet(packet)
+    if packet_errors:
+        raise SystemExit("packet invalid: " + "; ".join(packet_errors))
+    if request.get("packet") != packet:
+        raise SystemExit("request packet does not equal supplied exact packet")
+
     integrity = request.get("integrity") or {}
     expected_packet_sha = integrity.get("packetSha256")
     if not isinstance(expected_packet_sha, str) or not HEX64.fullmatch(expected_packet_sha):
         raise SystemExit("request packet hash invalid")
-    # Reproduce the packet serialization identity used by the request builder only through
-    # the explicit hash it recorded; packet source identity is validated again below.
+    actual_packet_sha = sha256_bytes(packet_bytes)
+    if expected_packet_sha != actual_packet_sha:
+        raise SystemExit("request packet hash does not match supplied exact packet bytes")
     if integrity.get("instructionSha256") != sha256_bytes(INSTRUCTION.encode("utf-8")):
         raise SystemExit("request instruction hash mismatch")
+    if integrity.get("analyzerRunnerSha256") != packet["source"]["analyzerRunnerSha256"]:
+        raise SystemExit("request Analyzer runner identity mismatch")
+    if integrity.get("analysisJsonSha256") != packet["source"]["analysisJsonSha256"]:
+        raise SystemExit("request analysis identity mismatch")
 
     raw_response_bytes = args.raw_provider_response.read_bytes()
     candidate_bytes = args.proposal_candidate.read_bytes()
-    candidate = load_json_strict(args.proposal_candidate)
-    normalized, errors = validate_and_normalize(packet, candidate)
+    try:
+        candidate = load_json_strict(args.proposal_candidate)
+        normalized, errors = validate_and_normalize(packet, candidate)
+    except ValueError as exc:
+        normalized = None
+        errors = [str(exc)]
 
     args.validation_report.parent.mkdir(parents=True, exist_ok=True)
     report = {
         "schema": "trackcade-learned-proposal-validation-v1",
         "status": "valid" if not errors else "rejected",
         "requestSha256": sha256_bytes(request_bytes),
+        "packetSha256": actual_packet_sha,
         "rawProviderResponseSha256": sha256_bytes(raw_response_bytes),
         "proposalCandidateSha256": sha256_bytes(candidate_bytes),
         "errors": errors,
@@ -137,7 +155,7 @@ def main():
         "parameters": params,
         "integrity": {
             "requestSha256": sha256_bytes(request_bytes),
-            "packetSha256": expected_packet_sha,
+            "packetSha256": actual_packet_sha,
             "instructionSha256": integrity["instructionSha256"],
             "rawProviderResponseSha256": sha256_bytes(raw_response_bytes),
             "proposalCandidateSha256": sha256_bytes(candidate_bytes),
