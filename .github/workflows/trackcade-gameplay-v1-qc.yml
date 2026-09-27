@@ -48,13 +48,13 @@ jobs:
             mkdir -p "audit/$pass"
             node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest safe/alldat-auto-safe-v1.json \
-              --output "audit/$pass/alldat.json" --label ALLDAT
+              --output "$PWD/audit/$pass/alldat.json" --label ALLDAT
             node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest safe/cvb-gemf-auto-safe-v1.json \
-              --output "audit/$pass/cvb-gemf.json" --label CVB-GEMF
+              --output "$PWD/audit/$pass/cvb-gemf.json" --label CVB-GEMF
             node research/gameplay-v1/audit_gameplay_v1.mjs \
               --manifest fixtures/fallback-track.json \
-              --output "audit/$pass/fallback.json" --label BUILTIN-FALLBACK
+              --output "$PWD/audit/$pass/fallback.json" --label BUILTIN-FALLBACK
           done
           cmp audit/a/alldat.json audit/b/alldat.json
           cmp audit/a/cvb-gemf.json audit/b/cvb-gemf.json
