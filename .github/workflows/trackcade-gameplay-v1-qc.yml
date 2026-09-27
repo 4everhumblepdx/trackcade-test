@@ -1,0 +1,98 @@
+name: Trackcade Gameplay v1 — Whole-Song QC
+
+on:
+  push:
+    branches: [trackcade-gameplay-difficulty-v1]
+    paths:
+      - '.github/workflows/trackcade-gameplay-v1-qc.yml'
+      - 'research/gameplay-v1/audit_gameplay_v1.mjs'
+      - 'research/gameplay-v1/GAMEPLAY_QC_SPEC.md'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact Structure v1 safe manifests
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-structure-v1-safe-generated-manifests
+          path: safe
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36281637484
+          github-token: ${{ github.token }}
+
+      - name: Materialize built-in fallback manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p audit fixtures
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { FALLBACK_TRACK } from './src/track.config.js';
+          fs.writeFileSync('fixtures/fallback-track.json', JSON.stringify(FALLBACK_TRACK, null, 2) + '\n');
+          JS
+
+      - name: Run deterministic gameplay audits twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          for pass in a b; do
+            mkdir -p "audit/$pass"
+            node research/gameplay-v1/audit_gameplay_v1.mjs \
+              --manifest safe/alldat-auto-safe-v1.json \
+              --output "audit/$pass/alldat.json" --label ALLDAT
+            node research/gameplay-v1/audit_gameplay_v1.mjs \
+              --manifest safe/cvb-gemf-auto-safe-v1.json \
+              --output "audit/$pass/cvb-gemf.json" --label CVB-GEMF
+            node research/gameplay-v1/audit_gameplay_v1.mjs \
+              --manifest fixtures/fallback-track.json \
+              --output "audit/$pass/fallback.json" --label BUILTIN-FALLBACK
+          done
+          cmp audit/a/alldat.json audit/b/alldat.json
+          cmp audit/a/cvb-gemf.json audit/b/cvb-gemf.json
+          cmp audit/a/fallback.json audit/b/fallback.json
+
+      - name: Verify audit integrity and summarize findings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          for name in ('alldat','cvb-gemf','fallback'):
+              x=json.load(open(f'audit/a/{name}.json'))
+              assert x['schema']=='trackcade-gameplay-qc-v1',x
+              assert x['integrity']['finiteRows'] is True,x
+              assert x['integrity']['collisionTimesStrictlyIncreasing'] is True,x
+              assert x['integrity']['everyRowIndividuallySurvivable'] is True,x
+              assert x['counts']['rows'] > 0,x
+              assert x['timing']['spawnToCollisionLead']['min'] > 0,x
+              assert x['runtime']['spawnMinGapZEnforcedByCurrentBeatSpawnPath'] is False,x
+              print(name, {
+                  'status':x['status'],
+                  'rows':x['counts']['rows'],
+                  'min_arrival_gap':x['timing']['rowArrivalGaps']['min'],
+                  'p05_arrival_gap':x['timing']['rowArrivalGaps']['p05'],
+                  'lane_only':x['laneOnlyProof']['pass'],
+                  'bottleneck_slack':x['laneOnlyProof']['bottleneckSlackSeconds'],
+                  'obstacle_pool':x['pools']['obstacles']['max'],
+                  'pickup_pool':x['pools']['pickups']['max'],
+                  'min_spatial_spawn_gap':x['timing']['spatialGapBetweenRowSpawns']['min'],
+                  'configured_spawnMinGapZ':x['runtime']['spawnMinGapZConfigured'],
+              })
+          PY
+          sha256sum audit/a/*.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-gameplay-v1-whole-song-qc
+          path: audit/a/*.json
+          if-no-files-found: error
+          retention-days: 30
