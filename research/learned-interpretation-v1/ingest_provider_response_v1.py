@@ -109,24 +109,22 @@ def main():
         normalized = None
         errors = [str(exc)]
 
-    args.validation_report.parent.mkdir(parents=True, exist_ok=True)
-    report = {
-        "schema": "trackcade-learned-proposal-validation-v1",
-        "status": "valid" if not errors else "rejected",
-        "requestSha256": sha256_bytes(request_bytes),
-        "packetSha256": actual_packet_sha,
-        "rawProviderResponseSha256": sha256_bytes(raw_response_bytes),
-        "proposalCandidateSha256": sha256_bytes(candidate_bytes),
-        "errors": errors,
-    }
-    args.validation_report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    # Proposal-format/authority failure is a provider-output rejection and gets a report.
     if errors:
+        args.validation_report.parent.mkdir(parents=True, exist_ok=True)
+        report = {
+            "schema": "trackcade-learned-proposal-validation-v1",
+            "status": "rejected",
+            "requestSha256": sha256_bytes(request_bytes),
+            "packetSha256": actual_packet_sha,
+            "rawProviderResponseSha256": sha256_bytes(raw_response_bytes),
+            "proposalCandidateSha256": sha256_bytes(candidate_bytes),
+            "errors": errors,
+        }
+        args.validation_report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
         raise SystemExit(2)
 
-    args.normalized_proposal.parent.mkdir(parents=True, exist_ok=True)
-    normalized_bytes = (json.dumps(normalized, indent=2, sort_keys=True) + "\n").encode("utf-8")
-    args.normalized_proposal.write_bytes(normalized_bytes)
-
+    # Validate all provider/run metadata before emitting normalized/publishable-looking files.
     params = {}
     params_sha = None
     if args.parameters:
@@ -145,6 +143,16 @@ def main():
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
         raise SystemExit("harness-source-commit must be a full lowercase git SHA")
 
+    normalized_bytes = (json.dumps(normalized, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    report = {
+        "schema": "trackcade-learned-proposal-validation-v1",
+        "status": "valid",
+        "requestSha256": sha256_bytes(request_bytes),
+        "packetSha256": actual_packet_sha,
+        "rawProviderResponseSha256": sha256_bytes(raw_response_bytes),
+        "proposalCandidateSha256": sha256_bytes(candidate_bytes),
+        "errors": [],
+    }
     run_manifest = {
         "schema": RUN_SCHEMA,
         "provider": provider,
@@ -172,8 +180,14 @@ def main():
             "benchmarkReferencesUsedForGeneration": False,
         },
     }
+
+    args.validation_report.parent.mkdir(parents=True, exist_ok=True)
+    args.normalized_proposal.parent.mkdir(parents=True, exist_ok=True)
     args.run_manifest.parent.mkdir(parents=True, exist_ok=True)
+    args.validation_report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    args.normalized_proposal.write_bytes(normalized_bytes)
     args.run_manifest.write_text(json.dumps(run_manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
     print(json.dumps({
         "status": "ingested_valid_provider_proposal",
         "provider": provider,
