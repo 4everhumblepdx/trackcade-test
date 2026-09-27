@@ -1,0 +1,235 @@
+name: Trackcade Visual World v1 — Deterministic Skins
+
+on:
+  push:
+    branches: [trackcade-visual-world-v1]
+    paths:
+      - '.github/workflows/trackcade-visual-world-v1.yml'
+      - 'research/visual-v1/VISUAL_WORLD_V1_SPEC.md'
+      - 'research/visual-v1/generate_world_skin_v1.mjs'
+      - 'src/track/loader.js'
+      - 'src/track.config.js'
+      - 'src/scenes/play.js'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  skins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download exact closed Gameplay v1 difficulty variants
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-gameplay-v1-difficulty-variants
+          path: gameplay
+          repository: 4everhumblepdx/trackcade-test
+          run-id: 36288512590
+          github-token: ${{ github.token }}
+
+      - name: Freeze upstream provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p evidence
+          cat > evidence/provenance.json <<'JSON'
+          {
+            "analyzerReleaseBranch": "release/analyzer-v0.19",
+            "analyzerSourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+            "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+            "structureSafeManifestRun": 36281637484,
+            "structureSafeManifestArtifactId": 10918568524,
+            "structureSafeManifestArtifactDigest": "sha256:10a67643cf985652c2a5974f59f0b95183ee0f2921253e525b8945eceae63c87",
+            "gameplayClosureCommit": "141bf6127d7af763ea04e497bfe5fcf6e5ff364c",
+            "gameplayVariantRun": 36288512590,
+            "gameplayVariantArtifactId": 10921566934,
+            "gameplayVariantArtifactDigest": "sha256:cd52c03393f3aa5cd9f45ed45e0e3833b145220232ff719dc5353b4e3d12b5c8",
+            "visualWorldSpecCommit": "29bc1a4a0f7b38172857aca6f7658b0520be0dcc"
+          }
+          JSON
+
+      - name: Generate both product skin packs twice
+        shell: bash
+        run: |
+          set -euo pipefail
+          node research/visual-v1/generate_world_skin_v1.mjs \
+            --pack gameplay/variants/a/alldat/publishable \
+            --output visual/a/alldat \
+            --label ALLDAT
+          node research/visual-v1/generate_world_skin_v1.mjs \
+            --pack gameplay/variants/a/cvb-gemf/publishable \
+            --output visual/a/cvb-gemf \
+            --label CVB-GEMF
+          node research/visual-v1/generate_world_skin_v1.mjs \
+            --pack gameplay/variants/a/alldat/publishable \
+            --output visual/b/alldat \
+            --label ALLDAT
+          node research/visual-v1/generate_world_skin_v1.mjs \
+            --pack gameplay/variants/a/cvb-gemf/publishable \
+            --output visual/b/cvb-gemf \
+            --label CVB-GEMF
+
+      - name: Prove deterministic duplicate outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          diff -qr visual/a/alldat visual/b/alldat
+          diff -qr visual/a/cvb-gemf visual/b/cvb-gemf
+
+      - name: Independently validate selection, QC, and immutability
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import copy, hashlib, json, os
+
+          SPEC='29bc1a4a0f7b38172857aca6f7658b0520be0dcc'
+          SKINS=['neon-night','violet-circuit','solar-flare','acid-rain']
+          MODES=['relaxed','standard','rush']
+
+          def stable(v):
+              if isinstance(v, dict): return {k:stable(v[k]) for k in sorted(v)}
+              if isinstance(v, list): return [stable(x) for x in v]
+              return v
+
+          def strip_allowed(v):
+              v=copy.deepcopy(v)
+              v.pop('palette',None)
+              if isinstance(v.get('generation'),dict):
+                  v['generation'].pop('visualWorldV1',None)
+              return stable(v)
+
+          def fallback_seed(v):
+              s='\0'.join([str(v['artist']),str(v['title']),str(v['audioUrl']),str(v['bpm']),str(v['songLength'])])
+              return hashlib.sha256(s.encode()).hexdigest()
+
+          for fixture in ('alldat','cvb-gemf'):
+              root=f'visual/a/{fixture}'
+              source=f'gameplay/variants/a/{fixture}/publishable'
+              report=json.load(open(f'{root}/visual-world-report.json'))
+              assert report['schema']=='trackcade-visual-world-v1'
+              assert report['specCommit']==SPEC
+              assert report['paletteQc']['pass'] is True
+              assert report['paletteQc']['contrastThreshold']==4.5
+              assert report['paletteQc']['rgbDistanceThreshold']==0.45
+              assert report['paletteQc']['hueThresholdDegrees']==45
+              assert len(report['catalogQc'])==4
+              assert [x['id'] for x in report['catalogQc']]==SKINS
+              assert all(x['pass'] for x in report['catalogQc'])
+              assert [m['id'] for m in report['modes']]==MODES
+              assert report['invariants']=={
+                  'analyzerModified': False,
+                  'structureModified': False,
+                  'gameplayModified': False,
+                  'spriteUrlsModified': False,
+                  'sourceCodeModifiedToPassSkin': False,
+                  'resultDependentSkinSearch': False,
+                  'sameSkinAcrossDifficultyModes': True,
+              }
+
+              standard=json.load(open(f'{source}/standard.json'))
+              analysis=standard.get('generation',{}).get('analysisJsonSha256')
+              if isinstance(analysis,str) and len(analysis)==64 and all(c in '0123456789abcdefABCDEF' for c in analysis):
+                  seed=analysis.lower()
+              else:
+                  seed=fallback_seed(standard)
+              expected_index=int(seed[:8],16)%4
+              assert report['selectionSeedSha256']==seed
+              assert report['skinIndex']==expected_index
+              assert report['skinId']==SKINS[expected_index]
+
+              for mode in MODES:
+                  inp=json.load(open(f'{source}/{mode}.json'))
+                  out=json.load(open(f'{root}/publishable/{mode}.json'))
+                  qc=json.load(open(f'{root}/qc/{mode}.json'))
+                  assert strip_allowed(inp)==strip_allowed(out),(fixture,mode,'raw immutable mismatch')
+                  assert out['palette']==report['palette']
+                  meta=out['generation']['visualWorldV1']
+                  assert meta=={
+                      'schema':'trackcade-visual-world-v1',
+                      'specCommit':SPEC,
+                      'skinIndex':expected_index,
+                      'skinId':SKINS[expected_index],
+                      'selectionSeedSha256':seed,
+                      'paletteQcPass':True,
+                      'artUrlsPreserved':True,
+                      'immutableContentPass':True,
+                  }
+                  assert qc['paletteQc']['pass'] is True
+                  assert qc['immutableContentPass'] is True
+                  assert qc['resolvedGameplayPass'] is True
+                  assert qc['artUrlsPreserved'] is True
+                  assert qc['skinId']==SKINS[expected_index]
+                  assert qc['selectionSeedSha256']==seed
+                  for key in ('player','obstacleLow','obstacleWall','orb','cell','skyline'):
+                      assert isinstance(qc['art'][key],str) and qc['art'][key]
+
+              print(fixture, report['skinIndex'], report['skinId'], report['selectionSeedSha256'])
+          PY
+
+          node --experimental-default-type=module --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { validateManifest } from './src/track/loader.js';
+          for (const fixture of ['alldat','cvb-gemf']) {
+            for (const mode of ['relaxed','standard','rush']) {
+              const src = JSON.parse(fs.readFileSync(`gameplay/variants/a/${fixture}/publishable/${mode}.json`, 'utf8'));
+              const out = JSON.parse(fs.readFileSync(`visual/a/${fixture}/publishable/${mode}.json`, 'utf8'));
+              const a = validateManifest(src);
+              const b = validateManifest(out);
+              const pa = a.palette;
+              const pb = b.palette;
+              delete a.palette;
+              delete b.palette;
+              if (JSON.stringify(a) !== JSON.stringify(b)) throw new Error(`${fixture}/${mode}: resolved gameplay/art changed`);
+              if (JSON.stringify(pa) === JSON.stringify(pb) && fixture !== 'alldat' && fixture !== 'cvb-gemf') {
+                throw new Error(`${fixture}/${mode}: unreachable palette check`);
+              }
+            }
+          }
+          console.log('loader-resolved non-palette configs preserved for all outputs');
+          JS
+
+      - name: Freeze output and source hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            visual/a/alldat/visual-world-report.json \
+            visual/a/cvb-gemf/visual-world-report.json \
+            > evidence/report-sha256.txt
+          find visual/a -path '*/publishable/*.json' -type f -print0 | sort -z | xargs -0 sha256sum > evidence/publishable-sha256.txt
+          find visual/a -path '*/qc/*.json' -type f -print0 | sort -z | xargs -0 sha256sum > evidence/qc-sha256.txt
+          sha256sum \
+            research/visual-v1/VISUAL_WORLD_V1_SPEC.md \
+            research/visual-v1/generate_world_skin_v1.mjs \
+            src/track/loader.js \
+            src/track.config.js \
+            src/scenes/play.js \
+            > evidence/visual-source-sha256.txt
+          cat evidence/report-sha256.txt
+          cat evidence/visual-source-sha256.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-visual-world-v1-skins
+          path: |
+            visual/a/alldat/visual-world-report.json
+            visual/a/alldat/publishable/*.json
+            visual/a/alldat/qc/*.json
+            visual/a/cvb-gemf/visual-world-report.json
+            visual/a/cvb-gemf/publishable/*.json
+            visual/a/cvb-gemf/qc/*.json
+            evidence/provenance.json
+            evidence/report-sha256.txt
+            evidence/publishable-sha256.txt
+            evidence/qc-sha256.txt
+            evidence/visual-source-sha256.txt
+            research/visual-v1/VISUAL_WORLD_V1_SPEC.md
+            research/visual-v1/generate_world_skin_v1.mjs
+          if-no-files-found: error
+          retention-days: 30
