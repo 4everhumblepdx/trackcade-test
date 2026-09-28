@@ -1,0 +1,160 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v3-prep-freeze-v1",
+  "status": "frozen-before-any-v3-provider-response",
+  "developmentRevision": "stage1-drop-semantics-v2-structure-evidence-v2",
+  "frozenAtUtc": "2026-09-28T17:21:24Z",
+  "prep": {
+    "runId": 36457485587,
+    "runNumber": 3,
+    "runAttempt": 1,
+    "runConclusion": "success",
+    "jobId": 109047411059,
+    "headSha": "a0e58581a213f74ce166d4a02deea4d3bb89e9e3",
+    "workflowPath": ".github/workflows/trackcade-semantic-external-stage1-v3-prep-v1.yml",
+    "workflowBlobSha": "d2dfb803efbff469d7e0fc42c65245de60495bfd",
+    "artifactId": 10986506165,
+    "artifactName": "trackcade-semantic-external-stage1-v3-prep-v1",
+    "artifactDigest": "sha256:5f9e4159faf620f6b527fecc649b456633a3dccfca074dca7c6a422d3527e376",
+    "artifactSizeBytes": 1595814,
+    "manifestSha256": "df7ceff4c82291552a2d55dd7ddf872269477d0766bf4cb785a90b5730779257",
+    "filesSha256ManifestSha256": "1ed91477e0d4b64c4a8d134537add835bc190ce463b653c2559405204bf53fc5",
+    "filesSha256Entries": 302,
+    "archiveFiles": 303,
+    "trackCount": 50,
+    "providerCallsObserved": 0,
+    "completedProviderResponses": 0,
+    "referenceLabelsReadByPreparation": false,
+    "terminalTracksProcessed": false,
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "compilerInvoked": false
+  },
+  "immutableInputs": {
+    "analyzer": {
+      "release": "v0.19",
+      "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+      "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+    },
+    "baseStage1Prep": {
+      "runId": 36367290783,
+      "artifactId": 10948246126,
+      "artifactName": "trackcade-semantic-external-stage1-prep-v1",
+      "artifactDigest": "sha256:accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a",
+      "headSha": "45f9c12f384549f8fa215f505e520741f455bcdd",
+      "manifestSha256": "350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff"
+    },
+    "stage1V2Prep": {
+      "runId": 36416837060,
+      "artifactId": 10967717082,
+      "artifactName": "trackcade-semantic-external-stage1-v2-prep-v1",
+      "artifactDigest": "sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd",
+      "headSha": "ba45aa47fc952d9c2e3b30151c61c2be046b1023",
+      "manifestSha256": "82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9"
+    },
+    "structureEvidenceV2": {
+      "freezeCommit": "708e824fd977a240e86dd9425a1a5e1b437775ad",
+      "bundleSha256": "16858488f584ef85164241679c6dcf3675393e46ff33d99f8bde6b6617a7c4ca",
+      "policy": "current-core-accent-table-v2",
+      "exporterBlobSha": "106cf27f9df97562e89f989db5fa5acde2cc000a",
+      "exporterSha256": "bf9a577ea8a245547668eeda3f299d09a034274833ab4185e375f6301863ab1a"
+    }
+  },
+  "semanticInstruction": {
+    "sourceRevision": "stage1-drop-semantics-v2",
+    "sourceInstructionSha256": "59a2da419ca32edc6c440ead0880649286043a698cf3f3b3b752e750dfcda0ce",
+    "v3InstructionSha256": "6a4f014c89afe0d25df6af70b81f6caa169881faf7cc04c6eba9246582b7e427",
+    "semanticRetuningPerformed": false,
+    "mechanicalAdaptations": [
+      "proposal schema identifier v1 -> v2",
+      "anchor output boundary|landmark -> unified evidence row index",
+      "landmark-specific Drop sentence -> generic evidence-anchor sentence",
+      "added frozen Structure Evidence v2 descriptor clarification"
+    ]
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false,
+    "completedResponsesPerTrackAtFreeze": 0
+  },
+  "proposalContract": {
+    "requestSchema": "trackcade-learned-interpretation-request-v2",
+    "proposalSchema": "trackcade-musical-interpretation-v2",
+    "anchorType": "evidence",
+    "anchorIndexMeaning": "zero-based packet.anchors row index",
+    "independentTimestampsAllowed": false,
+    "timingAuthority": "frozen-analyzer-derived-anchor-only"
+  },
+  "sourceIdentities": {
+    "buildLearnedRequestV2BlobSha": "a930abf4dadc23a4008b2a331fa3b08b0d74a1be",
+    "buildLearnedRequestV3BlobSha": "02e38745a0c699d460c7edb6d4f4ce7536051a88",
+    "validateLearnedProposalV3BlobSha": "ebb4d23b1b9b77024dae9068127188879b715509",
+    "openaiResponsesAdapterV1BlobSha": "f48198edbe2bf593e52e9d708fe6a85d34d49f65",
+    "openaiResponsesAdapterV3BlobSha": "f947d6da594d632716f2bc4094b0ca279f262673",
+    "ingestProviderResponseV1BlobSha": "c415c7c6ed3b7ae7f261f416ef21d82104c40047",
+    "ingestProviderResponseV3BlobSha": "891258a31c5619e6730cd117712c0b22050bb208",
+    "prepareStage1V3RequestsBlobSha": "7f746f83060fad22060696a36928e94cac713cba",
+    "runStage1V3ProviderCaseBlobSha": "37f2e28e4d473f4a4277cef659e14ea949bd7019",
+    "evaluateStage1V3DropBlobSha": "992449c16c3b74a15235f0a16a736a925fcc39b0",
+    "frozenStage1ScorerBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+    "testStage1V3ContractBlobSha": "7beb1c645ea95b094ef1af3abda32e4629a7596b",
+    "stage1V3DevelopmentProtocolBlobSha": "6e56c4d5504e66b5614e5d6ece6b31d0481228cc"
+  },
+  "artifactAudit": {
+    "downloadedArchiveSha256MatchedArtifactDigest": true,
+    "filesSha256EntriesVerified": 302,
+    "tracksVerified": 50,
+    "allInstructionDiffsSemanticRetuningFalse": true,
+    "allProviderPayloadsModelContractVerified": true,
+    "allProviderInputsExcludeSourceMapAliases": true,
+    "allProviderInputsExcludeReferenceAndDiagnosticTokens": true,
+    "allPacketAndPayloadHashesMatchPrepManifest": true
+  },
+  "footprint": {
+    "structureEvidenceV2PacketBytesTotal": 1304729,
+    "structureEvidenceV2PacketBytesMean": 26094.58,
+    "requestBytesTotal": 3334839,
+    "requestBytesMean": 66696.78,
+    "openaiPayloadBytesTotal": 1797863,
+    "openaiPayloadBytesMean": 35957.26,
+    "tokenEstimate": null,
+    "tokenEstimateNote": "No tokenizer was invoked during preparation; byte counts are not represented as billed token usage."
+  },
+  "futureStage1Evaluation": {
+    "view": "raw-proposal-drops-only",
+    "compilerInvoked": false,
+    "timeResolution": "packet.anchors[event.anchor.index][0]",
+    "primaryToleranceSeconds": 2.0,
+    "sensitivityToleranceSeconds": [1.0, 5.0],
+    "scoringImplementation": "imported-unchanged-from-evaluate_stage1_drop_v1.py"
+  },
+  "preProviderInfrastructureHistory": [
+    {
+      "runId": 36456744692,
+      "headSha": "693f7727eb43e38a899d90a02250d1a890f9587b",
+      "conclusion": "failure",
+      "classification": "source-identity-guard-failure-before-prep-artifact-download-or-provider-access"
+    },
+    {
+      "runId": 36457198720,
+      "headSha": "30bdf0064dd2d39db09d2eccb589dbdc19ceb4b4",
+      "conclusion": "failure",
+      "classification": "source-identity-guard-failure-before-prep-artifact-download-or-provider-access"
+    }
+  ],
+  "researchBoundary": {
+    "stage1IsDevelopmentData": true,
+    "terminalSetUntouched": true,
+    "referenceLabelsUsedForGeneration": false,
+    "analyzerV019Changed": false,
+    "aiTimingAuthority": false,
+    "compilerSemanticsChanged": false,
+    "compilerIntegratedIntoV3Experiment": false,
+    "v3ProviderGenerationPerformedAtFreeze": false,
+    "v3Stage1EvaluationPerformedAtFreeze": false,
+    "stopAfterThisFreeze": true
+  }
+}
