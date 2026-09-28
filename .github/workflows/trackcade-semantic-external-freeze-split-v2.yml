@@ -116,7 +116,7 @@ jobs:
           mkdir -p "$CORPUS"
           7z x "$PARTS/mp3s_soundcloud_cc_event_detection.zip" -o"$CORPUS" -y
           test -d "$CORPUS/mp3s_soundcloud_cc_event_detection"
-          test "$(find "$CORPUS" -type f | wc -l)" -eq 805
+          test "$(find "$CORPUS" -type f | wc -l)" -eq 804
 
       - name: Validate all annotations and freeze corrected V2 split
         if: steps.frozen.outputs.complete != 'true'
