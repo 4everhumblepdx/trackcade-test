@@ -1,0 +1,72 @@
+name: Trackcade Semantic External Holdout v1 — Freeze Candidate Pairs
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/build_candidate_pairs_v1.py
+      - research/semantic-external-holdout-v1/OSF_SPLIT_ZIP_INDEX_V1.json
+      - .github/workflows/trackcade-semantic-external-candidate-pairs-v1.yml
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-candidate-pairs:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: trackcade-semantic-external-holdout-v1
+          fetch-depth: 0
+
+      - name: Build or verify frozen candidate pairs
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          OUT="$BASE/CANDIDATE_PAIRS_V1.json"
+          SHA="$BASE/CANDIDATE_PAIRS_V1.sha256"
+          TMP="${RUNNER_TEMP}/CANDIDATE_PAIRS_V1.current.json"
+
+          python3 "$BASE/build_candidate_pairs_v1.py" \
+            --index "$BASE/OSF_SPLIT_ZIP_INDEX_V1.json" \
+            --output "$TMP"
+
+          if [[ -f "$OUT" ]]; then
+            cmp -s "$OUT" "$TMP" || {
+              echo 'ERROR: candidate-pair derivation differs from frozen manifest.' >&2
+              exit 1
+            }
+            EXPECTED="$(awk '{print $1}' "$SHA")"
+            ACTUAL="$(sha256sum "$OUT" | awk '{print $1}')"
+            [[ "$EXPECTED" == "$ACTUAL" ]] || {
+              echo 'ERROR: frozen candidate-pair SHA sidecar mismatch.' >&2
+              exit 1
+            }
+            echo "Frozen candidate pairs verified: $ACTUAL"
+            exit 0
+          fi
+
+          mv "$TMP" "$OUT"
+          sha256sum "$OUT" > "$SHA"
+          cat "$SHA"
+
+      - name: Commit first frozen candidate pairs
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          git add "$BASE/CANDIDATE_PAIRS_V1.json" "$BASE/CANDIDATE_PAIRS_V1.sha256"
+          if git diff --cached --quiet; then
+            echo 'No candidate-pair commit needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Freeze external semantic candidate pairs [skip ci]'
+          git push origin HEAD:trackcade-semantic-external-holdout-v1
