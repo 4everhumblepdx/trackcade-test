@@ -1,0 +1,71 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v2-generation-freeze-v1",
+  "status": "frozen-after-exactly-one-completed-v2-response-per-stage1-track-before-v2-evaluation",
+  "stage": "stage1",
+  "developmentRevision": "stage1-drop-semantics-v2",
+  "sourceGeneration": {
+    "runId": 36417614053,
+    "headSha": "45703780da7c63133175502c0301965e40f876f0",
+    "workflowPath": ".github/workflows/trackcade-semantic-external-stage1-v2-sol-v1.yml",
+    "runAttempt": 1,
+    "runConclusion": "success",
+    "expectedCases": 50,
+    "completedCases": 50,
+    "retryEligibleCases": 0,
+    "noRetryObservedCases": 0,
+    "providerRerunPermitted": false
+  },
+  "artifactInventoryFreeze": {
+    "workflowRunId": 36421269293,
+    "workflowHeadSha": "a21a4017cf04c127dc19a10d77d439a6066dfe1e",
+    "artifactId": 10969157607,
+    "artifactName": "trackcade-semantic-external-stage1-v2-generation-freeze-v1",
+    "artifactDigest": "sha256:28eb55070f03c4384628e2d497b368e4ede66c3243ef9be7135893ce64697ca0",
+    "inventoryFile": "STAGE1_V2_GENERATION_ARTIFACT_INVENTORY_V1.json",
+    "inventorySha256": "2c73f75eeac1d1f9ca442c1ad87b38d05a125de03d5812bae7af86a20fafec4e",
+    "inventoryCases": 50,
+    "ordinalsExactOneThroughFifty": true,
+    "semanticProposalContentsInspectedByFreeze": false,
+    "benchmarkLabelsReadByFreeze": false
+  },
+  "frozenPrep": {
+    "runId": 36416837060,
+    "headSha": "ba45aa47fc952d9c2e3b30151c61c2be046b1023",
+    "artifactId": 10967717082,
+    "artifactName": "trackcade-semantic-external-stage1-v2-prep-v1",
+    "artifactDigest": "sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd",
+    "manifestSha256": "82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9",
+    "instructionSha256": "59a2da419ca32edc6c440ead0880649286043a698cf3f3b3b752e750dfcda0ce",
+    "providerCallsAtPrepFreeze": 0
+  },
+  "compatibilitySources": {
+    "builderV2GitBlobSha": "a930abf4dadc23a4008b2a331fa3b08b0d74a1be",
+    "adapterV2GitBlobSha": "8308548357254dafc01059fff48694fb17ad753b",
+    "ingesterV2GitBlobSha": "de34c204e764e0616e1a7402bf327e36e5b3eb8a"
+  },
+  "analyzer": {
+    "release": "v0.19",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false,
+    "completedResponsesPerTrack": 1
+  },
+  "researchBoundary": {
+    "sameFrozenStage1Tracks": true,
+    "sameInterpretationPackets": true,
+    "sameStructureEvidence": true,
+    "sameSafeManifests": true,
+    "sameCompilerV1": true,
+    "sameDropEvaluationV1": true,
+    "v2EvaluationPerformedAtFreeze": false,
+    "terminalSetUntouched": true,
+    "aiTimingAuthority": false
+  }
+}
