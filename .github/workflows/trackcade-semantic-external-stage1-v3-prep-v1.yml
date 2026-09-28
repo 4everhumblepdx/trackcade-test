@@ -1,0 +1,204 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V3 Frozen Prep
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V3_DEVELOPMENT_PROTOCOL.md
+      - research/semantic-external-holdout-v1/prepare_stage1_v3_requests.py
+      - research/semantic-external-holdout-v1/test_stage1_v3_contract.py
+      - research/learned-interpretation-v1/build_learned_request_v3.py
+      - research/learned-interpretation-v1/validate_learned_proposal_v3.py
+      - research/learned-interpretation-v1/openai_responses_adapter_v3.py
+      - .github/workflows/trackcade-semantic-external-stage1-v3-prep-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v3-prep-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  LEARNED: research/learned-interpretation-v1
+  STRUCTURE_FREEZE_COMMIT: '708e824fd977a240e86dd9425a1a5e1b437775ad'
+  STRUCTURE_BUNDLE_SHA256: '16858488f584ef85164241679c6dcf3675393e46ff33d99f8bde6b6617a7c4ca'
+  BASE_PREP_RUN_ID: '36367290783'
+  BASE_PREP_ARTIFACT_ID: '10948246126'
+  BASE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-prep-v1
+  BASE_PREP_ARTIFACT_DIGEST: sha256:accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a
+  BASE_PREP_COMMIT: '45f9c12f384549f8fa215f505e520741f455bcdd'
+  BASE_PREP_MANIFEST_SHA256: '350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff'
+  V2_PREP_RUN_ID: '36416837060'
+  V2_PREP_ARTIFACT_ID: '10967717082'
+  V2_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v2-prep-v1
+  V2_PREP_ARTIFACT_DIGEST: sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd
+  V2_PREP_COMMIT: 'ba45aa47fc952d9c2e3b30151c61c2be046b1023'
+  V2_PREP_MANIFEST_SHA256: '82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9'
+  V2_BUILDER_SHA256: 'a930abf4dadc23a4008b2a331fa3b08b0d74a1be'
+  V3_BUILDER_SHA256: '9f7460d236ae8136456716c7872dae79d6e8259c2db40910c5f9331d9f85e0bf'
+  V3_VALIDATOR_SHA256: 'f8480af0911b2d5baba1913003f8c98d80934a82d7c17b51dcc48cc4b2cb45e4'
+  V3_ADAPTER_SHA256: '4dce1a440a31571f8afa0cd08ab3dbd69b73bd0465278233a349415073626a89'
+  V3_PREP_SHA256: '71d5b143efcb299bccda2d230247ccdac9bac880625a79c5fe4b75fb881fcb5c'
+  V3_TEST_SHA256: '9bb00c8a3a837c643acf94787ffb841c884127334c86f7bc4cba984849369ae2'
+  V3_PROTOCOL_SHA256: '106afe59a03b6f64fd2307532fd4160a86ddc39b0572b0ea406d8fb6371a4b4b'
+
+jobs:
+  prepare-v3:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact label-blind V3 preparation source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/STAGE1_V3_DEVELOPMENT_PROTOCOL.md
+            research/semantic-external-holdout-v1/prepare_stage1_v3_requests.py
+            research/semantic-external-holdout-v1/test_stage1_v3_contract.py
+            research/semantic-external-holdout-v1/run_stage1_v3_provider_case_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_v3_drop_v1.py
+            research/semantic-external-holdout-v1/export_structure_evidence_v2.py
+            research/semantic-external-holdout-v1/STAGE1_STRUCTURE_EVIDENCE_V2_PACKETS.zip
+            research/learned-interpretation-v1/build_learned_request_v1.py
+            research/learned-interpretation-v1/build_learned_request_v2.py
+            research/learned-interpretation-v1/build_learned_request_v3.py
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v3.py
+            research/learned-interpretation-v1/ingest_provider_response_v1.py
+            research/learned-interpretation-v1/ingest_provider_response_v3.py
+          sparse-checkout-cone-mode: false
+
+      - name: Verify frozen research boundary and V3 source bytes
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$STRUCTURE_FREEZE_COMMIT" HEAD
+          test "$(sha256sum "$BASE/STAGE1_STRUCTURE_EVIDENCE_V2_PACKETS.zip" | awk '{print $1}')" = "$STRUCTURE_BUNDLE_SHA256"
+          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v2.py)" = "$V2_BUILDER_SHA256"
+          test "$(sha256sum "$LEARNED/build_learned_request_v3.py" | awk '{print $1}')" = "$V3_BUILDER_SHA256"
+          test "$(sha256sum "$LEARNED/validate_learned_proposal_v3.py" | awk '{print $1}')" = "$V3_VALIDATOR_SHA256"
+          test "$(sha256sum "$LEARNED/openai_responses_adapter_v3.py" | awk '{print $1}')" = "$V3_ADAPTER_SHA256"
+          test "$(sha256sum "$BASE/prepare_stage1_v3_requests.py" | awk '{print $1}')" = "$V3_PREP_SHA256"
+          test "$(sha256sum "$BASE/test_stage1_v3_contract.py" | awk '{print $1}')" = "$V3_TEST_SHA256"
+          test "$(sha256sum "$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md" | awk '{print $1}')" = "$V3_PROTOCOL_SHA256"
+          grep -Fq 'FROZEN BEFORE ANY V3 PROVIDER RESPONSE' "$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md"
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          python -m py_compile \
+            "$LEARNED/build_learned_request_v3.py" \
+            "$LEARNED/validate_learned_proposal_v3.py" \
+            "$LEARNED/openai_responses_adapter_v3.py" \
+            "$LEARNED/ingest_provider_response_v3.py" \
+            "$BASE/prepare_stage1_v3_requests.py" \
+            "$BASE/run_stage1_v3_provider_case_v1.py" \
+            "$BASE/evaluate_stage1_v3_drop_v1.py" \
+            "$BASE/test_stage1_v3_contract.py"
+          PYTHONPATH="$LEARNED" python "$BASE/test_stage1_v3_contract.py"
+
+      - name: Verify immutable prep artifact identities
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          base_meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${BASE_PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          base_expected="${BASE_PREP_ARTIFACT_ID}\t${BASE_PREP_ARTIFACT_NAME}\t${BASE_PREP_ARTIFACT_DIGEST}\t${BASE_PREP_RUN_ID}\t${BASE_PREP_COMMIT}"
+          test "$base_meta" = "$(printf '%b' "$base_expected")"
+          v2_meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${V2_PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          v2_expected="${V2_PREP_ARTIFACT_ID}\t${V2_PREP_ARTIFACT_NAME}\t${V2_PREP_ARTIFACT_DIGEST}\t${V2_PREP_RUN_ID}\t${V2_PREP_COMMIT}"
+          test "$v2_meta" = "$(printf '%b' "$v2_expected")"
+
+      - name: Download exact frozen Stage 1 base prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.BASE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/base-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.BASE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen Stage 1 V2 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V2_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v2-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.V2_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify prep manifests before V3 construction
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/base-prep/STAGE1_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$BASE_PREP_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v2-prep/STAGE1_V2_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$V2_PREP_MANIFEST_SHA256"
+          test "$(find "${RUNNER_TEMP}/base-prep/cases" -type f -name analysis-v019.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/v2-prep/cases" -type f -name interpretation-packet-v1.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/v2-prep/cases" -type f -name structure-evidence-v1.json | wc -l)" -eq 50
+
+      - name: Prepare exact 50 V3 requests and payloads with zero provider calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v3-prep"
+          PYTHONPATH="$LEARNED" python "$BASE/prepare_stage1_v3_requests.py" \
+            --base-prep-root "${RUNNER_TEMP}/base-prep" \
+            --v2-prep-root "${RUNNER_TEMP}/v2-prep" \
+            --structure-bundle "$BASE/STAGE1_STRUCTURE_EVIDENCE_V2_PACKETS.zip" \
+            --output-dir "$OUT" \
+            --builder "$LEARNED/build_learned_request_v3.py" \
+            --adapter "$LEARNED/openai_responses_adapter_v3.py" \
+            --exporter "$BASE/export_structure_evidence_v2.py"
+
+      - name: Verify V3 prep closure and zero-call boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v3-prep"
+          python - "$OUT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          d=json.loads((root/'STAGE1_V3_PREP_MANIFEST_V1.json').read_text())
+          assert d['schema']=='trackcade-semantic-external-stage1-v3-prep-v1'
+          assert d['status']=='frozen-v3-provider-payloads-prepared-no-provider-call'
+          assert d['developmentRevision']=='stage1-drop-semantics-v2-structure-evidence-v2'
+          assert d['trackCount']==50 and len(d['tracks'])==50
+          assert d['referenceLabelsReadByPreparation'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['analyzerExecuted'] is False and d['audioDecoded'] is False
+          assert d['providerCallsObserved']==0 and d['compilerInvoked'] is False
+          assert d['modelContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':4096,'store':False,
+            'completedResponsesPerTrack':0,
+          }
+          assert d['sourceStructureEvidenceV2']['bundleSha256']=='16858488f584ef85164241679c6dcf3675393e46ff33d99f8bde6b6617a7c4ca'
+          assert len(list(root.glob('cases/*/structure-evidence-v2.json')))==50
+          assert len(list(root.glob('cases/*/structure-evidence-v2-source-map.json')))==50
+          assert len(list(root.glob('cases/*/learned-request-v3.json')))==50
+          assert len(list(root.glob('cases/*/openai-payload-v3.json')))==50
+          assert len(list(root.glob('cases/*/instruction-diff-v3.json')))==50
+          assert all(json.loads(p.read_text())['semanticRetuningPerformed'] is False for p in root.glob('cases/*/instruction-diff-v3.json'))
+          print(json.dumps({'manifest':d['schema'],'providerCalls':0,'footprint':d['footprint']},indent=2))
+          PY
+          ! grep -R -n --fixed-strings 'REFERENCE_DROPS' "$OUT"
+          ! grep -R -n --fixed-strings '"dropsSeconds"' "$OUT"
+          ! grep -R -n --fixed-strings '"diagnosticLabelHint"' "$OUT"
+          ! grep -R -n --fixed-strings '"diagnosticTypeHint"' "$OUT"
+
+      - name: Upload immutable Stage 1 V3 pre-provider prep evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v3-prep-v1
+          path: ${{ runner.temp }}/stage1-v3-prep
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
