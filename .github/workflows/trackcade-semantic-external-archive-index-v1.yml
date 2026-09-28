@@ -1,0 +1,81 @@
+name: Trackcade Semantic External Holdout v1 — Freeze Split Archive Index
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/inspect_osf_split_archive_v1.py
+      - research/semantic-external-holdout-v1/OSF_INVENTORY_V1.json
+      - .github/workflows/trackcade-semantic-external-archive-index-v1.yml
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-split-archive-index:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: trackcade-semantic-external-holdout-v1
+          fetch-depth: 0
+
+      - name: Inspect final split ZIP segment and README
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          README_OUT="$BASE/OSF_README_V1.txt"
+          INDEX_OUT="$BASE/OSF_SPLIT_ZIP_INDEX_V1.json"
+          README_TMP="${RUNNER_TEMP}/OSF_README_V1.current.txt"
+          INDEX_TMP="${RUNNER_TEMP}/OSF_SPLIT_ZIP_INDEX_V1.current.json"
+
+          python3 "$BASE/inspect_osf_split_archive_v1.py" \
+            --inventory "$BASE/OSF_INVENTORY_V1.json" \
+            --readme-output "$README_TMP" \
+            --index-output "$INDEX_TMP"
+
+          if [[ -f "$README_OUT" || -f "$INDEX_OUT" ]]; then
+            [[ -f "$README_OUT" && -f "$INDEX_OUT" ]] || {
+              echo 'ERROR: partial frozen archive inspection state.' >&2
+              exit 1
+            }
+            cmp -s "$README_OUT" "$README_TMP" || {
+              echo 'ERROR: OSF README differs from frozen snapshot.' >&2
+              exit 1
+            }
+            cmp -s "$INDEX_OUT" "$INDEX_TMP" || {
+              echo 'ERROR: split ZIP central-directory index differs from frozen snapshot.' >&2
+              exit 1
+            }
+            echo 'Frozen README and split ZIP index verified.'
+            exit 0
+          fi
+
+          mv "$README_TMP" "$README_OUT"
+          mv "$INDEX_TMP" "$INDEX_OUT"
+          sha256sum "$README_OUT" > "$BASE/OSF_README_V1.sha256"
+          sha256sum "$INDEX_OUT" > "$BASE/OSF_SPLIT_ZIP_INDEX_V1.sha256"
+
+      - name: Commit first frozen archive inspection
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          git add \
+            "$BASE/OSF_README_V1.txt" \
+            "$BASE/OSF_README_V1.sha256" \
+            "$BASE/OSF_SPLIT_ZIP_INDEX_V1.json" \
+            "$BASE/OSF_SPLIT_ZIP_INDEX_V1.sha256"
+          if git diff --cached --quiet; then
+            echo 'No archive-index commit needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Freeze external semantic split archive index [skip ci]'
+          git push origin HEAD:trackcade-semantic-external-holdout-v1
