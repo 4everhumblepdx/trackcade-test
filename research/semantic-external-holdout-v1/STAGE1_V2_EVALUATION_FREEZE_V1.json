@@ -1,0 +1,130 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v2-evaluation-freeze-v1",
+  "status": "frozen-before-any-further-stage1-tuning-and-before-terminal-evaluation",
+  "stage": "stage1",
+  "developmentRevision": "stage1-drop-semantics-v2",
+  "scope": "expert Drop agreement only; Build and Break are not evaluation targets",
+  "evaluationContract": {
+    "path": "research/semantic-external-holdout-v1/DROP_EVALUATION_V1.md",
+    "primaryToleranceSeconds": 2.0,
+    "sensitivityToleranceSeconds": [1.0, 5.0],
+    "scoringImplementation": "imported unchanged from evaluate_stage1_drop_v1.py",
+    "frozenV1ScorerGitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+    "frozenV1ScorerFileSha256": "90aefb42a868553c75de4c3cca26bb646fc4706e8fbd09892e4a412323b62bb8",
+    "v2CompatibilityEvaluatorGitBlobSha": "e5c505337e00fd5ecf26462e963d8ee4159cb0c0"
+  },
+  "generation": {
+    "runId": 36417614053,
+    "headSha": "45703780da7c63133175502c0301965e40f876f0",
+    "completedProviderResponses": 50,
+    "retryEligibleCases": 0,
+    "noRetryObservedCases": 0,
+    "providerRerunPermitted": false,
+    "requestedModel": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false
+  },
+  "generationFreeze": {
+    "path": "research/semantic-external-holdout-v1/STAGE1_V2_GENERATION_FREEZE_V1.json",
+    "fileSha256": "c504d5ee8faa7fe683aaa8a4e3b21118a872e8bcf7f2807cc5c539dbe386ebd5",
+    "inventoryArtifactId": 10969157607,
+    "inventoryArtifactDigest": "sha256:28eb55070f03c4384628e2d497b368e4ede66c3243ef9be7135893ce64697ca0",
+    "inventorySha256": "2c73f75eeac1d1f9ca442c1ad87b38d05a125de03d5812bae7af86a20fafec4e"
+  },
+  "evaluation": {
+    "runId": 36422343556,
+    "headSha": "98e805d5b5b0af90efa86f5c8521986a65e7888f",
+    "artifactId": 10970102213,
+    "artifactName": "trackcade-semantic-external-stage1-v2-drop-evaluation-v1",
+    "artifactDigest": "sha256:b9f77d6bb9204ab75d75d3862eeafe1928c5c0a94b3bafd448d5b5f317c6a460",
+    "candidateSha256": "d22f12ea2cf59ebc87910a24a46496eb4bf042e36fb9b1c59ffc7870b962d531",
+    "evaluationSha256": "bf6b45fb65ad7d1602d90481794310cae46e3335b0b55d3d8b0933b52c50ffc5",
+    "headlineSha256": "65562882fa6ed1d07fa99db1cdffcaa54907fe76bc5c4a5b4faf0e685e7b9a0b",
+    "provenanceSha256": "697b66382d31dad59de9fb5a408077e3463b9267540256c5637f4e544edbba85",
+    "comparisonSha256": "685f77095c1b687ce0f2952bbb8e779c768ece6ac4241ffd6cf41dc359e8da18",
+    "referenceDropsSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+    "compilerGitBlobSha": "ff9051e7201b66c1e4a0eb000098d35668a1b810",
+    "compilerSha256": "3537e0b4e255342e07cc800c9bdcefaefaa9d2b643717de7d2fbf4eb4037563b",
+    "providerCallsMadeByEvaluator": 0,
+    "terminalTracksProcessed": false
+  },
+  "analyzer": {
+    "release": "v0.19",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "primaryResultAtTwoSeconds": {
+    "referenceSupport": 46,
+    "proposalDrops": {
+      "candidateSupport": 73,
+      "matchedSupport": 15,
+      "truePositives": 15,
+      "falsePositives": 58,
+      "falseNegatives": 31,
+      "microPrecision": 0.2054794520547945,
+      "microRecall": 0.32608695652173914,
+      "microF1": 0.2521008403361344,
+      "meanAbsoluteErrorSeconds": 0.8212666666666678,
+      "medianAbsoluteErrorSeconds": 0.8849999999999909,
+      "maxAbsoluteErrorSeconds": 1.7750000000000057
+    },
+    "compilerAcceptedDrops": {
+      "candidateSupport": 29,
+      "matchedSupport": 10,
+      "truePositives": 10,
+      "falsePositives": 19,
+      "falseNegatives": 36,
+      "microPrecision": 0.3448275862068966,
+      "microRecall": 0.21739130434782608,
+      "microF1": 0.26666666666666666,
+      "meanAbsoluteErrorSeconds": 0.6936000000000007,
+      "medianAbsoluteErrorSeconds": 0.33500000000000796,
+      "maxAbsoluteErrorSeconds": 1.7750000000000057
+    }
+  },
+  "sensitivity": {
+    "proposalMicroF1": {
+      "1.0": 0.15126050420168066,
+      "2.0": 0.2521008403361344,
+      "5.0": 0.2857142857142857
+    },
+    "acceptedMicroF1": {
+      "1.0": 0.18666666666666665,
+      "2.0": 0.26666666666666666,
+      "5.0": 0.29333333333333333
+    }
+  },
+  "frozenV1ComparisonAtTwoSeconds": {
+    "v1ProposalMicroF1": 0.2764227642276423,
+    "v2ProposalMicroF1": 0.2521008403361344,
+    "proposalF1DeltaV2MinusV1": -0.02432192389150789,
+    "v1ProposalPrecision": 0.22077922077922077,
+    "v2ProposalPrecision": 0.2054794520547945,
+    "proposalPrecisionDeltaV2MinusV1": -0.01529976872442626,
+    "v1ProposalRecall": 0.3695652173913043,
+    "v2ProposalRecall": 0.32608695652173914,
+    "proposalRecallDeltaV2MinusV1": -0.04347826086956519,
+    "v1AcceptedMicroF1": 0.08163265306122448,
+    "v2AcceptedMicroF1": 0.26666666666666666,
+    "acceptedF1DeltaV2MinusV1": 0.1850340136054422,
+    "v1AcceptedCandidateSupport": 3,
+    "v2AcceptedCandidateSupport": 29
+  },
+  "usageTotals": {
+    "inputTokens": 394311,
+    "outputTokens": 83498,
+    "reasoningTokens": 59825,
+    "totalTokens": 477809
+  },
+  "claimBoundary": {
+    "stage1MayInformDevelopment": true,
+    "terminalSetRemainsUntouched": true,
+    "developmentSetOnly": true,
+    "sameScoringContractAsV1": true,
+    "sameCompilerV1": true,
+    "aiTimingAuthority": false,
+    "analyzerV019MutableForSemanticScore": false,
+    "resultInterpretation": "V2's stricter Drop instruction did not improve proposal-level Drop agreement on the Stage 1 development set under the frozen primary metric. The unchanged compiler accepted substantially more V2 Drop proposals and therefore improved accepted-view recall/F1 while reducing accepted-view precision relative to V1. This freeze records both effects before any further diagnosis or development change."
+  }
+}
