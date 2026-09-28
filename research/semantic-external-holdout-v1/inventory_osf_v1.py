@@ -138,11 +138,15 @@ def provider_roots(node_id: str):
         pid = provider.get("id")
         if not isinstance(pid, str) or not pid:
             continue
+        attrs = provider.get("attributes") or {}
+        provider_name = attrs.get("name") if isinstance(attrs, dict) else None
+        if not isinstance(provider_name, str) or not provider_name:
+            provider_name = pid.rsplit(":", 1)[-1]
         links = provider.get("links") or {}
         files_url = links.get("files") if isinstance(links, dict) else None
         if not isinstance(files_url, str) or not files_url:
-            files_url = f"{API_BASE}/nodes/{node_id}/files/{pid}/"
-        roots.append((pid, files_url))
+            files_url = f"{API_BASE}/nodes/{node_id}/files/{provider_name}/"
+        roots.append((provider_name, files_url))
     if not roots:
         raise RuntimeError("OSF node exposes no usable provider roots")
     return roots
@@ -161,8 +165,6 @@ def walk_folder(provider: str, list_url: str, parent_path: str, out: list, visit
         if entry["kind"] == "folder":
             child_url = related_href(item, "files")
             if not child_url:
-                # OSF file/folder detail exposes relationships.files on normal folders.
-                # Failing closed prevents silently incomplete inventories.
                 raise RuntimeError(f"folder has no child-files relationship: {entry['path']}")
             walk_folder(provider, child_url, entry["path"], out, visited)
 
