@@ -1,0 +1,763 @@
+{
+  "audited": [
+    {
+      "allUserKeys": [
+        "break_end",
+        "break_start",
+        "break_tc",
+        "build_end",
+        "build_start",
+        "build_tc",
+        "drop",
+        "drop_tc"
+      ],
+      "compressedSize": 343,
+      "crc32": "878cc899",
+      "defaultLoadmat": {
+        "break_end": {
+          "dtype": "int32",
+          "numericFlatCount": 1,
+          "numericValues": [
+            0.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "break_start": {
+          "dtype": "int32",
+          "numericFlatCount": 1,
+          "numericValues": [
+            0.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "break_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 1,
+          "numericValues": [
+            9.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "build_end": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            17.0,
+            69.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2,
+            1
+          ],
+          "size": 2
+        },
+        "build_start": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            8.0,
+            -2.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2,
+            1
+          ],
+          "size": 2
+        },
+        "build_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 2,
+          "numericValues": [
+            3.0,
+            19.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            2
+          ],
+          "size": 2
+        },
+        "drop": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            17.0,
+            10.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2,
+            1
+          ],
+          "size": 2
+        },
+        "drop_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 1,
+          "numericValues": [
+            21.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        }
+      },
+      "diskStart": 1,
+      "localHeaderOffsetOnDisk": 29757425,
+      "name": "mp3s_soundcloud_cc_event_detection/114061375.mat",
+      "squeezedLoadmat": {
+        "break_end": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            0.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "break_start": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            0.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "break_tc": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            9.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "build_end": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            17.0,
+            69.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "build_start": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            8.0,
+            -2.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "build_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 2,
+          "numericValues": [
+            3.0,
+            19.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "drop": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            17.0,
+            10.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "drop_tc": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            21.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        }
+      },
+      "uncompressedSize": 555
+    },
+    {
+      "allUserKeys": [
+        "break_end",
+        "break_start",
+        "break_tc",
+        "build_end",
+        "build_start",
+        "build_tc",
+        "drop",
+        "drop_tc"
+      ],
+      "compressedSize": 346,
+      "crc32": "7b6d1843",
+      "defaultLoadmat": {
+        "break_end": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            29.0,
+            11.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2,
+            1
+          ],
+          "size": 2
+        },
+        "break_start": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            15.0,
+            96.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2,
+            1
+          ],
+          "size": 2
+        },
+        "break_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 2,
+          "numericValues": [
+            25.0,
+            15.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            2
+          ],
+          "size": 2
+        },
+        "build_end": {
+          "dtype": "int32",
+          "numericFlatCount": 3,
+          "numericValues": [
+            42.0,
+            96.0,
+            150.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            3,
+            1
+          ],
+          "size": 3
+        },
+        "build_start": {
+          "dtype": "int32",
+          "numericFlatCount": 3,
+          "numericValues": [
+            27.0,
+            84.0,
+            137.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            3,
+            1
+          ],
+          "size": 3
+        },
+        "build_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 2,
+          "numericValues": [
+            96.0,
+            100.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            2
+          ],
+          "size": 2
+        },
+        "drop": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            42.0,
+            153.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2,
+            1
+          ],
+          "size": 2
+        },
+        "drop_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 1,
+          "numericValues": [
+            164.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        }
+      },
+      "diskStart": 1,
+      "localHeaderOffsetOnDisk": 63152335,
+      "name": "mp3s_soundcloud_cc_event_detection/118125022.mat",
+      "squeezedLoadmat": {
+        "break_end": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            29.0,
+            11.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "break_start": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            15.0,
+            96.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "break_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 2,
+          "numericValues": [
+            25.0,
+            15.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "build_end": {
+          "dtype": "int32",
+          "numericFlatCount": 3,
+          "numericValues": [
+            42.0,
+            96.0,
+            150.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            3
+          ],
+          "size": 3
+        },
+        "build_start": {
+          "dtype": "int32",
+          "numericFlatCount": 3,
+          "numericValues": [
+            27.0,
+            84.0,
+            137.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            3
+          ],
+          "size": 3
+        },
+        "build_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 2,
+          "numericValues": [
+            96.0,
+            100.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "drop": {
+          "dtype": "int32",
+          "numericFlatCount": 2,
+          "numericValues": [
+            42.0,
+            153.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            2
+          ],
+          "size": 2
+        },
+        "drop_tc": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            164.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        }
+      },
+      "uncompressedSize": 577
+    },
+    {
+      "allUserKeys": [
+        "break_end",
+        "break_start",
+        "break_tc",
+        "build_end",
+        "build_start",
+        "build_tc",
+        "drop",
+        "drop_tc"
+      ],
+      "compressedSize": 364,
+      "crc32": "5ac79899",
+      "defaultLoadmat": {
+        "break_end": {
+          "dtype": "int32",
+          "numericFlatCount": 1,
+          "numericValues": [
+            334.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "break_start": {
+          "dtype": "int32",
+          "numericFlatCount": 1,
+          "numericValues": [
+            320.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "break_tc": {
+          "dtype": "uint16",
+          "numericFlatCount": 1,
+          "numericValues": [
+            336.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "build_end": {
+          "dtype": "int32",
+          "numericFlatCount": 4,
+          "numericValues": [
+            72.0,
+            170.0,
+            232.0,
+            186.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            4,
+            1
+          ],
+          "size": 4
+        },
+        "build_start": {
+          "dtype": "int32",
+          "numericFlatCount": 4,
+          "numericValues": [
+            44.0,
+            138.0,
+            185.0,
+            335.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            4,
+            1
+          ],
+          "size": 4
+        },
+        "build_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 1,
+          "numericValues": [
+            48.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        },
+        "drop": {
+          "dtype": "int32",
+          "numericFlatCount": 4,
+          "numericValues": [
+            72.0,
+            171.0,
+            233.0,
+            190.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            4,
+            1
+          ],
+          "size": 4
+        },
+        "drop_tc": {
+          "dtype": "uint8",
+          "numericFlatCount": 1,
+          "numericValues": [
+            77.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            1,
+            1
+          ],
+          "size": 1
+        }
+      },
+      "diskStart": 13,
+      "localHeaderOffsetOnDisk": 35876982,
+      "name": "mp3s_soundcloud_cc_event_detection/90268834.mat",
+      "squeezedLoadmat": {
+        "break_end": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            334.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "break_start": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            320.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "break_tc": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            336.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "build_end": {
+          "dtype": "int32",
+          "numericFlatCount": 4,
+          "numericValues": [
+            72.0,
+            170.0,
+            232.0,
+            186.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            4
+          ],
+          "size": 4
+        },
+        "build_start": {
+          "dtype": "int32",
+          "numericFlatCount": 4,
+          "numericValues": [
+            44.0,
+            138.0,
+            185.0,
+            335.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            4
+          ],
+          "size": 4
+        },
+        "build_tc": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            48.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        },
+        "drop": {
+          "dtype": "int32",
+          "numericFlatCount": 4,
+          "numericValues": [
+            72.0,
+            171.0,
+            233.0,
+            190.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [
+            4
+          ],
+          "size": 4
+        },
+        "drop_tc": {
+          "dtype": "int64",
+          "numericFlatCount": 1,
+          "numericValues": [
+            77.0
+          ],
+          "numericValuesTruncated": false,
+          "present": true,
+          "shape": [],
+          "size": 1
+        }
+      },
+      "uncompressedSize": 580
+    }
+  ],
+  "purpose": "pre-model audit of the exact three MAT files rejected by corrected corpus parser v2; not semantic evaluation",
+  "schema": "trackcade-semantic-external-mat-anomaly-audit-v1",
+  "targets": [
+    "mp3s_soundcloud_cc_event_detection/114061375.mat",
+    "mp3s_soundcloud_cc_event_detection/118125022.mat",
+    "mp3s_soundcloud_cc_event_detection/90268834.mat"
+  ],
+  "verifiedSegments": [
+    {
+      "attempts": 1,
+      "name": "mp3s_soundcloud_cc_event_detection.z02",
+      "sha256": "c6f03ad63c6e0d6797748170d56ab92edce335a9b371fffacef1adf0ff0e8d64",
+      "size": 125829120
+    },
+    {
+      "attempts": 1,
+      "name": "mp3s_soundcloud_cc_event_detection.z14",
+      "sha256": "da0643d90754fd4d5cc431eab236383451e9725867164bc89a95c79fef9500f8",
+      "size": 125829120
+    }
+  ]
+}
