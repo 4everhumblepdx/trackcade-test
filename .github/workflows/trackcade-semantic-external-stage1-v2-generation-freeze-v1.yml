@@ -1,0 +1,188 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V2 Generation Freeze
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v2-generation-freeze-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v2-generation-freeze-v1
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN_ID: '36417614053'
+  SOURCE_HEAD_SHA: '45703780da7c63133175502c0301965e40f876f0'
+  SOURCE_WORKFLOW_PATH: '.github/workflows/trackcade-semantic-external-stage1-v2-sol-v1.yml'
+  ARTIFACT_PREFIX: 'trackcade-semantic-external-stage1-v2-sol-v1-case-'
+
+jobs:
+  freeze-generation-artifacts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Verify exact completed source run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}" > "${RUNNER_TEMP}/source-run.json"
+          python - "${RUNNER_TEMP}/source-run.json" <<'PY'
+          import json, os, sys
+          p=sys.argv[1]
+          d=json.load(open(p, encoding='utf-8'))
+          expected_run=int(os.environ['SOURCE_RUN_ID'])
+          expected_head=os.environ['SOURCE_HEAD_SHA']
+          expected_path=os.environ['SOURCE_WORKFLOW_PATH']
+          assert d['id']==expected_run, (d.get('id'), expected_run)
+          assert d['status']=='completed', d.get('status')
+          assert d['conclusion']=='success', d.get('conclusion')
+          assert d['head_sha']==expected_head, (d.get('head_sha'), expected_head)
+          assert d['head_branch']=='trackcade-semantic-external-holdout-v1', d.get('head_branch')
+          assert d['path']==expected_path, (d.get('path'), expected_path)
+          assert d['run_attempt']==1, d.get('run_attempt')
+          print('Exact V2 provider generation run verified.')
+          PY
+
+      - name: Build canonical 50-artifact inventory from GitHub metadata only
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v2-generation-freeze"
+          mkdir -p "$OUT"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs/${SOURCE_RUN_ID}/artifacts?per_page=100" > "${RUNNER_TEMP}/artifacts-pages.json"
+          python - "${RUNNER_TEMP}/artifacts-pages.json" "$OUT/STAGE1_V2_GENERATION_ARTIFACT_INVENTORY_V1.json" <<'PY'
+          import json, os, re, sys
+          from pathlib import Path
+
+          pages_path=Path(sys.argv[1])
+          out_path=Path(sys.argv[2])
+          raw=pages_path.read_text(encoding='utf-8').strip()
+          # gh --paginate emits one JSON object per page, concatenated with newlines.
+          decoder=json.JSONDecoder()
+          i=0
+          pages=[]
+          while i < len(raw):
+              while i < len(raw) and raw[i].isspace(): i += 1
+              if i >= len(raw): break
+              obj,j=decoder.raw_decode(raw, i)
+              pages.append(obj)
+              i=j
+          artifacts=[]
+          for page in pages:
+              artifacts.extend(page.get('artifacts') or [])
+
+          run_id=int(os.environ['SOURCE_RUN_ID'])
+          head=os.environ['SOURCE_HEAD_SHA']
+          prefix=os.environ['ARTIFACT_PREFIX']
+          pat=re.compile(r'^'+re.escape(prefix)+r'(\d+)-completed$')
+
+          assert len(artifacts)==50, f'expected 50 artifacts, got {len(artifacts)}'
+          rows=[]
+          ordinals=[]
+          for a in artifacts:
+              name=a['name']
+              m=pat.fullmatch(name)
+              assert m, f'unexpected artifact name/classification: {name}'
+              ordinal=int(m.group(1))
+              ordinals.append(ordinal)
+              wr=a.get('workflow_run') or {}
+              assert wr.get('id')==run_id, (name, wr.get('id'))
+              assert wr.get('head_sha')==head, (name, wr.get('head_sha'))
+              assert a.get('expired') is False, (name, a.get('expired'))
+              digest=a.get('digest')
+              assert isinstance(digest,str) and digest.startswith('sha256:') and len(digest)==71, (name,digest)
+              rows.append({
+                  'ordinal': ordinal,
+                  'artifactId': a['id'],
+                  'name': name,
+                  'digest': digest,
+                  'sizeBytes': a['size_in_bytes'],
+                  'createdAt': a['created_at'],
+                  'updatedAt': a['updated_at'],
+                  'expiresAt': a['expires_at'],
+                  'workflowRunId': wr['id'],
+                  'workflowRunHeadSha': wr['head_sha'],
+              })
+          assert sorted(ordinals)==list(range(1,51)), sorted(ordinals)
+          assert len(set(ordinals))==50
+          rows.sort(key=lambda x:x['ordinal'])
+
+          result={
+              'schema':'trackcade-semantic-external-stage1-v2-generation-artifact-inventory-v1',
+              'status':'frozen-completed-generation-artifact-metadata-before-v2-evaluation',
+              'stage':'stage1',
+              'developmentRevision':'stage1-drop-semantics-v2',
+              'sourceGeneration':{
+                  'runId':run_id,
+                  'headSha':head,
+                  'workflowPath':os.environ['SOURCE_WORKFLOW_PATH'],
+                  'runAttempt':1,
+                  'runConclusion':'success',
+              },
+              'closure':{
+                  'expectedCases':50,
+                  'completedCases':50,
+                  'retryEligibleCases':0,
+                  'noRetryObservedCases':0,
+                  'ordinalsExactOneThroughFifty':True,
+                  'providerRerunPermitted':False,
+              },
+              'researchBoundary':{
+                  'artifactMetadataOnly':True,
+                  'semanticProposalContentsInspected':False,
+                  'benchmarkLabelsRead':False,
+                  'terminalTracksProcessed':False,
+                  'analyzerTimingAuthorityChanged':False,
+              },
+              'artifacts':rows,
+          }
+          out_path.write_text(json.dumps(result, indent=2, sort_keys=True)+'\n', encoding='utf-8')
+          print('Canonical 50-case generation artifact inventory written.')
+          PY
+          sha256sum "$OUT/STAGE1_V2_GENERATION_ARTIFACT_INVENTORY_V1.json" | tee "$OUT/STAGE1_V2_GENERATION_ARTIFACT_INVENTORY_V1.json.sha256"
+
+      - name: Verify freeze closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v2-generation-freeze"
+          python - "$OUT/STAGE1_V2_GENERATION_ARTIFACT_INVENTORY_V1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert d['status']=='frozen-completed-generation-artifact-metadata-before-v2-evaluation'
+          assert d['sourceGeneration']['runId']==36417614053
+          assert d['sourceGeneration']['headSha']=='45703780da7c63133175502c0301965e40f876f0'
+          assert d['closure']=={
+            'completedCases':50,
+            'expectedCases':50,
+            'noRetryObservedCases':0,
+            'ordinalsExactOneThroughFifty':True,
+            'providerRerunPermitted':False,
+            'retryEligibleCases':0,
+          }
+          assert len(d['artifacts'])==50
+          assert [x['ordinal'] for x in d['artifacts']]==list(range(1,51))
+          assert d['researchBoundary']['semanticProposalContentsInspected'] is False
+          assert d['researchBoundary']['benchmarkLabelsRead'] is False
+          assert d['researchBoundary']['terminalTracksProcessed'] is False
+          print('Generation freeze closure verified.')
+          PY
+
+      - name: Upload immutable generation freeze evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v2-generation-freeze-v1
+          path: ${{ runner.temp }}/stage1-v2-generation-freeze
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
