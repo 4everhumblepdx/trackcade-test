@@ -1,0 +1,1079 @@
+{
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "verifiedHead": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+  "runs": [
+    {
+      "run": {
+        "id": 36460242177,
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-09-28T17:44:17Z",
+        "updated_at": "2026-09-28T17:52:04Z"
+      },
+      "total_count": 36,
+      "artifacts": [
+        {
+          "id": 10988455066,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-37-completed",
+          "size_in_bytes": 49718,
+          "digest": "sha256:3fa979db186fa8560af58b2a103560991f8f42d20f70bce4dabdc55fc4bf962b",
+          "expired": false,
+          "created_at": "2026-09-28T17:50:34Z",
+          "updated_at": "2026-09-28T17:50:34Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988415032,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-29-completed",
+          "size_in_bytes": 49615,
+          "digest": "sha256:8fdcffe4367506fea96ac238bc0156e1f993bfc3631aeada89e346ea794f2227",
+          "expired": false,
+          "created_at": "2026-09-28T17:49:31Z",
+          "updated_at": "2026-09-28T17:49:31Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988225651,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-27-completed",
+          "size_in_bytes": 35841,
+          "digest": "sha256:9099f3c420d43eed6941d97cf3cb590b98bf0bd2c42f0f33faa38d86bbc7dd59",
+          "expired": false,
+          "created_at": "2026-09-28T17:48:39Z",
+          "updated_at": "2026-09-28T17:48:39Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988225516,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-16-completed",
+          "size_in_bytes": 46946,
+          "digest": "sha256:27c9ab640b7bf0c44667c031c3053aa3f685f380eb72bf945183639c87116ffc",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:48Z",
+          "updated_at": "2026-09-28T17:47:48Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988220110,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-1-completed",
+          "size_in_bytes": 47989,
+          "digest": "sha256:587298b1713e639db5e4a62e5b6b73f5350f2891911b3df977c272686c895616",
+          "expired": false,
+          "created_at": "2026-09-28T17:45:39Z",
+          "updated_at": "2026-09-28T17:45:39Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988170328,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-3-completed",
+          "size_in_bytes": 40749,
+          "digest": "sha256:756df1510fbe64c1e907e537a079580cae1fc9b5f6bdeb253013d86bbae0cec8",
+          "expired": false,
+          "created_at": "2026-09-28T17:45:46Z",
+          "updated_at": "2026-09-28T17:45:46Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988141159,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-39-completed",
+          "size_in_bytes": 40412,
+          "digest": "sha256:1ee74cae56b1b9fb319cae6dcd5f55c7e58bc0632a2c0ab9631a9ddb339d9bd3",
+          "expired": false,
+          "created_at": "2026-09-28T17:50:23Z",
+          "updated_at": "2026-09-28T17:50:23Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988100573,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-14-completed",
+          "size_in_bytes": 43506,
+          "digest": "sha256:4ebef53345f4a9b0365051c090c44d46159e322bdfa39ccd545c209ebbec2fdf",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:25Z",
+          "updated_at": "2026-09-28T17:47:25Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988096045,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-33-completed",
+          "size_in_bytes": 34990,
+          "digest": "sha256:bebb3ded58b3560600f6f997286a76c689cf581bcd2ce9f79a219ab1e118716b",
+          "expired": false,
+          "created_at": "2026-09-28T17:49:35Z",
+          "updated_at": "2026-09-28T17:49:35Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988085527,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-8-completed",
+          "size_in_bytes": 42443,
+          "digest": "sha256:db52266d70f5b656d4b50b65ed5ebd7fcd209bc7beeee6da6841b21b730af205",
+          "expired": false,
+          "created_at": "2026-09-28T17:46:26Z",
+          "updated_at": "2026-09-28T17:46:26Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10988061116,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-32-completed",
+          "size_in_bytes": 38977,
+          "digest": "sha256:4d2885da8f4943142e9c2a78242c7e3a2b89e9bdaf457bcc3c414d29fb3dd5a8",
+          "expired": false,
+          "created_at": "2026-09-28T17:49:33Z",
+          "updated_at": "2026-09-28T17:49:33Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987961385,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-43-completed",
+          "size_in_bytes": 42171,
+          "digest": "sha256:df8a9cbae68bce19fb277118651c2c4866f5f07dc685e8df99adf8a4183c50f2",
+          "expired": false,
+          "created_at": "2026-09-28T17:50:57Z",
+          "updated_at": "2026-09-28T17:50:57Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987956371,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-41-completed",
+          "size_in_bytes": 48998,
+          "digest": "sha256:89bd432da0e13196683e548a56a8094dd47925c417042849f6c4c1377bcc41ba",
+          "expired": false,
+          "created_at": "2026-09-28T17:51:08Z",
+          "updated_at": "2026-09-28T17:51:08Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987845565,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-9-completed",
+          "size_in_bytes": 59433,
+          "digest": "sha256:5aed723d5fa28f007983365d70d1fbea3484b2164814c532999a00ce2de1697f",
+          "expired": false,
+          "created_at": "2026-09-28T17:46:10Z",
+          "updated_at": "2026-09-28T17:46:10Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987805676,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-5-completed",
+          "size_in_bytes": 45482,
+          "digest": "sha256:d878f6091fedcec431a2c732ba7445e82f69c4cf295e8a82d36b4ef8d6de2858",
+          "expired": false,
+          "created_at": "2026-09-28T17:46:01Z",
+          "updated_at": "2026-09-28T17:46:01Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987775689,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-7-completed",
+          "size_in_bytes": 48015,
+          "digest": "sha256:098cff589268b1f5474cd9d6e74fc87e53ead9a5fc402e777db52ccd0094435a",
+          "expired": false,
+          "created_at": "2026-09-28T17:46:11Z",
+          "updated_at": "2026-09-28T17:46:11Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987751414,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-34-completed",
+          "size_in_bytes": 51550,
+          "digest": "sha256:d8ba6791ee8c705c50596fac13325f6872964aca262c1f01d184c768d3263f7c",
+          "expired": false,
+          "created_at": "2026-09-28T17:50:29Z",
+          "updated_at": "2026-09-28T17:50:29Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987741102,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-22-completed",
+          "size_in_bytes": 44211,
+          "digest": "sha256:329f317ab6f4a28a20b5cc2e6f931627f0377a068d57ba16315303f51a385c13",
+          "expired": false,
+          "created_at": "2026-09-28T17:48:36Z",
+          "updated_at": "2026-09-28T17:48:36Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987735718,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-2-completed",
+          "size_in_bytes": 47160,
+          "digest": "sha256:ab18173969ebf2d9c0444ca7c5306ce9d5918ff3653000c1cce0b5bc4b465ce4",
+          "expired": false,
+          "created_at": "2026-09-28T17:46:15Z",
+          "updated_at": "2026-09-28T17:46:15Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987715945,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-11-completed",
+          "size_in_bytes": 51809,
+          "digest": "sha256:96dcbd407066f0f8da186cc151b888e50d51fb71acaae8fcb4e7a766a51f9f79",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:07Z",
+          "updated_at": "2026-09-28T17:47:07Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987691391,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-28-completed",
+          "size_in_bytes": 50122,
+          "digest": "sha256:34635157364e3d3aa07fcde852948d626c68700b07a422c16c97501dd9187d0f",
+          "expired": false,
+          "created_at": "2026-09-28T17:49:25Z",
+          "updated_at": "2026-09-28T17:49:25Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987691381,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-30-completed",
+          "size_in_bytes": 44425,
+          "digest": "sha256:72cbc35a18443aec61a0bda5e11c5672c035baca7689d87fb86f980073e091eb",
+          "expired": false,
+          "created_at": "2026-09-28T17:49:22Z",
+          "updated_at": "2026-09-28T17:49:22Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987575908,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-18-completed",
+          "size_in_bytes": 41512,
+          "digest": "sha256:4a88ac58456cd7fd96cf77df0ec885e30185b20f3f8b9e6319877698b8e997a6",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:28Z",
+          "updated_at": "2026-09-28T17:47:28Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987396263,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-26-completed",
+          "size_in_bytes": 42361,
+          "digest": "sha256:e2b634971e91ddb6c0f67104fe9f9a2af523b23770e949bf0e10f88e7e41c2b3",
+          "expired": false,
+          "created_at": "2026-09-28T17:49:02Z",
+          "updated_at": "2026-09-28T17:49:02Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987361085,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-12-completed",
+          "size_in_bytes": 39554,
+          "digest": "sha256:5d6b892ac988a8cce7c1a5ce775d2bcca26c8c3786f214ffef382b27fc42a90f",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:02Z",
+          "updated_at": "2026-09-28T17:47:02Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987356247,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-24-completed",
+          "size_in_bytes": 41232,
+          "digest": "sha256:307eb77412718ffb2fc839fe1d006c1e0f0b5bfd0cf559d59439b0dfbf3db0bb",
+          "expired": false,
+          "created_at": "2026-09-28T17:48:24Z",
+          "updated_at": "2026-09-28T17:48:24Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987316614,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-36-completed",
+          "size_in_bytes": 37873,
+          "digest": "sha256:088e42f0c5fcd41ba880800493c21d30e8161b6a96a18f81bfa63864c05c47fc",
+          "expired": false,
+          "created_at": "2026-09-28T17:50:13Z",
+          "updated_at": "2026-09-28T17:50:13Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987311143,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-21-completed",
+          "size_in_bytes": 38053,
+          "digest": "sha256:ffcca79087f7c3f9f3f197c77bc6c8dfcd2c96e9f262bcb26984126196b866dc",
+          "expired": false,
+          "created_at": "2026-09-28T17:48:00Z",
+          "updated_at": "2026-09-28T17:48:00Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987286685,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-40-completed",
+          "size_in_bytes": 33376,
+          "digest": "sha256:806417b4e3e16464477db04447b890ce0f7c39f67c3ac725cb87244509d316d4",
+          "expired": false,
+          "created_at": "2026-09-28T17:50:25Z",
+          "updated_at": "2026-09-28T17:50:25Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987211374,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-25-completed",
+          "size_in_bytes": 40562,
+          "digest": "sha256:f596535f39ab674fdafafebba9a2c24d1237fb4b0ee6fec00f319d10157c59de",
+          "expired": false,
+          "created_at": "2026-09-28T17:48:46Z",
+          "updated_at": "2026-09-28T17:48:46Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987191245,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-19-completed",
+          "size_in_bytes": 44688,
+          "digest": "sha256:1cb57f7a667241aa0a628071b62bc956f88afa1a4291881f7d0491096c63cf3b",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:31Z",
+          "updated_at": "2026-09-28T17:47:31Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987156511,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-15-completed",
+          "size_in_bytes": 44584,
+          "digest": "sha256:ba21a04d78b3fd85014b46a3a10e3dc6b54e5603030df0f19870d632c6c5bec7",
+          "expired": false,
+          "created_at": "2026-09-28T17:48:22Z",
+          "updated_at": "2026-09-28T17:48:22Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987131091,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-6-completed",
+          "size_in_bytes": 39833,
+          "digest": "sha256:a43ad04c6a72b1e4f05249342a80745f5aae9023e536f0b1f2214910b05344a2",
+          "expired": false,
+          "created_at": "2026-09-28T17:45:54Z",
+          "updated_at": "2026-09-28T17:45:54Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10987059597,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-20-completed",
+          "size_in_bytes": 39252,
+          "digest": "sha256:4a562f6d085366dd7847df8c7f54b4ad940420b9294c95d595a7d482e13e184b",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:26Z",
+          "updated_at": "2026-09-28T17:47:26Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10986999760,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-17-completed",
+          "size_in_bytes": 44088,
+          "digest": "sha256:8677edd3b628c935f73e51c94283271743ddd9cd9185bace3448cdc70951205d",
+          "expired": false,
+          "created_at": "2026-09-28T17:47:51Z",
+          "updated_at": "2026-09-28T17:47:51Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        },
+        {
+          "id": 10986979456,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-10-completed",
+          "size_in_bytes": 38680,
+          "digest": "sha256:8fc95665ebfbe6ea523fcfa304ee253d3eeee12f4ffa3e09b425614c6acfcb7a",
+          "expired": false,
+          "created_at": "2026-09-28T17:45:46Z",
+          "updated_at": "2026-09-28T17:45:46Z",
+          "workflow_run": {
+            "id": 36460242177,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f"
+          }
+        }
+      ]
+    },
+    {
+      "run": {
+        "id": 36461495392,
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-09-28T17:54:50Z",
+        "updated_at": "2026-09-28T17:57:08Z"
+      },
+      "total_count": 14,
+      "artifacts": [
+        {
+          "id": 10988376139,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-49-retry-eligible",
+          "size_in_bytes": 22343,
+          "digest": "sha256:eba82bee82c2c48e5583577ba1f318167bd785ca70dd81f8a7ede5496da7d7c1",
+          "expired": false,
+          "created_at": "2026-09-28T17:56:03Z",
+          "updated_at": "2026-09-28T17:56:03Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10988356216,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-47-retry-eligible",
+          "size_in_bytes": 20296,
+          "digest": "sha256:89db125e402985c0d247b53e020f9a378f03c2f0b385d1dd83965a8e7ac5e0d8",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:59Z",
+          "updated_at": "2026-09-28T17:55:59Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10988336305,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-31-retry-eligible",
+          "size_in_bytes": 45268,
+          "digest": "sha256:f755784d2a4e3f7473b50f0db9365edc8e1a98fae4c74b7a3a3d8ff3c6a3b9e5",
+          "expired": false,
+          "created_at": "2026-09-28T17:57:06Z",
+          "updated_at": "2026-09-28T17:57:06Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10988251686,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-38-retry-eligible",
+          "size_in_bytes": 21025,
+          "digest": "sha256:f4315bba4a6d6b309e8a4110fff89fbb1360d5dbef397e0896fccef3a0138132",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:48Z",
+          "updated_at": "2026-09-28T17:55:48Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10988151913,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-23-retry-eligible",
+          "size_in_bytes": 21336,
+          "digest": "sha256:e123db14db7ac7a09edda25c3df058d29d58887201dfdeb617fed483f56914d9",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:31Z",
+          "updated_at": "2026-09-28T17:55:31Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10988071958,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-4-retry-eligible",
+          "size_in_bytes": 20258,
+          "digest": "sha256:f841ecc252f3e874e4e33a7f24efcdab2954a69f95e485191562cef7f1485259",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:12Z",
+          "updated_at": "2026-09-28T17:55:12Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987932172,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-48-retry-eligible",
+          "size_in_bytes": 18821,
+          "digest": "sha256:cc6f609f4cb99c6eb791c9b4ac7ea621d052b239949f63859cf969b19cc3179c",
+          "expired": false,
+          "created_at": "2026-09-28T17:56:01Z",
+          "updated_at": "2026-09-28T17:56:01Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987847114,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-13-retry-eligible",
+          "size_in_bytes": 24080,
+          "digest": "sha256:806a510306d98be1778b7a3906d5d6998eedcd77f944d16e71c633ba589f6359",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:24Z",
+          "updated_at": "2026-09-28T17:55:24Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987697418,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-45-retry-eligible",
+          "size_in_bytes": 23951,
+          "digest": "sha256:2aba94f817df8dcf61d3f9d54fd927e8acf2061093444202497445f0f99ecf3e",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:54Z",
+          "updated_at": "2026-09-28T17:55:54Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987587550,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-50-retry-eligible",
+          "size_in_bytes": 21959,
+          "digest": "sha256:10176c70daec3c79eed34ce81758a7297cc641807eb34340a394b9c444e5fbfa",
+          "expired": false,
+          "created_at": "2026-09-28T17:56:03Z",
+          "updated_at": "2026-09-28T17:56:03Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987397350,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-35-retry-eligible",
+          "size_in_bytes": 19802,
+          "digest": "sha256:dc3f06c855acb0f87fb7de6583b9b1594cfe2dcd0cce29123ca2195ca5cd47ce",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:42Z",
+          "updated_at": "2026-09-28T17:55:42Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987362512,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-46-retry-eligible",
+          "size_in_bytes": 21679,
+          "digest": "sha256:cd740b5a0f0ce8a94a51e5873fcaee6c3dc5900f0f8ba4e842fe731b63669d03",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:59Z",
+          "updated_at": "2026-09-28T17:55:59Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987202625,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-42-retry-eligible",
+          "size_in_bytes": 22314,
+          "digest": "sha256:b04e31ee83b2336b25f8c65b9e4eab584b0207ae8e43688f868322d6222d0c0c",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:55Z",
+          "updated_at": "2026-09-28T17:55:55Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        },
+        {
+          "id": 10987162693,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-44-retry-eligible",
+          "size_in_bytes": 29300,
+          "digest": "sha256:89df8abf9be0c7cfdc159ce23ab864fb12297963c252311548eece63bc9f823d",
+          "expired": false,
+          "created_at": "2026-09-28T17:55:56Z",
+          "updated_at": "2026-09-28T17:55:56Z",
+          "workflow_run": {
+            "id": 36461495392,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a"
+          }
+        }
+      ]
+    },
+    {
+      "run": {
+        "id": 36462381190,
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "created_at": "2026-09-28T18:02:26Z",
+        "updated_at": "2026-09-28T18:12:10Z"
+      },
+      "total_count": 14,
+      "artifacts": [
+        {
+          "id": 10988765011,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-47-retry-eligible",
+          "size_in_bytes": 20298,
+          "digest": "sha256:cdd7c30213c93806d715eee29846b76b41d062e3fc6633a75525aa3759616543",
+          "expired": false,
+          "created_at": "2026-09-28T18:11:18Z",
+          "updated_at": "2026-09-28T18:11:18Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10988750098,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-49-retry-eligible",
+          "size_in_bytes": 22343,
+          "digest": "sha256:44a88db3d6ced5d3472d70f513199ba0c501faba2bf921b7f3e71882e2856f50",
+          "expired": false,
+          "created_at": "2026-09-28T18:11:50Z",
+          "updated_at": "2026-09-28T18:11:50Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10988520514,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-50-retry-eligible",
+          "size_in_bytes": 21962,
+          "digest": "sha256:7f4df786d6f3c89545df130d7fb38fffea5e0b6b6bff264560ba39e96ec8e20a",
+          "expired": false,
+          "created_at": "2026-09-28T18:12:06Z",
+          "updated_at": "2026-09-28T18:12:06Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10988473184,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-42-retry-eligible",
+          "size_in_bytes": 22313,
+          "digest": "sha256:6315178ba616b1ea231acac6c1d9c4ebe58c009d8454c7e9d5be441c3ab21a7f",
+          "expired": false,
+          "created_at": "2026-09-28T18:09:57Z",
+          "updated_at": "2026-09-28T18:09:57Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10988383606,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-48-retry-eligible",
+          "size_in_bytes": 18824,
+          "digest": "sha256:a8d97e612cd566555c9858806a0709b90cd9d39e2be7bf699023ddc7339a4fb5",
+          "expired": false,
+          "created_at": "2026-09-28T18:11:33Z",
+          "updated_at": "2026-09-28T18:11:33Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10988163227,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-4-retry-eligible",
+          "size_in_bytes": 20256,
+          "digest": "sha256:53de4adf933fd52721f044a81fa53f3923becd32751106b90b9d91be64d644cb",
+          "expired": false,
+          "created_at": "2026-09-28T18:03:16Z",
+          "updated_at": "2026-09-28T18:03:16Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987809077,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-23-retry-eligible",
+          "size_in_bytes": 21336,
+          "digest": "sha256:58f9c9b5a1f586df8336bce3eba4b35cbf7ba363968eb863699a1f40d640a769",
+          "expired": false,
+          "created_at": "2026-09-28T18:06:24Z",
+          "updated_at": "2026-09-28T18:06:24Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987789498,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-35-retry-eligible",
+          "size_in_bytes": 19805,
+          "digest": "sha256:2e7af59a06e4e0be22e2eaca0e02494581246dd075162247dbedbb81ef98905c",
+          "expired": false,
+          "created_at": "2026-09-28T18:08:41Z",
+          "updated_at": "2026-09-28T18:08:41Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987719998,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-45-retry-eligible",
+          "size_in_bytes": 23954,
+          "digest": "sha256:5819d5a11b09cb9a1918a6f1d2f79b4a8568ad051c756a721604fe3cd8dffafc",
+          "expired": false,
+          "created_at": "2026-09-28T18:10:46Z",
+          "updated_at": "2026-09-28T18:10:46Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987494212,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-31-retry-eligible",
+          "size_in_bytes": 21889,
+          "digest": "sha256:5fbb9ab070e85b924d79f68871654c12a06416bfe05ab1a90d2008c085f68a28",
+          "expired": false,
+          "created_at": "2026-09-28T18:07:54Z",
+          "updated_at": "2026-09-28T18:07:54Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987459766,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-46-retry-eligible",
+          "size_in_bytes": 21679,
+          "digest": "sha256:e561eef52b59aade0dbeb5bb78200519fbcf84a03a60f3629615cbd5f80ea865",
+          "expired": false,
+          "created_at": "2026-09-28T18:11:00Z",
+          "updated_at": "2026-09-28T18:11:00Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987328778,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-13-retry-eligible",
+          "size_in_bytes": 24081,
+          "digest": "sha256:89c46f7b2a3a9e3e018958d95c6706d9e666985809ce578ab51dac4be7b00f3f",
+          "expired": false,
+          "created_at": "2026-09-28T18:04:42Z",
+          "updated_at": "2026-09-28T18:04:42Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987304715,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-44-retry-eligible",
+          "size_in_bytes": 29301,
+          "digest": "sha256:148ec3ad44b0fb2a2cdca05b932e933e5096299cc8507c93e36ad12479649765",
+          "expired": false,
+          "created_at": "2026-09-28T18:10:16Z",
+          "updated_at": "2026-09-28T18:10:16Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        },
+        {
+          "id": 10987279751,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-38-retry-eligible",
+          "size_in_bytes": 21026,
+          "digest": "sha256:c7e6d510e244a694e4dafba5a779d061154fe86f6848cfd6341bc9f454511199",
+          "expired": false,
+          "created_at": "2026-09-28T18:09:13Z",
+          "updated_at": "2026-09-28T18:09:13Z",
+          "workflow_run": {
+            "id": 36462381190,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226"
+          }
+        }
+      ]
+    }
+  ]
+}

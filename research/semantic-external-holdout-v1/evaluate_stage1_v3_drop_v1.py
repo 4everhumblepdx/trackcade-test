@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 
 import evaluate_stage1_drop_v1 as frozen
+import collect_stage1_v3_results_v1 as collection
+import hashlib
 
 PREP_SCHEMA = "trackcade-semantic-external-stage1-v3-prep-v1"
 CASE_SCHEMA = "trackcade-semantic-external-stage1-v3-provider-case-v1"
@@ -13,6 +15,7 @@ REVISION = "stage1-drop-semantics-v2-structure-evidence-v2"
 PROPOSAL_SCHEMA = "trackcade-musical-interpretation-v2"
 EVALUATION_SCHEMA = "trackcade-semantic-external-stage1-v3-drop-evaluation-v1"
 CANDIDATE_SCHEMA = "trackcade-semantic-external-stage1-v3-drop-candidates-v1"
+REFERENCE_SHA256 = "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c"
 
 
 def fail(msg: str) -> None:
@@ -62,7 +65,7 @@ def resolve_drop_times(packet: dict, proposal: dict):
         if not isinstance(idx, int) or isinstance(idx, bool) or not 0 <= idx < len(anchors):
             fail("Drop anchor index invalid")
         row = anchors[idx]
-        if not isinstance(row, list) or len(row) != 5 or not isinstance(row[0], (int, float)):
+        if not isinstance(row, list) or len(row) != 5 or not frozen.finite_number(row[0]) or row[0] < 0:
             fail("Drop anchor row invalid")
         out.append(float(row[0]))
     return sorted(out)
@@ -74,10 +77,21 @@ def main():
     ap.add_argument("--provider-root", type=Path, required=True)
     ap.add_argument("--references", type=Path, required=True)
     ap.add_argument("--output-dir", type=Path, required=True)
-    ap.add_argument("--generation-run-id", required=True)
-    ap.add_argument("--generation-head-sha", required=True)
+    ap.add_argument("--generation-freeze", type=Path, required=True)
     ap.add_argument("--prep-artifact-id", required=True)
     args = ap.parse_args()
+
+    # Validate all 50 immutable responses before reference access or any output.
+    generation_cases = collection.verify_freeze(
+        args.generation_freeze, args.prep_root, args.provider_root)
+    if args.prep_artifact_id != collection.PREP_ID:
+        fail("prep artifact ID mismatch")
+    scorer_bytes = Path(frozen.__file__).read_bytes()
+    scorer_blob = hashlib.sha1(b"blob " + str(len(scorer_bytes)).encode() + b"\0" + scorer_bytes).hexdigest()
+    if scorer_blob != "3d74996281ec260e170ea10929bd0115a6d4ac70":
+        fail("frozen V1 scoring source changed")
+    if args.output_dir.exists():
+        fail("output already exists; refusing to overwrite")
 
     prep_path = args.prep_root / "STAGE1_V3_PREP_MANIFEST_V1.json"
     prep = load(prep_path)
@@ -92,6 +106,8 @@ def main():
     if prep.get("compilerInvoked") is not False or prep.get("providerCallsObserved") != 0:
         fail("prep compiler/provider boundary mismatch")
 
+    if sha(args.references) != REFERENCE_SHA256:
+        fail("reference source differs from frozen V1/V2 evaluation")
     refs_doc = load(args.references)
     if refs_doc.get("schema") != frozen.REFERENCE_SCHEMA or refs_doc.get("eventKind") != "drop":
         fail("reference schema/event kind mismatch")
@@ -130,8 +146,9 @@ def main():
             "retryAuthorized": False,
             "semanticRetryCount": 0,
             "compilerInvoked": False,
-            "harnessSourceCommit": args.generation_head_sha,
-            "githubRunId": str(args.generation_run_id),
+            "harnessSourceCommit": generation_cases[ordinal]["harnessSourceCommit"],
+            "githubRunId": generation_cases[ordinal]["githubRunId"],
+            "githubRunAttempt": generation_cases[ordinal]["githubRunAttempt"],
             "prepArtifactId": str(args.prep_artifact_id),
             "analyzerRunnerSha256": frozen.ANALYZER_RUNNER_SHA256,
             "analyzerSourceCommit": frozen.ANALYZER_SOURCE_COMMIT,
@@ -180,6 +197,7 @@ def main():
         })
         provenance_cases.append({
             "ordinal": ordinal,
+            "generationArtifact": generation_cases[ordinal],
             "id": track_id,
             "providerStatusSha256": sha(status_path),
             "normalizedProposalSha256": sha(proposal_path),
@@ -192,7 +210,6 @@ def main():
         fail("prep/reference identity sets differ")
 
     out = args.output_dir
-    out.mkdir(parents=True, exist_ok=True)
     cand_doc = {
         "schema": CANDIDATE_SCHEMA,
         "stage": "stage1",
@@ -204,7 +221,6 @@ def main():
         "tracks": candidates,
     }
     cand_path = out / "STAGE1_V3_DROP_CANDIDATES_V1.json"
-    cand_path.write_text(json.dumps(cand_doc, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     evaluation = {
         "schema": EVALUATION_SCHEMA,
@@ -231,13 +247,15 @@ def main():
             "tracks": per_track,
         }
     eval_path = out / "STAGE1_V3_DROP_EVALUATION_V1.json"
+    out.mkdir(parents=True, exist_ok=False)
+    cand_path.write_text(json.dumps(cand_doc, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     eval_path.write_text(json.dumps(evaluation, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
     prov = {
         "schema": "trackcade-semantic-external-stage1-v3-evaluation-provenance-v1",
         "developmentRevision": REVISION,
-        "generationRunId": str(args.generation_run_id),
-        "generationHeadSha": args.generation_head_sha,
+        "generationFreezeSha256": sha(args.generation_freeze),
+        "generationRuns": sorted({c["githubRunId"] for c in generation_cases.values()}),
         "prepArtifactId": str(args.prep_artifact_id),
         "prepManifestSha256": sha(prep_path),
         "scoringSourceSha256": sha(Path(frozen.__file__).resolve()),
@@ -245,6 +263,13 @@ def main():
         "compilerInvoked": False,
         "usageTotals": usage_totals,
         "cases": provenance_cases,
+        "providerCallsMadeByEvaluator": 0,
+        "terminalTracksProcessed": False,
+        "analyzerRunnerSha256": collection.ANALYZER_SHA,
+        "analyzerSourceCommit": collection.ANALYZER_SOURCE,
+        "candidateSha256": sha(cand_path),
+        "evaluationSha256": sha(eval_path),
+        "evaluatorSourceSha256": sha(Path(__file__).resolve()),
     }
     prov_path = out / "STAGE1_V3_EVALUATION_PROVENANCE_V1.json"
     prov_path.write_text(json.dumps(prov, indent=2, sort_keys=True) + "\n", encoding="utf-8")
