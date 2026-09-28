@@ -1,0 +1,183 @@
+name: Trackcade Semantic External Holdout v1 — Freeze Drop-Only Corpus Split v3
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/validate_select_corpus_v3.py
+      - .github/workflows/trackcade-semantic-external-freeze-split-v3.yml
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-corpus-split-v3:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: trackcade-semantic-external-holdout-v1
+          fetch-depth: 0
+
+      - name: Verify existing V3 freeze and exit if complete
+        id: frozen
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          FILES=(CORPUS_ELIGIBILITY_V3.json SPLIT_V3.json REFERENCE_DROPS_V3.json)
+          complete=1
+          for name in "${FILES[@]}"; do
+            if [[ ! -f "$BASE/$name" || ! -f "$BASE/$name.sha256" ]]; then
+              complete=0
+              break
+            fi
+            test "$(awk '{print $1}' "$BASE/$name.sha256")" = "$(sha256sum "$BASE/$name" | awk '{print $1}')" || {
+              echo "ERROR: V3 frozen $name SHA sidecar mismatch." >&2
+              exit 1
+            }
+          done
+          if [[ "$complete" == 1 ]]; then
+            python3 - <<'PY'
+          import json
+          from pathlib import Path
+          b=Path('research/semantic-external-holdout-v1')
+          e=json.loads((b/'CORPUS_ELIGIBILITY_V3.json').read_text())
+          s=json.loads((b/'SPLIT_V3.json').read_text())
+          assert e['summary']['annotationParsedTracks']==402
+          assert e['summary']['expertEventCountsAll402']=={'drop':435,'build':596,'break':372}
+          assert len(s['stage1'])==50 and len(s['terminal'])==50
+          assert not ({x['id'] for x in s['stage1']} & {x['id'] for x in s['terminal']})
+          print('V3 Drop-only split already frozen and verified.')
+          PY
+            echo 'complete=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'complete=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install corpus validation dependencies
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg p7zip-full
+          python3 -m pip install --disable-pip-version-check 'numpy==2.1.3' 'scipy==1.14.1'
+
+      - name: Materialize pinned burned semantic fixtures
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BURNED="$RUNNER_TEMP/burned-semantic-fixtures"
+          mkdir -p "$BURNED"
+          test "$(git hash-object ALLDAT_ruffmix.mp3)" = '58706a80104be6e17cdefced3b0ee6e628bee759'
+          cp ALLDAT_ruffmix.mp3 "$BURNED/ALLDAT_ruffmix.mp3"
+          CVB_COMMIT='7e9c2630158003bfb8655b94d105371e2631b66f'
+          CVB_BLOB='5f6ccb41a0b8d90c186e0c26e3bf559afa767df3'
+          git fetch --no-tags origin "$CVB_COMMIT"
+          git show "$CVB_COMMIT:cvb-gemf-sample.mp3" > "$BURNED/cvb-gemf-sample.mp3"
+          test "$(git hash-object "$BURNED/cvb-gemf-sample.mp3")" = "$CVB_BLOB"
+          sha256sum "$BURNED/ALLDAT_ruffmix.mp3" "$BURNED/cvb-gemf-sample.mp3"
+
+      - name: Download and verify frozen OSF split archive
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          PARTS="$RUNNER_TEMP/osf-parts"
+          VERIFY="$RUNNER_TEMP/SPLIT_DOWNLOAD_VERIFICATION_V3.json"
+          mkdir -p "$PARTS"
+          python3 "$BASE/download_osf_split_v1.py" \
+            --inventory "$BASE/OSF_INVENTORY_V1.json" \
+            --output-dir "$PARTS" \
+            --verification-output "$VERIFY" \
+            --workers 4
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['RUNNER_TEMP'])/'SPLIT_DOWNLOAD_VERIFICATION_V3.json').read_text())
+          assert d['segmentCount']==16
+          assert d['totalBytes']==1891659455
+          print('Verified archive bytes:', d['totalBytes'])
+          PY
+
+      - name: Extract corpus
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          PARTS="$RUNNER_TEMP/osf-parts"
+          CORPUS="$RUNNER_TEMP/osf-corpus"
+          mkdir -p "$CORPUS"
+          7z x "$PARTS/mp3s_soundcloud_cc_event_detection.zip" -o"$CORPUS" -y
+          test -d "$CORPUS/mp3s_soundcloud_cc_event_detection"
+          test "$(find "$CORPUS" -type f | wc -l)" -eq 804
+
+      - name: Validate all Drop labels and freeze V3 split
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          CORPUS="$RUNNER_TEMP/osf-corpus"
+          OUT="$RUNNER_TEMP/frozen-split-v3"
+          BURNED="$RUNNER_TEMP/burned-semantic-fixtures"
+          mkdir -p "$OUT"
+          python3 "$BASE/validate_select_corpus_v3.py" \
+            --pairs "$BASE/CANDIDATE_PAIRS_V1.json" \
+            --index "$BASE/OSF_SPLIT_ZIP_INDEX_V1.json" \
+            --corpus-root "$CORPUS" \
+            --output-dir "$OUT" \
+            --burned-audio "$BURNED/ALLDAT_ruffmix.mp3" \
+            --burned-audio "$BURNED/cvb-gemf-sample.mp3" \
+            --workers 4
+
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          out=Path(os.environ['RUNNER_TEMP'])/'frozen-split-v3'
+          e=json.loads((out/'CORPUS_ELIGIBILITY_V3.json').read_text())
+          s=json.loads((out/'SPLIT_V3.json').read_text())
+          r=json.loads((out/'REFERENCE_DROPS_V3.json').read_text())
+          assert e['status']=='frozen-before-any-model-output-on-corpus'
+          assert e['summary']['annotationParsedTracks']==402
+          assert e['summary']['expertEventCountsAll402']=={'drop':435,'build':596,'break':372}
+          assert s['status']=='frozen-before-any-model-output-on-corpus'
+          assert s['labelScope']=='Drop-only external semantic benchmark'
+          assert len(s['stage1'])==50 and len(s['terminal'])==50
+          assert not ({x['id'] for x in s['stage1']} & {x['id'] for x in s['terminal']})
+          assert len(r['stage1'])==50 and len(r['terminal'])==50
+          print(json.dumps({'eligibility':e['summary'],'split':s['summary']},indent=2,sort_keys=True))
+          PY
+
+      - name: Commit first V3 freeze
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          OUT="$RUNNER_TEMP/frozen-split-v3"
+          for name in \
+            CORPUS_ELIGIBILITY_V3.json CORPUS_ELIGIBILITY_V3.json.sha256 \
+            SPLIT_V3.json SPLIT_V3.json.sha256 \
+            REFERENCE_DROPS_V3.json REFERENCE_DROPS_V3.json.sha256; do
+            test ! -e "$BASE/$name" || {
+              echo "ERROR: refusing to overwrite pre-existing V3 freeze $BASE/$name" >&2
+              exit 1
+            }
+            mv "$OUT/$name" "$BASE/$name"
+          done
+          git add \
+            "$BASE/CORPUS_ELIGIBILITY_V3.json" "$BASE/CORPUS_ELIGIBILITY_V3.json.sha256" \
+            "$BASE/SPLIT_V3.json" "$BASE/SPLIT_V3.json.sha256" \
+            "$BASE/REFERENCE_DROPS_V3.json" "$BASE/REFERENCE_DROPS_V3.json.sha256"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Freeze Drop-only external semantic Stage 1 and terminal split v3 [skip ci]'
+          git push origin HEAD:trackcade-semantic-external-holdout-v1
