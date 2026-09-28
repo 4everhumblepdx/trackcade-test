@@ -1,0 +1,164 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V2 Frozen Prep
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V2_DEVELOPMENT_PROTOCOL.md
+      - research/learned-interpretation-v1/build_learned_request_v2.py
+      - research/semantic-external-holdout-v1/prepare_stage1_v2_requests.py
+      - .github/workflows/trackcade-semantic-external-stage1-v2-prep-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v2-prep-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  BASE_PREP_RUN_ID: '36367290783'
+  BASE_PREP_ARTIFACT_ID: '10948246126'
+  BASE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-prep-v1
+  BASE_PREP_ARTIFACT_DIGEST: sha256:accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a
+  BASE_PREP_COMMIT: 45f9c12f384549f8fa215f505e520741f455bcdd
+  BASE_PREP_MANIFEST_SHA256: 350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff
+  V1_RESULT_FREEZE_COMMIT: 037f1ae3737eeccbffbefa4bd676dd3134700393
+  BUILDER_V2_BLOB_SHA: a930abf4dadc23a4008b2a331fa3b08b0d74a1be
+  PREP_V2_BLOB_SHA: 71d0def02dc059d3f54b5ed157d3a367cecb5a4b
+  ADAPTER_BLOB_SHA: f48198edbe2bf593e52e9d708fe6a85d34d49f65
+  VALIDATOR_BLOB_SHA: 88f4f836f082198d38af0e0469f27fb9bd0108fc
+  ANALYZER_RUNNER_SHA256: 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
+  ANALYZER_SOURCE_COMMIT: e308d867980fb1877c3f2e4ce27950deecac0855
+
+jobs:
+  prepare-v2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout label-blind V2 preparation source only
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/STAGE1_V2_DEVELOPMENT_PROTOCOL.md
+            research/semantic-external-holdout-v1/STAGE1_EVALUATION_FREEZE_V1.json
+            research/semantic-external-holdout-v1/prepare_stage1_v2_requests.py
+            research/learned-interpretation-v1/build_learned_request_v2.py
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+          sparse-checkout-cone-mode: false
+
+      - name: Verify V1 result freeze and exact V2 source identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$V1_RESULT_FREEZE_COMMIT" HEAD
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/build_learned_request_v2.py)" = "$BUILDER_V2_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/prepare_stage1_v2_requests.py)" = "$PREP_V2_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v1.py)" = "$ADAPTER_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/validate_learned_proposal_v1.py)" = "$VALIDATOR_BLOB_SHA"
+          python -m py_compile \
+            "$BASE/prepare_stage1_v2_requests.py" \
+            research/learned-interpretation-v1/build_learned_request_v2.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+          python - <<'PY'
+          import json
+          d=json.load(open('research/semantic-external-holdout-v1/STAGE1_EVALUATION_FREEZE_V1.json'))
+          assert d['status']=='frozen-before-stage1-tuning-and-before-terminal-evaluation'
+          assert d['evaluation']['terminalTracksProcessed'] is False
+          assert d['generation']['completedProviderResponses']==50
+          assert d['primaryResultAtTwoSeconds']['proposalDrops']['microF1']==0.2764227642276423
+          print('V1 Stage 1 result freeze verified before V2 prep.')
+          PY
+          grep -Fq 'FROZEN BEFORE ANY V2 PROVIDER RESPONSE' "$BASE/STAGE1_V2_DEVELOPMENT_PROTOCOL.md"
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+
+      - name: Verify immutable V1 Stage 1 prep artifact identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${BASE_PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${BASE_PREP_ARTIFACT_ID}\t${BASE_PREP_ARTIFACT_NAME}\t${BASE_PREP_ARTIFACT_DIGEST}\t${BASE_PREP_RUN_ID}\t${BASE_PREP_COMMIT}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+      - name: Download exact frozen V1 Stage 1 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.BASE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/base-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.BASE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify base packet identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/base-prep/STAGE1_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$BASE_PREP_MANIFEST_SHA256"
+          test "$(find "${RUNNER_TEMP}/base-prep/cases" -type f -name interpretation-packet-v1.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/base-prep/cases" -type f -name structure-evidence-v1.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/base-prep/cases" -type f -name trackcade-safe-v1.json | wc -l)" -eq 50
+
+      - name: Prepare all 50 V2 requests and exact payloads with zero provider calls
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v2-prep"
+          python "$BASE/prepare_stage1_v2_requests.py" \
+            --base-prep-root "${RUNNER_TEMP}/base-prep" \
+            --output-dir "$OUT" \
+            --builder research/learned-interpretation-v1/build_learned_request_v2.py \
+            --adapter research/learned-interpretation-v1/openai_responses_adapter_v1.py
+
+      - name: Verify V2 prep closure and freeze file hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v2-prep"
+          python - "$OUT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          d=json.loads((root/'STAGE1_V2_PREP_MANIFEST_V1.json').read_text())
+          assert d['schema']=='trackcade-semantic-external-stage1-v2-prep-v1'
+          assert d['status']=='frozen-v2-provider-payloads-prepared-no-provider-call'
+          assert d['developmentRevision']=='stage1-drop-semantics-v2'
+          assert d['trackCount']==50 and len(d['tracks'])==50
+          assert d['referenceLabelsReadByPreparation'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['modelContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':4096,'store':False,
+            'completedResponsesPerTrack':0,
+          }
+          assert all(x['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432' for x in d['tracks'])
+          assert all(x['analyzerSourceCommit']=='e308d867980fb1877c3f2e4ce27950deecac0855' for x in d['tracks'])
+          assert all(x['timingTier'] in {'standard','loose'} and x['compilerEligible'] is True for x in d['tracks'])
+          assert len(list(root.glob('cases/*/learned-request-v2.json')))==50
+          assert len(list(root.glob('cases/*/openai-payload-v2.json')))==50
+          assert len(list(root.glob('cases/*/interpretation-packet-v1.json')))==50
+          assert len(list(root.glob('cases/*/structure-evidence-v1.json')))==50
+          assert len(list(root.glob('cases/*/trackcade-safe-v1.json')))==50
+          print('V2 preparation closure verified; provider calls observed: 0')
+          PY
+          ! grep -R -n --fixed-strings 'REFERENCE_DROPS' "$OUT"
+          ! grep -R -n --fixed-strings '"dropsSeconds"' "$OUT"
+          find "$OUT" -type f ! -name FILES_SHA256.txt -print0 | sort -z | xargs -0 sha256sum > "$OUT/FILES_SHA256.txt"
+
+      - name: Upload immutable Stage 1 V2 prep evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v2-prep-v1
+          path: ${{ runner.temp }}/stage1-v2-prep
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
