@@ -39,13 +39,13 @@ env:
   V2_PREP_ARTIFACT_DIGEST: sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd
   V2_PREP_COMMIT: 'ba45aa47fc952d9c2e3b30151c61c2be046b1023'
   V2_PREP_MANIFEST_SHA256: '82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9'
-  V2_BUILDER_SHA256: 'a930abf4dadc23a4008b2a331fa3b08b0d74a1be'
-  V3_BUILDER_SHA256: '9f7460d236ae8136456716c7872dae79d6e8259c2db40910c5f9331d9f85e0bf'
-  V3_VALIDATOR_SHA256: 'f8480af0911b2d5baba1913003f8c98d80934a82d7c17b51dcc48cc4b2cb45e4'
-  V3_ADAPTER_SHA256: '4dce1a440a31571f8afa0cd08ab3dbd69b73bd0465278233a349415073626a89'
-  V3_PREP_SHA256: '65e05b5cb0395aad9e04dcf1c64e54551d635bbe8226842388fa33dc45f6a4fa'
-  V3_TEST_SHA256: 'a80cfbe43f58116fdeaa8ec43530b8bf5700c4eed3516578ec72e27c078a2af6'
-  V3_PROTOCOL_SHA256: '106afe59a03b6f64fd2307532fd4160a86ddc39b0572b0ea406d8fb6371a4b4b'
+  V2_BUILDER_BLOB_SHA: 'a930abf4dadc23a4008b2a331fa3b08b0d74a1be'
+  V3_BUILDER_BLOB_SHA: '02e38745a0c699d460c7edb6d4f4ce7536051a88'
+  V3_VALIDATOR_BLOB_SHA: 'ebb4d23b1b9b77024dae9068127188879b715509'
+  V3_ADAPTER_BLOB_SHA: 'f947d6da594d632716f2bc4094b0ca279f262673'
+  V3_PREP_BLOB_SHA: '7f746f83060fad22060696a36928e94cac713cba'
+  V3_TEST_BLOB_SHA: '7beb1c645ea95b094ef1af3abda32e4629a7596b'
+  V3_PROTOCOL_BLOB_SHA: '6e56c4d5504e66b5614e5d6ece6b31d0481228cc'
 
 jobs:
   prepare-v3:
@@ -76,19 +76,19 @@ jobs:
             research/learned-interpretation-v1/ingest_provider_response_v3.py
           sparse-checkout-cone-mode: false
 
-      - name: Verify frozen research boundary and V3 source bytes
+      - name: Verify frozen research boundary and V3 source identities
         shell: bash
         run: |
           set -euo pipefail
           git merge-base --is-ancestor "$STRUCTURE_FREEZE_COMMIT" HEAD
           test "$(sha256sum "$BASE/STAGE1_STRUCTURE_EVIDENCE_V2_PACKETS.zip" | awk '{print $1}')" = "$STRUCTURE_BUNDLE_SHA256"
-          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v2.py)" = "$V2_BUILDER_SHA256"
-          test "$(sha256sum "$LEARNED/build_learned_request_v3.py" | awk '{print $1}')" = "$V3_BUILDER_SHA256"
-          test "$(sha256sum "$LEARNED/validate_learned_proposal_v3.py" | awk '{print $1}')" = "$V3_VALIDATOR_SHA256"
-          test "$(sha256sum "$LEARNED/openai_responses_adapter_v3.py" | awk '{print $1}')" = "$V3_ADAPTER_SHA256"
-          test "$(sha256sum "$BASE/prepare_stage1_v3_requests.py" | awk '{print $1}')" = "$V3_PREP_SHA256"
-          test "$(sha256sum "$BASE/test_stage1_v3_contract.py" | awk '{print $1}')" = "$V3_TEST_SHA256"
-          test "$(sha256sum "$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md" | awk '{print $1}')" = "$V3_PROTOCOL_SHA256"
+          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v2.py)" = "$V2_BUILDER_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v3.py)" = "$V3_BUILDER_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/validate_learned_proposal_v3.py)" = "$V3_VALIDATOR_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/openai_responses_adapter_v3.py)" = "$V3_ADAPTER_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/prepare_stage1_v3_requests.py)" = "$V3_PREP_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/test_stage1_v3_contract.py)" = "$V3_TEST_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md)" = "$V3_PROTOCOL_BLOB_SHA"
           grep -Fq 'FROZEN BEFORE ANY V3 PROVIDER RESPONSE' "$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md"
           test ! -e "$BASE/REFERENCE_DROPS_V3.json"
           python -m py_compile \
