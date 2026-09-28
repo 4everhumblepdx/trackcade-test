@@ -1,0 +1,71 @@
+{
+  "analyzer": {
+    "artifactId": 10910744049,
+    "artifactZipSha256": "22525126e3e3020c9c2621a71f62b694a81085b910929dfb473057293c5300ec",
+    "automaticTactusSwitching": false,
+    "decoderContract": "ffmpeg-mono-source-rate-pcm-f32le-v1",
+    "release": "v0.19",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855"
+  },
+  "claimBoundary": "This freeze authorizes Stage 1 provider generation only against the 50 exact prepared payloads. It does not authorize terminal-set generation, prompt/payload modification, Analyzer changes, independent model timing, or quality-driven retries.",
+  "evaluation": {
+    "contractPath": "research/semantic-external-holdout-v1/DROP_EVALUATION_V1.md",
+    "evaluatorPath": "research/semantic-external-holdout-v1/evaluate_drop_stage1_v1.py",
+    "eventKind": "drop",
+    "frozenEvaluatorCommit": "b01db185d959720e4060d12a51e6ddded357dd16",
+    "primaryToleranceSeconds": 2.0,
+    "sensitivityToleranceSeconds": [
+      1.0,
+      5.0
+    ]
+  },
+  "preparation": {
+    "artifactDigest": "sha256:accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a",
+    "artifactId": 10948246126,
+    "artifactName": "trackcade-semantic-external-stage1-prep-v1",
+    "artifactZipSha256": "accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a",
+    "commit": "45f9c12f384549f8fa215f505e520741f455bcdd",
+    "compilerEligibleTracks": 50,
+    "completedProviderResponsesPerTrack": 0,
+    "filesSha256ManifestSha256": "e4b27b7519ac561878f5b81e50bb8a0ae0245e68ad5f6e3de5595bdb2c911cb1",
+    "prepManifestSha256": "350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff",
+    "prepManifestSidecarSha256": "4d7ad635a5d7b937b81e7c86bc75049c7b3aae6fe9d828643d79cd32c21273de",
+    "preparedProviderPayloads": 50,
+    "preparedTracks": 50,
+    "referenceLabelsReadByPreparation": false,
+    "safeManifestAvailableTracks": 50,
+    "terminalTracksProcessed": false,
+    "timingTierCounts": {
+      "loose": 16,
+      "standard": 34,
+      "strict": 0,
+      "unsafe": 0
+    },
+    "workflowJobId": 108756113034,
+    "workflowRunId": 36367290783
+  },
+  "providerContract": {
+    "api": "responses",
+    "exactlyOneCompletedResponsePerTrack": true,
+    "infraRetryAllowedOnlyWhenNoCompletedSemanticResponseExists": true,
+    "maxOutputTokens": 4096,
+    "model": "gpt-6-sol",
+    "provider": "openai",
+    "qualityRetryAllowed": false,
+    "reasoningEffort": "high",
+    "store": false
+  },
+  "schema": "trackcade-semantic-external-stage1-prep-freeze-v1",
+  "stage": "external-semantic-holdout-stage1",
+  "status": "frozen-before-any-external-stage1-provider-call",
+  "v3CorpusFreeze": {
+    "commit": "2d2a803f032e514ba12e965101a40fec32c847e0",
+    "splitPath": "research/semantic-external-holdout-v1/SPLIT_V3.json",
+    "splitSha256": "fa31aa21e96be1ba2f25a513b5521eed60e4e9922a6b345433be0f983bc70b0e",
+    "stage1ReferenceDrops": 46,
+    "stage1Tracks": 50,
+    "terminalReferenceDrops": 54,
+    "terminalTracks": 50
+  }
+}
