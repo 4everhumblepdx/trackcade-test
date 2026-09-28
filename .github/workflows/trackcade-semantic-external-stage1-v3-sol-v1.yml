@@ -204,6 +204,7 @@ jobs:
           ORDINAL: ${{ matrix.ordinal }}
         run: |
           set -uo pipefail
+          set +e
           OUT="${RUNNER_TEMP}/case-${ORDINAL}"
           mkdir -p "$OUT"
           python "$BASE/run_stage1_v3_provider_case_v1.py" \
@@ -215,6 +216,7 @@ jobs:
             --harness-source-commit "$GITHUB_SHA" \
             --prep-artifact-id "$PREP_ARTIFACT_ID"
           rc=$?
+          set -e
           echo "return_code=$rc" >> "$GITHUB_OUTPUT"
           test -f "$OUT/stage1-v3-case-status-v1.json"
           exit 0
