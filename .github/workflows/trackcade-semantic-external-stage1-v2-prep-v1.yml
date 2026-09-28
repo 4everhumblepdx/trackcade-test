@@ -7,6 +7,7 @@ on:
     paths:
       - research/semantic-external-holdout-v1/STAGE1_V2_DEVELOPMENT_PROTOCOL.md
       - research/learned-interpretation-v1/build_learned_request_v2.py
+      - research/learned-interpretation-v1/openai_responses_adapter_v2.py
       - research/semantic-external-holdout-v1/prepare_stage1_v2_requests.py
       - .github/workflows/trackcade-semantic-external-stage1-v2-prep-v1.yml
   workflow_dispatch:
@@ -28,12 +29,12 @@ env:
   BASE_PREP_COMMIT: 45f9c12f384549f8fa215f505e520741f455bcdd
   BASE_PREP_MANIFEST_SHA256: 350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff
   V1_RESULT_FREEZE_COMMIT: 037f1ae3737eeccbffbefa4bd676dd3134700393
+  BUILDER_V1_BLOB_SHA: 724893f84b10088c5baf96f6cb052db13aa65fed
   BUILDER_V2_BLOB_SHA: a930abf4dadc23a4008b2a331fa3b08b0d74a1be
   PREP_V2_BLOB_SHA: 71d0def02dc059d3f54b5ed157d3a367cecb5a4b
-  ADAPTER_BLOB_SHA: f48198edbe2bf593e52e9d708fe6a85d34d49f65
+  ADAPTER_V1_BLOB_SHA: f48198edbe2bf593e52e9d708fe6a85d34d49f65
+  ADAPTER_V2_BLOB_SHA: 8308548357254dafc01059fff48694fb17ad753b
   VALIDATOR_BLOB_SHA: 88f4f836f082198d38af0e0469f27fb9bd0108fc
-  ANALYZER_RUNNER_SHA256: 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
-  ANALYZER_SOURCE_COMMIT: e308d867980fb1877c3f2e4ce27950deecac0855
 
 jobs:
   prepare-v2:
@@ -49,9 +50,11 @@ jobs:
             research/semantic-external-holdout-v1/STAGE1_V2_DEVELOPMENT_PROTOCOL.md
             research/semantic-external-holdout-v1/STAGE1_EVALUATION_FREEZE_V1.json
             research/semantic-external-holdout-v1/prepare_stage1_v2_requests.py
+            research/learned-interpretation-v1/build_learned_request_v1.py
             research/learned-interpretation-v1/build_learned_request_v2.py
             research/learned-interpretation-v1/validate_learned_proposal_v1.py
             research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v2.py
           sparse-checkout-cone-mode: false
 
       - name: Verify V1 result freeze and exact V2 source identities
@@ -59,15 +62,19 @@ jobs:
         run: |
           set -euo pipefail
           git merge-base --is-ancestor "$V1_RESULT_FREEZE_COMMIT" HEAD
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/build_learned_request_v1.py)" = "$BUILDER_V1_BLOB_SHA"
           test "$(git rev-parse HEAD:research/learned-interpretation-v1/build_learned_request_v2.py)" = "$BUILDER_V2_BLOB_SHA"
           test "$(git rev-parse HEAD:$BASE/prepare_stage1_v2_requests.py)" = "$PREP_V2_BLOB_SHA"
-          test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v1.py)" = "$ADAPTER_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v1.py)" = "$ADAPTER_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v2.py)" = "$ADAPTER_V2_BLOB_SHA"
           test "$(git rev-parse HEAD:research/learned-interpretation-v1/validate_learned_proposal_v1.py)" = "$VALIDATOR_BLOB_SHA"
           python -m py_compile \
             "$BASE/prepare_stage1_v2_requests.py" \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
             research/learned-interpretation-v1/build_learned_request_v2.py \
             research/learned-interpretation-v1/validate_learned_proposal_v1.py \
-            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v2.py
           python - <<'PY'
           import json
           d=json.load(open('research/semantic-external-holdout-v1/STAGE1_EVALUATION_FREEZE_V1.json'))
@@ -78,6 +85,7 @@ jobs:
           print('V1 Stage 1 result freeze verified before V2 prep.')
           PY
           grep -Fq 'FROZEN BEFORE ANY V2 PROVIDER RESPONSE' "$BASE/STAGE1_V2_DEVELOPMENT_PROTOCOL.md"
+          grep -Fq 'Compatibility-only adapter revision' "$BASE/STAGE1_V2_DEVELOPMENT_PROTOCOL.md"
           test ! -e "$BASE/REFERENCE_DROPS_V3.json"
 
       - name: Verify immutable V1 Stage 1 prep artifact identity
@@ -117,7 +125,7 @@ jobs:
             --base-prep-root "${RUNNER_TEMP}/base-prep" \
             --output-dir "$OUT" \
             --builder research/learned-interpretation-v1/build_learned_request_v2.py \
-            --adapter research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            --adapter research/learned-interpretation-v1/openai_responses_adapter_v2.py
 
       - name: Verify V2 prep closure and freeze file hashes
         shell: bash
