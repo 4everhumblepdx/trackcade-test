@@ -1,0 +1,245 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V2 GPT-6 Sol
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/run_stage1_v2_provider_case_v1.py
+      - .github/workflows/trackcade-semantic-external-stage1-v2-sol-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v2-sol-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  PREP_RUN_ID: '36416837060'
+  PREP_ARTIFACT_ID: '10967717082'
+  PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v2-prep-v1
+  PREP_ARTIFACT_DIGEST: sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd
+  PREP_HEAD_SHA: ba45aa47fc952d9c2e3b30151c61c2be046b1023
+  PREP_MANIFEST_SHA256: 82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9
+  PREP_FREEZE_BLOB_SHA: c8b5ee7ec44922767b9e73563f8c5186125afa45
+  PROTOCOL_BLOB_SHA: 0030b4aaeecdefe152fee54785e7b1aae1621a84
+  HARNESS_BLOB_SHA: 0c6ec9e8aa84d49eb71821aafcc5c409736ea5ee
+  BUILDER_V1_BLOB_SHA: 724893f84b10088c5baf96f6cb052db13aa65fed
+  ADAPTER_V1_BLOB_SHA: f48198edbe2bf593e52e9d708fe6a85d34d49f65
+  ADAPTER_V2_BLOB_SHA: 8308548357254dafc01059fff48694fb17ad753b
+  INGEST_V1_BLOB_SHA: c415c7c6ed3b7ae7f261f416ef21d82104c40047
+  INGEST_V2_BLOB_SHA: de34c204e764e0616e1a7402bf327e36e5b3eb8a
+  VALIDATOR_BLOB_SHA: 88f4f836f082198d38af0e0469f27fb9bd0108fc
+  INSTRUCTION_SHA256: 59a2da419ca32edc6c440ead0880649286043a698cf3f3b3b752e750dfcda0ce
+  ANALYZER_RUNNER_SHA256: 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
+  ANALYZER_SOURCE_COMMIT: e308d867980fb1877c3f2e4ce27950deecac0855
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout exact label-blind V2 generation source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/STAGE1_V2_DEVELOPMENT_PROTOCOL.md
+            research/semantic-external-holdout-v1/STAGE1_V2_PREP_FREEZE_V1.json
+            research/semantic-external-holdout-v1/run_stage1_v2_provider_case_v1.py
+            research/learned-interpretation-v1/build_learned_request_v1.py
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v2.py
+            research/learned-interpretation-v1/ingest_provider_response_v1.py
+            research/learned-interpretation-v1/ingest_provider_response_v2.py
+          sparse-checkout-cone-mode: false
+
+      - name: Verify frozen V2 identities before any provider call
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V2_DEVELOPMENT_PROTOCOL.md)" = "$PROTOCOL_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V2_PREP_FREEZE_V1.json)" = "$PREP_FREEZE_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/run_stage1_v2_provider_case_v1.py)" = "$HARNESS_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/build_learned_request_v1.py)" = "$BUILDER_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v1.py)" = "$ADAPTER_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v2.py)" = "$ADAPTER_V2_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/ingest_provider_response_v1.py)" = "$INGEST_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/ingest_provider_response_v2.py)" = "$INGEST_V2_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/learned-interpretation-v1/validate_learned_proposal_v1.py)" = "$VALIDATOR_BLOB_SHA"
+          python -m py_compile \
+            "$BASE/run_stage1_v2_provider_case_v1.py" \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v2.py \
+            research/learned-interpretation-v1/ingest_provider_response_v1.py \
+            research/learned-interpretation-v1/ingest_provider_response_v2.py
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          grep -Fq 'FROZEN BEFORE ANY V2 PROVIDER RESPONSE' "$BASE/STAGE1_V2_DEVELOPMENT_PROTOCOL.md"
+          python - <<'PY'
+          import json,os
+          p='research/semantic-external-holdout-v1/STAGE1_V2_PREP_FREEZE_V1.json'
+          d=json.load(open(p))
+          assert d['status']=='frozen-before-any-v2-provider-response'
+          assert d['prep']['runId']==36416837060
+          assert d['prep']['artifactId']==10967717082
+          assert d['prep']['manifestSha256']==os.environ['PREP_MANIFEST_SHA256']
+          assert d['prep']['providerCallsObserved']==0
+          assert d['prep']['terminalTracksProcessed'] is False
+          assert d['semanticInstruction']['instructionSha256']==os.environ['INSTRUCTION_SHA256']
+          assert d['providerContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':4096,'store':False,
+            'completedResponsesPerTrackAtFreeze':0,
+          }
+          assert d['researchBoundary']['terminalSetUntouched'] is True
+          assert d['researchBoundary']['aiTimingAuthority'] is False
+          print('Frozen V2 pre-provider boundary verified.')
+          PY
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+  generate:
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        ordinal: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - name: Checkout exact V2 generation source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/run_stage1_v2_provider_case_v1.py
+            research/learned-interpretation-v1/build_learned_request_v1.py
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v2.py
+            research/learned-interpretation-v1/ingest_provider_response_v1.py
+            research/learned-interpretation-v1/ingest_provider_response_v2.py
+          sparse-checkout-cone-mode: false
+
+      - name: Refuse duplicate semantic response for already-closed case
+        id: guard
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -euo pipefail
+          completed="trackcade-semantic-external-stage1-v2-sol-v1-case-${ORDINAL}-completed"
+          no_retry="trackcade-semantic-external-stage1-v2-sol-v1-case-${ORDINAL}-no-retry-observed"
+          c="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100&name=${completed}" --jq '[.artifacts[] | select(.expired == false)] | length')"
+          n="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100&name=${no_retry}" --jq '[.artifacts[] | select(.expired == false)] | length')"
+          if [ "$c" -gt 0 ] || [ "$n" -gt 0 ]; then
+            echo "already_closed=true" >> "$GITHUB_OUTPUT"
+            echo "Case ${ORDINAL} already has immutable closed evidence; provider call refused."
+          else
+            echo "already_closed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download exact frozen V2 prep artifact
+        if: steps.guard.outputs.already_closed != 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v2-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify exact prep manifest before case execution
+        if: steps.guard.outputs.already_closed != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/v2-prep/STAGE1_V2_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$PREP_MANIFEST_SHA256"
+
+      - name: Execute exact frozen V2 payload once
+        if: steps.guard.outputs.already_closed != 'true'
+        id: execute
+        shell: bash
+        env:
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -uo pipefail
+          OUT="${RUNNER_TEMP}/case-${ORDINAL}"
+          mkdir -p "$OUT"
+          python "$BASE/run_stage1_v2_provider_case_v1.py" \
+            --prep-root "${RUNNER_TEMP}/v2-prep" \
+            --ordinal "$ORDINAL" \
+            --output-dir "$OUT" \
+            --adapter research/learned-interpretation-v1/openai_responses_adapter_v2.py \
+            --ingester research/learned-interpretation-v1/ingest_provider_response_v2.py \
+            --harness-source-commit "$GITHUB_SHA" \
+            --prep-artifact-id "$PREP_ARTIFACT_ID"
+          rc=$?
+          echo "return_code=$rc" >> "$GITHUB_OUTPUT"
+          test -f "$OUT/stage1-v2-case-status-v1.json"
+          exit 0
+
+      - name: Classify immutable case evidence
+        if: steps.guard.outputs.already_closed != 'true'
+        id: classify
+        shell: bash
+        env:
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -euo pipefail
+          status="${RUNNER_TEMP}/case-${ORDINAL}/stage1-v2-case-status-v1.json"
+          category="$(python - "$status" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['schema']=='trackcade-semantic-external-stage1-v2-provider-case-v1'
+          assert d['developmentRevision']=='stage1-drop-semantics-v2'
+          if d.get('providerCompletedSemanticResponse') is True:
+              print('completed')
+          elif d.get('retryAuthorized') is True:
+              print('retry-eligible')
+          else:
+              print('no-retry-observed')
+          PY
+          )"
+          echo "category=$category" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=trackcade-semantic-external-stage1-v2-sol-v1-case-${ORDINAL}-${category}" >> "$GITHUB_OUTPUT"
+          cat "$status"
+
+      - name: Freeze case evidence
+        if: steps.guard.outputs.already_closed != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.classify.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-${{ matrix.ordinal }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail only retry-eligible infrastructure cases
+        if: steps.guard.outputs.already_closed != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ "${{ steps.classify.outputs.category }}" = 'retry-eligible' ]; then
+            echo 'No completed V2 semantic response was obtained; identical frozen-payload retry remains authorized.' >&2
+            exit 1
+          fi
+          echo 'Case is scientifically closed; no semantic retry authorized.'
