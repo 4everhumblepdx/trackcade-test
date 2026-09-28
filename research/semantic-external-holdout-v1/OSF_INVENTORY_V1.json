@@ -1,0 +1,392 @@
+{
+  "apiNodeUrl": "https://api.osf.io/v2/nodes/eydxk/",
+  "entries": [
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 17,
+        "hashes": {
+          "md5": "353ff744cae0ebb22a83692721d12229",
+          "sha256": "badb016a73142df5c8323295639431f2b22fe3c915686f256f079e8dce998690"
+        }
+      },
+      "id": "5a9a67d1a9181f000e74a6f3",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/sd38b/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a67d1a9181f000e74a6f3",
+        "info": "https://api.osf.io/v2/files/5a9a67d1a9181f000e74a6f3/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z01",
+      "path": "mp3s_soundcloud_cc_event_detection.z01",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "192c345c02eccb613e80e185ea6e8261",
+          "sha256": "c6f03ad63c6e0d6797748170d56ab92edce335a9b371fffacef1adf0ff0e8d64"
+        }
+      },
+      "id": "5a9a67d7f63187000d0d1439",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/23ad5/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a67d7f63187000d0d1439",
+        "info": "https://api.osf.io/v2/files/5a9a67d7f63187000d0d1439/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z02",
+      "path": "mp3s_soundcloud_cc_event_detection.z02",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 12,
+        "hashes": {
+          "md5": "ecb30c724adfc9a262c7aa3c9faed12b",
+          "sha256": "3cc5647006b6474b470a9fbc807ebf5622715a13b4e8d3a9f6118c04cdf90161"
+        }
+      },
+      "id": "5a9a67cea9181f000f747dad",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/qxztc/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a67cea9181f000f747dad",
+        "info": "https://api.osf.io/v2/files/5a9a67cea9181f000f747dad/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z03",
+      "path": "mp3s_soundcloud_cc_event_detection.z03",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "506109a9f4bde680c2f528ee2ae19850",
+          "sha256": "7bc3b8d32b135e0e9ac34e29307b1cff71fddbcab0079d0b461c78d9e52a7d75"
+        }
+      },
+      "id": "5a9a67e4a9181f000e74a705",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/ph295/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a67e4a9181f000e74a705",
+        "info": "https://api.osf.io/v2/files/5a9a67e4a9181f000e74a705/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z04",
+      "path": "mp3s_soundcloud_cc_event_detection.z04",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "eae4fc31c45405c9e0162c89158a5e78",
+          "sha256": "5ed02129ac2ea36d6cc41532f19fa01e8891f9e01ee5465833e5237a0a265b55"
+        }
+      },
+      "id": "5a9a67e1a9181f000f747db6",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/2wjz3/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a67e1a9181f000f747db6",
+        "info": "https://api.osf.io/v2/files/5a9a67e1a9181f000f747db6/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z05",
+      "path": "mp3s_soundcloud_cc_event_detection.z05",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 14,
+        "hashes": {
+          "md5": "b0dd4064d5c2a73157bd22b2a2446a07",
+          "sha256": "d40034134b3bfd186d5dbd2391826f7f4dd5904bc5928d8e393d1527fdca51cc"
+        }
+      },
+      "id": "5a9a681ff6318700100cef1a",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/78kmb/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a681ff6318700100cef1a",
+        "info": "https://api.osf.io/v2/files/5a9a681ff6318700100cef1a/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z06",
+      "path": "mp3s_soundcloud_cc_event_detection.z06",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "5092fdbeada59ecd7ef42cbc47a2ee0a",
+          "sha256": "eeea339aa7867a0a7cbf0f450e21d518e33dc345671bc9468971cf152372b5bb"
+        }
+      },
+      "id": "5a9a681cf63187000d0d1467",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/6n8qc/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a681cf63187000d0d1467",
+        "info": "https://api.osf.io/v2/files/5a9a681cf63187000d0d1467/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z07",
+      "path": "mp3s_soundcloud_cc_event_detection.z07",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "e447760cc2327c802a881ebb5b48ffd7",
+          "sha256": "5e51925c2871eeaecad25a8ab7dc82557ea2c2fb61b6506c78c2e70c3b5c1a5f"
+        }
+      },
+      "id": "5a9a6828f63187000f0ce3f0",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/smjwu/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6828f63187000f0ce3f0",
+        "info": "https://api.osf.io/v2/files/5a9a6828f63187000f0ce3f0/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z08",
+      "path": "mp3s_soundcloud_cc_event_detection.z08",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "3032187cc48b68d273cab7b9b7972851",
+          "sha256": "13d23ed40e7e1eb6f50a3192124474470947ecbdfefbf0ddb2a81f6525daf43f"
+        }
+      },
+      "id": "5a9a6835a9181f0010747b0d",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/v5h2p/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6835a9181f0010747b0d",
+        "info": "https://api.osf.io/v2/files/5a9a6835a9181f0010747b0d/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z09",
+      "path": "mp3s_soundcloud_cc_event_detection.z09",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "0568d9fea83e050395432624707f298d",
+          "sha256": "0491bba8b0808c670540462d2c14e5d392769b905a9f81d5e9bcc1260ddc90a6"
+        }
+      },
+      "id": "5a9a6843a9181f000e74a74b",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/mxw72/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6843a9181f000e74a74b",
+        "info": "https://api.osf.io/v2/files/5a9a6843a9181f000e74a74b/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z10",
+      "path": "mp3s_soundcloud_cc_event_detection.z10",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "f3fb9080e63f82b7307e5286feb3a6b2",
+          "sha256": "b7639d3f9981036c9ea86511ea2fbc8872057473e39115aec6b518f4ca7d0588"
+        }
+      },
+      "id": "5a9a6866f63187000d0d1491",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/5a9a6866f63187000d0d1491/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6866f63187000d0d1491",
+        "info": "https://api.osf.io/v2/files/5a9a6866f63187000d0d1491/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z11",
+      "path": "mp3s_soundcloud_cc_event_detection.z11",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "0aefb56e7cfcb594383d7f7520ac3684",
+          "sha256": "ec6ba787855c77e2bf7f2f45897d8ffca326b39930c741db669c3537116af698"
+        }
+      },
+      "id": "5a9a6870f63187000d0d1499",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/5a9a6870f63187000d0d1499/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6870f63187000d0d1499",
+        "info": "https://api.osf.io/v2/files/5a9a6870f63187000d0d1499/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z12",
+      "path": "mp3s_soundcloud_cc_event_detection.z12",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 19,
+        "hashes": {
+          "md5": "9dbc94ca96e0b0c3bbd55ab80b04b4b3",
+          "sha256": "d137efdd6c3096452a0a4401de49769d97510a2d7cb6a4bfaffb8dfd6da115c7"
+        }
+      },
+      "id": "5a9a687ba9181f000f747e04",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/d48kt/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a687ba9181f000f747e04",
+        "info": "https://api.osf.io/v2/files/5a9a687ba9181f000f747e04/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z13",
+      "path": "mp3s_soundcloud_cc_event_detection.z13",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 13,
+        "hashes": {
+          "md5": "de401e59daf10c9b236124758eb2b706",
+          "sha256": "da0643d90754fd4d5cc431eab236383451e9725867164bc89a95c79fef9500f8"
+        }
+      },
+      "id": "5a9a688ca9181f000e74a78a",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/6wrqn/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a688ca9181f000e74a78a",
+        "info": "https://api.osf.io/v2/files/5a9a688ca9181f000e74a78a/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z14",
+      "path": "mp3s_soundcloud_cc_event_detection.z14",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 14,
+        "hashes": {
+          "md5": "26b17f8f3c083ff404f25fd8d6c4a6f6",
+          "sha256": "ced87e9811a7e3cdb4e0a71cdb5788b2ebf85c6ca03dcd2c85a04c2da9483d69"
+        }
+      },
+      "id": "5a9a6884f6318700100cef46",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/kcbw3/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6884f6318700100cef46",
+        "info": "https://api.osf.io/v2/files/5a9a6884f6318700100cef46/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.z15",
+      "path": "mp3s_soundcloud_cc_event_detection.z15",
+      "provider": "osfstorage",
+      "size": 125829120
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 17,
+        "hashes": {
+          "md5": "48b35401d35735c510ddf69915211aec",
+          "sha256": "a1806514663257c830a359117915dedfd6be04d3d2262ca5159dd5f22ee79e44"
+        }
+      },
+      "id": "5a9a6873a9181f0010747b29",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/8hvpd/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6873a9181f0010747b29",
+        "info": "https://api.osf.io/v2/files/5a9a6873a9181f0010747b29/"
+      },
+      "modified": null,
+      "name": "mp3s_soundcloud_cc_event_detection.zip",
+      "path": "mp3s_soundcloud_cc_event_detection.zip",
+      "provider": "osfstorage",
+      "size": 4222655
+    },
+    {
+      "contentType": null,
+      "extra": {
+        "downloads": 21,
+        "hashes": {
+          "md5": "98f46044c7157a1301b50a5bbde94ef0",
+          "sha256": "13c1a264cea7cddef10f26eef40946d8c68aeb384e41c2360764f63bba177a1e"
+        }
+      },
+      "id": "5a9a6872a9181f0010747b26",
+      "kind": "file",
+      "links": {
+        "download": "https://osf.io/download/tc4df/",
+        "html": "https://osf.io/eydxk/files/osfstorage/5a9a6872a9181f0010747b26",
+        "info": "https://api.osf.io/v2/files/5a9a6872a9181f0010747b26/"
+      },
+      "modified": null,
+      "name": "readme.txt",
+      "path": "readme.txt",
+      "provider": "osfstorage",
+      "size": 2647
+    }
+  ],
+  "nodeId": "eydxk",
+  "nodeUrl": "https://osf.io/eydxk/",
+  "providers": [
+    "osfstorage"
+  ],
+  "schema": "trackcade-semantic-external-osf-inventory-v1",
+  "summary": {
+    "annotationCandidateCountByExtension": 1,
+    "audioFileCountByExtension": 0,
+    "entryCount": 17,
+    "fileCount": 17,
+    "folderCount": 0
+  }
+}
