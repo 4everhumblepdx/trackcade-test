@@ -1,0 +1,198 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 Frozen Prep
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/prepare_stage1_v1.py
+      - .github/workflows/trackcade-semantic-external-stage1-prep-v1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  stage1-frozen-prep:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    env:
+      BASE: research/semantic-external-holdout-v1
+      SPLIT_SHA256: 25caf4204bb9156f416911e80669ec5c1f87378157479b99172ecf08c3d7e10f
+      V3_FREEZE_COMMIT: 2d2a803f032e514ba12e965101a40fec32c847e0
+      ANALYZER_ARTIFACT_ID: '10910744049'
+      ANALYZER_ZIP_SHA256: 22525126e3e3020c9c2621a71f62b694a81085b910929dfb473057293c5300ec
+      ANALYZER_RUNNER_SHA256: 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
+      ANALYZER_SOURCE_COMMIT: e308d867980fb1877c3f2e4ce27950deecac0855
+      DECODER_CONTRACT: ffmpeg-mono-source-rate-pcm-f32le-v1
+    steps:
+      - name: Checkout exact triggering commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Verify frozen benchmark identities and label-blind boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          git merge-base --is-ancestor "$V3_FREEZE_COMMIT" HEAD
+          test "$(sha256sum "$BASE/SPLIT_V3.json" | awk '{print $1}')" = "$SPLIT_SHA256"
+          test "$(awk '{print $1}' "$BASE/SPLIT_V3.json.sha256")" = "$SPLIT_SHA256"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('research/semantic-external-holdout-v1/SPLIT_V3.json')
+          d=json.loads(p.read_text())
+          assert d['schema']=='trackcade-semantic-external-split-v3'
+          assert d['status']=='frozen-before-any-model-output-on-corpus'
+          assert d['labelScope']=='Drop-only external semantic benchmark'
+          assert len(d['stage1'])==50 and len(d['terminal'])==50
+          assert not ({x['id'] for x in d['stage1']} & {x['id'] for x in d['terminal']})
+          print('Frozen V3 Stage 1 identities verified:', len(d['stage1']))
+          PY
+          # Preparation must not have access to evaluation answer keys.
+          rm -f "$BASE"/REFERENCE_DROPS_V*.json "$BASE"/REFERENCE_DROPS_V*.json.sha256
+          ! grep -R -n --fixed-strings 'REFERENCE_DROPS' \
+            "$BASE/prepare_stage1_v1.py" \
+            research/interpretation-v1/build_interpretation_packet_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+
+      - name: Install deterministic prep dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg p7zip-full
+          ffmpeg -version | head -1
+          node --version
+          python3 --version
+
+      - name: Download and verify frozen external corpus archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          PARTS="$RUNNER_TEMP/osf-parts"
+          VERIFY="$RUNNER_TEMP/STAGE1_CORPUS_DOWNLOAD_VERIFICATION.json"
+          mkdir -p "$PARTS"
+          python3 "$BASE/download_osf_split_v1.py" \
+            --inventory "$BASE/OSF_INVENTORY_V1.json" \
+            --output-dir "$PARTS" \
+            --verification-output "$VERIFY" \
+            --workers 4
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['RUNNER_TEMP'])/'STAGE1_CORPUS_DOWNLOAD_VERIFICATION.json').read_text())
+          assert d['segmentCount']==16
+          assert d['totalBytes']==1891659455
+          print('Frozen corpus archive verified:', d['totalBytes'])
+          PY
+
+      - name: Extract audio and physically remove annotation files
+        shell: bash
+        run: |
+          set -euo pipefail
+          PARTS="$RUNNER_TEMP/osf-parts"
+          CORPUS="$RUNNER_TEMP/osf-corpus"
+          mkdir -p "$CORPUS"
+          7z x "$PARTS/mp3s_soundcloud_cc_event_detection.zip" -o"$CORPUS" -y >/dev/null
+          test "$(find "$CORPUS" -type f -name '*.mp3' | wc -l)" -eq 402
+          test "$(find "$CORPUS" -type f -name '*.mat' | wc -l)" -eq 402
+          find "$CORPUS" -type f -name '*.mat' -delete
+          test "$(find "$CORPUS" -type f -name '*.mat' | wc -l)" -eq 0
+          echo 'All expert annotation MAT files removed before Analyzer/semantic preparation.'
+
+      - name: Download exact frozen Analyzer v0.19 final artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          ZIP="$RUNNER_TEMP/trackcade-analyzer-v0.19-final.zip"
+          DIR="$RUNNER_TEMP/analyzer-final"
+          curl --fail --silent --show-error --location \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H 'Accept: application/vnd.github+json' \
+            -H 'X-GitHub-Api-Version: 2022-11-28' \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${ANALYZER_ARTIFACT_ID}/zip" \
+            --output "$ZIP"
+          test "$(sha256sum "$ZIP" | awk '{print $1}')" = "$ANALYZER_ZIP_SHA256"
+          mkdir -p "$DIR"
+          unzip -q "$ZIP" -d "$DIR"
+          RUNNER="$DIR/trackcade-analyzer-v0.19.js"
+          test -f "$RUNNER"
+          test "$(sha256sum "$RUNNER" | awk '{print $1}')" = "$ANALYZER_RUNNER_SHA256"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          d=json.loads((Path(os.environ['RUNNER_TEMP'])/'analyzer-final'/'FINAL_RELEASE_MANIFEST.json').read_text())
+          assert d['schema']=='trackcade-analyzer-final-release-manifest-v1'
+          assert d['release']=='v0.19'
+          assert d['sourceCommit']==os.environ['ANALYZER_SOURCE_COMMIT']
+          assert d['finalArtifact']['artifactId']==int(os.environ['ANALYZER_ARTIFACT_ID'])
+          assert d['policy']['automaticTactusSwitching'] is False
+          print('Exact production Analyzer v0.19 artifact verified.')
+          PY
+
+      - name: Prepare all 50 label-blind Stage 1 analyses and exact Sol payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          CORPUS="$RUNNER_TEMP/osf-corpus"
+          RUNNER="$RUNNER_TEMP/analyzer-final/trackcade-analyzer-v0.19.js"
+          OUT="$RUNNER_TEMP/stage1-prep"
+          python3 "$BASE/prepare_stage1_v1.py" \
+            --split "$BASE/SPLIT_V3.json" \
+            --corpus-root "$CORPUS" \
+            --runner "$RUNNER" \
+            --output-dir "$OUT" \
+            --decoder-contract "$DECODER_CONTRACT"
+
+      - name: Verify prep closure and freeze file hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/stage1-prep"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          out=Path(os.environ['RUNNER_TEMP'])/'stage1-prep'
+          d=json.loads((out/'STAGE1_PREP_MANIFEST_V1.json').read_text())
+          assert d['schema']=='trackcade-semantic-external-stage1-prep-v1'
+          assert d['status']=='frozen-provider-payloads-prepared-no-provider-call'
+          assert d['trackCount']==50
+          assert d['referenceLabelsReadByPreparation'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['modelContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':4096,'store':False,
+            'completedResponsesPerTrack':0,
+          }
+          assert all(x['analyzerRunnerSha256']==os.environ['ANALYZER_RUNNER_SHA256'] for x in d['tracks'])
+          assert all(x['decoderContract']==os.environ['DECODER_CONTRACT'] for x in d['tracks'])
+          assert len({x['id'] for x in d['tracks']})==50
+          assert not list(out.rglob('audio.f32'))
+          for report in out.glob('cases/*/openai-adapter-prepare-report-v1.json'):
+            r=json.loads(report.read_text())
+            assert r['status']=='payload_prepared_no_provider_call'
+          assert len(list(out.glob('cases/*/openai-payload-v1.json')))==50
+          assert len(list(out.glob('cases/*/analysis-v019.json')))==50
+          assert len(list(out.glob('cases/*/interpretation-packet-v1.json')))==50
+          assert len(list(out.glob('cases/*/learned-request-v1.json')))==50
+          print('Stage 1 prep closure verified; provider calls observed: 0')
+          PY
+          ! grep -R -n --fixed-strings 'dropsSeconds' "$OUT"
+          ! grep -R -n --fixed-strings 'REFERENCE_DROPS' "$OUT"
+          find "$OUT" -type f -print0 | sort -z | xargs -0 sha256sum > "$OUT/FILES_SHA256.txt"
+
+      - name: Upload immutable Stage 1 prep evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-prep-v1
+          path: ${{ runner.temp }}/stage1-prep
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
