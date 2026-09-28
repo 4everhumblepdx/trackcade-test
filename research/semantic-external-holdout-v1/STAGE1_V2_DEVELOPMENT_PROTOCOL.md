@@ -24,18 +24,27 @@ The V2 instruction must:
 
 No benchmark/reference timestamps or expert labels may be included in any V2 request or provider payload.
 
-## Compatibility-only adapter revision
+## Compatibility-only V2 wrappers
 
-The existing `openai_responses_adapter_v1.py` is transport/provenance code but also hard-binds request validation to the exact V1 `INSTRUCTION` module constant. Therefore it cannot execute a genuinely different V2 instruction unchanged.
+The existing V1 OpenAI adapter and provider ingester both validate requests against the exact V1 `INSTRUCTION` module constant. Therefore they cannot execute or ingest a genuinely different V2 instruction unchanged.
 
-Before any V2 provider response, a versioned `openai_responses_adapter_v2.py` compatibility wrapper is frozen. It may only:
+Before any V2 provider response, versioned compatibility wrappers are frozen:
+
+- `openai_responses_adapter_v2.py`
+- `ingest_provider_response_v2.py`
+
+Each wrapper may only:
 
 - require the exact V2 development revision marker in the request;
 - verify `instructionSha256` against the exact instruction already present in that request;
-- bind that exact request instruction into the existing v1 adapter validation path;
-- delegate the complete v1 payload construction, OpenAI Responses transport, JSON-schema output contract, response extraction, reporting, and provider-call behavior unchanged.
+- bind that exact request instruction into the corresponding V1 validation path;
+- delegate the complete V1 implementation unchanged after that compatibility gate.
 
-This compatibility wrapper is infrastructure required to permit the single semantic instruction change. It must not modify packets, anchors, allowed proposal kinds, response schema, provider/model settings, timing authority, proposal validation, ingestion, compiler policy, or benchmark scoring.
+For the adapter, delegated V1 behavior includes payload construction, OpenAI Responses transport, JSON-schema output contract, response extraction, and adapter reporting.
+
+For ingestion, delegated V1 behavior includes packet/request identity checks, proposal validation and normalization, provider/run metadata validation, provenance, trust flags, validation reports, normalized proposal output, and run manifests.
+
+These wrappers are infrastructure required to permit the single semantic instruction change. They must not modify packets, anchors, allowed proposal kinds, response schema, provider/model settings, timing authority, proposal semantics, compiler policy, or benchmark scoring.
 
 ## Frozen components
 
@@ -44,11 +53,12 @@ V2 does **not** change:
 1. Analyzer v0.19 source, runner, BPM, beat grid, phase, energy curve, or timing tiers.
 2. The frozen 50 Stage 1 track identities.
 3. The interpretation packets, structure evidence, or safe manifests produced by the frozen Stage 1 prep artifact.
-4. OpenAI Responses payload/transport semantics, proposal validator, or provider-response ingestion behavior; adapter v2 is limited to the compatibility boundary documented above.
-5. Provider/model contract: OpenAI Responses API, `gpt-6-sol`, reasoning `high`, max output tokens 4096, `store=false`.
-6. The deterministic semantic compiler v1.
-7. `DROP_EVALUATION_V1.md`, including the primary ±2.0 s window and predeclared ±1.0/±5.0 sensitivity windows.
-8. The terminal 50-track set, which remains untouched.
+4. OpenAI Responses payload/transport semantics and provider-response ingestion semantics beyond the compatibility boundaries documented above.
+5. Proposal validation/normalization logic.
+6. Provider/model contract: OpenAI Responses API, `gpt-6-sol`, reasoning `high`, max output tokens 4096, `store=false`.
+7. The deterministic semantic compiler v1.
+8. `DROP_EVALUATION_V1.md`, including the primary ±2.0 s window and predeclared ±1.0/±5.0 sensitivity windows.
+9. The terminal 50-track set, which remains untouched.
 
 ## V2 preparation rule
 
