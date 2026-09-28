@@ -53,7 +53,7 @@ jobs:
           test "$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v1.py)" = 'f48198edbe2bf593e52e9d708fe6a85d34d49f65'
           test "$(git rev-parse HEAD:research/learned-interpretation-v1/validate_learned_proposal_v1.py)" = '88f4f836f082198d38af0e0469f27fb9bd0108fc'
           test "$(git rev-parse HEAD:research/learned-interpretation-v1/ingest_provider_response_v1.py)" = 'c415c7c6ed3b7ae7f261f416ef21d82104c40047'
-          test "$(sha256sum research/semantic-external-holdout-v1/run_stage1_provider_case_v1.py | awk '{print $1}')" = '4dd216ab627d6547c925b2c42126f962fbd7ef538514a3625664d624eb82ea1c'
+          test "$(sha256sum research/semantic-external-holdout-v1/run_stage1_provider_case_v1.py | awk '{print $1}')" = 'bc58867dd67f72d06633eab90ede5ec454e9f252d741c473356d554f251a78d6'
           test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
           test ! -e research/semantic-external-holdout-v1/SPLIT_V3.json
           python -m py_compile \
