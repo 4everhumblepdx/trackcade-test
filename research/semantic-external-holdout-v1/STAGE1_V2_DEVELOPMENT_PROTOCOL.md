@@ -8,7 +8,7 @@ Stage 1 V1 established that the learned layer has some expert-Drop agreement but
 
 V2 tests one development hypothesis only: **the V1 semantic instruction defines `drop` too broadly, causing ordinary energy lifts, section returns, peaks, and generic re-entries to be proposed as Drops.**
 
-## Single V2 change
+## Single semantic V2 change
 
 V2 changes only the learned semantic instruction used to build the provider-neutral request.
 
@@ -24,6 +24,19 @@ The V2 instruction must:
 
 No benchmark/reference timestamps or expert labels may be included in any V2 request or provider payload.
 
+## Compatibility-only adapter revision
+
+The existing `openai_responses_adapter_v1.py` is transport/provenance code but also hard-binds request validation to the exact V1 `INSTRUCTION` module constant. Therefore it cannot execute a genuinely different V2 instruction unchanged.
+
+Before any V2 provider response, a versioned `openai_responses_adapter_v2.py` compatibility wrapper is frozen. It may only:
+
+- require the exact V2 development revision marker in the request;
+- verify `instructionSha256` against the exact instruction already present in that request;
+- bind that exact request instruction into the existing v1 adapter validation path;
+- delegate the complete v1 payload construction, OpenAI Responses transport, JSON-schema output contract, response extraction, reporting, and provider-call behavior unchanged.
+
+This compatibility wrapper is infrastructure required to permit the single semantic instruction change. It must not modify packets, anchors, allowed proposal kinds, response schema, provider/model settings, timing authority, proposal validation, ingestion, compiler policy, or benchmark scoring.
+
 ## Frozen components
 
 V2 does **not** change:
@@ -31,7 +44,7 @@ V2 does **not** change:
 1. Analyzer v0.19 source, runner, BPM, beat grid, phase, energy curve, or timing tiers.
 2. The frozen 50 Stage 1 track identities.
 3. The interpretation packets, structure evidence, or safe manifests produced by the frozen Stage 1 prep artifact.
-4. The OpenAI Responses adapter, proposal validator, or provider-response ingestion path.
+4. OpenAI Responses payload/transport semantics, proposal validator, or provider-response ingestion behavior; adapter v2 is limited to the compatibility boundary documented above.
 5. Provider/model contract: OpenAI Responses API, `gpt-6-sol`, reasoning `high`, max output tokens 4096, `store=false`.
 6. The deterministic semantic compiler v1.
 7. `DROP_EVALUATION_V1.md`, including the primary ±2.0 s window and predeclared ±1.0/±5.0 sensitivity windows.
