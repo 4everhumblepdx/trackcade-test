@@ -1,0 +1,70 @@
+{
+  "schema": "trackcade-semantic-external-stage1-anchor-coverage-freeze-v1",
+  "status": "frozen-before-structure-evidence-development-and-before-terminal-evaluation",
+  "stage": "stage1",
+  "scope": "maximum expert Drop recall representable by existing deterministic boundary/landmark anchor locations; not semantic model performance and not new timing authority",
+  "analysis": {
+    "workflowRunId": 36423640939,
+    "workflowHeadSha": "95fab232394f980393e8d10dfe4ec34e62e91710",
+    "artifactId": 10970024980,
+    "artifactName": "trackcade-semantic-external-stage1-anchor-coverage-v1",
+    "artifactDigest": "sha256:29601799e4c7b8a82d1858cbc94679a191751782fa2dbe6f814aa173dc2119aa",
+    "resultFile": "STAGE1_ANCHOR_COVERAGE_V1.json",
+    "resultSha256": "f6fc8c0144ddd85936cade6068276432e1532ce0115c3d76025311da1c0a81d7",
+    "analysisScriptGitBlobSha": "dd9594b6dde70e00025c9bfc74f2430d2b0356c6",
+    "frozenMatcherGitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+    "providerCallsMade": 0,
+    "terminalTracksProcessed": false
+  },
+  "inputs": {
+    "prepRunId": 36416837060,
+    "prepHeadSha": "ba45aa47fc952d9c2e3b30151c61c2be046b1023",
+    "prepArtifactId": 10967717082,
+    "prepArtifactDigest": "sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd",
+    "prepManifestSha256": "82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9",
+    "referenceDropsSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+    "referenceSupport": 46,
+    "tracksWithReferences": 27
+  },
+  "analyzer": {
+    "release": "v0.19",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "recallCeilings": {
+    "boundary": {
+      "1.0": {"matchedReferenceSupport": 15, "microRecallCeiling": 0.32608695652173914, "tracksWithAllReferencesCovered": 5},
+      "2.0": {"matchedReferenceSupport": 24, "microRecallCeiling": 0.5217391304347826, "tracksWithAllReferencesCovered": 11},
+      "5.0": {"matchedReferenceSupport": 36, "microRecallCeiling": 0.782608695652174, "tracksWithAllReferencesCovered": 18}
+    },
+    "landmark": {
+      "1.0": {"matchedReferenceSupport": 16, "microRecallCeiling": 0.34782608695652173, "tracksWithAllReferencesCovered": 7},
+      "2.0": {"matchedReferenceSupport": 24, "microRecallCeiling": 0.5217391304347826, "tracksWithAllReferencesCovered": 13},
+      "5.0": {"matchedReferenceSupport": 36, "microRecallCeiling": 0.782608695652174, "tracksWithAllReferencesCovered": 20}
+    },
+    "anyAnchor": {
+      "1.0": {"matchedReferenceSupport": 19, "microRecallCeiling": 0.41304347826086957, "tracksWithAllReferencesCovered": 8},
+      "2.0": {"matchedReferenceSupport": 28, "microRecallCeiling": 0.6086956521739131, "tracksWithAllReferencesCovered": 15},
+      "5.0": {"matchedReferenceSupport": 41, "microRecallCeiling": 0.8913043478260869, "tracksWithAllReferencesCovered": 22}
+    }
+  },
+  "primaryInterpretation": {
+    "primaryToleranceSeconds": 2.0,
+    "representableReferenceDrops": 28,
+    "unrepresentableReferenceDrops": 18,
+    "existingAnchorRecallCeiling": 0.6086956521739131,
+    "v1ProposalMatchedDrops": 17,
+    "v2ProposalMatchedDrops": 15,
+    "v1ShareOfRepresentableDropsMatched": 0.6071428571428571,
+    "v2ShareOfRepresentableDropsMatched": 0.5357142857142857,
+    "conclusion": "Stage 1 currently has two separable development bottlenecks: existing deterministic anchor coverage limits primary-tolerance Drop recall to 28/46, while semantic selection still misses a substantial fraction of those representable Drops. This does not authorize model-generated timing or Analyzer retuning."
+  },
+  "researchBoundary": {
+    "developmentSetOnly": true,
+    "terminalSetUntouched": true,
+    "analyzerV019Frozen": true,
+    "aiTimingAuthority": false,
+    "structureEvidenceMayBeStudiedLabelAwareOnStage1ForDevelopment": true,
+    "terminalEvidenceMayNotBeTunedFromLabels": true
+  }
+}
