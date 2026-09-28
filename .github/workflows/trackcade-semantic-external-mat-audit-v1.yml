@@ -1,0 +1,75 @@
+name: Trackcade Semantic External Holdout v1 — Audit MAT Labels
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/audit_mat_labels_v1.py
+      - .github/workflows/trackcade-semantic-external-mat-audit-v1.yml
+
+permissions:
+  contents: write
+
+jobs:
+  audit-mat-labels:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: trackcade-semantic-external-holdout-v1
+          fetch-depth: 0
+
+      - name: Install audit dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m pip install --disable-pip-version-check 'numpy==2.1.3' 'scipy==1.14.1'
+
+      - name: Audit actual MAT schema from one verified split segment
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          OUT="$BASE/MAT_LABEL_AUDIT_V1.json"
+          SHA="$BASE/MAT_LABEL_AUDIT_V1.sha256"
+          TMP="$RUNNER_TEMP/MAT_LABEL_AUDIT_V1.current.json"
+          WORK="$RUNNER_TEMP/osf-mat-audit"
+          mkdir -p "$WORK"
+
+          python3 "$BASE/audit_mat_labels_v1.py" \
+            --inventory "$BASE/OSF_INVENTORY_V1.json" \
+            --index "$BASE/OSF_SPLIT_ZIP_INDEX_V1.json" \
+            --work-dir "$WORK" \
+            --output "$TMP" \
+            --sample-count 12
+
+          if [[ -f "$OUT" ]]; then
+            cmp -s "$OUT" "$TMP" || {
+              echo 'ERROR: current MAT audit differs from frozen audit.' >&2
+              exit 1
+            }
+            test "$(awk '{print $1}' "$SHA")" = "$(sha256sum "$OUT" | awk '{print $1}')"
+            exit 0
+          fi
+
+          mv "$TMP" "$OUT"
+          sha256sum "$OUT" > "$SHA"
+
+      - name: Commit first MAT audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='research/semantic-external-holdout-v1'
+          git add "$BASE/MAT_LABEL_AUDIT_V1.json" "$BASE/MAT_LABEL_AUDIT_V1.sha256"
+          if git diff --cached --quiet; then
+            echo 'No MAT audit commit needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Freeze pre-model MAT label schema audit [skip ci]'
+          git push origin HEAD:trackcade-semantic-external-holdout-v1
