@@ -31,8 +31,6 @@ env:
   PREP_MANIFEST_SHA256: 350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff
   REFERENCE_DROPS_SHA256: 1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c
   COMPILER_BLOB_SHA: ff9051e7201b66c1e4a0eb000098d35668a1b810
-  ANALYZER_RUNNER_SHA256: 9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432
-  ANALYZER_SOURCE_COMMIT: e308d867980fb1877c3f2e4ce27950deecac0855
 
 jobs:
   evaluate:
@@ -66,25 +64,29 @@ jobs:
           set -euo pipefail
           run="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}")"
           test "$(jq -r '.head_sha' <<<"$run")" = "$GENERATION_HEAD_SHA"
-          test "$(jq -r '.status' <<<"$run")" = 'completed'
-          test "$(jq -r '.conclusion' <<<"$run")" = 'success'
+          test "$(jq -r '.status' <<<"$run")" = completed
+          test "$(jq -r '.conclusion' <<<"$run")" = success
           test "$(jq -r '.path' <<<"$run")" = "$GENERATION_WORKFLOW_PATH"
+
           jobs="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}/jobs?per_page=100")"
           test "$(jq -r '.total_count' <<<"$jobs")" -eq 51
           test "$(jq '[.jobs[] | select(.name == "preflight" and .conclusion == "success")] | length' <<<"$jobs")" -eq 1
-          test "$(jq '[.jobs[] | select(.name | startswith("generate ("))] | length' <<<"$jobs")" -eq 50
           test "$(jq '[.jobs[] | select((.name | startswith("generate (")) and .conclusion == "success")] | length' <<<"$jobs")" -eq 50
-          artifacts="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}/artifacts?per_page=100")"
-          test "$(jq -r '.total_count' <<<"$artifacts")" -eq 50
-          python - <<'PY' <<<"$artifacts"
+
+          artifact_json="$RUNNER_TEMP/generation-artifacts.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}/artifacts?per_page=100" > "$artifact_json"
+          test "$(jq -r '.total_count' "$artifact_json")" -eq 50
+          python - "$artifact_json" <<'PY'
           import json,sys
-          d=json.load(sys.stdin)
-          names={a['name'] for a in d['artifacts'] if not a.get('expired')}
+          d=json.load(open(sys.argv[1]))
+          active=[a for a in d['artifacts'] if not a.get('expired')]
+          names={a['name'] for a in active}
           expected={f'trackcade-semantic-external-stage1-sol-v1-case-{i}-completed' for i in range(1,51)}
-          assert names == expected, (sorted(expected-names), sorted(names-expected))
-          assert all(a['workflow_run']['id']==36377127878 for a in d['artifacts'])
-          assert all(a['workflow_run']['head_sha']=='9829418a5ba8c6a2a050b35c6a3e8d7e14ad2b8f' for a in d['artifacts'])
-          print('exact 50 completed Stage 1 provider artifacts verified; no retry/no-retry artifacts present')
+          assert len(active)==50
+          assert names==expected,(sorted(expected-names),sorted(names-expected))
+          assert all(a['workflow_run']['id']==36377127878 for a in active)
+          assert all(a['workflow_run']['head_sha']=='9829418a5ba8c6a2a050b35c6a3e8d7e14ad2b8f' for a in active)
+          print('exact 50 completed Stage 1 provider artifacts verified')
           PY
 
       - name: Verify immutable prep artifact identity
