@@ -1,0 +1,85 @@
+{
+  "schema": "trackcade-semantic-external-stage1-evaluation-freeze-v1",
+  "status": "frozen-before-stage1-tuning-and-before-terminal-evaluation",
+  "stage": "stage1",
+  "scope": "expert Drop agreement only; Build and Break are not evaluation targets",
+  "evaluationContract": {
+    "path": "research/semantic-external-holdout-v1/DROP_EVALUATION_V1.md",
+    "primaryToleranceSeconds": 2.0,
+    "sensitivityToleranceSeconds": [1.0, 5.0]
+  },
+  "generation": {
+    "runId": 36377127878,
+    "headSha": "9829418a5ba8c6a2a050b35c6a3e8d7e14ad2b8f",
+    "completedProviderResponses": 50,
+    "semanticRetryCountPerTrack": 0,
+    "requestedModel": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false
+  },
+  "evaluation": {
+    "runId": 36415551022,
+    "headSha": "aade07635c212ba8ffbdd8928a252ab1ea3536b1",
+    "artifactId": 10966739681,
+    "artifactName": "trackcade-semantic-external-stage1-drop-evaluation-v1",
+    "artifactDigest": "sha256:c7172d48fee543cc3d1992dd337a99939d4e9e253e2f505fd8aa7f1d0664b514",
+    "candidateSha256": "f2dff9bd4a32d5a86b3768efcff1b3846a10fd98ae279c0dd94fdce1cb55a9c2",
+    "evaluationSha256": "bb24e08ca2aad119e062f0174ad3da5b9f289ae438a748a4fc9c28149d3da218",
+    "referenceDropsSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+    "compilerSha256": "3537e0b4e255342e07cc800c9bdcefaefaa9d2b643717de7d2fbf4eb4037563b",
+    "providerCallsMadeByEvaluator": 0,
+    "terminalTracksProcessed": false
+  },
+  "analyzer": {
+    "release": "v0.19",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "primaryResultAtTwoSeconds": {
+    "referenceSupport": 46,
+    "proposalDrops": {
+      "candidateSupport": 77,
+      "matchedSupport": 17,
+      "truePositives": 17,
+      "falsePositives": 60,
+      "falseNegatives": 29,
+      "microPrecision": 0.22077922077922077,
+      "microRecall": 0.3695652173913043,
+      "microF1": 0.2764227642276423,
+      "meanAbsoluteErrorSeconds": 0.7627647058823537,
+      "medianAbsoluteErrorSeconds": 0.5330000000000013,
+      "maxAbsoluteErrorSeconds": 1.7750000000000057
+    },
+    "compilerAcceptedDrops": {
+      "candidateSupport": 3,
+      "matchedSupport": 2,
+      "truePositives": 2,
+      "falsePositives": 1,
+      "falseNegatives": 44,
+      "microPrecision": 0.6666666666666666,
+      "microRecall": 0.043478260869565216,
+      "microF1": 0.08163265306122448,
+      "meanAbsoluteErrorSeconds": 0.9354999999999905,
+      "medianAbsoluteErrorSeconds": 0.9354999999999905,
+      "maxAbsoluteErrorSeconds": 1.4259999999999877
+    }
+  },
+  "sensitivity": {
+    "proposalMicroF1": {"1.0": 0.17886178861788618, "2.0": 0.2764227642276423, "5.0": 0.3252032520325203},
+    "acceptedMicroF1": {"1.0": 0.04081632653061224, "2.0": 0.08163265306122448, "5.0": 0.08163265306122448}
+  },
+  "usageTotals": {
+    "inputTokens": 378861,
+    "outputTokens": 80436,
+    "reasoningTokens": 48113,
+    "totalTokens": 459297
+  },
+  "claimBoundary": {
+    "stage1MayInformDevelopment": true,
+    "terminalSetRemainsUntouched": true,
+    "aiTimingAuthority": false,
+    "analyzerV019MutableForSemanticScore": false,
+    "resultInterpretation": "Stage 1 demonstrates limited Drop agreement in raw Sol proposals and severe recall loss under the frozen compiler; this freeze records the observed result before any Stage 1-driven semantic tuning."
+  }
+}
