@@ -1,0 +1,46 @@
+name: Trackcade External Stage 1 — Preflight Identity Diagnostic
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-preflight-debug.yml
+
+permissions:
+  contents: read
+
+jobs:
+  identity-diagnostic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          sparse-checkout: |
+            research/learned-interpretation-v1
+            research/semantic-external-holdout-v1/STAGE1_PREP_FREEZE_V1.json
+            research/semantic-external-holdout-v1/run_stage1_provider_case_v1.py
+          sparse-checkout-cone-mode: false
+      - name: Print exact preflight identities
+        shell: bash
+        run: |
+          set -u
+          echo "HEAD=$(git rev-parse HEAD)"
+          echo "freeze_blob=$(git rev-parse HEAD:research/semantic-external-holdout-v1/STAGE1_PREP_FREEZE_V1.json)"
+          echo "build_blob=$(git rev-parse HEAD:research/learned-interpretation-v1/build_learned_request_v1.py)"
+          echo "adapter_blob=$(git rev-parse HEAD:research/learned-interpretation-v1/openai_responses_adapter_v1.py)"
+          echo "validator_blob=$(git rev-parse HEAD:research/learned-interpretation-v1/validate_learned_proposal_v1.py)"
+          echo "ingester_blob=$(git rev-parse HEAD:research/learned-interpretation-v1/ingest_provider_response_v1.py)"
+          echo "provider_helper_sha256=$(sha256sum research/semantic-external-holdout-v1/run_stage1_provider_case_v1.py | awk '{print $1}')"
+          git merge-base --is-ancestor c1a2b2059abd35ce51eaa590188f4537c3eae3c3 HEAD; echo "freeze_ancestor_rc=$?"
+          if [ -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json ]; then echo 'reference_present=true'; else echo 'reference_present=false'; fi
+          if [ -e research/semantic-external-holdout-v1/SPLIT_V3.json ]; then echo 'split_present=true'; else echo 'split_present=false'; fi
+          python -m py_compile \
+            research/semantic-external-holdout-v1/run_stage1_provider_case_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/ingest_provider_response_v1.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py
+          echo 'py_compile=success'
