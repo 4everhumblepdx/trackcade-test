@@ -1,6 +1,11 @@
 name: Trackcade Semantic External Holdout v1 — Stage 1 GPT-6 Sol
 
 on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-sol-v1.yml
   workflow_dispatch:
 
 permissions:
