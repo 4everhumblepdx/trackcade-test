@@ -1,0 +1,1145 @@
+{
+  "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+  "analyzerSourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+  "artifacts": [
+    {
+      "headSha": "45f9c12f384549f8fa215f505e520741f455bcdd",
+      "id": 10948246126,
+      "name": "trackcade-semantic-external-stage1-prep-v1",
+      "runId": 36367290783,
+      "sha256": "accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a"
+    },
+    {
+      "headSha": "ba45aa47fc952d9c2e3b30151c61c2be046b1023",
+      "id": 10967717082,
+      "name": "trackcade-semantic-external-stage1-v2-prep-v1",
+      "runId": 36416837060,
+      "sha256": "627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd"
+    }
+  ],
+  "execution": {
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "location": "local offline Python",
+    "providerCalls": 0,
+    "terminalTracksProcessed": false
+  },
+  "files": {
+    "STAGE1_INTERACTION_COVERAGE_V1.json": "50e64f25d0d9518500382acf173cc57355c89488a780caf37eb565c27572b853",
+    "analyze_stage1_interaction_coverage_v1.py": "e4104f95b0a326d8e1ea63085b512c3218d308d52ed1dfa16fbf194f35b4b3f7"
+  },
+  "matcherGitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+  "method": {
+    "core": "priority == core",
+    "coreAccent": "priority in {core, accent}",
+    "current": "union of frozen structure evidence boundaries and landmarks",
+    "deduplication": "same baseline round(time,9), sorted unique times; matching uses unique locations",
+    "duplicates": "exact equality after rounding to 9 decimals; no tolerance-based merging",
+    "families": [
+      "current",
+      "interaction core",
+      "interaction core+accent",
+      "interaction all",
+      "current+core",
+      "current+core+accent",
+      "beatGrid all"
+    ],
+    "meaning": "Representability ceiling, not Drop detection performance; beatGrid all is descriptive density upper bound only; Stage 1 is label-aware development.",
+    "packet": "Descriptive compact sorted UTF-8 JSON: retain other packet fields; remove boundaries/landmarks for interaction-only and beatGrid; append full source records as auditCandidateRecords. Unions retain current fields. No schema or provider request is changed.",
+    "tokens": "ceil(compact UTF-8 bytes / 4), rough estimate only; not model tokenizer counts or billable usage",
+    "type": "Current records use boundary/landmark; interaction records use type if present, otherwise source; beatGrid uses role. Distributions count all raw family records; current and beatGrid priority is not-applicable."
+  },
+  "parentCommit": "7e63c00df981b116b502ba0ddfcf11af8a62bc2e",
+  "schema": "trackcade-stage1-interaction-coverage-freeze-v1",
+  "sourceHashes": {
+    "baseManifest": "350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff",
+    "baseZip": "accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a",
+    "references": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+    "v2Manifest": "82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9",
+    "v2Zip": "627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd"
+  },
+  "status": "frozen-before-structure-evidence-v2",
+  "verification": {
+    "all350TrackFamilyRowsChecked": true,
+    "baselineMatches": [
+      19,
+      28,
+      41
+    ],
+    "byteIdenticalIndependentRuns": true,
+    "tamperedReferenceRejected": true
+  },
+  "views": {
+    "beatGrid all": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 0.45599999999998886,
+          "meanAbsoluteErrorSeconds": 0.13395652173913056,
+          "medianAbsoluteErrorSeconds": 0.10500000000000398,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 0.45599999999998886,
+          "meanAbsoluteErrorSeconds": 0.13395652173913056,
+          "medianAbsoluteErrorSeconds": 0.10500000000000398,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 0.45599999999998886,
+          "meanAbsoluteErrorSeconds": 0.13395652173913056,
+          "medianAbsoluteErrorSeconds": 0.10500000000000398,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "not-applicable": 24378
+      },
+      "candidateTypeDistribution": {
+        "accent": 12324,
+        "anchor": 1161,
+        "support": 10893
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 1167,
+          "mean": 465.06,
+          "median": 357.0,
+          "minimum": 135,
+          "total": 23253
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        },
+        "rawAnchorCount": {
+          "maximum": 1184,
+          "mean": 487.56,
+          "median": 383.5,
+          "minimum": 160,
+          "total": 24378
+        },
+        "uniqueAnchorCount": {
+          "maximum": 1184,
+          "mean": 487.56,
+          "median": 383.5,
+          "minimum": 160,
+          "total": 24378
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 245431,
+          "mean": 96833.16,
+          "median": 75611.5,
+          "minimum": 26547,
+          "total": 4841658
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 65512,
+          "mean": 28719.44,
+          "median": 23556.5,
+          "minimum": 10836,
+          "total": 1435972
+        },
+        "estimatedTokenDelta": {
+          "maximum": 61358,
+          "mean": 24208.34,
+          "median": 18903.0,
+          "minimum": 6637,
+          "total": 1210417
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 262045,
+          "mean": 114876,
+          "median": 94224.0,
+          "minimum": 43344,
+          "total": 5743800
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 251918,
+          "mean": 104777.46,
+          "median": 83959.5,
+          "minimum": 33914,
+          "total": 5238873
+        }
+      }
+    },
+    "current": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 19,
+          "maxAbsoluteErrorSeconds": 0.9300000000000068,
+          "meanAbsoluteErrorSeconds": 0.4551052631578954,
+          "medianAbsoluteErrorSeconds": 0.4069999999999965,
+          "microRecallCeiling": 0.41304347826086957,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 8,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 28,
+          "maxAbsoluteErrorSeconds": 1.953000000000003,
+          "meanAbsoluteErrorSeconds": 0.8035714285714294,
+          "medianAbsoluteErrorSeconds": 0.7839999999999989,
+          "microRecallCeiling": 0.6086956521739131,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 15,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 41,
+          "maxAbsoluteErrorSeconds": 4.310000000000002,
+          "meanAbsoluteErrorSeconds": 1.5289024390243915,
+          "medianAbsoluteErrorSeconds": 1.3059999999999974,
+          "microRecallCeiling": 0.8913043478260869,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 22,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "not-applicable": 1402
+      },
+      "candidateTypeDistribution": {
+        "boundary": 356,
+        "landmark": 1046
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 12,
+          "mean": 5.54,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 277
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "rawAnchorCount": {
+          "maximum": 42,
+          "mean": 28.04,
+          "median": 27.5,
+          "minimum": 19,
+          "total": 1402
+        },
+        "uniqueAnchorCount": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedTokenDelta": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 2,
+          "mean": 2,
+          "median": 2.0,
+          "minimum": 2,
+          "total": 100
+        }
+      }
+    },
+    "current+core": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 29,
+          "maxAbsoluteErrorSeconds": 0.9579999999999984,
+          "meanAbsoluteErrorSeconds": 0.4069310344827572,
+          "medianAbsoluteErrorSeconds": 0.375,
+          "microRecallCeiling": 0.6304347826086957,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 13,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 39,
+          "maxAbsoluteErrorSeconds": 1.953000000000003,
+          "meanAbsoluteErrorSeconds": 0.6937179487179478,
+          "medianAbsoluteErrorSeconds": 0.5499999999999972,
+          "microRecallCeiling": 0.8478260869565217,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 22,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 3.909000000000006,
+          "meanAbsoluteErrorSeconds": 1.0519347826086947,
+          "medianAbsoluteErrorSeconds": 0.7220000000000013,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "core": 5055,
+        "not-applicable": 1402
+      },
+      "candidateTypeDistribution": {
+        "beat": 4083,
+        "boundary": 356,
+        "downbeat": 273,
+        "landmark": 1046,
+        "onset": 344,
+        "transition": 355
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 17,
+          "mean": 7.5,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 375
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 10,
+          "mean": 1.96,
+          "median": 1.0,
+          "minimum": 0,
+          "total": 98
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 360,
+          "mean": 99.14,
+          "median": 83.5,
+          "minimum": 25,
+          "total": 4957
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 10,
+          "mean": 1.96,
+          "median": 1.0,
+          "minimum": 0,
+          "total": 98
+        },
+        "rawAnchorCount": {
+          "maximum": 398,
+          "mean": 129.14,
+          "median": 117.0,
+          "minimum": 53,
+          "total": 6457
+        },
+        "uniqueAnchorCount": {
+          "maximum": 390,
+          "mean": 121.64,
+          "median": 107.5,
+          "minimum": 49,
+          "total": 6082
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 53697,
+          "mean": 15010.56,
+          "median": 12587.0,
+          "minimum": 4041,
+          "total": 750528
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 18279,
+          "mean": 8263.72,
+          "median": 7906.5,
+          "minimum": 5080,
+          "total": 413186
+        },
+        "estimatedTokenDelta": {
+          "maximum": 13425,
+          "mean": 3752.62,
+          "median": 3147.0,
+          "minimum": 1011,
+          "total": 187631
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 73113,
+          "mean": 33053.4,
+          "median": 31624.0,
+          "minimum": 20320,
+          "total": 1652670
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 53672,
+          "mean": 14985.56,
+          "median": 12562.0,
+          "minimum": 4016,
+          "total": 749278
+        }
+      }
+    },
+    "current+core+accent": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 41,
+          "maxAbsoluteErrorSeconds": 0.914999999999992,
+          "meanAbsoluteErrorSeconds": 0.3322926829268286,
+          "medianAbsoluteErrorSeconds": 0.22500000000002274,
+          "microRecallCeiling": 0.8913043478260869,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 23,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 45,
+          "maxAbsoluteErrorSeconds": 1.6820000000000022,
+          "meanAbsoluteErrorSeconds": 0.43295555555555515,
+          "medianAbsoluteErrorSeconds": 0.23900000000000432,
+          "microRecallCeiling": 0.9782608695652174,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 26,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 2.2959999999999923,
+          "meanAbsoluteErrorSeconds": 0.4734565217391299,
+          "medianAbsoluteErrorSeconds": 0.267000000000003,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "accent": 7677,
+        "core": 5055,
+        "not-applicable": 1402
+      },
+      "candidateTypeDistribution": {
+        "beat": 9922,
+        "boundary": 356,
+        "downbeat": 372,
+        "landmark": 1046,
+        "onset": 2083,
+        "transition": 355
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 21,
+          "mean": 8.4,
+          "median": 8.0,
+          "minimum": 0,
+          "total": 420
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 955,
+          "mean": 251.78,
+          "median": 211.0,
+          "minimum": 66,
+          "total": 12589
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        },
+        "rawAnchorCount": {
+          "maximum": 995,
+          "mean": 282.68,
+          "median": 243.0,
+          "minimum": 96,
+          "total": 14134
+        },
+        "uniqueAnchorCount": {
+          "maximum": 985,
+          "mean": 274.28,
+          "median": 233.5,
+          "minimum": 91,
+          "total": 13714
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 32,
+          "mean": 22.5,
+          "median": 21.5,
+          "minimum": 13,
+          "total": 1125
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 143033,
+          "mean": 38018.82,
+          "median": 31698.5,
+          "minimum": 10168,
+          "total": 1900941
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 40613,
+          "mean": 14015.76,
+          "median": 12753.0,
+          "minimum": 6733,
+          "total": 700788
+        },
+        "estimatedTokenDelta": {
+          "maximum": 35759,
+          "mean": 9504.66,
+          "median": 7924.5,
+          "minimum": 2542,
+          "total": 475233
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 162449,
+          "mean": 56061.66,
+          "median": 51010.0,
+          "minimum": 26929,
+          "total": 2803083
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 143008,
+          "mean": 37993.82,
+          "median": 31673.5,
+          "minimum": 10143,
+          "total": 1899691
+        }
+      }
+    },
+    "interaction all": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 45,
+          "maxAbsoluteErrorSeconds": 0.9210000000000065,
+          "meanAbsoluteErrorSeconds": 0.22868888888888708,
+          "medianAbsoluteErrorSeconds": 0.1529999999999916,
+          "microRecallCeiling": 0.9782608695652174,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 26,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 1.2700000000000102,
+          "meanAbsoluteErrorSeconds": 0.2513260869565202,
+          "medianAbsoluteErrorSeconds": 0.16049999999999898,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 1.2700000000000102,
+          "meanAbsoluteErrorSeconds": 0.2513260869565202,
+          "medianAbsoluteErrorSeconds": 0.16049999999999898,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "accent": 7677,
+        "core": 5055,
+        "optional": 8767
+      },
+      "candidateTypeDistribution": {
+        "beat": 13193,
+        "downbeat": 372,
+        "onset": 7579,
+        "transition": 355
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 3.34,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 167
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 1646,
+          "mean": 426.64,
+          "median": 358.5,
+          "minimum": 109,
+          "total": 21332
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 3.34,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 167
+        },
+        "rawAnchorCount": {
+          "maximum": 1653,
+          "mean": 429.98,
+          "median": 362.0,
+          "minimum": 111,
+          "total": 21499
+        },
+        "uniqueAnchorCount": {
+          "maximum": 1653,
+          "mean": 429.98,
+          "median": 362.0,
+          "minimum": 111,
+          "total": 21499
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 3.34,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 167
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 239477,
+          "mean": 56794.76,
+          "median": 46142.5,
+          "minimum": 6041,
+          "total": 2839738
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 64724,
+          "mean": 18709.76,
+          "median": 16121.0,
+          "minimum": 6645,
+          "total": 935488
+        },
+        "estimatedTokenDelta": {
+          "maximum": 59870,
+          "mean": 14198.66,
+          "median": 11535.5,
+          "minimum": 1511,
+          "total": 709933
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 258893,
+          "mean": 74837.6,
+          "median": 64483.0,
+          "minimum": 26579,
+          "total": 3741880
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 248866,
+          "mean": 64739.06,
+          "median": 54389.5,
+          "minimum": 16697,
+          "total": 3236953
+        }
+      }
+    },
+    "interaction core": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 28,
+          "maxAbsoluteErrorSeconds": 0.9579999999999984,
+          "meanAbsoluteErrorSeconds": 0.4174642857142824,
+          "medianAbsoluteErrorSeconds": 0.3774999999999977,
+          "microRecallCeiling": 0.6086956521739131,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 13,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 37,
+          "maxAbsoluteErrorSeconds": 1.9039999999999964,
+          "meanAbsoluteErrorSeconds": 0.675405405405403,
+          "medianAbsoluteErrorSeconds": 0.5499999999999972,
+          "microRecallCeiling": 0.8043478260869565,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 20,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 3.909000000000006,
+          "meanAbsoluteErrorSeconds": 1.1138478260869542,
+          "medianAbsoluteErrorSeconds": 0.7610000000000028,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "core": 5055
+      },
+      "candidateTypeDistribution": {
+        "beat": 4083,
+        "downbeat": 273,
+        "onset": 344,
+        "transition": 355
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 10,
+          "mean": 1.96,
+          "median": 1.0,
+          "minimum": 0,
+          "total": 98
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 360,
+          "mean": 99.14,
+          "median": 83.5,
+          "minimum": 25,
+          "total": 4957
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 10,
+          "mean": 1.96,
+          "median": 1.0,
+          "minimum": 0,
+          "total": 98
+        },
+        "rawAnchorCount": {
+          "maximum": 364,
+          "mean": 101.1,
+          "median": 85.0,
+          "minimum": 27,
+          "total": 5055
+        },
+        "uniqueAnchorCount": {
+          "maximum": 364,
+          "mean": 101.1,
+          "median": 85.0,
+          "minimum": 27,
+          "total": 5055
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 10,
+          "mean": 1.96,
+          "median": 1.0,
+          "minimum": 0,
+          "total": 98
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 44283,
+          "mean": 7041.26,
+          "median": 5262.0,
+          "minimum": -6857,
+          "total": 352063
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 15925,
+          "mean": 6271.36,
+          "median": 5762.5,
+          "minimum": 3475,
+          "total": 313568
+        },
+        "estimatedTokenDelta": {
+          "maximum": 11071,
+          "mean": 1760.26,
+          "median": 1315.5,
+          "minimum": -1714,
+          "total": 88013
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 63699,
+          "mean": 25084.1,
+          "median": 23048.0,
+          "minimum": 13898,
+          "total": 1254205
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 53672,
+          "mean": 14985.56,
+          "median": 12562.0,
+          "minimum": 4016,
+          "total": 749278
+        }
+      }
+    },
+    "interaction core+accent": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 41,
+          "maxAbsoluteErrorSeconds": 0.914999999999992,
+          "meanAbsoluteErrorSeconds": 0.33465853658536404,
+          "medianAbsoluteErrorSeconds": 0.22999999999998977,
+          "microRecallCeiling": 0.8913043478260869,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 23,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 45,
+          "maxAbsoluteErrorSeconds": 1.6820000000000022,
+          "meanAbsoluteErrorSeconds": 0.43511111111110967,
+          "medianAbsoluteErrorSeconds": 0.27499999999997726,
+          "microRecallCeiling": 0.9782608695652174,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 26,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 2.2959999999999923,
+          "meanAbsoluteErrorSeconds": 0.47556521739130275,
+          "medianAbsoluteErrorSeconds": 0.2849999999999895,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "candidatePriorityDistribution": {
+        "accent": 7677,
+        "core": 5055
+      },
+      "candidateTypeDistribution": {
+        "beat": 9922,
+        "downbeat": 372,
+        "onset": 2083,
+        "transition": 355
+      },
+      "counts": {
+        "duplicateTimeCount": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "extraRecordsOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        },
+        "extraUniqueTimesNewVsCurrent": {
+          "maximum": 955,
+          "mean": 251.78,
+          "median": 211.0,
+          "minimum": 66,
+          "total": 12589
+        },
+        "extraUniqueTimesOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        },
+        "rawAnchorCount": {
+          "maximum": 961,
+          "mean": 254.64,
+          "median": 213.0,
+          "minimum": 68,
+          "total": 12732
+        },
+        "uniqueAnchorCount": {
+          "maximum": 961,
+          "mean": 254.64,
+          "median": 213.0,
+          "minimum": 68,
+          "total": 12732
+        },
+        "uniqueTimesOverlappingCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        }
+      },
+      "footprint": {
+        "baselineCompactPacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "deltaCompactBytes": {
+          "maximum": 133619,
+          "mean": 30049.52,
+          "median": 23940.5,
+          "minimum": -688,
+          "total": 1502476
+        },
+        "estimatedBaselineTokens": {
+          "maximum": 5969,
+          "mean": 4511.1,
+          "median": 4446.0,
+          "minimum": 3560,
+          "total": 225555
+        },
+        "estimatedHypotheticalTokens": {
+          "maximum": 38259,
+          "mean": 12023.42,
+          "median": 10491.5,
+          "minimum": 5007,
+          "total": 601171
+        },
+        "estimatedTokenDelta": {
+          "maximum": 33405,
+          "mean": 7512.32,
+          "median": 5985.0,
+          "minimum": -172,
+          "total": 375616
+        },
+        "hypotheticalCompactPacketBytes": {
+          "maximum": 153035,
+          "mean": 48092.36,
+          "median": 41964.0,
+          "minimum": 20025,
+          "total": 2404618
+        },
+        "originalPacketFileBytes": {
+          "maximum": 39740,
+          "mean": 31179.8,
+          "median": 30843.0,
+          "minimum": 25477,
+          "total": 1558990
+        },
+        "rawCandidateRecordsBytes": {
+          "maximum": 143008,
+          "mean": 37993.82,
+          "median": 31673.5,
+          "minimum": 10143,
+          "total": 1899691
+        }
+      }
+    }
+  }
+}
