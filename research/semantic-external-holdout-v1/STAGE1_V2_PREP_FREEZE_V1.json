@@ -1,0 +1,58 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v2-prep-freeze-v1",
+  "status": "frozen-before-any-v2-provider-response",
+  "stage": "stage1",
+  "developmentRevision": "stage1-drop-semantics-v2",
+  "prep": {
+    "runId": 36416837060,
+    "headSha": "ba45aa47fc952d9c2e3b30151c61c2be046b1023",
+    "artifactId": 10967717082,
+    "artifactName": "trackcade-semantic-external-stage1-v2-prep-v1",
+    "artifactDigest": "sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd",
+    "manifestSha256": "82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9",
+    "trackCount": 50,
+    "providerCallsObserved": 0,
+    "terminalTracksProcessed": false
+  },
+  "semanticInstruction": {
+    "builderGitBlobSha": "a930abf4dadc23a4008b2a331fa3b08b0d74a1be",
+    "builderFileSha256": "2d23f05b45c8c59598aa7db5cda0f476958b4b46081003b0b63c58533261be70",
+    "instructionSha256": "59a2da419ca32edc6c440ead0880649286043a698cf3f3b3b752e750dfcda0ce"
+  },
+  "adapter": {
+    "v1GitBlobSha": "f48198edbe2bf593e52e9d708fe6a85d34d49f65",
+    "v2CompatibilityGitBlobSha": "8308548357254dafc01059fff48694fb17ad753b",
+    "v2CompatibilityFileSha256": "7b9b10d36842efe3451aa33173ffcf30e549c1e658278b0656a36724b5f296b1",
+    "role": "compatibility-only binding of exact V2 request instruction into unchanged v1 payload/transport/extraction path"
+  },
+  "basePrep": {
+    "runId": 36367290783,
+    "artifactId": 10948246126,
+    "artifactDigest": "sha256:accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a",
+    "manifestSha256": "350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff"
+  },
+  "analyzer": {
+    "release": "v0.19",
+    "sourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "runnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false,
+    "completedResponsesPerTrackAtFreeze": 0
+  },
+  "researchBoundary": {
+    "sameFrozenStage1Tracks": true,
+    "sameInterpretationPackets": true,
+    "sameStructureEvidence": true,
+    "sameSafeManifests": true,
+    "sameCompilerV1": true,
+    "sameDropEvaluationV1": true,
+    "terminalSetUntouched": true,
+    "aiTimingAuthority": false
+  }
+}
