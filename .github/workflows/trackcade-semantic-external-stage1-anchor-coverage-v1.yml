@@ -1,0 +1,122 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 Anchor Coverage
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/analyze_stage1_anchor_coverage_v1.py
+      - .github/workflows/trackcade-semantic-external-stage1-anchor-coverage-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-anchor-coverage-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  ANALYZER_SCRIPT_BLOB_SHA: 'dd9594b6dde70e00025c9bfc74f2430d2b0356c6'
+  FROZEN_MATCHER_BLOB_SHA: '3d74996281ec260e170ea10929bd0115a6d4ac70'
+  PREP_RUN_ID: '36416837060'
+  PREP_HEAD_SHA: 'ba45aa47fc952d9c2e3b30151c61c2be046b1023'
+  PREP_ARTIFACT_ID: '10967717082'
+  PREP_ARTIFACT_NAME: 'trackcade-semantic-external-stage1-v2-prep-v1'
+  PREP_ARTIFACT_DIGEST: 'sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd'
+  PREP_MANIFEST_SHA256: '82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9'
+  REFERENCE_DROPS_SHA256: '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+
+jobs:
+  anchor-coverage:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact deterministic analysis source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Verify frozen source and reference identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:$BASE/analyze_stage1_anchor_coverage_v1.py)" = "$ANALYZER_SCRIPT_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/evaluate_stage1_drop_v1.py)" = "$FROZEN_MATCHER_BLOB_SHA"
+          python -m py_compile "$BASE/analyze_stage1_anchor_coverage_v1.py" "$BASE/evaluate_stage1_drop_v1.py"
+          test "$(sha256sum "$BASE/REFERENCE_DROPS_V3.json" | awk '{print $1}')" = "$REFERENCE_DROPS_SHA256"
+          test "$(awk '{print $1}' "$BASE/REFERENCE_DROPS_V3.json.sha256")" = "$REFERENCE_DROPS_SHA256"
+
+      - name: Verify immutable Stage 1 prep artifact identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+      - name: Download exact frozen Stage 1 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify prep closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/prep/STAGE1_V2_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$PREP_MANIFEST_SHA256"
+          test "$(find "${RUNNER_TEMP}/prep/cases" -type f -name structure-evidence-v1.json | wc -l)" -eq 50
+
+      - name: Measure deterministic anchor recall ceilings offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/anchor-coverage"
+          mkdir -p "$OUT"
+          python "$BASE/analyze_stage1_anchor_coverage_v1.py" \
+            --prep-root "${RUNNER_TEMP}/prep" \
+            --references "$BASE/REFERENCE_DROPS_V3.json" \
+            --output "$OUT/STAGE1_ANCHOR_COVERAGE_V1.json"
+          sha256sum "$OUT/STAGE1_ANCHOR_COVERAGE_V1.json" > "$OUT/STAGE1_ANCHOR_COVERAGE_V1.json.sha256"
+
+      - name: Verify anchor analysis research boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/anchor-coverage/STAGE1_ANCHOR_COVERAGE_V1.json"
+          python - "$OUT" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1],encoding='utf-8'))
+          assert d['schema']=='trackcade-semantic-external-stage1-anchor-coverage-v1'
+          assert d['trackCount']==50
+          assert d['providerCallsMade']==0
+          assert d['terminalTracksProcessed'] is False
+          assert d['referenceDropsSha256']=='1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+          assert d['prepManifestSha256']=='82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9'
+          assert d['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          assert d['analyzerSourceCommit']=='e308d867980fb1877c3f2e4ce27950deecac0855'
+          assert d['tolerancesSeconds']==[1.0,2.0,5.0]
+          for view in ('boundary','landmark','anyAnchor'):
+              assert len(d['views'][view]['tracks'])==50
+              for tol in ('1.0','2.0','5.0'):
+                  assert d['views'][view]['aggregates'][tol]['referenceSupport']==46
+          print(json.dumps({k:v['aggregates'] for k,v in d['views'].items()},indent=2,sort_keys=True))
+          PY
+
+      - name: Upload immutable anchor coverage evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-anchor-coverage-v1
+          path: ${{ runner.temp }}/anchor-coverage
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
