@@ -88,6 +88,30 @@ jobs:
           PY
           df -h "$RUNNER_TEMP"
 
+      - name: Materialize pinned burned semantic fixtures
+        if: steps.frozen.outputs.complete != 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          BURNED="$RUNNER_TEMP/burned-semantic-fixtures"
+          mkdir -p "$BURNED"
+
+          # ALLDAT is present on this research branch. Pin its Git blob identity.
+          test "$(git hash-object ALLDAT_ruffmix.mp3)" = '58706a80104be6e17cdefced3b0ee6e628bee759'
+          cp ALLDAT_ruffmix.mp3 "$BURNED/ALLDAT_ruffmix.mp3"
+
+          # CVB/G.E.M.F. is a burned product fixture retained on main, not on this
+          # research branch. Materialize it from an immutable commit and verify
+          # the exact Git blob before using its content SHA-256 as a denylist hash.
+          CVB_COMMIT='7e9c2630158003bfb8655b94d105371e2631b66f'
+          CVB_BLOB='5f6ccb41a0b8d90c186e0c26e3bf559afa767df3'
+          git fetch --no-tags origin "$CVB_COMMIT"
+          git show "$CVB_COMMIT:cvb-gemf-sample.mp3" > "$BURNED/cvb-gemf-sample.mp3"
+          test "$(git hash-object "$BURNED/cvb-gemf-sample.mp3")" = "$CVB_BLOB"
+
+          echo 'Pinned burned fixtures:'
+          sha256sum "$BURNED/ALLDAT_ruffmix.mp3" "$BURNED/cvb-gemf-sample.mp3"
+
       - name: Download and cryptographically verify all split ZIP segments
         if: steps.frozen.outputs.complete != 'true'
         shell: bash
@@ -132,14 +156,15 @@ jobs:
           BASE='research/semantic-external-holdout-v1'
           CORPUS="$RUNNER_TEMP/osf-corpus"
           OUT="$RUNNER_TEMP/frozen-split"
+          BURNED="$RUNNER_TEMP/burned-semantic-fixtures"
           mkdir -p "$OUT"
           python3 "$BASE/validate_select_corpus_v1.py" \
             --pairs "$BASE/CANDIDATE_PAIRS_V1.json" \
             --index "$BASE/OSF_SPLIT_ZIP_INDEX_V1.json" \
             --corpus-root "$CORPUS" \
             --output-dir "$OUT" \
-            --burned-audio 'ALLDAT_ruffmix.mp3' \
-            --burned-audio 'research/semantic-quality-v1/fixtures/cvb-gemf-sample.mp3' \
+            --burned-audio "$BURNED/ALLDAT_ruffmix.mp3" \
+            --burned-audio "$BURNED/cvb-gemf-sample.mp3" \
             --workers 4
 
           python3 - <<'PY'
