@@ -1,0 +1,74 @@
+name: Trackcade Semantic External Holdout v1 — Freeze OSF Inventory
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/**
+      - .github/workflows/trackcade-semantic-external-inventory-v1.yml
+
+permissions:
+  contents: write
+
+jobs:
+  freeze-osf-inventory:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: trackcade-semantic-external-holdout-v1
+          fetch-depth: 0
+
+      - name: Fetch normalized OSF inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT='research/semantic-external-holdout-v1/OSF_INVENTORY_V1.json'
+          SHA='research/semantic-external-holdout-v1/OSF_INVENTORY_V1.sha256'
+          TMP="${RUNNER_TEMP}/OSF_INVENTORY_V1.current.json"
+
+          python3 research/semantic-external-holdout-v1/inventory_osf_v1.py \
+            --node-id eydxk \
+            --output "$TMP"
+
+          if [[ -f "$OUT" ]]; then
+            echo 'Frozen inventory already exists; verifying current public corpus inventory has not drifted.'
+            if ! cmp -s "$OUT" "$TMP"; then
+              echo 'ERROR: current OSF inventory differs from the already-frozen inventory.' >&2
+              diff -u "$OUT" "$TMP" | head -400 || true
+              exit 1
+            fi
+            EXPECTED="$(awk '{print $1}' "$SHA")"
+            ACTUAL="$(sha256sum "$OUT" | awk '{print $1}')"
+            [[ "$EXPECTED" == "$ACTUAL" ]] || {
+              echo 'ERROR: committed OSF inventory SHA sidecar does not match.' >&2
+              exit 1
+            }
+            echo "Frozen OSF inventory verified: $ACTUAL"
+            exit 0
+          fi
+
+          mv "$TMP" "$OUT"
+          sha256sum "$OUT" > "$SHA"
+          echo 'Created first frozen OSF inventory:'
+          cat "$SHA"
+
+      - name: Commit first frozen inventory
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT='research/semantic-external-holdout-v1/OSF_INVENTORY_V1.json'
+          SHA='research/semantic-external-holdout-v1/OSF_INVENTORY_V1.sha256'
+          git add "$OUT" "$SHA"
+          if git diff --cached --quiet; then
+            echo 'No inventory commit needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Freeze external semantic OSF inventory [skip ci]'
+          git push origin HEAD:trackcade-semantic-external-holdout-v1
