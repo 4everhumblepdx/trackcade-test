@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "properties": {
+    "aliasColumns": {
+      "const": [
+        "boundaryIndices",
+        "landmarkIndices",
+        "interactionCandidateIndices"
+      ]
+    },
+    "aliases": {
+      "items": {
+        "items": {
+          "items": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "type": "array",
+          "uniqueItems": true
+        },
+        "maxItems": 3,
+        "minItems": 3,
+        "type": "array"
+      },
+      "type": "array"
+    },
+    "policy": {
+      "const": "current-core-accent-table-v2"
+    },
+    "schema": {
+      "const": "trackcade-structure-evidence-v2-source-map"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "analysisJsonSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "analyzerRelease": {
+          "const": "v0.19"
+        },
+        "analyzerRunnerSha256": {
+          "const": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+        },
+        "analyzerSourceCommit": {
+          "const": "e308d867980fb1877c3f2e4ce27950deecac0855"
+        },
+        "beatOffset": {
+          "type": "number"
+        },
+        "bpm": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "interpretationPacketV1Sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "structureEvidenceV1Sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "analysisJsonSha256",
+        "analyzerRelease",
+        "analyzerRunnerSha256",
+        "analyzerSourceCommit",
+        "beatOffset",
+        "bpm",
+        "duration",
+        "interpretationPacketV1Sha256",
+        "structureEvidenceV1Sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema",
+    "policy",
+    "source",
+    "aliasColumns",
+    "aliases"
+  ],
+  "title": "Structure Evidence v2 immutable source map",
+  "type": "object"
+}

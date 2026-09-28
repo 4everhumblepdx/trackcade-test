@@ -1,0 +1,725 @@
+{
+  "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+  "analyzerSourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+  "boundaries": {
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "compilerSemanticsChanged": false,
+    "providerCalls": 0,
+    "terminalTracksProcessed": false,
+    "v3RunCreated": false
+  },
+  "comparison": {
+    "baselineCurrent": {
+      "1.0": {
+        "matchedReferenceSupport": 19,
+        "maxAbsoluteErrorSeconds": 0.9300000000000068,
+        "meanAbsoluteErrorSeconds": 0.4551052631578954,
+        "medianAbsoluteErrorSeconds": 0.4069999999999965,
+        "microRecallCeiling": 0.41304347826086957,
+        "referenceSupport": 46,
+        "tracksWithAllReferencesCovered": 8,
+        "tracksWithReferences": 27
+      },
+      "2.0": {
+        "matchedReferenceSupport": 28,
+        "maxAbsoluteErrorSeconds": 1.953000000000003,
+        "meanAbsoluteErrorSeconds": 0.8035714285714294,
+        "medianAbsoluteErrorSeconds": 0.7839999999999989,
+        "microRecallCeiling": 0.6086956521739131,
+        "referenceSupport": 46,
+        "tracksWithAllReferencesCovered": 15,
+        "tracksWithReferences": 27
+      },
+      "5.0": {
+        "matchedReferenceSupport": 41,
+        "maxAbsoluteErrorSeconds": 4.310000000000002,
+        "meanAbsoluteErrorSeconds": 1.5289024390243915,
+        "medianAbsoluteErrorSeconds": 1.3059999999999974,
+        "microRecallCeiling": 0.8913043478260869,
+        "referenceSupport": 46,
+        "tracksWithAllReferencesCovered": 22,
+        "tracksWithReferences": 27
+      }
+    },
+    "chosenBytes": 1304729,
+    "naiveFullRecordUnionBytes": 2803083,
+    "reductionFraction": 0.5345378642016665
+  },
+  "files": {
+    "STAGE1_STRUCTURE_EVIDENCE_V2_PACKETS.zip": {
+      "bytes": 449184,
+      "gitBlobSha": "a30e66ce9e7c3932116221ccd5fee947e55204a3",
+      "sha256": "16858488f584ef85164241679c6dcf3675393e46ff33d99f8bde6b6617a7c4ca"
+    },
+    "STAGE1_STRUCTURE_EVIDENCE_V2_RESULTS.json": {
+      "bytes": 429896,
+      "gitBlobSha": "035036b131905755b5ef2dd0803ade632b51b255",
+      "sha256": "166b021a83f8aca98e68e84fcf436609a975466df7959cb773fb453fa1779402"
+    },
+    "STRUCTURE_EVIDENCE_V2.schema.json": {
+      "bytes": 6165,
+      "gitBlobSha": "4b65a5267016246a7e09a47fb89fd35cf5a387ea",
+      "sha256": "efb2d46f27b2d91759fbebe235c5ae10e64211635edd01d52af9ef493301bccc"
+    },
+    "STRUCTURE_EVIDENCE_V2_DESIGN_PLAN.md": {
+      "bytes": 2220,
+      "gitBlobSha": "ee6163b4207d83dac3fd70e41779957bcee01906",
+      "sha256": "985693d7046d9eb2ee2ca55746e510a4ca778bb813db0d767dde6f9c7afc0cda"
+    },
+    "STRUCTURE_EVIDENCE_V2_SOURCE_MAP.schema.json": {
+      "bytes": 2127,
+      "gitBlobSha": "28b40d5434919bc11680f34c6ae0c372232910c2",
+      "sha256": "ec38542c506273cbf65c8487cd591f8666a13180bcf9229f73d6b79c0c785806"
+    },
+    "STRUCTURE_EVIDENCE_V2_SPEC.md": {
+      "bytes": 7889,
+      "gitBlobSha": "f8d7e3cc8a25a9bf6ac1515097f354bfd99df27a",
+      "sha256": "cdc793b1be4399170d909e859056a1a45f3ee1a18d05a27054e84d13af3582bc"
+    },
+    "evaluate_structure_evidence_v2.py": {
+      "bytes": 11594,
+      "gitBlobSha": "723a694c48c0796a1ab6cce47be69401546c1e6d",
+      "sha256": "49cf44f930075b948173cbcff13479955a29643bbeaca727de7e8269ea491e51"
+    },
+    "export_structure_evidence_v2.py": {
+      "bytes": 7433,
+      "gitBlobSha": "106cf27f9df97562e89f989db5fa5acde2cc000a",
+      "sha256": "bf9a577ea8a245547668eeda3f299d09a034274833ab4185e375f6301863ab1a"
+    },
+    "test_structure_evidence_v2.py": {
+      "bytes": 5224,
+      "gitBlobSha": "a4f3045a36396938225f82385a981aa61e3aab1f",
+      "sha256": "3bc00c988854aa99517b45bf11ed42cd2d3ba31cfb9304f40245000a8fd4308a"
+    }
+  },
+  "footprintMethod": "Exact canonical UTF-8 JSON bytes, no whitespace/newline; includes legends, source hashes, context and contract. Token estimate=ceil(bytes/4), not model tokenizer or billing. Source map is stored separately and excluded from prospective model input; its bytes and combined storage are separately reported.",
+  "parentCommit": "ca438c1ca0e223d7c3933cf3f65203d92c000435",
+  "policies": {
+    "current-all-table-v2": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 45,
+          "maxAbsoluteErrorSeconds": 0.9210000000000065,
+          "meanAbsoluteErrorSeconds": 0.22673333333333293,
+          "medianAbsoluteErrorSeconds": 0.1529999999999916,
+          "microRecallCeiling": 0.9782608695652174,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 26,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 1.2700000000000102,
+          "meanAbsoluteErrorSeconds": 0.24941304347826068,
+          "medianAbsoluteErrorSeconds": 0.16049999999999898,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 1.2700000000000102,
+          "meanAbsoluteErrorSeconds": 0.24941304347826068,
+          "medianAbsoluteErrorSeconds": 0.16049999999999898,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "distributions": {
+        "anchorPriorityDistribution": {
+          "accent": 7677,
+          "core": 5055,
+          "current-only": 958,
+          "optional": 8767
+        },
+        "anchorTypeDistribution": {
+          "beat": 13193,
+          "current-only": 958,
+          "downbeat": 372,
+          "onset": 7579,
+          "transition": 355
+        },
+        "sourceRecordPriorityDistribution": {
+          "accent": 7677,
+          "core": 5055,
+          "current": 1402,
+          "optional": 8767
+        },
+        "sourceRecordTypeDistribution": {
+          "beat": 13193,
+          "boundary": 356,
+          "downbeat": 372,
+          "landmark": 1046,
+          "onset": 7579,
+          "transition": 355
+        }
+      },
+      "integrity": {
+        "allPassed": true,
+        "anchorsChecked": 22457,
+        "sourceReferencesChecked": 22901
+      },
+      "stats": {
+        "anchors": {
+          "maximum": 1676,
+          "mean": 449.14,
+          "median": 380.5,
+          "minimum": 134,
+          "total": 22457
+        },
+        "baselinePacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "compactEvidenceBytes": {
+          "maximum": 65923,
+          "mean": 30865.58,
+          "median": 29723.0,
+          "minimum": 20241,
+          "total": 1543279
+        },
+        "currentDuplicateRecordsRemoved": {
+          "maximum": 12,
+          "mean": 5.54,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 277
+        },
+        "duplicateRecordsRemoved": {
+          "maximum": 22,
+          "mean": 8.88,
+          "median": 8.5,
+          "minimum": 0,
+          "total": 444
+        },
+        "estimatedEvidenceTokens": {
+          "maximum": 16481,
+          "mean": 7716.82,
+          "median": 7431.5,
+          "minimum": 5061,
+          "total": 385841
+        },
+        "interactionDuplicateRecordsRemoved": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "interactionUniqueOverlapsCurrent": {
+          "maximum": 14,
+          "mean": 3.34,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 167
+        },
+        "rawRecords": {
+          "maximum": 1687,
+          "mean": 458.02,
+          "median": 389.0,
+          "minimum": 139,
+          "total": 22901
+        },
+        "sourceMapBytes": {
+          "maximum": 24694,
+          "mean": 6881.92,
+          "median": 5908.5,
+          "minimum": 2446,
+          "total": 344096
+        },
+        "totalStoredBytes": {
+          "maximum": 90617,
+          "mean": 37747.5,
+          "median": 35252.5,
+          "minimum": 22811,
+          "total": 1887375
+        }
+      }
+    },
+    "current-core-accent-objects-v2": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 41,
+          "maxAbsoluteErrorSeconds": 0.914999999999992,
+          "meanAbsoluteErrorSeconds": 0.3322926829268286,
+          "medianAbsoluteErrorSeconds": 0.22500000000002274,
+          "microRecallCeiling": 0.8913043478260869,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 23,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 45,
+          "maxAbsoluteErrorSeconds": 1.6820000000000022,
+          "meanAbsoluteErrorSeconds": 0.43295555555555515,
+          "medianAbsoluteErrorSeconds": 0.23900000000000432,
+          "microRecallCeiling": 0.9782608695652174,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 26,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 2.2959999999999923,
+          "meanAbsoluteErrorSeconds": 0.4734565217391299,
+          "medianAbsoluteErrorSeconds": 0.267000000000003,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "distributions": {
+        "anchorPriorityDistribution": {
+          "accent": 7677,
+          "core": 5055,
+          "current-only": 982
+        },
+        "anchorTypeDistribution": {
+          "beat": 9922,
+          "current-only": 982,
+          "downbeat": 372,
+          "onset": 2083,
+          "transition": 355
+        },
+        "sourceRecordPriorityDistribution": {
+          "accent": 7677,
+          "core": 5055,
+          "current": 1402
+        },
+        "sourceRecordTypeDistribution": {
+          "beat": 9922,
+          "boundary": 356,
+          "downbeat": 372,
+          "landmark": 1046,
+          "onset": 2083,
+          "transition": 355
+        }
+      },
+      "integrity": {
+        "allPassed": true,
+        "anchorsChecked": 13714,
+        "sourceReferencesChecked": 14134
+      },
+      "stats": {
+        "anchors": {
+          "maximum": 985,
+          "mean": 274.28,
+          "median": 233.5,
+          "minimum": 91,
+          "total": 13714
+        },
+        "baselinePacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "compactEvidenceBytes": {
+          "maximum": 105103,
+          "mean": 42281.1,
+          "median": 39225.5,
+          "minimum": 24410,
+          "total": 2114055
+        },
+        "currentDuplicateRecordsRemoved": {
+          "maximum": 12,
+          "mean": 5.54,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 277
+        },
+        "duplicateRecordsRemoved": {
+          "maximum": 21,
+          "mean": 8.4,
+          "median": 8.0,
+          "minimum": 0,
+          "total": 420
+        },
+        "estimatedEvidenceTokens": {
+          "maximum": 26276,
+          "mean": 10570.66,
+          "median": 9807.0,
+          "minimum": 6103,
+          "total": 528533
+        },
+        "interactionDuplicateRecordsRemoved": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "interactionUniqueOverlapsCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        },
+        "rawRecords": {
+          "maximum": 995,
+          "mean": 282.68,
+          "median": 243.0,
+          "minimum": 96,
+          "total": 14134
+        },
+        "sourceMapBytes": {
+          "maximum": 14785,
+          "mean": 4480.22,
+          "median": 3899.0,
+          "minimum": 1897,
+          "total": 224011
+        },
+        "totalStoredBytes": {
+          "maximum": 119888,
+          "mean": 46761.32,
+          "median": 43319.5,
+          "minimum": 26342,
+          "total": 2338066
+        }
+      }
+    },
+    "current-core-accent-table-v2": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 41,
+          "maxAbsoluteErrorSeconds": 0.914999999999992,
+          "meanAbsoluteErrorSeconds": 0.3322926829268286,
+          "medianAbsoluteErrorSeconds": 0.22500000000002274,
+          "microRecallCeiling": 0.8913043478260869,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 23,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 45,
+          "maxAbsoluteErrorSeconds": 1.6820000000000022,
+          "meanAbsoluteErrorSeconds": 0.43295555555555515,
+          "medianAbsoluteErrorSeconds": 0.23900000000000432,
+          "microRecallCeiling": 0.9782608695652174,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 26,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 2.2959999999999923,
+          "meanAbsoluteErrorSeconds": 0.4734565217391299,
+          "medianAbsoluteErrorSeconds": 0.267000000000003,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "distributions": {
+        "anchorPriorityDistribution": {
+          "accent": 7677,
+          "core": 5055,
+          "current-only": 982
+        },
+        "anchorTypeDistribution": {
+          "beat": 9922,
+          "current-only": 982,
+          "downbeat": 372,
+          "onset": 2083,
+          "transition": 355
+        },
+        "sourceRecordPriorityDistribution": {
+          "accent": 7677,
+          "core": 5055,
+          "current": 1402
+        },
+        "sourceRecordTypeDistribution": {
+          "beat": 9922,
+          "boundary": 356,
+          "downbeat": 372,
+          "landmark": 1046,
+          "onset": 2083,
+          "transition": 355
+        }
+      },
+      "integrity": {
+        "allPassed": true,
+        "anchorsChecked": 13714,
+        "sourceReferencesChecked": 14134
+      },
+      "stats": {
+        "anchors": {
+          "maximum": 985,
+          "mean": 274.28,
+          "median": 233.5,
+          "minimum": 91,
+          "total": 13714
+        },
+        "baselinePacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "compactEvidenceBytes": {
+          "maximum": 46984,
+          "mean": 26094.58,
+          "median": 25915.0,
+          "minimum": 18919,
+          "total": 1304729
+        },
+        "currentDuplicateRecordsRemoved": {
+          "maximum": 12,
+          "mean": 5.54,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 277
+        },
+        "duplicateRecordsRemoved": {
+          "maximum": 21,
+          "mean": 8.4,
+          "median": 8.0,
+          "minimum": 0,
+          "total": 420
+        },
+        "estimatedEvidenceTokens": {
+          "maximum": 11746,
+          "mean": 6524.02,
+          "median": 6479.5,
+          "minimum": 4730,
+          "total": 326201
+        },
+        "interactionDuplicateRecordsRemoved": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "interactionUniqueOverlapsCurrent": {
+          "maximum": 14,
+          "mean": 2.86,
+          "median": 2.0,
+          "minimum": 0,
+          "total": 143
+        },
+        "rawRecords": {
+          "maximum": 995,
+          "mean": 282.68,
+          "median": 243.0,
+          "minimum": 96,
+          "total": 14134
+        },
+        "sourceMapBytes": {
+          "maximum": 14783,
+          "mean": 4478.22,
+          "median": 3897.0,
+          "minimum": 1895,
+          "total": 223911
+        },
+        "totalStoredBytes": {
+          "maximum": 61767,
+          "mean": 30572.8,
+          "median": 29765.5,
+          "minimum": 20849,
+          "total": 1528640
+        }
+      }
+    },
+    "current-core-table-v2": {
+      "aggregates": {
+        "1.0": {
+          "matchedReferenceSupport": 29,
+          "maxAbsoluteErrorSeconds": 0.9579999999999984,
+          "meanAbsoluteErrorSeconds": 0.4069310344827572,
+          "medianAbsoluteErrorSeconds": 0.375,
+          "microRecallCeiling": 0.6304347826086957,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 13,
+          "tracksWithReferences": 27
+        },
+        "2.0": {
+          "matchedReferenceSupport": 39,
+          "maxAbsoluteErrorSeconds": 1.953000000000003,
+          "meanAbsoluteErrorSeconds": 0.6937179487179478,
+          "medianAbsoluteErrorSeconds": 0.5499999999999972,
+          "microRecallCeiling": 0.8478260869565217,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 22,
+          "tracksWithReferences": 27
+        },
+        "5.0": {
+          "matchedReferenceSupport": 46,
+          "maxAbsoluteErrorSeconds": 3.909000000000006,
+          "meanAbsoluteErrorSeconds": 1.0519347826086947,
+          "medianAbsoluteErrorSeconds": 0.7220000000000013,
+          "microRecallCeiling": 1.0,
+          "referenceSupport": 46,
+          "tracksWithAllReferencesCovered": 27,
+          "tracksWithReferences": 27
+        }
+      },
+      "distributions": {
+        "anchorPriorityDistribution": {
+          "core": 5055,
+          "current-only": 1027
+        },
+        "anchorTypeDistribution": {
+          "beat": 4083,
+          "current-only": 1027,
+          "downbeat": 273,
+          "onset": 344,
+          "transition": 355
+        },
+        "sourceRecordPriorityDistribution": {
+          "core": 5055,
+          "current": 1402
+        },
+        "sourceRecordTypeDistribution": {
+          "beat": 4083,
+          "boundary": 356,
+          "downbeat": 273,
+          "landmark": 1046,
+          "onset": 344,
+          "transition": 355
+        }
+      },
+      "integrity": {
+        "allPassed": true,
+        "anchorsChecked": 6082,
+        "sourceReferencesChecked": 6457
+      },
+      "stats": {
+        "anchors": {
+          "maximum": 390,
+          "mean": 121.64,
+          "median": 107.5,
+          "minimum": 49,
+          "total": 6082
+        },
+        "baselinePacketBytes": {
+          "maximum": 23875,
+          "mean": 18042.84,
+          "median": 17782.5,
+          "minimum": 14239,
+          "total": 902142
+        },
+        "compactEvidenceBytes": {
+          "maximum": 30905,
+          "mean": 21907.7,
+          "median": 21867.5,
+          "minimum": 17451,
+          "total": 1095385
+        },
+        "currentDuplicateRecordsRemoved": {
+          "maximum": 12,
+          "mean": 5.54,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 277
+        },
+        "duplicateRecordsRemoved": {
+          "maximum": 17,
+          "mean": 7.5,
+          "median": 6.0,
+          "minimum": 0,
+          "total": 375
+        },
+        "estimatedEvidenceTokens": {
+          "maximum": 7727,
+          "mean": 5477.34,
+          "median": 5467.0,
+          "minimum": 4363,
+          "total": 273867
+        },
+        "interactionDuplicateRecordsRemoved": {
+          "maximum": 0,
+          "mean": 0,
+          "median": 0.0,
+          "minimum": 0,
+          "total": 0
+        },
+        "interactionUniqueOverlapsCurrent": {
+          "maximum": 10,
+          "mean": 1.96,
+          "median": 1.0,
+          "minimum": 0,
+          "total": 98
+        },
+        "rawRecords": {
+          "maximum": 398,
+          "mean": 129.14,
+          "median": 117.0,
+          "minimum": 53,
+          "total": 6457
+        },
+        "sourceMapBytes": {
+          "maximum": 6258,
+          "mean": 2366.54,
+          "median": 2166.0,
+          "minimum": 1346,
+          "total": 118327
+        },
+        "totalStoredBytes": {
+          "maximum": 36898,
+          "mean": 24274.24,
+          "median": 23866.5,
+          "minimum": 19061,
+          "total": 1213712
+        }
+      }
+    }
+  },
+  "prepArtifacts": [
+    {
+      "headSha": "45f9c12f384549f8fa215f505e520741f455bcdd",
+      "id": 10948246126,
+      "name": "trackcade-semantic-external-stage1-prep-v1",
+      "runId": 36367290783,
+      "sha256": "accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a"
+    },
+    {
+      "headSha": "ba45aa47fc952d9c2e3b30151c61c2be046b1023",
+      "id": 10967717082,
+      "name": "trackcade-semantic-external-stage1-v2-prep-v1",
+      "runId": 36416837060,
+      "sha256": "627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd"
+    }
+  ],
+  "schema": "trackcade-stage1-structure-evidence-v2-freeze",
+  "selectedPolicy": "current-core-accent-table-v2",
+  "selectionRationale": "Predeclared current+core+accent exact union. Retain current context and both intended interaction priorities without label-based pruning; table versus objects is lossless encoding. Optional candidates are not added solely for the last Stage 1 match.",
+  "sourceHashes": {
+    "baseManifest": "350a621cfac110369ab4852a925a96964c01b744168e4991ff90df82b24134ff",
+    "baseZip": "accfe84fc54feda56f0c99404a1ed7b245beb9ef74a1876b3b185e8d494a131a",
+    "priorResult": "50e64f25d0d9518500382acf173cc57355c89488a780caf37eb565c27572b853",
+    "references": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+    "v2Manifest": "82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9",
+    "v2Zip": "627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd"
+  },
+  "status": "frozen-before-v3-provider-run-creation",
+  "unchangedSourceGitBlobs": {
+    "analyze_stage1_anchor_coverage_v1.py": "dd9594b6dde70e00025c9bfc74f2430d2b0356c6",
+    "evaluate_stage1_drop_v1.py": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+    "research/structure-v1/compile_semantic_events_v1.py": "ff9051e7201b66c1e4a0eb000098d35668a1b810"
+  },
+  "verification": {
+    "chosenAggregateMatchesFrozenUnion": true,
+    "formalSchemaValidEvidencePackets": 50,
+    "formalSchemaValidSourceMaps": 50,
+    "independentResultAndZipRunsByteIdentical": true,
+    "python": "3.12.14",
+    "schemaValidator": "PowerShell Test-Json",
+    "sourceBackedPoliciesValidated": 4,
+    "stage1TracksPerPolicy": 50,
+    "unitTestsPassed": 10,
+    "zlib": "1.3.2"
+  }
+}

@@ -1,0 +1,271 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "additionalProperties": false,
+  "description": "Shape validation plus mandatory source-backed exporter.validate checks. Only selected current-core-accent-table-v2 is accepted.",
+  "properties": {
+    "anchorColumns": {
+      "const": [
+        "time",
+        "priorityCode",
+        "sourceCode",
+        "salience",
+        "confidence"
+      ]
+    },
+    "anchors": {
+      "items": {
+        "additionalItems": false,
+        "anyOf": [
+          {
+            "items": [
+              {},
+              {
+                "type": "null"
+              },
+              {
+                "type": "null"
+              },
+              {
+                "type": "null"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          {
+            "items": [
+              {},
+              {
+                "type": "integer"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          }
+        ],
+        "items": [
+          {
+            "minimum": 0,
+            "type": "number"
+          },
+          {
+            "enum": [
+              0,
+              1,
+              null
+            ]
+          },
+          {
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              null
+            ]
+          },
+          {
+            "maximum": 1,
+            "minimum": 0,
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          {
+            "maximum": 1,
+            "minimum": 0,
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        ],
+        "maxItems": 5,
+        "minItems": 5,
+        "type": "array"
+      },
+      "type": "array"
+    },
+    "context": {
+      "additionalProperties": false,
+      "properties": {
+        "boundaries": {
+          "items": {
+            "not": {
+              "required": [
+                "time"
+              ]
+            },
+            "properties": {
+              "anchor": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "anchor"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "energy": {
+          "type": "object"
+        },
+        "landmarks": {
+          "items": {
+            "not": {
+              "required": [
+                "time"
+              ]
+            },
+            "properties": {
+              "anchor": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "anchor"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "lowDemandWindows": {
+          "type": "array"
+        },
+        "sections": {
+          "type": "array"
+        },
+        "structureTrust": {
+          "type": "object"
+        },
+        "timingTrust": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "timingTrust",
+        "structureTrust",
+        "energy",
+        "sections",
+        "boundaries",
+        "landmarks",
+        "lowDemandWindows"
+      ],
+      "type": "object"
+    },
+    "encoding": {
+      "const": "table"
+    },
+    "interpretationContract": {
+      "const": {
+        "analyzerSemanticHintsExposed": false,
+        "anchorReference": "zero-based anchors row index",
+        "beatOrBpmEditsAllowed": false,
+        "compilerIntegration": "not-enabled",
+        "independentTimestampsAllowed": false,
+        "instruction": "Anchor time is deterministic. Priority, salience and confidence are Analyzer features, not Drop probability or gameplay authorization. No provider request or compiler policy is defined here.",
+        "timingAuthority": "frozen-analyzer-derived-anchor-only",
+        "usage": "offline-evidence-research-only"
+      }
+    },
+    "policy": {
+      "const": "current-core-accent-table-v2"
+    },
+    "priorityCodes": {
+      "const": [
+        "core",
+        "accent",
+        "optional"
+      ]
+    },
+    "schema": {
+      "const": "trackcade-structure-evidence-v2"
+    },
+    "source": {
+      "additionalProperties": false,
+      "properties": {
+        "analysisJsonSha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "analyzerRelease": {
+          "const": "v0.19"
+        },
+        "analyzerRunnerSha256": {
+          "const": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432"
+        },
+        "analyzerSourceCommit": {
+          "const": "e308d867980fb1877c3f2e4ce27950deecac0855"
+        },
+        "beatOffset": {
+          "type": "number"
+        },
+        "bpm": {
+          "type": "number"
+        },
+        "duration": {
+          "type": "number"
+        },
+        "interpretationPacketV1Sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "structureEvidenceV1Sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "analysisJsonSha256",
+        "analyzerRelease",
+        "analyzerRunnerSha256",
+        "analyzerSourceCommit",
+        "beatOffset",
+        "bpm",
+        "duration",
+        "interpretationPacketV1Sha256",
+        "structureEvidenceV1Sha256"
+      ],
+      "type": "object"
+    },
+    "sourceCodes": {
+      "const": [
+        "beat",
+        "onset",
+        "downbeat",
+        "transition"
+      ]
+    },
+    "sourceMapSha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    }
+  },
+  "required": [
+    "schema",
+    "policy",
+    "encoding",
+    "source",
+    "sourceMapSha256",
+    "anchorColumns",
+    "priorityCodes",
+    "sourceCodes",
+    "anchors",
+    "context",
+    "interpretationContract"
+  ],
+  "title": "Frozen Structure Evidence v2 selected compact policy",
+  "type": "object"
+}
