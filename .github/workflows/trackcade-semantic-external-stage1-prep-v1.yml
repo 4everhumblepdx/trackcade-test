@@ -52,7 +52,6 @@ jobs:
           assert not ({x['id'] for x in d['stage1']} & {x['id'] for x in d['terminal']})
           print('Frozen V3 Stage 1 identities verified:', len(d['stage1']))
           PY
-          # Preparation must not have access to evaluation answer keys.
           rm -f "$BASE"/REFERENCE_DROPS_V*.json "$BASE"/REFERENCE_DROPS_V*.json.sha256
           ! grep -R -n --fixed-strings 'REFERENCE_DROPS' \
             "$BASE/prepare_stage1_v1.py" \
@@ -129,11 +128,13 @@ jobs:
           import json, os
           from pathlib import Path
           d=json.loads((Path(os.environ['RUNNER_TEMP'])/'analyzer-final'/'FINAL_RELEASE_MANIFEST.json').read_text())
-          assert d['schema']=='trackcade-analyzer-final-release-manifest-v1'
-          assert d['release']=='v0.19'
-          assert d['sourceCommit']==os.environ['ANALYZER_SOURCE_COMMIT']
-          assert d['finalArtifact']['artifactId']==int(os.environ['ANALYZER_ARTIFACT_ID'])
-          assert d['policy']['automaticTactusSwitching'] is False
+          assert d['release']=='trackcade-analyzer-v0.19'
+          assert d['tested_source_commit']==os.environ['ANALYZER_SOURCE_COMMIT']
+          assert d['runner_sha256']==os.environ['ANALYZER_RUNNER_SHA256']
+          assert d['automatic_tactus_switching'] is False
+          assert d['status']=='FINAL_RELEASE_PROMOTED'
+          assert d['sealed_rc1_run_id']==36248701399
+          assert d['promotion_type']=='bit-for-bit promotion of sealed v0.19-rc1; no Analyzer code change'
           print('Exact production Analyzer v0.19 artifact verified.')
           PY
 
@@ -173,8 +174,13 @@ jobs:
           }
           assert all(x['analyzerRunnerSha256']==os.environ['ANALYZER_RUNNER_SHA256'] for x in d['tracks'])
           assert all(x['decoderContract']==os.environ['DECODER_CONTRACT'] for x in d['tracks'])
+          assert all(x['compilerEligible']==(x['timingTier'] in {'standard','loose'}) for x in d['tracks'])
+          assert all(x['safeManifestAvailable']==(x['timingTier']!='unsafe') for x in d['tracks'])
           assert len({x['id'] for x in d['tracks']})==50
           assert not list(out.rglob('audio.f32'))
+          for row in d['tracks']:
+            case=out/'cases'/f"{row['ordinal']:02d}-{row['stem']}"
+            assert (case/'trackcade-safe-v1.json').exists() == row['safeManifestAvailable']
           for report in out.glob('cases/*/openai-adapter-prepare-report-v1.json'):
             r=json.loads(report.read_text())
             assert r['status']=='payload_prepared_no_provider_call'

@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -45,6 +44,14 @@ def ensure_sha(path: Path, expected: str, label: str) -> None:
     actual = sha256_file(path)
     if actual != expected:
         raise RuntimeError(f"{label} SHA-256 mismatch: {actual} != {expected}")
+
+
+def safe_manifest_status(tier: str) -> str:
+    if tier in {"standard", "loose"}:
+        return "prepared-compiler-eligible"
+    if tier == "strict":
+        return "prepared-but-frozen-compiler-refuses-strict-timing-tier"
+    return "refused-fail-closed-unsafe-timing-tier"
 
 
 def main() -> None:
@@ -155,9 +162,10 @@ def main() -> None:
             "audioUrl": "osf://eydxk/" + audio_path,
         }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-        compiler_eligible = tier != "unsafe"
+        safe_manifest_available = tier != "unsafe"
+        compiler_eligible = tier in {"standard", "loose"}
         safe_manifest_sha = None
-        if compiler_eligible:
+        if safe_manifest_available:
             run([
                 sys.executable,
                 str(repo / "research/semantic-internal-holdout-v1/generate_safe_manifest_v1_1.py"),
@@ -219,8 +227,9 @@ def main() -> None:
             "bpm": a.get("bpm"),
             "beatOffset": a.get("beatOffset"),
             "duration": a.get("duration"),
+            "safeManifestAvailable": safe_manifest_available,
             "compilerEligible": compiler_eligible,
-            "safeManifestStatus": "prepared" if compiler_eligible else "refused-fail-closed-unsafe-timing-tier",
+            "safeManifestStatus": safe_manifest_status(tier),
             "hashes": {
                 "structureEvidenceSha256": sha256_file(evidence),
                 "safeManifestSha256": safe_manifest_sha,
@@ -234,6 +243,7 @@ def main() -> None:
             "prepared": ordinal,
             "id": track_id,
             "timingTier": tier,
+            "safeManifestAvailable": safe_manifest_available,
             "compilerEligible": compiler_eligible,
             "apiPayloadSha256": rows[-1]["hashes"]["openaiPayloadSha256"],
         }, sort_keys=True), flush=True)
@@ -254,6 +264,7 @@ def main() -> None:
         },
         "timingAuthority": "deterministic-analyzer-v0.19-only",
         "decoderContract": args.decoder_contract,
+        "compilerEligibilityPolicy": "frozen compiler accepts standard/loose only; strict/unsafe remain in Stage 1 raw proposal evaluation but are fail-closed for compiler-accepted view",
         "analyzer": {
             "release": "v0.19",
             "sourceCommit": EXPECTED_ANALYZER_SOURCE,
@@ -272,7 +283,8 @@ def main() -> None:
         "status": manifest["status"],
         "trackCount": manifest["trackCount"],
         "compilerEligible": sum(1 for r in rows if r["compilerEligible"]),
-        "unsafeTiming": sum(1 for r in rows if not r["compilerEligible"]),
+        "strictTiming": sum(1 for r in rows if r["timingTier"] == "strict"),
+        "unsafeTiming": sum(1 for r in rows if r["timingTier"] == "unsafe"),
         "manifestSha256": sha256_file(manifest_path),
     }, indent=2, sort_keys=True))
 
