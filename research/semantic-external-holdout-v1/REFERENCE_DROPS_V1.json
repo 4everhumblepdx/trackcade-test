@@ -1,0 +1,652 @@
+{
+  "eventKind": "drop",
+  "schema": "trackcade-semantic-external-drop-references-v1",
+  "stage1": [
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3"
+    },
+    {
+      "dropsSeconds": [
+        32.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3"
+    },
+    {
+      "dropsSeconds": [
+        150.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3"
+    },
+    {
+      "dropsSeconds": [
+        55.0,
+        200.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3"
+    },
+    {
+      "dropsSeconds": [
+        352.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3"
+    },
+    {
+      "dropsSeconds": [
+        100.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3"
+    },
+    {
+      "dropsSeconds": [
+        55.0,
+        158.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3"
+    },
+    {
+      "dropsSeconds": [
+        87.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3"
+    },
+    {
+      "dropsSeconds": [
+        107.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3"
+    },
+    {
+      "dropsSeconds": [
+        54.0,
+        117.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3"
+    },
+    {
+      "dropsSeconds": [
+        113.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3"
+    },
+    {
+      "dropsSeconds": [
+        264.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3"
+    },
+    {
+      "dropsSeconds": [
+        68.0,
+        164.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3"
+    },
+    {
+      "dropsSeconds": [
+        77.0,
+        130.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3"
+    },
+    {
+      "dropsSeconds": [
+        109.0,
+        244.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3"
+    },
+    {
+      "dropsSeconds": [
+        90.0,
+        178.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3"
+    },
+    {
+      "dropsSeconds": [
+        94.0,
+        293.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3"
+    },
+    {
+      "dropsSeconds": [
+        122.0,
+        259.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3"
+    },
+    {
+      "dropsSeconds": [
+        82.0,
+        127.0,
+        167.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3"
+    },
+    {
+      "dropsSeconds": [
+        76.0,
+        167.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3"
+    },
+    {
+      "dropsSeconds": [
+        90.0,
+        188.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3"
+    },
+    {
+      "dropsSeconds": [
+        87.0,
+        175.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3"
+    },
+    {
+      "dropsSeconds": [
+        88.0,
+        224.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3"
+    },
+    {
+      "dropsSeconds": [
+        96.0,
+        159.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3"
+    },
+    {
+      "dropsSeconds": [
+        86.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3"
+    },
+    {
+      "dropsSeconds": [
+        74.0,
+        132.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3"
+    },
+    {
+      "dropsSeconds": [
+        120.0,
+        248.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3"
+    },
+    {
+      "dropsSeconds": [
+        85.0,
+        198.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3"
+    }
+  ],
+  "status": "frozen-before-any-model-output-on-corpus",
+  "terminal": [
+    {
+      "dropsSeconds": [
+        181.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/57154553.mp3"
+    },
+    {
+      "dropsSeconds": [
+        211.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/70795766.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/42526447.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/80521121.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/36215886.mp3"
+    },
+    {
+      "dropsSeconds": [
+        48.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/71682763.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/91360770.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/46906918.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/86390315.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/55085645.mp3"
+    },
+    {
+      "dropsSeconds": [
+        74.0,
+        211.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/118480285.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/90813593.mp3"
+    },
+    {
+      "dropsSeconds": [
+        151.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/43789192.mp3"
+    },
+    {
+      "dropsSeconds": [
+        135.0,
+        295.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/97190742.mp3"
+    },
+    {
+      "dropsSeconds": [
+        113.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/70497047.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/50453332.mp3"
+    },
+    {
+      "dropsSeconds": [
+        156.0,
+        276.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/62489071.mp3"
+    },
+    {
+      "dropsSeconds": [
+        59.0,
+        205.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/80527317.mp3"
+    },
+    {
+      "dropsSeconds": [
+        129.0,
+        237.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/109589999.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/117196669.mp3"
+    },
+    {
+      "dropsSeconds": [
+        54.0,
+        109.0,
+        190.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/119521575.mp3"
+    },
+    {
+      "dropsSeconds": [
+        158.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/72942294.mp3"
+    },
+    {
+      "dropsSeconds": [
+        153.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/116112692.mp3"
+    },
+    {
+      "dropsSeconds": [
+        234.0,
+        333.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/63251390.mp3"
+    },
+    {
+      "dropsSeconds": [
+        150.0,
+        310.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/56880480.mp3"
+    },
+    {
+      "dropsSeconds": [
+        88.0,
+        220.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/72102426.mp3"
+    },
+    {
+      "dropsSeconds": [
+        44.0,
+        132.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/40298806.mp3"
+    },
+    {
+      "dropsSeconds": [
+        62.0,
+        150.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/93899702.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/69776580.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/38619237.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/113085123.mp3"
+    },
+    {
+      "dropsSeconds": [
+        80.0,
+        229.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/69470379.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/94988172.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/36265584.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/40008007.mp3"
+    },
+    {
+      "dropsSeconds": [
+        61.0,
+        185.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/100470967.mp3"
+    },
+    {
+      "dropsSeconds": [
+        192.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/95585327.mp3"
+    },
+    {
+      "dropsSeconds": [
+        146.0,
+        322.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/99482366.mp3"
+    },
+    {
+      "dropsSeconds": [
+        90.0,
+        180.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/74532831.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/74464910.mp3"
+    },
+    {
+      "dropsSeconds": [
+        176.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/104633158.mp3"
+    },
+    {
+      "dropsSeconds": [
+        103.0,
+        157.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/59519224.mp3"
+    },
+    {
+      "dropsSeconds": [
+        130.0,
+        237.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/72909192.mp3"
+    },
+    {
+      "dropsSeconds": [
+        57.0,
+        150.0,
+        285.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/47747056.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/121891303.mp3"
+    },
+    {
+      "dropsSeconds": [
+        66.0,
+        127.0,
+        269.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/63971115.mp3"
+    },
+    {
+      "dropsSeconds": [
+        250.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/56558512.mp3"
+    },
+    {
+      "dropsSeconds": [
+        103.0,
+        195.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/55990183.mp3"
+    },
+    {
+      "dropsSeconds": [
+        0.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/63382655.mp3"
+    },
+    {
+      "dropsSeconds": [
+        89.0
+      ],
+      "id": "mp3s_soundcloud_cc_event_detection/102188661.mp3"
+    }
+  ],
+  "warning": "Evaluation labels only. Semantic-model workflows must not read this file."
+}
