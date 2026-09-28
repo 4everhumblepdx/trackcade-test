@@ -1,0 +1,296 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V2 Drop Evaluation
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/evaluate_stage1_v2_drop_v1.py
+      - .github/workflows/trackcade-semantic-external-stage1-v2-eval-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v2-eval-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  GENERATION_RUN_ID: '36417614053'
+  GENERATION_HEAD_SHA: '45703780da7c63133175502c0301965e40f876f0'
+  GENERATION_WORKFLOW_PATH: '.github/workflows/trackcade-semantic-external-stage1-v2-sol-v1.yml'
+  GENERATION_FREEZE_BLOB_SHA: 'ac48fe3182e787d16fdadad159221f2cdd8badcd'
+  INVENTORY_FREEZE_RUN_ID: '36421269293'
+  INVENTORY_FREEZE_HEAD_SHA: 'a21a4017cf04c127dc19a10d77d439a6066dfe1e'
+  INVENTORY_FREEZE_ARTIFACT_ID: '10969157607'
+  INVENTORY_FREEZE_ARTIFACT_NAME: 'trackcade-semantic-external-stage1-v2-generation-freeze-v1'
+  INVENTORY_FREEZE_ARTIFACT_DIGEST: 'sha256:28eb55070f03c4384628e2d497b368e4ede66c3243ef9be7135893ce64697ca0'
+  INVENTORY_SHA256: '2c73f75eeac1d1f9ca442c1ad87b38d05a125de03d5812bae7af86a20fafec4e'
+  PREP_RUN_ID: '36416837060'
+  PREP_HEAD_SHA: 'ba45aa47fc952d9c2e3b30151c61c2be046b1023'
+  PREP_ARTIFACT_ID: '10967717082'
+  PREP_ARTIFACT_NAME: 'trackcade-semantic-external-stage1-v2-prep-v1'
+  PREP_ARTIFACT_DIGEST: 'sha256:627330db82b6e28060260bb357501d15d339ff790ee097e0739de40d0c9640bd'
+  PREP_MANIFEST_SHA256: '82c9d82688314a18b676d0f5e8e251b6ebd9cff7306a243210f63a8fa45d3bf9'
+  PREP_FREEZE_BLOB_SHA: 'c8b5ee7ec44922767b9e73563f8c5186125afa45'
+  V2_EVALUATOR_BLOB_SHA: 'e5c505337e00fd5ecf26462e963d8ee4159cb0c0'
+  FROZEN_V1_SCORER_BLOB_SHA: '3d74996281ec260e170ea10929bd0115a6d4ac70'
+  COMPILER_BLOB_SHA: 'ff9051e7201b66c1e4a0eb000098d35668a1b810'
+  COMPILER_SHA256: '3537e0b4e255342e07cc800c9bdcefaefaa9d2b643717de7d2fbf4eb4037563b'
+  REFERENCE_DROPS_SHA256: '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+  V1_EVALUATION_FREEZE_BLOB_SHA: 'c7d5adc4b99db2f670211078453f1ed1c9fd638b'
+
+jobs:
+  evaluate-v2:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact offline evaluation sources
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Verify frozen contracts and source identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:$BASE/evaluate_stage1_v2_drop_v1.py)" = "$V2_EVALUATOR_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/evaluate_stage1_drop_v1.py)" = "$FROZEN_V1_SCORER_BLOB_SHA"
+          test "$(git rev-parse HEAD:research/structure-v1/compile_semantic_events_v1.py)" = "$COMPILER_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V2_GENERATION_FREEZE_V1.json)" = "$GENERATION_FREEZE_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V2_PREP_FREEZE_V1.json)" = "$PREP_FREEZE_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_EVALUATION_FREEZE_V1.json)" = "$V1_EVALUATION_FREEZE_BLOB_SHA"
+          python -m py_compile "$BASE/evaluate_stage1_drop_v1.py" "$BASE/evaluate_stage1_v2_drop_v1.py" research/structure-v1/compile_semantic_events_v1.py
+          test "$(sha256sum research/structure-v1/compile_semantic_events_v1.py | awk '{print $1}')" = "$COMPILER_SHA256"
+          test "$(sha256sum "$BASE/REFERENCE_DROPS_V3.json" | awk '{print $1}')" = "$REFERENCE_DROPS_SHA256"
+          test "$(awk '{print $1}' "$BASE/REFERENCE_DROPS_V3.json.sha256")" = "$REFERENCE_DROPS_SHA256"
+          grep -Fq 'Status: **FROZEN BEFORE ANY EXTERNAL-CORPUS SOL RESPONSE**' "$BASE/DROP_EVALUATION_V1.md"
+          grep -Fq 'primary tolerance is **±2.0 seconds**' "$BASE/DROP_EVALUATION_V1.md"
+          grep -Fq 'Predeclared sensitivity windows are **±1.0 seconds** and **±5.0 seconds**' "$BASE/DROP_EVALUATION_V1.md"
+          python - <<'PY'
+          import json
+          g=json.load(open('research/semantic-external-holdout-v1/STAGE1_V2_GENERATION_FREEZE_V1.json'))
+          assert g['status']=='frozen-after-exactly-one-completed-v2-response-per-stage1-track-before-v2-evaluation'
+          assert g['sourceGeneration']['runId']==36417614053
+          assert g['sourceGeneration']['headSha']=='45703780da7c63133175502c0301965e40f876f0'
+          assert g['sourceGeneration']['completedCases']==50
+          assert g['sourceGeneration']['retryEligibleCases']==0
+          assert g['sourceGeneration']['noRetryObservedCases']==0
+          assert g['sourceGeneration']['providerRerunPermitted'] is False
+          assert g['researchBoundary']['v2EvaluationPerformedAtFreeze'] is False
+          assert g['researchBoundary']['terminalSetUntouched'] is True
+          assert g['researchBoundary']['aiTimingAuthority'] is False
+          v1=json.load(open('research/semantic-external-holdout-v1/STAGE1_EVALUATION_FREEZE_V1.json'))
+          assert v1['status']=='frozen-before-stage1-tuning-and-before-terminal-evaluation'
+          assert v1['primaryResultAtTwoSeconds']['proposalDrops']['microF1']==0.2764227642276423
+          assert v1['evaluation']['terminalTracksProcessed'] is False
+          print('Frozen V2 generation boundary and frozen V1 comparison baseline verified.')
+          PY
+
+      - name: Verify exact completed V2 generation run and 50 closed jobs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          run_json="$RUNNER_TEMP/generation-run.json"
+          jobs_json="$RUNNER_TEMP/generation-jobs.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}" > "$run_json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}/jobs?per_page=100" > "$jobs_json"
+          test "$(jq -r '.head_sha' "$run_json")" = "$GENERATION_HEAD_SHA"
+          test "$(jq -r '.status' "$run_json")" = completed
+          test "$(jq -r '.conclusion' "$run_json")" = success
+          test "$(jq -r '.path' "$run_json")" = "$GENERATION_WORKFLOW_PATH"
+          test "$(jq -r '.run_attempt' "$run_json")" -eq 1
+          test "$(jq -r '.total_count' "$jobs_json")" -eq 51
+          test "$(jq '[.jobs[] | select(.name == "preflight" and .conclusion == "success")] | length' "$jobs_json")" -eq 1
+          test "$(jq '[.jobs[] | select((.name | startswith("generate (")) and .conclusion == "success")] | length' "$jobs_json")" -eq 50
+
+      - name: Verify and download immutable generation artifact inventory freeze
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${INVENTORY_FREEZE_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${INVENTORY_FREEZE_ARTIFACT_ID}\t${INVENTORY_FREEZE_ARTIFACT_NAME}\t${INVENTORY_FREEZE_ARTIFACT_DIGEST}\t${INVENTORY_FREEZE_RUN_ID}\t${INVENTORY_FREEZE_HEAD_SHA}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+      - name: Download exact generation freeze artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.INVENTORY_FREEZE_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/generation-freeze
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.INVENTORY_FREEZE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen inventory against current GitHub artifact metadata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          INV="${RUNNER_TEMP}/generation-freeze/STAGE1_V2_GENERATION_ARTIFACT_INVENTORY_V1.json"
+          test "$(sha256sum "$INV" | awk '{print $1}')" = "$INVENTORY_SHA256"
+          artifacts_json="$RUNNER_TEMP/live-generation-artifacts.json"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${GENERATION_RUN_ID}/artifacts?per_page=100" > "$artifacts_json"
+          python - "$INV" "$artifacts_json" <<'PY'
+          import json,sys
+          inv=json.load(open(sys.argv[1],encoding='utf-8'))
+          live=json.load(open(sys.argv[2],encoding='utf-8'))
+          assert inv['closure']['completedCases']==50
+          assert inv['closure']['retryEligibleCases']==0
+          assert inv['closure']['noRetryObservedCases']==0
+          assert inv['closure']['providerRerunPermitted'] is False
+          rows={x['name']:(x['artifactId'],x['digest'],x['workflowRunId'],x['workflowRunHeadSha']) for x in inv['artifacts']}
+          active=[a for a in live['artifacts'] if not a.get('expired')]
+          assert len(active)==50 and len(rows)==50
+          for a in active:
+              got=(a['id'],a['digest'],a['workflow_run']['id'],a['workflow_run']['head_sha'])
+              assert rows.get(a['name'])==got,(a['name'],rows.get(a['name']),got)
+          expected={f'trackcade-semantic-external-stage1-v2-sol-v1-case-{i}-completed' for i in range(1,51)}
+          assert set(rows)==expected
+          print('Frozen 50-case artifact inventory matches live immutable metadata exactly.')
+          PY
+
+      - name: Verify immutable V2 prep artifact identity
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+      - name: Download exact frozen V2 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download all 50 immutable completed V2 provider artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: trackcade-semantic-external-stage1-v2-sol-v1-case-*-completed
+          path: ${{ runner.temp }}/provider
+          merge-multiple: false
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.GENERATION_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify downloaded V2 evidence closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/prep/STAGE1_V2_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$PREP_MANIFEST_SHA256"
+          test "$(find "${RUNNER_TEMP}/prep/cases" -type f -name structure-evidence-v1.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/prep/cases" -type f -name trackcade-safe-v1.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/provider" -type f -name stage1-v2-case-status-v1.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/provider" -type f -name normalized-proposal.json | wc -l)" -eq 50
+          test "$(find "${RUNNER_TEMP}/provider" -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 50
+
+      - name: Evaluate V2 under unchanged frozen Stage 1 Drop contract offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v2-evaluation"
+          python "$BASE/evaluate_stage1_v2_drop_v1.py" \
+            --prep-root "${RUNNER_TEMP}/prep" \
+            --provider-root "${RUNNER_TEMP}/provider" \
+            --references "$BASE/REFERENCE_DROPS_V3.json" \
+            --compiler research/structure-v1/compile_semantic_events_v1.py \
+            --generation-freeze "$BASE/STAGE1_V2_GENERATION_FREEZE_V1.json" \
+            --output-dir "$OUT" \
+            --generation-run-id "$GENERATION_RUN_ID" \
+            --generation-head-sha "$GENERATION_HEAD_SHA" \
+            --prep-run-id "$PREP_RUN_ID" \
+            --prep-artifact-id "$PREP_ARTIFACT_ID"
+
+      - name: Verify V2 evaluation closure and create frozen V1 comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/stage1-v2-evaluation"
+          python - "$OUT" <<'PY'
+          import json,sys
+          from pathlib import Path
+          root=Path(sys.argv[1])
+          c=json.loads((root/'STAGE1_V2_DROP_CANDIDATES_V1.json').read_text())
+          e=json.loads((root/'STAGE1_V2_DROP_EVALUATION_V1.json').read_text())
+          p=json.loads((root/'STAGE1_V2_EVALUATION_PROVENANCE_V1.json').read_text())
+          h=json.loads((root/'STAGE1_V2_DROP_HEADLINE_V1.json').read_text())
+          v1=json.load(open('research/semantic-external-holdout-v1/STAGE1_EVALUATION_FREEZE_V1.json'))
+          assert c['schema']=='trackcade-semantic-external-stage1-v2-drop-candidates-v1'
+          assert c['trackCount']==50 and len(c['tracks'])==50
+          assert c['timingAuthority']=='deterministic-structure-evidence-anchor-only'
+          assert e['schema']=='trackcade-semantic-external-stage1-v2-drop-evaluation-v1'
+          assert e['primaryToleranceSeconds']==2.0
+          assert e['sensitivityToleranceSeconds']==[1.0,5.0]
+          assert e['scoringImplementation']=='imported-unchanged-from-evaluate_stage1_drop_v1.py'
+          assert p['providerCallsMadeByEvaluator']==0
+          assert p['terminalTracksProcessed'] is False
+          assert p['stage1TrackCount']==50 and len(p['cases'])==50
+          assert p['analyzerRunnerSha256']=='9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+          assert p['analyzerSourceCommit']=='e308d867980fb1877c3f2e4ce27950deecac0855'
+          assert p['referenceDropsSha256']=='1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+          assert p['compilerSha256']=='3537e0b4e255342e07cc800c9bdcefaefaa9d2b643717de7d2fbf4eb4037563b'
+          assert h['toleranceSeconds']==2.0
+          assert len(list(root.glob('compiled/*/compile-report.json')))==50
+          assert len(list(root.glob('compiled/*/compiled-manifest.json')))==50
+
+          v2p=h['proposal']['micro']
+          v2a=h['accepted']['micro']
+          v1p=v1['primaryResultAtTwoSeconds']['proposalDrops']
+          v1a=v1['primaryResultAtTwoSeconds']['compilerAcceptedDrops']
+          comparison={
+            'schema':'trackcade-semantic-external-stage1-v2-vs-v1-comparison-v1',
+            'stage':'stage1',
+            'status':'descriptive-development-set-comparison-under-unchanged-contract',
+            'primaryToleranceSeconds':2.0,
+            'referenceSupport':h['proposal']['referenceSupport'],
+            'v1':{
+              'proposal':{'precision':v1p['microPrecision'],'recall':v1p['microRecall'],'f1':v1p['microF1'],'candidateSupport':v1p['candidateSupport'],'matchedSupport':v1p['matchedSupport']},
+              'accepted':{'precision':v1a['microPrecision'],'recall':v1a['microRecall'],'f1':v1a['microF1'],'candidateSupport':v1a['candidateSupport'],'matchedSupport':v1a['matchedSupport']},
+            },
+            'v2':{
+              'proposal':{'precision':v2p['precision'],'recall':v2p['recall'],'f1':v2p['f1'],'candidateSupport':h['proposal']['candidateSupport'],'matchedSupport':h['proposal']['matchedSupport']},
+              'accepted':{'precision':v2a['precision'],'recall':v2a['recall'],'f1':v2a['f1'],'candidateSupport':h['accepted']['candidateSupport'],'matchedSupport':h['accepted']['matchedSupport']},
+            },
+            'deltaV2MinusV1':{
+              'proposalPrecision':v2p['precision']-v1p['microPrecision'],
+              'proposalRecall':v2p['recall']-v1p['microRecall'],
+              'proposalF1':v2p['f1']-v1p['microF1'],
+              'acceptedPrecision':v2a['precision']-v1a['microPrecision'],
+              'acceptedRecall':v2a['recall']-v1a['microRecall'],
+              'acceptedF1':v2a['f1']-v1a['microF1'],
+            },
+            'claimBoundary':{
+              'developmentSetOnly':True,
+              'terminalSetUntouched':True,
+              'sameScoringContract':True,
+              'sameCompilerV1':True,
+              'analyzerTimingAuthorityChanged':False,
+            },
+          }
+          (root/'STAGE1_V2_VS_V1_COMPARISON_V1.json').write_text(json.dumps(comparison,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'v2Headline':h,'comparison':comparison},indent=2,sort_keys=True))
+          PY
+          find "$OUT" -type f ! -name 'STAGE1_V2_EVALUATION_FILES_SHA256.txt' -print0 | sort -z | xargs -0 sha256sum > "$OUT/STAGE1_V2_EVALUATION_FILES_SHA256.txt"
+
+      - name: Upload immutable Stage 1 V2 evaluation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v2-drop-evaluation-v1
+          path: ${{ runner.temp }}/stage1-v2-evaluation
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
