@@ -1,0 +1,184 @@
+name: Trackcade V4 — Offline Flex 8192 amendment prep
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v4-flex8192-prep-v1.yml
+      - research/semantic-external-holdout-v1/amend_stage1_v4_payload_flex8192.py
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare-flex8192:
+    runs-on: ubuntu-24.04
+    env:
+      BASE: research/semantic-external-holdout-v1
+      SOURCE_PREP_RUN_ID: '36605876352'
+      SOURCE_PREP_ARTIFACT_ID: '11050749993'
+      SOURCE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+      SOURCE_PREP_MANIFEST_SHA256: 613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download exact frozen V4 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen source and build amended payloads offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          SRC="${RUNNER_TEMP}/v4-source"
+          OUT="${RUNNER_TEMP}/v4-flex8192"
+          test "$(sha256sum "$SRC/STAGE1_V4_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$SOURCE_PREP_MANIFEST_SHA256"
+          mkdir -p "$OUT/cases"
+          python - "$SRC" "$OUT" "$BASE/amend_stage1_v4_payload_flex8192.py" "$GITHUB_SHA" <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+
+          src = pathlib.Path(sys.argv[1])
+          out = pathlib.Path(sys.argv[2])
+          amendment = pathlib.Path(sys.argv[3])
+          source_commit = sys.argv[4]
+
+          def sha(p):
+              return hashlib.sha256(p.read_bytes()).hexdigest()
+
+          manifest = json.loads((src / 'STAGE1_V4_PREP_MANIFEST_V1.json').read_text())
+          tracks = manifest.get('tracks') or []
+          assert manifest.get('trackCount') == 50 and len(tracks) == 50
+          assert manifest.get('providerCallsObserved') == 0
+          assert manifest.get('terminalTracksProcessed') is False
+          assert manifest.get('analyzerExecuted') is False
+          assert manifest.get('audioDecoded') is False
+          assert manifest.get('compilerInvoked') is False
+
+          rows = []
+          semantic_hashes = []
+          for row in sorted(tracks, key=lambda x: int(x['ordinal'])):
+              ordinal = int(row['ordinal'])
+              stem = row['stem']
+              source_case = src / 'cases' / f'{ordinal:02d}-{stem}'
+              dest_case = out / 'cases' / f'{ordinal:02d}-{stem}'
+              dest_case.mkdir(parents=True, exist_ok=True)
+              source_payload = source_case / 'openai-payload-v4.json'
+              amended_payload = dest_case / 'openai-payload-v4-flex8192.json'
+              report = dest_case / 'flex8192-amendment-report.json'
+              subprocess.run([
+                  sys.executable, str(amendment),
+                  '--source-payload', str(source_payload),
+                  '--output-payload', str(amended_payload),
+                  '--report', str(report),
+              ], check=True)
+              source_obj = json.loads(source_payload.read_text())
+              amended_obj = json.loads(amended_payload.read_text())
+              assert amended_obj['model'] == 'gpt-6-sol'
+              assert amended_obj['reasoning'] == {'effort':'high'}
+              assert amended_obj['store'] is False
+              assert source_obj['max_output_tokens'] == 4096
+              assert 'service_tier' not in source_obj
+              assert amended_obj['max_output_tokens'] == 8192
+              assert amended_obj['service_tier'] == 'flex'
+              a = dict(source_obj); a.pop('max_output_tokens', None); a.pop('service_tier', None)
+              b = dict(amended_obj); b.pop('max_output_tokens', None); b.pop('service_tier', None)
+              assert a == b
+              rep = json.loads(report.read_text())
+              assert rep['semanticPayloadUnchanged'] is True
+              assert rep['providerCalls'] == 0
+              semantic_hashes.append(rep['semanticProjectionSha256'])
+              rows.append({
+                  'ordinal': ordinal,
+                  'id': row['id'],
+                  'stem': stem,
+                  'sourceV4PayloadSha256': sha(source_payload),
+                  'amendedFlex8192PayloadSha256': sha(amended_payload),
+                  'semanticProjectionSha256': rep['semanticProjectionSha256'],
+                  'amendmentReportSha256': sha(report),
+                  'sourcePayloadBytes': source_payload.stat().st_size,
+                  'amendedPayloadBytes': amended_payload.stat().st_size,
+              })
+
+          assert len(rows) == 50
+          amended_manifest = {
+              'schema': 'trackcade-semantic-external-stage1-v4-flex8192-prep-v1',
+              'status': 'frozen-v4-semantic-payloads-transport-amended-offline-no-provider-call',
+              'sourceCommit': source_commit,
+              'sourceV4Prep': {
+                  'runId': 36605876352,
+                  'artifactId': 11050749993,
+                  'artifactName': 'trackcade-semantic-external-stage1-v4-prep-v1',
+                  'manifestSha256': '613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972',
+              },
+              'transportAmendment': {
+                  'provider': 'openai',
+                  'api': 'responses',
+                  'model': 'gpt-6-sol',
+                  'reasoningEffort': 'high',
+                  'store': False,
+                  'sourceMaxOutputTokens': 4096,
+                  'maxOutputTokens': 8192,
+                  'serviceTier': 'flex',
+                  'allowedChangesOnly': ['max_output_tokens','service_tier'],
+                  'semanticPayloadUnchanged': True,
+              },
+              'trackCount': 50,
+              'providerCallsObserved': 0,
+              'referenceLabelsRead': False,
+              'terminalTracksProcessed': False,
+              'analyzerExecuted': False,
+              'audioDecoded': False,
+              'compilerInvoked': False,
+              'tracks': rows,
+          }
+          p = out / 'STAGE1_V4_FLEX8192_PREP_MANIFEST_V1.json'
+          p.write_text(json.dumps(amended_manifest, indent=2, sort_keys=True) + '\n')
+          print(json.dumps({
+              'tracks': len(rows),
+              'providerCalls': 0,
+              'semanticPayloadUnchanged': True,
+              'largestSourcePayloadBytes': max(r['sourcePayloadBytes'] for r in rows),
+              'largestAmendedPayloadBytes': max(r['amendedPayloadBytes'] for r in rows),
+              'manifestSha256': sha(p),
+          }, indent=2))
+          PY
+
+      - name: Closure audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/v4-flex8192"
+          python - "$OUT/STAGE1_V4_FLEX8192_PREP_MANIFEST_V1.json" <<'PY'
+          import json, sys
+          d=json.load(open(sys.argv[1]))
+          assert d['trackCount']==50 and len(d['tracks'])==50
+          assert d['providerCallsObserved']==0
+          assert d['referenceLabelsRead'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['analyzerExecuted'] is False
+          assert d['audioDecoded'] is False
+          assert d['compilerInvoked'] is False
+          a=d['transportAmendment']
+          assert a['model']=='gpt-6-sol' and a['reasoningEffort']=='high'
+          assert a['maxOutputTokens']==8192 and a['serviceTier']=='flex'
+          assert a['store'] is False and a['semanticPayloadUnchanged'] is True
+          assert a['allowedChangesOnly']==['max_output_tokens','service_tier']
+          print('offline Flex/8192 closure audit passed: 50 tracks, 0 provider calls')
+          PY
+
+      - name: Upload frozen amended payload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v4-flex8192-prep-v1
+          path: ${{ runner.temp }}/v4-flex8192
+          if-no-files-found: error
+          retention-days: 90
