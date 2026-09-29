@@ -1,0 +1,189 @@
+name: Trackcade V4 — Offline generation freeze
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - '.github/workflows/trackcade-semantic-external-stage1-v4-generation-freeze-v1.yml'
+      - 'research/semantic-external-holdout-v1/collect_stage1_v4_results_v1.py'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    env:
+      BASE: research/semantic-external-holdout-v1
+      SOURCE_PREP_RUN_ID: '36605876352'
+      SOURCE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+      AMENDED_PREP_RUN_ID: '36619514735'
+      AMENDED_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-flex8192-prep-v1
+      CANARY_RUN_ID: '36621582746'
+      CANARY_HEAD: '61f3427b686290f71f63d43a28f97a741636ea74'
+      CANARY_PATH: '.github/workflows/trackcade-semantic-external-stage1-v4-flex8192-retry-1-v1.yml'
+      BATCH_RUN_ID: '36622763968'
+      BATCH_HEAD: '5f85e487a5303f62d5d6b0fd75b037bd70e81f41'
+      BATCH_PATH: '.github/workflows/trackcade-semantic-external-stage1-v4-flex8192-remaining-v1.yml'
+    steps:
+      - name: Checkout freeze code only — labels deliberately absent
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/collect_stage1_v4_results_v1.py
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Enforce offline research boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          test ! -e "$BASE/REFERENCE_DROPS_V1.json"
+          test -z "${OPENAI_API_KEY:-}"
+          python -m py_compile "$BASE/collect_stage1_v4_results_v1.py"
+
+      - name: Download exact frozen source V4 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen Flex 8192 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.AMENDED_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-amended
+          repository: ${{ github.repository }}
+          run-id: ${{ env.AMENDED_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Inventory only the exact successful V4 generation runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/v4-artifacts"
+          python - <<'PY'
+          import json, os, urllib.request
+          repo=os.environ['GITHUB_REPOSITORY']
+          token=os.environ['GH_TOKEN']
+          def get(path):
+              req=urllib.request.Request('https://api.github.com'+path, headers={
+                  'Authorization': f'Bearer {token}',
+                  'Accept':'application/vnd.github+json',
+                  'X-GitHub-Api-Version':'2022-11-28',
+                  'User-Agent':'trackcade-v4-offline-freeze',
+              })
+              with urllib.request.urlopen(req, timeout=60) as r:
+                  return json.load(r)
+          expected=[
+              (int(os.environ['CANARY_RUN_ID']), os.environ['CANARY_HEAD'], os.environ['CANARY_PATH'], {1}),
+              (int(os.environ['BATCH_RUN_ID']), os.environ['BATCH_HEAD'], os.environ['BATCH_PATH'], set(range(2,51))),
+          ]
+          groups=[]
+          for run_id, head, path, ordinals in expected:
+              run=get(f'/repos/{repo}/actions/runs/{run_id}')
+              assert run['status']=='completed' and run['conclusion']=='success'
+              assert run['run_attempt']==1
+              assert run['head_branch']=='trackcade-semantic-external-holdout-v1'
+              assert run['head_sha']==head and run['path']==path
+              page=get(f'/repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')
+              arts=[a for a in page['artifacts'] if not a.get('expired')]
+              assert page['total_count']==len(arts)==len(ordinals)
+              seen=set()
+              for a in arts:
+                  import re
+                  m=re.fullmatch(r'trackcade-semantic-external-stage1-v4-flex8192(?:-retry)?-v1-case-([1-9]|[1-4][0-9]|50)-completed', a['name'])
+                  assert m, a['name']
+                  seen.add(int(m.group(1)))
+                  assert a['workflow_run']['id']==run_id and a['workflow_run']['head_sha']==head
+                  assert isinstance(a.get('digest'), str) and a['digest'].startswith('sha256:')
+              assert seen==ordinals, (seen, ordinals)
+              groups.append({
+                  'run': {k:run[k] for k in ('id','status','conclusion','run_attempt','head_branch','head_sha','path','created_at','updated_at')},
+                  'total_count': len(arts),
+                  'artifacts': arts,
+              })
+          inventory={
+              'schema':'trackcade-stage1-v4-generation-source-inventory-v1',
+              'repository':repo,
+              'branch':'trackcade-semantic-external-holdout-v1',
+              'providerCallsMadeByInventory':0,
+              'benchmarkLabelsRead':False,
+              'terminalTracksProcessed':False,
+              'runs':groups,
+          }
+          out=os.path.join(os.environ['RUNNER_TEMP'],'STAGE1_V4_GENERATION_SOURCE_INVENTORY_V1.json')
+          with open(out,'w',encoding='utf-8') as f: json.dump(inventory,f,indent=2,sort_keys=True); f.write('\n')
+          print('inventory_tracks=', sum(g['total_count'] for g in groups))
+          print('INVENTORY_SHA256=', __import__('hashlib').sha256(open(out,'rb').read()).hexdigest())
+          PY
+
+          python - <<'PY' > "${RUNNER_TEMP}/artifact-ids.txt"
+          import json, os
+          d=json.load(open(os.path.join(os.environ['RUNNER_TEMP'],'STAGE1_V4_GENERATION_SOURCE_INVENTORY_V1.json')))
+          for g in d['runs']:
+              for a in g['artifacts']:
+                  print(a['id'])
+          PY
+          test "$(wc -l < "${RUNNER_TEMP}/artifact-ids.txt")" -eq 50
+          while IFS= read -r aid; do
+            curl --fail --silent --show-error --location \
+              -H "Authorization: Bearer ${GH_TOKEN}" \
+              -H 'Accept: application/vnd.github+json' \
+              -H 'X-GitHub-Api-Version: 2022-11-28' \
+              "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${aid}/zip" \
+              -o "${RUNNER_TEMP}/v4-artifacts/${aid}.zip"
+          done < "${RUNNER_TEMP}/artifact-ids.txt"
+          test "$(find "${RUNNER_TEMP}/v4-artifacts" -maxdepth 1 -name '*.zip' | wc -l)" -eq 50
+
+      - name: Verify 50 immutable responses and freeze before any label access
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/v4-freeze"
+          python "$BASE/collect_stage1_v4_results_v1.py" \
+            --help >/dev/null 2>&1 || true
+          python - "$BASE" "${RUNNER_TEMP}/v4-source" "${RUNNER_TEMP}/v4-amended" "${RUNNER_TEMP}/v4-artifacts" "${RUNNER_TEMP}/STAGE1_V4_GENERATION_SOURCE_INVENTORY_V1.json" "$OUT" <<'PY'
+          import json, pathlib, sys
+          base, source, amended, artifacts, inventory, out = map(pathlib.Path, sys.argv[1:])
+          sys.path.insert(0, str(base))
+          import collect_stage1_v4_results_v1 as c
+          freeze=c.collect(source, amended, artifacts, json.loads(inventory.read_text()), out)
+          assert freeze['trackCount']==50 and freeze['benchmarkLabelsRead'] is False
+          PY
+          cp "${RUNNER_TEMP}/STAGE1_V4_GENERATION_SOURCE_INVENTORY_V1.json" "$OUT/STAGE1_V4_GENERATION_SOURCE_INVENTORY_V1.json"
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          test ! -e "$BASE/REFERENCE_DROPS_V1.json"
+          python - "$OUT" <<'PY'
+          import hashlib, json, pathlib, sys
+          root=pathlib.Path(sys.argv[1])
+          freeze=root/'STAGE1_V4_GENERATION_FREEZE_V1.json'
+          audit=root/'STAGE1_V4_COLLECTION_AUDIT_V1.json'
+          inv=root/'STAGE1_V4_GENERATION_SOURCE_INVENTORY_V1.json'
+          def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+          d=json.loads(freeze.read_text())
+          assert d['status']=='frozen-exactly-50-completed-validated-responses-before-evaluation'
+          assert d['trackCount']==50 and d['benchmarkLabelsRead'] is False
+          assert d['providerCallsMadeByCollector']==0 and d['compilerInvoked'] is False and d['terminalTracksProcessed'] is False
+          assert len(list((root/'provider').glob('*/stage1-v4-flex8192-case-status-v1.json')))==50
+          print('GENERATION_FREEZE_SHA256='+sha(freeze))
+          print('COLLECTION_AUDIT_SHA256='+sha(audit))
+          print('SOURCE_INVENTORY_SHA256='+sha(inv))
+          print('providerCalls=0 terminal=0 compiler=0 labelsRead=0 cases=50')
+          PY
+
+      - name: Upload frozen V4 generation evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v4-generation-freeze-v1
+          path: ${{ runner.temp }}/v4-freeze
+          if-no-files-found: error
+          retention-days: 90
