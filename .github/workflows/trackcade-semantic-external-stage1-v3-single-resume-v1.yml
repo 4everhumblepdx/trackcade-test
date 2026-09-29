@@ -1,15 +1,12 @@
-name: Trackcade V3 — Single-song resume (ordinal 4 only)
+name: Trackcade V3 — Serialized batch resume (max 3)
 
 on:
   workflow_dispatch:
     inputs:
-      ordinal:
-        description: 'Single authorized missing ordinal; only 4 is permitted'
+      ordinals:
+        description: '1-3 missing development ordinals, comma-separated, in execution order'
         required: true
-        default: '4'
-        type: choice
-        options:
-          - '4'
+        type: string
 
 permissions:
   actions: read
@@ -46,12 +43,16 @@ env:
   ANALYZER_SOURCE_COMMIT: 'e308d867980fb1877c3f2e4ce27950deecac0855'
 
 jobs:
-  preflight:
-    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && inputs.ordinal == '4' && github.run_attempt == 1
+  batch:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.run_attempt == 1
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 45
+    permissions:
+      actions: read
+      contents: write
     env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+      BATCH_ORDINALS: ${{ inputs.ordinals }}
     steps:
       - name: Checkout exact frozen V3 generation source
         uses: actions/checkout@v4
@@ -59,6 +60,7 @@ jobs:
           ref: ${{ github.sha }}
           fetch-depth: 0
           sparse-checkout: |
+            .github/scripts/trackcade_v3_batch.py
             research/semantic-external-holdout-v1/STAGE1_V3_DEVELOPMENT_PROTOCOL.md
             research/semantic-external-holdout-v1/STAGE1_V3_PREP_FREEZE_V1.json
             research/semantic-external-holdout-v1/run_stage1_v3_provider_case_v1.py
@@ -81,7 +83,6 @@ jobs:
           set -euo pipefail
           test "$GITHUB_RUN_ATTEMPT" = 1
           test "$GITHUB_REF" = refs/heads/trackcade-semantic-external-holdout-v1
-          test -n "${OPENAI_API_KEY:-}"
           test "$(gh api "repos/${GITHUB_REPOSITORY}/branches/trackcade-semantic-external-holdout-v1" --jq .commit.sha)" = "$GITHUB_SHA"
           git merge-base --is-ancestor 54bdcb119da433923fd4db8602b88ba817e3f8a2 HEAD
           git merge-base --is-ancestor "$PRE_PROVIDER_FREEZE_COMMIT" HEAD
@@ -139,164 +140,130 @@ jobs:
           expected="${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}"
           test "$meta" = "$(printf '%b' "$expected")"
 
-  generate:
-    needs: preflight
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-    steps:
-      - name: Checkout exact frozen V3 generation source
-        uses: actions/checkout@v4
-        with:
-          ref: ${{ github.sha }}
-          sparse-checkout: |
-            research/semantic-external-holdout-v1/run_stage1_v3_provider_case_v1.py
-            research/learned-interpretation-v1/build_learned_request_v1.py
-            research/learned-interpretation-v1/build_learned_request_v2.py
-            research/learned-interpretation-v1/build_learned_request_v3.py
-            research/learned-interpretation-v1/validate_learned_proposal_v1.py
-            research/learned-interpretation-v1/validate_learned_proposal_v3.py
-            research/learned-interpretation-v1/openai_responses_adapter_v1.py
-            research/learned-interpretation-v1/openai_responses_adapter_v3.py
-            research/learned-interpretation-v1/ingest_provider_response_v1.py
-            research/learned-interpretation-v1/ingest_provider_response_v3.py
-          sparse-checkout-cone-mode: false
-
-      - name: Refuse duplicate semantic response for already-closed case
-        id: guard
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-          ORDINAL: ${{ inputs.ordinal }}
-        run: |
-          set -euo pipefail
-          test "$ORDINAL" = 4
-          test "$GITHUB_RUN_ATTEMPT" = 1
-          mkdir -p "${RUNNER_TEMP}/resume-audit"
-          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" > "${RUNNER_TEMP}/resume-audit/artifacts.json"
-          gh api "repos/${GITHUB_REPOSITORY}/branches/trackcade-semantic-external-holdout-v1" > "${RUNNER_TEMP}/resume-audit/branch.json"
-          python - <<'PY'
-          import json, os
-          from pathlib import Path
-          root = Path(os.environ['RUNNER_TEMP']) / 'resume-audit'
-          pages = json.loads((root / 'artifacts.json').read_text())
-          artifacts = [a for page in pages for a in page['artifacts']]
-          assert len(artifacts) == pages[0]['total_count'], 'Incomplete artifact inventory'
-          assert len({a['id'] for a in artifacts}) == len(artifacts), 'Duplicate inventory IDs'
-          branch = json.loads((root / 'branch.json').read_text())
-          assert branch['commit']['sha'] == os.environ['GITHUB_SHA'], 'Branch moved'
-          prefix = 'trackcade-semantic-external-stage1-v3-sol-v1-case-4-'
-          closed = [a for a in artifacts if a['name'] in (prefix+'completed', prefix+'no-retry-observed')]
-          assert not closed, 'Immutable closed evidence exists; refuse provider call (including expired evidence)'
-          prior = [a for a in artifacts if a['id'] == 11003495468]
-          assert len(prior) == 1, 'Required prior retry evidence missing'
-          prior = prior[0]
-          assert prior['name'] == prefix+'retry-eligible'
-          assert prior['digest'] == 'sha256:da3e82dcf94e10dcb32d0e2bb3d661f7ec45a36cbeee9066246a50a19bd5828f'
-          assert prior['workflow_run']['id'] == 36462381190
-          assert prior['workflow_run']['head_sha'] == '2451c1f8f99de754331eaac52b6c6b8b3d070226'
-          assert prior['expired'] is False
-          print('Ordinal 4 only: prior retry provenance verified; no closed evidence.')
-          PY
-          echo "already_closed=false" >> "$GITHUB_OUTPUT"
+      - name: Validate entire explicit batch against live evidence and permanent locks
+        id: plan
+        run: python .github/scripts/trackcade_v3_batch.py plan --ordinals "$BATCH_ORDINALS"
 
       - name: Download exact frozen V3 prep artifact
-        if: steps.guard.outputs.already_closed != 'true'
         uses: actions/download-artifact@v4
         with:
-          name: ${{ env.PREP_ARTIFACT_NAME }}
+          artifact-ids: ${{ env.PREP_ARTIFACT_ID }}
+          merge-multiple: true
           path: ${{ runner.temp }}/v3-prep
           repository: 4everhumblepdx/trackcade-test
           run-id: ${{ env.PREP_RUN_ID }}
           github-token: ${{ github.token }}
 
-      - name: Verify exact prep manifest before case execution
-        if: steps.guard.outputs.already_closed != 'true'
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$GITHUB_RUN_ATTEMPT" = 1
-          test "$(sha256sum "${RUNNER_TEMP}/v3-prep/STAGE1_V3_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$PREP_MANIFEST_SHA256"
-
-      - name: Execute exact frozen V3 payload once
-        if: steps.guard.outputs.already_closed != 'true'
-        id: execute
-        shell: bash
+      - name: Reserve and execute song 1 using unchanged frozen harness
+        id: execute1
+        if: steps.plan.outputs.ordinal1 != ''
         env:
-          ORDINAL: ${{ inputs.ordinal }}
-        run: |
-          set -uo pipefail
-          set +e
-          test "$ORDINAL" = 4 || exit 1
-          OUT="${RUNNER_TEMP}/case-${ORDINAL}"
-          mkdir -p "$OUT"
-          python "$BASE/run_stage1_v3_provider_case_v1.py" \
-            --prep-root "${RUNNER_TEMP}/v3-prep" \
-            --ordinal "$ORDINAL" \
-            --output-dir "$OUT" \
-            --adapter "$LEARNED/openai_responses_adapter_v3.py" \
-            --ingester "$LEARNED/ingest_provider_response_v3.py" \
-            --harness-source-commit "$GITHUB_SHA" \
-            --prep-artifact-id "$PREP_ARTIFACT_ID"
-          rc=$?
-          set -e
-          echo "return_code=$rc" >> "$GITHUB_OUTPUT"
-          test -f "$OUT/stage1-v3-case-status-v1.json"
-          exit 0
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python .github/scripts/trackcade_v3_batch.py execute --ordinals "$BATCH_ORDINALS" --slot 1
 
-      - name: Classify immutable case evidence
-        if: steps.guard.outputs.already_closed != 'true'
-        id: classify
-        shell: bash
-        env:
-          ORDINAL: ${{ inputs.ordinal }}
-        run: |
-          set -euo pipefail
-          status="${RUNNER_TEMP}/case-${ORDINAL}/stage1-v3-case-status-v1.json"
-          category="$(python - "$status" <<'PY'
-          import json,sys
-          d=json.load(open(sys.argv[1]))
-          assert d['schema']=='trackcade-semantic-external-stage1-v3-provider-case-v1'
-          assert d['developmentRevision']=='stage1-drop-semantics-v2-structure-evidence-v2'
-          if d.get('providerCompletedSemanticResponse') is True:
-              print('completed')
-          elif d.get('retryAuthorized') is True:
-              print('retry-eligible')
-          else:
-              print('no-retry-observed')
-          PY
-          )"
-          echo "category=$category" >> "$GITHUB_OUTPUT"
-          echo "artifact_name=trackcade-semantic-external-stage1-v3-sol-v1-case-${ORDINAL}-${category}" >> "$GITHUB_OUTPUT"
-          cat "$status"
-
-      - name: Freeze case evidence
-        if: steps.guard.outputs.already_closed != 'true'
+      - name: Freeze song 1 evidence before allowing any next song
+        id: upload1
+        if: always() && steps.execute1.outputs.artifact_name != ''
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.classify.outputs.artifact_name }}
-          path: ${{ runner.temp }}/case-${{ inputs.ordinal }}
+          name: ${{ steps.execute1.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-${{ steps.plan.outputs.ordinal1 }}
           if-no-files-found: error
           retention-days: 90
           compression-level: 6
 
-      - name: Fail only retry-eligible infrastructure cases
-        if: steps.guard.outputs.already_closed != 'true'
-        shell: bash
+      - name: Record song 1 artifact identity and stop on any unsuccessful outcome
+        if: steps.plan.outputs.ordinal1 != ''
+        env:
+          CONTINUE_BATCH: ${{ steps.execute1.outputs.continue }}
+          ARTIFACT_ID: ${{ steps.upload1.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.upload1.outputs.artifact-digest }}
+          ARTIFACT_URL: ${{ steps.upload1.outputs.artifact-url }}
         run: |
-          set -euo pipefail
-          if [ "${{ steps.classify.outputs.category }}" = 'retry-eligible' ]; then
-            echo 'No completed V3 semantic response was obtained; identical frozen-payload retry remains authorized.' >&2
-            exit 1
-          fi
-          echo 'Case is scientifically closed; no semantic retry authorized.'
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'batch-audit' / 'artifact-1.json'
+          p.write_text(json.dumps({k: os.environ[k] for k in ('ARTIFACT_ID','ARTIFACT_DIGEST','ARTIFACT_URL')}, indent=2)+'\n')
+          assert os.environ['ARTIFACT_ID'], 'Artifact was not preserved; stop batch'
+          assert os.environ['CONTINUE_BATCH'] == 'true', 'Song did not complete and validate; stop batch'
+          PY
 
-      - name: Preserve resume audit provenance
+      - name: Reserve and execute song 2 using unchanged frozen harness
+        id: execute2
+        if: steps.plan.outputs.ordinal2 != ''
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python .github/scripts/trackcade_v3_batch.py execute --ordinals "$BATCH_ORDINALS" --slot 2
+
+      - name: Freeze song 2 evidence before allowing any next song
+        id: upload2
+        if: always() && steps.execute2.outputs.artifact_name != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.execute2.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-${{ steps.plan.outputs.ordinal2 }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Record song 2 artifact identity and stop on any unsuccessful outcome
+        if: steps.plan.outputs.ordinal2 != ''
+        env:
+          CONTINUE_BATCH: ${{ steps.execute2.outputs.continue }}
+          ARTIFACT_ID: ${{ steps.upload2.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.upload2.outputs.artifact-digest }}
+          ARTIFACT_URL: ${{ steps.upload2.outputs.artifact-url }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'batch-audit' / 'artifact-2.json'
+          p.write_text(json.dumps({k: os.environ[k] for k in ('ARTIFACT_ID','ARTIFACT_DIGEST','ARTIFACT_URL')}, indent=2)+'\n')
+          assert os.environ['ARTIFACT_ID'], 'Artifact was not preserved; stop batch'
+          assert os.environ['CONTINUE_BATCH'] == 'true', 'Song did not complete and validate; stop batch'
+          PY
+
+      - name: Reserve and execute song 3 using unchanged frozen harness
+        id: execute3
+        if: steps.plan.outputs.ordinal3 != ''
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python .github/scripts/trackcade_v3_batch.py execute --ordinals "$BATCH_ORDINALS" --slot 3
+
+      - name: Freeze song 3 evidence before allowing any next song
+        id: upload3
+        if: always() && steps.execute3.outputs.artifact_name != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.execute3.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-${{ steps.plan.outputs.ordinal3 }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Record song 3 artifact identity and stop on any unsuccessful outcome
+        if: steps.plan.outputs.ordinal3 != ''
+        env:
+          CONTINUE_BATCH: ${{ steps.execute3.outputs.continue }}
+          ARTIFACT_ID: ${{ steps.upload3.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.upload3.outputs.artifact-digest }}
+          ARTIFACT_URL: ${{ steps.upload3.outputs.artifact-url }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'batch-audit' / 'artifact-3.json'
+          p.write_text(json.dumps({k: os.environ[k] for k in ('ARTIFACT_ID','ARTIFACT_DIGEST','ARTIFACT_URL')}, indent=2)+'\n')
+          assert os.environ['ARTIFACT_ID'], 'Artifact was not preserved; stop batch'
+          assert os.environ['CONTINUE_BATCH'] == 'true', 'Song did not complete and validate; stop batch'
+          PY
+
+      - name: Preserve batch plan, lock, status, hashes and artifact provenance
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: trackcade-v3-single-song-resume-audit-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ runner.temp }}/resume-audit
+          name: trackcade-v3-batch-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/batch-audit
           if-no-files-found: warn
           retention-days: 90
