@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 1,
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "generationCount": 50,
+  "referenceDropCount": 46,
+  "rawOnly": true,
+  "providerCalls": 0,
+  "compilerInvoked": false,
+  "terminalAccessed": false,
+  "labelsReadOnlyAfterVerifiedFreeze": true,
+  "inventorySha256": "36f5ed7287b1f420359b2952c9142dca880b4460ff29fdfd1745dec3800c7c40",
+  "generationFreezeSha256": "104bd8deaea18aad5c5e25ab33f891305321de1cb37c44788eea4fa7d93eb441",
+  "referencesSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+  "generationFreezeArtifact": {
+    "id": 11047611212,
+    "node_id": "MDg6QXJ0aWZhY3QxMTA0NzYxMTIxMg==",
+    "name": "trackcade-semantic-external-stage1-v3-generation-freeze-v1",
+    "size_in_bytes": 2374672,
+    "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11047611212",
+    "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11047611212/zip",
+    "expired": false,
+    "digest": "sha256:1fb27766d36d55895760ee90426f8018c7c558990fe4d0074ea35dc1e3e71c35",
+    "created_at": "2026-09-29T16:29:50Z",
+    "updated_at": "2026-09-29T16:29:50Z",
+    "expires_at": "2026-12-28T16:29:12Z",
+    "workflow_run": {
+      "id": 36598058092,
+      "repository_id": 1380714386,
+      "head_repository_id": 1380714386,
+      "head_branch": "trackcade-semantic-external-holdout-v1",
+      "head_sha": "75a85904cf23d87c9902fcf6e37675df7ac6573e"
+    }
+  },
+  "evaluationArtifact": {
+    "id": 11047916821,
+    "node_id": "MDg6QXJ0aWZhY3QxMTA0NzkxNjgyMQ==",
+    "name": "trackcade-semantic-external-stage1-v3-raw-drop-evaluation-v1",
+    "size_in_bytes": 42245,
+    "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11047916821",
+    "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11047916821/zip",
+    "expired": false,
+    "digest": "sha256:1a819d983d362480b05f30fcd7b75a2c34bcf7b81f78c93dd192bce4a59b64d5",
+    "created_at": "2026-09-29T16:34:41Z",
+    "updated_at": "2026-09-29T16:34:41Z",
+    "expires_at": "2026-12-28T16:34:30Z",
+    "workflow_run": {
+      "id": 36598712184,
+      "repository_id": 1380714386,
+      "head_repository_id": 1380714386,
+      "head_branch": "trackcade-semantic-external-holdout-v1",
+      "head_sha": "be45e89908dcb9e02c7ca1c3f9916611b9376ddf"
+    }
+  },
+  "commits": {
+    "machinery": "9831ebf3523e2cd4c392eb70982f325a14c9775b",
+    "freezeWorkflow": "75a85904cf23d87c9902fcf6e37675df7ac6573e",
+    "freezeEvidence": "abfa0373bd77847c234085ffe64103ea23dfa8c6",
+    "evaluationWorkflow": "be45e89908dcb9e02c7ca1c3f9916611b9376ddf"
+  },
+  "outputs": {
+    "STAGE1_V3_DROP_CANDIDATES_V1.json": {
+      "size": 10032,
+      "sha256": "2b1930814d815876689a6abbff06958d16f95458d964589acbd8c971f5527681"
+    },
+    "STAGE1_V3_DROP_EVALUATION_V1.json": {
+      "size": 101977,
+      "sha256": "ad03fb99ef336f62230a25bb23425d8f7765786ca18025d884e80e928345bc60"
+    },
+    "STAGE1_V3_EVALUATION_PROVENANCE_V1.json": {
+      "size": 144832,
+      "sha256": "32bf2ca1df8f29f3aa8c7252e5dc08233c75fccb559d0e7cbc5850365e34f058"
+    },
+    "STAGE1_V3_RAW_HEADLINE_V1.json": {
+      "size": 2250,
+      "sha256": "704875a497f60ffb0bef17a3539544937891d4a3d0596eb96f400870ddaa5138"
+    },
+    "STAGE1_V3_RAW_PER_TRACK_V1.csv": {
+      "size": 12267,
+      "sha256": "d80eaab15a9a64d5ece02f635614c9a902cf8e9a6843ee082cf4cbeddfc8f08c"
+    },
+    "STAGE1_V3_RAW_RUN_PROVENANCE_V1.json": {
+      "size": 1230,
+      "sha256": "9b0a7775f6150ebc2868741526c069114d5c92e191ebd493ea15635953b2a464"
+    }
+  },
+  "results": {
+    "baselines": {
+      "v1RawF1": 0.2764227642276423,
+      "v2Raw": {
+        "f1": 0.25210084033613445,
+        "matches": 15,
+        "precision": 0.2054794520547945,
+        "proposals": 73,
+        "recall": 0.32608695652173914
+      }
+    },
+    "compilerInvoked": false,
+    "deltaF1PercentagePoints": {
+      "v3MinusV1": 1.81508791832104,
+      "v3MinusV2": 4.247280307471824
+    },
+    "metrics": {
+      "1.0": {
+        "candidateSupport": 83,
+        "macro": {
+          "f1": 0.20942857142857144,
+          "precision": 0.273,
+          "recall": 0.62
+        },
+        "matchedSupport": 13,
+        "maxAbsoluteErrorSeconds": 0.9300000000000068,
+        "meanAbsoluteErrorSeconds": 0.45307692307692365,
+        "medianAbsoluteErrorSeconds": 0.22500000000002274,
+        "micro": {
+          "f1": 0.20155038759689922,
+          "falseNegatives": 33,
+          "falsePositives": 70,
+          "precision": 0.1566265060240964,
+          "recall": 0.2826086956521739,
+          "truePositives": 13
+        },
+        "referenceSupport": 46
+      },
+      "2.0": {
+        "candidateSupport": 83,
+        "macro": {
+          "f1": 0.2700952380952381,
+          "precision": 0.33299999999999996,
+          "recall": 0.69
+        },
+        "matchedSupport": 19,
+        "maxAbsoluteErrorSeconds": 1.7750000000000057,
+        "meanAbsoluteErrorSeconds": 0.7917368421052638,
+        "medianAbsoluteErrorSeconds": 0.8739999999999952,
+        "micro": {
+          "f1": 0.2945736434108527,
+          "falseNegatives": 27,
+          "falsePositives": 64,
+          "precision": 0.2289156626506024,
+          "recall": 0.41304347826086957,
+          "truePositives": 19
+        },
+        "referenceSupport": 46
+      },
+      "5.0": {
+        "candidateSupport": 83,
+        "macro": {
+          "f1": 0.2967619047619048,
+          "precision": 0.363,
+          "recall": 0.72
+        },
+        "matchedSupport": 21,
+        "maxAbsoluteErrorSeconds": 3.8829999999999956,
+        "meanAbsoluteErrorSeconds": 1.0191428571428576,
+        "medianAbsoluteErrorSeconds": 0.8849999999999909,
+        "micro": {
+          "f1": 0.3255813953488372,
+          "falseNegatives": 25,
+          "falsePositives": 62,
+          "precision": 0.25301204819277107,
+          "recall": 0.45652173913043476,
+          "truePositives": 21
+        },
+        "referenceSupport": 46
+      }
+    },
+    "rawOnly": true
+  },
+  "lockRefs": [
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-13",
+      "sha": "d8354a5ac93d0f5c7903482902c64621f563adad"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-23",
+      "sha": "b4bcce07cc3387c3f3b425f8fc1ea8c573e80791"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-31",
+      "sha": "470b4db012e0629e17c3e2fdcb2dd9cde0d8cbe4"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-35",
+      "sha": "450bd565522b675f6766c793dbe90c784028a873"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-38",
+      "sha": "f5d7b77219b06c545c4472290fee86e6629f77c2"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-42",
+      "sha": "042809e4b480a651034aca2b202f23407a30f88c"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-44",
+      "sha": "7ffbe5856a7703d5819832c55489beb97b91b484"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-45",
+      "sha": "6e7ce61a354ee54cb484d697b38a871658958665"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-46",
+      "sha": "37af0c79f341c6272c0cb458041579801a1ac431"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-47",
+      "sha": "9de91f25e2fd962e2fcf855842494cc1d996b109"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-48",
+      "sha": "65560c3807c9203a9a771cade687f6550655c963"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-49",
+      "sha": "e64a851a435502528f4205fe026b9531124314af"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-50",
+      "sha": "83d6eaa2c4a27e14b8d796e4ab28eb4923ae032f"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-retry-ordinal-42-evidence-11028077891-v1",
+      "sha": "3c8dc6840204c078a46eaea9931190ba9b5e7df6"
+    },
+    {
+      "ref": "refs/tags/trackcade-v3-retry-ordinal-46-evidence-11030495842-v1",
+      "sha": "11e39b71d629e9b958df8639b9fc4aefbed58d6a"
+    }
+  ]
+}
