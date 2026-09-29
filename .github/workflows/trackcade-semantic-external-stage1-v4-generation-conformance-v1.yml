@@ -119,7 +119,8 @@ jobs:
           python - <<'PY'
           import json, pathlib
           root=pathlib.Path('${{ runner.temp }}/v4-conformance')
-          statuses=[json.load(open(p)) for p in sorted(root.glob('case-*/stage1-v4-case-status-v1.json'))]
+          statuses=[json.load(open(p)) for p in root.glob('case-*/stage1-v4-case-status-v1.json')]
+          statuses.sort(key=lambda d: d['ordinal'])
           assert len(statuses)==50
           assert [d['ordinal'] for d in statuses]==list(range(1,51))
           assert all(d['classification']=='offline_preflight_complete_no_provider_call' for d in statuses)
