@@ -79,13 +79,18 @@ def main() -> None:
         fail("source V5 prep research boundary mismatch")
     if src.get("analyzerExecuted") is not False or src.get("audioDecoded") is not False or src.get("compilerInvoked") is not False:
         fail("source V5 Analyzer/audio/compiler boundary mismatch")
-    expected_model = {
+    mc = src.get("modelContract") or {}
+    required_model_fields = {
         "provider": "openai", "api": "responses", "model": MODEL,
         "reasoningEffort": REASONING_EFFORT, "maxOutputTokens": MAX_OUTPUT_TOKENS,
         "store": False, "completedResponsesPerTrack": 0,
     }
-    if src.get("modelContract") != expected_model:
-        fail("source V5 model contract mismatch")
+    for key, value in required_model_fields.items():
+        if mc.get(key) != value:
+            fail(f"source V5 model contract mismatch: {key}")
+    rationale = mc.get("maxOutputTokensRationale")
+    if not isinstance(rationale, str) or "V4" not in rationale or "not a semantic threshold" not in rationale:
+        fail("source V5 8192 rationale missing or unexpected")
 
     out = args.output_dir
     out.mkdir(parents=True, exist_ok=True)
@@ -99,7 +104,6 @@ def main() -> None:
         src_case = args.source_prep_root / "cases" / f"{ordinal:02d}-{stem}"
         dst_case = out / "cases" / f"{ordinal:02d}-{stem}"
         dst_case.mkdir(parents=True, exist_ok=True)
-        # Preserve the exact semantic inputs for local/live auditing.
         for name in ("structure-evidence-v2.json", "structure-evidence-v2-source-map.json", "learned-request-v5.json", "instruction-diff-v5.json", "openai-payload-v5.json", "openai-adapter-prepare-report-v5.json"):
             s = src_case / name
             if not s.is_file():
@@ -131,9 +135,7 @@ def main() -> None:
             fail(f"semantic projection hash drift ordinal {ordinal}")
 
         rows.append({
-            "ordinal": ordinal,
-            "id": row["id"],
-            "stem": stem,
+            "ordinal": ordinal, "id": row["id"], "stem": stem,
             "sourceV5PayloadSha256": sha(source_payload_path),
             "amendedFlexPayloadSha256": sha(amended_path),
             "semanticProjectionSha256": semantic_sha,
@@ -147,21 +149,16 @@ def main() -> None:
         "developmentRevision": DEVELOPMENT_REVISION,
         "trackCount": 50,
         "sourceV5FrozenPrep": {
-            "runId": SOURCE_PREP_RUN_ID,
-            "headSha": SOURCE_PREP_HEAD_SHA,
-            "artifactId": SOURCE_PREP_ARTIFACT_ID,
-            "artifactName": SOURCE_PREP_ARTIFACT_NAME,
-            "artifactDigest": SOURCE_PREP_ARTIFACT_DIGEST,
-            "manifestSha256": SOURCE_MANIFEST_SHA256,
-            "filesManifestSha256": SOURCE_FILES_MANIFEST_SHA256,
-            "filesManifestEntries": SOURCE_FILES_ENTRIES,
+            "runId": SOURCE_PREP_RUN_ID, "headSha": SOURCE_PREP_HEAD_SHA,
+            "artifactId": SOURCE_PREP_ARTIFACT_ID, "artifactName": SOURCE_PREP_ARTIFACT_NAME,
+            "artifactDigest": SOURCE_PREP_ARTIFACT_DIGEST, "manifestSha256": SOURCE_MANIFEST_SHA256,
+            "filesManifestSha256": SOURCE_FILES_MANIFEST_SHA256, "filesManifestEntries": SOURCE_FILES_ENTRIES,
         },
         "transportAmendment": {
             "provider": "openai", "api": "responses", "model": MODEL,
             "reasoningEffort": REASONING_EFFORT, "maxOutputTokens": MAX_OUTPUT_TOKENS,
             "store": False, "serviceTier": SERVICE_TIER,
-            "allowedChangesOnly": ["service_tier"],
-            "semanticPayloadUnchanged": True,
+            "allowedChangesOnly": ["service_tier"], "semanticPayloadUnchanged": True,
         },
         "referenceLabelsReadByPreparation": False,
         "terminalTracksProcessed": False,
@@ -184,10 +181,8 @@ def main() -> None:
     print(json.dumps({
         "status": manifest["status"], "trackCount": 50, "providerCalls": 0,
         "serviceTier": SERVICE_TIER, "maxOutputTokens": MAX_OUTPUT_TOKENS,
-        "semanticPayloadUnchanged": True,
-        "manifestSha256": sha(manifest_path),
-        "filesManifestSha256": sha(files_path),
-        "filesManifestEntries": len(file_rows),
+        "semanticPayloadUnchanged": True, "manifestSha256": sha(manifest_path),
+        "filesManifestSha256": sha(files_path), "filesManifestEntries": len(file_rows),
     }, indent=2))
 
 
