@@ -1,0 +1,210 @@
+name: Trackcade V4 — Flex 8192 remaining Stage1 ordinals 2-50
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V4_FLEX8192_REMAINING_AUTHORIZATION_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-v4-flex8192-remaining-v1
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        ordinal: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    env:
+      BASE: research/semantic-external-holdout-v1
+      LEARNED: research/learned-interpretation-v1
+      AUTH_FILE: research/semantic-external-holdout-v1/STAGE1_V4_FLEX8192_REMAINING_AUTHORIZATION_V1.json
+      SOURCE_PREP_RUN_ID: '36605876352'
+      SOURCE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+      SOURCE_PREP_MANIFEST_SHA256: 613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972
+      FLEX_PREP_RUN_ID: '36619514735'
+      FLEX_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-flex8192-prep-v1
+      FLEX_PREP_MANIFEST_SHA256: c294fc9e8017609673da03694c3b318b71706804380f8b06e7d4cb71c2dbc342
+      CONFORMANCE_RUN_ID: '36620185891'
+      CONFORMANCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-flex8192-conformance-v1
+      CONFORMANCE_MANIFEST_SHA256: 821d9c3fed9c4c4949acb48f964c6aeda7270913e85650740a46c5cfba8beee8
+      ORDINAL1_COMPLETED_ARTIFACT_ID: '11057759945'
+      ORDINAL1_COMPLETED_ARTIFACT_DIGEST: sha256:ed01d7b81477b8a8c4dfa01f0132c8352323e145c4bee1f14c6d30416ea48045
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify explicit batch authorization and one-use boundary
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          test -n "${OPENAI_API_KEY:-}"
+          python - "$AUTH_FILE" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d == {
+            'schema':'trackcade-semantic-external-stage1-v4-flex8192-remaining-authorization-v1',
+            'status':'authorized-one-initial-paid-attempt-per-remaining-ordinal',
+            'ordinals':list(range(2,51)),
+            'authorization':'ordinals-2-50-flex8192-after-canary-11057759945-v1',
+            'provider':'openai',
+            'api':'responses',
+            'model':'gpt-6-sol',
+            'reasoningEffort':'high',
+            'maxOutputTokens':8192,
+            'serviceTier':'flex',
+            'store':False,
+            'standardFallbackAuthorized':False,
+            'additionalRetriesAuthorized':False,
+            'terminalHoldoutAuthorized':False,
+          }
+          PY
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${ORDINAL1_COMPLETED_ARTIFACT_ID}" > "${RUNNER_TEMP}/ordinal1-artifact.json"
+          python - "${RUNNER_TEMP}/ordinal1-artifact.json" <<'PY'
+          import json,os,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['id']==11057759945
+          assert d['name']=='trackcade-semantic-external-stage1-v4-flex8192-retry-v1-case-1-completed'
+          assert d['expired'] is False
+          assert d.get('digest')==os.environ['ORDINAL1_COMPLETED_ARTIFACT_DIGEST']
+          PY
+          completed="trackcade-semantic-external-stage1-v4-flex8192-v1-case-${{ matrix.ordinal }}-completed"
+          incomplete="trackcade-semantic-external-stage1-v4-flex8192-v1-case-${{ matrix.ordinal }}-attempted-no-completed-response"
+          c="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100&name=${completed}" --jq '[.artifacts[] | select(.expired == false)] | length')"
+          i="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100&name=${incomplete}" --jq '[.artifacts[] | select(.expired == false)] | length')"
+          test "$c" = '0' && test "$i" = '0'
+
+      - name: Download original frozen V4 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download frozen Flex 8192 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-flex8192
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download frozen live-path conformance
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CONFORMANCE_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-conformance
+          repository: ${{ github.repository }}
+          run-id: ${{ env.CONFORMANCE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen evidence and exact case payload offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/v4-source/STAGE1_V4_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$SOURCE_PREP_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v4-flex8192/STAGE1_V4_FLEX8192_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$FLEX_PREP_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v4-conformance/STAGE1_V4_FLEX8192_CONFORMANCE_V1.json" | awk '{print $1}')" = "$CONFORMANCE_MANIFEST_SHA256"
+          OUT="${RUNNER_TEMP}/case-preflight"
+          python "$BASE/run_stage1_v4_flex8192_case_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v4-source" \
+            --amended-prep-root "${RUNNER_TEMP}/v4-flex8192" \
+            --ordinal "${{ matrix.ordinal }}" \
+            --output-dir "$OUT" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester "$LEARNED/ingest_provider_response_v4.py" \
+            --preflight-only
+          python - "$OUT/stage1-v4-flex8192-case-status-v1.json" "${{ matrix.ordinal }}" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1])); ordinal=int(sys.argv[2])
+          assert d['ordinal']==ordinal
+          assert d['classification']=='offline_preflight_complete_no_provider_call'
+          assert d['providerCallAttempted'] is False
+          assert d['semanticPayloadUnchanged'] is True
+          assert d['providerContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':8192,
+            'serviceTier':'flex','store':False,
+          }
+          PY
+
+      - name: Execute exact frozen case once
+        shell: bash
+        run: |
+          set -uo pipefail
+          set +e
+          OUT="${RUNNER_TEMP}/case-run"
+          mkdir -p "$OUT"
+          python "$BASE/run_stage1_v4_flex8192_case_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v4-source" \
+            --amended-prep-root "${RUNNER_TEMP}/v4-flex8192" \
+            --ordinal "${{ matrix.ordinal }}" \
+            --output-dir "$OUT" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester "$LEARNED/ingest_provider_response_v4.py" \
+            --timeout-seconds 900
+          rc=$?
+          set -e
+          echo "provider_harness_return_code=$rc"
+          test -f "$OUT/stage1-v4-flex8192-case-status-v1.json"
+          exit 0
+
+      - name: Classify immutable case evidence
+        id: classify
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="${RUNNER_TEMP}/case-run/stage1-v4-flex8192-case-status-v1.json"
+          category="$(python - "$status" "${{ matrix.ordinal }}" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1])); ordinal=int(sys.argv[2])
+          assert d['ordinal']==ordinal
+          assert d['schema']=='trackcade-semantic-external-stage1-v4-flex8192-provider-case-v1'
+          print('completed' if d.get('providerCompletedSemanticResponse') is True else 'attempted-no-completed-response')
+          PY
+          )"
+          echo "category=$category" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=trackcade-semantic-external-stage1-v4-flex8192-v1-case-${{ matrix.ordinal }}-${category}" >> "$GITHUB_OUTPUT"
+          cat "$status"
+
+      - name: Freeze immutable case evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.classify.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-run
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Enforce fail-fast and no silent retry
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="${RUNNER_TEMP}/case-run/stage1-v4-flex8192-case-status-v1.json"
+          python - "$status" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['retryAuthorized'] is False
+          assert d['standardFallbackUsed'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['compilerInvoked'] is False
+          if d.get('providerCompletedSemanticResponse') is not True:
+              raise SystemExit('Case did not complete. Matrix fail-fast must stop later ordinals. No automatic retry is authorized.')
+          PY
