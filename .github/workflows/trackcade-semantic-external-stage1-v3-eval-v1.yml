@@ -1,0 +1,146 @@
+name: Trackcade V3 - Stage1 RAW Drop evaluation (offline)
+on:
+  push:
+    branches: [trackcade-semantic-external-holdout-v1]
+    paths: [.github/workflows/trackcade-semantic-external-stage1-v3-eval-v1.yml]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+concurrency:
+  group: trackcade-semantic-external-stage1-v3-sol-v1
+  cancel-in-progress: false
+env:
+  BASE: research/semantic-external-holdout-v1
+  FREEZE_RUN_ID: '36598058092'
+  FREEZE_ARTIFACT_ID: '11047611212'
+  FREEZE_HEAD: '75a85904cf23d87c9902fcf6e37675df7ac6573e'
+  FREEZE_DIGEST: 'sha256:1fb27766d36d55895760ee90426f8018c7c558990fe4d0074ea35dc1e3e71c35'
+  INVENTORY_SHA256: '36f5ed7287b1f420359b2952c9142dca880b4460ff29fdfd1745dec3800c7c40'
+  GENERATION_FREEZE_SHA256: '104bd8deaea18aad5c5e25ab33f891305321de1cb37c44788eea4fa7d93eb441'
+jobs:
+  evaluate-raw:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: Checkout offline sources without reference labels or terminal material
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/collect_stage1_v3_results_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_v3_drop_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V3_ARTIFACT_INVENTORY_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V3_GENERATION_FREEZE_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V3_CANONICAL_INVENTORY_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V3_GENERATION_FREEZE_PROVENANCE_V1.json
+      - name: Verify prior successful freeze and immutable artifact identity
+        run: |
+          set -euo pipefail
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          test "$(git rev-parse HEAD:$BASE/evaluate_stage1_drop_v1.py)" = 3d74996281ec260e170ea10929bd0115a6d4ac70
+          test "$(git rev-parse HEAD:$BASE/evaluate_stage1_v3_drop_v1.py)" = 6830c330e3372454b805cfa54aca89def7977b4b
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$FREEZE_RUN_ID" > "$RUNNER_TEMP/freeze-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$FREEZE_ARTIFACT_ID" > "$RUNNER_TEMP/freeze-artifact.json"
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path(os.environ['RUNNER_TEMP'])
+          r=json.loads((p/'freeze-run.json').read_bytes()); a=json.loads((p/'freeze-artifact.json').read_bytes())
+          assert r['status']=='completed' and r['conclusion']=='success' and r['run_attempt']==1
+          assert r['head_sha']==os.environ['FREEZE_HEAD'] and r['id']==int(os.environ['FREEZE_RUN_ID'])
+          assert a['id']==int(os.environ['FREEZE_ARTIFACT_ID']) and a['digest']==os.environ['FREEZE_DIGEST']
+          assert a['workflow_run']['id']==r['id'] and a['workflow_run']['head_sha']==r['head_sha'] and not a['expired']
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ env.FREEZE_ARTIFACT_ID }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/generation-evidence
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.FREEZE_RUN_ID }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '10986506165'
+          merge-multiple: true
+          path: ${{ runner.temp }}/v3-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: '36457485587'
+          github-token: ${{ github.token }}
+      - name: Enforce complete frozen inventory before label access
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,os,sys
+          from pathlib import Path
+          sys.path.insert(0,os.environ['BASE'])
+          import collect_stage1_v3_results_v1 as c
+          p=Path(os.environ['RUNNER_TEMP'])/'generation-evidence'; base=Path(os.environ['BASE'])
+          for name,expected in [('STAGE1_V3_CANONICAL_INVENTORY_V1.json',os.environ['INVENTORY_SHA256']),('collection/STAGE1_V3_GENERATION_FREEZE_V1.json',os.environ['GENERATION_FREEZE_SHA256'])]:
+              assert c.digest((p/name).read_bytes())==expected
+              assert (p/name).read_bytes()==(base/Path(name).name).read_bytes()
+          cases=c.verify_freeze(p/'collection'/c.FREEZE_FILE,Path(os.environ['RUNNER_TEMP'])/'v3-prep',p/'collection/provider')
+          assert len(cases)==50 and cases[46]['artifactId']==11045692462
+          assert cases[46]['artifactDigest']=='sha256:32c3b5f6976cd6f8bd7870072e4b7f340c54c049e85b80cc2c83c3ac6c450f3b'
+          print('All 50 frozen responses verified. Stage1 reference access is now permitted.')
+          PY
+      - name: Read only already-frozen Stage1 references and evaluate RAW proposals
+        run: |
+          set -euo pipefail
+          git show "HEAD:$BASE/REFERENCE_DROPS_V3.json" > "$RUNNER_TEMP/stage1-references.json"
+          test "$(sha256sum "$RUNNER_TEMP/stage1-references.json" | cut -d' ' -f1)" = 1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c
+          python "$BASE/evaluate_stage1_v3_drop_v1.py" \
+            --prep-root "$RUNNER_TEMP/v3-prep" \
+            --provider-root "$RUNNER_TEMP/generation-evidence/collection/provider" \
+            --references "$RUNNER_TEMP/stage1-references.json" \
+            --generation-freeze "$RUNNER_TEMP/generation-evidence/collection/STAGE1_V3_GENERATION_FREEZE_V1.json" \
+            --prep-artifact-id 10986506165 \
+            --output-dir "$RUNNER_TEMP/v3-raw-evaluation"
+      - name: Preserve all tolerances, per-track audit and frozen baseline comparisons
+        run: |
+          python - <<'PY'
+          import base64,csv,gzip,hashlib,json,os
+          from pathlib import Path
+          out=Path(os.environ['RUNNER_TEMP'])/'v3-raw-evaluation'
+          e=json.loads((out/'STAGE1_V3_DROP_EVALUATION_V1.json').read_bytes())
+          p=json.loads((out/'STAGE1_V3_EVALUATION_PROVENANCE_V1.json').read_bytes())
+          assert e['compilerInvoked'] is False and p['providerCallsMadeByEvaluator']==0 and p['terminalTracksProcessed'] is False
+          assert e['scoringImplementation']=='imported-unchanged-from-evaluate_stage1_drop_v1.py'
+          assert e['primaryToleranceSeconds']==2.0 and e['sensitivityToleranceSeconds']==[1.0,5.0]
+          metrics={t:v['aggregate'] for t,v in e['proposalDropsSeconds'].items()}
+          assert set(metrics)=={'1.0','2.0','5.0'}
+          assert all(v['referenceSupport']==46 for v in metrics.values())
+          baseline=dict(v1RawF1=0.2764227642276423,v2Raw=dict(precision=15/73,recall=15/46,f1=30/119,matches=15,proposals=73))
+          headline=dict(rawOnly=True,compilerInvoked=False,metrics=metrics,baselines=baseline,
+            deltaF1PercentagePoints=dict(v3MinusV1=100*(metrics['2.0']['micro']['f1']-baseline['v1RawF1']),
+              v3MinusV2=100*(metrics['2.0']['micro']['f1']-baseline['v2Raw']['f1'])))
+          (out/'STAGE1_V3_RAW_HEADLINE_V1.json').write_text(json.dumps(headline,indent=2,sort_keys=True)+'\n')
+          with (out/'STAGE1_V3_RAW_PER_TRACK_V1.csv').open('w',newline='') as f:
+              fields=['ordinal','id','toleranceSeconds','referenceCount','candidateCount','truePositives','falsePositives','falseNegatives','precision','recall','f1']
+              w=csv.DictWriter(f,fieldnames=fields); w.writeheader()
+              for t,v in e['proposalDropsSeconds'].items():
+                  for row in v['tracks']: w.writerow({k:(float(t) if k=='toleranceSeconds' else row[k]) for k in fields})
+          record=dict(evaluationRunId=os.environ['GITHUB_RUN_ID'],evaluationHead=os.environ['GITHUB_SHA'],
+            generationFreezeRunId=os.environ['FREEZE_RUN_ID'],generationFreezeArtifactId=os.environ['FREEZE_ARTIFACT_ID'],
+            generationFreezeArtifactDigest=os.environ['FREEZE_DIGEST'],inventorySha256=os.environ['INVENTORY_SHA256'],
+            generationFreezeSha256=os.environ['GENERATION_FREEZE_SHA256'],referenceSha256=p['referencesSha256'],
+            providerCallsMade=0,compilerInvoked=False,terminalMaterialAccessed=False,
+            files={x.name:hashlib.sha256(x.read_bytes()).hexdigest() for x in out.iterdir() if x.is_file()})
+          (out/'STAGE1_V3_RAW_RUN_PROVENANCE_V1.json').write_text(json.dumps(record,indent=2,sort_keys=True)+'\n')
+          export={x.name:x.read_text() for x in out.iterdir() if x.is_file()}
+          print('EVALUATION_EVIDENCE_B64='+base64.b64encode(gzip.compress(json.dumps(export).encode())).decode())
+          print('RAW_HEADLINE='+json.dumps(headline,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v3-raw-drop-evaluation-v1
+          path: ${{ runner.temp }}/v3-raw-evaluation
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
