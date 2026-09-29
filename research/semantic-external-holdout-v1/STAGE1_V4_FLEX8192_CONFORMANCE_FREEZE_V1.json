@@ -1,0 +1,51 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v4-flex8192-conformance-freeze-v1",
+  "status": "frozen-offline-live-path-conformance-no-provider-authorization",
+  "frozenAtDate": "2026-09-29",
+  "transportContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false,
+    "standardFallbackAllowed": false,
+    "semanticPayloadUnchanged": true
+  },
+  "sourcePrep": {
+    "runId": 36605876352,
+    "artifactId": 11050749993,
+    "manifestSha256": "613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972"
+  },
+  "flexPrep": {
+    "runId": 36619514735,
+    "artifactId": 11056787997,
+    "artifactDigest": "sha256:1ccf31ec01bdc5551a182cd5fb9cef78844839e006de09ce8179930a0620e526",
+    "manifestSha256": "c294fc9e8017609673da03694c3b318b71706804380f8b06e7d4cb71c2dbc342"
+  },
+  "conformance": {
+    "sourceCommit": "7a7ff1b35f028e7d6181d3c79322814c235508fb",
+    "runId": 36620185891,
+    "jobId": 109583289087,
+    "conclusion": "success",
+    "cases": 50,
+    "providerCalls": 0,
+    "semanticPayloadUnchanged": true,
+    "standardFallbackUsed": false,
+    "terminalTracksProcessed": false,
+    "compilerInvoked": false,
+    "manifestSha256": "821d9c3fed9c4c4949acb48f964c6aeda7270913e85650740a46c5cfba8beee8",
+    "artifactId": 11057942747,
+    "artifactDigest": "sha256:84b5f1ab37deaf7921d3288bc38a36a33124385e4c3dfade7a2956140f621817"
+  },
+  "authorizationBoundary": {
+    "ordinal1RetryAuthorizedByThisFreeze": false,
+    "anyPaidProviderCallAuthorizedByThisFreeze": false,
+    "remainingOrdinalsAuthorizedByThisFreeze": false,
+    "standardFallbackAuthorized": false,
+    "terminalHoldoutAuthorized": false,
+    "compilerAuthorized": false,
+    "analyzerChangesAuthorized": false
+  }
+}
