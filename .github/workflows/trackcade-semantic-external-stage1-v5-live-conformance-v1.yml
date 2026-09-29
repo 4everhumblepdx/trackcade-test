@@ -1,0 +1,261 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V5 Live Harness Conformance
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v5-live-conformance-v1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v5-live-conformance-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  conformance:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      SOURCE_RUN_ID: '36645240283'
+      SOURCE_ARTIFACT_ID: '11068032294'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      SOURCE_ARTIFACT_DIGEST: sha256:55db9b9144debbf71ec3ca780fd0ff6b91609221337045e4d6b43f02a822dc05
+      SOURCE_MANIFEST_SHA256: f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799
+      SOURCE_FILES_SHA256: 1393038c09afff244e4aeb2c745eb5a6f40c5f728991cec5051d3dfb4d34cb6c
+      FLEX_RUN_ID: '36647639925'
+      FLEX_ARTIFACT_ID: '11068764041'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v5-flex-prep-v1
+      FLEX_ARTIFACT_DIGEST: sha256:3ab7fd2caa0c758dafbe4665879dfd35998280c66ac2dc62e96d02279fd5e6a1
+      FLEX_MANIFEST_SHA256: 1b9c47e55463fafab4d1be94418b8ffb58e8b6799f2c5a527af40fa5f7d9c93e
+      FLEX_FILES_SHA256: c1a8c4eb5563756b42cd18ab12627a61848541e3217f89de3d422f8800743e0a
+
+    steps:
+      - name: Checkout exact harness source commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Assert no provider credential in conformance environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not be present during V5 live harness conformance' >&2
+            exit 1
+          fi
+          python -m py_compile \
+            research/learned-interpretation-v1/build_learned_request_v5.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v5.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v5.py \
+            research/learned-interpretation-v1/ingest_provider_response_v5.py \
+            research/semantic-external-holdout-v1/run_stage1_v5_flex_case_v1.py
+
+      - name: Verify frozen artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${SOURCE_ARTIFACT_ID}" > /tmp/source-meta.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${FLEX_ARTIFACT_ID}" > /tmp/flex-meta.json
+          python - <<'PY'
+          import json, os
+          for name, prefix in [('source','SOURCE'),('flex','FLEX')]:
+              m=json.load(open(f'/tmp/{name}-meta.json'))
+              assert m['id']==int(os.environ[f'{prefix}_ARTIFACT_ID'])
+              assert m['name']==os.environ[f'{prefix}_ARTIFACT_NAME']
+              assert m['digest']==os.environ[f'{prefix}_ARTIFACT_DIGEST']
+              assert m['expired'] is False
+              assert m['workflow_run']['id']==int(os.environ[f'{prefix}_RUN_ID'])
+          print('Frozen source and Flex artifact metadata verified')
+          PY
+
+      - name: Download exact frozen V5 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v5-prep-v1
+          path: /tmp/trackcade-v5-prep
+          github-token: ${{ github.token }}
+          run-id: 36645240283
+
+      - name: Download exact frozen V5 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v5-flex-prep-v1
+          path: /tmp/trackcade-v5-flex-prep
+          github-token: ${{ github.token }}
+          run-id: 36647639925
+
+      - name: Verify frozen manifests and complete file closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "${SOURCE_MANIFEST_SHA256}  /tmp/trackcade-v5-prep/STAGE1_V5_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${SOURCE_FILES_SHA256}  /tmp/trackcade-v5-prep/FILES_SHA256.txt" | sha256sum -c -
+          echo "${FLEX_MANIFEST_SHA256}  /tmp/trackcade-v5-flex-prep/STAGE1_V5_FLEX_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${FLEX_FILES_SHA256}  /tmp/trackcade-v5-flex-prep/FILES_SHA256.txt" | sha256sum -c -
+          python - <<'PY'
+          import hashlib, pathlib
+          for root_s in ['/tmp/trackcade-v5-prep','/tmp/trackcade-v5-flex-prep']:
+              root=pathlib.Path(root_s)
+              for line in (root/'FILES_SHA256.txt').read_text().splitlines():
+                  if not line.strip(): continue
+                  expected, rel=line.split('  ',1)
+                  p=root/rel
+                  assert p.is_file(), rel
+                  assert hashlib.sha256(p.read_bytes()).hexdigest()==expected, rel
+          print('All frozen file hashes verified')
+          PY
+
+      - name: Dry-run exact live case harness for all 50 ordinals
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/v5-conformance/cases
+          for ordinal in $(seq 1 50); do
+            python research/semantic-external-holdout-v1/run_stage1_v5_flex_case_v1.py \
+              --source-prep-root /tmp/trackcade-v5-prep \
+              --amended-prep-root /tmp/trackcade-v5-flex-prep \
+              --ordinal "${ordinal}" \
+              --output-dir "/tmp/v5-conformance/cases/$(printf '%02d' "${ordinal}")" \
+              --harness-source-commit "${GITHUB_SHA}" \
+              --ingester research/learned-interpretation-v1/ingest_provider_response_v5.py \
+              --preflight-only
+          done
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('/tmp/v5-conformance/cases')
+          rows=[]
+          for ordinal in range(1,51):
+              p=root/f'{ordinal:02d}'/'stage1-v5-flex-case-status-v1.json'
+              s=json.load(open(p))
+              assert s['ordinal']==ordinal
+              assert s['classification']=='offline_preflight_complete_no_provider_call'
+              assert s['providerCallAttempted'] is False
+              assert s['providerResponseObserved'] is False
+              assert s['providerCompletedSemanticResponse'] is False
+              assert s['standardFallbackUsed'] is False
+              assert s['retryAuthorized'] is False
+              assert s['semanticPayloadUnchanged'] is True
+              assert s['providerContract']=={
+                'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high',
+                'maxOutputTokens':8192,'serviceTier':'flex','store':False,
+              }
+              rows.append({'ordinal':ordinal,'id':s['id'],'stem':s['stem'],'amendedPayloadSha256':s['amendedPayloadSha256']})
+          assert len({r['id'] for r in rows})==50
+          pathlib.Path('/tmp/v5-conformance/PREFLIGHT_50_V1.json').write_text(json.dumps({
+            'schema':'trackcade-stage1-v5-live-preflight-50-v1','status':'passed-no-provider-call',
+            'trackCount':50,'providerCallsObserved':0,'terminalTracksProcessed':False,'rows':rows,
+          },indent=2,sort_keys=True)+'\n')
+          print('All 50 live-harness preflights passed')
+          PY
+
+      - name: Exercise V5 ingester end to end with offline fixture
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('/tmp/trackcade-v5-prep')
+          m=json.load(open(root/'STAGE1_V5_PREP_MANIFEST_V1.json'))
+          r=m['tracks'][0]
+          case=root/f"cases/{r['ordinal']:02d}-{r['stem']}"
+          packet=json.load(open(case/'structure-evidence-v2.json'))
+          src=packet['source']
+          proposal={
+            'schema':'trackcade-musical-interpretation-v4',
+            'source':{'analyzerRunnerSha256':src['analyzerRunnerSha256'],'analysisJsonSha256':src['analysisJsonSha256']},
+            'candidateAssessments':[{
+              'anchor':{'type':'evidence','index':0},'semanticRole':'ordinary_transition',
+              'preparation':'absent','impactRelease':'clear','sustainedStrongerPassage':'weak',
+              'repetitionRelation':'independent','semanticConfidence':0.5,
+              'rationale':'Offline conformance fixture only; not a research result.'
+            }],
+            'trackSummary':{'dropPresence':'no_drop','dropCount':0,'ambiguousCandidateCount':0,
+                            'rationale':'Derived mechanically from the single offline conformance assessment.'},
+            'events':[]
+          }
+          out=pathlib.Path('/tmp/v5-conformance/ingest-fixture'); out.mkdir(parents=True,exist_ok=True)
+          (out/'proposal-candidate.json').write_text(json.dumps(proposal,indent=2,sort_keys=True)+'\n')
+          (out/'raw-response.json').write_text(json.dumps({'object':'offline_conformance_fixture'})+'\n')
+          (out/'identity.json').write_text(json.dumps({'case':str(case)})+'\n')
+          PY
+          CASE=$(python - <<'PY'
+          import json,pathlib
+          root=pathlib.Path('/tmp/trackcade-v5-prep'); m=json.load(open(root/'STAGE1_V5_PREP_MANIFEST_V1.json')); r=m['tracks'][0]
+          print(root/f"cases/{r['ordinal']:02d}-{r['stem']}")
+          PY
+          )
+          python research/learned-interpretation-v1/ingest_provider_response_v5.py \
+            --request "${CASE}/learned-request-v5.json" \
+            --packet "${CASE}/structure-evidence-v2.json" \
+            --raw-provider-response /tmp/v5-conformance/ingest-fixture/raw-response.json \
+            --proposal-candidate /tmp/v5-conformance/ingest-fixture/proposal-candidate.json \
+            --provider openai \
+            --model gpt-6-sol \
+            --provider-request-id offline-conformance-fixture \
+            --executed-at 2026-09-29T00:00:00Z \
+            --harness-source-commit "${GITHUB_SHA}" \
+            --normalized-proposal /tmp/v5-conformance/ingest-fixture/normalized-proposal.json \
+            --validation-report /tmp/v5-conformance/ingest-fixture/validation-report.json \
+            --run-manifest /tmp/v5-conformance/ingest-fixture/provider-run-manifest.json
+          python - <<'PY'
+          import json
+          v=json.load(open('/tmp/v5-conformance/ingest-fixture/validation-report.json'))
+          n=json.load(open('/tmp/v5-conformance/ingest-fixture/normalized-proposal.json'))
+          r=json.load(open('/tmp/v5-conformance/ingest-fixture/provider-run-manifest.json'))
+          assert v['status']=='valid'
+          assert n['trackSummary']=={
+            'dropPresence':'no_drop','dropCount':0,'ambiguousCandidateCount':0,
+            'rationale':'Derived mechanically from the single offline conformance assessment.'
+          }
+          assert r['trust']['proposalValidated'] is True
+          assert r['trust']['trackSummaryDerivedNotGate'] is True
+          assert r['trust']['repeatedSimilarDropsAllowed'] is True
+          print('V5 ingester offline fixture passed')
+          PY
+
+      - name: Write conformance receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          root=pathlib.Path('/tmp/v5-conformance')
+          receipt={
+            'schema':'trackcade-stage1-v5-live-harness-conformance-v1',
+            'status':'passed-no-provider-call',
+            'headSha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            'sourcePrepArtifactId':11068032294,
+            'flexPrepArtifactId':11068764041,
+            'trackPreflightCount':50,
+            'providerCallsObserved':0,
+            'openAiKeyPresent':False,
+            'terminalTracksProcessed':False,
+            'analyzerExecuted':False,
+            'compilerInvoked':False,
+            'model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False,
+            'ingesterFixtureValidated':True,
+          }
+          p=root/'CONFORMANCE_RECEIPT_V1.json'; p.write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          files=[]
+          for f in sorted(x for x in root.rglob('*') if x.is_file() and x.name!='FILES_SHA256.txt'):
+              files.append(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  {f.relative_to(root).as_posix()}")
+          (root/'FILES_SHA256.txt').write_text('\n'.join(files)+'\n')
+          print(json.dumps(receipt,indent=2,sort_keys=True))
+          PY
+
+      - name: Upload immutable conformance artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v5-live-conformance-v1
+          path: /tmp/v5-conformance
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
