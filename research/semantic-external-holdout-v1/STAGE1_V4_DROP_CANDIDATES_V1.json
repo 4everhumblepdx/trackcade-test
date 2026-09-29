@@ -1,0 +1,399 @@
+{
+  "compilerInvoked": false,
+  "developmentRevision": "stage1-drop-semantics-v4-presence-relative-distinctiveness",
+  "schema": "trackcade-semantic-external-stage1-v4-drop-candidates-v1",
+  "stage": "stage1",
+  "status": "offline-derived-from-completed-frozen-v4-provider-evidence",
+  "timingAuthority": "frozen-analyzer-derived-anchor-only",
+  "trackCount": 50,
+  "tracks": [
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 1,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 2,
+      "proposalDropsSeconds": [
+        175.897
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 3,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 4,
+      "proposalDropsSeconds": [
+        206.412
+      ]
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 5,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 6,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 7,
+      "proposalDropsSeconds": [
+        12.152,
+        155.152
+      ]
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 8,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 9,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 10,
+      "proposalDropsSeconds": [
+        99.803
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 11,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 12,
+      "proposalDropsSeconds": [
+        115.599
+      ]
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 13,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 14,
+      "proposalDropsSeconds": [
+        106.126
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 15,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 16,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 17,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 18,
+      "proposalDropsSeconds": [
+        44.436
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 19,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 20,
+      "proposalDropsSeconds": [
+        290.1
+      ]
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 21,
+      "proposalDropsSeconds": [
+        105.324
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 22,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 23,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 24,
+      "proposalDropsSeconds": [
+        80.02
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 25,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 26,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 27,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 28,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 29,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 30,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 31,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 32,
+      "proposalDropsSeconds": [
+        217.093
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 33,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 34,
+      "proposalDropsSeconds": [
+        231.288
+      ]
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 35,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 36,
+      "proposalDropsSeconds": [
+        56.093
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 37,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 38,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 39,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "no_drop",
+      "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 40,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 41,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 42,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 43,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 44,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 45,
+      "proposalDropsSeconds": [
+        133.426
+      ]
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 46,
+      "proposalDropsSeconds": [
+        83.237
+      ]
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 47,
+      "proposalDropsSeconds": [
+        120.044
+      ]
+    },
+    {
+      "dropPresence": "insufficient_semantic_evidence",
+      "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+      "localizationStatus": "not_applicable",
+      "ordinal": 48,
+      "proposalDropsSeconds": []
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 49,
+      "proposalDropsSeconds": [
+        215.899
+      ]
+    },
+    {
+      "dropPresence": "drop_present",
+      "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+      "localizationStatus": "localized",
+      "ordinal": 50,
+      "proposalDropsSeconds": [
+        198.885
+      ]
+    }
+  ],
+  "transportAmendment": "flex8192"
+}

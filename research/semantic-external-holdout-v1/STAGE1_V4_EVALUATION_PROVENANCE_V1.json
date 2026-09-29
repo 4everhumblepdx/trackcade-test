@@ -1,0 +1,3077 @@
+{
+  "candidateSha256": "eac8693047ea0b0605d4989c3819f73871571c9c31afd608bdc26099e3362675",
+  "cases": [
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "097648b03173f578ea61787bc315468e3d7a24f3276d5538299d2f9a2d9bc235",
+        "artifactDigest": "sha256:ed01d7b81477b8a8c4dfa01f0132c8352323e145c4bee1f14c6d30416ea48045",
+        "artifactId": 11057759945,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-retry-v1-case-1-completed",
+        "artifactSizeBytes": 23670,
+        "candidateComparisonCount": 4,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "52962cd3ecf46869e56744e19d1c0e861726d1f60698e1ecc422c4a14cdf00a9",
+          "parameters.json": "9c9b118deda908c76e84a1b0310d4583962900ec1c464bdd4f13ded5b4fd306c",
+          "proposal-candidate.json": "b5a7a00cfd57ed487ad82d0b95fee3fbe54b0fccbcc35ac7d4c7499d33c24c02",
+          "provider-run-manifest.json": "01110c881f4caebc257f46c7a50e6fa7d149ac5f233889441c77e5d8c8435b2c",
+          "raw-response.json": "2caf513f0468b0a909387b5cac1112e84b55abcc6e2a1dc29f8c83f56025d1b1",
+          "stage1-v4-flex8192-case-status-v1.json": "f32fe3a8eddf40079420347d7f2f411b45afdef3623a2d4df9c70600be5533ae",
+          "validation-report.json": "591cb3546230d77ed92ecfaca04ce267144f9bda585a6def67800a556d0823a3"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36621582746",
+        "harnessSourceCommit": "61f3427b686290f71f63d43a28f97a741636ea74",
+        "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "52962cd3ecf46869e56744e19d1c0e861726d1f60698e1ecc422c4a14cdf00a9",
+        "openaiResponseId": "resp_08c7cd7201e34110016abc15954d1487d0b48296f63a5d6736",
+        "ordinal": 1,
+        "packetSha256": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86",
+        "sourcePayloadSha256": "c6ff871f4b2c67fc841aae5c1e2282466505567fb03fee0ccdc0cd935093e016",
+        "stem": "86533027",
+        "usage": {
+          "input_tokens": 18417,
+          "input_tokens_details": {
+            "cache_write_tokens": 18414,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2841,
+          "output_tokens_details": {
+            "reasoning_tokens": 2070
+          },
+          "total_tokens": 21258
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+      "normalizedProposalSha256": "52962cd3ecf46869e56744e19d1c0e861726d1f60698e1ecc422c4a14cdf00a9",
+      "ordinal": 1,
+      "providerStatusSha256": "f32fe3a8eddf40079420347d7f2f411b45afdef3623a2d4df9c70600be5533ae",
+      "structureEvidenceV2Sha256": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86",
+      "usage": {
+        "input_tokens": 18417,
+        "input_tokens_details": {
+          "cache_write_tokens": 18414,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2841,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 21258
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "b37c618d585da45b362f57afcb8d0f3b676ac447806a5d20ced6d848f258b2c1",
+        "artifactDigest": "sha256:6e05574f8b2d5dff3996e2e2c5daf2f4cbb52fbae8fa9a488233f85b90be3289",
+        "artifactId": 11058882345,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-2-completed",
+        "artifactSizeBytes": 26348,
+        "candidateComparisonCount": 4,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "75250042413b172c34917cba845845a3d6b986247e2ac0d63a5361dae4338ef9",
+          "parameters.json": "829112a713161af41d7bad64fb88b91456bc7da8dec66e36c6a1f41d78850236",
+          "proposal-candidate.json": "50ba72f8fd295ee0e75b4fa04cb5af727c1b52b5d814b8bda865c443b7e9ba5c",
+          "provider-run-manifest.json": "aba60d19278d624a7c631a9bcd107aa37bf97810cb7868507f46f5a07f22ee29",
+          "raw-response.json": "6e4dde421259f8877bc4497d18b9f3d272f4a08b4446c459745ed7088b9bbcff",
+          "stage1-v4-flex8192-case-status-v1.json": "fdcc04b0fbacb35c047719c820a6ad4a1b4c1d7dc3bbb7d2da81c9a2763e7c7d",
+          "validation-report.json": "8171994262047b94d9bddd4e737983cb031718eca1197a1f19f50887dca01839"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "75250042413b172c34917cba845845a3d6b986247e2ac0d63a5361dae4338ef9",
+        "openaiResponseId": "resp_052e0f3bf6850810016abc17fa917c87d0b03016c5a66960ce",
+        "ordinal": 2,
+        "packetSha256": "4d320b4e8ab4b7e9ab9555deb1a49b59f8ba962c9b294bb016530e5ff2d37f36",
+        "sourcePayloadSha256": "61bb85e6f06e00dadb432a57dd6f4ffb95be7a9007c1df23870c8a6d7c52b4ca",
+        "stem": "54634175",
+        "usage": {
+          "input_tokens": 12444,
+          "input_tokens_details": {
+            "cache_write_tokens": 12441,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3095,
+          "output_tokens_details": {
+            "reasoning_tokens": 2368
+          },
+          "total_tokens": 15539
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+      "normalizedProposalSha256": "75250042413b172c34917cba845845a3d6b986247e2ac0d63a5361dae4338ef9",
+      "ordinal": 2,
+      "providerStatusSha256": "fdcc04b0fbacb35c047719c820a6ad4a1b4c1d7dc3bbb7d2da81c9a2763e7c7d",
+      "structureEvidenceV2Sha256": "4d320b4e8ab4b7e9ab9555deb1a49b59f8ba962c9b294bb016530e5ff2d37f36",
+      "usage": {
+        "input_tokens": 12444,
+        "input_tokens_details": {
+          "cache_write_tokens": 12441,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3095,
+        "output_tokens_details": {
+          "reasoning_tokens": 2368
+        },
+        "total_tokens": 15539
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "7bf5a93229bc20de2b1b0435160b357c4407d284a157296f10e8f71a5f3a58fc",
+        "artifactDigest": "sha256:3b4668d24477d2126be37b21db8939956fd7563df9bf3d04a48507e9b973944b",
+        "artifactId": 11059741357,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-3-completed",
+        "artifactSizeBytes": 23277,
+        "candidateComparisonCount": 2,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "bbc7d6c924c679c86dc9aceb5cb0e412df4d85b9c31de5c6edc029d89ba0ee97",
+          "parameters.json": "175d2d4cd0cbbd49873e9e362d3598e8558fed3e22bed2d1ad347389cd28b8e5",
+          "proposal-candidate.json": "359c700cb9c56b6980a09df04904e4fac23a6e85932c2c6da71edce5997c77ec",
+          "provider-run-manifest.json": "f4925f4f54112f9c8c7f66eed964344988f9014ed26e3ed141942bddef6adae1",
+          "raw-response.json": "9ba06486564c6a92d5caa0ef5b0f6aa1e2052d3262026efef347fa36d542d478",
+          "stage1-v4-flex8192-case-status-v1.json": "43c692c2918efdb1aa87e664cf971b0eec53895191fb744caa9825a6d3baee85",
+          "validation-report.json": "3af10071d7afb59655d006386e8b93c400272440c5cee438b7b852d27c7fb158"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "bbc7d6c924c679c86dc9aceb5cb0e412df4d85b9c31de5c6edc029d89ba0ee97",
+        "openaiResponseId": "resp_0e89e8377e440f62016abc1829d73887d1a56303bcde14d6b4",
+        "ordinal": 3,
+        "packetSha256": "218b7a9eec89451663eeac9128a46dfab8f024399efa72524a55d30c31ad1fcd",
+        "sourcePayloadSha256": "c24cfbac8a57340fe4df08d5279361f75cf33441e635cc037362e678546a569b",
+        "stem": "41211831",
+        "usage": {
+          "input_tokens": 11784,
+          "input_tokens_details": {
+            "cache_write_tokens": 11781,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2734,
+          "output_tokens_details": {
+            "reasoning_tokens": 2070
+          },
+          "total_tokens": 14518
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+      "normalizedProposalSha256": "bbc7d6c924c679c86dc9aceb5cb0e412df4d85b9c31de5c6edc029d89ba0ee97",
+      "ordinal": 3,
+      "providerStatusSha256": "43c692c2918efdb1aa87e664cf971b0eec53895191fb744caa9825a6d3baee85",
+      "structureEvidenceV2Sha256": "218b7a9eec89451663eeac9128a46dfab8f024399efa72524a55d30c31ad1fcd",
+      "usage": {
+        "input_tokens": 11784,
+        "input_tokens_details": {
+          "cache_write_tokens": 11781,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2734,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 14518
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "ee523aa326d00edee2161908a1b0b84b9099a2c4e2cea0475feac08234dd1dc1",
+        "artifactDigest": "sha256:0ac3f168cba63a3a687bb67fef6fdbea3e8a6fba3f748233cc2e5e770c01602f",
+        "artifactId": 11058932496,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-4-completed",
+        "artifactSizeBytes": 28040,
+        "candidateComparisonCount": 4,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "b9ca5770f1ac195a5958b82d3699c5c1c6b4f8fdbb1559f8d3d6392ddec8dd3c",
+          "parameters.json": "ca5f8902ededf1fce4bb1282a457f95792272f0c8b0b28067bf37d30728f2711",
+          "proposal-candidate.json": "004de6065cbdd50bbb5d7e5ac5d14f21232f0e74c443c692cd40b105f5978e60",
+          "provider-run-manifest.json": "fa91899871c0ce6280b8eb8bf7085397b5eed779603eadf6a28d595a2e10df2a",
+          "raw-response.json": "e7adc6d27a865acd0fa90f36642afe8bbf7e6db84edece3dccfb9c50c8fd83a5",
+          "stage1-v4-flex8192-case-status-v1.json": "2412322a78c777db3f0873abdc85a72a1e20492506bd6ac4b4f5ffa9cb47aea0",
+          "validation-report.json": "35493cfe20a1ccf5062fbc9707fd24d13c9776e75fbfe631349d926d33c03ef2"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "b9ca5770f1ac195a5958b82d3699c5c1c6b4f8fdbb1559f8d3d6392ddec8dd3c",
+        "openaiResponseId": "resp_06184fcae85b3176016abc184e965087d2b1172aed930e82eb",
+        "ordinal": 4,
+        "packetSha256": "558b2b110e5c342b49da7d38f2ffa215ee6f442e1ff0c2a879c3d923171c58f7",
+        "sourcePayloadSha256": "6c632114e1d5afcb69e699e069f0c812c18d15afb7f9d416a9134e40ec9221b3",
+        "stem": "87619325",
+        "usage": {
+          "input_tokens": 12231,
+          "input_tokens_details": {
+            "cache_write_tokens": 12228,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3675,
+          "output_tokens_details": {
+            "reasoning_tokens": 2905
+          },
+          "total_tokens": 15906
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+      "normalizedProposalSha256": "b9ca5770f1ac195a5958b82d3699c5c1c6b4f8fdbb1559f8d3d6392ddec8dd3c",
+      "ordinal": 4,
+      "providerStatusSha256": "2412322a78c777db3f0873abdc85a72a1e20492506bd6ac4b4f5ffa9cb47aea0",
+      "structureEvidenceV2Sha256": "558b2b110e5c342b49da7d38f2ffa215ee6f442e1ff0c2a879c3d923171c58f7",
+      "usage": {
+        "input_tokens": 12231,
+        "input_tokens_details": {
+          "cache_write_tokens": 12228,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3675,
+        "output_tokens_details": {
+          "reasoning_tokens": 2905
+        },
+        "total_tokens": 15906
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "f32109b1f63ac089bc8886be9e38b7c01b06c8b57cf7e6240cb43f432f8442e9",
+        "artifactDigest": "sha256:b356a2abd17eb6068edfbc51e369d61ec89a1ba7863a8f556e2e7dcaee00b57e",
+        "artifactId": 11058617913,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-5-completed",
+        "artifactSizeBytes": 23050,
+        "candidateComparisonCount": 2,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "ca302f7c31401b16dcc8bf231807a86852a639e37870f14c3fc946c30ec2dcf3",
+          "parameters.json": "4f6ce483a6eecf6b40f058e4800bef51eea9bdd5d5bca1e3a5da2522c285385c",
+          "proposal-candidate.json": "74909e69743729ca2e508d5db03e318e5936e15a227ac3ec20d3bac7ac00d2c8",
+          "provider-run-manifest.json": "defbf97960829c4b1a33332c8cd689799dd9c4660a9cb72e0876dd7addb2e87f",
+          "raw-response.json": "8e34d4cb2f2a28f991ce162ce40cd01fd543bdda7cae0179e31c10f82f5d3d8f",
+          "stage1-v4-flex8192-case-status-v1.json": "cd7f1e454024582683bf8cce59c6ee4f22ef50a645a0f99d4c31c84d866cc34c",
+          "validation-report.json": "ddb8183a6c41db6208361dbf27f3ce540bbb57df6e364ccdf5dffc0cd6e1b802"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "ca302f7c31401b16dcc8bf231807a86852a639e37870f14c3fc946c30ec2dcf3",
+        "openaiResponseId": "resp_0c3008fa6db0782d016abc188584ac87d08d17099831d61630",
+        "ordinal": 5,
+        "packetSha256": "9da0ce23d902216825aaa7f0c905a500bec2f093d2617e4b1c5d134661f67d26",
+        "sourcePayloadSha256": "b4ad797394574e4a4e1d29a9f5d324158c9a7883830d5c08d1bf959be38cdbdd",
+        "stem": "73229079",
+        "usage": {
+          "input_tokens": 14260,
+          "input_tokens_details": {
+            "cache_write_tokens": 14257,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2696,
+          "output_tokens_details": {
+            "reasoning_tokens": 2011
+          },
+          "total_tokens": 16956
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+      "normalizedProposalSha256": "ca302f7c31401b16dcc8bf231807a86852a639e37870f14c3fc946c30ec2dcf3",
+      "ordinal": 5,
+      "providerStatusSha256": "cd7f1e454024582683bf8cce59c6ee4f22ef50a645a0f99d4c31c84d866cc34c",
+      "structureEvidenceV2Sha256": "9da0ce23d902216825aaa7f0c905a500bec2f093d2617e4b1c5d134661f67d26",
+      "usage": {
+        "input_tokens": 14260,
+        "input_tokens_details": {
+          "cache_write_tokens": 14257,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2696,
+        "output_tokens_details": {
+          "reasoning_tokens": 2011
+        },
+        "total_tokens": 16956
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "95fd7089f6eb9f666c7d3d93eb5d170cf636caec69f0ca4dd349c4f8797373d4",
+        "artifactDigest": "sha256:9d675e29c13f46cafb9dedecf44726f87cd2069b903791f357d56746abad695e",
+        "artifactId": 11059352128,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-6-completed",
+        "artifactSizeBytes": 18007,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "87fa3d49c2fe20b2f7009cbbfcda5a3b0b20142f0d94b4d114a5a8ba62d1e0fe",
+          "parameters.json": "02fbb326948f3b22034977c39af7b59c9e7197a57bfa2fa43d1034a947443613",
+          "proposal-candidate.json": "01d31dc3b1d85661203477b9d56f4d30491ddf309748b67279a562eb2075ba3c",
+          "provider-run-manifest.json": "456a596317eb4ebd9e88c37e141906e201e9fa13510e8ff231900699336392ec",
+          "raw-response.json": "d9f332fbcaaf3d4956c50ac950d29fb9b2c97a21fe0562e53e9d42d676a5ed05",
+          "stage1-v4-flex8192-case-status-v1.json": "421a57febb357480e3bf32628f121a93e80ef4d09f1b0cfef7a40cf41c0a4f5f",
+          "validation-report.json": "e8158a7fc7272a9015af979ef3dceb0e7162b4b7da1c214f1bf6af25c16e122a"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "87fa3d49c2fe20b2f7009cbbfcda5a3b0b20142f0d94b4d114a5a8ba62d1e0fe",
+        "openaiResponseId": "resp_0fab818045a82caa016abc18acde1087d0b38fd9b097358141",
+        "ordinal": 6,
+        "packetSha256": "ff7b811de67cc03e6b8f12daa755ea951b87e45feecb950292c3c9ad5ef730cc",
+        "sourcePayloadSha256": "b2d9d43be5ac1dfb5c55173a049f6a3d483185cbc62592bb940baa1391408789",
+        "stem": "45052168",
+        "usage": {
+          "input_tokens": 11069,
+          "input_tokens_details": {
+            "cache_write_tokens": 11066,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1872,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 12941
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+      "normalizedProposalSha256": "87fa3d49c2fe20b2f7009cbbfcda5a3b0b20142f0d94b4d114a5a8ba62d1e0fe",
+      "ordinal": 6,
+      "providerStatusSha256": "421a57febb357480e3bf32628f121a93e80ef4d09f1b0cfef7a40cf41c0a4f5f",
+      "structureEvidenceV2Sha256": "ff7b811de67cc03e6b8f12daa755ea951b87e45feecb950292c3c9ad5ef730cc",
+      "usage": {
+        "input_tokens": 11069,
+        "input_tokens_details": {
+          "cache_write_tokens": 11066,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1872,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 12941
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "2db60ce1e9b75927f355c063b5e294aee0be446d5b00e7a4ff5b52054c638902",
+        "artifactDigest": "sha256:669b6522b723db38c0f60e0b9b0f61973f9dd4197df9c6c0c04548f53c08e55b",
+        "artifactId": 11059627104,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-7-completed",
+        "artifactSizeBytes": 22864,
+        "candidateComparisonCount": 4,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 2,
+        "files": {
+          "normalized-proposal.json": "4810c3c37e6629ce146191651ac05be10acbea9b32fe46d7974cfa26908f6ab0",
+          "parameters.json": "bb692046a1e1a7149e6a6444aaa795e23ec7a2eb1dd2ec3469479a1567dec073",
+          "proposal-candidate.json": "5bd786626f44bb235c6ecea314a2ade03ac89400879969c66ee1b3f0abfc52db",
+          "provider-run-manifest.json": "7aa47ff90af9791336a8c8a8fc68097163166662fe3b4f44c6409a1b79bb8b0b",
+          "raw-response.json": "6cff3d7eba27e9256329a69f98680b476141eb44476a591c6f21c12928338c9c",
+          "stage1-v4-flex8192-case-status-v1.json": "9750ebd07ac27c0931adabfeded219e2ff6163ffd3333f2cc58a90b26ffd1721",
+          "validation-report.json": "d49f856a6cbc484fc67e330cf21f4121e30f45bd09d1a861d8caa2b9982577ac"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "4810c3c37e6629ce146191651ac05be10acbea9b32fe46d7974cfa26908f6ab0",
+        "openaiResponseId": "resp_0a4114c969e0c29f016abc18cf56dc87d19e95e907d60b00b6",
+        "ordinal": 7,
+        "packetSha256": "debcf0679178121811d8529ba36d05f607292881c1469a99632046facc3ab415",
+        "sourcePayloadSha256": "4214a6909d847a73f7792aca951072087297db9acb66b73146db822d4cef5efc",
+        "stem": "97169237",
+        "usage": {
+          "input_tokens": 13209,
+          "input_tokens_details": {
+            "cache_write_tokens": 13206,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2886,
+          "output_tokens_details": {
+            "reasoning_tokens": 2004
+          },
+          "total_tokens": 16095
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+      "normalizedProposalSha256": "4810c3c37e6629ce146191651ac05be10acbea9b32fe46d7974cfa26908f6ab0",
+      "ordinal": 7,
+      "providerStatusSha256": "9750ebd07ac27c0931adabfeded219e2ff6163ffd3333f2cc58a90b26ffd1721",
+      "structureEvidenceV2Sha256": "debcf0679178121811d8529ba36d05f607292881c1469a99632046facc3ab415",
+      "usage": {
+        "input_tokens": 13209,
+        "input_tokens_details": {
+          "cache_write_tokens": 13206,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2886,
+        "output_tokens_details": {
+          "reasoning_tokens": 2004
+        },
+        "total_tokens": 16095
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "c4122ed25efd86aac0a4883c78639ca1ebfd70778a0992080de66f179ede969f",
+        "artifactDigest": "sha256:a3620e34f58bd84ccc90c34d6c5a0fd715c8918bdbfa396d0ed2c1acd6fc7bfa",
+        "artifactId": 11059707036,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-8-completed",
+        "artifactSizeBytes": 23255,
+        "candidateComparisonCount": 3,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "6abdee341b93092c0c8df7454a084694f1d927cbc7a39bd94c96cecedb896437",
+          "parameters.json": "98eb69f9fb9daf2be886bf754f4d83393ed4011231c0d5f7a2af0913a2f3b865",
+          "proposal-candidate.json": "256bd0fe1036a66f671765bdcba16b487c3632e219225e276fe979cc3485ad26",
+          "provider-run-manifest.json": "bada949d712c5aaea02624d994bed427b7b377a4b93da8b800958794205860f5",
+          "raw-response.json": "928d4c496f51e94083f92eb37abe5d6cc5c9bfcd37b5e65af7bb1fa577981fde",
+          "stage1-v4-flex8192-case-status-v1.json": "be2b1555ff60068dd10d61066f0e8d3ed0c683e9beaef7b98125e6861928be19",
+          "validation-report.json": "d3753c8d2f7b05cdd75470170f13bda1ade0366c655500751b4b0f333c4a2d39"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "6abdee341b93092c0c8df7454a084694f1d927cbc7a39bd94c96cecedb896437",
+        "openaiResponseId": "resp_057528190a238075016abc18f994f487d1895cb77a4070db09",
+        "ordinal": 8,
+        "packetSha256": "cef184a0dd25418a1fa531d4bcb0ceed9a53294c047cc9c7a1be389c386851b7",
+        "sourcePayloadSha256": "c8dd1d65660d2cd84e792c93506824b9f2c5f2d6c5ee54c8b4d7f86975325b13",
+        "stem": "39637970",
+        "usage": {
+          "input_tokens": 11236,
+          "input_tokens_details": {
+            "cache_write_tokens": 11233,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2703,
+          "output_tokens_details": {
+            "reasoning_tokens": 2070
+          },
+          "total_tokens": 13939
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+      "normalizedProposalSha256": "6abdee341b93092c0c8df7454a084694f1d927cbc7a39bd94c96cecedb896437",
+      "ordinal": 8,
+      "providerStatusSha256": "be2b1555ff60068dd10d61066f0e8d3ed0c683e9beaef7b98125e6861928be19",
+      "structureEvidenceV2Sha256": "cef184a0dd25418a1fa531d4bcb0ceed9a53294c047cc9c7a1be389c386851b7",
+      "usage": {
+        "input_tokens": 11236,
+        "input_tokens_details": {
+          "cache_write_tokens": 11233,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2703,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 13939
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "cb8db4cb8ba3229735fcc36d9414a46d34b24e447af7b7e40571ff6c9845f683",
+        "artifactDigest": "sha256:6f0254f44dd4c28c34dbfd78285e78f2d2e3e7df5adff071039586aac2243e6d",
+        "artifactId": 11058448486,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-9-completed",
+        "artifactSizeBytes": 20308,
+        "candidateComparisonCount": 4,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "c53e5ff213bc3c6486407988cd326fd79099d37428ca45ca6a39833a00e7fcd5",
+          "parameters.json": "6d9e1de0c1e62a1c0f1733eb17f576fa08c3399f9853ae00c8c5071268395745",
+          "proposal-candidate.json": "efdf5b3660a7c85d98cb9a058aff67d15304246134d7877fcb0c2be4d3e5f6c3",
+          "provider-run-manifest.json": "3bef9b5e9223dea759c9f07845c54ae2a15bbe3a99e1518001237e9196cb7692",
+          "raw-response.json": "a7576f0ceaf44f0899897fae85598911bc276ec329ae57f219f938bce2dae005",
+          "stage1-v4-flex8192-case-status-v1.json": "ffa61e27da7813436a58e4a32fbd65f3e6a276570f677b1df04ea09e0bc196f1",
+          "validation-report.json": "e9f189e57d10db409e18d90d5f2902c3aa93007289aed3749ed1aab5dc5f7c11"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "c53e5ff213bc3c6486407988cd326fd79099d37428ca45ca6a39833a00e7fcd5",
+        "openaiResponseId": "resp_07d5c9a2e69a0fb6016abc1923e3d887d1b5b6ab85fd875dac",
+        "ordinal": 9,
+        "packetSha256": "875bfecc98e13603fb92d2ce75abab40982725610a79aaf27e8a7f6320476362",
+        "sourcePayloadSha256": "d31a6e1239cc42ed51b6350bdbe67179f73939d580856863a167faf8c6c3b7eb",
+        "stem": "60170982",
+        "usage": {
+          "input_tokens": 26621,
+          "input_tokens_details": {
+            "cache_write_tokens": 26618,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2136,
+          "output_tokens_details": {
+            "reasoning_tokens": 1448
+          },
+          "total_tokens": 28757
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+      "normalizedProposalSha256": "c53e5ff213bc3c6486407988cd326fd79099d37428ca45ca6a39833a00e7fcd5",
+      "ordinal": 9,
+      "providerStatusSha256": "ffa61e27da7813436a58e4a32fbd65f3e6a276570f677b1df04ea09e0bc196f1",
+      "structureEvidenceV2Sha256": "875bfecc98e13603fb92d2ce75abab40982725610a79aaf27e8a7f6320476362",
+      "usage": {
+        "input_tokens": 26621,
+        "input_tokens_details": {
+          "cache_write_tokens": 26618,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2136,
+        "output_tokens_details": {
+          "reasoning_tokens": 1448
+        },
+        "total_tokens": 28757
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "a45af41dea65352c1069637d512e65814ff74b19eb53ea4651757972df657e02",
+        "artifactDigest": "sha256:e920fc67ecc3bdbf6ca5889a8a7a8e7096b9710fe025678d9716d078358bfe3c",
+        "artifactId": 11058553450,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-10-completed",
+        "artifactSizeBytes": 19776,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "cdbec0e9d21bb245ff343e185e6ce0ce3341d615872b49064e58972f89dda9bd",
+          "parameters.json": "a81b1e67b21577a3eaaa3696fc21e1f849fa5e05970a4b66f918455419d65a1b",
+          "proposal-candidate.json": "ebd22b4bf00e15339a5d8e40fb7f2ae9493baf3e8581769340144d21ef0d05ea",
+          "provider-run-manifest.json": "d5a47d50eb030412401bd73c5038bab97043efaeb9124d7d6b2067cbed4f5ac8",
+          "raw-response.json": "57035e36198eb03d85d641d131074a8c352db99cfdc254b64ee89bcb2d60923c",
+          "stage1-v4-flex8192-case-status-v1.json": "9a491a5fc6a55981a2191f46a3ba35519ecfcacbd88e1860fb8ad094807c12f0",
+          "validation-report.json": "9e3727fd5b8ae9c7cb3f04d790f93a7371f7cadaa03de84d86c39b3b82a1cae4"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "cdbec0e9d21bb245ff343e185e6ce0ce3341d615872b49064e58972f89dda9bd",
+        "openaiResponseId": "resp_0124b9d2e75b1bd8016abc19485da487d09dbf00d8c263510d",
+        "ordinal": 10,
+        "packetSha256": "e11baee5f8075ccb9ce05728eb96afe8460e0f3a97b8ef3a265dc9450e35391f",
+        "sourcePayloadSha256": "7c4e2778730654c21a87272a3d6bed5c579af887a48fab12f96cff94c410268a",
+        "stem": "60779381",
+        "usage": {
+          "input_tokens": 10144,
+          "input_tokens_details": {
+            "cache_write_tokens": 10141,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2026,
+          "output_tokens_details": {
+            "reasoning_tokens": 1364
+          },
+          "total_tokens": 12170
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+      "normalizedProposalSha256": "cdbec0e9d21bb245ff343e185e6ce0ce3341d615872b49064e58972f89dda9bd",
+      "ordinal": 10,
+      "providerStatusSha256": "9a491a5fc6a55981a2191f46a3ba35519ecfcacbd88e1860fb8ad094807c12f0",
+      "structureEvidenceV2Sha256": "e11baee5f8075ccb9ce05728eb96afe8460e0f3a97b8ef3a265dc9450e35391f",
+      "usage": {
+        "input_tokens": 10144,
+        "input_tokens_details": {
+          "cache_write_tokens": 10141,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2026,
+        "output_tokens_details": {
+          "reasoning_tokens": 1364
+        },
+        "total_tokens": 12170
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "02a222c2ca75e3edb17a7f82730b0d4dc020901eb32ad8902ae43b31aed80869",
+        "artifactDigest": "sha256:7c794d2970bdc9749307b6bec6befd3e1cc4bac3f134eb99b826eb3e0db1aa2b",
+        "artifactId": 11058778424,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-11-completed",
+        "artifactSizeBytes": 19627,
+        "candidateComparisonCount": 2,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "eec871a79d2631339b8c5e68a806ed5e569bdbbd6be850d7a4864fef185b1b8d",
+          "parameters.json": "510080a4be79333627966671655f565093ba878523579d2c23bd61f5229585df",
+          "proposal-candidate.json": "03f4d2ee31284b8cfad147080570dd0cc8c3d5e1cf4112b3f5bbe014bc55a033",
+          "provider-run-manifest.json": "03ff171f6c8bd4731c36fd2b947e2bd8ada4b8d9671d3ef2e9d3cbb9af11045a",
+          "raw-response.json": "95b849ca392654eb0c435feef6a5cd5f578d087caf7c5b40b9b8417f407b3699",
+          "stage1-v4-flex8192-case-status-v1.json": "25cac80c6c0b8bd17f4ad24332f9cf2b6940346f82839441f15d8cd4a290f1e9",
+          "validation-report.json": "bd99ed390797e480149e58a94a7378179f44f9829b11e8945fc315102656a474"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "eec871a79d2631339b8c5e68a806ed5e569bdbbd6be850d7a4864fef185b1b8d",
+        "openaiResponseId": "resp_0e27d8a1596292da016abc1970476887d0ac21668173ab737d",
+        "ordinal": 11,
+        "packetSha256": "f82f41173ab6b87244f3f478e372744422f20ffa789eb6547f51c1fb2d562327",
+        "sourcePayloadSha256": "bec2799c1232dae5ac58320cba8497b21b1a3241a03a500d0bb95384b102c183",
+        "stem": "98468953",
+        "usage": {
+          "input_tokens": 16788,
+          "input_tokens_details": {
+            "cache_write_tokens": 16785,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1873,
+          "output_tokens_details": {
+            "reasoning_tokens": 1302
+          },
+          "total_tokens": 18661
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+      "normalizedProposalSha256": "eec871a79d2631339b8c5e68a806ed5e569bdbbd6be850d7a4864fef185b1b8d",
+      "ordinal": 11,
+      "providerStatusSha256": "25cac80c6c0b8bd17f4ad24332f9cf2b6940346f82839441f15d8cd4a290f1e9",
+      "structureEvidenceV2Sha256": "f82f41173ab6b87244f3f478e372744422f20ffa789eb6547f51c1fb2d562327",
+      "usage": {
+        "input_tokens": 16788,
+        "input_tokens_details": {
+          "cache_write_tokens": 16785,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1873,
+        "output_tokens_details": {
+          "reasoning_tokens": 1302
+        },
+        "total_tokens": 18661
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "5b85bd861b27ed44f0a553fbbba839401c94338486cdf9ffcbdec69376da38d9",
+        "artifactDigest": "sha256:67b387f63af09088afe15b11e9dbd5cea4ec61412f6d9f6f4c54e406ce18ec2a",
+        "artifactId": 11059707886,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-12-completed",
+        "artifactSizeBytes": 20357,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "b8830fe1f1278dbddf6cabf20ddb735cd60b30f1469b523fa79c180928bc6eca",
+          "parameters.json": "d322f6240620c9d095495cb9e1a5b344932c2f3abf0a93e2e5a033761051c82e",
+          "proposal-candidate.json": "1129fe4706134a33a2a5f1cc2b6c26ad74b6d7cca43e2dbc576497f9ea97eac4",
+          "provider-run-manifest.json": "85ba96205699008eb5fc2b3d12e3a8c0289c7dcb8d37ff703e3e36b9a2487195",
+          "raw-response.json": "5323af05dfe4aeb1a1296a2d84860f66ab606661643251e811a1992fce20fb40",
+          "stage1-v4-flex8192-case-status-v1.json": "07224b935a63380468e5f1d7c6393a040e0b42c28fc14b9e68eb54eadf622cde",
+          "validation-report.json": "6ac1e91e00527c6b07346f73a96b2412e4e3d95d2c58f4390eb8b149992299d7"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "b8830fe1f1278dbddf6cabf20ddb735cd60b30f1469b523fa79c180928bc6eca",
+        "openaiResponseId": "resp_01e8e0c4c4f7387d016abc1a17e40487d0963eb80ff96cfd93",
+        "ordinal": 12,
+        "packetSha256": "353069bdbd7de2e1a9604a1a43b93f8caf1d4fee9df735d5946c4364722aebcd",
+        "sourcePayloadSha256": "3c8060f35591c89db7ce77af94778ba0e9f7570d755470e77c5d031fed335998",
+        "stem": "91570090",
+        "usage": {
+          "input_tokens": 11304,
+          "input_tokens_details": {
+            "cache_write_tokens": 11301,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2095,
+          "output_tokens_details": {
+            "reasoning_tokens": 1435
+          },
+          "total_tokens": 13399
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+      "normalizedProposalSha256": "b8830fe1f1278dbddf6cabf20ddb735cd60b30f1469b523fa79c180928bc6eca",
+      "ordinal": 12,
+      "providerStatusSha256": "07224b935a63380468e5f1d7c6393a040e0b42c28fc14b9e68eb54eadf622cde",
+      "structureEvidenceV2Sha256": "353069bdbd7de2e1a9604a1a43b93f8caf1d4fee9df735d5946c4364722aebcd",
+      "usage": {
+        "input_tokens": 11304,
+        "input_tokens_details": {
+          "cache_write_tokens": 11301,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2095,
+        "output_tokens_details": {
+          "reasoning_tokens": 1435
+        },
+        "total_tokens": 13399
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "d18d3fb9b597498b2778498c210c016ebf4306be2fd03c4593f946dd4b1e95cf",
+        "artifactDigest": "sha256:1b82a4dfaeb675f0fce011d73cc50efa14e9879e55af03eb206f612eb36de87e",
+        "artifactId": 11059742795,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-13-completed",
+        "artifactSizeBytes": 22239,
+        "candidateComparisonCount": 4,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "8bed6c2d82710c62205d55f771f38774dff174cf37216a59ebe0b2692fba47c9",
+          "parameters.json": "b1e6ac866bf2d3bfae7ed49759c0a5e6ec3aad238d8dc15f175429254a0c83e8",
+          "proposal-candidate.json": "59df9dfcca8bb74400080f96550dd560a016ff7740be1bc71da5653f196c28c4",
+          "provider-run-manifest.json": "cb0b72db6229f9cb98cee30217d388a79eb5b3b81db29e5b9f1f6ddb8bd311c7",
+          "raw-response.json": "664b047ed68f1dd313172b925d03141d9a61146079c219f4081b9a9d84837556",
+          "stage1-v4-flex8192-case-status-v1.json": "bafaf0ec22af68cd724b6b5cf780f396c08939946ae82da9adfca272f0f09453",
+          "validation-report.json": "c025cb18d3214b6401c4a0cc3c8503b888c5c229120fbd491db3ecb51813f547"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "8bed6c2d82710c62205d55f771f38774dff174cf37216a59ebe0b2692fba47c9",
+        "openaiResponseId": "resp_040d92356d422217016abc1a404d4487d0bb5ae8ac4a06a078",
+        "ordinal": 13,
+        "packetSha256": "9237151bd13fc9330bb6ad01b228e6951d3c57432e707b47dce0070e52f23db7",
+        "sourcePayloadSha256": "b5c14228c19c5e9f18c666cd01d858cc3f5adce7507bcc7c41f5060565745dae",
+        "stem": "125282679",
+        "usage": {
+          "input_tokens": 15044,
+          "input_tokens_details": {
+            "cache_write_tokens": 15041,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2644,
+          "output_tokens_details": {
+            "reasoning_tokens": 1742
+          },
+          "total_tokens": 17688
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+      "normalizedProposalSha256": "8bed6c2d82710c62205d55f771f38774dff174cf37216a59ebe0b2692fba47c9",
+      "ordinal": 13,
+      "providerStatusSha256": "bafaf0ec22af68cd724b6b5cf780f396c08939946ae82da9adfca272f0f09453",
+      "structureEvidenceV2Sha256": "9237151bd13fc9330bb6ad01b228e6951d3c57432e707b47dce0070e52f23db7",
+      "usage": {
+        "input_tokens": 15044,
+        "input_tokens_details": {
+          "cache_write_tokens": 15041,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2644,
+        "output_tokens_details": {
+          "reasoning_tokens": 1742
+        },
+        "total_tokens": 17688
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "3f2db9b220547cab2213ec895a5e82a1826099bb55aba55cfa2bab37011d6905",
+        "artifactDigest": "sha256:eb9aef3a2a65902bee60b8e0dbf9b38a0fa4c45f5f2ea6a5be5209a702196775",
+        "artifactId": 11059023707,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-14-completed",
+        "artifactSizeBytes": 22637,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "f73c9825c4d3be9a70b4982b9341d02419758040a74ffc8aafac03d84221c796",
+          "parameters.json": "d9031e4dc014bb7bf8ae2e068cbd9d287ae8bfca6dc5c4cb50cead29a0fe17b2",
+          "proposal-candidate.json": "929b41c0156d4122998bb5212147bc606191d7a23a7ce9d428f6b6d135be0998",
+          "provider-run-manifest.json": "b2590d8ef3320a3502aaf4ce6cfaa62832bc6a6ee341e1af8c331411a71dac0b",
+          "raw-response.json": "80cc5a1b35dbcbcfa898bd4ce36ad52e0da610a6af474f8541cdd4236aaec0fe",
+          "stage1-v4-flex8192-case-status-v1.json": "769024585e793c09b9980845252a67804efb42d668bc098e90799c050e90b3d4",
+          "validation-report.json": "73fc27a1cdb304e4520a986cf0826c4405828c103c2dfae5cd741f4d7b0d1ca1"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "f73c9825c4d3be9a70b4982b9341d02419758040a74ffc8aafac03d84221c796",
+        "openaiResponseId": "resp_041711f7df87ac71016abc1a6b526087d196c9cc0ff45a508d",
+        "ordinal": 14,
+        "packetSha256": "16be08847577b98f847d917ecfe159a120cbf52defd32276a928866f1f339281",
+        "sourcePayloadSha256": "b71c9a6d1b1ed29fcaaadeaa5b1b0f9469885c2aaf1340648d38521b771b7921",
+        "stem": "121885015",
+        "usage": {
+          "input_tokens": 10228,
+          "input_tokens_details": {
+            "cache_write_tokens": 10225,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2636,
+          "output_tokens_details": {
+            "reasoning_tokens": 2070
+          },
+          "total_tokens": 12864
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+      "normalizedProposalSha256": "f73c9825c4d3be9a70b4982b9341d02419758040a74ffc8aafac03d84221c796",
+      "ordinal": 14,
+      "providerStatusSha256": "769024585e793c09b9980845252a67804efb42d668bc098e90799c050e90b3d4",
+      "structureEvidenceV2Sha256": "16be08847577b98f847d917ecfe159a120cbf52defd32276a928866f1f339281",
+      "usage": {
+        "input_tokens": 10228,
+        "input_tokens_details": {
+          "cache_write_tokens": 10225,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2636,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 12864
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "b801f37cf7bc144d8a609260297a172881dcac3f778203746f4d951cbed3aee7",
+        "artifactDigest": "sha256:e3b9d80fe8b0579dd1a1be64a8d88cc254ca9527a37d96ec5120855696ae45ad",
+        "artifactId": 11058849166,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-15-completed",
+        "artifactSizeBytes": 21446,
+        "candidateComparisonCount": 4,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "99ceb91f8724070a86c67d2a92eeff4a7dd9cdcae491685e06e0ebf00218701f",
+          "parameters.json": "b9395cd9f02683fb5350b1e0d91d553a8bbf91c1a6700bcad744ddd8517c66e7",
+          "proposal-candidate.json": "4d56df2cc03f796291049c8edf3f12a5d7a1e06253ecd4e57c30f9ce54c9a013",
+          "provider-run-manifest.json": "3e62620adca6351f4803c3cdcd7eea4efb3ac91eecc44157b28c3a027f8593bf",
+          "raw-response.json": "323ec1bc58d5e8788df3b69eb78598041c37ff8c127a9af696621aa394e45817",
+          "stage1-v4-flex8192-case-status-v1.json": "7e1171ec26cf5cddbea40d5c94d020dbb23af19db1117ba6e96bf12a56f42504",
+          "validation-report.json": "5bde3e40b99d027268718e5fa0e4ff11bffda6931d22a500448b88801d21e0c4"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "99ceb91f8724070a86c67d2a92eeff4a7dd9cdcae491685e06e0ebf00218701f",
+        "openaiResponseId": "resp_085526b410ed92bc016abc1a949cc087d0aef9132bd18102ec",
+        "ordinal": 15,
+        "packetSha256": "7ab93028870cc521529aadee56fb392b2bde2bb92aa22af557f662f1f9b79514",
+        "sourcePayloadSha256": "d741f24abd811cec2ec47b3223f834da814d55df610d20307cffbf3d19e35749",
+        "stem": "53652782",
+        "usage": {
+          "input_tokens": 11257,
+          "input_tokens_details": {
+            "cache_write_tokens": 11254,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2378,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 13635
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+      "normalizedProposalSha256": "99ceb91f8724070a86c67d2a92eeff4a7dd9cdcae491685e06e0ebf00218701f",
+      "ordinal": 15,
+      "providerStatusSha256": "7e1171ec26cf5cddbea40d5c94d020dbb23af19db1117ba6e96bf12a56f42504",
+      "structureEvidenceV2Sha256": "7ab93028870cc521529aadee56fb392b2bde2bb92aa22af557f662f1f9b79514",
+      "usage": {
+        "input_tokens": 11257,
+        "input_tokens_details": {
+          "cache_write_tokens": 11254,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2378,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 13635
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "53288be0d668c24a117e75f0c67cb9bcb02597f713e000d6d4c47007edae4b46",
+        "artifactDigest": "sha256:9e5615ae9435977d01e9012cc8470c8e4497f33e7e1c6f698f8fe0cf6ff82902",
+        "artifactId": 11059862680,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-16-completed",
+        "artifactSizeBytes": 18696,
+        "candidateComparisonCount": 4,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "37c2985766f1042084ff9731b88c889fee09567f654a51cae774d2be2b8b940b",
+          "parameters.json": "6d61d2204d892ab032d06e526bacd67e85139acb2404318c8b6ecd0d517e250d",
+          "proposal-candidate.json": "bf86e1d716f3599e5e0320b67eb9208c0dee617931ce7fb5e7e9537c5ada30a6",
+          "provider-run-manifest.json": "809857226fb918381c6928db9e03f098deec319e7c4c6c62e7b9f67b86af0c64",
+          "raw-response.json": "d37510927cdc9aadc6261bf19385adf711a0a05de4b61d94e9af03ebb72f2075",
+          "stage1-v4-flex8192-case-status-v1.json": "394af022ccdedef5fe4e03a11414dd277554a9ac6db2af1bb4bc4c00e5d11f0d",
+          "validation-report.json": "795606b3793f683c46e3e326c8624c26275ea165a8b63710ba5c8ff3a8541ddd"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "37c2985766f1042084ff9731b88c889fee09567f654a51cae774d2be2b8b940b",
+        "openaiResponseId": "resp_022c63f2d05fde33016abc1ac3a0b087d2b4a27f34e3456599",
+        "ordinal": 16,
+        "packetSha256": "e7240a7c140d676b128b58e39a225d59286ad60e5f7acb6d820b4353d31243a7",
+        "sourcePayloadSha256": "7897d88d824e35f9b25a3f57202a08ec01c1b2392860895312a5afabf6ee8b44",
+        "stem": "48207706",
+        "usage": {
+          "input_tokens": 14723,
+          "input_tokens_details": {
+            "cache_write_tokens": 14720,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1885,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 16608
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+      "normalizedProposalSha256": "37c2985766f1042084ff9731b88c889fee09567f654a51cae774d2be2b8b940b",
+      "ordinal": 16,
+      "providerStatusSha256": "394af022ccdedef5fe4e03a11414dd277554a9ac6db2af1bb4bc4c00e5d11f0d",
+      "structureEvidenceV2Sha256": "e7240a7c140d676b128b58e39a225d59286ad60e5f7acb6d820b4353d31243a7",
+      "usage": {
+        "input_tokens": 14723,
+        "input_tokens_details": {
+          "cache_write_tokens": 14720,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1885,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 16608
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "c38b55e09b04b3f58bcb2eb7bb676c425b6e046e08a983a073e361a4b4ed04bf",
+        "artifactDigest": "sha256:847669ed0bb683ce644180984eafe1c0fae5ecf5bd5fca2c54c8995f20bb3ea9",
+        "artifactId": 11059253836,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-17-completed",
+        "artifactSizeBytes": 22004,
+        "candidateComparisonCount": 5,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "cbc216b9316c38ffac14aefa1c1caf9c202d1da78e3c9d2633f30c2b00b40f07",
+          "parameters.json": "329d004e2e7ecc6e14a36a7f631bb74c9db416ec0b1e8cca96b8cabc884edf5c",
+          "proposal-candidate.json": "84fab0dee671cd17f6ac1864e777f50817756ca6448e4b6df6d5ddc8f484df8b",
+          "provider-run-manifest.json": "6cf95bca175adfcec6ab9a91d6864719e55c16e6bc37f9785d5a30eab57421ac",
+          "raw-response.json": "b80bd34cebe0e47a2f7f0250c44d67a8363795f617d4f7e75309d3e665e5d750",
+          "stage1-v4-flex8192-case-status-v1.json": "cfb0438fa3abe2240c0bd9b0aecbbfff90da69c74ba9c73baaf40bc84aa5b784",
+          "validation-report.json": "91a875ed3ab7359fc0c444b4212c4a59cb50ceddae2a7c364fd3cd72e439e487"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "cbc216b9316c38ffac14aefa1c1caf9c202d1da78e3c9d2633f30c2b00b40f07",
+        "openaiResponseId": "resp_0f6ed92318ab8989016abc1ae2e08087d1a45296a8e2418b98",
+        "ordinal": 17,
+        "packetSha256": "062d93eca9693ccb3d90621382c39a00a0af0270da7dd49b19607c86ce38b33a",
+        "sourcePayloadSha256": "4038622d972c10ec2c259c2553500745200a664792b776033c2c07f8b5d6f19b",
+        "stem": "81381341",
+        "usage": {
+          "input_tokens": 10362,
+          "input_tokens_details": {
+            "cache_write_tokens": 10359,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2379,
+          "output_tokens_details": {
+            "reasoning_tokens": 1590
+          },
+          "total_tokens": 12741
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+      "normalizedProposalSha256": "cbc216b9316c38ffac14aefa1c1caf9c202d1da78e3c9d2633f30c2b00b40f07",
+      "ordinal": 17,
+      "providerStatusSha256": "cfb0438fa3abe2240c0bd9b0aecbbfff90da69c74ba9c73baaf40bc84aa5b784",
+      "structureEvidenceV2Sha256": "062d93eca9693ccb3d90621382c39a00a0af0270da7dd49b19607c86ce38b33a",
+      "usage": {
+        "input_tokens": 10362,
+        "input_tokens_details": {
+          "cache_write_tokens": 10359,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2379,
+        "output_tokens_details": {
+          "reasoning_tokens": 1590
+        },
+        "total_tokens": 12741
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "b16cb69d75f0abe69cb455b86ffa6eb26b975c2d5b7a3fa3c555a0ca92fdd2ec",
+        "artifactDigest": "sha256:7d74773787c8fcb90b1d2c02ca1fe89112d9f58bc74657d09c54ee32dae2bc3f",
+        "artifactId": 11058519776,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-18-completed",
+        "artifactSizeBytes": 23705,
+        "candidateComparisonCount": 2,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "576ced5ca757b41d07fdbbd623ccd36db7e286c97767a4d5b08195dc5a0e467f",
+          "parameters.json": "78906f9897246942c77ca7fc32ff80f9163be99943f365d14a96aeb79597a6dc",
+          "proposal-candidate.json": "e57f7a6c40c0ff6c0a79b2552dac329001a275d04b5925887baa6971a07839ad",
+          "provider-run-manifest.json": "51a3a0364a4593b40fd611d58e8ce544198190d750d48ab460cd3561463ed662",
+          "raw-response.json": "45c0a7d2a01e28882d4e81753511a6c815bf80793e33893df6b74f0c17e3a44e",
+          "stage1-v4-flex8192-case-status-v1.json": "11a65f02aeb1ca3d7e32c569a82dade00003d81417c150bd607febc158fbfa9a",
+          "validation-report.json": "e052c8901e3460f6aca86caa55034472e2137b40747f7be0ee9430615a33cc88"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "576ced5ca757b41d07fdbbd623ccd36db7e286c97767a4d5b08195dc5a0e467f",
+        "openaiResponseId": "resp_07debbcb838b566e016abc1b086a5087d190d51efe1acd6343",
+        "ordinal": 18,
+        "packetSha256": "048bdb1f311daad6a196d9aaa2cefe4913e250fe31b74406dfc1229793fb41e5",
+        "sourcePayloadSha256": "1eee34b1bab7e1e6811c135e844a4a8d8681087d5fb80a9a9a65205070b4ed21",
+        "stem": "91744869",
+        "usage": {
+          "input_tokens": 12269,
+          "input_tokens_details": {
+            "cache_write_tokens": 12266,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2753,
+          "output_tokens_details": {
+            "reasoning_tokens": 2038
+          },
+          "total_tokens": 15022
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+      "normalizedProposalSha256": "576ced5ca757b41d07fdbbd623ccd36db7e286c97767a4d5b08195dc5a0e467f",
+      "ordinal": 18,
+      "providerStatusSha256": "11a65f02aeb1ca3d7e32c569a82dade00003d81417c150bd607febc158fbfa9a",
+      "structureEvidenceV2Sha256": "048bdb1f311daad6a196d9aaa2cefe4913e250fe31b74406dfc1229793fb41e5",
+      "usage": {
+        "input_tokens": 12269,
+        "input_tokens_details": {
+          "cache_write_tokens": 12266,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2753,
+        "output_tokens_details": {
+          "reasoning_tokens": 2038
+        },
+        "total_tokens": 15022
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "c2e08e6952e7a032a3666262cbe2f860b27e2c23e07e3184f8a010c44c36afd9",
+        "artifactDigest": "sha256:6fed993f7ffe09eed842ceb78290f4f84256be3e6c32aea98b316778a35e8573",
+        "artifactId": 11059768473,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-19-completed",
+        "artifactSizeBytes": 17748,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "86b5fbe59457a65e5100bba1f18df6b39dcc22d987b852d53210306fac2bce45",
+          "parameters.json": "68d7e1766b4a832136aa160bc4454ef00c4f10c3c792dfd9ba19e57f4b166025",
+          "proposal-candidate.json": "0f6acd84efc37c7885a18a5846b761715a57bc6d08946950003d02b586c2e3be",
+          "provider-run-manifest.json": "713693cd92c47acac6655851bd64a74ce8fc2ebc7d36201ca38c3a3130ba0a54",
+          "raw-response.json": "76bc8f6fb1c0b56b82413b80b1ef7f5cae5c3e04d7ef8d7081365c6184a314bf",
+          "stage1-v4-flex8192-case-status-v1.json": "4325846306dd4ee9a7d097073771f2f2b34824ac26c3267ea1a6f91877090f18",
+          "validation-report.json": "dbe2ac4467ae9347bc3aa72e10bc5e45e6c409f5cfb59df7ba44db337116f92a"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "86b5fbe59457a65e5100bba1f18df6b39dcc22d987b852d53210306fac2bce45",
+        "openaiResponseId": "resp_09dba4ad665f9faa016abc1b398c5087d0937bb28b9dac8314",
+        "ordinal": 19,
+        "packetSha256": "a94050ceec59700b0102a01da621f5af1bd9008aad19e41f48d6990d0a8612ea",
+        "sourcePayloadSha256": "b36a79d9916a3f3b4074605ef988a42ed57c1780ee6f2494513cd68ac0c2d0b8",
+        "stem": "70906479",
+        "usage": {
+          "input_tokens": 15373,
+          "input_tokens_details": {
+            "cache_write_tokens": 15370,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1714,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 17087
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+      "normalizedProposalSha256": "86b5fbe59457a65e5100bba1f18df6b39dcc22d987b852d53210306fac2bce45",
+      "ordinal": 19,
+      "providerStatusSha256": "4325846306dd4ee9a7d097073771f2f2b34824ac26c3267ea1a6f91877090f18",
+      "structureEvidenceV2Sha256": "a94050ceec59700b0102a01da621f5af1bd9008aad19e41f48d6990d0a8612ea",
+      "usage": {
+        "input_tokens": 15373,
+        "input_tokens_details": {
+          "cache_write_tokens": 15370,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1714,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 17087
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "6da57fe91bebbad630acc3f8dbf39bb1a906bff50f1d494f164329b6d3196ec6",
+        "artifactDigest": "sha256:9ed0dc11b0ed9d2027ad23f308b5a4778b72abda73cd81a443bbacfebad848f3",
+        "artifactId": 11059129369,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-20-completed",
+        "artifactSizeBytes": 22502,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "6dbafcf35b0e13aa553f0d847e8e91f9b7542cf1d85ee9fbaa1fe9472fa90e34",
+          "parameters.json": "57368cdb7a89e9a259a676336b6c68108518bedb19c0becc5c95a25402795138",
+          "proposal-candidate.json": "60bf31b6aec5df0cd55bb2a36cb31cab825937b15bc35b3b0173e5857f6a8df6",
+          "provider-run-manifest.json": "36b3daa655898391c1ab9be31176ef11daeee55bf6056cd6627ad187a6f31414",
+          "raw-response.json": "66079c8f4cfb624fdd947148fd8bef1c8b208036aacf2eaf9e29f26aec365dcd",
+          "stage1-v4-flex8192-case-status-v1.json": "247d1af340d8a69d8e0660b4c3a51bd4b809b9bdeabcba9dff321c5d736b538c",
+          "validation-report.json": "f6789fb4c687cc67683c33088805526f7ba4c4b9048d1998e1891877814cebc8"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "6dbafcf35b0e13aa553f0d847e8e91f9b7542cf1d85ee9fbaa1fe9472fa90e34",
+        "openaiResponseId": "resp_00dad2f3d0faafc7016abc1b5dc20887d1bb901064defcf491",
+        "ordinal": 20,
+        "packetSha256": "685b9b9fbb2e63993f667d0f2c546751b6fdfffc7173be0ba83f411dcf496dfa",
+        "sourcePayloadSha256": "5d058f60857e18761d1d7a428d4e54a35a16694e6a108e20a23466cadd83d5fe",
+        "stem": "109446919",
+        "usage": {
+          "input_tokens": 13849,
+          "input_tokens_details": {
+            "cache_write_tokens": 13846,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2516,
+          "output_tokens_details": {
+            "reasoning_tokens": 1888
+          },
+          "total_tokens": 16365
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+      "normalizedProposalSha256": "6dbafcf35b0e13aa553f0d847e8e91f9b7542cf1d85ee9fbaa1fe9472fa90e34",
+      "ordinal": 20,
+      "providerStatusSha256": "247d1af340d8a69d8e0660b4c3a51bd4b809b9bdeabcba9dff321c5d736b538c",
+      "structureEvidenceV2Sha256": "685b9b9fbb2e63993f667d0f2c546751b6fdfffc7173be0ba83f411dcf496dfa",
+      "usage": {
+        "input_tokens": 13849,
+        "input_tokens_details": {
+          "cache_write_tokens": 13846,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2516,
+        "output_tokens_details": {
+          "reasoning_tokens": 1888
+        },
+        "total_tokens": 16365
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "441fc8cd538fdc2aa7ce651bfa8ea64ed93cc7d348953c8764e55e7dd02ebb58",
+        "artifactDigest": "sha256:6d9366e755f7a73e75d96de7f66847233bacb36bd4f3df31b482900c67678cdd",
+        "artifactId": 11058779865,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-21-completed",
+        "artifactSizeBytes": 22020,
+        "candidateComparisonCount": 2,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "2ca0d433e33c668e422179b8a2728ead628189745965b523861d6ad8bb2a745a",
+          "parameters.json": "5aed27a7e22ece9df47df2083d23e9dd0e17d385269900c4f9fb14dfa4133e49",
+          "proposal-candidate.json": "5aafebeed1e87a0a4438da49310037204d8bc693a55cbd1e6c3e1f2ce9f4c6ba",
+          "provider-run-manifest.json": "174b8708dda9bcff0b37e8b67a54fede45437abd57dd4eb28a5d37125fb126bf",
+          "raw-response.json": "25f4d59311825ebf0ee5dec774a6722a861db41f6314e40ee83130a1af12ffd8",
+          "stage1-v4-flex8192-case-status-v1.json": "6f624fd38c0885e21dc75218c8263b20843199ee15ea3bcbb264cb7cdd16b497",
+          "validation-report.json": "54d1641f335a84e6ef8c3ca5cf10c323d9e51cfabdc38b7ff22464661bcb4e1c"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "2ca0d433e33c668e422179b8a2728ead628189745965b523861d6ad8bb2a745a",
+        "openaiResponseId": "resp_02154f4de157d469016abc1b83a45487d29d704e5ae3dbebb0",
+        "ordinal": 21,
+        "packetSha256": "96e376545a5443192dce769f7b1fd2db88e533b55ade325c5c197f1c181c62db",
+        "sourcePayloadSha256": "30c9e74670782f3c294e214e52b358f665971066865670594836bbc8ce5f974d",
+        "stem": "85840934",
+        "usage": {
+          "input_tokens": 11894,
+          "input_tokens_details": {
+            "cache_write_tokens": 11891,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2311,
+          "output_tokens_details": {
+            "reasoning_tokens": 1766
+          },
+          "total_tokens": 14205
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+      "normalizedProposalSha256": "2ca0d433e33c668e422179b8a2728ead628189745965b523861d6ad8bb2a745a",
+      "ordinal": 21,
+      "providerStatusSha256": "6f624fd38c0885e21dc75218c8263b20843199ee15ea3bcbb264cb7cdd16b497",
+      "structureEvidenceV2Sha256": "96e376545a5443192dce769f7b1fd2db88e533b55ade325c5c197f1c181c62db",
+      "usage": {
+        "input_tokens": 11894,
+        "input_tokens_details": {
+          "cache_write_tokens": 11891,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2311,
+        "output_tokens_details": {
+          "reasoning_tokens": 1766
+        },
+        "total_tokens": 14205
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "8d29422669cf120525c9ada8a2493a0d72fc4f57705d45d844a30577f5079ffb",
+        "artifactDigest": "sha256:92b21ed84d8f372d1df627969980eeb63d98249e87fc5615bc6950fdfa310b56",
+        "artifactId": 11059364307,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-22-completed",
+        "artifactSizeBytes": 27179,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "0a16116e07c2955127590a1508fc44642675f39f3abfb59becb3d1497e2e2d2e",
+          "parameters.json": "e64798e46465ee8ea24bb6edc8ddd85d15bf2ed2f9a444a681b0a54770a04944",
+          "proposal-candidate.json": "455d8176876805d34a1a9b3f963a5aa5bb939d13173e7aa0d3a53400b3102b93",
+          "provider-run-manifest.json": "38ff106bb35b670afe590b877aa0ccb81a70f99b2879f274a0ddbe619f674c50",
+          "raw-response.json": "14bebaa1b5cdc880e97816e2fd3f52c1eb0488f9b16616f8bdc49890738cb336",
+          "stage1-v4-flex8192-case-status-v1.json": "23b7d3cbdb6ab2d5bc087afac22f07c6b7d049a4197ead6d1f25b377a0884f13",
+          "validation-report.json": "b6ade48be313799f28e301d2ca776f92ac41d021746a708e689dc30628c3d5fa"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "0a16116e07c2955127590a1508fc44642675f39f3abfb59becb3d1497e2e2d2e",
+        "openaiResponseId": "resp_0a6ac8edaf2d2def016abc1ba8537c87d294a43d156d86c6b4",
+        "ordinal": 22,
+        "packetSha256": "4612d582b791057be467e978912349cfed3bebc2abaf02174d8a127148f82f2f",
+        "sourcePayloadSha256": "7a4cf0e583e1ccee34d2198ec915420c55ee88562310df6fa766205c4c888457",
+        "stem": "126290034",
+        "usage": {
+          "input_tokens": 12538,
+          "input_tokens_details": {
+            "cache_write_tokens": 12535,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3588,
+          "output_tokens_details": {
+            "reasoning_tokens": 2943
+          },
+          "total_tokens": 16126
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+      "normalizedProposalSha256": "0a16116e07c2955127590a1508fc44642675f39f3abfb59becb3d1497e2e2d2e",
+      "ordinal": 22,
+      "providerStatusSha256": "23b7d3cbdb6ab2d5bc087afac22f07c6b7d049a4197ead6d1f25b377a0884f13",
+      "structureEvidenceV2Sha256": "4612d582b791057be467e978912349cfed3bebc2abaf02174d8a127148f82f2f",
+      "usage": {
+        "input_tokens": 12538,
+        "input_tokens_details": {
+          "cache_write_tokens": 12535,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3588,
+        "output_tokens_details": {
+          "reasoning_tokens": 2943
+        },
+        "total_tokens": 16126
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "f5ed498de81b2f65f2564a39e6af9aeb89c3b9cada69c80fc4af89b44f8763b1",
+        "artifactDigest": "sha256:b4d1bc24561d293d24c0bb5cc99a202deee1697df207f8010d6aa63599589195",
+        "artifactId": 11059179517,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-23-completed",
+        "artifactSizeBytes": 21254,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "a2409f6e11011bb4c246bf2230856c4c307ed88cde3db8243aefd22214bb7079",
+          "parameters.json": "377c8f8fcbd8a8b3d4bd0195eadffe1d790c03d2aced6f6ba904feab7da825dd",
+          "proposal-candidate.json": "4fd720d6c28054c4839b9cf4640d3b5a95f9898bb47303488d07e43a2081a48a",
+          "provider-run-manifest.json": "d72db672a94cac5a322b82a68f7d00869a9f81f040844124da97bae6c8699cc4",
+          "raw-response.json": "95a0c00fd710756826f75d38b3ac7bcd0ffd261d7a759035386a63b39338a171",
+          "stage1-v4-flex8192-case-status-v1.json": "1a0fb5e9b6a95b8f862cb4bf62a3733f4c3ac2447f8d059a73d0831bab31497f",
+          "validation-report.json": "a20d97cedd5d783f830a551eed8d311536319e4e85341c994f91f1be8d0eeaec"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "a2409f6e11011bb4c246bf2230856c4c307ed88cde3db8243aefd22214bb7079",
+        "openaiResponseId": "resp_096166b35c76d14b016abc1bd4f10c87d2ad8f341f8d3b6984",
+        "ordinal": 23,
+        "packetSha256": "9d9a5f6c6a9dda5d1ac1de8977725f5f3346e64033957afe0df1784a5470f756",
+        "sourcePayloadSha256": "00c41034b99462e9db5641a5c91db3fec37865ded12089f9f528c4f816ab7c6a",
+        "stem": "84061701",
+        "usage": {
+          "input_tokens": 12901,
+          "input_tokens_details": {
+            "cache_write_tokens": 12898,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2349,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 15250
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+      "normalizedProposalSha256": "a2409f6e11011bb4c246bf2230856c4c307ed88cde3db8243aefd22214bb7079",
+      "ordinal": 23,
+      "providerStatusSha256": "1a0fb5e9b6a95b8f862cb4bf62a3733f4c3ac2447f8d059a73d0831bab31497f",
+      "structureEvidenceV2Sha256": "9d9a5f6c6a9dda5d1ac1de8977725f5f3346e64033957afe0df1784a5470f756",
+      "usage": {
+        "input_tokens": 12901,
+        "input_tokens_details": {
+          "cache_write_tokens": 12898,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2349,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 15250
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "82b1ab325933dd4108041f741636069a58a56980cb8dbda79166916c7a6ff3b6",
+        "artifactDigest": "sha256:92d5336c7104e0a994aca83057c37befc57427e83b6741a85320cbd67ff11186",
+        "artifactId": 11059189679,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-24-completed",
+        "artifactSizeBytes": 19715,
+        "candidateComparisonCount": 1,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "70aa53418ca8accd0f2214488e6c33b344a11d7afe77e56483511c1c148dece4",
+          "parameters.json": "08fae87190874945417415322a46d396495845f86dd5edf78e991008c3790717",
+          "proposal-candidate.json": "33ff48f1e1efb4c6ec6555d9c1c1073122e570f1eb840e6c662d328035052447",
+          "provider-run-manifest.json": "45bb8d126840cbd500ca068329a7dbe8f4684372a2aa07af56f34ce5dd1b209c",
+          "raw-response.json": "af6d8d2fdb3da478c2c0aa7f6fd751f361cbb6757f07c2b5960c70d375fac103",
+          "stage1-v4-flex8192-case-status-v1.json": "42afc5e54767128f33812ef03d36ffac3b4d4f7845cbe943f618f12c39b3107e",
+          "validation-report.json": "b6c36a1b916d70567087d1dff7e0b432308b8c53af2b5167575282dc440340a4"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "70aa53418ca8accd0f2214488e6c33b344a11d7afe77e56483511c1c148dece4",
+        "openaiResponseId": "resp_065f1b5fa7d32347016abc1bf991d087d1a6f2d178f3007a9e",
+        "ordinal": 24,
+        "packetSha256": "f18b20fb5f9a6e5cf8fc3adf918a28f277b6c62146778264eed57a09be89572b",
+        "sourcePayloadSha256": "0b83512fb22529a296b98af147fb3fd3ba296222678869d1aea8fe18713f8e28",
+        "stem": "74937346",
+        "usage": {
+          "input_tokens": 16917,
+          "input_tokens_details": {
+            "cache_write_tokens": 16914,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1805,
+          "output_tokens_details": {
+            "reasoning_tokens": 1337
+          },
+          "total_tokens": 18722
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+      "normalizedProposalSha256": "70aa53418ca8accd0f2214488e6c33b344a11d7afe77e56483511c1c148dece4",
+      "ordinal": 24,
+      "providerStatusSha256": "42afc5e54767128f33812ef03d36ffac3b4d4f7845cbe943f618f12c39b3107e",
+      "structureEvidenceV2Sha256": "f18b20fb5f9a6e5cf8fc3adf918a28f277b6c62146778264eed57a09be89572b",
+      "usage": {
+        "input_tokens": 16917,
+        "input_tokens_details": {
+          "cache_write_tokens": 16914,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1805,
+        "output_tokens_details": {
+          "reasoning_tokens": 1337
+        },
+        "total_tokens": 18722
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "dd2f7793d6ac1d126dbab3e4bd08a9ba2206ab19c8e88d299d2faf432673c53a",
+        "artifactDigest": "sha256:d8d9b45f7606e61e18f0338a62bffe6f59b4d8e51ff61edb43ec8a156028c846",
+        "artifactId": 11060275192,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-25-completed",
+        "artifactSizeBytes": 20505,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "e7404ac458c187e694f33ef2e3e558fa0fab3156fe59de3117c65ff49f0502b3",
+          "parameters.json": "e5f8619d5ed16d0d7562725e7c1fb7d380194e1b7807b45a250bd2ab66b675ff",
+          "proposal-candidate.json": "b89123594876f2f844875adf9a74f22e98c0c686217f376f0e12c1e7d7b34918",
+          "provider-run-manifest.json": "21df2b13090052ea00b96741662a94964407c71624348a4b47b9d8c15ba5591c",
+          "raw-response.json": "a4cf3b18f70fe5e89cad64797014e6b0e9a1bef5dec256ea29ab65c30348af06",
+          "stage1-v4-flex8192-case-status-v1.json": "0535baa471daac396b443b35f47fed45335d14ea4390bd4fc5cd271c9b9f6cfc",
+          "validation-report.json": "e9be5c4aabc9e1344d2f4fdab86cb0e9042c0e84cd894f13ad93f316c9cc93ba"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "e7404ac458c187e694f33ef2e3e558fa0fab3156fe59de3117c65ff49f0502b3",
+        "openaiResponseId": "resp_0d6ad8434cd00160016abc1c1b68f487d1a4b18a1192e14850",
+        "ordinal": 25,
+        "packetSha256": "1e0f9770ca8c1e67b64c42549a7046497fcc267e93658e845b5f41f2f5ead25e",
+        "sourcePayloadSha256": "e995d3349bc8c686fcb969e3bedd5eabf08352b5f6857f85d84316a1be0f37fd",
+        "stem": "32192109",
+        "usage": {
+          "input_tokens": 12125,
+          "input_tokens_details": {
+            "cache_write_tokens": 12122,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2136,
+          "output_tokens_details": {
+            "reasoning_tokens": 1397
+          },
+          "total_tokens": 14261
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+      "normalizedProposalSha256": "e7404ac458c187e694f33ef2e3e558fa0fab3156fe59de3117c65ff49f0502b3",
+      "ordinal": 25,
+      "providerStatusSha256": "0535baa471daac396b443b35f47fed45335d14ea4390bd4fc5cd271c9b9f6cfc",
+      "structureEvidenceV2Sha256": "1e0f9770ca8c1e67b64c42549a7046497fcc267e93658e845b5f41f2f5ead25e",
+      "usage": {
+        "input_tokens": 12125,
+        "input_tokens_details": {
+          "cache_write_tokens": 12122,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2136,
+        "output_tokens_details": {
+          "reasoning_tokens": 1397
+        },
+        "total_tokens": 14261
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "cac466b037a97363a4868bbb6937e4a5943cf926544eb62309103e8e14908b3d",
+        "artifactDigest": "sha256:d778b06a9c55199fb6139f64612064217c5c3263e80270e445b0f10c94bcea97",
+        "artifactId": 11060265481,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-26-completed",
+        "artifactSizeBytes": 18630,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "7345984c097f51217d8acf60d14aaee96292a05ae8fb408ae7ebaf4405bfb269",
+          "parameters.json": "a6e3137b804315bdd46dc22772eb706379208ea2ba8dcbc3ea10bb097a4c6395",
+          "proposal-candidate.json": "eaa9003b5a180a96dbf33705e158500361e059bc420426c595b3514a2ecf3ac1",
+          "provider-run-manifest.json": "c04825ec3fe1d45d8b38e6023a2d5297e593b16b84d39bab92bced393f0b27ef",
+          "raw-response.json": "23782e3e0fd31d8beb1049c7cca1ee92c332cb57a33be18efa6338f9afa75aaf",
+          "stage1-v4-flex8192-case-status-v1.json": "0a38e7908647d48f721336f1e48ef0fba9c8294a927f27283f61713f098b3a33",
+          "validation-report.json": "1bafbfbce134a6d3b2a87028701416862e088ae8a63a2edea33a34ca913c1fdb"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "7345984c097f51217d8acf60d14aaee96292a05ae8fb408ae7ebaf4405bfb269",
+        "openaiResponseId": "resp_02cd608fffaf28ac016abc1c85984c87d0819484b584b9ca9a",
+        "ordinal": 26,
+        "packetSha256": "56e9f8811698ca6dd3d91019631e3d77ef2105b0fc9de3a549ef2fff1566401e",
+        "sourcePayloadSha256": "824f27d26458cd3719870769be883cd68ca6c73ef7899db216e7cf3ac14fcf6f",
+        "stem": "60864932",
+        "usage": {
+          "input_tokens": 13037,
+          "input_tokens_details": {
+            "cache_write_tokens": 13034,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1898,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 14935
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+      "normalizedProposalSha256": "7345984c097f51217d8acf60d14aaee96292a05ae8fb408ae7ebaf4405bfb269",
+      "ordinal": 26,
+      "providerStatusSha256": "0a38e7908647d48f721336f1e48ef0fba9c8294a927f27283f61713f098b3a33",
+      "structureEvidenceV2Sha256": "56e9f8811698ca6dd3d91019631e3d77ef2105b0fc9de3a549ef2fff1566401e",
+      "usage": {
+        "input_tokens": 13037,
+        "input_tokens_details": {
+          "cache_write_tokens": 13034,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1898,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 14935
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "a9c14061c113838e00d31613684a53e52a73fa95994da4adbb969f53d5b7403c",
+        "artifactDigest": "sha256:d84a3e87b8d11e3878ceff739c5c67c30288926fdd10a75cc6a2f16a639613f6",
+        "artifactId": 11060210675,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-27-completed",
+        "artifactSizeBytes": 23647,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "94f18c290094920af10ba13f0e6d2decbb175e2932c6dc581264748a2fbe7488",
+          "parameters.json": "a210b970b4467c54fc08517bdf99364dc959cb7d67b1075fed55de53f9ca8710",
+          "proposal-candidate.json": "9425ae834c58017c667c0ad692ef122fcbdf211c9985b5c08eb5bc99af6b21ff",
+          "provider-run-manifest.json": "7beaed9f6d8c5620d31f2410b8649e0d14e69e8b3afa9b83da0f459ef638e343",
+          "raw-response.json": "221c4f801368c34d449f0d31b52ed1da4b858ae3341b9b5454860066ad8eb411",
+          "stage1-v4-flex8192-case-status-v1.json": "a21ebf1bff0e97482e5f11a1ef56654c4a3201359b75acbdfcc3e3e9620f7264",
+          "validation-report.json": "7d67461da786c452d489a00cf8713c2a77036f7019b89770e2425aa5ef7d6abd"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "94f18c290094920af10ba13f0e6d2decbb175e2932c6dc581264748a2fbe7488",
+        "openaiResponseId": "resp_0c84259688eaeea1016abc1ca73cf887d28f27f33b21c41a1c",
+        "ordinal": 27,
+        "packetSha256": "8c03c93e7718e5c943b2b4185f7b1ad970d961be717cca6d8c67df5e0b33b3f6",
+        "sourcePayloadSha256": "1b960d8dfd55a51183e112d12cca67f143554564aa742ab33b18755c0fdd8fa9",
+        "stem": "39970700",
+        "usage": {
+          "input_tokens": 10167,
+          "input_tokens_details": {
+            "cache_write_tokens": 10164,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2621,
+          "output_tokens_details": {
+            "reasoning_tokens": 2070
+          },
+          "total_tokens": 12788
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+      "normalizedProposalSha256": "94f18c290094920af10ba13f0e6d2decbb175e2932c6dc581264748a2fbe7488",
+      "ordinal": 27,
+      "providerStatusSha256": "a21ebf1bff0e97482e5f11a1ef56654c4a3201359b75acbdfcc3e3e9620f7264",
+      "structureEvidenceV2Sha256": "8c03c93e7718e5c943b2b4185f7b1ad970d961be717cca6d8c67df5e0b33b3f6",
+      "usage": {
+        "input_tokens": 10167,
+        "input_tokens_details": {
+          "cache_write_tokens": 10164,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2621,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 12788
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "295ec7fb21292d9a5e095ee0022f62e4a02522655363402706606ad335aa261d",
+        "artifactDigest": "sha256:b2601e7fbfafe193f44db4785ccd91df7db03e2717a0fcc429aabd5e3d3765ce",
+        "artifactId": 11060365564,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-28-completed",
+        "artifactSizeBytes": 19503,
+        "candidateComparisonCount": 4,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "b1c1e57d08dfaf95c700eca6b42c52c08d79433813d177ce8adc0cef46b58532",
+          "parameters.json": "9c538f9778f2a84fae06bab111fbc43930be413b1bb18bc659992109a7aaa4d5",
+          "proposal-candidate.json": "267ed562060d9cc37e44a19e231a7a26af0b9a7e789332a53e7659079bd50d8c",
+          "provider-run-manifest.json": "425fd32af280b7481a9907f3a4e1369a9b6fa6626d97e61212e11c89771bfd73",
+          "raw-response.json": "246cbea9395cebb043c5810b9377c492b093b547debfd3053d5bd32299772fcd",
+          "stage1-v4-flex8192-case-status-v1.json": "9873ed9ef81aa1164a951645cfd04dc061f1a33d738a638498b6e44836378729",
+          "validation-report.json": "2fe75ab4e5ca20b73da8f54c15c27bf8e1af04c2838b76a7b46014405363214e"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "b1c1e57d08dfaf95c700eca6b42c52c08d79433813d177ce8adc0cef46b58532",
+        "openaiResponseId": "resp_09ffa9e9de77afc2016abc1cef3c9487d2a4a110e65d46dcce",
+        "ordinal": 28,
+        "packetSha256": "9f0da0ac0879ef9dc56c3042b3bac72346d650b0c8d60f89deafa051ada2fa06",
+        "sourcePayloadSha256": "d9905ffd2f8ff42763166a18f01f10a99fe197da3317a83a39ee901829d3abaa",
+        "stem": "126774902",
+        "usage": {
+          "input_tokens": 14798,
+          "input_tokens_details": {
+            "cache_write_tokens": 14795,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1999,
+          "output_tokens_details": {
+            "reasoning_tokens": 1108
+          },
+          "total_tokens": 16797
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+      "normalizedProposalSha256": "b1c1e57d08dfaf95c700eca6b42c52c08d79433813d177ce8adc0cef46b58532",
+      "ordinal": 28,
+      "providerStatusSha256": "9873ed9ef81aa1164a951645cfd04dc061f1a33d738a638498b6e44836378729",
+      "structureEvidenceV2Sha256": "9f0da0ac0879ef9dc56c3042b3bac72346d650b0c8d60f89deafa051ada2fa06",
+      "usage": {
+        "input_tokens": 14798,
+        "input_tokens_details": {
+          "cache_write_tokens": 14795,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1999,
+        "output_tokens_details": {
+          "reasoning_tokens": 1108
+        },
+        "total_tokens": 16797
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "600220a267ba7f6d5d8522ee7356345313a88a86cf2aeee313c9b67cf2c9998d",
+        "artifactDigest": "sha256:dd519a066fd715fc39f98a7988090005ddc7cb2128199f142188e3522d8b7d5b",
+        "artifactId": 11060685408,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-29-completed",
+        "artifactSizeBytes": 21154,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "f5bbf9c6b0c816ce41b64dcc6f6f026eb44822c2cd8cbb2d9bb486d400ab9f9b",
+          "parameters.json": "11ab5a2ad456ca53ff3d3bb4c70ef9f212febc40d6e7908aaad7b90d91ad88e3",
+          "proposal-candidate.json": "69a601dec894b0805d3a87a7244ec944fd8ccaf0fd7b151d511e0aa171e1388b",
+          "provider-run-manifest.json": "43bfdef29a9b6f6b3aa24131c6c4247ced9ad7db569f19346bdcc0f532deeace",
+          "raw-response.json": "c5fd219a5911a4d39685a9c6ac4f9330cda69d5726878991f7b5c73695310b2c",
+          "stage1-v4-flex8192-case-status-v1.json": "d8f2dc9fd985cca4bc20cbf3d4ecf04862ab6382fc8e394031ca00d36156b2ee",
+          "validation-report.json": "73b4c37bcabdee378a49f3e132abb6da5a47e9de026df1e760989c85eb597dbc"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "f5bbf9c6b0c816ce41b64dcc6f6f026eb44822c2cd8cbb2d9bb486d400ab9f9b",
+        "openaiResponseId": "resp_0923224bf3b507b1016abc1d0f7c8487d18776a4deb8e535d2",
+        "ordinal": 29,
+        "packetSha256": "2c5a94c0a6a996c1a4335033b53baf76bcbf1f4adbe56fb30dc41c9912a8f464",
+        "sourcePayloadSha256": "bdae1f273be50e888bbe45b97e5b2fdb4ac761cf8d0391b2ebfa11ce462ac38d",
+        "stem": "76926936",
+        "usage": {
+          "input_tokens": 17603,
+          "input_tokens_details": {
+            "cache_write_tokens": 17600,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2401,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 20004
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+      "normalizedProposalSha256": "f5bbf9c6b0c816ce41b64dcc6f6f026eb44822c2cd8cbb2d9bb486d400ab9f9b",
+      "ordinal": 29,
+      "providerStatusSha256": "d8f2dc9fd985cca4bc20cbf3d4ecf04862ab6382fc8e394031ca00d36156b2ee",
+      "structureEvidenceV2Sha256": "2c5a94c0a6a996c1a4335033b53baf76bcbf1f4adbe56fb30dc41c9912a8f464",
+      "usage": {
+        "input_tokens": 17603,
+        "input_tokens_details": {
+          "cache_write_tokens": 17600,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2401,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 20004
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "5a6b95a663bae821b95f59919d76d639fb5a988fe6b39ef4bb91427558a0c2ea",
+        "artifactDigest": "sha256:04952586019f719d2909c3913a3b2ebce24d095081b10ab5a714f525ba233712",
+        "artifactId": 11060350836,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-30-completed",
+        "artifactSizeBytes": 21233,
+        "candidateComparisonCount": 4,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "51b10a23a97c1891eef8b86e358b63697e482c25a9a969d775a9a31d07f130d6",
+          "parameters.json": "2cb8b521dff4ecf5858ec039468cf5245da05e52c053fb8ec92f49ea0ec2f0ce",
+          "proposal-candidate.json": "1e3e827596208fc4f2011d2876a66988be3740a771b3d33ffd7a2d060fce869a",
+          "provider-run-manifest.json": "390f82c92bd88333aa3875eb2f391215d261ab72bf48bd3e4b429bf12c1cc3a0",
+          "raw-response.json": "fd992655260caf2b625c69a1dc71d57102a273f98ebd41a59f62dd9eac45c7cf",
+          "stage1-v4-flex8192-case-status-v1.json": "f009371a21ee2098d6c13da98fc684906ef53e08c9b26dc51f78f11645c16827",
+          "validation-report.json": "d4bd73654adbb599a204c0e5a85b7661b2baac15913547665649ddf423b42883"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "51b10a23a97c1891eef8b86e358b63697e482c25a9a969d775a9a31d07f130d6",
+        "openaiResponseId": "resp_00180c1e1288ed43016abc1d34390887d29d273edc2cea6e53",
+        "ordinal": 30,
+        "packetSha256": "da573c9b366062e5cae9cb66ff7641211c759c3f659ea3cc21c781479259c507",
+        "sourcePayloadSha256": "61f5d664eac780f7c9da4a25cd636e90651fe5ebe3ab088448220e19c1fd873c",
+        "stem": "60368032",
+        "usage": {
+          "input_tokens": 14726,
+          "input_tokens_details": {
+            "cache_write_tokens": 14723,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2381,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 17107
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+      "normalizedProposalSha256": "51b10a23a97c1891eef8b86e358b63697e482c25a9a969d775a9a31d07f130d6",
+      "ordinal": 30,
+      "providerStatusSha256": "f009371a21ee2098d6c13da98fc684906ef53e08c9b26dc51f78f11645c16827",
+      "structureEvidenceV2Sha256": "da573c9b366062e5cae9cb66ff7641211c759c3f659ea3cc21c781479259c507",
+      "usage": {
+        "input_tokens": 14726,
+        "input_tokens_details": {
+          "cache_write_tokens": 14723,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2381,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 17107
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "53d9a7f47fe4439e5a969b0753fe1f29bd1cc760212d9fc26e29337c4840b8cc",
+        "artifactDigest": "sha256:60f7848ce097e79c7dd1ead45705bbe100be5c2f2ec770e756d829af928208c9",
+        "artifactId": 11060315966,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-31-completed",
+        "artifactSizeBytes": 20218,
+        "candidateComparisonCount": 4,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "4e578e3c842a4fde5e6610907d301b7ccd4d90e1535dadb367600c812f16d7e3",
+          "parameters.json": "3b5f352ed401349e796d7a5291acd1b45fd3cf61c07285104be5540a74bfbbd8",
+          "proposal-candidate.json": "3b907d0d42ff2db96327b0c7706be78950aae3dfae464e2b3e7d9f6b04f2a73e",
+          "provider-run-manifest.json": "fa30c16ce0c9e2ad246ea7c1eba9be34141ff9e3c29d1344acb3f718115d7eec",
+          "raw-response.json": "bfbd7e8ef710374e1618299ffcef74f635b0824f0642ea976b7fb8482bf41ca5",
+          "stage1-v4-flex8192-case-status-v1.json": "cd21d08ba1d55139fa7e2be0c38b6405cf1ccdb198dde559984f590affebbad3",
+          "validation-report.json": "eed150f59c8b78764473d8091458759bddaddff748024c9303d69076e1a69a72"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "4e578e3c842a4fde5e6610907d301b7ccd4d90e1535dadb367600c812f16d7e3",
+        "openaiResponseId": "resp_082565678b5ff952016abc1d595f2487d1a3823315bce4eb47",
+        "ordinal": 31,
+        "packetSha256": "1a9bb8e69b04ded6614da42aceb045a0aa84916dc0dafe1b2aff556e93034459",
+        "sourcePayloadSha256": "729d473379482faabf3cc0c816f1e5550bb5fc02e42e240b9093e9d62b647a10",
+        "stem": "60809730",
+        "usage": {
+          "input_tokens": 13631,
+          "input_tokens_details": {
+            "cache_write_tokens": 13628,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2092,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 15723
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+      "normalizedProposalSha256": "4e578e3c842a4fde5e6610907d301b7ccd4d90e1535dadb367600c812f16d7e3",
+      "ordinal": 31,
+      "providerStatusSha256": "cd21d08ba1d55139fa7e2be0c38b6405cf1ccdb198dde559984f590affebbad3",
+      "structureEvidenceV2Sha256": "1a9bb8e69b04ded6614da42aceb045a0aa84916dc0dafe1b2aff556e93034459",
+      "usage": {
+        "input_tokens": 13631,
+        "input_tokens_details": {
+          "cache_write_tokens": 13628,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2092,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 15723
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "1e4f7c93572311295bd776cd5170cb16a65f978893b8ea9b5c41f500c542312e",
+        "artifactDigest": "sha256:bbd5ad11ce1cf65b35cc0458c19630105977142a0df9e33aab06b14725f211a8",
+        "artifactId": 11060346112,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-32-completed",
+        "artifactSizeBytes": 18542,
+        "candidateComparisonCount": 5,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "266f48a8533d85b027da69e2e8652c9a8e209486b90e02d0c14c1837f57b5471",
+          "parameters.json": "0ab1d343facc38392217a17b3fb70cc37d11e89f16a0dad254ed94feb9ce2190",
+          "proposal-candidate.json": "4b50b45b9a03b4f42978745c77b1999bd86014fe9fef2281252372b064b35923",
+          "provider-run-manifest.json": "b7a2a11395f0d23fce00e0149243bc08b1778835f5024c2200e6421110e703ee",
+          "raw-response.json": "e5d9498d26c8d98bd3bf1cd358eebe71559d8b70472a89f3bc410c0367e364e4",
+          "stage1-v4-flex8192-case-status-v1.json": "ab0e3a552b2110ba5f24d7ac39b95f75126b761a895bf734161744f5d35d3133",
+          "validation-report.json": "df5b651e26caf4573744e8b316625d818599df1345d9ffbb2666bf64d4e4b0f5"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "266f48a8533d85b027da69e2e8652c9a8e209486b90e02d0c14c1837f57b5471",
+        "openaiResponseId": "resp_0d6d8ceba19fded0016abc1d8162dc87d1ab2e31dcf7328e9d",
+        "ordinal": 32,
+        "packetSha256": "6e0cdeafac5d5addebaaaf508e672643a9008779ddc7b1a98ba97f3e4a56cbd6",
+        "sourcePayloadSha256": "5fbe9368ceab55203813c99544dfc5a57f23498b0cfcb2cd9d6b7e18f6d7397b",
+        "stem": "57232773",
+        "usage": {
+          "input_tokens": 12139,
+          "input_tokens_details": {
+            "cache_write_tokens": 12136,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1918,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 14057
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+      "normalizedProposalSha256": "266f48a8533d85b027da69e2e8652c9a8e209486b90e02d0c14c1837f57b5471",
+      "ordinal": 32,
+      "providerStatusSha256": "ab0e3a552b2110ba5f24d7ac39b95f75126b761a895bf734161744f5d35d3133",
+      "structureEvidenceV2Sha256": "6e0cdeafac5d5addebaaaf508e672643a9008779ddc7b1a98ba97f3e4a56cbd6",
+      "usage": {
+        "input_tokens": 12139,
+        "input_tokens_details": {
+          "cache_write_tokens": 12136,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1918,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 14057
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "0ab085ec6b9516584a71dc58ba09d0e8c98797fd331bb98ba8d6d394a7465eeb",
+        "artifactDigest": "sha256:9782a118f7c253e0b5dab457aa643a2dac7e1db53d0c2fd114b4ebc9de02d712",
+        "artifactId": 11060925806,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-33-completed",
+        "artifactSizeBytes": 20993,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "811ccbc7ccb703d5cc4bbb3695d379d8e9c43aa9c220e2a901212a5835cda7b2",
+          "parameters.json": "7d2403f6eefdd1e072c2c5d3519e87582b4455ce877ac2e9911ddf0d5e5ed137",
+          "proposal-candidate.json": "d7abb4ceb57c8d8aa4f1808bddfb379e2bd7bfbe21d2cab8b582d15ac78a56f4",
+          "provider-run-manifest.json": "a65bf6501bb68343021cf76986769d6623dd6458a1e2fb18e279b939d926eab9",
+          "raw-response.json": "999edc930167bbeb94675a34424d5862df9e7581dccc87d9af46130e59ebce75",
+          "stage1-v4-flex8192-case-status-v1.json": "ae8bb911828380a70a9b270fadc7bf395dc22249c7b837258358c8fb23956c2d",
+          "validation-report.json": "8f3ca228a662941642f87a7fa1af79abb8887cd098963d43dcee108eb461c567"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "811ccbc7ccb703d5cc4bbb3695d379d8e9c43aa9c220e2a901212a5835cda7b2",
+        "openaiResponseId": "resp_0e74fa2ed235f1da016abc1dce3f2887d096ed3ecbf1e06dd7",
+        "ordinal": 33,
+        "packetSha256": "14dd5784dec94a2a728499cf6b618cb30da26fd7548afd7a6ab8d0a1be865a2a",
+        "sourcePayloadSha256": "2b1b530a5b668acba27bd2341a54cb6170e553cf1b84b059b89565b5aa378823",
+        "stem": "37942877",
+        "usage": {
+          "input_tokens": 9579,
+          "input_tokens_details": {
+            "cache_write_tokens": 9576,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2110,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 11689
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+      "normalizedProposalSha256": "811ccbc7ccb703d5cc4bbb3695d379d8e9c43aa9c220e2a901212a5835cda7b2",
+      "ordinal": 33,
+      "providerStatusSha256": "ae8bb911828380a70a9b270fadc7bf395dc22249c7b837258358c8fb23956c2d",
+      "structureEvidenceV2Sha256": "14dd5784dec94a2a728499cf6b618cb30da26fd7548afd7a6ab8d0a1be865a2a",
+      "usage": {
+        "input_tokens": 9579,
+        "input_tokens_details": {
+          "cache_write_tokens": 9576,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2110,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 11689
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "3f639b177a210a8e923bdb9ffbde3f0be03ba2d899adc4249748961483212002",
+        "artifactDigest": "sha256:900093ce2a3528e07b96c521c059d616ac1ccf2bdf5e973b3349936ffdd86737",
+        "artifactId": 11059906815,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-34-completed",
+        "artifactSizeBytes": 21399,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "05cb781c13e0360b63b355f457daa6741dcbe4f1c0c20e4d33267d571e0cb936",
+          "parameters.json": "f13ad69cb352314a326f9386c06ad225133ba958a531d1c42f324bbecdda53f9",
+          "proposal-candidate.json": "9019eed1ea87993660b0029f7977586ebca9d6ad08af055b51a06e97e68ef8c7",
+          "provider-run-manifest.json": "813d252127ee041bf6ca9ceb79ca309b2fae528544d01dc9ebbb4ced691c569d",
+          "raw-response.json": "82b7e850d9a8276470c7ad5b0bd16ca646df0dc92b50c465f41328323774d5a2",
+          "stage1-v4-flex8192-case-status-v1.json": "3678207e0f5147e68a10ee835755841410db0cab961464d6a801e8015c3a14de",
+          "validation-report.json": "7147fec77e21729e2931f77c0d08dcb33c87130062663ede4acb08d223d88127"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "05cb781c13e0360b63b355f457daa6741dcbe4f1c0c20e4d33267d571e0cb936",
+        "openaiResponseId": "resp_0f58d9bf1cedf1a1016abc1df8322087d28ce5565f7f139329",
+        "ordinal": 34,
+        "packetSha256": "298e6e58f74181b7d6e8cabd743315d1b93f43252ee2a072c34a4a0ff7af1cb5",
+        "sourcePayloadSha256": "ef937f18e63f3c3df0b98f2681ef6615178249e359766ef749fb7a3c5d489c57",
+        "stem": "57931601",
+        "usage": {
+          "input_tokens": 16385,
+          "input_tokens_details": {
+            "cache_write_tokens": 16382,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2341,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 18726
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+      "normalizedProposalSha256": "05cb781c13e0360b63b355f457daa6741dcbe4f1c0c20e4d33267d571e0cb936",
+      "ordinal": 34,
+      "providerStatusSha256": "3678207e0f5147e68a10ee835755841410db0cab961464d6a801e8015c3a14de",
+      "structureEvidenceV2Sha256": "298e6e58f74181b7d6e8cabd743315d1b93f43252ee2a072c34a4a0ff7af1cb5",
+      "usage": {
+        "input_tokens": 16385,
+        "input_tokens_details": {
+          "cache_write_tokens": 16382,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2341,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 18726
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "69d29cbde471eb3b0bbca1eb3910b565ca99c983b56a9014d1a1069a28296951",
+        "artifactDigest": "sha256:9002f03d975d13ec7e156ca6ccb554afbc8e837cef9559158e76007f54f133f9",
+        "artifactId": 11060471432,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-35-completed",
+        "artifactSizeBytes": 23524,
+        "candidateComparisonCount": 3,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "713b1bd731b89d1ba6efa59782ef68671364b070d9853229b2199f56229d5ea9",
+          "parameters.json": "802a1a85306adbb9dc785fce19739c46ede2bb28b710e2ca204a44031e0c5b34",
+          "proposal-candidate.json": "012f64b715b2f9ded07910da87dd67933474c74ad955f79cf1dec5907a9280d6",
+          "provider-run-manifest.json": "947223004f0740e0e090c048c86f86f16cf26c43f5e3290adc343d5437a9a97f",
+          "raw-response.json": "cece15da75a8aa39e7a02c22c53ee4c4ec39f4010129b347090835b1d762ef83",
+          "stage1-v4-flex8192-case-status-v1.json": "fb379fa9e59d37fb1592a276031b5300a10f51c8edba371cfe81bf20af4dc010",
+          "validation-report.json": "170a3cdf351464158dbad30c363779a2a07ff545107840565f4be59f20d41b76"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "713b1bd731b89d1ba6efa59782ef68671364b070d9853229b2199f56229d5ea9",
+        "openaiResponseId": "resp_05cfc07033375ebf016abc1e20398087d2ab9b532c722226f1",
+        "ordinal": 35,
+        "packetSha256": "b6735d3b387e9b6a73c7e2dfdfc0056dd578bb14383c9638dbdb0832ab6c3cdd",
+        "sourcePayloadSha256": "e2ade72a47b4905c976c4171fffc776e0fc89691d6c2d9d608ec0df574aa767f",
+        "stem": "96730252",
+        "usage": {
+          "input_tokens": 11077,
+          "input_tokens_details": {
+            "cache_write_tokens": 11074,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2674,
+          "output_tokens_details": {
+            "reasoning_tokens": 2070
+          },
+          "total_tokens": 13751
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+      "normalizedProposalSha256": "713b1bd731b89d1ba6efa59782ef68671364b070d9853229b2199f56229d5ea9",
+      "ordinal": 35,
+      "providerStatusSha256": "fb379fa9e59d37fb1592a276031b5300a10f51c8edba371cfe81bf20af4dc010",
+      "structureEvidenceV2Sha256": "b6735d3b387e9b6a73c7e2dfdfc0056dd578bb14383c9638dbdb0832ab6c3cdd",
+      "usage": {
+        "input_tokens": 11077,
+        "input_tokens_details": {
+          "cache_write_tokens": 11074,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2674,
+        "output_tokens_details": {
+          "reasoning_tokens": 2070
+        },
+        "total_tokens": 13751
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "e199a582de2254c58511843749db7a761121ca37217ad311fdfe79d38c4b7373",
+        "artifactDigest": "sha256:fecaa620feda70790aeab92d84862e475311e90749eb3f0cfbc29419e5d93089",
+        "artifactId": 11060631430,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-36-completed",
+        "artifactSizeBytes": 17578,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "85d4465f8402ab80d2bc5f7f2ad899c677c66be8ea760a72307c986bba4d3f1f",
+          "parameters.json": "60bcace88c113ddc475d71354d9ab04d65d1865573aefdc6fa9dff961586eb72",
+          "proposal-candidate.json": "87948e7e7b16ef3c2f3f8da69baf102acb4d02a982bf3da94f11c4a8c4572bd7",
+          "provider-run-manifest.json": "6095005a07875c44c9f31a0fb390ba4406066490e85d0acc71eb3b3ffaca002a",
+          "raw-response.json": "87b567af3dfc2ffb1c0785479c60ddee10822e90397951ec2bf3a6fe6e2a390b",
+          "stage1-v4-flex8192-case-status-v1.json": "95d9929c59e1ae87abdff6ec1bdf5314c69bedf9c013dfed2b66fd119184bb15",
+          "validation-report.json": "329b68c9341f71dd135dcbd66f0ac9d3e960190ec45509d2741d0da302bd48a1"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "85d4465f8402ab80d2bc5f7f2ad899c677c66be8ea760a72307c986bba4d3f1f",
+        "openaiResponseId": "resp_03386ab738e9566f016abc1e506d9c87d184bba2bf0ff75a1e",
+        "ordinal": 36,
+        "packetSha256": "41d7178accff38daa4bdb22ab3596faf15a25618d57771d5d5c4d363de975d96",
+        "sourcePayloadSha256": "2fc5ba7dd69444b3d6853f70e839485019b1bdf9e16adaa971d3f89d82375f58",
+        "stem": "53719180",
+        "usage": {
+          "input_tokens": 10153,
+          "input_tokens_details": {
+            "cache_write_tokens": 10150,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1590,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 11743
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+      "normalizedProposalSha256": "85d4465f8402ab80d2bc5f7f2ad899c677c66be8ea760a72307c986bba4d3f1f",
+      "ordinal": 36,
+      "providerStatusSha256": "95d9929c59e1ae87abdff6ec1bdf5314c69bedf9c013dfed2b66fd119184bb15",
+      "structureEvidenceV2Sha256": "41d7178accff38daa4bdb22ab3596faf15a25618d57771d5d5c4d363de975d96",
+      "usage": {
+        "input_tokens": 10153,
+        "input_tokens_details": {
+          "cache_write_tokens": 10150,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1590,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 11743
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "7bad4e2569ad0e5841af2f77154ab0081102c9c8950d2a4b8cf72942be5fc8d3",
+        "artifactDigest": "sha256:7ac210422f22e7c347b98c0675649645c675373a5c54f951e752ad81069f94a7",
+        "artifactId": 11060731534,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-37-completed",
+        "artifactSizeBytes": 26706,
+        "candidateComparisonCount": 6,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "59150a119aab92c541ee1b60ff8445b623a948dc015200a091dd21278ce7b73f",
+          "parameters.json": "fef4a5b1fddc72499d7eae73ad3cd0e077689bca59f8905f3354559312046f7d",
+          "proposal-candidate.json": "b64b9f680ba320f47b940503c96f98f93358913b4281a8fda285ed204c0e1f3e",
+          "provider-run-manifest.json": "9424f4d8b8c152f28e8241a1e4f4fb470f47ae150a87f464d0e4696f0fec0851",
+          "raw-response.json": "dff38ebfad8deabae011b88222d12e1802463fec3cf8e6c6296f1add989a1dce",
+          "stage1-v4-flex8192-case-status-v1.json": "e65b6579eb5eafc2a9411a54f04a2efa0c27b03f85888ce0e0895e9823f2203d",
+          "validation-report.json": "0200d1f399da855c9aab9b39babe270fece5ebb3e33b99780b105954c390bdf0"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "59150a119aab92c541ee1b60ff8445b623a948dc015200a091dd21278ce7b73f",
+        "openaiResponseId": "resp_0928c090ff80fb3a016abc1e729f3487d1a67159abd023e9d8",
+        "ordinal": 37,
+        "packetSha256": "67396d31527f97dca0fe31477f97eca256a676cac8ac7dc43af0b3dd3f2ff5f4",
+        "sourcePayloadSha256": "a2d3004d481e5dd2e2e7820b996ce9a72487aa471bbbc3382d3d8ea6180e2085",
+        "stem": "72517913",
+        "usage": {
+          "input_tokens": 16881,
+          "input_tokens_details": {
+            "cache_write_tokens": 16878,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3311,
+          "output_tokens_details": {
+            "reasoning_tokens": 2371
+          },
+          "total_tokens": 20192
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+      "normalizedProposalSha256": "59150a119aab92c541ee1b60ff8445b623a948dc015200a091dd21278ce7b73f",
+      "ordinal": 37,
+      "providerStatusSha256": "e65b6579eb5eafc2a9411a54f04a2efa0c27b03f85888ce0e0895e9823f2203d",
+      "structureEvidenceV2Sha256": "67396d31527f97dca0fe31477f97eca256a676cac8ac7dc43af0b3dd3f2ff5f4",
+      "usage": {
+        "input_tokens": 16881,
+        "input_tokens_details": {
+          "cache_write_tokens": 16878,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3311,
+        "output_tokens_details": {
+          "reasoning_tokens": 2371
+        },
+        "total_tokens": 20192
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "d001a17e06aed939ae8560e0dd215a1490d3d3cfdb8ce65b55f19edf316e17d4",
+        "artifactDigest": "sha256:cdb1ba1a79de54a9fbe48847bc746c422309c0f69c4fbac1ed8a3f04dcc5cc18",
+        "artifactId": 11060701749,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-38-completed",
+        "artifactSizeBytes": 23701,
+        "candidateComparisonCount": 5,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "55f2910f63623efd8e2900f47d32597cac8178914788da85398fe042448a0735",
+          "parameters.json": "2008aa77a3cb813ada6e92db8e499031aa4603e3e9757fdc53685320db94d02c",
+          "proposal-candidate.json": "004f1595ec9f93b74fc0a32efded3f3389bbc28350f7cdf11528bce28dbaf7ef",
+          "provider-run-manifest.json": "141eac25dadfec94e416c14c34a263970007a7ffa4f64e536779623fe22e6008",
+          "raw-response.json": "7377c288cf18ff498f56e7c97fbeee57742864ea36e6b364ee5a49f0837ec18f",
+          "stage1-v4-flex8192-case-status-v1.json": "9433dd98505f338b24d01188b9ee63b0a5b00317a6ec17896372a11c62fd7042",
+          "validation-report.json": "b3cd6ab76ebc5a1f430dde744714f093d44495ac97af1c2ec8e2b0de067a18fb"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "55f2910f63623efd8e2900f47d32597cac8178914788da85398fe042448a0735",
+        "openaiResponseId": "resp_0f7d18518386f196016abc1ea7e28c87d0a9f9efdd69ba786c",
+        "ordinal": 38,
+        "packetSha256": "f882a517d7a223293b727ec0f1f8b073443dc6a1d63ed053eba2d2af79051540",
+        "sourcePayloadSha256": "9804e85abe13e86596cf7a579ad94abd330ea6a9c49d7c34e3b8660b0fd1dd14",
+        "stem": "127164225",
+        "usage": {
+          "input_tokens": 12494,
+          "input_tokens_details": {
+            "cache_write_tokens": 12491,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2955,
+          "output_tokens_details": {
+            "reasoning_tokens": 1929
+          },
+          "total_tokens": 15449
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+      "normalizedProposalSha256": "55f2910f63623efd8e2900f47d32597cac8178914788da85398fe042448a0735",
+      "ordinal": 38,
+      "providerStatusSha256": "9433dd98505f338b24d01188b9ee63b0a5b00317a6ec17896372a11c62fd7042",
+      "structureEvidenceV2Sha256": "f882a517d7a223293b727ec0f1f8b073443dc6a1d63ed053eba2d2af79051540",
+      "usage": {
+        "input_tokens": 12494,
+        "input_tokens_details": {
+          "cache_write_tokens": 12491,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2955,
+        "output_tokens_details": {
+          "reasoning_tokens": 1929
+        },
+        "total_tokens": 15449
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "3af7b53044e1ad3b57a228b1296a6f9acc879cd3e873ff464a6af35eafb8fab5",
+        "artifactDigest": "sha256:553a2d911d9f84bddd7dcad4a2e06dc208a81138fdf82d7df27f6e1512f3c46d",
+        "artifactId": 11060876578,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-39-completed",
+        "artifactSizeBytes": 21412,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "e37976cd5937129e773e1ef4e717352de84aca880c523908398c0b9189b00cab",
+          "parameters.json": "9787761fe2109915fb5a39ce498b5c6c3ac15404ee12376a1d08f6db684a48dd",
+          "proposal-candidate.json": "2acb2c6c4647dce773b80501dd639a5771d43f74d9519e4015363a69cfab4443",
+          "provider-run-manifest.json": "bd792ab31d62fd9b4f61c60ac138ce06bd20448622cf70f63f758e84b76c02d5",
+          "raw-response.json": "a49894b9a596df19744d57626609034de3755970c09348dbe6f69a89900da677",
+          "stage1-v4-flex8192-case-status-v1.json": "649f63ec36fc7e44e5943c39ad676e54cb0968236f21a8159510b00b9df84eb3",
+          "validation-report.json": "c919d18579ce7d3a993ae56e577a8bef0f67bfbc68ab172de1b259dc84111ec0"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "e37976cd5937129e773e1ef4e717352de84aca880c523908398c0b9189b00cab",
+        "openaiResponseId": "resp_0683eee904649691016abc1ed596c887d0bad47c2f5fff6a99",
+        "ordinal": 39,
+        "packetSha256": "c14afc72b8a335778ea70030e0d8a69b2a9ed6856c3724ad0d8b520dd0da2641",
+        "sourcePayloadSha256": "dd7580e06012b45bcb41be749699babbb777f8c05dae632ab58ca3b695a4655b",
+        "stem": "47275398",
+        "usage": {
+          "input_tokens": 14506,
+          "input_tokens_details": {
+            "cache_write_tokens": 14503,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2274,
+          "output_tokens_details": {
+            "reasoning_tokens": 1508
+          },
+          "total_tokens": 16780
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+      "normalizedProposalSha256": "e37976cd5937129e773e1ef4e717352de84aca880c523908398c0b9189b00cab",
+      "ordinal": 39,
+      "providerStatusSha256": "649f63ec36fc7e44e5943c39ad676e54cb0968236f21a8159510b00b9df84eb3",
+      "structureEvidenceV2Sha256": "c14afc72b8a335778ea70030e0d8a69b2a9ed6856c3724ad0d8b520dd0da2641",
+      "usage": {
+        "input_tokens": 14506,
+        "input_tokens_details": {
+          "cache_write_tokens": 14503,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2274,
+        "output_tokens_details": {
+          "reasoning_tokens": 1508
+        },
+        "total_tokens": 16780
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "0fb341a4c4a10831af43631f94aa894f9a28626690b66bf1228ede88a855a7cf",
+        "artifactDigest": "sha256:6390ab0d179cdfd6056a7756cfb1b5a98af53e3814cba1f3f79a4b2de4db35dc",
+        "artifactId": 11060816774,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-40-completed",
+        "artifactSizeBytes": 20043,
+        "candidateComparisonCount": 3,
+        "dropPresence": "no_drop",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "34bfa72294ca40b9c94eaa0fa4a81e103928201dccf6739cff2e13498c592751",
+          "parameters.json": "7dd0ce33e8e6e9b20af925f5fc2cce8df5f33e361a655332cc4dab8dabac2a92",
+          "proposal-candidate.json": "bead6dd54bc8f19ac4663a018b0c2114373bec5bc3e8666f92e485302d95e0f9",
+          "provider-run-manifest.json": "c5dab5d7d54756911c7a82fc19a4a52cde19080bca3500db30428f05995ee763",
+          "raw-response.json": "859652ae7815a7ab69938ee21bb1c685ae39e04cb32d37feeefb3e67d5f11b25",
+          "stage1-v4-flex8192-case-status-v1.json": "928801a9a5e1d39fad54dd8aabaa54d88773b2310c46ee9d6850ae145f04d50b",
+          "validation-report.json": "a1c6df37406d2ad1176ba7f445e7b5ca595f0d539652a4997bc2c42bf82c8144"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "34bfa72294ca40b9c94eaa0fa4a81e103928201dccf6739cff2e13498c592751",
+        "openaiResponseId": "resp_002dab39de4a1c13016abc1efdccf887d086b93f8d90799b22",
+        "ordinal": 40,
+        "packetSha256": "7579d6f16b3452f3baad6d19c932e5e51f7bf00c2a65b5095dc47d2b3a7372b6",
+        "sourcePayloadSha256": "a83d923b1b3648a3b2c266b08b4e5b7689b0ed22328b3c8f9663c0365fbdb3e5",
+        "stem": "91165591",
+        "usage": {
+          "input_tokens": 10615,
+          "input_tokens_details": {
+            "cache_write_tokens": 10612,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2050,
+          "output_tokens_details": {
+            "reasoning_tokens": 1517
+          },
+          "total_tokens": 12665
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+      "normalizedProposalSha256": "34bfa72294ca40b9c94eaa0fa4a81e103928201dccf6739cff2e13498c592751",
+      "ordinal": 40,
+      "providerStatusSha256": "928801a9a5e1d39fad54dd8aabaa54d88773b2310c46ee9d6850ae145f04d50b",
+      "structureEvidenceV2Sha256": "7579d6f16b3452f3baad6d19c932e5e51f7bf00c2a65b5095dc47d2b3a7372b6",
+      "usage": {
+        "input_tokens": 10615,
+        "input_tokens_details": {
+          "cache_write_tokens": 10612,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2050,
+        "output_tokens_details": {
+          "reasoning_tokens": 1517
+        },
+        "total_tokens": 12665
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "1db7635c82418feda8697b5bc17efa56558d985d45b066d1a6ab6d2c97a7a997",
+        "artifactDigest": "sha256:d982dda8447ccc2f18a0e8b2c6f660bd8abb82cdf61019db2b5e48ec26cc9a07",
+        "artifactId": 11060427268,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-41-completed",
+        "artifactSizeBytes": 27305,
+        "candidateComparisonCount": 5,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "9d0c915d473937b9bf3791853012476c3792fd754d3dffeac363776b83934166",
+          "parameters.json": "6bada4ba0f5f3a865ddd09d4664ebd1f730ca7ee8c3b8bf54f0ee60097defb21",
+          "proposal-candidate.json": "32c0cd800a221a920a6155b35b1e9674fd77d746a23fea8f4509cea16d9e0bad",
+          "provider-run-manifest.json": "db45afc40fde90750984ac7852ee5907dc7b8614987435f86b8437836e268e6f",
+          "raw-response.json": "c2022e019bedfc1d72e27204db9c817af6a6c76ee8cb0ec81d7ab7cefa2c3eee",
+          "stage1-v4-flex8192-case-status-v1.json": "815464019f6ab699864b7f080a3ee74dc303159fa5cb90b6bb2f28614111dd25",
+          "validation-report.json": "9764af572ec823a93c564c720298e5fb09b6c8f6f1a8a52f95175b7461600c69"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "9d0c915d473937b9bf3791853012476c3792fd754d3dffeac363776b83934166",
+        "openaiResponseId": "resp_0abfeeed58211b14016abc1f229e6887d1b177f496ff69d4ea",
+        "ordinal": 41,
+        "packetSha256": "5fab48ce338a5d7502bd1ebdd8962837bf506863f7542bbad094d2f308cf2e4b",
+        "sourcePayloadSha256": "307a04fa58998980b0209546cefdf13368f40e3746b9ef0c30159c86c3f4f83b",
+        "stem": "79678819",
+        "usage": {
+          "input_tokens": 13458,
+          "input_tokens_details": {
+            "cache_write_tokens": 13455,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3624,
+          "output_tokens_details": {
+            "reasoning_tokens": 2588
+          },
+          "total_tokens": 17082
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+      "normalizedProposalSha256": "9d0c915d473937b9bf3791853012476c3792fd754d3dffeac363776b83934166",
+      "ordinal": 41,
+      "providerStatusSha256": "815464019f6ab699864b7f080a3ee74dc303159fa5cb90b6bb2f28614111dd25",
+      "structureEvidenceV2Sha256": "5fab48ce338a5d7502bd1ebdd8962837bf506863f7542bbad094d2f308cf2e4b",
+      "usage": {
+        "input_tokens": 13458,
+        "input_tokens_details": {
+          "cache_write_tokens": 13455,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3624,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 17082
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "9eabc9354d71e684bfb807b29b438e5bcb1dcd89fe7d692791f2ff6d1d78bd68",
+        "artifactDigest": "sha256:7d161b97907a328c13fa09f90962ac563c629449468dd7aff76f3c3121846bc6",
+        "artifactId": 11061151586,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-42-completed",
+        "artifactSizeBytes": 29887,
+        "candidateComparisonCount": 5,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "eeffac93c6fea819ffd9f1b6377c556c21dbd1c3d92e7eddcc0b4a3083d66f2b",
+          "parameters.json": "bc5a9ce28d3c8bd5d3181a068d1d0457ac6c7f5bdff0fa7870b88dfcf8c2d856",
+          "proposal-candidate.json": "564d9a7adee941e134b6eb4a08c1e5d2b791c631169f49e9112d1f43a59d3454",
+          "provider-run-manifest.json": "d90288671b3972e3366e31723f935181ebd999fe789fc17f8915eb165b1280d8",
+          "raw-response.json": "7ed885f8728e78b3f9473b70906de93e77d8c4509c271907f27164daf2394368",
+          "stage1-v4-flex8192-case-status-v1.json": "30e76f617950938ce7112c320808fbd55d159da75d17eade7808f905a3fa6eee",
+          "validation-report.json": "aa3df97e969e7ad12602821b26e89be6d90f3c935784a56419ebafd1b83c8e8e"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "eeffac93c6fea819ffd9f1b6377c556c21dbd1c3d92e7eddcc0b4a3083d66f2b",
+        "openaiResponseId": "resp_0b38199f8819f3f8016abc1f5cd97487d08b945fec37fdb010",
+        "ordinal": 42,
+        "packetSha256": "fedd709aaed00244801ddf498973016c01c4b9cd9dac1c7481c955b0321e6336",
+        "sourcePayloadSha256": "b8f5792903a8628476357bf377397183259fa53754ad6e35512043d0bb782fe5",
+        "stem": "60529832",
+        "usage": {
+          "input_tokens": 13575,
+          "input_tokens_details": {
+            "cache_write_tokens": 13572,
+            "cached_tokens": 0
+          },
+          "output_tokens": 4283,
+          "output_tokens_details": {
+            "reasoning_tokens": 3096
+          },
+          "total_tokens": 17858
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+      "normalizedProposalSha256": "eeffac93c6fea819ffd9f1b6377c556c21dbd1c3d92e7eddcc0b4a3083d66f2b",
+      "ordinal": 42,
+      "providerStatusSha256": "30e76f617950938ce7112c320808fbd55d159da75d17eade7808f905a3fa6eee",
+      "structureEvidenceV2Sha256": "fedd709aaed00244801ddf498973016c01c4b9cd9dac1c7481c955b0321e6336",
+      "usage": {
+        "input_tokens": 13575,
+        "input_tokens_details": {
+          "cache_write_tokens": 13572,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4283,
+        "output_tokens_details": {
+          "reasoning_tokens": 3096
+        },
+        "total_tokens": 17858
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "23da47cbdd71697638d847f4687890ac0a07ab93b4ee7285742ef1ea27c42b84",
+        "artifactDigest": "sha256:96b11e6c6726305655ce9c3f486b887ca9500722e05a5e943233fa93036e9024",
+        "artifactId": 11061226555,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-43-completed",
+        "artifactSizeBytes": 17549,
+        "candidateComparisonCount": 2,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "4d170aea39983917dfa9fa434507deb36c5c05e5eb8bf0eab3165fcc811f7334",
+          "parameters.json": "a837b00bae04801812ff379f0b1763df4df9513e5a2d581c4a62451c5911657e",
+          "proposal-candidate.json": "40f98f1149216f951f74b3edfe841b4ca4327728566fb70b9203367456ca9c1c",
+          "provider-run-manifest.json": "edef8afbcd7f53b3f4be649a9a0df26bb345f535ca678f4d98f7e442d9c43794",
+          "raw-response.json": "e0bbe7e70fe86a3933492bd2dd2146518ff7a10f9b52f66ba3b5a4c22ba9b523",
+          "stage1-v4-flex8192-case-status-v1.json": "b49cf5f2c789955052c31b7d9ae543b6a432fd0d9ff95dfef408b76fee9a27ea",
+          "validation-report.json": "37dadc09848e30b8e8c22c2985b3e7be91cd10693f49c64a0438e485a42e1fb7"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "4d170aea39983917dfa9fa434507deb36c5c05e5eb8bf0eab3165fcc811f7334",
+        "openaiResponseId": "resp_014dba04f072d619016abc1f94937087d1bd95a3acc2efe9cd",
+        "ordinal": 43,
+        "packetSha256": "43ca23725cf9f62aab6df722511b253ca009c46d10a9bac17b80bcb40c5afecb",
+        "sourcePayloadSha256": "2007a6fe99f28ad649f791e4a7235877d67d9ef3164e75477f5d3f31b07af4c1",
+        "stem": "65673638",
+        "usage": {
+          "input_tokens": 13927,
+          "input_tokens_details": {
+            "cache_write_tokens": 13924,
+            "cached_tokens": 0
+          },
+          "output_tokens": 1536,
+          "output_tokens_details": {
+            "reasoning_tokens": 1034
+          },
+          "total_tokens": 15463
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+      "normalizedProposalSha256": "4d170aea39983917dfa9fa434507deb36c5c05e5eb8bf0eab3165fcc811f7334",
+      "ordinal": 43,
+      "providerStatusSha256": "b49cf5f2c789955052c31b7d9ae543b6a432fd0d9ff95dfef408b76fee9a27ea",
+      "structureEvidenceV2Sha256": "43ca23725cf9f62aab6df722511b253ca009c46d10a9bac17b80bcb40c5afecb",
+      "usage": {
+        "input_tokens": 13927,
+        "input_tokens_details": {
+          "cache_write_tokens": 13924,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1536,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 15463
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "d148d617e3c4cc6f4c8e61cfaf3436ad1188d3655c1c51f19b8734d956e136fa",
+        "artifactDigest": "sha256:108448ea12aa9a07b6ad139c287c5195723cf6909d6a4ea19aac430b11aeebec",
+        "artifactId": 11061201691,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-44-completed",
+        "artifactSizeBytes": 20727,
+        "candidateComparisonCount": 5,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "785e7a9fab3a91737d3bf5c7190e2392ff92ce97d3f73ba807bad2aacc0815b6",
+          "parameters.json": "26211af5939e98d990d65022da8378a525bb36c930f7220eb5acef34bdddc143",
+          "proposal-candidate.json": "e3354ec4d2ebcddfe4d13bf730fc995e437540b0f733883482bf121e22f34e01",
+          "provider-run-manifest.json": "005fb563bd232855bbf5ab9c5081fefabea8974b3ca827b0f366c0b899746727",
+          "raw-response.json": "4c40878945d082a1992d1c40cb0c39f6794f7c9353b3730817e7dcb2e47294d7",
+          "stage1-v4-flex8192-case-status-v1.json": "4e2c244d167136b1305b8a9a8974d3826251895df6c748c05925e47115b72e49",
+          "validation-report.json": "f2f80517cf752ee0665382d300f678560bcd2a21fe5ce32f3aacf02d550fcb7f"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "785e7a9fab3a91737d3bf5c7190e2392ff92ce97d3f73ba807bad2aacc0815b6",
+        "openaiResponseId": "resp_0872c43259e21a3a016abc1fb496cc87d1befd18c662f0f3d0",
+        "ordinal": 44,
+        "packetSha256": "b2176bcb287fd15209b730153d636b0ced51fb07c270bc72b31b638cc8671637",
+        "sourcePayloadSha256": "82311edb836a6112000ff431765a7586c0c4bba36568654e3aceed348c3b2e68",
+        "stem": "32339733",
+        "usage": {
+          "input_tokens": 19991,
+          "input_tokens_details": {
+            "cache_write_tokens": 19988,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2329,
+          "output_tokens_details": {
+            "reasoning_tokens": 1384
+          },
+          "total_tokens": 22320
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+      "normalizedProposalSha256": "785e7a9fab3a91737d3bf5c7190e2392ff92ce97d3f73ba807bad2aacc0815b6",
+      "ordinal": 44,
+      "providerStatusSha256": "4e2c244d167136b1305b8a9a8974d3826251895df6c748c05925e47115b72e49",
+      "structureEvidenceV2Sha256": "b2176bcb287fd15209b730153d636b0ced51fb07c270bc72b31b638cc8671637",
+      "usage": {
+        "input_tokens": 19991,
+        "input_tokens_details": {
+          "cache_write_tokens": 19988,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2329,
+        "output_tokens_details": {
+          "reasoning_tokens": 1384
+        },
+        "total_tokens": 22320
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "5237fff21572fc2333db6037dda411d58016c51adc4daa2d43e74034e55895f9",
+        "artifactDigest": "sha256:70a8ec736bb1ac05e9cc8f356734fe01bd6d946cc68731457bb09883ffd8c06f",
+        "artifactId": 11060407794,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-45-completed",
+        "artifactSizeBytes": 21364,
+        "candidateComparisonCount": 4,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "c82b6b50ee9f46cb29d9f395ec9241940220873baa32825ed45bc78fd0dde20f",
+          "parameters.json": "77e98caf045c1ba93661f9c1970e82ed658882771c305b91eacc3f21baadc41e",
+          "proposal-candidate.json": "e809f329b8d2678071e0f0791723e5e64df456e4c28fa2e73a227777aa75908b",
+          "provider-run-manifest.json": "6edddaaacecf29df885fc763efe0e130679199070f3d2c46437e369421fc0092",
+          "raw-response.json": "9f4c83b07d991c1e1c808eb0eaa69220e397aa229c90a926d74eab1714c2acb4",
+          "stage1-v4-flex8192-case-status-v1.json": "25f6fd97c63986928a42ba2ff3481ed718c59962744d504c343a9abc7289d69b",
+          "validation-report.json": "3e9b3e04dee7a43e17abc8dffddeda3ce95e5b111536f6454b814e91b1477fd8"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "c82b6b50ee9f46cb29d9f395ec9241940220873baa32825ed45bc78fd0dde20f",
+        "openaiResponseId": "resp_0190a5a6650c4de9016abc1fde632c87d0b51064c119e0345c",
+        "ordinal": 45,
+        "packetSha256": "a0a60580dbe60b3f861f8d3e19bbd66227d9fc0d9714cf3aca23516028d5f3b4",
+        "sourcePayloadSha256": "363a67928728bb29faf4ff8e2e41dd917ef6c8e9266359a45f162f08c65dc672",
+        "stem": "37088222",
+        "usage": {
+          "input_tokens": 14978,
+          "input_tokens_details": {
+            "cache_write_tokens": 14975,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2394,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 17372
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+      "normalizedProposalSha256": "c82b6b50ee9f46cb29d9f395ec9241940220873baa32825ed45bc78fd0dde20f",
+      "ordinal": 45,
+      "providerStatusSha256": "25f6fd97c63986928a42ba2ff3481ed718c59962744d504c343a9abc7289d69b",
+      "structureEvidenceV2Sha256": "a0a60580dbe60b3f861f8d3e19bbd66227d9fc0d9714cf3aca23516028d5f3b4",
+      "usage": {
+        "input_tokens": 14978,
+        "input_tokens_details": {
+          "cache_write_tokens": 14975,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2394,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 17372
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "1d2d316cf4228632f80f5ca733ce8f070ca631c59303448a7f3967958eb6f904",
+        "artifactDigest": "sha256:e87f06803fefd9b8bee07ddbea4d24fa1f56cba64121930abe31d38961740105",
+        "artifactId": 11060293008,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-46-completed",
+        "artifactSizeBytes": 26663,
+        "candidateComparisonCount": 4,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "b951664f6a5c3e14a55fbdd41d0f3d6a5d8fd2c18d17a72a80b745e172062018",
+          "parameters.json": "323decbb23e952ec01456587eb75a4a385d3c0223273da14af29d170ce0eada2",
+          "proposal-candidate.json": "3ddc2c6b73b122b31615f4392978ed3c88fa5b1426f39d498673659da01e4cd5",
+          "provider-run-manifest.json": "091f2980e447399930b1c99359f33aabb268e268615be60ecf87c14dc2b2720f",
+          "raw-response.json": "0520edf46ef08d14f9dd2f0694d47ef1fc1d560a9dbda7283ea386150f278fd8",
+          "stage1-v4-flex8192-case-status-v1.json": "56ff44eef5ca13df03cb16f6c5127fc90e14bdd07184578821ce6081f033dd22",
+          "validation-report.json": "8809fc3f162ff8112c7009b5577d4e24e47931528359c64a012901599f7fa11e"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "b951664f6a5c3e14a55fbdd41d0f3d6a5d8fd2c18d17a72a80b745e172062018",
+        "openaiResponseId": "resp_02faeb2188dce769016abc20036e0887d0a30e130952cc522d",
+        "ordinal": 46,
+        "packetSha256": "aad2535b15b659688fb64ae4cdcba29f1ae1b68086c9bb1915e72d770571b23f",
+        "sourcePayloadSha256": "91477e4435b40ab67975a6274c8409e65a889540c37411a89c244f79d793493b",
+        "stem": "34226765",
+        "usage": {
+          "input_tokens": 13054,
+          "input_tokens_details": {
+            "cache_write_tokens": 13051,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3375,
+          "output_tokens_details": {
+            "reasoning_tokens": 2588
+          },
+          "total_tokens": 16429
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+      "normalizedProposalSha256": "b951664f6a5c3e14a55fbdd41d0f3d6a5d8fd2c18d17a72a80b745e172062018",
+      "ordinal": 46,
+      "providerStatusSha256": "56ff44eef5ca13df03cb16f6c5127fc90e14bdd07184578821ce6081f033dd22",
+      "structureEvidenceV2Sha256": "aad2535b15b659688fb64ae4cdcba29f1ae1b68086c9bb1915e72d770571b23f",
+      "usage": {
+        "input_tokens": 13054,
+        "input_tokens_details": {
+          "cache_write_tokens": 13051,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3375,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 16429
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "c701362624afc42a76278da94ef2120b8393e945e7bf96539f36448125b58da7",
+        "artifactDigest": "sha256:caf54c3d76ec5f6cbb220f154f0df2d3101cc7726f012b69c793a599876b0044",
+        "artifactId": 11060333168,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-47-completed",
+        "artifactSizeBytes": 23919,
+        "candidateComparisonCount": 5,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "477c2fb20f8c86354de30be9307db850ade1e4e1d0e18348fa50002096bae497",
+          "parameters.json": "2441d41a1320eb7259240f4ead8f66e217c71c74b57b7d2e02311030d4f6b93d",
+          "proposal-candidate.json": "81a290288ec448f425e9e9c53c3b394994fbf92dd9e0909c4481a72bf8093c0c",
+          "provider-run-manifest.json": "e01d301c02dcf7f5d3160f71fd35537868e4e4e6d779be0b83a02299539ee309",
+          "raw-response.json": "fb630fe6afabf7432fe4f5df10b878769f8c75e154e69aaeec3ed98cd907ce21",
+          "stage1-v4-flex8192-case-status-v1.json": "29bcc64fa6f1bc6cf8828a790e3695932f0bddf4fb1f5010dbec2d0a15b1c6bf",
+          "validation-report.json": "46f6840260e40633fc942fe62ab8a961115e1289b7ef66bae33cc464384af3e7"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "477c2fb20f8c86354de30be9307db850ade1e4e1d0e18348fa50002096bae497",
+        "openaiResponseId": "resp_03d0a182f2632edd016abc202d5a8c87d1bb05d8706ced1f36",
+        "ordinal": 47,
+        "packetSha256": "10fe3d3fd53152738d203611ee796eb862addc259c16c98b3f5dae9cc94ff8e6",
+        "sourcePayloadSha256": "178eaa40cc50d3f0ee87f94325d7d04f59a053a587b4a08f05f032b24f4b0987",
+        "stem": "84747227",
+        "usage": {
+          "input_tokens": 11725,
+          "input_tokens_details": {
+            "cache_write_tokens": 11722,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2944,
+          "output_tokens_details": {
+            "reasoning_tokens": 1956
+          },
+          "total_tokens": 14669
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+      "normalizedProposalSha256": "477c2fb20f8c86354de30be9307db850ade1e4e1d0e18348fa50002096bae497",
+      "ordinal": 47,
+      "providerStatusSha256": "29bcc64fa6f1bc6cf8828a790e3695932f0bddf4fb1f5010dbec2d0a15b1c6bf",
+      "structureEvidenceV2Sha256": "10fe3d3fd53152738d203611ee796eb862addc259c16c98b3f5dae9cc94ff8e6",
+      "usage": {
+        "input_tokens": 11725,
+        "input_tokens_details": {
+          "cache_write_tokens": 11722,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2944,
+        "output_tokens_details": {
+          "reasoning_tokens": 1956
+        },
+        "total_tokens": 14669
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "9464bec6bb8700bb92612270e371fc8fe9175f34e2f47d9966981e1d51a13ffe",
+        "artifactDigest": "sha256:da7418f3cf60f2cb20c7c974e453be1cd449dd5002d432405fa312e52aaa62d4",
+        "artifactId": 11060688020,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-48-completed",
+        "artifactSizeBytes": 23381,
+        "candidateComparisonCount": 3,
+        "dropPresence": "insufficient_semantic_evidence",
+        "dropProposalCount": 0,
+        "files": {
+          "normalized-proposal.json": "d99df39fb0c9168daa34cb8aecb5e3b98861a97eaaf4416dcb0e85f3b0f078b3",
+          "parameters.json": "d484b1d5d0b1680be7e69ae9ae77ddd94bc89313e85a61eecc077fe6ba3fb601",
+          "proposal-candidate.json": "fea42baa32b243b17c78eb38ed62cfd5bf6ee67e0c8c54b2627815f24ba429db",
+          "provider-run-manifest.json": "2642b603818db4d408787e4fdd7864dd215c8fb1e755d8e2d2a09e0fff74a48a",
+          "raw-response.json": "3084d20849b66f38d2b4ad26b0dadf0569c09e3196526107d16f9090b4b0af0d",
+          "stage1-v4-flex8192-case-status-v1.json": "1670d74099fcd1adbbce04d88160352b1ef4456b35b0997888a4a0e883b6d554",
+          "validation-report.json": "8bc4035897541b4c58c9013536646588a652c6e326aa92c78af7c4b3be6e6d63"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+        "localizationStatus": "not_applicable",
+        "normalizedProposalSha256": "d99df39fb0c9168daa34cb8aecb5e3b98861a97eaaf4416dcb0e85f3b0f078b3",
+        "openaiResponseId": "resp_0896b1fd0168d0a2016abc205d48f887d088495c00c401b7b4",
+        "ordinal": 48,
+        "packetSha256": "844b7b78ab3aa4b52fc0479ce910361aad5952c1885aed2db9924d7d9b2f8c2e",
+        "sourcePayloadSha256": "fc535b0b3fc92e3b5e8b5f7c1d7625c8fbffbab7de8730d712de338a77356066",
+        "stem": "57561267",
+        "usage": {
+          "input_tokens": 11705,
+          "input_tokens_details": {
+            "cache_write_tokens": 11702,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2449,
+          "output_tokens_details": {
+            "reasoning_tokens": 1857
+          },
+          "total_tokens": 14154
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+      "normalizedProposalSha256": "d99df39fb0c9168daa34cb8aecb5e3b98861a97eaaf4416dcb0e85f3b0f078b3",
+      "ordinal": 48,
+      "providerStatusSha256": "1670d74099fcd1adbbce04d88160352b1ef4456b35b0997888a4a0e883b6d554",
+      "structureEvidenceV2Sha256": "844b7b78ab3aa4b52fc0479ce910361aad5952c1885aed2db9924d7d9b2f8c2e",
+      "usage": {
+        "input_tokens": 11705,
+        "input_tokens_details": {
+          "cache_write_tokens": 11702,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2449,
+        "output_tokens_details": {
+          "reasoning_tokens": 1857
+        },
+        "total_tokens": 14154
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "8fd54bb5d7de4b51fe035f68607ca30ed264abc38bde2132f750c3aa0fa1f6c2",
+        "artifactDigest": "sha256:9d023288b0f700bed06d3b9c2b33e86a48311985db8f189a01e3c5add98f5584",
+        "artifactId": 11060398269,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-49-completed",
+        "artifactSizeBytes": 21103,
+        "candidateComparisonCount": 4,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "0bbcc2fa0c74398dc61eeb95cb095ad10a063dec788fba50e0185d7bd112c6af",
+          "parameters.json": "d75905387c5e9aade982ab37fe0bbd252c7d99492308cde52858eeb371e3c024",
+          "proposal-candidate.json": "20e5e895dee9ce8e698af21716cbd4649bb48d6a03b5b35bc596daa7f062f815",
+          "provider-run-manifest.json": "ac31fd959241479452eaf6a4a5eaef066c270f49f33654e17de57406970b2481",
+          "raw-response.json": "f46a64937d45e6fcd11240dffa93ea84bb7c562430eaf3029ca851cf886d5e36",
+          "stage1-v4-flex8192-case-status-v1.json": "ba1da31f3b28097913352ec4fefee8384b7d2f40449c5d5b9ec524caea87913b",
+          "validation-report.json": "222216261ef001f88f2f43e8210d02162b27b575222d12f7e3a17fab64d906c7"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "0bbcc2fa0c74398dc61eeb95cb095ad10a063dec788fba50e0185d7bd112c6af",
+        "openaiResponseId": "resp_000110059aec6716016abc208ba2cc87d2aac20015897dcdac",
+        "ordinal": 49,
+        "packetSha256": "09dc6a6d4b79ef0750d62c43eea8739a8c4cd4533d1a89bbe260bbecb5988dda",
+        "sourcePayloadSha256": "fe5157ed787d9a39187c4786954a9b00c40f1572a4c8a095aea3345ac827f0cc",
+        "stem": "92251267",
+        "usage": {
+          "input_tokens": 13385,
+          "input_tokens_details": {
+            "cache_write_tokens": 13382,
+            "cached_tokens": 0
+          },
+          "output_tokens": 2348,
+          "output_tokens_details": {
+            "reasoning_tokens": 1552
+          },
+          "total_tokens": 15733
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+      "normalizedProposalSha256": "0bbcc2fa0c74398dc61eeb95cb095ad10a063dec788fba50e0185d7bd112c6af",
+      "ordinal": 49,
+      "providerStatusSha256": "ba1da31f3b28097913352ec4fefee8384b7d2f40449c5d5b9ec524caea87913b",
+      "structureEvidenceV2Sha256": "09dc6a6d4b79ef0750d62c43eea8739a8c4cd4533d1a89bbe260bbecb5988dda",
+      "usage": {
+        "input_tokens": 13385,
+        "input_tokens_details": {
+          "cache_write_tokens": 13382,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2348,
+        "output_tokens_details": {
+          "reasoning_tokens": 1552
+        },
+        "total_tokens": 15733
+      }
+    },
+    {
+      "generationArtifact": {
+        "amendedPayloadSha256": "a8952c760048a0fea559cac8786d68ad883c97ce9005d1ea83f5f79cb574f888",
+        "artifactDigest": "sha256:64889c0830479c3bc93102d62d12f4b5f37a5fc196461f04074a2ebd3a36bfcb",
+        "artifactId": 11060318437,
+        "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-v1-case-50-completed",
+        "artifactSizeBytes": 28474,
+        "candidateComparisonCount": 3,
+        "dropPresence": "drop_present",
+        "dropProposalCount": 1,
+        "files": {
+          "normalized-proposal.json": "31ef19f6969181f8518829e66f5dac0d703a2464dc7400815c31c3eb424143b7",
+          "parameters.json": "f0ad5d4e35fac2dfd276abbc17a7613ccc256078148a832b6f8af390fad7ad32",
+          "proposal-candidate.json": "da1a1b5e197d42fcb1765d0d68d3ff6c9327125ebe9ebaf9c6f5f99c9f3a6a25",
+          "provider-run-manifest.json": "c1bd7cc34cfa95c830ae168d215ca23d5d56e0323e6711bed9f282ef7845af77",
+          "raw-response.json": "299d803edd2d26f84e1e6283804e936e308faed3d9d11afe2fa0f10034c54ca5",
+          "stage1-v4-flex8192-case-status-v1.json": "3d932b3e21d7c0fd6e38e2b0741074180b8e59276347af806768bd0eb29309d7",
+          "validation-report.json": "89f26d9961716e28dec20759e3dbe36aded5b716642d430969b3ca115eee1baa"
+        },
+        "githubRunAttempt": 1,
+        "githubRunId": "36622763968",
+        "harnessSourceCommit": "5f85e487a5303f62d5d6b0fd75b037bd70e81f41",
+        "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+        "localizationStatus": "localized",
+        "normalizedProposalSha256": "31ef19f6969181f8518829e66f5dac0d703a2464dc7400815c31c3eb424143b7",
+        "openaiResponseId": "resp_0f401af65f106db9016abc20ba8f6887d298d10fe3da9e06bf",
+        "ordinal": 50,
+        "packetSha256": "d4160e60fc7cb66bd26f61336b6840a5bc4b3bcb739ddf13877555968a372345",
+        "sourcePayloadSha256": "4e16be7b68dc76cbd987c7550a37b7c2b25ebc298b645c92fb25229d675662c7",
+        "stem": "57916551",
+        "usage": {
+          "input_tokens": 13744,
+          "input_tokens_details": {
+            "cache_write_tokens": 13741,
+            "cached_tokens": 0
+          },
+          "output_tokens": 3392,
+          "output_tokens_details": {
+            "reasoning_tokens": 2700
+          },
+          "total_tokens": 17136
+        }
+      },
+      "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+      "normalizedProposalSha256": "31ef19f6969181f8518829e66f5dac0d703a2464dc7400815c31c3eb424143b7",
+      "ordinal": 50,
+      "providerStatusSha256": "3d932b3e21d7c0fd6e38e2b0741074180b8e59276347af806768bd0eb29309d7",
+      "structureEvidenceV2Sha256": "d4160e60fc7cb66bd26f61336b6840a5bc4b3bcb739ddf13877555968a372345",
+      "usage": {
+        "input_tokens": 13744,
+        "input_tokens_details": {
+          "cache_write_tokens": 13741,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3392,
+        "output_tokens_details": {
+          "reasoning_tokens": 2700
+        },
+        "total_tokens": 17136
+      }
+    }
+  ],
+  "compilerInvoked": false,
+  "developmentRevision": "stage1-drop-semantics-v4-presence-relative-distinctiveness",
+  "evaluationSha256": "fefe7e636aa7051b190c4a3ab16140ec8990671359e4b69bd6a39477c7342bdf",
+  "evaluatorSourceSha256": "60c43efef06c19a4d85db1a600ecebc97807115d76551289949ffd5e9db708f0",
+  "generationFreezeArtifactId": "11061982516",
+  "generationFreezeSha256": "d93af2efdf7147b1908492f9f5ec4070a6a33afffe227a2d0001896a88631204",
+  "headlineSha256": "8296b992b2c45ae4da48d7eed5961266622f5b3002bf10ec569af1be78b58e4d",
+  "perTrackCsvSha256": "7557f3e88e8b8d88a131e5bd2eb10f30385ab617cbb5e525c3fe846fc6920bb2",
+  "providerCallsMadeByEvaluator": 0,
+  "referencesSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+  "schema": "trackcade-semantic-external-stage1-v4-evaluation-provenance-v1",
+  "scoringSourceGitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+  "scoringSourceSha256": "90aefb42a868553c75de4c3cca26bb646fc4706e8fbd09892e4a412323b62bb8",
+  "sourcePrepManifestSha256": "613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972",
+  "terminalTracksProcessed": false,
+  "transportAmendment": "flex8192",
+  "usageTotals": {
+    "input_tokens": 676320,
+    "output_tokens": 125015,
+    "reasoning_tokens": 87766,
+    "total_tokens": 801335
+  }
+}

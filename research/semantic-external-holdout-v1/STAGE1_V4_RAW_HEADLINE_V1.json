@@ -1,0 +1,57 @@
+{
+  "diagnostics": {
+    "positiveDecisionAbstentions": 18,
+    "positivePredictedTracks": 9,
+    "positiveProposalOmissions": 18,
+    "positiveReferenceTracks": 27,
+    "predictedPositiveTracks": 18,
+    "presenceCounts": {
+      "drop_present": 18,
+      "insufficient_semantic_evidence": 25,
+      "no_drop": 7
+    },
+    "proposalCount": 19,
+    "proposalsPerPredictedPositiveTrack": 1.0555555555555556,
+    "zeroReferenceDecisionAbstentions": 14,
+    "zeroReferenceFalsePositiveProposals": 9,
+    "zeroReferenceProposalAbstentions": 14,
+    "zeroReferenceTracks": 23,
+    "zeroReferenceTracksWithFalsePositiveProposals": 9
+  },
+  "f1AbsoluteDelta": -0.14072748956469888,
+  "f1PercentagePointDelta": -14.072748956469889,
+  "primaryToleranceSeconds": 2.0,
+  "schema": "trackcade-semantic-external-stage1-v4-raw-headline-v1",
+  "v3FrozenPrimary": {
+    "candidateSupport": 83,
+    "f1": 0.29457364341085274,
+    "falseNegatives": 27,
+    "falsePositives": 64,
+    "matchedSupport": 19,
+    "precision": 0.2289156626506024,
+    "recall": 0.41304347826086957,
+    "referenceSupport": 46,
+    "truePositives": 19
+  },
+  "v4Primary": {
+    "candidateSupport": 19,
+    "macro": {
+      "f1": 0.36,
+      "precision": 0.74,
+      "recall": 0.53
+    },
+    "matchedSupport": 5,
+    "maxAbsoluteErrorSeconds": 1.4259999999999877,
+    "meanAbsoluteErrorSeconds": 0.6851999999999947,
+    "medianAbsoluteErrorSeconds": 0.8739999999999952,
+    "micro": {
+      "f1": 0.15384615384615385,
+      "falseNegatives": 41,
+      "falsePositives": 14,
+      "precision": 0.2631578947368421,
+      "recall": 0.10869565217391304,
+      "truePositives": 5
+    },
+    "referenceSupport": 46
+  }
+}

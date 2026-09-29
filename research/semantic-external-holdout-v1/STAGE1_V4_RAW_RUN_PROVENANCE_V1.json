@@ -1,0 +1,11 @@
+{
+  "compilerInvoked": false,
+  "evaluationFreezeSha256": "21d839b091113b88509789791d2a9de8e5da22a71435b7b78d167397e98b3779",
+  "headSha": "8c1ec24f1ad1f63753583f576351d9b8fdc4fe97",
+  "providerCallsMade": 0,
+  "runAttempt": 1,
+  "runId": "36630777569",
+  "schema": "trackcade-semantic-external-stage1-v4-raw-run-provenance-v1",
+  "terminalTracksProcessed": false,
+  "workflow": "Trackcade V4 \u2014 Offline RAW Stage1 evaluation"
+}
