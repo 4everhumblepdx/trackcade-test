@@ -1,0 +1,143 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V4 Generation Conformance
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v4-generation-conformance-v1.yml
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v4-generation-conformance-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  LEARNED: research/learned-interpretation-v1
+  PREP_RUN_ID: '36605876352'
+  PREP_ARTIFACT_ID: '11050749993'
+  PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+  PREP_ARTIFACT_DIGEST: sha256:d4129faf1cd562faf687387a55cecfbd8d63e4bc1f0d541208a952450c6922ec
+  PREP_HEAD_SHA: 'c245713d85f5d28533543a9bebb436cd56e52059'
+  PREP_MANIFEST_SHA256: '613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972'
+
+jobs:
+  verify-all-50:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact conformance source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      - name: Assert no provider secret in conformance environment
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not be present in offline conformance' >&2
+            exit 1
+          fi
+
+      - name: Compile V4 live-path Python and run contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            "$BASE/run_stage1_v4_provider_case_v1.py" \
+            "$LEARNED/build_learned_request_v4.py" \
+            "$LEARNED/validate_learned_proposal_v4.py" \
+            "$LEARNED/openai_responses_adapter_v4.py" \
+            "$LEARNED/ingest_provider_response_v4.py"
+          python "$BASE/test_stage1_v4_contract.py"
+
+      - name: Verify frozen V4 prep artifact metadata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+      - name: Download exact frozen V4 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify exact prep manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/v4-prep/STAGE1_V4_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$PREP_MANIFEST_SHA256"
+
+      - name: Preflight every frozen V4 case without provider access
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/v4-conformance"
+          for ordinal in $(seq 1 50); do
+            out="${RUNNER_TEMP}/v4-conformance/case-${ordinal}"
+            python "$BASE/run_stage1_v4_provider_case_v1.py" \
+              --prep-root "${RUNNER_TEMP}/v4-prep" \
+              --ordinal "$ordinal" \
+              --output-dir "$out" \
+              --adapter "$LEARNED/openai_responses_adapter_v4.py" \
+              --ingester "$LEARNED/ingest_provider_response_v4.py" \
+              --harness-source-commit "$GITHUB_SHA" \
+              --prep-artifact-id "$PREP_ARTIFACT_ID" \
+              --preflight-only
+            python - "$out/stage1-v4-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['classification']=='offline_preflight_complete_no_provider_call'
+          assert d['providerCallAttempted'] is False
+          assert d['providerResponseObserved'] is False
+          assert d['providerCompletedSemanticResponse'] is False
+          assert d['compilerInvoked'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['frozenPayloadSha256']==d['preflightPayloadSha256']
+          PY
+          done
+
+      - name: Summarize conformance closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('${{ runner.temp }}/v4-conformance')
+          statuses=[json.load(open(p)) for p in sorted(root.glob('case-*/stage1-v4-case-status-v1.json'))]
+          assert len(statuses)==50
+          assert [d['ordinal'] for d in statuses]==list(range(1,51))
+          assert all(d['classification']=='offline_preflight_complete_no_provider_call' for d in statuses)
+          assert all(d['frozenPayloadSha256']==d['preflightPayloadSha256'] for d in statuses)
+          print(json.dumps({
+            'schema':'trackcade-stage1-v4-generation-conformance-v1',
+            'cases':50,
+            'payloadByteEquality':True,
+            'providerCalls':0,
+            'terminalTracksProcessed':False,
+            'compilerInvoked':False,
+          }, indent=2))
+          PY
+
+      - name: Upload offline conformance evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v4-generation-conformance-v1
+          path: ${{ runner.temp }}/v4-conformance
+          if-no-files-found: error
+          retention-days: 90
