@@ -1,0 +1,60 @@
+name: Trackcade V3 - Stage1 generation freeze (offline)
+on:
+  push:
+    branches: [trackcade-semantic-external-holdout-v1]
+    paths: [.github/workflows/trackcade-semantic-external-stage1-v3-generation-freeze-v1.yml]
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+concurrency:
+  group: trackcade-semantic-external-stage1-v3-sol-v1
+  cancel-in-progress: false
+jobs:
+  freeze:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/collect_stage1_v3_results_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_v3_drop_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py
+            research/semantic-external-holdout-v1/freeze_stage1_v3_inventory_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V3_ARTIFACT_INVENTORY_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V3_GENERATION_SOURCE_INVENTORY_V1.json
+      - name: Assert label and terminal exclusion and frozen scorer
+        run: |
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          test "$(git rev-parse HEAD:research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py)" = 3d74996281ec260e170ea10929bd0115a6d4ac70
+          test "$(git rev-parse HEAD:research/semantic-external-holdout-v1/evaluate_stage1_v3_drop_v1.py)" = 6830c330e3372454b805cfa54aca89def7977b4b
+          gh api repos/4everhumblepdx/trackcade-test/actions/artifacts/10986506165 > "$RUNNER_TEMP/prep-meta.json"
+          python - <<'PY'
+          import json,os
+          p=json.load(open(os.environ['RUNNER_TEMP']+'/prep-meta.json'))
+          assert p['digest']=='sha256:5f9e4159faf620f6b527fecc649b456633a3dccfca074dca7c6a422d3527e376'
+          assert p['workflow_run']['id']==36457485587 and p['expired'] is False
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          artifact-ids: '10986506165'
+          merge-multiple: true
+          path: ${{ runner.temp }}/v3-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: '36457485587'
+          github-token: ${{ github.token }}
+      - name: Verify all immutable evidence and freeze without labels
+        run: python research/semantic-external-holdout-v1/freeze_stage1_v3_inventory_v1.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v3-generation-freeze-v1
+          path: ${{ runner.temp }}/generation-evidence
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
