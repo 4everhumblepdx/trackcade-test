@@ -1,0 +1,16 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v4-flex8192-ordinal1-retry-authorization-v1",
+  "status": "authorized-one-paid-retry-only",
+  "ordinal": 1,
+  "authorization": "ordinal-1-flex8192-evidence-11056001189-v1",
+  "provider": "openai",
+  "api": "responses",
+  "model": "gpt-6-sol",
+  "reasoningEffort": "high",
+  "maxOutputTokens": 8192,
+  "serviceTier": "flex",
+  "store": false,
+  "standardFallbackAuthorized": false,
+  "additionalRetriesAuthorized": false,
+  "remainingOrdinalsAuthorized": false
+}
