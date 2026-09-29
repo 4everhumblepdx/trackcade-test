@@ -1,0 +1,102 @@
+name: Trackcade V4 — Persist frozen RAW results
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - '.github/workflows/trackcade-semantic-external-stage1-v4-results-freeze-v1.yml'
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  persist:
+    runs-on: ubuntu-24.04
+    env:
+      BASE: research/semantic-external-holdout-v1
+      EVAL_RUN_ID: '36630777569'
+      EVAL_RUN_HEAD: '8c1ec24f1ad1f63753583f576351d9b8fdc4fe97'
+      EVAL_ARTIFACT_ID: '11062138315'
+      EVAL_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-raw-evaluation-v1
+      EVAL_ARTIFACT_DIGEST: 'sha256:b2abc5bc2fe7cd6194a460223ec61779b97311331cb5fe9a177235c8624b72c9'
+    steps:
+      - name: Checkout research branch
+        uses: actions/checkout@v4
+        with:
+          ref: trackcade-semantic-external-holdout-v1
+          fetch-depth: 0
+
+      - name: Enforce offline one-shot boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          test -z "${OPENAI_API_KEY:-}"
+
+      - name: Verify exact evaluation artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,urllib.request
+          repo=os.environ['GITHUB_REPOSITORY']; token=os.environ['GH_TOKEN']; aid=os.environ['EVAL_ARTIFACT_ID']
+          req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/artifacts/{aid}',headers={
+            'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'trackcade-v4-result-freeze'})
+          with urllib.request.urlopen(req,timeout=60) as r: a=json.load(r)
+          assert str(a['id'])==aid
+          assert a['name']==os.environ['EVAL_ARTIFACT_NAME']
+          assert a['expired'] is False
+          assert a.get('digest')==os.environ['EVAL_ARTIFACT_DIGEST']
+          wr=a.get('workflow_run') or {}
+          assert str(wr.get('id'))==os.environ['EVAL_RUN_ID'] and wr.get('head_sha')==os.environ['EVAL_RUN_HEAD']
+          print('evaluation_artifact_identity=verified')
+          PY
+
+      - name: Download exact frozen evaluation
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.EVAL_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-evaluation
+          repository: ${{ github.repository }}
+          run-id: ${{ env.EVAL_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify all frozen result file hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="${RUNNER_TEMP}/v4-evaluation"
+          test "$(sha256sum "$ROOT/STAGE1_V4_DROP_CANDIDATES_V1.json" | awk '{print $1}')" = 'eac8693047ea0b0605d4989c3819f73871571c9c31afd608bdc26099e3362675'
+          test "$(sha256sum "$ROOT/STAGE1_V4_DROP_EVALUATION_V1.json" | awk '{print $1}')" = 'fefe7e636aa7051b190c4a3ab16140ec8990671359e4b69bd6a39477c7342bdf'
+          test "$(sha256sum "$ROOT/STAGE1_V4_EVALUATION_FREEZE_V1.json" | awk '{print $1}')" = '21d839b091113b88509789791d2a9de8e5da22a71435b7b78d167397e98b3779'
+          test "$(sha256sum "$ROOT/STAGE1_V4_EVALUATION_PROVENANCE_V1.json" | awk '{print $1}')" = 'b53866af64ef185ce37f1b0c982e5d24ca29bd75aa74b765c8f5d084a205439c'
+          test "$(sha256sum "$ROOT/STAGE1_V4_RAW_HEADLINE_V1.json" | awk '{print $1}')" = '8296b992b2c45ae4da48d7eed5961266622f5b3002bf10ec569af1be78b58e4d'
+          test "$(sha256sum "$ROOT/STAGE1_V4_RAW_PER_TRACK_V1.csv" | awk '{print $1}')" = '7557f3e88e8b8d88a131e5bd2eb10f30385ab617cbb5e525c3fe846fc6920bb2'
+          test "$(sha256sum "$ROOT/STAGE1_V4_RAW_RUN_PROVENANCE_V1.json" | awk '{print $1}')" = '814d0b9da08dd403a2f4751a972c8bdb2a23d6cf9c3ade38c4c597ba1be5bff7'
+
+      - name: Persist exact frozen outputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="${RUNNER_TEMP}/v4-evaluation"
+          for f in \
+            STAGE1_V4_DROP_CANDIDATES_V1.json \
+            STAGE1_V4_DROP_EVALUATION_V1.json \
+            STAGE1_V4_EVALUATION_FREEZE_V1.json \
+            STAGE1_V4_EVALUATION_PROVENANCE_V1.json \
+            STAGE1_V4_RAW_HEADLINE_V1.json \
+            STAGE1_V4_RAW_PER_TRACK_V1.csv \
+            STAGE1_V4_RAW_RUN_PROVENANCE_V1.json; do
+              test ! -e "$BASE/$f"
+              cp "$ROOT/$f" "$BASE/$f"
+          done
+          git config user.name 'trackcade-research-freeze'
+          git config user.email 'trackcade-research-freeze@users.noreply.github.com'
+          git add "$BASE/STAGE1_V4_"*
+          git commit -m 'Freeze Stage1 V4 RAW evaluation results'
+          git push origin HEAD:trackcade-semantic-external-holdout-v1
+          echo 'providerCalls=0 terminal=0 compiler=0 resultFiles=7'
