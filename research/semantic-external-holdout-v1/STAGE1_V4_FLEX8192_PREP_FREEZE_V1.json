@@ -1,0 +1,70 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v4-flex8192-prep-freeze-v1",
+  "status": "frozen-offline-transport-amendment-no-provider-authorization",
+  "frozenAtDate": "2026-09-29",
+  "reason": "The first authorized V4 Sol/High/4096 provider attempt for ordinal 1 returned status incomplete with incomplete_details.reason=max_output_tokens after consuming all 4096 output tokens as reasoning tokens. The semantic experiment remains unchanged; this freeze records an offline transport-only amendment before any retry decision.",
+  "sourceV4": {
+    "preProviderFreezeCommit": "36b402c22c85c7122782437c9aaadf59a89beb8d",
+    "prepRunId": 36605876352,
+    "prepArtifactId": 11050749993,
+    "prepArtifactDigest": "sha256:d4129faf1cd562faf687387a55cecfbd8d63e4bc1f0d541208a952450c6922ec",
+    "prepManifestSha256": "613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972",
+    "instructionSha256": "199fad4435c3ff638eaf41eb9e589b94c6e2b50db8be3ddb504827d79b45afa3"
+  },
+  "ordinal1InitialAttemptEvidence": {
+    "runId": 36616537018,
+    "artifactId": 11056001189,
+    "artifactDigest": "sha256:41cdcdc819aae08866c5045e565112d9b7b4b17f65d7ac9fec73f48a6f358413",
+    "responseId": "resp_041998265fe45e47016abc0ba5797487d287642bcba55487cc",
+    "responseStatus": "incomplete",
+    "incompleteReason": "max_output_tokens",
+    "inputTokens": 18417,
+    "outputTokens": 4096,
+    "reasoningTokens": 4096,
+    "completedSemanticResponse": false,
+    "remainingOrdinalsAttempted": false
+  },
+  "transportAmendment": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "store": false,
+    "sourceMaxOutputTokens": 4096,
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "allowedChangesOnly": [
+      "max_output_tokens",
+      "service_tier"
+    ],
+    "semanticPayloadUnchanged": true
+  },
+  "offlineAmendmentPrep": {
+    "sourceCommit": "9d2d4d8be6b5cc3463a58372703a17703d8ed113",
+    "runId": 36619514735,
+    "jobId": 109581024111,
+    "conclusion": "success",
+    "trackCount": 50,
+    "providerCalls": 0,
+    "referenceLabelsRead": false,
+    "terminalTracksProcessed": false,
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "compilerInvoked": false,
+    "manifestSha256": "c294fc9e8017609673da03694c3b318b71706804380f8b06e7d4cb71c2dbc342",
+    "artifactId": 11056787997,
+    "artifactDigest": "sha256:1ccf31ec01bdc5551a182cd5fb9cef78844839e006de09ce8179930a0620e526",
+    "largestSourcePayloadBytes": 62666,
+    "largestAmendedPayloadBytes": 62692,
+    "ordinal1SourcePayloadSha256": "c6ff871f4b2c67fc841aae5c1e2282466505567fb03fee0ccdc0cd935093e016",
+    "ordinal1AmendedPayloadSha256": "097648b03173f578ea61787bc315468e3d7a24f3276d5538299d2f9a2d9bc235"
+  },
+  "authorizationBoundary": {
+    "providerRetryAuthorizedByThisFreeze": false,
+    "additionalPaidCallsAuthorizedByThisFreeze": false,
+    "standardFallbackAuthorized": false,
+    "terminalHoldoutAuthorized": false,
+    "compilerAuthorized": false,
+    "analyzerChangesAuthorized": false
+  }
+}
