@@ -1,0 +1,30 @@
+{
+  "status": "verified-generation-freeze-before-label-access",
+  "freezeRun": 36598058092,
+  "freezeSource": "75a85904cf23d87c9902fcf6e37675df7ac6573e",
+  "artifact": {
+    "id": 11047611212,
+    "node_id": "MDg6QXJ0aWZhY3QxMTA0NzYxMTIxMg==",
+    "name": "trackcade-semantic-external-stage1-v3-generation-freeze-v1",
+    "size_in_bytes": 2374672,
+    "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11047611212",
+    "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11047611212/zip",
+    "expired": false,
+    "digest": "sha256:1fb27766d36d55895760ee90426f8018c7c558990fe4d0074ea35dc1e3e71c35",
+    "created_at": "2026-09-29T16:29:50Z",
+    "updated_at": "2026-09-29T16:29:50Z",
+    "expires_at": "2026-12-28T16:29:12Z",
+    "workflow_run": {
+      "id": 36598058092,
+      "repository_id": 1380714386,
+      "head_repository_id": 1380714386,
+      "head_branch": "trackcade-semantic-external-holdout-v1",
+      "head_sha": "75a85904cf23d87c9902fcf6e37675df7ac6573e"
+    }
+  },
+  "canonicalInventorySha256": "36f5ed7287b1f420359b2952c9142dca880b4460ff29fdfd1745dec3800c7c40",
+  "generationFreezeSha256": "104bd8deaea18aad5c5e25ab33f891305321de1cb37c44788eea4fa7d93eb441",
+  "providerCalls": 0,
+  "benchmarkLabelsRead": false,
+  "terminalMaterialAccessed": false
+}
