@@ -1,0 +1,58 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v5-provider-authorization-v1",
+  "authorized": true,
+  "authorizedAtDate": "2026-09-29",
+  "authorizationSource": "explicit-user-approval-in-chat",
+  "userReportedOpenAiBalanceUsd": 2.59,
+  "balanceIsUserReportedNotProgrammaticallyVerified": true,
+  "scope": {
+    "stage": "stage1-v5",
+    "ordinals": "1-50",
+    "maximumInitialProviderAttempts": 50,
+    "attemptsPerTrack": 1,
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "partialScoringAuthorized": false
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "semanticFreeze": {
+    "developmentRevision": "stage1-drop-semantics-v5-candidate-first-absolute-pattern",
+    "sourcePrepRunId": 36645240283,
+    "sourcePrepArtifactId": 11068032294,
+    "sourcePrepArtifactDigest": "sha256:55db9b9144debbf71ec3ca780fd0ff6b91609221337045e4d6b43f02a822dc05",
+    "sourcePrepManifestSha256": "f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799",
+    "instructionSha256": "0674169a5a7ec7fbd37b1ba41da89507c6942df88df105c90e6c1a0d43117725"
+  },
+  "transportFreeze": {
+    "flexPrepRunId": 36647639925,
+    "flexPrepArtifactId": 11068764041,
+    "flexPrepArtifactDigest": "sha256:3ab7fd2caa0c758dafbe4665879dfd35998280c66ac2dc62e96d02279fd5e6a1",
+    "flexPrepManifestSha256": "1b9c47e55463fafab4d1be94418b8ffb58e8b6799f2c5a527af40fa5f7d9c93e",
+    "onlyTransportFieldChanged": "service_tier",
+    "semanticPayloadUnchanged": true
+  },
+  "liveHarnessConformance": {
+    "runId": 36647840440,
+    "headSha": "40b6bd951c876f99c0c1090f45af0316bb575f21",
+    "artifactId": 11069600688,
+    "artifactDigest": "sha256:8da09cce412dde500e47c9755eae0dd9006e48ffd7ea71d8d4626dd39e6f2875",
+    "filesManifestSha256": "ca3e39f88fe90f26c5810d15fa892f7c67a9a72afa7542ef9cb1e69a2e73ad8c",
+    "trackPreflightCount": 50,
+    "providerCallsObserved": 0,
+    "ingesterFixtureValidated": true
+  },
+  "researchBoundary": {
+    "terminalHoldoutAccessAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "compilerInvocationAuthorized": false,
+    "retryRequiresNewExplicitApproval": true
+  }
+}
