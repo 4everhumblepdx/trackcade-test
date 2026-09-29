@@ -1,0 +1,23 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v5-provider-activation-v1",
+  "activatePaidGeneration": true,
+  "activationDate": "2026-09-29",
+  "authorizationFile": "research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_V1.json",
+  "executionSourceCommit": "15ac560a92de45b5b0387fb68bd17497a790f5ef",
+  "authorizedOrdinals": "1-50",
+  "maximumInitialProviderAttempts": 50,
+  "attemptsPerTrack": 1,
+  "automaticRetriesAuthorized": false,
+  "standardFallbackAuthorized": false,
+  "terminalHoldoutAccessAuthorized": false,
+  "compilerInvocationAuthorized": false,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  }
+}
