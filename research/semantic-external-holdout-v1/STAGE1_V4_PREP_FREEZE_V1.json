@@ -1,0 +1,89 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v4-prep-freeze-v1",
+  "status": "frozen-pre-provider-no-call",
+  "developmentRevision": "stage1-drop-semantics-v4-presence-relative-distinctiveness",
+  "sourceHeadSha": "c245713d85f5d28533543a9bebb436cd56e52059",
+  "prepWorkflow": {
+    "runId": 36605876352,
+    "jobId": 109534615339,
+    "conclusion": "success",
+    "artifactId": 11050749993,
+    "artifactName": "trackcade-semantic-external-stage1-v4-prep-v1",
+    "artifactSizeBytes": 1715189,
+    "artifactDigest": "sha256:d4129faf1cd562faf687387a55cecfbd8d63e4bc1f0d541208a952450c6922ec",
+    "artifactFileCount": 304,
+    "headSha": "c245713d85f5d28533543a9bebb436cd56e52059"
+  },
+  "prepEvidence": {
+    "trackCount": 50,
+    "prepManifestSha256": "613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972",
+    "filesManifestSha256": "eb88d1048b169316bf9f66314743f608d031646644edbe245683a2a009913fb1",
+    "filesManifestEntries": 303,
+    "sourceBlobsSha256": "e76fe744c24c78e41f72e9e95ae8fd974598b82e6ce8462af032be593f7178f3",
+    "instructionSha256": "199fad4435c3ff638eaf41eb9e589b94c6e2b50db8be3ddb504827d79b45afa3",
+    "v3SourceInstructionSha256": "6a4f014c89afe0d25df6af70b81f6caa169881faf7cc04c6eba9246582b7e427",
+    "exactV3PacketReuse": true,
+    "all50PayloadsFrozen": true,
+    "openaiPayloadBytesTotal": 2081959,
+    "openaiPayloadBytesMean": 41639.18
+  },
+  "sourceV3FrozenPrep": {
+    "runId": 36457485587,
+    "headSha": "a0e58581a213f74ce166d4a02deea4d3bb89e9e3",
+    "artifactId": 10986506165,
+    "artifactName": "trackcade-semantic-external-stage1-v3-prep-v1",
+    "artifactDigest": "sha256:5f9e4159faf620f6b527fecc649b456633a3dccfca074dca7c6a422d3527e376",
+    "manifestSha256": "df7ceff4c82291552a2d55dd7ddf872269477d0766bf4cb785a90b5730779257",
+    "filesManifestSha256": "1ed91477e0d4b64c4a8d134537add835bc190ce463b653c2559405204bf53fc5",
+    "filesManifestEntries": 302
+  },
+  "frozenAnalyzerAndEvidence": {
+    "analyzerRelease": "v0.19",
+    "analyzerSourceCommit": "e308d867980fb1877c3f2e4ce27950deecac0855",
+    "analyzerRunnerSha256": "9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432",
+    "structureEvidenceV2FreezeCommit": "708e824fd977a240e86dd9425a1a5e1b437775ad",
+    "structureEvidenceV2BundleSha256": "16858488f584ef85164241679c6dcf3675393e46ff33d99f8bde6b6617a7c4ca",
+    "evidencePolicy": "current-core-accent-table-v2"
+  },
+  "sourceBlobs": {
+    ".github/workflows/trackcade-semantic-external-stage1-v4-prep-v1.yml": "e8d2a2d7d838e83b8faf031fa715587e21af485c",
+    "research/learned-interpretation-v1/build_learned_request_v2.py": "a930abf4dadc23a4008b2a331fa3b08b0d74a1be",
+    "research/learned-interpretation-v1/build_learned_request_v3.py": "02e38745a0c699d460c7edb6d4f4ce7536051a88",
+    "research/learned-interpretation-v1/build_learned_request_v4.py": "019404d38e637946833cdcaee4ae6103e9aba27e",
+    "research/learned-interpretation-v1/openai_responses_adapter_v1.py": "f48198edbe2bf593e52e9d708fe6a85d34d49f65",
+    "research/learned-interpretation-v1/openai_responses_adapter_v4.py": "a2ed730ca11335e6c6f2ee950c7ac474dcc99c14",
+    "research/learned-interpretation-v1/validate_learned_proposal_v3.py": "ebb4d23b1b9b77024dae9068127188879b715509",
+    "research/learned-interpretation-v1/validate_learned_proposal_v4.py": "7b4a2a180ef5f48364164051892b4c71f64301f6",
+    "research/semantic-external-holdout-v1/STAGE1_V4_DEVELOPMENT_PROTOCOL.md": "14ca02d931f7ffcffdf9cb09f37d1397fedf3e8c",
+    "research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py": "6be9bddb83e35fecdb845224c135524357d5a917",
+    "research/semantic-external-holdout-v1/test_stage1_v4_contract.py": "1bafaff4316b1eb69fa325d140aeae72e8548768"
+  },
+  "offlineVerification": {
+    "pythonSourcesCompiled": true,
+    "contractTestsPassed": 15,
+    "contractTestsFailed": 0,
+    "providerCallsObserved": 0,
+    "referenceLabelsReadByPreparation": false,
+    "terminalTracksProcessed": false,
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "compilerInvoked": false,
+    "openaiApiKeyPresentInPrepEnvironment": false
+  },
+  "futureProviderContract": {
+    "authorizedByThisFreeze": false,
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false,
+    "intendedCompletedResponsesPerTrack": 1,
+    "outputBudgetAssessment": "retained-for-controlled-v3-to-v4-comparison; sparse candidateComparisons do not structurally require enumerating every evidence anchor; no increase is inferred or authorized"
+  },
+  "stopCondition": {
+    "providerGenerationDispatched": false,
+    "terminalHoldoutAccessAuthorized": false,
+    "nextPaidActionRequiresExplicitNicholasApproval": true
+  }
+}
