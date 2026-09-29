@@ -1,0 +1,192 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V4 GPT-6 Sol
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v4-sol-v1.yml
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v4-sol-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  LEARNED: research/learned-interpretation-v1
+  AUTHORIZATION_COMMIT: 'c63ce6891f5f663a1548a60ab686a7e8b5200811'
+  EXECUTION_SOURCE_COMMIT: '2d631cb976454f7b9e7b785c51aa5aafeb6d0086'
+  PREP_RUN_ID: '36605876352'
+  PREP_ARTIFACT_ID: '11050749993'
+  PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+  PREP_ARTIFACT_DIGEST: sha256:d4129faf1cd562faf687387a55cecfbd8d63e4bc1f0d541208a952450c6922ec
+  PREP_HEAD_SHA: 'c245713d85f5d28533543a9bebb436cd56e52059'
+  PREP_MANIFEST_SHA256: '613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972'
+  CONFORMANCE_RUN_ID: '36610135386'
+  CONFORMANCE_ARTIFACT_ID: '11052537520'
+  CONFORMANCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-generation-conformance-v1
+  CONFORMANCE_ARTIFACT_DIGEST: sha256:99848731a4af81432506d4ce8a06c0395294685451551f2aaba9fa29a3f68053
+  CONFORMANCE_HEAD_SHA: '2d631cb976454f7b9e7b785c51aa5aafeb6d0086'
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Verify exact authorization and frozen boundary
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          test "$GITHUB_REF_NAME" = 'trackcade-semantic-external-holdout-v1'
+          test -z "${OPENAI_API_KEY:-}"
+          git merge-base --is-ancestor "$AUTHORIZATION_COMMIT" HEAD
+          git diff --quiet "$EXECUTION_SOURCE_COMMIT" HEAD -- \
+            "$BASE/run_stage1_v4_provider_case_v1.py" \
+            "$BASE/test_stage1_v4_contract.py" \
+            "$LEARNED/build_learned_request_v4.py" \
+            "$LEARNED/validate_learned_proposal_v4.py" \
+            "$LEARNED/openai_responses_adapter_v4.py" \
+            "$LEARNED/ingest_provider_response_v4.py" \
+            "$LEARNED/openai_responses_adapter_v1.py" \
+            "$LEARNED/ingest_provider_response_v1.py" \
+            "$LEARNED/build_learned_request_v3.py" \
+            "$LEARNED/validate_learned_proposal_v3.py"
+          python - <<'PY'
+          import json
+          d=json.load(open('research/semantic-external-holdout-v1/STAGE1_V4_PROVIDER_AUTHORIZATION_V1.json'))
+          s=d['authorizationScope']
+          assert d['status']=='authorized-for-initial-generation-only'
+          assert (s['provider'],s['api'],s['model'])==('openai','responses','gpt-6-sol')
+          assert s['reasoningEffort']=='high' and s['maxOutputTokens']==4096 and s['store'] is False
+          assert s['stage1Ordinals']=='1-50' and s['initialProviderAttemptsPerOrdinal']==1
+          assert s['semanticRetriesAuthorized'] is False
+          assert s['infrastructureRetriesAuthorizedWithoutFurtherApproval'] is False
+          assert s['terminalHoldoutAuthorized'] is False and s['compilerAuthorized'] is False
+          c=d['offlineGenerationConformance']
+          assert c['runId']==36610135386 and c['conclusion']=='success'
+          assert c['cases']==50 and c['frozenPayloadByteEquality'] is True and c['providerCalls']==0
+          print('V4 Sol authorization verified.')
+          PY
+          prep="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          test "$prep" = "$(printf '%b' "${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}")"
+          conf="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${CONFORMANCE_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          test "$conf" = "$(printf '%b' "${CONFORMANCE_ARTIFACT_ID}\t${CONFORMANCE_ARTIFACT_NAME}\t${CONFORMANCE_ARTIFACT_DIGEST}\t${CONFORMANCE_RUN_ID}\t${CONFORMANCE_HEAD_SHA}")"
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${CONFORMANCE_RUN_ID}" --jq '.conclusion')" = 'success'
+          python -m py_compile "$BASE/run_stage1_v4_provider_case_v1.py" "$LEARNED/build_learned_request_v4.py" "$LEARNED/validate_learned_proposal_v4.py" "$LEARNED/openai_responses_adapter_v4.py" "$LEARNED/ingest_provider_response_v4.py"
+          python "$BASE/test_stage1_v4_contract.py"
+
+  generate:
+    needs: preflight
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        ordinal: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Refuse any rerun or existing immutable case evidence
+        id: guard
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          completed="trackcade-semantic-external-stage1-v4-sol-v1-case-${ORDINAL}-completed"
+          incomplete="trackcade-semantic-external-stage1-v4-sol-v1-case-${ORDINAL}-attempted-no-completed-response"
+          c="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100&name=${completed}" --jq '[.artifacts[] | select(.expired == false)] | length')"
+          i="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100&name=${incomplete}" --jq '[.artifacts[] | select(.expired == false)] | length')"
+          test "$c" = '0' && test "$i" = '0'
+      - name: Download exact frozen V4 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+      - name: Verify exact frozen payload offline before this paid call
+        shell: bash
+        env:
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -euo pipefail
+          test -n "${OPENAI_API_KEY:-}"
+          test "$(sha256sum "${RUNNER_TEMP}/v4-prep/STAGE1_V4_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$PREP_MANIFEST_SHA256"
+          OUT="${RUNNER_TEMP}/preflight-${ORDINAL}"
+          python "$BASE/run_stage1_v4_provider_case_v1.py" --prep-root "${RUNNER_TEMP}/v4-prep" --ordinal "$ORDINAL" --output-dir "$OUT" --adapter "$LEARNED/openai_responses_adapter_v4.py" --ingester "$LEARNED/ingest_provider_response_v4.py" --harness-source-commit "$EXECUTION_SOURCE_COMMIT" --prep-artifact-id "$PREP_ARTIFACT_ID" --preflight-only
+          python - "$OUT/stage1-v4-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['classification']=='offline_preflight_complete_no_provider_call'
+          assert d['providerCallAttempted'] is False
+          assert d['frozenPayloadSha256']==d['preflightPayloadSha256']
+          assert d['compilerInvoked'] is False and d['terminalTracksProcessed'] is False
+          PY
+      - name: Execute exact frozen V4 payload once with Sol
+        id: execute
+        shell: bash
+        env:
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -uo pipefail
+          set +e
+          OUT="${RUNNER_TEMP}/case-${ORDINAL}"
+          mkdir -p "$OUT"
+          python "$BASE/run_stage1_v4_provider_case_v1.py" --prep-root "${RUNNER_TEMP}/v4-prep" --ordinal "$ORDINAL" --output-dir "$OUT" --adapter "$LEARNED/openai_responses_adapter_v4.py" --ingester "$LEARNED/ingest_provider_response_v4.py" --harness-source-commit "$EXECUTION_SOURCE_COMMIT" --prep-artifact-id "$PREP_ARTIFACT_ID"
+          rc=$?
+          set -e
+          echo "return_code=$rc" >> "$GITHUB_OUTPUT"
+          test -f "$OUT/stage1-v4-case-status-v1.json"
+          exit 0
+      - name: Classify case
+        id: classify
+        shell: bash
+        env:
+          ORDINAL: ${{ matrix.ordinal }}
+        run: |
+          set -euo pipefail
+          status="${RUNNER_TEMP}/case-${ORDINAL}/stage1-v4-case-status-v1.json"
+          category="$(python - "$status" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['schema']=='trackcade-semantic-external-stage1-v4-provider-case-v1'
+          print('completed' if d.get('providerCompletedSemanticResponse') is True else 'attempted-no-completed-response')
+          PY
+          )"
+          echo "category=$category" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=trackcade-semantic-external-stage1-v4-sol-v1-case-${ORDINAL}-${category}" >> "$GITHUB_OUTPUT"
+          cat "$status"
+      - name: Freeze immutable case evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.classify.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-${{ matrix.ordinal }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Stop unattempted ordinals on provider non-completion
+        if: steps.classify.outputs.category != 'completed'
+        shell: bash
+        run: |
+          echo 'No completed provider response. No retry is authorized; fail-fast protects remaining unattempted ordinals.' >&2
+          exit 1
