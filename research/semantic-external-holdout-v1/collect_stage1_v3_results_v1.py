@@ -34,7 +34,7 @@ FILES = {
     "openai-payload-v3.json": "livePayloadSha256",
     "preflight-openai-payload-v3.json": "preflightPayloadSha256",
 }
-ALLOWED = set(FILES) | {STATUS_FILE, "parameters.json", "preflight-openai-adapter-report-v3.json"}
+ALLOWED = set(FILES) | {STATUS_FILE, "parameters.json", "preflight-openai-adapter-report-v3.json", "retry-provenance.json"}
 
 
 def require(ok, message):
@@ -98,12 +98,27 @@ def read_archive(path, artifact):
 
 def inspect_case(files, artifact, run, row, suffix):
     status = json.loads(files[STATUS_FILE])
+    retry_workflows = {
+        ".github/workflows/trackcade-semantic-external-stage1-v3-retry-v1.yml": (42, 11028077891),
+        ".github/workflows/trackcade-semantic-external-stage1-v3-retry-46-v1.yml": (46, 11030495842),
+    }
+    if run["path"] in retry_workflows:
+        n, prior = retry_workflows[run["path"]]
+        require(row["ordinal"] == n and "retry-provenance.json" in files, "retry provenance absent")
+        check_fields(json.loads(files["retry-provenance.json"]), {
+            "ticket": f"ordinal-{n}-evidence-{prior}-v1", "ordinal": n,
+            "originalLock": f"refs/tags/trackcade-v3-provider-attempt-ordinal-{n}",
+            "retryLock": f"refs/tags/trackcade-v3-retry-ordinal-{n}-evidence-{prior}-v1",
+            "priorArtifactId": prior, "source": run["head_sha"], "runId": str(run["id"]),
+        }, "retry provenance")
+    else:
+        require("retry-provenance.json" not in files, "unexpected retry provenance")
     ordinal = row["ordinal"]
     check_fields(status, {
         "schema": "trackcade-semantic-external-stage1-v3-provider-case-v1",
         "stage": "stage1-v3", "developmentRevision": REVISION,
         "ordinal": ordinal, "id": row["id"], "stem": row["stem"],
-        "githubRunId": str(run["id"]), "githubRunAttempt": run["run_attempt"],
+        "githubRunId": str(run["id"]), "githubRunAttempt": artifact.get("run_attempt", run["run_attempt"]),
         "harnessSourceCommit": run["head_sha"], "prepArtifactId": PREP_ID,
         "analyzerRunnerSha256": ANALYZER_SHA, "analyzerSourceCommit": ANALYZER_SOURCE,
         "analysisJsonSha256": row["analysisJsonSha256"],
@@ -173,7 +188,12 @@ def audit(prep_root, artifact_root, inventory):
         seen_runs.add(run["id"])
         require(run["status"] == "completed", "run still active")
         require(run["head_branch"] == inventory["branch"], "run branch")
-        require(run["path"] == ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml", "run workflow")
+        require(run["path"] in {
+            ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+            ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+            ".github/workflows/trackcade-semantic-external-stage1-v3-retry-v1.yml",
+            ".github/workflows/trackcade-semantic-external-stage1-v3-retry-46-v1.yml",
+        }, "run workflow")
         require(re.fullmatch(r"[0-9a-f]{40}", run["head_sha"]) is not None, "run source SHA")
         require(group["total_count"] == len(group["artifacts"]), "incomplete artifact pagination")
         for artifact in group["artifacts"]:
@@ -190,7 +210,8 @@ def audit(prep_root, artifact_root, inventory):
             entry = {
                 "ordinal": ordinal, "id": rows[ordinal]["id"], "artifactId": aid,
                 "artifactDigest": artifact["digest"], "artifactName": artifact["name"],
-                "githubRunId": str(run["id"]), "githubRunAttempt": run["run_attempt"],
+                "artifactSizeBytes": artifact["size_in_bytes"],
+                "githubRunId": str(run["id"]), "githubRunAttempt": artifact.get("run_attempt", run["run_attempt"]),
                 "harnessSourceCommit": run["head_sha"],
                 "classification": status["classification"],
                 "providerCallStartedAt": status.get("providerCallStartedAt"),

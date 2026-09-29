@@ -121,6 +121,31 @@ class CollectionTests(unittest.TestCase):
         self.inv_path.write_bytes(encoded(self.inventory))
         return c.collect(self.prep, self.artifacts, self.inv_path, self.root / "collection")
 
+    def test_pinned_artifact_attempt_overrides_latest_run_attempt(self):
+        path=self.add(1)
+        g=self.inventory['runs'][0]
+        g['run']['run_attempt']=2
+        g['artifacts'][0]['run_attempt']=1
+        self.assertEqual(self.collect()['completedTracks'],1)
+
+    def test_retry_workflow_requires_bound_provenance(self):
+        path=self.add(42)
+        g=self.inventory['runs'][0]
+        g['run']['path']='.github/workflows/trackcade-semantic-external-stage1-v3-retry-v1.yml'
+        with self.assertRaisesRegex(ValueError,'retry provenance absent'): self.collect()
+
+    def test_retry_workflow_accepts_exact_provenance(self):
+        path=self.add(46)
+        g=self.inventory['runs'][0]
+        g['run']['path']='.github/workflows/trackcade-semantic-external-stage1-v3-retry-46-v1.yml'
+        provenance=dict(ticket='ordinal-46-evidence-11030495842-v1',ordinal=46,
+            originalLock='refs/tags/trackcade-v3-provider-attempt-ordinal-46',
+            retryLock='refs/tags/trackcade-v3-retry-ordinal-46-evidence-11030495842-v1',
+            priorArtifactId=11030495842,source=g['run']['head_sha'],runId='101')
+        with zipfile.ZipFile(path,'a') as z: z.writestr('retry-provenance.json',encoded(provenance))
+        g['artifacts'][0].update(digest='sha256:'+c.digest(path.read_bytes()),size_in_bytes=path.stat().st_size)
+        self.assertEqual(self.collect()['completedTracks'],1)
+
     def test_partial_36_does_not_freeze(self):
         for o in range(1, 37):
             self.add(o)

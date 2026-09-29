@@ -1,0 +1,2365 @@
+{
+  "auxiliaryArtifacts": [
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11045822264/zip",
+      "created_at": "2026-09-29T16:14:46Z",
+      "digest": "sha256:b61ae3df96029f44e6aef9c75e4a287a9e3e397d088bffa0aa06502ab3629b19",
+      "expired": false,
+      "expires_at": "2026-12-28T16:13:15Z",
+      "id": 11045822264,
+      "name": "trackcade-v3-retry-46-audit-36596107740-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTA0NTgyMjI2NA==",
+      "size_in_bytes": 116576,
+      "updated_at": "2026-09-29T16:14:46Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11045822264",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "5bb7b4661a96fd1f891b4557403974712144c85c",
+        "id": 36596107740,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11040365324/zip",
+      "created_at": "2026-09-29T14:21:14Z",
+      "digest": "sha256:5d5707568851bbf2313abf979969f05c2c2e5bb3e519eb35b7b21ce905b8a810",
+      "expired": false,
+      "expires_at": "2026-12-28T14:20:11Z",
+      "id": 11040365324,
+      "name": "trackcade-v3-batch-audit-36581892320-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTA0MDM2NTMyNA==",
+      "size_in_bytes": 75642,
+      "updated_at": "2026-09-29T14:21:14Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11040365324",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36581892320,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11038859182/zip",
+      "created_at": "2026-09-29T14:16:52Z",
+      "digest": "sha256:5acd6441eb9ffe0c088b6243f18bc399f64c5d3d3fcd9cbb3ca2105bd588e8b1",
+      "expired": false,
+      "expires_at": "2026-12-28T14:13:01Z",
+      "id": 11038859182,
+      "name": "trackcade-v3-batch-audit-36580977108-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAzODg1OTE4Mg==",
+      "size_in_bytes": 152425,
+      "updated_at": "2026-09-29T14:16:52Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11038859182",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36580977108,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11030485745/zip",
+      "created_at": "2026-09-29T11:25:23Z",
+      "digest": "sha256:78a60aa485b906f2fcd5e69f9833b84203fff94503dce57f946791bd89498eb6",
+      "expired": false,
+      "expires_at": "2026-12-28T11:22:10Z",
+      "id": 11030485745,
+      "name": "trackcade-v3-batch-audit-36561301273-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAzMDQ4NTc0NQ==",
+      "size_in_bytes": 149977,
+      "updated_at": "2026-09-29T11:25:23Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11030485745",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36561301273,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11029935268/zip",
+      "created_at": "2026-09-29T11:16:46Z",
+      "digest": "sha256:b3c9e115c2be828f0f5e5cfb859d599960b782f03cbdf9ff2e2e06d18f6b478d",
+      "expired": false,
+      "expires_at": "2026-12-28T11:15:29Z",
+      "id": 11029935268,
+      "name": "trackcade-v3-retry-audit-36560611187-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAyOTkzNTI2OA==",
+      "size_in_bytes": 114169,
+      "updated_at": "2026-09-29T11:16:46Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11029935268",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36560611187,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11028734708/zip",
+      "created_at": "2026-09-29T11:08:17Z",
+      "digest": "sha256:23a86b65e6e15c4b8c102abf82b4ad05a3fa4f1c307c21cde4faac11cdbea3a0",
+      "expired": false,
+      "expires_at": "2026-12-28T11:08:04Z",
+      "id": 11028734708,
+      "name": "trackcade-v3-batch-audit-36559845510-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAyODczNDcwOA==",
+      "size_in_bytes": 34757,
+      "updated_at": "2026-09-29T11:08:17Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11028734708",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36559845510,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027618122/zip",
+      "created_at": "2026-09-29T10:36:11Z",
+      "digest": "sha256:f6d7573678d5f96060e01b6d8b5cf64285c62b13a882d0fb569eeefd39391919",
+      "expired": false,
+      "expires_at": "2026-12-28T10:33:00Z",
+      "id": 11027618122,
+      "name": "trackcade-v3-batch-audit-36556254870-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAyNzYxODEyMg==",
+      "size_in_bytes": 145893,
+      "updated_at": "2026-09-29T10:36:11Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027618122",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+        "id": 36556254870,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027971338/zip",
+      "created_at": "2026-09-29T10:26:39Z",
+      "digest": "sha256:d69fc33cc597801e92f7fdc9468ba5a5e66bafdd3c880383664e1f20449ad799",
+      "expired": false,
+      "expires_at": "2026-12-28T10:23:50Z",
+      "id": 11027971338,
+      "name": "trackcade-v3-batch-audit-36555304237-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAyNzk3MTMzOA==",
+      "size_in_bytes": 143910,
+      "updated_at": "2026-09-29T10:26:39Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027971338",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+        "id": 36555304237,
+        "repository_id": 1380714386
+      }
+    },
+    {
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11004551402/zip",
+      "created_at": "2026-09-28T23:30:19Z",
+      "digest": "sha256:6d757f6e3de6b1c4e5ad94104287a68a7ab8c5ba86480d8b5a4c869198432c5d",
+      "expired": false,
+      "expires_at": "2026-12-27T23:29:11Z",
+      "id": 11004551402,
+      "name": "trackcade-v3-single-song-resume-audit-36498243430-1",
+      "node_id": "MDg6QXJ0aWZhY3QxMTAwNDU1MTQwMg==",
+      "size_in_bytes": 32432,
+      "updated_at": "2026-09-28T23:30:19Z",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11004551402",
+      "workflow_run": {
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_repository_id": 1380714386,
+        "head_sha": "2465d2038c822c9bac0eb174469531b8e4c657b5",
+        "id": 36498243430,
+        "repository_id": 1380714386
+      }
+    }
+  ],
+  "benchmarkLabelsRead": false,
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "historicalRunAttempts": [
+    {
+      "conclusion": "failure",
+      "created_at": "2026-09-28T18:02:26Z",
+      "head_branch": "trackcade-semantic-external-holdout-v1",
+      "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+      "id": 36462381190,
+      "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+      "run_attempt": 1,
+      "status": "completed",
+      "updated_at": "2026-09-28T18:12:10Z"
+    },
+    {
+      "conclusion": "failure",
+      "created_at": "2026-09-28T22:56:45Z",
+      "head_branch": "trackcade-semantic-external-holdout-v1",
+      "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+      "id": 36462381190,
+      "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+      "run_attempt": 2,
+      "status": "completed",
+      "updated_at": "2026-09-28T22:57:02Z"
+    }
+  ],
+  "locks": [
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTEz",
+      "object": {
+        "sha": "d8354a5ac93d0f5c7903482902c64621f563adad",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/d8354a5ac93d0f5c7903482902c64621f563adad"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-13",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-13"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTIz",
+      "object": {
+        "sha": "b4bcce07cc3387c3f3b425f8fc1ea8c573e80791",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/b4bcce07cc3387c3f3b425f8fc1ea8c573e80791"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-23",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-23"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTMx",
+      "object": {
+        "sha": "470b4db012e0629e17c3e2fdcb2dd9cde0d8cbe4",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/470b4db012e0629e17c3e2fdcb2dd9cde0d8cbe4"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-31",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-31"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTM1",
+      "object": {
+        "sha": "450bd565522b675f6766c793dbe90c784028a873",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/450bd565522b675f6766c793dbe90c784028a873"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-35",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-35"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTM4",
+      "object": {
+        "sha": "f5d7b77219b06c545c4472290fee86e6629f77c2",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/f5d7b77219b06c545c4472290fee86e6629f77c2"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-38",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-38"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQy",
+      "object": {
+        "sha": "042809e4b480a651034aca2b202f23407a30f88c",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/042809e4b480a651034aca2b202f23407a30f88c"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-42",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-42"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQ0",
+      "object": {
+        "sha": "7ffbe5856a7703d5819832c55489beb97b91b484",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/7ffbe5856a7703d5819832c55489beb97b91b484"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-44",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-44"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQ1",
+      "object": {
+        "sha": "6e7ce61a354ee54cb484d697b38a871658958665",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/6e7ce61a354ee54cb484d697b38a871658958665"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-45",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-45"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQ2",
+      "object": {
+        "sha": "37af0c79f341c6272c0cb458041579801a1ac431",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/37af0c79f341c6272c0cb458041579801a1ac431"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-46",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-46"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQ3",
+      "object": {
+        "sha": "9de91f25e2fd962e2fcf855842494cc1d996b109",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/9de91f25e2fd962e2fcf855842494cc1d996b109"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-47",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-47"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQ4",
+      "object": {
+        "sha": "65560c3807c9203a9a771cade687f6550655c963",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/65560c3807c9203a9a771cade687f6550655c963"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-48",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-48"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTQ5",
+      "object": {
+        "sha": "e64a851a435502528f4205fe026b9531124314af",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/e64a851a435502528f4205fe026b9531124314af"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-49",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-49"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAMnJlZnMvdGFncy90cmFja2NhZGUtdjMtcHJvdmlkZXItYXR0ZW1wdC1vcmRpbmFsLTUw",
+      "object": {
+        "sha": "83d6eaa2c4a27e14b8d796e4ab28eb4923ae032f",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/83d6eaa2c4a27e14b8d796e4ab28eb4923ae032f"
+      },
+      "ref": "refs/tags/trackcade-v3-provider-attempt-ordinal-50",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-provider-attempt-ordinal-50"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAP3JlZnMvdGFncy90cmFja2NhZGUtdjMtcmV0cnktb3JkaW5hbC00Mi1ldmlkZW5jZS0xMTAyODA3Nzg5MS12MQ",
+      "object": {
+        "sha": "3c8dc6840204c078a46eaea9931190ba9b5e7df6",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/3c8dc6840204c078a46eaea9931190ba9b5e7df6"
+      },
+      "ref": "refs/tags/trackcade-v3-retry-ordinal-42-evidence-11028077891-v1",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-retry-ordinal-42-evidence-11028077891-v1"
+    },
+    {
+      "node_id": "REF_kwDOUkwHktoAP3JlZnMvdGFncy90cmFja2NhZGUtdjMtcmV0cnktb3JkaW5hbC00Ni1ldmlkZW5jZS0xMTAzMDQ5NTg0Mi12MQ",
+      "object": {
+        "sha": "11e39b71d629e9b958df8639b9fc4aefbed58d6a",
+        "type": "tag",
+        "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/tags/11e39b71d629e9b958df8639b9fc4aefbed58d6a"
+      },
+      "ref": "refs/tags/trackcade-v3-retry-ordinal-46-evidence-11030495842-v1",
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/git/refs/tags/trackcade-v3-retry-ordinal-46-evidence-11030495842-v1"
+    }
+  ],
+  "repository": "4everhumblepdx/trackcade-test",
+  "runs": [
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11045692462/zip",
+          "created_at": "2026-09-29T16:14:44Z",
+          "digest": "sha256:32c3b5f6976cd6f8bd7870072e4b7f340c54c049e85b80cc2c83c3ac6c450f3b",
+          "expired": false,
+          "expires_at": "2026-12-28T16:13:15Z",
+          "id": 11045692462,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-46-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTA0NTY5MjQ2Mg==",
+          "run_attempt": 1,
+          "size_in_bytes": 46580,
+          "updated_at": "2026-09-29T16:14:44Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11045692462",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5bb7b4661a96fd1f891b4557403974712144c85c",
+            "id": 36596107740,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T16:13:13Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5bb7b4661a96fd1f891b4557403974712144c85c",
+        "id": 36596107740,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-retry-46-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T16:14:50Z"
+      },
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T16:13:13Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5bb7b4661a96fd1f891b4557403974712144c85c",
+        "id": 36596107740,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-retry-46-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T16:14:50Z"
+      },
+      "total_count": 1
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11040245515/zip",
+          "created_at": "2026-09-29T14:21:13Z",
+          "digest": "sha256:68644f764d0cccbae7321fef2ceba883eab3c0eaf42dd02e76c496dc66ccc382",
+          "expired": false,
+          "expires_at": "2026-12-28T14:20:11Z",
+          "id": 11040245515,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-50-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTA0MDI0NTUxNQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 41259,
+          "updated_at": "2026-09-29T14:21:13Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11040245515",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36581892320,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T14:20:09Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36581892320,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T14:21:17Z"
+      },
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T14:20:09Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36581892320,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T14:21:17Z"
+      },
+      "total_count": 1
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11039448373/zip",
+          "created_at": "2026-09-29T14:16:50Z",
+          "digest": "sha256:33126e297dc6cf3e71c52157da4a5f04984e0423966940868a984f044f3da469",
+          "expired": false,
+          "expires_at": "2026-12-28T14:13:01Z",
+          "id": 11039448373,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-49-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAzOTQ0ODM3Mw==",
+          "run_attempt": 1,
+          "size_in_bytes": 42828,
+          "updated_at": "2026-09-29T14:16:50Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11039448373",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36580977108,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11039199084/zip",
+          "created_at": "2026-09-29T14:15:38Z",
+          "digest": "sha256:ce38601834c2781d3284016a87b409d1f236a346ae4fbb1bf3475494f4eab701",
+          "expired": false,
+          "expires_at": "2026-12-28T14:13:01Z",
+          "id": 11039199084,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-48-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAzOTE5OTA4NA==",
+          "run_attempt": 1,
+          "size_in_bytes": 36781,
+          "updated_at": "2026-09-29T14:15:38Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11039199084",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36580977108,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11038654345/zip",
+          "created_at": "2026-09-29T14:14:47Z",
+          "digest": "sha256:2bbfbea70626d216c4b24964aa9a86f307f9d7175fcd49ae7902d640919f7b47",
+          "expired": false,
+          "expires_at": "2026-12-28T14:13:01Z",
+          "id": 11038654345,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-47-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAzODY1NDM0NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 46950,
+          "updated_at": "2026-09-29T14:14:47Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11038654345",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36580977108,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T14:12:59Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36580977108,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T14:16:55Z"
+      },
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T14:12:59Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36580977108,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T14:16:55Z"
+      },
+      "total_count": 3
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11030720324/zip",
+          "created_at": "2026-09-29T11:23:28Z",
+          "digest": "sha256:94eddfff722ccab5f9d2e9ff20193a36b533d6143f8097e619b196fcb7701a61",
+          "expired": false,
+          "expires_at": "2026-12-28T11:22:10Z",
+          "id": 11030720324,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-44-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAzMDcyMDMyNA==",
+          "run_attempt": 1,
+          "size_in_bytes": 53763,
+          "updated_at": "2026-09-29T11:23:28Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11030720324",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36561301273,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11030495842/zip",
+          "created_at": "2026-09-29T11:25:22Z",
+          "digest": "sha256:0c5275d74e0be07504cab7781a6daa0c0fafc1243967cb12b254842cd9d09da7",
+          "expired": false,
+          "expires_at": "2026-12-28T11:22:10Z",
+          "id": 11030495842,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-46-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAzMDQ5NTg0Mg==",
+          "run_attempt": 1,
+          "size_in_bytes": 44622,
+          "updated_at": "2026-09-29T11:25:22Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11030495842",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36561301273,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11029677487/zip",
+          "created_at": "2026-09-29T11:24:15Z",
+          "digest": "sha256:88dee81d16ba953f498830266e0427c3e214b4dae8ef96120cea9ecdb15ead86",
+          "expired": false,
+          "expires_at": "2026-12-28T11:22:10Z",
+          "id": 11029677487,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-45-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyOTY3NzQ4Nw==",
+          "run_attempt": 1,
+          "size_in_bytes": 44259,
+          "updated_at": "2026-09-29T11:24:15Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11029677487",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36561301273,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "failure",
+        "created_at": "2026-09-29T11:22:09Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36561301273,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T11:25:26Z"
+      },
+      "run": {
+        "conclusion": "failure",
+        "created_at": "2026-09-29T11:22:09Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36561301273,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T11:25:26Z"
+      },
+      "total_count": 3
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11029676175/zip",
+          "created_at": "2026-09-29T11:16:45Z",
+          "digest": "sha256:99ba78c29a80bae07def2a3376e67a960285b2bda312a87d0fed5c35e28c5968",
+          "expired": false,
+          "expires_at": "2026-12-28T11:15:29Z",
+          "id": 11029676175,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-42-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyOTY3NjE3NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 48971,
+          "updated_at": "2026-09-29T11:16:45Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11029676175",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+            "id": 36560611187,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T11:15:27Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36560611187,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-retry-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T11:16:49Z"
+      },
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T11:15:27Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "5a78e69fc6a69346bc699ab233d666f2c1d658b3",
+        "id": 36560611187,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-retry-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T11:16:49Z"
+      },
+      "total_count": 1
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11028077891/zip",
+          "created_at": "2026-09-29T10:36:10Z",
+          "digest": "sha256:9b727163883eb7ec36de2e4023547f0b3e5250f1c00f0679d31e22087193faee",
+          "expired": false,
+          "expires_at": "2026-12-28T10:33:00Z",
+          "id": 11028077891,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-42-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyODA3Nzg5MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 46126,
+          "updated_at": "2026-09-29T10:36:10Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11028077891",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+            "id": 36556254870,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027942616/zip",
+          "created_at": "2026-09-29T10:34:05Z",
+          "digest": "sha256:a2c3729d572928083d6c771ccce65e3d52ec4f458f903e9ed7de5ef7921b21bd",
+          "expired": false,
+          "expires_at": "2026-12-28T10:33:00Z",
+          "id": 11027942616,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-35-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyNzk0MjYxNg==",
+          "run_attempt": 1,
+          "size_in_bytes": 44546,
+          "updated_at": "2026-09-29T10:34:05Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027942616",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+            "id": 36556254870,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027853263/zip",
+          "created_at": "2026-09-29T10:35:08Z",
+          "digest": "sha256:42db759430cff82c4f6032442479a746cc3d3b0b80c583817dff47b19d099a7e",
+          "expired": false,
+          "expires_at": "2026-12-28T10:33:00Z",
+          "id": 11027853263,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-38-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyNzg1MzI2Mw==",
+          "run_attempt": 1,
+          "size_in_bytes": 46370,
+          "updated_at": "2026-09-29T10:35:08Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027853263",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+            "id": 36556254870,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "failure",
+        "created_at": "2026-09-29T10:32:59Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+        "id": 36556254870,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T10:36:15Z"
+      },
+      "run": {
+        "conclusion": "failure",
+        "created_at": "2026-09-29T10:32:59Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+        "id": 36556254870,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T10:36:15Z"
+      },
+      "total_count": 3
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027841388/zip",
+          "created_at": "2026-09-29T10:26:38Z",
+          "digest": "sha256:db4d5efb2a7b54583bf46f361e4083f48efdb2cf1617259c66f4bb11e3f41002",
+          "expired": false,
+          "expires_at": "2026-12-28T10:23:50Z",
+          "id": 11027841388,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-31-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyNzg0MTM4OA==",
+          "run_attempt": 1,
+          "size_in_bytes": 46871,
+          "updated_at": "2026-09-29T10:26:38Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027841388",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+            "id": 36555304237,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027337041/zip",
+          "created_at": "2026-09-29T10:24:48Z",
+          "digest": "sha256:878d3ac8908548cba9c709cef21675d8f281e4e751b3cf60231f2e6333eeee32",
+          "expired": false,
+          "expires_at": "2026-12-28T10:23:50Z",
+          "id": 11027337041,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-13-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyNzMzNzA0MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 44511,
+          "updated_at": "2026-09-29T10:24:48Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11027337041",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+            "id": 36555304237,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11026992287/zip",
+          "created_at": "2026-09-29T10:25:39Z",
+          "digest": "sha256:420186e69c4ca8960d9a87f833c786f767578023497c20e43ab3957e2ae7617a",
+          "expired": false,
+          "expires_at": "2026-12-28T10:23:50Z",
+          "id": 11026992287,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-23-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAyNjk5MjI4Nw==",
+          "run_attempt": 1,
+          "size_in_bytes": 42516,
+          "updated_at": "2026-09-29T10:25:39Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11026992287",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+            "id": 36555304237,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T10:23:48Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+        "id": 36555304237,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T10:26:41Z"
+      },
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-09-29T10:23:48Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "686a1b1c6d17a6343a5007db8ebbf325d758672d",
+        "id": 36555304237,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-29T10:26:41Z"
+      },
+      "total_count": 3
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11004511477/zip",
+          "created_at": "2026-09-28T23:30:18Z",
+          "digest": "sha256:c41cd80f0c16c1c7fe14fe84864237609a24fdd46b9f5c742242a53f5b9c9a5b",
+          "expired": false,
+          "expires_at": "2026-12-27T23:29:11Z",
+          "id": 11004511477,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-4-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAwNDUxMTQ3Nw==",
+          "run_attempt": 1,
+          "size_in_bytes": 40398,
+          "updated_at": "2026-09-28T23:30:18Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11004511477",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2465d2038c822c9bac0eb174469531b8e4c657b5",
+            "id": 36498243430,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "success",
+        "created_at": "2026-09-28T23:29:09Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "2465d2038c822c9bac0eb174469531b8e4c657b5",
+        "id": 36498243430,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T23:30:44Z"
+      },
+      "run": {
+        "conclusion": "success",
+        "created_at": "2026-09-28T23:29:09Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "2465d2038c822c9bac0eb174469531b8e4c657b5",
+        "id": 36498243430,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-single-resume-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T23:30:44Z"
+      },
+      "total_count": 1
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11003495468/zip",
+          "created_at": "2026-09-28T22:56:58Z",
+          "digest": "sha256:da3e82dcf94e10dcb32d0e2bb3d661f7ec45a36cbeee9066246a50a19bd5828f",
+          "expired": false,
+          "expires_at": "2026-12-27T22:56:45Z",
+          "id": 11003495468,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-4-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMTAwMzQ5NTQ2OA==",
+          "run_attempt": 2,
+          "size_in_bytes": 20258,
+          "updated_at": "2026-09-28T22:56:58Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11003495468",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988765011/zip",
+          "created_at": "2026-09-28T18:11:18Z",
+          "digest": "sha256:cdd7c30213c93806d715eee29846b76b41d062e3fc6633a75525aa3759616543",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10988765011,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-47-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODc2NTAxMQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 20298,
+          "updated_at": "2026-09-28T18:11:18Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988765011",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988750098/zip",
+          "created_at": "2026-09-28T18:11:50Z",
+          "digest": "sha256:44a88db3d6ced5d3472d70f513199ba0c501faba2bf921b7f3e71882e2856f50",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10988750098,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-49-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODc1MDA5OA==",
+          "run_attempt": 1,
+          "size_in_bytes": 22343,
+          "updated_at": "2026-09-28T18:11:50Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988750098",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988520514/zip",
+          "created_at": "2026-09-28T18:12:06Z",
+          "digest": "sha256:7f4df786d6f3c89545df130d7fb38fffea5e0b6b6bff264560ba39e96ec8e20a",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10988520514,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-50-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODUyMDUxNA==",
+          "run_attempt": 1,
+          "size_in_bytes": 21962,
+          "updated_at": "2026-09-28T18:12:06Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988520514",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988473184/zip",
+          "created_at": "2026-09-28T18:09:57Z",
+          "digest": "sha256:6315178ba616b1ea231acac6c1d9c4ebe58c009d8454c7e9d5be441c3ab21a7f",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10988473184,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-42-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODQ3MzE4NA==",
+          "run_attempt": 1,
+          "size_in_bytes": 22313,
+          "updated_at": "2026-09-28T18:09:57Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988473184",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988383606/zip",
+          "created_at": "2026-09-28T18:11:33Z",
+          "digest": "sha256:a8d97e612cd566555c9858806a0709b90cd9d39e2be7bf699023ddc7339a4fb5",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10988383606,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-48-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODM4MzYwNg==",
+          "run_attempt": 1,
+          "size_in_bytes": 18824,
+          "updated_at": "2026-09-28T18:11:33Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988383606",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988163227/zip",
+          "created_at": "2026-09-28T18:03:16Z",
+          "digest": "sha256:53de4adf933fd52721f044a81fa53f3923becd32751106b90b9d91be64d644cb",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10988163227,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-4-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODE2MzIyNw==",
+          "run_attempt": 1,
+          "size_in_bytes": 20256,
+          "updated_at": "2026-09-28T18:03:16Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988163227",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987809077/zip",
+          "created_at": "2026-09-28T18:06:24Z",
+          "digest": "sha256:58f9c9b5a1f586df8336bce3eba4b35cbf7ba363968eb863699a1f40d640a769",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987809077,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-23-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzgwOTA3Nw==",
+          "run_attempt": 1,
+          "size_in_bytes": 21336,
+          "updated_at": "2026-09-28T18:06:24Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987809077",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987789498/zip",
+          "created_at": "2026-09-28T18:08:41Z",
+          "digest": "sha256:2e7af59a06e4e0be22e2eaca0e02494581246dd075162247dbedbb81ef98905c",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987789498,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-35-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzc4OTQ5OA==",
+          "run_attempt": 1,
+          "size_in_bytes": 19805,
+          "updated_at": "2026-09-28T18:08:41Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987789498",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987719998/zip",
+          "created_at": "2026-09-28T18:10:46Z",
+          "digest": "sha256:5819d5a11b09cb9a1918a6f1d2f79b4a8568ad051c756a721604fe3cd8dffafc",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987719998,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-45-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzcxOTk5OA==",
+          "run_attempt": 1,
+          "size_in_bytes": 23954,
+          "updated_at": "2026-09-28T18:10:46Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987719998",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987494212/zip",
+          "created_at": "2026-09-28T18:07:54Z",
+          "digest": "sha256:5fbb9ab070e85b924d79f68871654c12a06416bfe05ab1a90d2008c085f68a28",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987494212,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-31-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzQ5NDIxMg==",
+          "run_attempt": 1,
+          "size_in_bytes": 21889,
+          "updated_at": "2026-09-28T18:07:54Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987494212",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987459766/zip",
+          "created_at": "2026-09-28T18:11:00Z",
+          "digest": "sha256:e561eef52b59aade0dbeb5bb78200519fbcf84a03a60f3629615cbd5f80ea865",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987459766,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-46-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzQ1OTc2Ng==",
+          "run_attempt": 1,
+          "size_in_bytes": 21679,
+          "updated_at": "2026-09-28T18:11:00Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987459766",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987328778/zip",
+          "created_at": "2026-09-28T18:04:42Z",
+          "digest": "sha256:89c46f7b2a3a9e3e018958d95c6706d9e666985809ce578ab51dac4be7b00f3f",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987328778,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-13-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzMyODc3OA==",
+          "run_attempt": 1,
+          "size_in_bytes": 24081,
+          "updated_at": "2026-09-28T18:04:42Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987328778",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987304715/zip",
+          "created_at": "2026-09-28T18:10:16Z",
+          "digest": "sha256:148ec3ad44b0fb2a2cdca05b932e933e5096299cc8507c93e36ad12479649765",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987304715,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-44-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzMwNDcxNQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 29301,
+          "updated_at": "2026-09-28T18:10:16Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987304715",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987279751/zip",
+          "created_at": "2026-09-28T18:09:13Z",
+          "digest": "sha256:c7e6d510e244a694e4dafba5a779d061154fe86f6848cfd6341bc9f454511199",
+          "expired": false,
+          "expires_at": "2026-12-27T18:02:27Z",
+          "id": 10987279751,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-38-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzI3OTc1MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 21026,
+          "updated_at": "2026-09-28T18:09:13Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987279751",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+            "id": 36462381190,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "failure",
+        "created_at": "2026-09-28T18:02:26Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+        "id": 36462381190,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 2,
+        "status": "completed",
+        "updated_at": "2026-09-28T22:57:02Z"
+      },
+      "run": {
+        "conclusion": "failure",
+        "created_at": "2026-09-28T18:02:26Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "2451c1f8f99de754331eaac52b6c6b8b3d070226",
+        "id": 36462381190,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T18:12:10Z"
+      },
+      "total_count": 15
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988376139/zip",
+          "created_at": "2026-09-28T17:56:03Z",
+          "digest": "sha256:eba82bee82c2c48e5583577ba1f318167bd785ca70dd81f8a7ede5496da7d7c1",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10988376139,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-49-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODM3NjEzOQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 22343,
+          "updated_at": "2026-09-28T17:56:03Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988376139",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988356216/zip",
+          "created_at": "2026-09-28T17:55:59Z",
+          "digest": "sha256:89db125e402985c0d247b53e020f9a378f03c2f0b385d1dd83965a8e7ac5e0d8",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10988356216,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-47-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODM1NjIxNg==",
+          "run_attempt": 1,
+          "size_in_bytes": 20296,
+          "updated_at": "2026-09-28T17:55:59Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988356216",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988336305/zip",
+          "created_at": "2026-09-28T17:57:06Z",
+          "digest": "sha256:f755784d2a4e3f7473b50f0db9365edc8e1a98fae4c74b7a3a3d8ff3c6a3b9e5",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10988336305,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-31-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODMzNjMwNQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 45268,
+          "updated_at": "2026-09-28T17:57:06Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988336305",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988251686/zip",
+          "created_at": "2026-09-28T17:55:48Z",
+          "digest": "sha256:f4315bba4a6d6b309e8a4110fff89fbb1360d5dbef397e0896fccef3a0138132",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10988251686,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-38-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODI1MTY4Ng==",
+          "run_attempt": 1,
+          "size_in_bytes": 21025,
+          "updated_at": "2026-09-28T17:55:48Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988251686",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988151913/zip",
+          "created_at": "2026-09-28T17:55:31Z",
+          "digest": "sha256:e123db14db7ac7a09edda25c3df058d29d58887201dfdeb617fed483f56914d9",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10988151913,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-23-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODE1MTkxMw==",
+          "run_attempt": 1,
+          "size_in_bytes": 21336,
+          "updated_at": "2026-09-28T17:55:31Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988151913",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988071958/zip",
+          "created_at": "2026-09-28T17:55:12Z",
+          "digest": "sha256:f841ecc252f3e874e4e33a7f24efcdab2954a69f95e485191562cef7f1485259",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10988071958,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-4-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODA3MTk1OA==",
+          "run_attempt": 1,
+          "size_in_bytes": 20258,
+          "updated_at": "2026-09-28T17:55:12Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988071958",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987932172/zip",
+          "created_at": "2026-09-28T17:56:01Z",
+          "digest": "sha256:cc6f609f4cb99c6eb791c9b4ac7ea621d052b239949f63859cf969b19cc3179c",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987932172,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-48-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzkzMjE3Mg==",
+          "run_attempt": 1,
+          "size_in_bytes": 18821,
+          "updated_at": "2026-09-28T17:56:01Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987932172",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987847114/zip",
+          "created_at": "2026-09-28T17:55:24Z",
+          "digest": "sha256:806a510306d98be1778b7a3906d5d6998eedcd77f944d16e71c633ba589f6359",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987847114,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-13-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzg0NzExNA==",
+          "run_attempt": 1,
+          "size_in_bytes": 24080,
+          "updated_at": "2026-09-28T17:55:24Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987847114",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987697418/zip",
+          "created_at": "2026-09-28T17:55:54Z",
+          "digest": "sha256:2aba94f817df8dcf61d3f9d54fd927e8acf2061093444202497445f0f99ecf3e",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987697418,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-45-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzY5NzQxOA==",
+          "run_attempt": 1,
+          "size_in_bytes": 23951,
+          "updated_at": "2026-09-28T17:55:54Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987697418",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987587550/zip",
+          "created_at": "2026-09-28T17:56:03Z",
+          "digest": "sha256:10176c70daec3c79eed34ce81758a7297cc641807eb34340a394b9c444e5fbfa",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987587550,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-50-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzU4NzU1MA==",
+          "run_attempt": 1,
+          "size_in_bytes": 21959,
+          "updated_at": "2026-09-28T17:56:03Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987587550",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987397350/zip",
+          "created_at": "2026-09-28T17:55:42Z",
+          "digest": "sha256:dc3f06c855acb0f87fb7de6583b9b1594cfe2dcd0cce29123ca2195ca5cd47ce",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987397350,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-35-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzM5NzM1MA==",
+          "run_attempt": 1,
+          "size_in_bytes": 19802,
+          "updated_at": "2026-09-28T17:55:42Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987397350",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987362512/zip",
+          "created_at": "2026-09-28T17:55:59Z",
+          "digest": "sha256:cd740b5a0f0ce8a94a51e5873fcaee6c3dc5900f0f8ba4e842fe731b63669d03",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987362512,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-46-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzM2MjUxMg==",
+          "run_attempt": 1,
+          "size_in_bytes": 21679,
+          "updated_at": "2026-09-28T17:55:59Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987362512",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987202625/zip",
+          "created_at": "2026-09-28T17:55:55Z",
+          "digest": "sha256:b04e31ee83b2336b25f8c65b9e4eab584b0207ae8e43688f868322d6222d0c0c",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987202625,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-42-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzIwMjYyNQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 22314,
+          "updated_at": "2026-09-28T17:55:55Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987202625",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987162693/zip",
+          "created_at": "2026-09-28T17:55:56Z",
+          "digest": "sha256:89df8abf9be0c7cfdc159ce23ab864fb12297963c252311548eece63bc9f823d",
+          "expired": false,
+          "expires_at": "2026-12-27T17:54:50Z",
+          "id": 10987162693,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-44-retry-eligible",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzE2MjY5Mw==",
+          "run_attempt": 1,
+          "size_in_bytes": 29300,
+          "updated_at": "2026-09-28T17:55:56Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987162693",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+            "id": 36461495392,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "failure",
+        "created_at": "2026-09-28T17:54:50Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+        "id": 36461495392,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T17:57:08Z"
+      },
+      "run": {
+        "conclusion": "failure",
+        "created_at": "2026-09-28T17:54:50Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "da2b28fe7284cd2dbd5615c726124889e37f1b6a",
+        "id": 36461495392,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T17:57:08Z"
+      },
+      "total_count": 14
+    },
+    {
+      "artifacts": [
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988455066/zip",
+          "created_at": "2026-09-28T17:50:34Z",
+          "digest": "sha256:3fa979db186fa8560af58b2a103560991f8f42d20f70bce4dabdc55fc4bf962b",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988455066,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-37-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODQ1NTA2Ng==",
+          "run_attempt": 1,
+          "size_in_bytes": 49718,
+          "updated_at": "2026-09-28T17:50:34Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988455066",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988415032/zip",
+          "created_at": "2026-09-28T17:49:31Z",
+          "digest": "sha256:8fdcffe4367506fea96ac238bc0156e1f993bfc3631aeada89e346ea794f2227",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988415032,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-29-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODQxNTAzMg==",
+          "run_attempt": 1,
+          "size_in_bytes": 49615,
+          "updated_at": "2026-09-28T17:49:31Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988415032",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988225651/zip",
+          "created_at": "2026-09-28T17:48:39Z",
+          "digest": "sha256:9099f3c420d43eed6941d97cf3cb590b98bf0bd2c42f0f33faa38d86bbc7dd59",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988225651,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-27-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODIyNTY1MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 35841,
+          "updated_at": "2026-09-28T17:48:39Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988225651",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988225516/zip",
+          "created_at": "2026-09-28T17:47:48Z",
+          "digest": "sha256:27c9ab640b7bf0c44667c031c3053aa3f685f380eb72bf945183639c87116ffc",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988225516,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-16-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODIyNTUxNg==",
+          "run_attempt": 1,
+          "size_in_bytes": 46946,
+          "updated_at": "2026-09-28T17:47:48Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988225516",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988220110/zip",
+          "created_at": "2026-09-28T17:45:39Z",
+          "digest": "sha256:587298b1713e639db5e4a62e5b6b73f5350f2891911b3df977c272686c895616",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988220110,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-1-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODIyMDExMA==",
+          "run_attempt": 1,
+          "size_in_bytes": 47989,
+          "updated_at": "2026-09-28T17:45:39Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988220110",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988170328/zip",
+          "created_at": "2026-09-28T17:45:46Z",
+          "digest": "sha256:756df1510fbe64c1e907e537a079580cae1fc9b5f6bdeb253013d86bbae0cec8",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988170328,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-3-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODE3MDMyOA==",
+          "run_attempt": 1,
+          "size_in_bytes": 40749,
+          "updated_at": "2026-09-28T17:45:46Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988170328",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988141159/zip",
+          "created_at": "2026-09-28T17:50:23Z",
+          "digest": "sha256:1ee74cae56b1b9fb319cae6dcd5f55c7e58bc0632a2c0ab9631a9ddb339d9bd3",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988141159,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-39-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODE0MTE1OQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 40412,
+          "updated_at": "2026-09-28T17:50:23Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988141159",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988100573/zip",
+          "created_at": "2026-09-28T17:47:25Z",
+          "digest": "sha256:4ebef53345f4a9b0365051c090c44d46159e322bdfa39ccd545c209ebbec2fdf",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988100573,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-14-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODEwMDU3Mw==",
+          "run_attempt": 1,
+          "size_in_bytes": 43506,
+          "updated_at": "2026-09-28T17:47:25Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988100573",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988096045/zip",
+          "created_at": "2026-09-28T17:49:35Z",
+          "digest": "sha256:bebb3ded58b3560600f6f997286a76c689cf581bcd2ce9f79a219ab1e118716b",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988096045,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-33-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODA5NjA0NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 34990,
+          "updated_at": "2026-09-28T17:49:35Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988096045",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988085527/zip",
+          "created_at": "2026-09-28T17:46:26Z",
+          "digest": "sha256:db52266d70f5b656d4b50b65ed5ebd7fcd209bc7beeee6da6841b21b730af205",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988085527,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-8-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODA4NTUyNw==",
+          "run_attempt": 1,
+          "size_in_bytes": 42443,
+          "updated_at": "2026-09-28T17:46:26Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988085527",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988061116/zip",
+          "created_at": "2026-09-28T17:49:33Z",
+          "digest": "sha256:4d2885da8f4943142e9c2a78242c7e3a2b89e9bdaf457bcc3c414d29fb3dd5a8",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10988061116,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-32-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4ODA2MTExNg==",
+          "run_attempt": 1,
+          "size_in_bytes": 38977,
+          "updated_at": "2026-09-28T17:49:33Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10988061116",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987961385/zip",
+          "created_at": "2026-09-28T17:50:57Z",
+          "digest": "sha256:df8a9cbae68bce19fb277118651c2c4866f5f07dc685e8df99adf8a4183c50f2",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987961385,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-43-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzk2MTM4NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 42171,
+          "updated_at": "2026-09-28T17:50:57Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987961385",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987956371/zip",
+          "created_at": "2026-09-28T17:51:08Z",
+          "digest": "sha256:89bd432da0e13196683e548a56a8094dd47925c417042849f6c4c1377bcc41ba",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987956371,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-41-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzk1NjM3MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 48998,
+          "updated_at": "2026-09-28T17:51:08Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987956371",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987845565/zip",
+          "created_at": "2026-09-28T17:46:10Z",
+          "digest": "sha256:5aed723d5fa28f007983365d70d1fbea3484b2164814c532999a00ce2de1697f",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987845565,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-9-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzg0NTU2NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 59433,
+          "updated_at": "2026-09-28T17:46:10Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987845565",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987805676/zip",
+          "created_at": "2026-09-28T17:46:01Z",
+          "digest": "sha256:d878f6091fedcec431a2c732ba7445e82f69c4cf295e8a82d36b4ef8d6de2858",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987805676,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-5-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzgwNTY3Ng==",
+          "run_attempt": 1,
+          "size_in_bytes": 45482,
+          "updated_at": "2026-09-28T17:46:01Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987805676",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987775689/zip",
+          "created_at": "2026-09-28T17:46:11Z",
+          "digest": "sha256:098cff589268b1f5474cd9d6e74fc87e53ead9a5fc402e777db52ccd0094435a",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987775689,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-7-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzc3NTY4OQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 48015,
+          "updated_at": "2026-09-28T17:46:11Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987775689",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987751414/zip",
+          "created_at": "2026-09-28T17:50:29Z",
+          "digest": "sha256:d8ba6791ee8c705c50596fac13325f6872964aca262c1f01d184c768d3263f7c",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987751414,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-34-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzc1MTQxNA==",
+          "run_attempt": 1,
+          "size_in_bytes": 51550,
+          "updated_at": "2026-09-28T17:50:29Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987751414",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987741102/zip",
+          "created_at": "2026-09-28T17:48:36Z",
+          "digest": "sha256:329f317ab6f4a28a20b5cc2e6f931627f0377a068d57ba16315303f51a385c13",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987741102,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-22-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Nzc0MTEwMg==",
+          "run_attempt": 1,
+          "size_in_bytes": 44211,
+          "updated_at": "2026-09-28T17:48:36Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987741102",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987735718/zip",
+          "created_at": "2026-09-28T17:46:15Z",
+          "digest": "sha256:ab18173969ebf2d9c0444ca7c5306ce9d5918ff3653000c1cce0b5bc4b465ce4",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987735718,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-2-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzczNTcxOA==",
+          "run_attempt": 1,
+          "size_in_bytes": 47160,
+          "updated_at": "2026-09-28T17:46:15Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987735718",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987715945/zip",
+          "created_at": "2026-09-28T17:47:07Z",
+          "digest": "sha256:96dcbd407066f0f8da186cc151b888e50d51fb71acaae8fcb4e7a766a51f9f79",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987715945,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-11-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzcxNTk0NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 51809,
+          "updated_at": "2026-09-28T17:47:07Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987715945",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987691391/zip",
+          "created_at": "2026-09-28T17:49:25Z",
+          "digest": "sha256:34635157364e3d3aa07fcde852948d626c68700b07a422c16c97501dd9187d0f",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987691391,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-28-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzY5MTM5MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 50122,
+          "updated_at": "2026-09-28T17:49:25Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987691391",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987691381/zip",
+          "created_at": "2026-09-28T17:49:22Z",
+          "digest": "sha256:72cbc35a18443aec61a0bda5e11c5672c035baca7689d87fb86f980073e091eb",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987691381,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-30-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzY5MTM4MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 44425,
+          "updated_at": "2026-09-28T17:49:22Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987691381",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987575908/zip",
+          "created_at": "2026-09-28T17:47:28Z",
+          "digest": "sha256:4a88ac58456cd7fd96cf77df0ec885e30185b20f3f8b9e6319877698b8e997a6",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987575908,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-18-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzU3NTkwOA==",
+          "run_attempt": 1,
+          "size_in_bytes": 41512,
+          "updated_at": "2026-09-28T17:47:28Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987575908",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987396263/zip",
+          "created_at": "2026-09-28T17:49:02Z",
+          "digest": "sha256:e2b634971e91ddb6c0f67104fe9f9a2af523b23770e949bf0e10f88e7e41c2b3",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987396263,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-26-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzM5NjI2Mw==",
+          "run_attempt": 1,
+          "size_in_bytes": 42361,
+          "updated_at": "2026-09-28T17:49:02Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987396263",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987361085/zip",
+          "created_at": "2026-09-28T17:47:02Z",
+          "digest": "sha256:5d6b892ac988a8cce7c1a5ce775d2bcca26c8c3786f214ffef382b27fc42a90f",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987361085,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-12-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzM2MTA4NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 39554,
+          "updated_at": "2026-09-28T17:47:02Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987361085",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987356247/zip",
+          "created_at": "2026-09-28T17:48:24Z",
+          "digest": "sha256:307eb77412718ffb2fc839fe1d006c1e0f0b5bfd0cf559d59439b0dfbf3db0bb",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987356247,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-24-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzM1NjI0Nw==",
+          "run_attempt": 1,
+          "size_in_bytes": 41232,
+          "updated_at": "2026-09-28T17:48:24Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987356247",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987316614/zip",
+          "created_at": "2026-09-28T17:50:13Z",
+          "digest": "sha256:088e42f0c5fcd41ba880800493c21d30e8161b6a96a18f81bfa63864c05c47fc",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987316614,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-36-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzMxNjYxNA==",
+          "run_attempt": 1,
+          "size_in_bytes": 37873,
+          "updated_at": "2026-09-28T17:50:13Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987316614",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987311143/zip",
+          "created_at": "2026-09-28T17:48:00Z",
+          "digest": "sha256:ffcca79087f7c3f9f3f197c77bc6c8dfcd2c96e9f262bcb26984126196b866dc",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987311143,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-21-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzMxMTE0Mw==",
+          "run_attempt": 1,
+          "size_in_bytes": 38053,
+          "updated_at": "2026-09-28T17:48:00Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987311143",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987286685/zip",
+          "created_at": "2026-09-28T17:50:25Z",
+          "digest": "sha256:806417b4e3e16464477db04447b890ce0f7c39f67c3ac725cb87244509d316d4",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987286685,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-40-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzI4NjY4NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 33376,
+          "updated_at": "2026-09-28T17:50:25Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987286685",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987211374/zip",
+          "created_at": "2026-09-28T17:48:46Z",
+          "digest": "sha256:f596535f39ab674fdafafebba9a2c24d1237fb4b0ee6fec00f319d10157c59de",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987211374,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-25-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzIxMTM3NA==",
+          "run_attempt": 1,
+          "size_in_bytes": 40562,
+          "updated_at": "2026-09-28T17:48:46Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987211374",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987191245/zip",
+          "created_at": "2026-09-28T17:47:31Z",
+          "digest": "sha256:1cb57f7a667241aa0a628071b62bc956f88afa1a4291881f7d0491096c63cf3b",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987191245,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-19-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzE5MTI0NQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 44688,
+          "updated_at": "2026-09-28T17:47:31Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987191245",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987156511/zip",
+          "created_at": "2026-09-28T17:48:22Z",
+          "digest": "sha256:ba21a04d78b3fd85014b46a3a10e3dc6b54e5603030df0f19870d632c6c5bec7",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987156511,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-15-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzE1NjUxMQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 44584,
+          "updated_at": "2026-09-28T17:48:22Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987156511",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987131091/zip",
+          "created_at": "2026-09-28T17:45:54Z",
+          "digest": "sha256:a43ad04c6a72b1e4f05249342a80745f5aae9023e536f0b1f2214910b05344a2",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987131091,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-6-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzEzMTA5MQ==",
+          "run_attempt": 1,
+          "size_in_bytes": 39833,
+          "updated_at": "2026-09-28T17:45:54Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987131091",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987059597/zip",
+          "created_at": "2026-09-28T17:47:26Z",
+          "digest": "sha256:4a562f6d085366dd7847df8c7f54b4ad940420b9294c95d595a7d482e13e184b",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10987059597,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-20-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4NzA1OTU5Nw==",
+          "run_attempt": 1,
+          "size_in_bytes": 39252,
+          "updated_at": "2026-09-28T17:47:26Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10987059597",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10986999760/zip",
+          "created_at": "2026-09-28T17:47:51Z",
+          "digest": "sha256:8677edd3b628c935f73e51c94283271743ddd9cd9185bace3448cdc70951205d",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10986999760,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-17-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Njk5OTc2MA==",
+          "run_attempt": 1,
+          "size_in_bytes": 44088,
+          "updated_at": "2026-09-28T17:47:51Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10986999760",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        },
+        {
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10986979456/zip",
+          "created_at": "2026-09-28T17:45:46Z",
+          "digest": "sha256:8fc95665ebfbe6ea523fcfa304ee253d3eeee12f4ffa3e09b425614c6acfcb7a",
+          "expired": false,
+          "expires_at": "2026-12-27T17:44:17Z",
+          "id": 10986979456,
+          "name": "trackcade-semantic-external-stage1-v3-sol-v1-case-10-completed",
+          "node_id": "MDg6QXJ0aWZhY3QxMDk4Njk3OTQ1Ng==",
+          "run_attempt": 1,
+          "size_in_bytes": 38680,
+          "updated_at": "2026-09-28T17:45:46Z",
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/10986979456",
+          "workflow_run": {
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_repository_id": 1380714386,
+            "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+            "id": 36460242177,
+            "repository_id": 1380714386
+          }
+        }
+      ],
+      "latestRun": {
+        "conclusion": "failure",
+        "created_at": "2026-09-28T17:44:17Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+        "id": 36460242177,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T17:52:04Z"
+      },
+      "run": {
+        "conclusion": "failure",
+        "created_at": "2026-09-28T17:44:17Z",
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "7872ee710eb5d41344eb8439b2218b4ef164fc7f",
+        "id": 36460242177,
+        "path": ".github/workflows/trackcade-semantic-external-stage1-v3-sol-v1.yml",
+        "run_attempt": 1,
+        "status": "completed",
+        "updated_at": "2026-09-28T17:52:04Z"
+      },
+      "total_count": 36
+    }
+  ],
+  "selectionRule": "Exactly one completed artifact per ordinal; duplicates refuse, no replacement",
+  "terminalMaterialAccessed": false
+}
