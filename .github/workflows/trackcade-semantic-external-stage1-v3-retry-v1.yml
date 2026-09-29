@@ -1,0 +1,206 @@
+name: Trackcade V3 — Evidence-bound single retry
+
+on:
+  workflow_dispatch:
+    inputs:
+      ordinal:
+        description: 'Development ordinal with reviewed retry evidence'
+        required: true
+        type: choice
+        options: ['42']
+      authorization:
+        description: 'One-use authorization for the preserved incomplete attempt'
+        required: true
+        type: choice
+        options: ['ordinal-42-evidence-11028077891-v1']
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v3-sol-v1
+  cancel-in-progress: false
+
+env:
+  BASE: research/semantic-external-holdout-v1
+  LEARNED: research/learned-interpretation-v1
+  PRE_PROVIDER_FREEZE_COMMIT: '4ae406a2a83dd74c4fdcc47508671db6e47cbff0'
+  PREP_RUN_ID: '36457485587'
+  PREP_ARTIFACT_ID: '10986506165'
+  PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v3-prep-v1
+  PREP_ARTIFACT_DIGEST: sha256:5f9e4159faf620f6b527fecc649b456633a3dccfca074dca7c6a422d3527e376
+  PREP_HEAD_SHA: 'a0e58581a213f74ce166d4a02deea4d3bb89e9e3'
+  PREP_MANIFEST_SHA256: 'df7ceff4c82291552a2d55dd7ddf872269477d0766bf4cb785a90b5730779257'
+  PREP_FREEZE_BLOB_SHA: '360e33c1c70fbd49a687561a19b570a8ef00053c'
+  PROTOCOL_BLOB_SHA: '6e56c4d5504e66b5614e5d6ece6b31d0481228cc'
+  HARNESS_BLOB_SHA: '37f2e28e4d473f4a4277cef659e14ea949bd7019'
+  BUILDER_V1_BLOB_SHA: '724893f84b10088c5baf96f6cb052db13aa65fed'
+  BUILDER_V2_BLOB_SHA: 'a930abf4dadc23a4008b2a331fa3b08b0d74a1be'
+  BUILDER_V3_BLOB_SHA: '02e38745a0c699d460c7edb6d4f4ce7536051a88'
+  VALIDATOR_V1_BLOB_SHA: '88f4f836f082198d38af0e0469f27fb9bd0108fc'
+  VALIDATOR_V3_BLOB_SHA: 'ebb4d23b1b9b77024dae9068127188879b715509'
+  ADAPTER_V1_BLOB_SHA: 'f48198edbe2bf593e52e9d708fe6a85d34d49f65'
+  ADAPTER_V3_BLOB_SHA: 'f947d6da594d632716f2bc4094b0ca279f262673'
+  INGEST_V1_BLOB_SHA: 'c415c7c6ed3b7ae7f261f416ef21d82104c40047'
+  INGEST_V3_BLOB_SHA: '891258a31c5619e6730cd117712c0b22050bb208'
+  INSTRUCTION_SHA256: '6a4f014c89afe0d25df6af70b81f6caa169881faf7cc04c6eba9246582b7e427'
+  ANALYZER_RUNNER_SHA256: '9d579842207a1482ef6d12d34d6d82d03b02021d88de65c19abaf41f8692f432'
+  ANALYZER_SOURCE_COMMIT: 'e308d867980fb1877c3f2e4ce27950deecac0855'
+
+jobs:
+  retry:
+    if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      actions: read
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RETRY_ORDINAL: ${{ inputs.ordinal }}
+      RETRY_AUTHORIZATION: ${{ inputs.authorization }}
+    steps:
+      - name: Checkout exact frozen V3 generation source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          sparse-checkout: |
+            .github/scripts/trackcade_v3_retry.py
+            .github/scripts/trackcade_v3_batch.py
+            research/semantic-external-holdout-v1/STAGE1_V3_DEVELOPMENT_PROTOCOL.md
+            research/semantic-external-holdout-v1/STAGE1_V3_PREP_FREEZE_V1.json
+            research/semantic-external-holdout-v1/run_stage1_v3_provider_case_v1.py
+            research/learned-interpretation-v1/build_learned_request_v1.py
+            research/learned-interpretation-v1/build_learned_request_v2.py
+            research/learned-interpretation-v1/build_learned_request_v3.py
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py
+            research/learned-interpretation-v1/openai_responses_adapter_v3.py
+            research/learned-interpretation-v1/ingest_provider_response_v1.py
+            research/learned-interpretation-v1/ingest_provider_response_v3.py
+          sparse-checkout-cone-mode: false
+
+      - name: Verify frozen V3 boundary before any provider call
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = 1
+          test "$GITHUB_REF" = refs/heads/trackcade-semantic-external-holdout-v1
+          test "$(gh api "repos/${GITHUB_REPOSITORY}/branches/trackcade-semantic-external-holdout-v1" --jq .commit.sha)" = "$GITHUB_SHA"
+          git merge-base --is-ancestor 54bdcb119da433923fd4db8602b88ba817e3f8a2 HEAD
+          git merge-base --is-ancestor "$PRE_PROVIDER_FREEZE_COMMIT" HEAD
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md)" = "$PROTOCOL_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/STAGE1_V3_PREP_FREEZE_V1.json)" = "$PREP_FREEZE_BLOB_SHA"
+          test "$(git rev-parse HEAD:$BASE/run_stage1_v3_provider_case_v1.py)" = "$HARNESS_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v1.py)" = "$BUILDER_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v2.py)" = "$BUILDER_V2_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/build_learned_request_v3.py)" = "$BUILDER_V3_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/validate_learned_proposal_v1.py)" = "$VALIDATOR_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/validate_learned_proposal_v3.py)" = "$VALIDATOR_V3_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/openai_responses_adapter_v1.py)" = "$ADAPTER_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/openai_responses_adapter_v3.py)" = "$ADAPTER_V3_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/ingest_provider_response_v1.py)" = "$INGEST_V1_BLOB_SHA"
+          test "$(git rev-parse HEAD:$LEARNED/ingest_provider_response_v3.py)" = "$INGEST_V3_BLOB_SHA"
+          test "$(git rev-parse HEAD:.github/scripts/trackcade_v3_batch.py)" = 80aef4e1fc3bd4691a087c03fb8c4daaf1319045
+          python -m py_compile \
+            "$BASE/run_stage1_v3_provider_case_v1.py" \
+            "$LEARNED/build_learned_request_v1.py" \
+            "$LEARNED/build_learned_request_v2.py" \
+            "$LEARNED/build_learned_request_v3.py" \
+            "$LEARNED/validate_learned_proposal_v1.py" \
+            "$LEARNED/validate_learned_proposal_v3.py" \
+            "$LEARNED/openai_responses_adapter_v1.py" \
+            "$LEARNED/openai_responses_adapter_v3.py" \
+            "$LEARNED/ingest_provider_response_v1.py" \
+            "$LEARNED/ingest_provider_response_v3.py"
+          grep -Fq 'FROZEN BEFORE ANY V3 PROVIDER RESPONSE' "$BASE/STAGE1_V3_DEVELOPMENT_PROTOCOL.md"
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          python - <<'PY'
+          import json, os
+          d=json.load(open('research/semantic-external-holdout-v1/STAGE1_V3_PREP_FREEZE_V1.json'))
+          assert d['status']=='frozen-before-any-v3-provider-response'
+          assert d['prep']['runId']==36457485587
+          assert d['prep']['artifactId']==10986506165
+          assert d['prep']['manifestSha256']==os.environ['PREP_MANIFEST_SHA256']
+          assert d['prep']['providerCallsObserved']==0
+          assert d['prep']['completedProviderResponses']==0
+          assert d['prep']['terminalTracksProcessed'] is False
+          assert d['prep']['analyzerExecuted'] is False
+          assert d['prep']['audioDecoded'] is False
+          assert d['prep']['compilerInvoked'] is False
+          assert d['semanticInstruction']['v3InstructionSha256']==os.environ['INSTRUCTION_SHA256']
+          assert d['semanticInstruction']['semanticRetuningPerformed'] is False
+          assert d['providerContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':4096,'store':False,
+            'completedResponsesPerTrackAtFreeze':0,
+          }
+          assert d['researchBoundary']['terminalSetUntouched'] is True
+          assert d['researchBoundary']['aiTimingAuthority'] is False
+          assert d['researchBoundary']['compilerIntegratedIntoV3Experiment'] is False
+          print('Frozen V3 pre-provider boundary verified.')
+          PY
+          meta="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREP_ARTIFACT_ID}" --jq '[.id,.name,.digest,.workflow_run.id,.workflow_run.head_sha] | @tsv')"
+          expected="${PREP_ARTIFACT_ID}\t${PREP_ARTIFACT_NAME}\t${PREP_ARTIFACT_DIGEST}\t${PREP_RUN_ID}\t${PREP_HEAD_SHA}"
+          test "$meta" = "$(printf '%b' "$expected")"
+
+      - name: Download exact frozen V3 prep artifact
+        uses: actions/download-artifact@v4
+        with:
+          artifact-ids: ${{ env.PREP_ARTIFACT_ID }}
+          merge-multiple: true
+          path: ${{ runner.temp }}/v3-prep
+          repository: 4everhumblepdx/trackcade-test
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify preserved retry evidence without provider access
+        run: python .github/scripts/trackcade_v3_retry.py prepare --ordinal "$RETRY_ORDINAL" --authorization "$RETRY_AUTHORIZATION"
+
+      - name: Reserve one-use retry and invoke unchanged single-call harness
+        id: execute
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python .github/scripts/trackcade_v3_retry.py execute --ordinal "$RETRY_ORDINAL" --authorization "$RETRY_AUTHORIZATION"
+
+      - name: Preserve this retry response separately
+        id: upload
+        if: always() && steps.execute.outputs.artifact_name != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.execute.outputs.artifact_name }}
+          path: ${{ runner.temp }}/retry-case-42
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Record new artifact identity and fail on any unsuccessful result
+        if: always() && steps.execute.outputs.artifact_name != ''
+        env:
+          RETRY_SUCCESS: ${{ steps.execute.outputs.success }}
+          ARTIFACT_ID: ${{ steps.upload.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.upload.outputs.artifact-digest }}
+          ARTIFACT_URL: ${{ steps.upload.outputs.artifact-url }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          p = Path(os.environ['RUNNER_TEMP']) / 'retry-audit' / 'new-artifact.json'
+          p.write_text(json.dumps({k: os.environ[k] for k in ('ARTIFACT_ID','ARTIFACT_DIGEST','ARTIFACT_URL')}, indent=2)+'\n')
+          assert os.environ['ARTIFACT_ID'], 'Retry evidence upload failed; authorization remains consumed'
+          assert os.environ['RETRY_SUCCESS'] == 'true', 'Retry did not complete and validate; stop'
+          PY
+
+      - name: Preserve retry authorization, prior evidence, locks, hashes and provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-v3-retry-audit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/retry-audit
+          if-no-files-found: warn
+          retention-days: 90
