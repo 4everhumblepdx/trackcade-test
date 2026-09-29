@@ -1,0 +1,229 @@
+name: Trackcade Semantic External Holdout v1 — Stage 1 V4 Frozen Prep
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v4-prep-v1.yml
+      - research/learned-interpretation-v1/build_learned_request_v4.py
+      - research/learned-interpretation-v1/validate_learned_proposal_v4.py
+      - research/learned-interpretation-v1/openai_responses_adapter_v4.py
+      - research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py
+      - research/semantic-external-holdout-v1/test_stage1_v4_contract.py
+      - research/semantic-external-holdout-v1/STAGE1_V4_DEVELOPMENT_PROTOCOL.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v4-frozen-prep-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  prepare-v4:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      V3_PREP_RUN_ID: '36457485587'
+      V3_PREP_ARTIFACT_ID: '10986506165'
+      V3_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v3-prep-v1
+      V3_PREP_ARTIFACT_DIGEST: sha256:5f9e4159faf620f6b527fecc649b456633a3dccfca074dca7c6a422d3527e376
+      V3_PREP_HEAD_SHA: a0e58581a213f74ce166d4a02deea4d3bb89e9e3
+      V3_PREP_MANIFEST_SHA256: df7ceff4c82291552a2d55dd7ddf872269477d0766bf4cb785a90b5730779257
+
+    steps:
+      - name: Checkout exact V4 source commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Assert offline research boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF}" = "refs/heads/trackcade-semantic-external-holdout-v1"
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not be present in V4 prep environment' >&2
+            exit 1
+          fi
+          grep -q -- '--prepare-only' research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py
+          ! grep -q 'REFERENCE_DROPS' research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py
+          ! grep -qi 'terminal' research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py || \
+            grep -q 'terminalTracksProcessed.*False' research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py
+
+      - name: Compile V4 Python sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/learned-interpretation-v1/build_learned_request_v4.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v4.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v4.py \
+            research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py \
+            research/semantic-external-holdout-v1/test_stage1_v4_contract.py
+
+      - name: Run offline V4 contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/semantic-external-holdout-v1/test_stage1_v4_contract.py
+
+      - name: Verify frozen V3 prep artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${V3_PREP_ARTIFACT_ID}" > /tmp/v3-artifact-meta.json
+          python - <<'PY'
+          import json, os
+          m = json.load(open('/tmp/v3-artifact-meta.json'))
+          expected = {
+              'id': int(os.environ['V3_PREP_ARTIFACT_ID']),
+              'name': os.environ['V3_PREP_ARTIFACT_NAME'],
+              'digest': os.environ['V3_PREP_ARTIFACT_DIGEST'],
+          }
+          for key, value in expected.items():
+              if m.get(key) != value:
+                  raise SystemExit(f'V3 artifact metadata mismatch {key}: {m.get(key)!r} != {value!r}')
+          if m.get('expired') is not False:
+              raise SystemExit('V3 prep artifact is expired')
+          wr = m.get('workflow_run') or {}
+          if wr.get('id') != int(os.environ['V3_PREP_RUN_ID']):
+              raise SystemExit('V3 prep artifact run mismatch')
+          if wr.get('head_sha') != os.environ['V3_PREP_HEAD_SHA']:
+              raise SystemExit('V3 prep artifact head SHA mismatch')
+          print(json.dumps({'status':'verified','artifactId':m['id'],'digest':m['digest']}, indent=2))
+          PY
+
+      - name: Download exact frozen V3 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v3-prep-v1
+          path: /tmp/trackcade-v3-prep
+          github-token: ${{ github.token }}
+          run-id: 36457485587
+
+      - name: Verify downloaded V3 prep identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f /tmp/trackcade-v3-prep/STAGE1_V3_PREP_MANIFEST_V1.json
+          echo "${V3_PREP_MANIFEST_SHA256}  /tmp/trackcade-v3-prep/STAGE1_V3_PREP_MANIFEST_V1.json" | sha256sum -c -
+          python - <<'PY'
+          import json, os
+          p='/tmp/trackcade-v3-prep/STAGE1_V3_PREP_MANIFEST_V1.json'
+          m=json.load(open(p))
+          assert m['trackCount']==50
+          assert m['providerCallsObserved']==0
+          assert m['referenceLabelsReadByPreparation'] is False
+          assert m['terminalTracksProcessed'] is False
+          assert m['analyzerExecuted'] is False
+          assert m['audioDecoded'] is False
+          assert m['compilerInvoked'] is False
+          print('V3 frozen prep research boundary verified')
+          PY
+
+      - name: Record exact source blob identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trackcade-v4-prep
+          python - <<'PY'
+          import json, subprocess
+          paths = [
+            'research/learned-interpretation-v1/build_learned_request_v2.py',
+            'research/learned-interpretation-v1/build_learned_request_v3.py',
+            'research/learned-interpretation-v1/build_learned_request_v4.py',
+            'research/learned-interpretation-v1/validate_learned_proposal_v3.py',
+            'research/learned-interpretation-v1/validate_learned_proposal_v4.py',
+            'research/learned-interpretation-v1/openai_responses_adapter_v1.py',
+            'research/learned-interpretation-v1/openai_responses_adapter_v4.py',
+            'research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py',
+            'research/semantic-external-holdout-v1/test_stage1_v4_contract.py',
+            'research/semantic-external-holdout-v1/STAGE1_V4_DEVELOPMENT_PROTOCOL.md',
+            '.github/workflows/trackcade-semantic-external-stage1-v4-prep-v1.yml',
+          ]
+          blobs = {}
+          for path in paths:
+              blobs[path] = subprocess.check_output(['git','rev-parse',f'HEAD:{path}'], text=True).strip()
+          out = {
+              'schema':'trackcade-semantic-external-stage1-v4-source-blobs-v1',
+              'headSha': subprocess.check_output(['git','rev-parse','HEAD'], text=True).strip(),
+              'files': blobs,
+          }
+          with open('/tmp/trackcade-v4-prep/SOURCE_BLOBS_V1.json','w') as f:
+              json.dump(out,f,indent=2,sort_keys=True); f.write('\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+
+      - name: Prepare all 50 V4 requests and exact payloads offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/semantic-external-holdout-v1/prepare_stage1_v4_requests.py \
+            --v3-prep-root /tmp/trackcade-v3-prep \
+            --output-dir /tmp/trackcade-v4-prep \
+            --builder research/learned-interpretation-v1/build_learned_request_v4.py \
+            --adapter research/learned-interpretation-v1/openai_responses_adapter_v4.py
+
+      - name: Audit complete V4 prep closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, pathlib
+          root=pathlib.Path('/tmp/trackcade-v4-prep')
+          manifest=root/'STAGE1_V4_PREP_MANIFEST_V1.json'
+          m=json.load(open(manifest))
+          assert m['schema']=='trackcade-semantic-external-stage1-v4-prep-v1'
+          assert m['status']=='frozen-v4-provider-payloads-prepared-no-provider-call'
+          assert m['trackCount']==50
+          assert m['providerCallsObserved']==0
+          assert m['referenceLabelsReadByPreparation'] is False
+          assert m['terminalTracksProcessed'] is False
+          assert m['analyzerExecuted'] is False
+          assert m['audioDecoded'] is False
+          assert m['compilerInvoked'] is False
+          assert m['modelContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high',
+            'maxOutputTokens':4096,'store':False,'completedResponsesPerTrack':0,
+          }
+          assert [r['ordinal'] for r in m['tracks']]==list(range(1,51))
+          assert len({r['id'] for r in m['tracks']})==50
+          assert all(r['hashes']['structureEvidenceV2Sha256']==r['sourceV3PacketSha256'] for r in m['tracks'])
+          for r in m['tracks']:
+            case=root/f"cases/{r['ordinal']:02d}-{r['stem']}"
+            d=json.load(open(case/'instruction-diff-v4.json'))
+            assert d['semanticRetuningPerformed'] is True
+            assert d['retuningVariable']=='drop-presence-and-track-relative-distinctiveness'
+            p=json.load(open(case/'openai-payload-v4.json'))
+            assert p['model']=='gpt-6-sol'
+            assert p['reasoning']=={'effort':'high'}
+            assert p['max_output_tokens']==4096
+            assert p['store'] is False
+          manifest_sha=hashlib.sha256(manifest.read_bytes()).hexdigest()
+          print(json.dumps({
+            'trackCount':50,
+            'providerCalls':0,
+            'terminalTracksProcessed':False,
+            'analyzerExecuted':False,
+            'compilerInvoked':False,
+            'exactV3PacketReuse':True,
+            'manifestSha256':manifest_sha,
+            'payloadBytesMean':m['footprint']['openaiPayloadBytesMean'],
+          },indent=2))
+          PY
+
+      - name: Upload immutable V4 prep artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v4-prep-v1
+          path: /tmp/trackcade-v4-prep
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
