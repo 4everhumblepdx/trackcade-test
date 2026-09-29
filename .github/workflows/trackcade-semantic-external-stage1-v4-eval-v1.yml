@@ -1,0 +1,191 @@
+name: Trackcade V4 — Offline RAW Stage1 evaluation
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - '.github/workflows/trackcade-semantic-external-stage1-v4-eval-v1.yml'
+      - 'research/semantic-external-holdout-v1/evaluate_stage1_v4_drop_v1.py'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    env:
+      BASE: research/semantic-external-holdout-v1
+      SOURCE_PREP_RUN_ID: '36605876352'
+      SOURCE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+      GENERATION_FREEZE_RUN_ID: '36630399943'
+      GENERATION_FREEZE_RUN_HEAD: '3251ee91f645f35cfa7dd81e43e157860e1c781a'
+      GENERATION_FREEZE_ARTIFACT_ID: '11061982516'
+      GENERATION_FREEZE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-generation-freeze-v1
+      GENERATION_FREEZE_ARTIFACT_DIGEST: 'sha256:0bcd56acdb0df1217e7629aea6f92c42a04c005dfb2ca45106ac375296aef78a'
+      GENERATION_FREEZE_SHA256: 'd93af2efdf7147b1908492f9f5ec4070a6a33afffe227a2d0001896a88631204'
+      REFERENCE_SHA256: '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+      SCORER_BLOB_SHA: '3d74996281ec260e170ea10929bd0115a6d4ac70'
+    steps:
+      - name: Checkout evaluator and frozen scorer only — labels initially absent
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/collect_stage1_v4_results_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_v4_drop_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py
+          sparse-checkout-cone-mode: false
+          fetch-depth: 1
+
+      - name: Enforce offline boundary and frozen matcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          test ! -e "$BASE/REFERENCE_DROPS_V1.json"
+          test -z "${OPENAI_API_KEY:-}"
+          test "$(git hash-object "$BASE/evaluate_stage1_drop_v1.py")" = "$SCORER_BLOB_SHA"
+          python -m py_compile "$BASE/collect_stage1_v4_results_v1.py" "$BASE/evaluate_stage1_v4_drop_v1.py" "$BASE/evaluate_stage1_drop_v1.py"
+
+      - name: Download exact frozen V4 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify generation-freeze artifact identity before label access
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, urllib.request
+          repo=os.environ['GITHUB_REPOSITORY']; token=os.environ['GH_TOKEN']; aid=os.environ['GENERATION_FREEZE_ARTIFACT_ID']
+          req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/artifacts/{aid}', headers={
+            'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'trackcade-v4-offline-eval'})
+          with urllib.request.urlopen(req,timeout=60) as r: a=json.load(r)
+          assert str(a['id'])==aid
+          assert a['name']==os.environ['GENERATION_FREEZE_ARTIFACT_NAME']
+          assert a['expired'] is False
+          assert a.get('digest')==os.environ['GENERATION_FREEZE_ARTIFACT_DIGEST']
+          wr=a.get('workflow_run') or {}
+          assert str(wr.get('id'))==os.environ['GENERATION_FREEZE_RUN_ID']
+          assert wr.get('head_sha')==os.environ['GENERATION_FREEZE_RUN_HEAD']
+          print('generation_freeze_artifact_identity=verified')
+          PY
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+
+      - name: Download exact frozen 50-response inventory
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.GENERATION_FREEZE_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-freeze
+          repository: ${{ github.repository }}
+          run-id: ${{ env.GENERATION_FREEZE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify all 50 frozen responses before reference access
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          test "$(sha256sum "${RUNNER_TEMP}/v4-freeze/STAGE1_V4_GENERATION_FREEZE_V1.json" | awk '{print $1}')" = "$GENERATION_FREEZE_SHA256"
+          python - "$BASE" "${RUNNER_TEMP}/v4-source" "${RUNNER_TEMP}/v4-freeze" <<'PY'
+          import pathlib,sys
+          base,source,freeze=map(pathlib.Path,sys.argv[1:]); sys.path.insert(0,str(base))
+          import collect_stage1_v4_results_v1 as c
+          cases=c.verify_freeze(freeze/'STAGE1_V4_GENERATION_FREEZE_V1.json',source,freeze/'provider')
+          assert len(cases)==50
+          print('generation_cases_verified_before_label_access=50')
+          PY
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+
+      - name: Materialize frozen Stage1 Drop references only after generation freeze verification
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show "$GITHUB_SHA:$BASE/REFERENCE_DROPS_V3.json" > "${RUNNER_TEMP}/REFERENCE_DROPS_V3.json"
+          test "$(sha256sum "${RUNNER_TEMP}/REFERENCE_DROPS_V3.json" | awk '{print $1}')" = "$REFERENCE_SHA256"
+          echo 'reference_access_boundary=crossed_after_50_response_freeze_verification'
+
+      - name: Evaluate RAW V4 Drops under unchanged frozen matcher
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/v4-evaluation"
+          python "$BASE/evaluate_stage1_v4_drop_v1.py" \
+            --prep-root "${RUNNER_TEMP}/v4-source" \
+            --freeze-root "${RUNNER_TEMP}/v4-freeze" \
+            --references "${RUNNER_TEMP}/REFERENCE_DROPS_V3.json" \
+            --output-dir "$OUT" \
+            --generation-freeze-sha256 "$GENERATION_FREEZE_SHA256" \
+            --generation-freeze-artifact-id "$GENERATION_FREEZE_ARTIFACT_ID"
+
+      - name: Freeze evaluation and run provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/v4-evaluation"
+          python - "$OUT" <<'PY'
+          import hashlib,json,os,pathlib,sys
+          out=pathlib.Path(sys.argv[1])
+          def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
+          files={p.name:sha(p) for p in sorted(out.iterdir()) if p.is_file()}
+          ev=json.loads((out/'STAGE1_V4_DROP_EVALUATION_V1.json').read_text())
+          head=json.loads((out/'STAGE1_V4_RAW_HEADLINE_V1.json').read_text())
+          freeze={
+            'schema':'trackcade-semantic-external-stage1-v4-evaluation-freeze-v1',
+            'status':'frozen-complete-v4-raw-stage1-evaluation',
+            'evaluationRunId':os.environ['GITHUB_RUN_ID'],
+            'evaluationRunAttempt':int(os.environ['GITHUB_RUN_ATTEMPT']),
+            'evaluationHeadSha':os.environ['GITHUB_SHA'],
+            'generationFreezeRunId':os.environ['GENERATION_FREEZE_RUN_ID'],
+            'generationFreezeArtifactId':os.environ['GENERATION_FREEZE_ARTIFACT_ID'],
+            'generationFreezeArtifactDigest':os.environ['GENERATION_FREEZE_ARTIFACT_DIGEST'],
+            'generationFreezeSha256':os.environ['GENERATION_FREEZE_SHA256'],
+            'referenceSha256':os.environ['REFERENCE_SHA256'],
+            'scorerGitBlobSha':os.environ['SCORER_BLOB_SHA'],
+            'primaryToleranceSeconds':2.0,
+            'primary':ev['proposalDropsSeconds']['2.0']['aggregate'],
+            'sensitivity':{
+              '1.0':ev['proposalDropsSeconds']['1.0']['aggregate'],
+              '5.0':ev['proposalDropsSeconds']['5.0']['aggregate'],
+            },
+            'diagnostics':ev['diagnostics'],
+            'f1PercentagePointDeltaVsV3':head['f1PercentagePointDelta'],
+            'providerCallsMadeByEvaluator':0,
+            'compilerInvoked':False,
+            'terminalTracksProcessed':False,
+            'filesBeforeFreezeRecord':files,
+          }
+          fp=out/'STAGE1_V4_EVALUATION_FREEZE_V1.json'
+          fp.write_text(json.dumps(freeze,indent=2,sort_keys=True)+'\n')
+          runprov={
+            'schema':'trackcade-semantic-external-stage1-v4-raw-run-provenance-v1',
+            'runId':os.environ['GITHUB_RUN_ID'],'runAttempt':int(os.environ['GITHUB_RUN_ATTEMPT']),
+            'headSha':os.environ['GITHUB_SHA'],'workflow':os.environ['GITHUB_WORKFLOW'],
+            'providerCallsMade':0,'terminalTracksProcessed':False,'compilerInvoked':False,
+            'evaluationFreezeSha256':sha(fp),
+          }
+          rp=out/'STAGE1_V4_RAW_RUN_PROVENANCE_V1.json'
+          rp.write_text(json.dumps(runprov,indent=2,sort_keys=True)+'\n')
+          print('EVALUATION_FREEZE_SHA256='+sha(fp))
+          print('RAW_RUN_PROVENANCE_SHA256='+sha(rp))
+          print('PRIMARY_JSON='+json.dumps(freeze['primary']['micro'],sort_keys=True))
+          print('F1_PP_DELTA_VS_V3='+str(freeze['f1PercentagePointDeltaVsV3']))
+          print('DIAGNOSTICS_JSON='+json.dumps(freeze['diagnostics'],sort_keys=True))
+          print('providerCalls=0 terminal=0 compiler=0')
+          PY
+
+      - name: Upload frozen V4 RAW evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v4-raw-evaluation-v1
+          path: ${{ runner.temp }}/v4-evaluation
+          if-no-files-found: error
+          retention-days: 90
