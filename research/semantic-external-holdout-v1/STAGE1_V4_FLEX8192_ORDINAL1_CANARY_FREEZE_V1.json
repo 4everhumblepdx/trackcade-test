@@ -1,0 +1,63 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v4-flex8192-ordinal1-canary-freeze-v1",
+  "status": "frozen-completed-valid-v4-flex8192-canary",
+  "frozenAtDate": "2026-09-29",
+  "authorizationCommit": "61f3427b686290f71f63d43a28f97a741636ea74",
+  "run": {
+    "runId": 36621582746,
+    "jobId": 109588032849,
+    "runAttempt": 1,
+    "conclusion": "success"
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false,
+    "standardFallbackUsed": false
+  },
+  "case": {
+    "ordinal": 1,
+    "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+    "stem": "86533027",
+    "classification": "provider_completed_validated_v4_flex8192_proposal_no_retry",
+    "providerCompletedSemanticResponse": true,
+    "observedProviderStatus": "completed",
+    "observedProviderServiceTier": "flex",
+    "observedProviderResponseId": "resp_08c7cd7201e34110016abc15954d1487d0b48296f63a5d6736",
+    "httpRequestId": "req_b6abd2af869c46bbabe98253db3514ab",
+    "dropPresence": "insufficient_semantic_evidence",
+    "localizationStatus": "not_applicable",
+    "candidateComparisonCount": 4,
+    "dropProposalCount": 0,
+    "normalizedProposalSha256": "52962cd3ecf46869e56744e19d1c0e861726d1f60698e1ecc422c4a14cdf00a9",
+    "rawResponseSha256": "2caf513f0468b0a909387b5cac1112e84b55abcc6e2a1dc29f8c83f56025d1b1",
+    "proposalCandidateSha256": "b5a7a00cfd57ed487ad82d0b95fee3fbe54b0fccbcc35ac7d4c7499d33c24c02",
+    "amendedPayloadSha256": "097648b03173f578ea61787bc315468e3d7a24f3276d5538299d2f9a2d9bc235",
+    "semanticPayloadUnchanged": true
+  },
+  "usage": {
+    "inputTokens": 18417,
+    "cacheWriteTokens": 18414,
+    "cachedTokens": 0,
+    "outputTokens": 2841,
+    "reasoningTokens": 2070,
+    "totalTokens": 21258
+  },
+  "artifact": {
+    "artifactId": 11057759945,
+    "artifactName": "trackcade-semantic-external-stage1-v4-flex8192-retry-v1-case-1-completed",
+    "artifactDigest": "sha256:ed01d7b81477b8a8c4dfa01f0132c8352323e145c4bee1f14c6d30416ea48045"
+  },
+  "researchBoundaries": {
+    "compilerInvoked": false,
+    "terminalTracksProcessed": false,
+    "retryAuthorized": false,
+    "remainingOrdinalsAuthorizedByThisFreeze": false,
+    "additionalPaidCallsAuthorizedByThisFreeze": false,
+    "analyzerChangesAuthorized": false
+  }
+}
