@@ -1,0 +1,32 @@
+name: Trackcade V3 — Evidence-bound retry for ordinal 46
+
+on:
+  workflow_dispatch:
+    inputs:
+      ordinal:
+        description: 'Development ordinal with reviewed retry evidence'
+        required: true
+        type: choice
+        options: ['46']
+      authorization:
+        description: 'One-use authorization for the preserved incomplete attempt'
+        required: true
+        type: choice
+        options: ['ordinal-46-evidence-11030495842-v1']
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: trackcade-semantic-external-stage1-v3-sol-v1
+  cancel-in-progress: false
+
+# Registration only. Select the experiment branch for the reviewed implementation.
+jobs:
+  select-experiment-branch:
+    runs-on: ubuntu-24.04
+    steps:
+      - run: |
+          echo 'Select branch trackcade-semantic-external-holdout-v1 to use the reviewed retry workflow.'
+          exit 1
