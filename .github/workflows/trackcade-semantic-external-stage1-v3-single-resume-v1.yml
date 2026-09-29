@@ -1,15 +1,12 @@
-name: Trackcade V3 — Single-song resume (ordinal 4 only)
+name: Trackcade V3 — Serialized batch resume (max 3)
 
 on:
   workflow_dispatch:
     inputs:
-      ordinal:
-        description: 'Choose experiment branch; only ordinal 4 is authorized'
+      ordinals:
+        description: 'Select experiment branch; 1-3 missing development ordinals, comma-separated'
         required: true
-        default: '4'
-        type: choice
-        options:
-          - '4'
+        type: string
 
 permissions:
   contents: read
@@ -18,7 +15,7 @@ jobs:
   registration-only:
     runs-on: ubuntu-24.04
     steps:
-      - name: Refuse execution from registration branch
+      - name: Refuse provider execution from registration branch
         run: |
-          echo 'Registration only. Select trackcade-semantic-external-holdout-v1 to run its guarded workflow.'
+          echo 'Registration only. Select trackcade-semantic-external-holdout-v1 for the guarded serialized workflow.'
           exit 1
