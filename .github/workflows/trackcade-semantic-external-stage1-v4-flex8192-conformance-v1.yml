@@ -1,0 +1,152 @@
+name: Trackcade V4 — Flex 8192 live-path conformance
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v4-flex8192-conformance-v1.yml
+      - research/semantic-external-holdout-v1/run_stage1_v4_flex8192_case_v1.py
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-24.04
+    env:
+      BASE: research/semantic-external-holdout-v1
+      LEARNED: research/learned-interpretation-v1
+      SOURCE_PREP_RUN_ID: '36605876352'
+      SOURCE_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-prep-v1
+      SOURCE_PREP_MANIFEST_SHA256: 613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972
+      FLEX_PREP_RUN_ID: '36619514735'
+      FLEX_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v4-flex8192-prep-v1
+      FLEX_PREP_MANIFEST_SHA256: c294fc9e8017609673da03694c3b318b71706804380f8b06e7d4cb71c2dbc342
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compile exact Flex execution harness
+        run: |
+          set -euo pipefail
+          python -m py_compile "$BASE/run_stage1_v4_flex8192_case_v1.py"
+
+      - name: Download original frozen V4 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download frozen Flex 8192 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_PREP_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/v4-flex8192
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify artifact manifests
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/v4-source/STAGE1_V4_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$SOURCE_PREP_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v4-flex8192/STAGE1_V4_FLEX8192_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$FLEX_PREP_MANIFEST_SHA256"
+
+      - name: Exercise exact live path offline for all 50 cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/v4-flex8192-conformance"
+          mkdir -p "$OUT"
+          for ordinal in $(seq 1 50); do
+            case_out="$OUT/case-${ordinal}"
+            python "$BASE/run_stage1_v4_flex8192_case_v1.py" \
+              --source-prep-root "${RUNNER_TEMP}/v4-source" \
+              --amended-prep-root "${RUNNER_TEMP}/v4-flex8192" \
+              --ordinal "$ordinal" \
+              --output-dir "$case_out" \
+              --harness-source-commit "$GITHUB_SHA" \
+              --ingester "$LEARNED/ingest_provider_response_v4.py" \
+              --preflight-only
+            python - "$case_out/stage1-v4-flex8192-case-status-v1.json" "$ordinal" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          ordinal=int(sys.argv[2])
+          assert d['ordinal']==ordinal
+          assert d['classification']=='offline_preflight_complete_no_provider_call'
+          assert d['providerCallAttempted'] is False
+          assert d['providerResponseObserved'] is False
+          assert d['providerCompletedSemanticResponse'] is False
+          assert d['standardFallbackUsed'] is False
+          assert d['semanticPayloadUnchanged'] is True
+          c=d['providerContract']
+          assert c=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':8192,
+            'serviceTier':'flex','store':False,
+          }
+          assert d['compilerInvoked'] is False
+          assert d['terminalTracksProcessed'] is False
+          PY
+          done
+
+      - name: Build closure evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="${RUNNER_TEMP}/v4-flex8192-conformance"
+          python - "$OUT" "$GITHUB_SHA" <<'PY'
+          import hashlib,json,pathlib,sys
+          root=pathlib.Path(sys.argv[1])
+          head=sys.argv[2]
+          rows=[]
+          for i in range(1,51):
+            p=root/f'case-{i}'/'stage1-v4-flex8192-case-status-v1.json'
+            d=json.loads(p.read_text())
+            rows.append({
+              'ordinal': i,
+              'sourcePayloadSha256': d['sourcePayloadSha256'],
+              'amendedPayloadSha256': d['amendedPayloadSha256'],
+              'semanticProjectionSha256': d['semanticProjectionSha256'],
+              'classification': d['classification'],
+            })
+          assert len(rows)==50
+          closure={
+            'schema':'trackcade-semantic-external-stage1-v4-flex8192-conformance-v1',
+            'status':'offline-live-path-conformance-passed-no-provider-call',
+            'headSha':head,
+            'cases':50,
+            'providerCalls':0,
+            'model':'gpt-6-sol',
+            'reasoningEffort':'high',
+            'maxOutputTokens':8192,
+            'serviceTier':'flex',
+            'store':False,
+            'semanticPayloadUnchanged':True,
+            'standardFallbackUsed':False,
+            'terminalTracksProcessed':False,
+            'compilerInvoked':False,
+            'tracks':rows,
+          }
+          p=root/'STAGE1_V4_FLEX8192_CONFORMANCE_V1.json'
+          p.write_text(json.dumps(closure,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({
+            'cases':50,
+            'providerCalls':0,
+            'manifestSha256':hashlib.sha256(p.read_bytes()).hexdigest(),
+          },indent=2))
+          PY
+
+      - name: Upload conformance evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v4-flex8192-conformance-v1
+          path: ${{ runner.temp }}/v4-flex8192-conformance
+          if-no-files-found: error
+          retention-days: 90
