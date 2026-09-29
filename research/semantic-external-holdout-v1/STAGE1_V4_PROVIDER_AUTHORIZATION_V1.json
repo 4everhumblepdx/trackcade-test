@@ -1,0 +1,48 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v4-provider-authorization-v1",
+  "status": "authorized-for-initial-generation-only",
+  "authorizedAtDate": "2026-09-29",
+  "authorizationContext": "Nicholas explicitly authorized using Sol after V4 pre-provider freeze; scope is bound to the exact frozen V4 Stage 1 contract below.",
+  "authorizationScope": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 4096,
+    "store": false,
+    "stage1Ordinals": "1-50",
+    "initialProviderAttemptsPerOrdinal": 1,
+    "semanticRetriesAuthorized": false,
+    "infrastructureRetriesAuthorizedWithoutFurtherApproval": false,
+    "terminalHoldoutAuthorized": false,
+    "compilerAuthorized": false,
+    "analyzerChangesAuthorized": false
+  },
+  "frozenPrep": {
+    "freezeCommit": "36b402c22c85c7122782437c9aaadf59a89beb8d",
+    "prepRunId": 36605876352,
+    "prepArtifactId": 11050749993,
+    "prepArtifactDigest": "sha256:d4129faf1cd562faf687387a55cecfbd8d63e4bc1f0d541208a952450c6922ec",
+    "prepHeadSha": "c245713d85f5d28533543a9bebb436cd56e52059",
+    "prepManifestSha256": "613937e6ae16a3b09762f8bbd4e3dcfc70881e8d4bf0eeebdafb6f86858cf972",
+    "instructionSha256": "199fad4435c3ff638eaf41eb9e589b94c6e2b50db8be3ddb504827d79b45afa3"
+  },
+  "offlineGenerationConformance": {
+    "runId": 36610135386,
+    "jobId": 109549144549,
+    "headSha": "2d631cb976454f7b9e7b785c51aa5aafeb6d0086",
+    "conclusion": "success",
+    "cases": 50,
+    "frozenPayloadByteEquality": true,
+    "providerCalls": 0,
+    "artifactId": 11052537520,
+    "artifactDigest": "sha256:99848731a4af81432506d4ce8a06c0395294685451551f2aaba9fa29a3f68053"
+  },
+  "failurePolicy": {
+    "completedProviderResponseClosesOrdinal": true,
+    "completedResponseWithDownstreamValidationFailureStillClosesOrdinal": true,
+    "noCompletedProviderResponseMayBeRecordedRetryEligible": true,
+    "retryEligibleDoesNotAuthorizeAnotherPaidAttempt": true,
+    "scoringBlockedUntilCompleteAcceptedGenerationInventoryIsFrozen": true
+  }
+}
