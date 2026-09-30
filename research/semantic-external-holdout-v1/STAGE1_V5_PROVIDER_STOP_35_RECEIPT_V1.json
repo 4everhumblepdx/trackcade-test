@@ -1,0 +1,62 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v5-provider-stop35-receipt-v1",
+  "status": "stopped-fail-closed-no-partial-score",
+  "developmentRevision": "stage1-drop-semantics-v5-candidate-first-absolute-pattern",
+  "completedOrdinals": "1-34",
+  "completedCount": 34,
+  "ordinal4Recovery": {
+    "runId": 36651153448,
+    "artifactId": 11070617109,
+    "name": "trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-completed",
+    "digest": "sha256:82b397316b8c477ccf430a962995b2f8f933097b84ddf28b9498d162cfc59fbe",
+    "maxOutputTokens": 16384,
+    "providerCompletedSemanticResponse": true
+  },
+  "continuationRun": {
+    "runId": 36651297137,
+    "runAttempt": 1,
+    "headSha": "15bbfb3682aa4a1afa8ee8934d96dce6678ec4ba",
+    "providerContract": {
+      "provider": "openai",
+      "api": "responses",
+      "model": "gpt-6-sol",
+      "reasoningEffort": "high",
+      "maxOutputTokens": 8192,
+      "serviceTier": "flex",
+      "store": false
+    }
+  },
+  "stoppingAttempt": {
+    "ordinal": 35,
+    "artifactId": 11071248684,
+    "name": "trackcade-semantic-external-stage1-v5-flex8192-remaining-v1-case-35-attempted-no-completed-response",
+    "digest": "sha256:25cc7dee09a0a147dd95799e0fa2f7d629c720b72016a507444b1af4e79e81a9",
+    "httpStatus": 200,
+    "providerStatus": "incomplete",
+    "providerServiceTier": "flex",
+    "incompleteReason": "max_output_tokens",
+    "maxOutputTokens": 8192,
+    "usage": {
+      "inputTokens": 11373,
+      "outputTokens": 8192,
+      "reasoningTokens": 8166,
+      "totalTokens": 19565
+    },
+    "providerCompletedSemanticResponse": false,
+    "retryPerformed": false
+  },
+  "untouchedAfterFailFast": "36-50",
+  "partialScoringPerformed": false,
+  "headlineEvaluationPerformed": false,
+  "researchBoundary": {
+    "terminalHoldoutProcessed": false,
+    "compilerInvoked": false,
+    "analyzerChangedOrExecuted": false,
+    "standardFallbackUsed": false,
+    "automaticRetryUsedForOrdinal35": false
+  },
+  "nextPaidAction": {
+    "requiresNewExplicitNicholasApproval": true,
+    "evidenceSupportedOption": "one ordinal-35 retry at gpt-6-sol/high/flex/16384/store:false with identical V5 semantic payload, then continue untouched ordinals 36-50 at original 8192 only if ordinal 35 completes"
+  }
+}
