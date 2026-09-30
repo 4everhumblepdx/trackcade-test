@@ -1,4 +1,4 @@
-name: Trackcade V5 — Offline 50/50 generation freeze
+name: Trackcade V5 — Offline 50/50 generation freeze — retry receipt normalized
 
 on:
   push:
@@ -80,11 +80,9 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/v5-artifacts" "${RUNNER_TEMP}/v5-freeze-input"
           python - <<'PY'
           import json, os, pathlib, subprocess
-
           repo=os.environ['GITHUB_REPOSITORY']
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-artifacts'
           inv_path=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-freeze-input'/'STAGE1_V5_GENERATION_SOURCE_INVENTORY_V1.json'
-
           sources=[
             (int(os.environ['INITIAL_RUN_ID']), {o:f'trackcade-semantic-external-stage1-v5-flex-v1-case-{o:02d}-completed' for o in range(1,4)}),
             (int(os.environ['RETRY4_RUN_ID']), {4:'trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-completed'}),
@@ -92,12 +90,9 @@ jobs:
             (int(os.environ['RETRY35_RUN_ID']), {35:'trackcade-semantic-external-stage1-v5-flex16384-retry35-v1-case-35-completed'}),
             (int(os.environ['REMAINING36_RUN_ID']), {o:f'trackcade-semantic-external-stage1-v5-flex8192-remaining36-v1-case-{o:02d}-completed' for o in range(36,51)}),
           ]
-
           def gh(path):
             return json.loads(subprocess.check_output(['gh','api',path], text=True))
-
-          cases=[]
-          seen_artifacts=set()
+          cases=[]; seen_artifacts=set()
           for run_id, expected in sources:
             run=gh(f'repos/{repo}/actions/runs/{run_id}')
             assert run['id']==run_id and run['run_attempt']==1
@@ -119,7 +114,6 @@ jobs:
               out=root/f"{art['id']}.zip"
               with out.open('wb') as f:
                 subprocess.run(['gh','api',f"repos/{repo}/actions/artifacts/{art['id']}/zip"],stdout=f,check=True)
-
           assert len(cases)==50 and {c['ordinal'] for c in cases}==set(range(1,51))
           inv={'schema':'trackcade-stage1-v5-generation-source-inventory-v1','cases':sorted(cases,key=lambda x:x['ordinal'])}
           inv_path.write_text(json.dumps(inv,indent=2,sort_keys=True)+'\n')
@@ -160,11 +154,9 @@ jobs:
           assert {c['ordinal'] for c in cases if c['maxOutputTokens']==16384}=={4,35}
           assert all(c['maxOutputTokens']==8192 for c in cases if c['ordinal'] not in {4,35})
           assert len({c['openaiResponseId'] for c in cases})==50
-          runner_receipts=[]
-          for c in cases:
-            if 'runner-exit-code.txt' in c['files']:
-              runner_receipts.append(c['ordinal'])
+          runner_receipts=[c['ordinal'] for c in cases if 'runner-exit-code.txt' in c['files']]
           print('zero-exit runner receipts retained and hash-bound:',runner_receipts)
+          print('usage totals:',json.dumps(f['usageTotals'],sort_keys=True))
           for p in sorted(out.iterdir()):
             if p.is_file():
               print(hashlib.sha256(p.read_bytes()).hexdigest(),p.name)
