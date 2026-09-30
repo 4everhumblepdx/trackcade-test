@@ -1,0 +1,174 @@
+name: Trackcade V5 — Offline 50/50 generation freeze
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v5-generation-freeze-v1.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-v5-generation-freeze-v1
+  cancel-in-progress: false
+
+jobs:
+  freeze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      BASE: research/semantic-external-holdout-v1
+      SOURCE_RUN_ID: '36645240283'
+      SOURCE_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      FLEX_RUN_ID: '36647639925'
+      FLEX_NAME: trackcade-semantic-external-stage1-v5-flex-prep-v1
+      INITIAL_RUN_ID: '36648317684'
+      RETRY4_RUN_ID: '36651153448'
+      REMAINING5_RUN_ID: '36651297137'
+      RETRY35_RUN_ID: '36701250790'
+      REMAINING36_RUN_ID: '36702263484'
+    steps:
+      - name: Sparse checkout collector only — no reference labels
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/collect_stage1_v5_results_v1.py
+          sparse-checkout-cone-mode: false
+
+      - name: Prove offline / label-blind workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in generation-freeze job' >&2
+            exit 1
+          fi
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          test -f "$BASE/collect_stage1_v5_results_v1.py"
+          python -m py_compile "$BASE/collect_stage1_v5_results_v1.py"
+
+      - name: Download exact frozen V5 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_NAME }}
+          path: ${{ runner.temp }}/v5-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen V5 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_NAME }}
+          path: ${{ runner.temp }}/v5-flex
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Build exact canonical 50-case inventory and download immutable ZIPs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "${RUNNER_TEMP}/v5-artifacts" "${RUNNER_TEMP}/v5-freeze-input"
+          python - <<'PY'
+          import json, os, pathlib, subprocess
+
+          repo=os.environ['GITHUB_REPOSITORY']
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-artifacts'
+          inv_path=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-freeze-input'/'STAGE1_V5_GENERATION_SOURCE_INVENTORY_V1.json'
+
+          sources=[
+            (int(os.environ['INITIAL_RUN_ID']), {o:f'trackcade-semantic-external-stage1-v5-flex-v1-case-{o:02d}-completed' for o in range(1,4)}),
+            (int(os.environ['RETRY4_RUN_ID']), {4:'trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-completed'}),
+            (int(os.environ['REMAINING5_RUN_ID']), {o:f'trackcade-semantic-external-stage1-v5-flex8192-remaining-v1-case-{o:02d}-completed' for o in range(5,35)}),
+            (int(os.environ['RETRY35_RUN_ID']), {35:'trackcade-semantic-external-stage1-v5-flex16384-retry35-v1-case-35-completed'}),
+            (int(os.environ['REMAINING36_RUN_ID']), {o:f'trackcade-semantic-external-stage1-v5-flex8192-remaining36-v1-case-{o:02d}-completed' for o in range(36,51)}),
+          ]
+
+          def gh(path):
+            return json.loads(subprocess.check_output(['gh','api',path], text=True))
+
+          cases=[]
+          seen_artifacts=set()
+          for run_id, expected in sources:
+            run=gh(f'repos/{repo}/actions/runs/{run_id}')
+            assert run['id']==run_id and run['run_attempt']==1
+            assert run['head_branch']=='trackcade-semantic-external-holdout-v1'
+            assert run['status']=='completed'
+            arts=gh(f'repos/{repo}/actions/runs/{run_id}/artifacts?per_page=100')['artifacts']
+            by_name={a['name']:a for a in arts if not a.get('expired')}
+            for ordinal,name in expected.items():
+              assert name in by_name, (ordinal,name,sorted(by_name))
+              art=by_name[name]
+              assert art['id'] not in seen_artifacts
+              seen_artifacts.add(art['id'])
+              assert art['workflow_run']['id']==run_id
+              assert art['workflow_run']['head_sha']==run['head_sha']
+              assert isinstance(art.get('digest'),str) and art['digest'].startswith('sha256:')
+              selected_run={k:run[k] for k in ('id','run_attempt','head_branch','head_sha','status','conclusion')}
+              selected_art={k:art[k] for k in ('id','name','size_in_bytes','digest','expired','workflow_run')}
+              cases.append({'ordinal':ordinal,'run':selected_run,'artifact':selected_art})
+              out=root/f"{art['id']}.zip"
+              with out.open('wb') as f:
+                subprocess.run(['gh','api',f"repos/{repo}/actions/artifacts/{art['id']}/zip"],stdout=f,check=True)
+
+          assert len(cases)==50 and {c['ordinal'] for c in cases}==set(range(1,51))
+          inv={'schema':'trackcade-stage1-v5-generation-source-inventory-v1','cases':sorted(cases,key=lambda x:x['ordinal'])}
+          inv_path.write_text(json.dumps(inv,indent=2,sort_keys=True)+'\n')
+          print('canonical cases:',len(cases))
+          print('artifact ids unique:',len(seen_artifacts))
+          PY
+
+      - name: Freeze complete V5 generation before any reference access
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+          rm -rf "${RUNNER_TEMP}/v5-generation-freeze"
+          python "$BASE/collect_stage1_v5_results_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v5-source" \
+            --flex-prep-root "${RUNNER_TEMP}/v5-flex" \
+            --artifact-root "${RUNNER_TEMP}/v5-artifacts" \
+            --inventory "${RUNNER_TEMP}/v5-freeze-input/STAGE1_V5_GENERATION_SOURCE_INVENTORY_V1.json" \
+            --output-dir "${RUNNER_TEMP}/v5-generation-freeze"
+
+      - name: Audit complete freeze and transport exceptions
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-generation-freeze'
+          f=json.loads((out/'STAGE1_V5_GENERATION_FREEZE_V1.json').read_text())
+          assert f['schema']=='trackcade-semantic-external-stage1-v5-generation-freeze-v1'
+          assert f['status']=='frozen-complete-v5-generation-before-reference-access'
+          assert f['trackCount']==50
+          assert f['referenceLabelsReadByFreeze'] is False
+          assert f['terminalTracksProcessed'] is False
+          assert f['compilerInvoked'] is False
+          assert f['analyzerExecuted'] is False
+          cases=f['cases']
+          assert len(cases)==50 and [c['ordinal'] for c in cases]==list(range(1,51))
+          assert {c['ordinal'] for c in cases if c['maxOutputTokens']==16384}=={4,35}
+          assert all(c['maxOutputTokens']==8192 for c in cases if c['ordinal'] not in {4,35})
+          assert len({c['openaiResponseId'] for c in cases})==50
+          for p in sorted(out.iterdir()):
+            if p.is_file():
+              print(hashlib.sha256(p.read_bytes()).hexdigest(),p.name)
+          PY
+          test ! -e "$BASE/REFERENCE_DROPS_V3.json"
+
+      - name: Upload immutable complete V5 generation freeze
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v5-generation-freeze-v1
+          path: ${{ runner.temp }}/v5-generation-freeze
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
