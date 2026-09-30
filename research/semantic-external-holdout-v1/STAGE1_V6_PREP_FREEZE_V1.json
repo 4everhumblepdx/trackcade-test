@@ -1,0 +1,64 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-prep-freeze-v1",
+  "status": "frozen-offline-v6-prep-complete-no-provider-call",
+  "developmentRevision": "stage1-drop-semantics-v6-decisive-impact-ordinary-return-counterfactual",
+  "sourceCommit": "a951a0ea2e993fade7d917e692da832138916916",
+  "prepRun": {
+    "runId": 36747819119,
+    "jobId": 109998391656,
+    "conclusion": "success",
+    "artifactId": 11112534029,
+    "artifactName": "trackcade-semantic-external-stage1-v6-prep-v1",
+    "artifactDigest": "sha256:0d586b737ba729a1386914663d92e7bae1fd85e404f1480e8f034084cbd80134"
+  },
+  "closure": {
+    "trackCount": 50,
+    "manifestSha256": "ebdbf2232a813dbe89b87f4fb3bd938f037d6f15707943c2c0b639a15bc202c8",
+    "filesManifestSha256": "a8a81dca2fd4f9c5297ebbe594f5144f28f9ae2a7542066db3a3169cd07d1e35",
+    "filesManifestEntries": 302,
+    "payloadBytesMean": 45328.18,
+    "payloadBytesMax": 66355
+  },
+  "modelContractPrepared": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "store": false,
+    "serviceTier": null,
+    "serviceTierNote": "not frozen by semantic prep; any future transport amendment requires a separate offline freeze and explicit paid authorization"
+  },
+  "semanticContract": {
+    "candidateFirst": true,
+    "decisiveImpactRequiredForDrop": true,
+    "ordinaryReturnMustBeRuledOutForDrop": true,
+    "repeatedSimilarDropsAllowed": true,
+    "similarityIsNotNegativeEvidence": true,
+    "trackSummaryDerivedNotGate": true,
+    "confidenceFieldsDiagnosticOnly": true,
+    "analyzerDescriptorsNotSemanticGates": true,
+    "priorModelAgreementNotProviderInput": true,
+    "proposalCountNotSemanticCriterion": true,
+    "providerTimestampsForbidden": true,
+    "timingAuthority": "frozen-analyzer-derived-anchor-only"
+  },
+  "researchBoundary": {
+    "referenceLabelsReadByPreparation": false,
+    "providerCallsObserved": 0,
+    "terminalTracksProcessed": false,
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "compilerInvoked": false,
+    "paidCallsAuthorizedByThisFreeze": false,
+    "terminalHoldoutAuthorizedByThisFreeze": false,
+    "compilerInvocationAuthorizedByThisFreeze": false
+  },
+  "sourceV5Prep": {
+    "runId": 36645240283,
+    "artifactId": 11068032294,
+    "artifactDigest": "sha256:55db9b9144debbf71ec3ca780fd0ff6b91609221337045e4d6b43f02a822dc05",
+    "manifestSha256": "f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799",
+    "filesManifestSha256": "1393038c09afff244e4aeb2c745eb5a6f40c5f728991cec5051d3dfb4d34cb6c"
+  }
+}
