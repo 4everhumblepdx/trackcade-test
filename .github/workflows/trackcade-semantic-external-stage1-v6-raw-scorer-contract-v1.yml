@@ -1,0 +1,78 @@
+name: Trackcade V6 — RAW scorer contract only
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py
+      - research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py
+      - research/semantic-external-holdout-v1/STAGE1_V6_RAW_SCORING_ACTIVATION_TEMPLATE_V1.json
+      - .github/workflows/trackcade-semantic-external-stage1-v6-raw-scorer-contract-v1.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trackcade-v6-raw-scorer-contract-v1
+  cancel-in-progress: false
+
+jobs:
+  contract-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Checkout scorer contract only — no references
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py
+            research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V6_RAW_SCORING_ACTIVATION_TEMPLATE_V1.json
+          sparse-checkout-cone-mode: false
+
+      - name: Enforce zero-provider and label-blind contract-test boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in V6 scorer contract job' >&2
+            exit 1
+          fi
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          test ! -e research/semantic-external-holdout-v1/STAGE1_TERMINAL_HOLDOUT_V1.json
+          ! grep -q 'import subprocess' research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py
+          ! grep -q -- '--compiler' research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py
+
+      - name: Compile and run synthetic scorer contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py \
+            research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py
+          python research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py
+
+      - name: Record immutable source hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py \
+            research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py \
+            research/semantic-external-holdout-v1/STAGE1_V6_RAW_SCORING_ACTIVATION_TEMPLATE_V1.json
+
+      - name: Contract-only summary
+        shell: bash
+        run: |
+          cat >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          ## V6 RAW scorer contract check
+          - Synthetic tests only.
+          - Stage1 reference labels were not checked out or read.
+          - Terminal holdout was not checked out or read.
+          - No provider/API call path is present.
+          - No compiler path is present.
+          - No Analyzer execution occurred.
+          - Inactive activation template remains non-authorizing.
+          EOF
