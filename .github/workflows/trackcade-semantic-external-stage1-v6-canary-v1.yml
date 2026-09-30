@@ -1,0 +1,361 @@
+name: Trackcade V6 — One Paid Canary
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V6_CANARY_PROVIDER_ACTIVATE_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v6-one-paid-canary
+  cancel-in-progress: false
+
+jobs:
+  canary:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CANARY_ORDINAL: '1'
+      SOURCE_HEAD_SHA: a951a0ea2e993fade7d917e692da832138916916
+      SOURCE_RUN_ID: '36747819119'
+      SOURCE_ARTIFACT_ID: '11112534029'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v6-prep-v1
+      SOURCE_ARTIFACT_DIGEST: sha256:0d586b737ba729a1386914663d92e7bae1fd85e404f1480e8f034084cbd80134
+      SOURCE_MANIFEST_SHA256: ebdbf2232a813dbe89b87f4fb3bd938f037d6f15707943c2c0b639a15bc202c8
+      SOURCE_FILES_SHA256: a8a81dca2fd4f9c5297ebbe594f5144f28f9ae2a7542066db3a3169cd07d1e35
+      FLEX_HEAD_SHA: 274aa6681bef78a2e85014bd221fbce11c6bc232
+      FLEX_RUN_ID: '36752768892'
+      FLEX_ARTIFACT_ID: '11115940514'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v6-flex8192-prep-v1
+      FLEX_ARTIFACT_DIGEST: sha256:bb410bc03a2964f0251328e801a1782ad3e691b3c414db5d9e3f3c71db936a4b
+      FLEX_MANIFEST_SHA256: de9328b8cba76b82f879e348cc0b0133d33f53d2855b67885d3ed2b96afb9058
+      FLEX_FILES_SHA256: b272332f49f4da3ee72ac53dc89e6e544e76c609d03e9c7c7fe35ebc02da4777
+      AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V6_CANARY_PROVIDER_AUTHORIZATION_V1.json
+      ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V6_CANARY_PROVIDER_ACTIVATE_V1.json
+
+    steps:
+      - name: Checkout exact activation commit with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fail closed on re-run, source drift, or invalid activation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          test -f "${AUTH_PATH}"
+          test -f "${ACTIVATE_PATH}"
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "${ACTIVATE_PATH}"
+          for p in \
+            research/learned-interpretation-v1/build_learned_request_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v6.py; do
+            test "$(git rev-parse HEAD:${p})" = "$(git rev-parse ${SOURCE_HEAD_SHA}:${p})"
+          done
+          python -m py_compile \
+            research/learned-interpretation-v1/build_learned_request_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v6.py
+          python - <<'PY'
+          import json, os, subprocess
+          auth=json.load(open(os.environ['AUTH_PATH']))
+          act=json.load(open(os.environ['ACTIVATE_PATH']))
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          assert auth['schema']=='trackcade-semantic-external-stage1-v6-canary-provider-authorization-v1'
+          assert auth['authorized'] is True
+          assert auth['scope']=={
+            'stage':'stage1-v6','purpose':'one-track-live-contract-behavior-canary','canaryOrdinal':1,
+            'maximumInitialProviderAttempts':1,'attemptsPerTrack':1,'automaticRetriesAuthorized':False,
+            'standardFallbackAuthorized':False,'fullBatchAuthorized':False,'partialScoringAuthorized':False,
+          }
+          assert auth['providerContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high',
+            'maxOutputTokens':8192,'serviceTier':'flex','store':False,
+          }
+          rb=auth['researchBoundary']
+          assert rb['terminalHoldoutAccessAuthorized'] is False
+          assert rb['analyzerChangesAuthorized'] is False
+          assert rb['compilerInvocationAuthorized'] is False
+          assert rb['retryRequiresNewExplicitApproval'] is True
+          assert rb['secondCanaryRequiresNewExplicitApproval'] is True
+          assert rb['fullV6RunRequiresNewExplicitApproval'] is True
+          assert act['schema']=='trackcade-semantic-external-stage1-v6-canary-provider-activation-v1'
+          assert act['activatePaidCanary'] is True
+          assert act['executionSourceCommit']==parent
+          assert act['authorizationFile']==os.environ['AUTH_PATH']
+          assert act['canaryOrdinal']==1
+          assert act['maximumProviderAttempts']==1
+          assert act['automaticRetriesAuthorized'] is False
+          assert act['standardFallbackAuthorized'] is False
+          assert act['fullBatchAuthorized'] is False
+          assert act['terminalHoldoutAccessAuthorized'] is False
+          assert act['compilerInvocationAuthorized'] is False
+          assert act['providerContract']==auth['providerContract']
+          print('One-call V6 canary authorization and activation verified')
+          PY
+
+      - name: Verify immutable source and transport artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          specs=[
+            ('SOURCE','SOURCE_ARTIFACT_ID','SOURCE_ARTIFACT_NAME','SOURCE_ARTIFACT_DIGEST','SOURCE_RUN_ID','SOURCE_HEAD_SHA'),
+            ('FLEX','FLEX_ARTIFACT_ID','FLEX_ARTIFACT_NAME','FLEX_ARTIFACT_DIGEST','FLEX_RUN_ID','FLEX_HEAD_SHA'),
+          ]
+          repo=os.environ['GITHUB_REPOSITORY']
+          for label,idk,namek,digestk,runk,headk in specs:
+            m=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ[idk]}"],text=True))
+            assert m['id']==int(os.environ[idk]), (label,'id')
+            assert m['name']==os.environ[namek], (label,'name')
+            assert m['digest']==os.environ[digestk], (label,'digest')
+            assert m['expired'] is False, (label,'expired')
+            assert m['workflow_run']['id']==int(os.environ[runk]), (label,'run')
+            assert m['workflow_run']['head_sha']==os.environ[headk], (label,'head')
+          print('Frozen V6 source and Flex artifacts verified')
+          PY
+
+      - name: Reject any existing V6 canary provider-attempt lock
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          names=[
+            'trackcade-semantic-external-stage1-v6-canary-v1-case-01-completed-valid',
+            'trackcade-semantic-external-stage1-v6-canary-v1-case-01-attempted-no-valid-response',
+          ]
+          for name in names:
+            data=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts?name={name}&per_page=100'],text=True))
+            active=[a for a in data.get('artifacts',[]) if not a.get('expired')]
+            if active:
+              raise SystemExit(f'Existing V6 canary attempt-lock artifact found: {name}')
+          print('No existing V6 canary provider-attempt lock found')
+          PY
+
+      - name: Download exact frozen V6 semantic prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v6-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact frozen V6 Flex 8192 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v6-flex8192-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+
+      - name: Verify full frozen closure and prepare ordinal 1 canary evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY leaked into preflight environment' >&2
+            exit 1
+          fi
+          echo "${SOURCE_MANIFEST_SHA256}  /tmp/trackcade-v6-prep/STAGE1_V6_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${SOURCE_FILES_SHA256}  /tmp/trackcade-v6-prep/FILES_SHA256.txt" | sha256sum -c -
+          echo "${FLEX_MANIFEST_SHA256}  /tmp/trackcade-v6-flex8192-prep/STAGE1_V6_FLEX8192_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${FLEX_FILES_SHA256}  /tmp/trackcade-v6-flex8192-prep/FILES_SHA256.txt" | sha256sum -c -
+          python - <<'PY'
+          import hashlib,json,os,pathlib,shutil,subprocess
+          def sha(p): return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
+          def verify(root):
+            root=pathlib.Path(root)
+            for line in (root/'FILES_SHA256.txt').read_text().splitlines():
+              if not line.strip(): continue
+              expected,rel=line.split('  ',1); p=root/rel
+              assert p.is_file() and sha(p)==expected, rel
+          verify('/tmp/trackcade-v6-prep'); verify('/tmp/trackcade-v6-flex8192-prep')
+          srcroot=pathlib.Path('/tmp/trackcade-v6-prep'); flexroot=pathlib.Path('/tmp/trackcade-v6-flex8192-prep')
+          src=json.load(open(srcroot/'STAGE1_V6_PREP_MANIFEST_V1.json'))
+          flex=json.load(open(flexroot/'STAGE1_V6_FLEX8192_PREP_MANIFEST_V1.json'))
+          assert src['schema']=='trackcade-semantic-external-stage1-v6-prep-v1'
+          assert flex['schema']=='trackcade-semantic-external-stage1-v6-flex8192-prep-v1'
+          assert src['providerCallsObserved']==0 and flex['providerCallsObserved']==0
+          assert src['terminalTracksProcessed'] is False and flex['terminalTracksProcessed'] is False
+          assert src['compilerInvoked'] is False and flex['compilerInvoked'] is False
+          assert flex['paidCallsAuthorizedByThisManifest'] is False
+          assert flex['transportAmendment']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high',
+            'maxOutputTokens':8192,'store':False,'serviceTier':'flex',
+            'allowedChangesOnly':['service_tier'],'semanticPayloadUnchanged':True,
+          }
+          ordinal=int(os.environ['CANARY_ORDINAL'])
+          sr=[r for r in src['tracks'] if r['ordinal']==ordinal]; fr=[r for r in flex['tracks'] if r['ordinal']==ordinal]
+          assert len(sr)==1 and len(fr)==1
+          sr,fr=sr[0],fr[0]; assert sr['id']==fr['id'] and sr['stem']==fr['stem']
+          stem=sr['stem']; scase=srcroot/'cases'/f'{ordinal:02d}-{stem}'; fcase=flexroot/'cases'/f'{ordinal:02d}-{stem}'
+          request=scase/'learned-request-v6.json'; packet=scase/'structure-evidence-v2.json'
+          source_payload=scase/'openai-payload-v6.json'; amended_payload=fcase/'openai-payload-v6-flex8192.json'
+          assert sha(request)==fr['learnedRequestV6Sha256']
+          assert sha(packet)==fr['structureEvidenceV2Sha256']
+          assert sha(source_payload)==fr['sourceV6PayloadSha256']
+          assert sha(amended_payload)==fr['amendedFlex8192PayloadSha256']
+          sp=json.load(open(source_payload)); ap=json.load(open(amended_payload))
+          projection=dict(ap); projection.pop('service_tier',None)
+          assert projection==sp
+          assert ap['model']=='gpt-6-sol' and ap['reasoning']=={'effort':'high'}
+          assert ap['max_output_tokens']==8192 and ap['service_tier']=='flex' and ap['store'] is False
+          out=pathlib.Path('/tmp/v6-canary'); out.mkdir(parents=True,exist_ok=True)
+          shutil.copyfile(request,out/'learned-request-v6.json'); shutil.copyfile(packet,out/'structure-evidence-v2.json')
+          shutil.copyfile(source_payload,out/'openai-payload-v6.json'); shutil.copyfile(amended_payload,out/'openai-payload-v6-flex8192.json')
+          status={
+            'schema':'trackcade-semantic-external-stage1-v6-canary-provider-case-v1',
+            'stage':'stage1-v6','purpose':'one-track-live-contract-behavior-canary','ordinal':ordinal,
+            'id':sr['id'],'stem':stem,'harnessSourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            'providerContract':{'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False},
+            'sourceRequestSha256':sha(request),'packetSha256':sha(packet),'sourcePayloadSha256':sha(source_payload),
+            'amendedPayloadSha256':sha(amended_payload),'semanticProjectionSha256':fr['semanticProjectionSha256'],
+            'semanticPayloadUnchanged':True,'providerCallAttempted':False,'providerResponseObserved':False,
+            'providerCompletedSemanticResponse':False,'proposalValidated':False,'standardFallbackUsed':False,
+            'retryAuthorized':False,'compilerInvoked':False,'terminalTracksProcessed':False,
+            'classification':'offline_preflight_complete_no_provider_call','errors':[],
+          }
+          (out/'stage1-v6-canary-case-status-v1.json').write_text(json.dumps(status,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'ordinal':ordinal,'id':sr['id'],'stem':stem,'amendedPayloadSha256':sha(amended_payload)},indent=2))
+          PY
+
+      - name: Perform exactly one authorized paid V6 Flex canary call
+        id: live
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          python - <<'PY'
+          import datetime as dt, hashlib, json, os, pathlib, subprocess, sys, urllib.error, urllib.request, uuid
+          out=pathlib.Path('/tmp/v6-canary'); status_path=out/'stage1-v6-canary-case-status-v1.json'
+          status=json.load(open(status_path)); payload_path=out/'openai-payload-v6-flex8192.json'; payload_bytes=payload_path.read_bytes()
+          def now(): return dt.datetime.now(dt.timezone.utc).isoformat().replace('+00:00','Z')
+          def sha_bytes(b): return hashlib.sha256(b).hexdigest()
+          def save(): status_path.write_text(json.dumps(status,indent=2,sort_keys=True)+'\n')
+          status['providerCallAttempted']=True; status['providerCallStartedAt']=now(); status['classification']='provider_call_in_progress'; save()
+          client_request_id=str(uuid.uuid4())
+          req=urllib.request.Request('https://api.openai.com/v1/responses',data=payload_bytes,headers={
+            'Authorization':f"Bearer {os.environ['OPENAI_API_KEY']}",'Content-Type':'application/json','Accept':'application/json',
+            'User-Agent':'trackcade-stage1-v6-one-canary','X-Client-Request-Id':client_request_id},method='POST')
+          try:
+            try:
+              with urllib.request.urlopen(req,timeout=900) as resp:
+                raw=resp.read(); http_status=int(resp.status); http_request_id=resp.headers.get('x-request-id'); http_error=False
+            except urllib.error.HTTPError as exc:
+              raw=exc.read(); http_status=int(exc.code); http_request_id=exc.headers.get('x-request-id') if exc.headers else None; http_error=True
+            except urllib.error.URLError as exc:
+              status.update({'providerCallFinishedAt':now(),'httpStatus':None,'httpRequestId':None,'clientRequestId':client_request_id,
+                             'transportError':str(exc.reason),'classification':'flex_transport_failure_no_completed_response'})
+              save(); raise SystemExit(0)
+            status.update({'providerCallFinishedAt':now(),'httpStatus':http_status,'httpRequestId':http_request_id,'clientRequestId':client_request_id,
+                           'providerResponseObserved':True})
+            (out/'raw-response.json').write_bytes(raw); status['rawResponseSha256']=sha_bytes(raw)
+            if http_error:
+              try: status['providerHttpError']=json.loads(raw.decode('utf-8')).get('error')
+              except Exception: status['providerHttpError']=None
+              status['classification']='flex_http_failure_no_completed_response'; save(); raise SystemExit(0)
+            response=json.loads(raw.decode('utf-8'))
+            status['observedProviderStatus']=response.get('status'); status['observedProviderResponseId']=response.get('id')
+            status['observedProviderModel']=response.get('model'); status['observedProviderServiceTier']=response.get('service_tier')
+            if isinstance(response.get('usage'),dict): status['usage']=response['usage']
+            if response.get('status')!='completed':
+              status['incompleteDetails']=response.get('incomplete_details'); status['classification']='provider_incomplete_no_completed_response'; save(); raise SystemExit(0)
+            status['providerCompletedSemanticResponse']=True
+            if response.get('service_tier')!='flex':
+              status['errors'].append(f"completed response service_tier was {response.get('service_tier')!r}, expected 'flex'")
+              status['classification']='provider_completed_wrong_service_tier_no_retry'; save(); raise SystemExit(0)
+            learned=pathlib.Path('research/learned-interpretation-v1').resolve(); sys.path.insert(0,str(learned))
+            import openai_responses_adapter_v1 as transport
+            _,candidate_bytes=transport.extract_candidate(raw)
+            candidate=out/'proposal-candidate.json'; candidate.write_bytes(candidate_bytes); status['proposalCandidateSha256']=sha_bytes(candidate_bytes)
+            normalized=out/'normalized-proposal.json'; report=out/'validation-report.json'
+            proc=subprocess.run([sys.executable,str(learned/'validate_learned_proposal_v6.py'),'--packet',str(out/'structure-evidence-v2.json'),
+                                 '--proposal',str(candidate),'--output',str(normalized),'--report',str(report)],capture_output=True,text=True)
+            (out/'validator-stdout.txt').write_text(proc.stdout); (out/'validator-stderr.txt').write_text(proc.stderr)
+            status['validatorExitCode']=proc.returncode
+            if proc.returncode==0:
+              status['proposalValidated']=True; status['normalizedProposalSha256']=hashlib.sha256(normalized.read_bytes()).hexdigest()
+              status['classification']='provider_completed_validated_v6_flex8192_canary_no_retry'
+            else:
+              status['classification']='provider_completed_v6_validation_failure_no_retry'
+            save()
+          except SystemExit:
+            raise
+          except Exception as exc:
+            status['errors'].append(f'{type(exc).__name__}: {exc}')
+            status['classification']='provider_attempt_harness_exception_no_retry'; status['providerCallFinishedAt']=status.get('providerCallFinishedAt') or now(); save()
+          PY
+          rc=$?
+          echo "${rc}" > /tmp/v6-canary/provider-step-exit-code.txt
+          exit 0
+
+      - name: Finalize immutable evidence and classify artifact
+        id: classify
+        if: always() && steps.live.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,pathlib
+          out=pathlib.Path('/tmp/v6-canary'); status_path=out/'stage1-v6-canary-case-status-v1.json'
+          s=json.load(open(status_path))
+          outcome='completed-valid' if s.get('providerCompletedSemanticResponse') is True and s.get('proposalValidated') is True else ('attempted-no-valid-response' if s.get('providerCallAttempted') is True else 'local-no-provider-attempt')
+          s['artifactOutcome']=outcome; status_path.write_text(json.dumps(s,indent=2,sort_keys=True)+'\n')
+          rows=[]
+          for p in sorted(x for x in out.rglob('*') if x.is_file() and x.name!='FILES_SHA256.txt'):
+            rows.append(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(out).as_posix()}")
+          (out/'FILES_SHA256.txt').write_text('\n'.join(rows)+'\n')
+          pathlib.Path('/tmp/v6-canary-artifact-name.txt').write_text(f'trackcade-semantic-external-stage1-v6-canary-v1-case-01-{outcome}')
+          print(json.dumps({'classification':s.get('classification'),'artifactOutcome':outcome,'providerCallAttempted':s.get('providerCallAttempted'),'usage':s.get('usage')},indent=2))
+          PY
+          echo "artifact_name=$(cat /tmp/v6-canary-artifact-name.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable V6 canary attempt evidence
+        if: always() && steps.classify.outputs.artifact_name != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.classify.outputs.artifact_name }}
+          path: /tmp/v6-canary
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Enforce stop-after-one-canary policy
+        if: always() && steps.live.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          s=json.load(open('/tmp/v6-canary/stage1-v6-canary-case-status-v1.json'))
+          assert s['providerCallAttempted'] is True
+          assert s['standardFallbackUsed'] is False
+          assert s['retryAuthorized'] is False
+          assert s['compilerInvoked'] is False
+          assert s['terminalTracksProcessed'] is False
+          assert s['semanticPayloadUnchanged'] is True
+          if s['classification']!='provider_completed_validated_v6_flex8192_canary_no_retry':
+            raise SystemExit(f"Canary stopped fail-closed after one paid attempt: {s['classification']}")
+          print('One paid V6 canary completed and validated. No additional provider calls are authorized or started.')
+          PY
