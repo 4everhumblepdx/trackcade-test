@@ -1,0 +1,59 @@
+name: Trackcade V5 — Offline post-run tools conformance
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/collect_stage1_v5_results_v1.py
+      - research/semantic-external-holdout-v1/evaluate_stage1_v5_drop_v1.py
+      - .github/workflows/trackcade-semantic-external-stage1-v5-postrun-tools-v1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Prove offline boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY unexpectedly present in offline post-run tools CI' >&2
+            exit 1
+          fi
+      - name: Compile post-run tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/semantic-external-holdout-v1/collect_stage1_v5_results_v1.py \
+            research/semantic-external-holdout-v1/evaluate_stage1_v5_drop_v1.py
+      - name: Verify frozen contracts without references or provider
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=research/semantic-external-holdout-v1 python - <<'PY'
+          import collect_stage1_v5_results_v1 as c
+          assert c.REVISION == 'stage1-drop-semantics-v5-candidate-first-absolute-pattern'
+          assert c.SOURCE_MANIFEST_SHA256 == 'f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799'
+          assert c.FLEX_MANIFEST_SHA256 == '1b9c47e55463fafab4d1be94418b8ffb58e8b6799f2c5a527af40fa5f7d9c93e'
+          assert c.BASE_CONTRACT['maxOutputTokens'] == 8192
+          assert c.RETRY_CONTRACT['maxOutputTokens'] == 16384
+          assert c.VARIANTS['retry4_16384']['allowedOrdinals'] == {4}
+          assert c.VARIANTS['retry35_16384']['allowedOrdinals'] == {35}
+          assert c.VARIANTS['base8192']['allowedOrdinals'] == set(range(1,51)) - {4,35}
+          print('collector contracts OK')
+          PY
+          PYTHONPATH=research/semantic-external-holdout-v1 python - <<'PY'
+          import evaluate_stage1_v5_drop_v1 as e
+          assert e.SCORER_BLOB_SHA == '3d74996281ec260e170ea10929bd0115a6d4ac70'
+          assert e.REFERENCE_SHA256 == '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+          assert e.V3_PRIMARY['truePositives'] == 19
+          assert e.V4_PRIMARY_F1 == 10/65
+          print('evaluator contracts OK')
+          PY
