@@ -1,0 +1,264 @@
+name: Trackcade V5 — Evidence-bound Flex 16384 retry for ordinal 4
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V5_FLEX16384_ORDINAL4_RETRY_AUTHORIZATION_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-v5-flex16384-ordinal4-retry-v1
+  cancel-in-progress: false
+
+jobs:
+  retry-ordinal-4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      BASE: research/semantic-external-holdout-v1
+      LEARNED: research/learned-interpretation-v1
+      AUTH_FILE: research/semantic-external-holdout-v1/STAGE1_V5_FLEX16384_ORDINAL4_RETRY_AUTHORIZATION_V1.json
+      STOP_FILE: research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_STOP_RECEIPT_V1.json
+      SOURCE_RUN_ID: '36645240283'
+      SOURCE_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      SOURCE_MANIFEST_SHA256: f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799
+      SOURCE_FILES_SHA256: 1393038c09afff244e4aeb2c745eb5a6f40c5f728991cec5051d3dfb4d34cb6c
+      FLEX_RUN_ID: '36647639925'
+      FLEX_NAME: trackcade-semantic-external-stage1-v5-flex-prep-v1
+      FLEX_MANIFEST_SHA256: 1b9c47e55463fafab4d1be94418b8ffb58e8b6799f2c5a527af40fa5f7d9c93e
+      FLEX_FILES_SHA256: c1a8c4eb5563756b42cd18ab12627a61848541e3217f89de3d422f8800743e0a
+      CONFORMANCE_RUN_ID: '36650929129'
+      CONFORMANCE_ARTIFACT_ID: '11070551782'
+      CONFORMANCE_NAME: trackcade-semantic-external-stage1-v5-flex16384-retry4-conformance-v1
+      CONFORMANCE_DIGEST: sha256:761debec8e8e550fa00a1b9d28d3973554538919c15bc81abfa64029c4dc1508
+      INITIAL_RUN_ID: '36648317684'
+      INITIAL_ARTIFACT_ID: '11069456882'
+      INITIAL_NAME: trackcade-semantic-external-stage1-v5-flex-v1-case-04-attempted-no-completed-response
+      INITIAL_DIGEST: sha256:9e9289c34a1ebbe2b9db6b603f070285436bf5a1761d01d6bea5c0769918047e
+      RETRY_HARNESS_BLOB: a0293bf7751da820c3bbe1f4c0f12a1468c0bd70
+      V5_INGESTER_BLOB: db03b02175e0e8545fe9db093d02c78c5c316a68
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify explicit authorization, immutable code, and one-use boundary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          python -m py_compile "$BASE/run_stage1_v5_flex16384_retry4_v1.py" "$LEARNED/ingest_provider_response_v5.py"
+          test "$(git hash-object "$BASE/run_stage1_v5_flex16384_retry4_v1.py")" = "$RETRY_HARNESS_BLOB"
+          test "$(git hash-object "$LEARNED/ingest_provider_response_v5.py")" = "$V5_INGESTER_BLOB"
+          python - "$AUTH_FILE" "$STOP_FILE" <<'PY'
+          import json,sys
+          auth=json.load(open(sys.argv[1])); stop=json.load(open(sys.argv[2]))
+          assert auth == {
+            'schema':'trackcade-semantic-external-stage1-v5-flex16384-ordinal4-retry-authorization-v1',
+            'status':'authorized-one-paid-retry-only',
+            'ordinal':4,
+            'authorization':'ordinal-4-flex16384-evidence-11069456882-v1',
+            'userReportedOpenAiBalanceUsd':2.41,
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':16384,
+            'serviceTier':'flex','store':False,
+            'initialAttemptArtifactId':11069456882,
+            'initialAttemptDigest':'sha256:9e9289c34a1ebbe2b9db6b603f070285436bf5a1761d01d6bea5c0769918047e',
+            'initialAttemptOutcome':'incomplete:max_output_tokens@8192',
+            'semanticPayloadUnchanged':True,
+            'transportOnlyChange':{'field':'max_output_tokens','from':8192,'to':16384},
+            'standardFallbackAuthorized':False,
+            'additionalRetriesAuthorized':False,
+            'continuationOrdinals':'5-50',
+            'continuationAuthorizedOnlyAfterCompletedRetry':True,
+            'continuationMaxOutputTokens':8192,
+            'partialScoringAuthorized':False,
+            'terminalHoldoutAuthorized':False,
+            'compilerInvocationAuthorized':False,
+            'analyzerChangesAuthorized':False,
+          }
+          assert stop['status']=='stopped-fail-closed-no-partial-score'
+          s=stop['stoppingAttempt']
+          assert s['ordinal']==4 and s['artifactId']==11069456882
+          assert s['digest']==auth['initialAttemptDigest']
+          assert s['providerStatus']=='incomplete'
+          assert s['incompleteReason']=='max_output_tokens'
+          assert s['maxOutputTokens']==8192
+          assert s['providerCompletedSemanticResponse'] is False
+          assert stop['observedOutcome']['untouchedAfterFailFast']=='5-50'
+          assert stop['observedOutcome']['partialScoringPerformed'] is False
+          PY
+          for name in \
+            trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-completed \
+            trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-attempted-no-completed-response; do
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '[.artifacts[] | select(.expired == false)] | length')"
+            test "$count" = '0'
+          done
+
+      - name: Verify immutable initial failure and conformance artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess
+          specs=[
+            (os.environ['INITIAL_ARTIFACT_ID'],os.environ['INITIAL_NAME'],os.environ['INITIAL_DIGEST'],os.environ['INITIAL_RUN_ID']),
+            (os.environ['CONFORMANCE_ARTIFACT_ID'],os.environ['CONFORMANCE_NAME'],os.environ['CONFORMANCE_DIGEST'],os.environ['CONFORMANCE_RUN_ID']),
+          ]
+          repo=os.environ['GITHUB_REPOSITORY']
+          for id_s,name,digest,run_s in specs:
+            d=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{id_s}'],text=True))
+            assert d['id']==int(id_s); assert d['name']==name; assert d['digest']==digest
+            assert d['expired'] is False; assert d['workflow_run']['id']==int(run_s)
+          PY
+
+      - name: Download exact frozen V5 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_NAME }}
+          path: ${{ runner.temp }}/v5-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen V5 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_NAME }}
+          path: ${{ runner.temp }}/v5-flex
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download immutable initial ordinal-4 failure evidence
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.INITIAL_NAME }}
+          path: ${{ runner.temp }}/initial-4
+          repository: ${{ github.repository }}
+          run-id: ${{ env.INITIAL_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify evidence and exact retry payload offline before provider access
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY leaked into preflight environment' >&2
+            exit 1
+          fi
+          test "$(sha256sum "${RUNNER_TEMP}/v5-source/STAGE1_V5_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$SOURCE_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-source/FILES_SHA256.txt" | awk '{print $1}')" = "$SOURCE_FILES_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-flex/STAGE1_V5_FLEX_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$FLEX_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-flex/FILES_SHA256.txt" | awk '{print $1}')" = "$FLEX_FILES_SHA256"
+          python - "${RUNNER_TEMP}/initial-4/stage1-v5-flex-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['ordinal']==4
+          assert d['providerCallAttempted'] is True
+          assert d['providerCompletedSemanticResponse'] is False
+          assert d['httpStatus']==200
+          assert d['observedProviderStatus']=='incomplete'
+          assert d['observedProviderServiceTier']=='flex'
+          assert d['incompleteDetails']=={'reason':'max_output_tokens'}
+          assert d['providerContract']['maxOutputTokens']==8192
+          assert d['usage']['output_tokens']==8192
+          PY
+          OUT="${RUNNER_TEMP}/retry4-preflight"
+          python "$BASE/run_stage1_v5_flex16384_retry4_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v5-source" \
+            --flex-prep-root "${RUNNER_TEMP}/v5-flex" \
+            --output-dir "$OUT" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester "$LEARNED/ingest_provider_response_v5.py" \
+            --preflight-only
+          python - "$OUT/stage1-v5-flex16384-retry4-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['classification']=='offline_preflight_complete_no_provider_call'
+          assert d['providerCallAttempted'] is False
+          assert d['semanticPayloadUnchanged'] is True
+          assert d['transportOnlyChange']=={'field':'max_output_tokens','from':8192,'to':16384}
+          PY
+
+      - name: Execute one authorized ordinal-4 Flex 16384 retry
+        id: execute
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          rm -rf "${RUNNER_TEMP}/retry4-live"
+          python "$BASE/run_stage1_v5_flex16384_retry4_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v5-source" \
+            --flex-prep-root "${RUNNER_TEMP}/v5-flex" \
+            --output-dir "${RUNNER_TEMP}/retry4-live" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester "$LEARNED/ingest_provider_response_v5.py" \
+            --timeout-seconds 900
+          rc=$?
+          echo "runner_rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Classify immutable retry evidence
+        id: classify
+        if: always() && steps.execute.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="${RUNNER_TEMP}/retry4-live/stage1-v5-flex16384-retry4-case-status-v1.json"
+          test -f "$status"
+          category="$(python - "$status" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          print('completed' if d.get('providerCompletedSemanticResponse') is True else 'attempted-no-completed-response')
+          PY
+          )"
+          echo "category=$category" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-${category}" >> "$GITHUB_OUTPUT"
+          cat "$status"
+
+      - name: Freeze immutable retry evidence
+        if: always() && steps.classify.outputs.artifact_name != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.classify.outputs.artifact_name }}
+          path: ${{ runner.temp }}/retry4-live
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Enforce completion and no silent further retry
+        if: always() && steps.execute.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "${RUNNER_TEMP}/retry4-live/stage1-v5-flex16384-retry4-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['additionalRetryAuthorized'] is False
+          assert d['standardFallbackUsed'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['compilerInvoked'] is False
+          assert d['providerContract']['maxOutputTokens']==16384
+          assert d['providerContract']['serviceTier']=='flex'
+          if d.get('providerCompletedSemanticResponse') is not True:
+            raise SystemExit('Ordinal 4 retry did not complete. Stop; no further retry or continuation is authorized.')
+          if d.get('observedProviderServiceTier') != 'flex':
+            raise SystemExit('Ordinal 4 retry did not observe Flex. Stop.')
+          allowed={
+            'provider_completed_validated_v5_flex16384_retry4_proposal_no_further_retry',
+            'provider_completed_v5_flex16384_retry4_validation_failure_no_further_retry',
+          }
+          if d.get('classification') not in allowed:
+            raise SystemExit('Ordinal 4 retry completed outside allowed classification; stop.')
+          PY
