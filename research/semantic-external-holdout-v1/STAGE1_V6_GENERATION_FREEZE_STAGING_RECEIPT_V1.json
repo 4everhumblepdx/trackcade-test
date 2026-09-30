@@ -1,0 +1,34 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-generation-freeze-staging-receipt-v1",
+  "createdDate": "2026-09-30",
+  "status": "staged-inactive-offline-freeze",
+  "collectorCommit": "972daeb850557ff64bba41171228535491efc10a",
+  "collectorOfflineCanaryTestReceiptCommit": "b86f68f780c39d4a58a528308715c7b40f862bb6",
+  "workflowCommit": "ad253cc39a86eeb2b81d7eee81802830faa02d7e",
+  "workflow": ".github/workflows/trackcade-semantic-external-stage1-v6-generation-freeze-v1.yml",
+  "activationFile": "research/semantic-external-holdout-v1/STAGE1_V6_GENERATION_FREEZE_ACTIVATE_V1.json",
+  "observedActivationFile": false,
+  "workflowTriggerPathIsActivationFileOnly": true,
+  "providerCallsDuringStaging": 0,
+  "paidSpendDuringStagingUsd": 0,
+  "freezeDesign": {
+    "ordinal1": "exact frozen canary artifact",
+    "ordinals2Through50": "exactly one non-expired completed-valid remaining49 artifact per ordinal",
+    "requires50UniqueArtifacts": true,
+    "requires50UniqueProviderResponseIds": true,
+    "copies50NormalizedProposalsIntoFreeze": true,
+    "verifiesFrozenSourceAndFlexPrep": true,
+    "collectorEnforcesV6DropSemanticConditions": true,
+    "referenceLabelsAvailableInSparseCheckout": false,
+    "openaiApiKeyAllowedInFreezeJob": false
+  },
+  "scientificStateUnaffected": {
+    "stage1ReferencesOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerExecutedOrModified": false,
+    "frozenV6SemanticContractModified": false
+  },
+  "note": "This freeze workflow is intentionally inert until a future offline-freeze activation receipt is committed after all 50 V6 development responses exist. It does not authorize or perform provider generation."
+}
