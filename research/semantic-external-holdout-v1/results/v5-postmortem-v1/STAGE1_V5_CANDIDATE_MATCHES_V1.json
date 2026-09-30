@@ -1,0 +1,920 @@
+[
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+    "matchedAt2s": false,
+    "ordinal": 1,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.77,
+    "time": 13.737
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+    "matchedAt2s": false,
+    "ordinal": 1,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.8,
+    "time": 73.737
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+    "matchedAt2s": false,
+    "ordinal": 1,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.86,
+    "time": 149.666
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+    "matchedAt2s": false,
+    "ordinal": 1,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.83,
+    "time": 239.666
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+    "matchedAt2s": false,
+    "ordinal": 2,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.83,
+    "time": 175.897
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+    "matchedAt2s": false,
+    "ordinal": 3,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.77,
+    "time": 43.482
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+    "matchedAt2s": false,
+    "ordinal": 3,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.74,
+    "time": 88.999
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+    "matchedAt2s": false,
+    "ordinal": 4,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.85,
+    "time": 52.007
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+    "matchedAt2s": false,
+    "ordinal": 4,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.88,
+    "time": 205.587
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+    "matchedAt2s": true,
+    "ordinal": 6,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 30.491
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+    "matchedAt2s": false,
+    "ordinal": 6,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.87,
+    "time": 75.024
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+    "matchedAt2s": false,
+    "ordinal": 7,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.89,
+    "time": 12.15
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+    "matchedAt2s": false,
+    "ordinal": 7,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.83,
+    "time": 123.153
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+    "matchedAt2s": false,
+    "ordinal": 7,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.81,
+    "time": 155.151
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+    "matchedAt2s": false,
+    "ordinal": 9,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.88,
+    "time": 138.67
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+    "matchedAt2s": false,
+    "ordinal": 9,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.78,
+    "time": 194.384
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+    "matchedAt2s": false,
+    "ordinal": 9,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.72,
+    "time": 343.435
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+    "matchedAt2s": true,
+    "ordinal": 10,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.91,
+    "time": 99.803
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+    "matchedAt2s": false,
+    "ordinal": 11,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.83,
+    "time": 114.941
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+    "matchedAt2s": true,
+    "ordinal": 12,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.87,
+    "time": 54.957
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+    "matchedAt2s": true,
+    "ordinal": 12,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.9,
+    "time": 158.804
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+    "matchedAt2s": true,
+    "ordinal": 14,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.81,
+    "time": 106.126
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+    "matchedAt2s": false,
+    "ordinal": 15,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.87,
+    "time": 57.997
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+    "matchedAt2s": false,
+    "ordinal": 15,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.93,
+    "time": 98.459
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+    "matchedAt2s": false,
+    "ordinal": 16,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.83,
+    "time": 28.858
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+    "matchedAt2s": false,
+    "ordinal": 16,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.84,
+    "time": 119.794
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+    "matchedAt2s": false,
+    "ordinal": 16,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.76,
+    "time": 302.839
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+    "matchedAt2s": false,
+    "ordinal": 17,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.76,
+    "time": 51.896
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+    "matchedAt2s": false,
+    "ordinal": 17,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.73,
+    "time": 120.883
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+    "matchedAt2s": false,
+    "ordinal": 18,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.9,
+    "time": 44.436
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+    "matchedAt2s": false,
+    "ordinal": 18,
+    "referenceCount": 1,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.73,
+    "time": 246.633
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+    "matchedAt2s": false,
+    "ordinal": 19,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.77,
+    "time": 160.153
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+    "matchedAt2s": true,
+    "ordinal": 19,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.87,
+    "time": 264.216
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+    "matchedAt2s": false,
+    "ordinal": 20,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.86,
+    "time": 290.1
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+    "matchedAt2s": false,
+    "ordinal": 21,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.87,
+    "time": 105.324
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+    "matchedAt2s": false,
+    "ordinal": 22,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.83,
+    "time": 81.908
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+    "matchedAt2s": true,
+    "ordinal": 23,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.79,
+    "time": 164.619
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+    "matchedAt2s": false,
+    "ordinal": 24,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.82,
+    "time": 80.02
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+    "matchedAt2s": false,
+    "ordinal": 25,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 61.532
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+    "matchedAt2s": false,
+    "ordinal": 25,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 102.675
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+    "matchedAt2s": true,
+    "ordinal": 26,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.88,
+    "time": 108.786
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+    "matchedAt2s": false,
+    "ordinal": 26,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.78,
+    "time": 156.599
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+    "matchedAt2s": true,
+    "ordinal": 26,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.9,
+    "time": 242.849
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+    "matchedAt2s": false,
+    "ordinal": 26,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.73,
+    "time": 285.063
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+    "matchedAt2s": false,
+    "ordinal": 27,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.76,
+    "time": 25.557
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+    "matchedAt2s": false,
+    "ordinal": 27,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.82,
+    "time": 71.114
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+    "matchedAt2s": true,
+    "ordinal": 28,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.92,
+    "time": 89.102
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+    "matchedAt2s": false,
+    "ordinal": 28,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.88,
+    "time": 216.602
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+    "matchedAt2s": false,
+    "ordinal": 28,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.93,
+    "time": 277.54
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+    "matchedAt2s": false,
+    "ordinal": 28,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.76,
+    "time": 344.102
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+    "matchedAt2s": false,
+    "ordinal": 29,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.76,
+    "time": 39.3
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+    "matchedAt2s": false,
+    "ordinal": 29,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.78,
+    "time": 214.103
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+    "matchedAt2s": false,
+    "ordinal": 29,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.79,
+    "time": 268.504
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+    "matchedAt2s": false,
+    "ordinal": 30,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.78,
+    "time": 18.775
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+    "matchedAt2s": true,
+    "ordinal": 30,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.86,
+    "time": 123.775
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+    "matchedAt2s": false,
+    "ordinal": 30,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.77,
+    "time": 198.775
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+    "matchedAt2s": true,
+    "ordinal": 30,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.87,
+    "time": 258.775
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+    "matchedAt2s": false,
+    "ordinal": 32,
+    "referenceCount": 3,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.76,
+    "time": 64.58
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+    "matchedAt2s": false,
+    "ordinal": 32,
+    "referenceCount": 3,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.94,
+    "time": 217.093
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+    "matchedAt2s": false,
+    "ordinal": 33,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.82,
+    "time": 17.624
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+    "matchedAt2s": false,
+    "ordinal": 34,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.86,
+    "time": 78.909
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+    "matchedAt2s": false,
+    "ordinal": 34,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.9,
+    "time": 231.288
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+    "matchedAt2s": false,
+    "ordinal": 36,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.77,
+    "time": 13.966
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+    "matchedAt2s": false,
+    "ordinal": 36,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.91,
+    "time": 56.095
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+    "matchedAt2s": false,
+    "ordinal": 37,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.77,
+    "time": 81.85
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+    "matchedAt2s": false,
+    "ordinal": 37,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.72,
+    "time": 185.184
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+    "matchedAt2s": false,
+    "ordinal": 37,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.91,
+    "time": 226.368
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+    "matchedAt2s": false,
+    "ordinal": 37,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.9,
+    "time": 341.372
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+    "matchedAt2s": false,
+    "ordinal": 37,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.73,
+    "time": 405.662
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+    "matchedAt2s": false,
+    "ordinal": 38,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 29.555
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+    "matchedAt2s": true,
+    "ordinal": 38,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.87,
+    "time": 89.555
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+    "matchedAt2s": false,
+    "ordinal": 38,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.88,
+    "time": 142.055
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+    "matchedAt2s": true,
+    "ordinal": 38,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.83,
+    "time": 188.93
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+    "matchedAt2s": false,
+    "ordinal": 38,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.78,
+    "time": 218.218
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+    "matchedAt2s": true,
+    "ordinal": 39,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.89,
+    "time": 88.683
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+    "matchedAt2s": false,
+    "ordinal": 39,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 177.761
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+    "matchedAt2s": false,
+    "ordinal": 42,
+    "referenceCount": 2,
+    "repetitionRelation": "unclear",
+    "semanticConfidence": 0.83,
+    "time": 14.896
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+    "matchedAt2s": false,
+    "ordinal": 42,
+    "referenceCount": 2,
+    "repetitionRelation": "unclear",
+    "semanticConfidence": 0.86,
+    "time": 125.669
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+    "matchedAt2s": false,
+    "ordinal": 42,
+    "referenceCount": 2,
+    "repetitionRelation": "unclear",
+    "semanticConfidence": 0.7,
+    "time": 140.15
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+    "matchedAt2s": false,
+    "ordinal": 42,
+    "referenceCount": 2,
+    "repetitionRelation": "unclear",
+    "semanticConfidence": 0.81,
+    "time": 169.077
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+    "matchedAt2s": false,
+    "ordinal": 43,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.8,
+    "time": 88.476
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+    "matchedAt2s": false,
+    "ordinal": 43,
+    "referenceCount": 1,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 242.614
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+    "matchedAt2s": false,
+    "ordinal": 44,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.83,
+    "time": 28.642
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+    "matchedAt2s": false,
+    "ordinal": 44,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.87,
+    "time": 71.559
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+    "matchedAt2s": false,
+    "ordinal": 44,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.77,
+    "time": 154.629
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+    "matchedAt2s": false,
+    "ordinal": 44,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.84,
+    "time": 237.72
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+    "matchedAt2s": false,
+    "ordinal": 44,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.88,
+    "time": 298.176
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+    "matchedAt2s": false,
+    "ordinal": 44,
+    "referenceCount": 0,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.85,
+    "time": 335.099
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+    "matchedAt2s": true,
+    "ordinal": 45,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.87,
+    "time": 133.426
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+    "matchedAt2s": false,
+    "ordinal": 45,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.88,
+    "time": 265.432
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+    "matchedAt2s": false,
+    "ordinal": 46,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.78,
+    "time": 14.041
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+    "matchedAt2s": false,
+    "ordinal": 46,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.9,
+    "time": 83.237
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+    "matchedAt2s": false,
+    "ordinal": 46,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.79,
+    "time": 151.119
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+    "matchedAt2s": false,
+    "ordinal": 47,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.78,
+    "time": 28.258
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+    "matchedAt2s": false,
+    "ordinal": 47,
+    "referenceCount": 2,
+    "repetitionRelation": "repeated_similar",
+    "semanticConfidence": 0.77,
+    "time": 75.044
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+    "matchedAt2s": true,
+    "ordinal": 47,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.88,
+    "time": 120.044
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+    "matchedAt2s": false,
+    "ordinal": 47,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.88,
+    "time": 186.606
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+    "matchedAt2s": false,
+    "ordinal": 48,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.83,
+    "time": 65.01
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+    "matchedAt2s": false,
+    "ordinal": 49,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.92,
+    "time": 215.899
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+    "matchedAt2s": false,
+    "ordinal": 49,
+    "referenceCount": 0,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.78,
+    "time": 287.652
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+    "matchedAt2s": true,
+    "ordinal": 50,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.78,
+    "time": 85.751
+  },
+  {
+    "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+    "matchedAt2s": true,
+    "ordinal": 50,
+    "referenceCount": 2,
+    "repetitionRelation": "independent",
+    "semanticConfidence": 0.86,
+    "time": 198.894
+  }
+]
