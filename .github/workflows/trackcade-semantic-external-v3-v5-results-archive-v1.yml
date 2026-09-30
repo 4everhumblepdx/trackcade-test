@@ -1,0 +1,131 @@
+name: Trackcade — Archive exact V3/V5 RAW evaluation results offline
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-v3-v5-results-archive-v1.yml
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: trackcade-v3-v5-results-archive-v1
+  cancel-in-progress: false
+
+jobs:
+  archive:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      BASE: research/semantic-external-holdout-v1
+      V3_RUN_ID: '36598712184'
+      V3_ARTIFACT_ID: '11047916821'
+      V3_NAME: trackcade-semantic-external-stage1-v3-raw-drop-evaluation-v1
+      V3_DIGEST: sha256:1a819d983d362480b05f30fcd7b75a2c34bcf7b81f78c93dd192bce4a59b64d5
+      V5_RUN_ID: '36708665901'
+      V5_ARTIFACT_ID: '11093445323'
+      V5_NAME: trackcade-semantic-external-stage1-v5-raw-evaluation-v1
+      V5_DIGEST: sha256:75ebdc2c914bd4f37e12c870bae9b0308f5c9fe67cd2cf788477648c37d61488
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prove offline boundary and artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in archive job' >&2
+            exit 1
+          fi
+          python - <<'PY'
+          import json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            ('V3',os.environ['V3_ARTIFACT_ID'],os.environ['V3_NAME'],os.environ['V3_DIGEST'],os.environ['V3_RUN_ID']),
+            ('V5',os.environ['V5_ARTIFACT_ID'],os.environ['V5_NAME'],os.environ['V5_DIGEST'],os.environ['V5_RUN_ID']),
+          ]
+          for label,aid,name,digest,rid in specs:
+            d=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{aid}'],text=True))
+            assert d['id']==int(aid),label
+            assert d['name']==name,label
+            assert d['digest']==digest,label
+            assert d['expired'] is False,label
+            assert d['workflow_run']['id']==int(rid),label
+          PY
+
+      - name: Download exact V3 evaluation
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V3_NAME }}
+          path: ${{ runner.temp }}/v3
+          repository: ${{ github.repository }}
+          run-id: ${{ env.V3_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact V5 evaluation
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V5_NAME }}
+          path: ${{ runner.temp }}/v5
+          repository: ${{ github.repository }}
+          run-id: ${{ env.V5_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify exact V5 result hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "${RUNNER_TEMP}/v5"
+          test "$(sha256sum STAGE1_V5_DROP_CANDIDATES_V1.json | awk '{print $1}')" = dc331efd8908c99f545dfc5d48d50bb09002ce2e33b0d8a8a707a2c065128ff2
+          test "$(sha256sum STAGE1_V5_DROP_EVALUATION_V1.json | awk '{print $1}')" = c60212dc75c78522f746af3ddb2ebfaefb9d879aab6e63d28ce762f18cddc8e2
+          test "$(sha256sum STAGE1_V5_EVALUATION_FREEZE_V1.json | awk '{print $1}')" = 22f0ae002735294e003fdc0bb43f93829f0dc8a6b7549b280c52ffb2151aabab
+          test "$(sha256sum STAGE1_V5_EVALUATION_PROVENANCE_V1.json | awk '{print $1}')" = eb954edf3453d50a8b59ee86e0e0575b158a59a771e0385f64c891bbceee31f8
+          test "$(sha256sum STAGE1_V5_RAW_HEADLINE_V1.json | awk '{print $1}')" = 108e46b01985462e2df217ae70e99cd9b75b61cf406ea3d52f689865b52f14ab
+          test "$(sha256sum STAGE1_V5_RAW_PER_TRACK_V1.csv | awk '{print $1}')" = 35b5a8f6a207da43fcb621bf2a0ee8e385c8dd22acb11cab4a65aac8c3362beb
+
+      - name: Archive exact files and provenance receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          V3_OUT="$BASE/results/v3-raw-exact"
+          V5_OUT="$BASE/results/v5-raw-exact"
+          rm -rf "$V3_OUT" "$V5_OUT"
+          mkdir -p "$V3_OUT" "$V5_OUT"
+          cp -a "${RUNNER_TEMP}/v3/." "$V3_OUT/"
+          cp -a "${RUNNER_TEMP}/v5/." "$V5_OUT/"
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          base=pathlib.Path(os.environ['BASE'])/'results'
+          receipt={
+            'schema':'trackcade-semantic-external-v3-v5-raw-results-archive-v1',
+            'providerCallsByArchive':0,
+            'v3':{'runId':int(os.environ['V3_RUN_ID']),'artifactId':int(os.environ['V3_ARTIFACT_ID']),'artifactDigest':os.environ['V3_DIGEST']},
+            'v5':{'runId':int(os.environ['V5_RUN_ID']),'artifactId':int(os.environ['V5_ARTIFACT_ID']),'artifactDigest':os.environ['V5_DIGEST']},
+            'files':{},
+          }
+          for version in ('v3-raw-exact','v5-raw-exact'):
+            receipt['files'][version]={}
+            for p in sorted((base/version).iterdir()):
+              if p.is_file():
+                receipt['files'][version][p.name]=hashlib.sha256(p.read_bytes()).hexdigest()
+          (base/'V3_V5_RAW_RESULTS_ARCHIVE_RECEIPT_V1.json').write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(receipt,indent=2,sort_keys=True))
+          PY
+
+      - name: Commit durable exact results
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$BASE/results/v3-raw-exact" "$BASE/results/v5-raw-exact" "$BASE/results/V3_V5_RAW_RESULTS_ARCHIVE_RECEIPT_V1.json"
+          git diff --cached --quiet && { echo 'Nothing to archive'; exit 0; }
+          git commit -m 'Archive exact V3 and V5 RAW Stage1 results'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
