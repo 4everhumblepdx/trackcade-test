@@ -3,7 +3,7 @@
   "activatePaidGeneration": true,
   "activationDate": "2026-09-29",
   "authorizationFile": "research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_V1.json",
-  "executionSourceCommit": "15ac560a92de45b5b0387fb68bd17497a790f5ef",
+  "executionSourceCommit": "ea18e32a068db578fc2abe7ff43b4383bca42c0a",
   "authorizedOrdinals": "1-50",
   "maximumInitialProviderAttempts": 50,
   "attemptsPerTrack": 1,
@@ -11,6 +11,12 @@
   "standardFallbackAuthorized": false,
   "terminalHoldoutAccessAuthorized": false,
   "compilerInvocationAuthorized": false,
+  "previousActivationRun": {
+    "runId": 36648054393,
+    "providerCallsObserved": 0,
+    "providerStepReached": false,
+    "classification": "pre-provider-wrapper-metadata-assertion-failure"
+  },
   "providerContract": {
     "provider": "openai",
     "api": "responses",
