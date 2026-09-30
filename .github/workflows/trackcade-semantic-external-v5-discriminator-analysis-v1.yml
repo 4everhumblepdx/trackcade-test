@@ -56,6 +56,35 @@ jobs:
             assert d['workflow_run']['id']==int(rid)
           PY
 
+      - name: Patch diagnostic-only nullable anchor handling
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('research/semantic-external-holdout-v1/analyze_stage1_v5_discriminators_v1.py')
+          s=p.read_text()
+          reps=[
+            (
+              "def empirical_percentile(values, value):\n    vals = [float(x) for x in values if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x))]",
+              "def empirical_percentile(values, value):\n    if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(float(value)):\n        return None\n    vals = [float(x) for x in values if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x))]"
+            ),
+            (
+              "feature_columns = [[float(a[k]) for a in anchors] for k in range(1, 5)]",
+              "feature_columns = [[float(a[k]) for a in anchors if isinstance(a[k], (int, float)) and not isinstance(a[k], bool) and math.isfinite(float(a[k]))] for k in range(1, 5)]"
+            ),
+            (
+              "vec = [float(x) for x in anchors[idx]]",
+              "vec = [float(x) if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x)) else None for x in anchors[idx]]"
+            ),
+          ]
+          for old,new in reps:
+            if s.count(old) != 1:
+              raise SystemExit(f'exact nullable-anchor patch source count != 1: {old[:60]}')
+            s=s.replace(old,new)
+          p.write_text(s)
+          PY
+          python -m py_compile "$BASE/analyze_stage1_v5_discriminators_v1.py"
+
       - name: Download exact frozen V5 prep
         uses: actions/download-artifact@v4
         with:
@@ -86,12 +115,12 @@ jobs:
             --v5-eval "$BASE/results/v5-raw-exact/STAGE1_V5_DROP_EVALUATION_V1.json" \
             --output-dir "$BASE/results/v5-discriminator-analysis-v1"
 
-      - name: Commit durable diagnostics
+      - name: Commit durable diagnostics and null-handling fix
         run: |
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add "$BASE/results/v5-discriminator-analysis-v1"
+          git add "$BASE/analyze_stage1_v5_discriminators_v1.py" "$BASE/results/v5-discriminator-analysis-v1"
           git diff --cached --quiet && { echo 'Nothing to commit'; exit 0; }
-          git commit -m 'Add offline V5 discriminator analysis'
+          git commit -m 'Add offline V5 discriminator analysis results'
           git push origin "HEAD:${GITHUB_REF_NAME}"
