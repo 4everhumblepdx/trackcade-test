@@ -1,0 +1,72 @@
+{
+  "diagnostics": {
+    "evidenceBoundRetryOrdinals": [
+      4,
+      35
+    ],
+    "positivePredictedTracks": 23,
+    "positiveProposalOmissions": 4,
+    "positiveReferenceTracks": 27,
+    "predictedPositiveTracks": 43,
+    "presenceCounts": {
+      "ambiguous_only": 7,
+      "drop_present": 43,
+      "no_drop": 0
+    },
+    "proposalCount": 102,
+    "proposalsPerPredictedPositiveTrack": 2.372093023255814,
+    "repetition": {
+      "dropAssessments": 102,
+      "repeatedSimilarDropAssessments": 49
+    },
+    "usageTotals": {
+      "input_tokens": 691120,
+      "output_tokens": 203352,
+      "reasoning_tokens": 153342,
+      "total_tokens": 894472
+    },
+    "zeroReferenceFalsePositiveProposals": 43,
+    "zeroReferenceProposalAbstentions": 3,
+    "zeroReferenceTracks": 23,
+    "zeroReferenceTracksWithFalsePositiveProposals": 20
+  },
+  "f1DeltaVsV3": -0.037816886654095994,
+  "f1DeltaVsV4": 0.10291060291060289,
+  "f1PercentagePointDeltaVsV3": -3.7816886654095994,
+  "f1PercentagePointDeltaVsV4": 10.291060291060289,
+  "primaryToleranceSeconds": 2.0,
+  "schema": "trackcade-semantic-external-stage1-v5-raw-headline-v1",
+  "v3FrozenPrimary": {
+    "candidateSupport": 83,
+    "f1": 0.29457364341085274,
+    "falseNegatives": 27,
+    "falsePositives": 64,
+    "matchedSupport": 19,
+    "precision": 0.2289156626506024,
+    "recall": 0.41304347826086957,
+    "referenceSupport": 46,
+    "truePositives": 19
+  },
+  "v4FrozenPrimaryF1": 0.15384615384615385,
+  "v5Primary": {
+    "candidateSupport": 102,
+    "macro": {
+      "f1": 0.25142857142857145,
+      "precision": 0.318,
+      "recall": 0.69
+    },
+    "matchedSupport": 19,
+    "maxAbsoluteErrorSeconds": 1.7750000000000057,
+    "meanAbsoluteErrorSeconds": 0.7735789473684234,
+    "medianAbsoluteErrorSeconds": 0.804000000000002,
+    "micro": {
+      "f1": 0.25675675675675674,
+      "falseNegatives": 27,
+      "falsePositives": 83,
+      "precision": 0.18627450980392157,
+      "recall": 0.41304347826086957,
+      "truePositives": 19
+    },
+    "referenceSupport": 46
+  }
+}

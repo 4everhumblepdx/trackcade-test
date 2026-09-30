@@ -1,0 +1,17 @@
+{
+  "candidateFileSha256": "dc331efd8908c99f545dfc5d48d50bb09002ce2e33b0d8a8a707a2c065128ff2",
+  "compilerInvoked": false,
+  "developmentRevision": "stage1-drop-semantics-v5-candidate-first-absolute-pattern",
+  "evaluationFileSha256": "c60212dc75c78522f746af3ddb2ebfaefb9d879aab6e63d28ce762f18cddc8e2",
+  "generationFreezeArtifactId": "11092109845",
+  "generationFreezeSha256": "33b5463363aec9806744a2735e1c34a2809964dfb2f580cdfeaa466d63e1c816",
+  "headlineFileSha256": "108e46b01985462e2df217ae70e99cd9b75b61cf406ea3d52f689865b52f14ab",
+  "perTrackCsvSha256": "35b5a8f6a207da43fcb621bf2a0ee8e385c8dd22acb11cab4a65aac8c3362beb",
+  "provenanceFileSha256": "eb954edf3453d50a8b59ee86e0e0575b158a59a771e0385f64c891bbceee31f8",
+  "providerCallsByEvaluation": 0,
+  "referencesSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+  "schema": "trackcade-semantic-external-stage1-v5-evaluation-freeze-v1",
+  "scoringSourceGitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+  "status": "frozen-v5-raw-evaluation",
+  "terminalHoldoutProcessed": false
+}

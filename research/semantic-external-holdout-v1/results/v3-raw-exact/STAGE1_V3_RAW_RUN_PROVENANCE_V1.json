@@ -1,0 +1,20 @@
+{
+  "compilerInvoked": false,
+  "evaluationHead": "be45e89908dcb9e02c7ca1c3f9916611b9376ddf",
+  "evaluationRunId": "36598712184",
+  "files": {
+    "STAGE1_V3_DROP_CANDIDATES_V1.json": "2b1930814d815876689a6abbff06958d16f95458d964589acbd8c971f5527681",
+    "STAGE1_V3_DROP_EVALUATION_V1.json": "ad03fb99ef336f62230a25bb23425d8f7765786ca18025d884e80e928345bc60",
+    "STAGE1_V3_EVALUATION_PROVENANCE_V1.json": "32bf2ca1df8f29f3aa8c7252e5dc08233c75fccb559d0e7cbc5850365e34f058",
+    "STAGE1_V3_RAW_HEADLINE_V1.json": "704875a497f60ffb0bef17a3539544937891d4a3d0596eb96f400870ddaa5138",
+    "STAGE1_V3_RAW_PER_TRACK_V1.csv": "d80eaab15a9a64d5ece02f635614c9a902cf8e9a6843ee082cf4cbeddfc8f08c"
+  },
+  "generationFreezeArtifactDigest": "sha256:1fb27766d36d55895760ee90426f8018c7c558990fe4d0074ea35dc1e3e71c35",
+  "generationFreezeArtifactId": "11047611212",
+  "generationFreezeRunId": "36598058092",
+  "generationFreezeSha256": "104bd8deaea18aad5c5e25ab33f891305321de1cb37c44788eea4fa7d93eb441",
+  "inventorySha256": "36f5ed7287b1f420359b2952c9142dca880b4460ff29fdfd1745dec3800c7c40",
+  "providerCallsMade": 0,
+  "referenceSha256": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+  "terminalMaterialAccessed": false
+}

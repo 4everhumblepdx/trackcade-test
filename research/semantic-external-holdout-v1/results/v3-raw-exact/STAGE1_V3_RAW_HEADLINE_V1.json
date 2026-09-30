@@ -1,0 +1,83 @@
+{
+  "baselines": {
+    "v1RawF1": 0.2764227642276423,
+    "v2Raw": {
+      "f1": 0.25210084033613445,
+      "matches": 15,
+      "precision": 0.2054794520547945,
+      "proposals": 73,
+      "recall": 0.32608695652173914
+    }
+  },
+  "compilerInvoked": false,
+  "deltaF1PercentagePoints": {
+    "v3MinusV1": 1.81508791832104,
+    "v3MinusV2": 4.247280307471824
+  },
+  "metrics": {
+    "1.0": {
+      "candidateSupport": 83,
+      "macro": {
+        "f1": 0.20942857142857144,
+        "precision": 0.273,
+        "recall": 0.62
+      },
+      "matchedSupport": 13,
+      "maxAbsoluteErrorSeconds": 0.9300000000000068,
+      "meanAbsoluteErrorSeconds": 0.45307692307692365,
+      "medianAbsoluteErrorSeconds": 0.22500000000002274,
+      "micro": {
+        "f1": 0.20155038759689922,
+        "falseNegatives": 33,
+        "falsePositives": 70,
+        "precision": 0.1566265060240964,
+        "recall": 0.2826086956521739,
+        "truePositives": 13
+      },
+      "referenceSupport": 46
+    },
+    "2.0": {
+      "candidateSupport": 83,
+      "macro": {
+        "f1": 0.2700952380952381,
+        "precision": 0.33299999999999996,
+        "recall": 0.69
+      },
+      "matchedSupport": 19,
+      "maxAbsoluteErrorSeconds": 1.7750000000000057,
+      "meanAbsoluteErrorSeconds": 0.7917368421052638,
+      "medianAbsoluteErrorSeconds": 0.8739999999999952,
+      "micro": {
+        "f1": 0.2945736434108527,
+        "falseNegatives": 27,
+        "falsePositives": 64,
+        "precision": 0.2289156626506024,
+        "recall": 0.41304347826086957,
+        "truePositives": 19
+      },
+      "referenceSupport": 46
+    },
+    "5.0": {
+      "candidateSupport": 83,
+      "macro": {
+        "f1": 0.2967619047619048,
+        "precision": 0.363,
+        "recall": 0.72
+      },
+      "matchedSupport": 21,
+      "maxAbsoluteErrorSeconds": 3.8829999999999956,
+      "meanAbsoluteErrorSeconds": 1.0191428571428576,
+      "medianAbsoluteErrorSeconds": 0.8849999999999909,
+      "micro": {
+        "f1": 0.3255813953488372,
+        "falseNegatives": 25,
+        "falsePositives": 62,
+        "precision": 0.25301204819277107,
+        "recall": 0.45652173913043476,
+        "truePositives": 21
+      },
+      "referenceSupport": 46
+    }
+  },
+  "rawOnly": true
+}
