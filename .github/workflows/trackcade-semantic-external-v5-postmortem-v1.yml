@@ -1,0 +1,242 @@
+name: Trackcade — Offline V5 candidate-level postmortem
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-v5-postmortem-v1.yml
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: trackcade-v5-postmortem-v1
+  cancel-in-progress: false
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      BASE: research/semantic-external-holdout-v1
+      PREP_RUN_ID: '36645240283'
+      PREP_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      PREP_ARTIFACT_ID: '11068032294'
+      PREP_DIGEST: sha256:55db9b9144debbf71ec3ca780fd0ff6b91609221337045e4d6b43f02a822dc05
+      FREEZE_RUN_ID: '36708314272'
+      FREEZE_NAME: trackcade-semantic-external-stage1-v5-generation-freeze-v1
+      FREEZE_ARTIFACT_ID: '11092109845'
+      FREEZE_DIGEST: sha256:38065553c4336f8cf57e6ccbefa05d32c0174c8a9bbc3a037ae8d52a28ac08f1
+      FREEZE_SHA256: '33b5463363aec9806744a2735e1c34a2809964dfb2f580cdfeaa466d63e1c816'
+      SCORER_BLOB: '3d74996281ec260e170ea10929bd0115a6d4ac70'
+      REFERENCE_SHA256: '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prove offline boundary and immutable inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in postmortem job' >&2
+            exit 1
+          fi
+          test "$(git hash-object "$BASE/evaluate_stage1_drop_v1.py")" = "$SCORER_BLOB"
+          test "$(sha256sum "$BASE/REFERENCE_DROPS_V3.json" | awk '{print $1}')" = "$REFERENCE_SHA256"
+          python - <<'PY'
+          import json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            (os.environ['PREP_ARTIFACT_ID'],os.environ['PREP_NAME'],os.environ['PREP_DIGEST'],os.environ['PREP_RUN_ID']),
+            (os.environ['FREEZE_ARTIFACT_ID'],os.environ['FREEZE_NAME'],os.environ['FREEZE_DIGEST'],os.environ['FREEZE_RUN_ID']),
+          ]
+          for aid,name,digest,rid in specs:
+            d=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{aid}'],text=True))
+            assert d['id']==int(aid) and d['name']==name and d['digest']==digest and d['expired'] is False
+            assert d['workflow_run']['id']==int(rid)
+          PY
+
+      - name: Download exact frozen V5 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_NAME }}
+          path: ${{ runner.temp }}/v5-prep
+          repository: ${{ github.repository }}
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact complete V5 generation freeze
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FREEZE_NAME }}
+          path: ${{ runner.temp }}/v5-freeze
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FREEZE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Compute V3/V5 track deltas and V5 repetition diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$BASE" python - <<'PY'
+          import json,os,pathlib,statistics
+          from collections import defaultdict
+          import evaluate_stage1_drop_v1 as scorer
+
+          base=pathlib.Path(os.environ['BASE'])
+          prep_root=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-prep'
+          freeze_root=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-freeze'
+          assert __import__('hashlib').sha256((freeze_root/'STAGE1_V5_GENERATION_FREEZE_V1.json').read_bytes()).hexdigest()==os.environ['FREEZE_SHA256']
+
+          v3=json.loads((base/'results/v3-raw-exact/STAGE1_V3_DROP_EVALUATION_V1.json').read_text())
+          v5=json.loads((base/'results/v5-raw-exact/STAGE1_V5_DROP_EVALUATION_V1.json').read_text())
+          refs=json.loads((base/'REFERENCE_DROPS_V3.json').read_text())
+          prep=json.loads((prep_root/'STAGE1_V5_PREP_MANIFEST_V1.json').read_text())
+          refs_by_id={r['id']:sorted(float(x) for x in r['dropsSeconds']) for r in refs['stage1']}
+          prep_rows={r['ordinal']:r for r in prep['tracks']}
+
+          def tol_tracks(doc):
+            block=doc['proposalDropsSeconds']['2.0']['tracks']
+            return {int(r['ordinal']):r for r in block}
+          v3t=tol_tracks(v3); v5t=tol_tracks(v5)
+          assert set(v3t)==set(v5t)==set(range(1,51))
+
+          track_deltas=[]
+          zero_summary={'tracks':0,'v3Proposals':0,'v5Proposals':0,'v3FalsePositives':0,'v5FalsePositives':0,'improvedTracks':[],'worsenedTracks':[],'unchangedTracks':[]}
+          pos_summary={'tracks':0,'v3Proposals':0,'v5Proposals':0,'v3TruePositives':0,'v5TruePositives':0,'v3FalsePositives':0,'v5FalsePositives':0,'tpGainedTracks':[],'tpLostTracks':[]}
+          for o in range(1,51):
+            a,b=v3t[o],v5t[o]
+            assert a['id']==b['id']
+            row={
+              'ordinal':o,'id':a['id'],'referenceCount':a['referenceCount'],
+              'v3CandidateCount':a['candidateCount'],'v5CandidateCount':b['candidateCount'],
+              'candidateDelta':b['candidateCount']-a['candidateCount'],
+              'v3TP':a['truePositives'],'v5TP':b['truePositives'],'tpDelta':b['truePositives']-a['truePositives'],
+              'v3FP':a['falsePositives'],'v5FP':b['falsePositives'],'fpDelta':b['falsePositives']-a['falsePositives'],
+              'v3FN':a['falseNegatives'],'v5FN':b['falseNegatives'],'fnDelta':b['falseNegatives']-a['falseNegatives'],
+              'v3F1':a['f1'],'v5F1':b['f1'],'f1Delta':b['f1']-a['f1'],
+            }
+            track_deltas.append(row)
+            s=zero_summary if a['referenceCount']==0 else pos_summary
+            s['tracks']+=1; s['v3Proposals']+=a['candidateCount']; s['v5Proposals']+=b['candidateCount']
+            s['v3FalsePositives']+=a['falsePositives']; s['v5FalsePositives']+=b['falsePositives']
+            if a['referenceCount']==0:
+              if b['falsePositives']<a['falsePositives']: s['improvedTracks'].append(o)
+              elif b['falsePositives']>a['falsePositives']: s['worsenedTracks'].append(o)
+              else: s['unchangedTracks'].append(o)
+            else:
+              s['v3TruePositives']+=a['truePositives']; s['v5TruePositives']+=b['truePositives']
+              if b['truePositives']>a['truePositives']: s['tpGainedTracks'].append(o)
+              elif b['truePositives']<a['truePositives']: s['tpLostTracks'].append(o)
+
+          # Candidate-level repetition diagnostics under the same frozen ±2 matcher.
+          relations={k:{'proposals':0,'truePositives':0,'falsePositives':0,'zeroReferenceProposals':0,'positiveReferenceProposals':0,'confTP':[],'confFP':[]} for k in ('independent','repeated_similar','unclear')}
+          all_records=[]
+          for o in range(1,51):
+            r=prep_rows[o]; stem=r['stem']; tid=r['id']
+            packet=json.loads((prep_root/'cases'/f'{o:02d}-{stem}'/'structure-evidence-v2.json').read_text())
+            case=freeze_root/'provider'/f'{o:02d}-{stem}'
+            proposal=json.loads((case/'normalized-proposal.json').read_text())
+            anchors=packet['anchors']
+            assess={a['anchor']['index']:a for a in proposal['candidateAssessments'] if a.get('semanticRole')=='drop'}
+            recs=[]
+            for e in proposal['events']:
+              if e.get('kind')!='drop': continue
+              idx=e['anchor']['index']; a=assess[idx]
+              t=float(anchors[idx][0])
+              recs.append({'time':t,'anchorIndex':idx,'relation':a['repetitionRelation'],'confidence':float(a['semanticConfidence'])})
+            recs.sort(key=lambda x:x['time'])
+            refs_track=refs_by_id[tid]
+            pairs,_=scorer.match_one_to_one(refs_track,[x['time'] for x in recs],2.0)
+            matched={j for _,j in pairs}
+            for j,x in enumerate(recs):
+              rel=x['relation']; d=relations[rel]; d['proposals']+=1
+              if refs_track: d['positiveReferenceProposals']+=1
+              else: d['zeroReferenceProposals']+=1
+              is_tp=j in matched
+              if is_tp:
+                d['truePositives']+=1; d['confTP'].append(x['confidence'])
+              else:
+                d['falsePositives']+=1; d['confFP'].append(x['confidence'])
+              all_records.append({'ordinal':o,'id':tid,'time':x['time'],'repetitionRelation':rel,'semanticConfidence':x['confidence'],'matchedAt2s':is_tp,'referenceCount':len(refs_track)})
+
+          for d in relations.values():
+            d['precisionAt2s']=None if d['proposals']==0 else d['truePositives']/d['proposals']
+            d['meanConfidenceTP']=None if not d['confTP'] else statistics.mean(d['confTP'])
+            d['meanConfidenceFP']=None if not d['confFP'] else statistics.mean(d['confFP'])
+            del d['confTP']; del d['confFP']
+
+          # Post-hoc diagnostic counterfactual only: not a proposed gate/headline.
+          counter={}
+          for keep_name,keep in {
+            'all':{'independent','repeated_similar','unclear'},
+            'withoutRepeatedSimilar':{'independent','unclear'},
+            'repeatedSimilarOnly':{'repeated_similar'},
+          }.items():
+            rows=[]
+            by_o=defaultdict(list)
+            for x in all_records:
+              if x['repetitionRelation'] in keep: by_o[x['ordinal']].append(x['time'])
+            for o in range(1,51):
+              rows.append(scorer.score_track(refs_by_id[prep_rows[o]['id']],by_o[o],2.0))
+            counter[keep_name]=scorer.aggregate(rows)
+
+          track_deltas.sort(key=lambda x:(-x['fpDelta'],x['ordinal']))
+          out={
+            'schema':'trackcade-stage1-v5-postmortem-v1',
+            'status':'offline-posthoc-diagnostic-not-headline',
+            'providerCalls':0,
+            'primaryToleranceSeconds':2.0,
+            'v3Primary':v3['proposalDropsSeconds']['2.0']['aggregate'],
+            'v5Primary':v5['proposalDropsSeconds']['2.0']['aggregate'],
+            'zeroReferenceComparison':zero_summary,
+            'positiveReferenceComparison':pos_summary,
+            'repetitionRelationDiagnostics':relations,
+            'repetitionCounterfactualsPostHocOnly':counter,
+            'trackDeltasSortedByAddedFP':track_deltas,
+          }
+          outdir=base/'results/v5-postmortem-v1'; outdir.mkdir(parents=True,exist_ok=True)
+          (outdir/'STAGE1_V5_POSTMORTEM_V1.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          (outdir/'STAGE1_V5_CANDIDATE_MATCHES_V1.json').write_text(json.dumps(all_records,indent=2,sort_keys=True)+'\n')
+
+          def pct(x): return f'{100*x:.2f}%'
+          v3m=out['v3Primary']['micro']; v5m=out['v5Primary']['micro']
+          lines=[
+            '# Stage1 V5 post-mortem (offline, post-hoc diagnostic)', '',
+            f'- V3 RAW ±2: {v3m["truePositives"]} TP / {v3m["falsePositives"]} FP / {v3m["falseNegatives"]} FN; F1 {pct(v3m["f1"])}.',
+            f'- V5 RAW ±2: {v5m["truePositives"]} TP / {v5m["falsePositives"]} FP / {v5m["falseNegatives"]} FN; F1 {pct(v5m["f1"])}.',
+            f'- Zero-reference proposals: V3 {zero_summary["v3Proposals"]} → V5 {zero_summary["v5Proposals"]}.',
+            f'- Positive-reference proposals: V3 {pos_summary["v3Proposals"]} → V5 {pos_summary["v5Proposals"]}.', '',
+            '## Repetition relation at ±2', '',
+          ]
+          for rel,d in relations.items():
+            lines.append(f'- `{rel}`: {d["proposals"]} proposals, {d["truePositives"]} TP, {d["falsePositives"]} FP, precision {pct(d["precisionAt2s"] or 0)}, zero-reference proposals {d["zeroReferenceProposals"]}.')
+          c=counter['withoutRepeatedSimilar']['micro']
+          lines += ['', '## Post-hoc diagnostic counterfactual', '',
+                    f'- Removing every `repeated_similar` proposal after the fact would yield {c["truePositives"]} TP / {c["falsePositives"]} FP / {c["falseNegatives"]} FN, F1 {pct(c["f1"])}. This is diagnostic only and is not an authorized or predeclared gate.', '',
+                    '## Track-level changes', '',
+                    f'- TP-gained positive tracks: {pos_summary["tpGainedTracks"]}.',
+                    f'- TP-lost positive tracks: {pos_summary["tpLostTracks"]}.',
+                    f'- Zero-reference tracks with fewer FPs than V3: {zero_summary["improvedTracks"]}.',
+                    f'- Zero-reference tracks with more FPs than V3: {zero_summary["worsenedTracks"]}.',
+          ]
+          (outdir/'STAGE1_V5_POSTMORTEM_V1.md').write_text('\n'.join(lines)+'\n')
+          print('\n'.join(lines))
+          PY
+
+      - name: Commit durable postmortem
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$BASE/results/v5-postmortem-v1"
+          git diff --cached --quiet && { echo 'Nothing to commit'; exit 0; }
+          git commit -m 'Add offline V5 candidate-level postmortem'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
