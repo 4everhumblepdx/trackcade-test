@@ -110,6 +110,8 @@ def smd(a, b):
 
 
 def empirical_percentile(values, value):
+    if not isinstance(value, (int, float)) or isinstance(value, bool) or not math.isfinite(float(value)):
+        return None
     vals = [float(x) for x in values if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x))]
     if not vals:
         return None
@@ -242,10 +244,10 @@ def main():
         pairs, _ = scorer.match_one_to_one(refs_by_id[tid], times, PRIMARY_TOLERANCE)
         matched = {j for _, j in pairs}
         anchor_times = sorted(float(a[0]) for a in anchors)
-        feature_columns = [[float(a[k]) for a in anchors] for k in range(1, 5)]
+        feature_columns = [[float(a[k]) for a in anchors if isinstance(a[k], (int, float)) and not isinstance(a[k], bool) and math.isfinite(float(a[k]))] for k in range(1, 5)]
         v3_times = v3_by_o[o]
         for j, (t, idx, event, assessment) in enumerate(events):
-            vec = [float(x) for x in anchors[idx]]
+            vec = [float(x) if isinstance(x, (int, float)) and not isinstance(x, bool) and math.isfinite(float(x)) else None for x in anchors[idx]]
             pos = anchor_times.index(t) if t in anchor_times else None
             prev_gap = None if pos is None or pos == 0 else t - anchor_times[pos - 1]
             next_gap = None if pos is None or pos == len(anchor_times) - 1 else anchor_times[pos + 1] - t
