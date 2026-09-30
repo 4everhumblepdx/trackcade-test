@@ -46,13 +46,12 @@ jobs:
       CONFORMANCE_FILES_SHA256: ca3e39f88fe90f26c5810d15fa892f7c67a9a72afa7542ef9cb1e69a2e73ad8c
       AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_V1.json
       ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_ACTIVATE_V1.json
-      LIVE_WORKFLOW_PATH: .github/workflows/trackcade-semantic-external-stage1-v5-flex-v1.yml
 
     steps:
-      - name: Checkout exact activation commit with parent
+      - name: Checkout exact activation commit with full history
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2
+          fetch-depth: 0
 
       - name: Derive ordinal identity
         id: ident
@@ -67,15 +66,15 @@ jobs:
         run: |
           set -euo pipefail
           test "${GITHUB_RUN_ATTEMPT}" = "1"
-          test "$(git rev-parse HEAD^)" != "${GITHUB_SHA}"
           test -f "${ACTIVATE_PATH}"
+          git cat-file -e "${CONFORMANCE_HEAD_SHA}^{commit}"
           mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
           test "${#changed[@]}" -eq 1
           test "${changed[0]}" = "${ACTIVATE_PATH}"
           mapfile -t since_conformance < <(git diff --name-only "${CONFORMANCE_HEAD_SHA}" HEAD^)
           for p in "${since_conformance[@]}"; do
             case "${p}" in
-              research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_V1.json|.github/workflows/trackcade-semantic-external-stage1-v5-flex-v1.yml) ;;
+              research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_V1.json|research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_AUTHORIZATION_ACTIVATE_V1.json|.github/workflows/trackcade-semantic-external-stage1-v5-flex-v1.yml) ;;
               *) echo "Execution source changed after conformance: ${p}" >&2; exit 1 ;;
             esac
           done
@@ -132,23 +131,26 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for tuple in \
-            "SOURCE:${SOURCE_ARTIFACT_ID}:${SOURCE_ARTIFACT_NAME}:${SOURCE_ARTIFACT_DIGEST}:${SOURCE_RUN_ID}" \
-            "FLEX:${FLEX_ARTIFACT_ID}:${FLEX_ARTIFACT_NAME}:${FLEX_ARTIFACT_DIGEST}:${FLEX_RUN_ID}" \
-            "CONFORMANCE:${CONFORMANCE_ARTIFACT_ID}:${CONFORMANCE_ARTIFACT_NAME}:${CONFORMANCE_ARTIFACT_DIGEST}:${CONFORMANCE_RUN_ID}"; do
-            IFS=: read -r prefix id name digest runid <<< "${tuple}"
-            gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}" > "/tmp/${prefix}.json"
-            python - "${prefix}" "${id}" "${name}" "${digest}" "${runid}" <<'PY'
-          import json,sys
-          prefix,id_s,name,digest,runid_s=sys.argv[1:]
-          m=json.load(open(f'/tmp/{prefix}.json'))
-          assert m['id']==int(id_s)
-          assert m['name']==name
-          assert m['digest']==digest
-          assert m['expired'] is False
-          assert m['workflow_run']['id']==int(runid_s)
+          python - <<'PY'
+          import json, os, subprocess
+          specs=[
+            ('SOURCE', os.environ['SOURCE_ARTIFACT_ID'], os.environ['SOURCE_ARTIFACT_NAME'], os.environ['SOURCE_ARTIFACT_DIGEST'], os.environ['SOURCE_RUN_ID'], None),
+            ('FLEX', os.environ['FLEX_ARTIFACT_ID'], os.environ['FLEX_ARTIFACT_NAME'], os.environ['FLEX_ARTIFACT_DIGEST'], os.environ['FLEX_RUN_ID'], None),
+            ('CONFORMANCE', os.environ['CONFORMANCE_ARTIFACT_ID'], os.environ['CONFORMANCE_ARTIFACT_NAME'], os.environ['CONFORMANCE_ARTIFACT_DIGEST'], os.environ['CONFORMANCE_RUN_ID'], os.environ['CONFORMANCE_HEAD_SHA']),
+          ]
+          repo=os.environ['GITHUB_REPOSITORY']
+          for label,id_s,name,digest,runid_s,head_sha in specs:
+              raw=subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{id_s}'],text=True)
+              m=json.loads(raw)
+              assert m['id']==int(id_s), (label,'id')
+              assert m['name']==name, (label,'name')
+              assert m['digest']==digest, (label,'digest')
+              assert m['expired'] is False, (label,'expired')
+              assert m['workflow_run']['id']==int(runid_s), (label,'run')
+              if head_sha is not None:
+                  assert m['workflow_run']['head_sha']==head_sha, (label,'head_sha')
+          print('Immutable V5 source, Flex, and conformance artifacts verified')
           PY
-          done
 
       - name: Reject duplicate semantic attempt for this ordinal
         env:
