@@ -1,0 +1,91 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-zero-cost-run-cost-estimate-v1",
+  "createdDate": "2026-09-30",
+  "scope": "Estimate remaining Stage 1 V6 provider-generation cost without making provider calls or changing the frozen experiment.",
+  "scientificBoundaries": {
+    "providerCallsDuringEstimate": 0,
+    "paidSpendDuringEstimate": 0,
+    "referenceLabelsOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerModified": false,
+    "frozenV6SemanticContractModified": false,
+    "additionalProviderCallsAuthorized": false
+  },
+  "pricingSnapshot": {
+    "model": "gpt-6-sol",
+    "serviceTier": "flex",
+    "contextClass": "short_context",
+    "currency": "USD",
+    "perMillionTokens": {
+      "uncachedInput": 1.0,
+      "cachedInput": 0.1,
+      "cacheWrite": 1.25,
+      "outputIncludingReasoning": 5.0
+    },
+    "notes": [
+      "Flex is priced at 50% of GPT-6 Sol Standard rates as of 2026-09-30.",
+      "Cache-write pricing is not additive: an input token uses the uncached-input, cached-input, or cache-write rate.",
+      "Reasoning tokens are included in output tokens and billed at the output-token rate.",
+      "No request in this experiment approaches the >272K-input long-context pricing threshold based on observed Stage 1 usage."
+    ],
+    "officialSources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-sol",
+      "https://developers.openai.com/api/docs/guides/prompt-caching",
+      "https://developers.openai.com/api/docs/guides/reasoning"
+    ]
+  },
+  "v6Canary": {
+    "ordinal": 1,
+    "inputTokens": 18981,
+    "cacheWriteTokens": 18978,
+    "cachedTokens": 0,
+    "outputTokens": 6218,
+    "reasoningTokensIncludedInOutput": 4660,
+    "estimatedCostAtPricingSnapshotUsd": 0.0548155
+  },
+  "v5HistoricalUsageProxy": {
+    "sourceArtifactId": 11093445323,
+    "trackCount": 50,
+    "aggregate": {
+      "inputTokens": 691120,
+      "cacheWriteTokens": 690970,
+      "cachedTokens": 0,
+      "outputTokens": 203352,
+      "reasoningTokensIncludedInOutput": 153342,
+      "totalTokens": 894472
+    },
+    "estimatedCostAtPricingSnapshotAll50Usd": 1.8806225,
+    "estimatedCostAtPricingSnapshotOrdinals2Through50Usd": 1.826037,
+    "observedMeanCostPerTrackUsd": 0.03761245,
+    "observedMedianCostPerTrackUsd": 0.036447375
+  },
+  "projectionForRemaining49": {
+    "basis": "Use exact V5 per-track usage for ordinals 2-50 as a proxy because V6 reuses the same frozen packets; add the observed +268 input/cache-write token prompt delta between V5 and V6 on ordinal 1; hold historical V5 output-token volume constant for the central estimate.",
+    "projectedInputSideCostUsd": 0.856887,
+    "projectedOutputSideCostUsdAtV5Volume": 0.985565,
+    "centralEstimateUsd": 1.842452,
+    "centralAveragePerRemainingTrackUsd": 0.0376010612,
+    "sensitivityIfOutputVolume25PercentLowerUsd": 1.59606075,
+    "sensitivityIfOutputVolume25PercentHigherUsd": 2.08884325,
+    "conservativeMaxOutputCapScenarioUsd": 2.863927,
+    "maxOutputCapScenarioDefinition": "All 49 remaining calls consume the projected input cost plus the full frozen 8192 output-token cap, with no retries.",
+    "limitations": [
+      "Output/reasoning-token use varies by track and may differ under V6.",
+      "The V6 canary is only one direct V5-to-V6 token comparison.",
+      "This is a planning estimate, not an authorization to spend or a billing guarantee."
+    ]
+  },
+  "userReportedBalanceContext": {
+    "balanceUsd": 0.6,
+    "independentlyVerified": false,
+    "centralEstimateShortfallUsd": 1.242452,
+    "approximatelyTracksFundedAtCentralAverage": 15.96,
+    "interpretation": "The reported balance is unlikely to cover all 49 remaining V6 development calls. Partial spending would not unlock protocol-valid Stage 1 scoring because all 50 V6 responses must be frozen before references are opened."
+  },
+  "currentRecommendation": {
+    "spendNow": false,
+    "reason": "Preserve the existing balance while zero-cost preparation and documentation remain possible. When full V6 generation is ready for explicit authorization, fund enough to complete the remaining set rather than starting a partial run that cannot yet be scored."
+  }
+}
