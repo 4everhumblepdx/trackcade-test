@@ -1,0 +1,27 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v5-flex8192-remaining-36-50-authorization-v1",
+  "status": "authorized-one-initial-paid-attempt-per-remaining-ordinal",
+  "ordinals": [36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "attemptsPerOrdinal": 1,
+  "automaticRetriesAuthorized": false,
+  "standardFallbackAuthorized": false,
+  "partialScoringAuthorized": false,
+  "terminalHoldoutAuthorized": false,
+  "compilerInvocationAuthorized": false,
+  "analyzerChangesAuthorized": false,
+  "ordinal35CompletedRetryArtifact": {
+    "runId": 36701250790,
+    "artifactId": 11089962102,
+    "name": "trackcade-semantic-external-stage1-v5-flex16384-retry35-v1-case-35-completed",
+    "digest": "sha256:ec7302e34e241ac694f5621605149954d94dde2d7d0562da55dae3f9426105ed"
+  }
+}
