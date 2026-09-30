@@ -1,0 +1,61 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-flex8192-prep-freeze-v1",
+  "status": "frozen-offline-v6-flex8192-transport-prep-complete-no-provider-call",
+  "developmentRevision": "stage1-drop-semantics-v6-decisive-impact-ordinary-return-counterfactual",
+  "transportAmendmentSourceCommit": "a512b3d377e3061d9837e1980fa92274e13fef4f",
+  "transportWorkflowCommit": "274aa6681bef78a2e85014bd221fbce11c6bc232",
+  "sourceSemanticPrep": {
+    "runId": 36747819119,
+    "headSha": "a951a0ea2e993fade7d917e692da832138916916",
+    "artifactId": 11112534029,
+    "artifactName": "trackcade-semantic-external-stage1-v6-prep-v1",
+    "artifactDigest": "sha256:0d586b737ba729a1386914663d92e7bae1fd85e404f1480e8f034084cbd80134",
+    "manifestSha256": "ebdbf2232a813dbe89b87f4fb3bd938f037d6f15707943c2c0b639a15bc202c8",
+    "filesManifestSha256": "a8a81dca2fd4f9c5297ebbe594f5144f28f9ae2a7542066db3a3169cd07d1e35",
+    "filesManifestEntries": 302
+  },
+  "transportPrep": {
+    "runId": 36752768892,
+    "jobId": 110015299426,
+    "runAttempt": 1,
+    "event": "push",
+    "conclusion": "success",
+    "headSha": "274aa6681bef78a2e85014bd221fbce11c6bc232",
+    "artifactId": 11115940514,
+    "artifactName": "trackcade-semantic-external-stage1-v6-flex8192-prep-v1",
+    "artifactDigest": "sha256:bb410bc03a2964f0251328e801a1782ad3e691b3c414db5d9e3f3c71db936a4b",
+    "artifactSizeBytes": 2418569
+  },
+  "closure": {
+    "trackCount": 50,
+    "manifestSha256": "de9328b8cba76b82f879e348cc0b0133d33f53d2855b67885d3ed2b96afb9058",
+    "filesManifestSha256": "b272332f49f4da3ee72ac53dc89e6e544e76c609d03e9c7c7fe35ebc02da4777",
+    "filesManifestEntries": 351,
+    "artifactFilesUploaded": 352,
+    "semanticPayloadUnchanged": true
+  },
+  "transportContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "store": false,
+    "serviceTier": "flex",
+    "allowedChangesOnly": [
+      "service_tier"
+    ]
+  },
+  "researchBoundary": {
+    "referenceLabelsReadByPreparation": false,
+    "providerCallsObserved": 0,
+    "terminalTracksProcessed": false,
+    "analyzerExecuted": false,
+    "audioDecoded": false,
+    "compilerInvoked": false,
+    "paidCallsAuthorizedByThisFreeze": false,
+    "additionalPaidCallsAuthorizedByThisFreeze": false,
+    "terminalHoldoutAuthorizedByThisFreeze": false,
+    "compilerInvocationAuthorizedByThisFreeze": false
+  }
+}
