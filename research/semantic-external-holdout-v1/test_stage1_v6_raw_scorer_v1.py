@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -14,6 +15,7 @@ TEMPLATE_PATH = HERE / "STAGE1_V6_RAW_SCORING_ACTIVATION_TEMPLATE_V1.json"
 spec = importlib.util.spec_from_file_location("v6raw", SCORER_PATH)
 v6raw = importlib.util.module_from_spec(spec)
 assert spec.loader is not None
+sys.modules[spec.name] = v6raw
 spec.loader.exec_module(v6raw)
 
 
