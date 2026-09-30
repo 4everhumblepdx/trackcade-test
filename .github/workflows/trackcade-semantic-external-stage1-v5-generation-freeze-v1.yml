@@ -31,12 +31,13 @@ jobs:
       RETRY35_RUN_ID: '36701250790'
       REMAINING36_RUN_ID: '36702263484'
     steps:
-      - name: Sparse checkout collector only — no reference labels
+      - name: Sparse checkout collectors only — no reference labels
         uses: actions/checkout@v4
         with:
           fetch-depth: 1
           sparse-checkout: |
             research/semantic-external-holdout-v1/collect_stage1_v5_results_v1.py
+            research/semantic-external-holdout-v1/collect_stage1_v5_results_with_runner_receipt_v1.py
           sparse-checkout-cone-mode: false
 
       - name: Prove offline / label-blind workspace
@@ -49,7 +50,8 @@ jobs:
           fi
           test ! -e "$BASE/REFERENCE_DROPS_V3.json"
           test -f "$BASE/collect_stage1_v5_results_v1.py"
-          python -m py_compile "$BASE/collect_stage1_v5_results_v1.py"
+          test -f "$BASE/collect_stage1_v5_results_with_runner_receipt_v1.py"
+          python -m py_compile "$BASE/collect_stage1_v5_results_v1.py" "$BASE/collect_stage1_v5_results_with_runner_receipt_v1.py"
 
       - name: Download exact frozen V5 source prep
         uses: actions/download-artifact@v4
@@ -131,7 +133,7 @@ jobs:
           set -euo pipefail
           test ! -e "$BASE/REFERENCE_DROPS_V3.json"
           rm -rf "${RUNNER_TEMP}/v5-generation-freeze"
-          python "$BASE/collect_stage1_v5_results_v1.py" \
+          python "$BASE/collect_stage1_v5_results_with_runner_receipt_v1.py" \
             --source-prep-root "${RUNNER_TEMP}/v5-source" \
             --flex-prep-root "${RUNNER_TEMP}/v5-flex" \
             --artifact-root "${RUNNER_TEMP}/v5-artifacts" \
@@ -158,6 +160,11 @@ jobs:
           assert {c['ordinal'] for c in cases if c['maxOutputTokens']==16384}=={4,35}
           assert all(c['maxOutputTokens']==8192 for c in cases if c['ordinal'] not in {4,35})
           assert len({c['openaiResponseId'] for c in cases})==50
+          runner_receipts=[]
+          for c in cases:
+            if 'runner-exit-code.txt' in c['files']:
+              runner_receipts.append(c['ordinal'])
+          print('zero-exit runner receipts retained and hash-bound:',runner_receipts)
           for p in sorted(out.iterdir()):
             if p.is_file():
               print(hashlib.sha256(p.read_bytes()).hexdigest(),p.name)
