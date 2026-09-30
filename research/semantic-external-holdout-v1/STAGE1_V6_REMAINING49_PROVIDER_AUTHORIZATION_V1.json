@@ -1,0 +1,54 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-remaining49-provider-authorization-v1",
+  "status": "staged-not-authorized",
+  "authorized": false,
+  "purpose": "Complete the remaining Stage 1 V6 development responses after the already-frozen ordinal-1 canary, without opening Stage 1 references.",
+  "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "maximumInitialProviderAttempts": 49,
+  "attemptsPerOrdinal": 1,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "frozenOrdinal1Canary": {
+    "ordinal": 1,
+    "runId": 36758887107,
+    "artifactId": 11116764479,
+    "artifactName": "trackcade-semantic-external-stage1-v6-canary-v1-case-01-completed-valid",
+    "artifactDigest": "sha256:18a1200c9f77f3cc74a7844680168e8f86c7cfdd6b13cc5c9da3a014fcffaf41",
+    "reuseAsDevelopmentResponse": true,
+    "rerunOrdinal1Authorized": false
+  },
+  "researchBoundary": {
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "partialScoringAuthorized": false,
+    "stage1ReferenceAccessAuthorized": false,
+    "terminalHoldoutAccessAuthorized": false,
+    "compilerInvocationAuthorized": false,
+    "analyzerExecutionAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "semanticContractChangesAuthorized": false,
+    "retryAfterAnyFailedOrInvalidOrdinalRequiresNewExplicitApproval": true,
+    "additionalSpendBeyondThisRemaining49RunRequiresNewExplicitApproval": true
+  },
+  "activation": {
+    "activationFile": "research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATE_V1.json",
+    "activationFileExistsAtStaging": false,
+    "activationRequiresFreshExplicitUserApproval": true,
+    "note": "This staged authorization is intentionally inactive. It must be changed to authorized=true in a later commit after explicit approval, then a separate activation receipt must be committed to trigger any provider call."
+  },
+  "costPlanning": {
+    "estimateReceipt": "research/semantic-external-holdout-v1/STAGE1_V6_ZERO_COST_RUN_COST_ESTIMATE_V1.json",
+    "centralRemaining49EstimateUsd": 1.842452,
+    "sensitivityLowUsd": 1.59606075,
+    "sensitivityHighUsd": 2.08884325,
+    "conservativeAllCallsAt8192OutputCapUsd": 2.863927,
+    "estimateIsNotSpendAuthorization": true
+  }
+}
