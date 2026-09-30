@@ -1,0 +1,91 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-canary-freeze-v1",
+  "status": "frozen-one-paid-canary-completed-valid-no-retry",
+  "scope": {
+    "stage": "stage1-v6",
+    "purpose": "one-track-live-contract-behavior-canary",
+    "ordinal": 1,
+    "fullBatchRun": false,
+    "headlineScientificEvaluation": false
+  },
+  "execution": {
+    "runId": 36758887107,
+    "runAttempt": 1,
+    "activationCommit": "b2bab66ff2ffe4e44ecbafc5dbfcb929a6587d13",
+    "workflow": ".github/workflows/trackcade-semantic-external-stage1-v6-canary-v1.yml",
+    "providerCallsConsumed": 1,
+    "automaticRetriesUsed": 0,
+    "standardFallbackUsed": false,
+    "compilerInvoked": false,
+    "terminalHoldoutProcessed": false
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "providerObservation": {
+    "httpStatus": 200,
+    "providerStatus": "completed",
+    "responseModel": "gpt-6-sol",
+    "observedServiceTier": "flex",
+    "responseId": "resp_0ceccbde63f003c8016abd54fcc19087d099d6ee52b620b3f4",
+    "httpRequestId": "req_0272eda2010142b5a0ffb3562fd864c9",
+    "clientRequestId": "829b6c29-4c0d-49db-8f64-540f68b856de",
+    "startedAt": "2026-09-30T18:29:15.990038Z",
+    "finishedAt": "2026-09-30T18:30:01.687945Z"
+  },
+  "usage": {
+    "inputTokens": 18981,
+    "cacheWriteTokens": 18978,
+    "cachedTokens": 0,
+    "outputTokens": 6218,
+    "reasoningTokens": 4660,
+    "totalTokens": 25199
+  },
+  "validation": {
+    "classification": "provider_completed_validated_v6_flex8192_canary_no_retry",
+    "proposalValidated": true,
+    "validatorExitCode": 0,
+    "semanticPayloadUnchanged": true,
+    "timingAuthority": "frozen-analyzer-derived-anchor-only",
+    "normalizedProposalSha256": "f67c6bc0f985ff4b7694c094f2fb9d063a1a13755202c4a5a0a404f2cb52fa75",
+    "proposalCandidateSha256": "26765906977fd6c8fe5d6a53a50ca12a24dda3e8fcd31def1ee30cdd6726bc0c",
+    "rawResponseSha256": "4b5f26d957b6570df9ad3bde1a3d94fc2b6d83a848b31eeee7a9747f84898b8c",
+    "amendedPayloadSha256": "a6d231b696c883ac3662eba7fc1655f71d7bb9699100832ecfed06530ce0b440",
+    "sourcePayloadSha256": "16a74703995edde5ae5a132368aca8a1efb17ad16d609160e1310f27bd41f10b",
+    "sourceRequestSha256": "ec051cd290881895bdd2708afff70ff002f9bdd84d20cb53bfd04aa21db30d5c",
+    "packetSha256": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86"
+  },
+  "artifact": {
+    "id": 11116764479,
+    "name": "trackcade-semantic-external-stage1-v6-canary-v1-case-01-completed-valid",
+    "digest": "sha256:18a1200c9f77f3cc74a7844680168e8f86c7cfdd6b13cc5c9da3a014fcffaf41",
+    "filesManifestSha256": "951397f956c4f7c306317b4d72500c28e7bd29ee7228e056392584405ec812f7",
+    "filesManifestEntries": 12
+  },
+  "semanticBehavior": {
+    "dropPresence": "ambiguous_only",
+    "dropCount": 0,
+    "ambiguousCandidateCount": 1,
+    "candidateAssessmentCount": 5,
+    "eventCount": 11,
+    "ambiguousAnchorIndex": 252,
+    "behaviorNote": "The model abstained from declaring a Drop because no assessed transition simultaneously had clear preparation, clear decisive impact, clear sustained stronger passage, and ordinary-return ruled out. The strongest re-entry remained ambiguous rather than being overcalled as a Drop."
+  },
+  "researchBoundary": {
+    "canaryIsNotFullV6Evaluation": true,
+    "developmentSetScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerRunPerformed": false,
+    "analyzerModified": false,
+    "additionalProviderCallsAuthorized": false,
+    "retryAuthorized": false,
+    "secondCanaryAuthorized": false,
+    "fullV6BatchAuthorized": false
+  }
+}
