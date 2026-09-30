@@ -1,0 +1,42 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-collector-canary-offline-test-receipt-v1",
+  "createdDate": "2026-09-30",
+  "status": "pass",
+  "collector": "research/semantic-external-holdout-v1/collect_stage1_v6_results_v1.py",
+  "collectorCommit": "972daeb850557ff64bba41171228535491efc10a",
+  "testInputs": {
+    "sourcePrepArtifactId": 11112534029,
+    "sourcePrepDigest": "sha256:0d586b737ba729a1386914663d92e7bae1fd85e404f1480e8f034084cbd80134",
+    "flexPrepArtifactId": 11115940514,
+    "flexPrepDigest": "sha256:bb410bc03a2964f0251328e801a1782ad3e691b3c414db5d9e3f3c71db936a4b",
+    "canaryArtifactId": 11116764479,
+    "canaryDigest": "sha256:18a1200c9f77f3cc74a7844680168e8f86c7cfdd6b13cc5c9da3a014fcffaf41"
+  },
+  "observed": {
+    "ordinal": 1,
+    "variant": "canary",
+    "openaiResponseId": "resp_0ceccbde63f003c8016abd54fcc19087d099d6ee52b620b3f4",
+    "dropCount": 0,
+    "ambiguousCandidateCount": 1,
+    "candidateAssessmentCount": 5,
+    "eventCount": 11,
+    "usage": {
+      "inputTokens": 18981,
+      "cacheWriteTokens": 18978,
+      "cachedTokens": 0,
+      "outputTokens": 6218,
+      "reasoningTokens": 4660,
+      "totalTokens": 25199
+    }
+  },
+  "boundaries": {
+    "providerCallsDuringTest": 0,
+    "paidSpendDuringTestUsd": 0,
+    "stage1ReferencesOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerExecutedOrModified": false,
+    "frozenV6SemanticContractModified": false
+  }
+}
