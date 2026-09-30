@@ -1,0 +1,19 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-raw-scoring-activation-v1",
+  "status": "inactive-template-do-not-score",
+  "developmentSetScoringAuthorized": false,
+  "stage1ReferenceOpeningAuthorized": false,
+  "terminalHoldoutAuthorized": false,
+  "compilerAuthorized": false,
+  "analyzerExecutionAuthorized": false,
+  "providerCallsAuthorized": false,
+  "tolerancesSeconds": [1.0, 2.0, 5.0],
+  "primaryToleranceSeconds": 2.0,
+  "generationFreezeSha256": "REPLACE_ONLY_AFTER_COMPLETE_50_RESPONSE_FREEZE",
+  "activationPurpose": "future one-time Stage1 V6 development RAW scoring after complete generation freeze",
+  "notes": [
+    "This file is an inert template and MUST fail the scorer activation gate.",
+    "A future activation receipt may be created only after the complete 50-response V6 development freeze exists and is cryptographically pinned.",
+    "The activation receipt authorizes Stage1 development reference opening and RAW scoring only; it does not authorize terminal holdout access, provider calls, compiler use, or Analyzer execution."
+  ]
+}
