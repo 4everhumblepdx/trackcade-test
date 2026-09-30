@@ -1,0 +1,97 @@
+name: Trackcade — Offline V5 discriminator analysis
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-v5-discriminator-analysis-v1.yml
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-24.04
+    env:
+      BASE: research/semantic-external-holdout-v1
+      PREP_RUN_ID: '36645240283'
+      PREP_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      PREP_ARTIFACT_ID: '11068032294'
+      PREP_DIGEST: sha256:55db9b9144debbf71ec3ca780fd0ff6b91609221337045e4d6b43f02a822dc05
+      FREEZE_RUN_ID: '36708314272'
+      FREEZE_NAME: trackcade-semantic-external-stage1-v5-generation-freeze-v1
+      FREEZE_ARTIFACT_ID: '11092109845'
+      FREEZE_DIGEST: sha256:38065553c4336f8cf57e6ccbefa05d32c0174c8a9bbc3a037ae8d52a28ac08f1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prove offline boundary and immutable inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in discriminator analysis job' >&2
+            exit 1
+          fi
+          test "$(git hash-object "$BASE/evaluate_stage1_drop_v1.py")" = '3d74996281ec260e170ea10929bd0115a6d4ac70'
+          test "$(sha256sum "$BASE/REFERENCE_DROPS_V3.json" | awk '{print $1}')" = '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+          test "$(git hash-object "$BASE/results/v3-raw-exact/STAGE1_V3_DROP_CANDIDATES_V1.json")" = '149df97a07b0c3e798e4b6a78f971e01a75d4d46'
+          test "$(git hash-object "$BASE/results/v3-raw-exact/STAGE1_V3_DROP_EVALUATION_V1.json")" = '0a2761a8497c6896959d8889ce97ed63b63c2bd5'
+          test "$(git hash-object "$BASE/results/v5-raw-exact/STAGE1_V5_DROP_EVALUATION_V1.json")" = 'c129355a26aa3aefa84bc41f57c7797e2c5788d2'
+          python - <<'PY'
+          import json, os, subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            (os.environ['PREP_ARTIFACT_ID'],os.environ['PREP_NAME'],os.environ['PREP_DIGEST'],os.environ['PREP_RUN_ID']),
+            (os.environ['FREEZE_ARTIFACT_ID'],os.environ['FREEZE_NAME'],os.environ['FREEZE_DIGEST'],os.environ['FREEZE_RUN_ID']),
+          ]
+          for aid,name,digest,rid in specs:
+            d=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{aid}'],text=True))
+            assert d['id']==int(aid) and d['name']==name and d['digest']==digest and d['expired'] is False
+            assert d['workflow_run']['id']==int(rid)
+          PY
+
+      - name: Download exact frozen V5 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_NAME }}
+          path: ${{ runner.temp }}/v5-prep
+          repository: ${{ github.repository }}
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact complete V5 generation freeze
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FREEZE_NAME }}
+          path: ${{ runner.temp }}/v5-freeze
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FREEZE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Compute V5 discriminator diagnostics
+        run: |
+          set -euo pipefail
+          PYTHONPATH="$BASE" python "$BASE/analyze_stage1_v5_discriminators_v1.py" \
+            --prep-root "${RUNNER_TEMP}/v5-prep" \
+            --freeze-root "${RUNNER_TEMP}/v5-freeze" \
+            --references "$BASE/REFERENCE_DROPS_V3.json" \
+            --v3-candidates "$BASE/results/v3-raw-exact/STAGE1_V3_DROP_CANDIDATES_V1.json" \
+            --v3-eval "$BASE/results/v3-raw-exact/STAGE1_V3_DROP_EVALUATION_V1.json" \
+            --v5-eval "$BASE/results/v5-raw-exact/STAGE1_V5_DROP_EVALUATION_V1.json" \
+            --output-dir "$BASE/results/v5-discriminator-analysis-v1"
+
+      - name: Commit durable diagnostics
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add "$BASE/results/v5-discriminator-analysis-v1"
+          git diff --cached --quiet && { echo 'Nothing to commit'; exit 0; }
+          git commit -m 'Add offline V5 discriminator analysis'
+          git push origin "HEAD:${GITHUB_REF_NAME}"
