@@ -1,0 +1,176 @@
+name: Trackcade V5 — Offline RAW Stage1 evaluation
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v5-eval-v1.yml
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-v5-raw-eval-v1
+  cancel-in-progress: false
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      BASE: research/semantic-external-holdout-v1
+      PREP_RUN_ID: '36645240283'
+      PREP_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      FREEZE_RUN_ID: '36708314272'
+      FREEZE_ARTIFACT_ID: '11092109845'
+      FREEZE_NAME: trackcade-semantic-external-stage1-v5-generation-freeze-v1
+      FREEZE_ARTIFACT_DIGEST: sha256:38065553c4336f8cf57e6ccbefa05d32c0174c8a9bbc3a037ae8d52a28ac08f1
+      FREEZE_SHA256: '33b5463363aec9806744a2735e1c34a2809964dfb2f580cdfeaa466d63e1c816'
+      FREEZE_FILES_SHA256: '9d9c1341ae8b798cb176df3e379293f912d77b051d3601f7031e0c001a2cafb4'
+      COLLECTOR_BLOB: '04174d2b018edb5f5c0c46d6422962194aa67e5f'
+      EVALUATOR_BLOB: '74b22a89bb36648b290b24c461e83b0c47a43cf0'
+      EVAL_COMPAT_BLOB: 'b3d4bc1e94045fc715327bbb54465af9cd740592'
+      SCORER_BLOB: '3d74996281ec260e170ea10929bd0115a6d4ac70'
+      REFERENCE_BLOB: 'b35bb9762679d436a40bb7cc8ce9d5f3c163b697'
+      REFERENCE_SHA256: '1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c'
+    steps:
+      - name: Checkout exact evaluation sources
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/collect_stage1_v5_results_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_v5_drop_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_v5_drop_with_retry_receipt_v1.py
+            research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py
+            research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          sparse-checkout-cone-mode: false
+
+      - name: Verify offline boundary and immutable evaluation code
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in V5 evaluation job' >&2
+            exit 1
+          fi
+          test "$(git hash-object "$BASE/collect_stage1_v5_results_v1.py")" = "$COLLECTOR_BLOB"
+          test "$(git hash-object "$BASE/evaluate_stage1_v5_drop_v1.py")" = "$EVALUATOR_BLOB"
+          test "$(git hash-object "$BASE/evaluate_stage1_v5_drop_with_retry_receipt_v1.py")" = "$EVAL_COMPAT_BLOB"
+          test "$(git hash-object "$BASE/evaluate_stage1_drop_v1.py")" = "$SCORER_BLOB"
+          python -m py_compile \
+            "$BASE/collect_stage1_v5_results_v1.py" \
+            "$BASE/evaluate_stage1_v5_drop_v1.py" \
+            "$BASE/evaluate_stage1_v5_drop_with_retry_receipt_v1.py" \
+            "$BASE/evaluate_stage1_drop_v1.py"
+
+      - name: Verify exact generation-freeze artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          aid=os.environ['FREEZE_ARTIFACT_ID']
+          d=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{aid}'],text=True))
+          assert d['id']==int(aid)
+          assert d['name']==os.environ['FREEZE_NAME']
+          assert d['digest']==os.environ['FREEZE_ARTIFACT_DIGEST']
+          assert d['expired'] is False
+          assert d['workflow_run']['id']==int(os.environ['FREEZE_RUN_ID'])
+          assert d['workflow_run']['head_sha']=='89fda23b11a62e98426bd17dbd57fe3128862d28'
+          PY
+
+      - name: Download exact frozen V5 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PREP_NAME }}
+          path: ${{ runner.temp }}/v5-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact complete V5 generation freeze
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FREEZE_NAME }}
+          path: ${{ runner.temp }}/v5-freeze
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FREEZE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Re-verify complete 50-case freeze before label access
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/v5-freeze/STAGE1_V5_GENERATION_FREEZE_V1.json" | awk '{print $1}')" = "$FREEZE_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-freeze/FILES_SHA256.txt" | awk '{print $1}')" = "$FREEZE_FILES_SHA256"
+          PYTHONPATH="$BASE" python - <<'PY'
+          import os
+          from pathlib import Path
+          import collect_stage1_v5_results_v1 as c
+          root=Path(os.environ['RUNNER_TEMP'])
+          cases=c.verify_freeze(
+            root/'v5-freeze'/'STAGE1_V5_GENERATION_FREEZE_V1.json',
+            root/'v5-source',
+            root/'v5-freeze'/'provider',
+          )
+          assert len(cases)==50 and set(cases)==set(range(1,51))
+          assert {o for o,x in cases.items() if x['maxOutputTokens']==16384}=={4,35}
+          assert len({x['openaiResponseId'] for x in cases.values()})==50
+          print('freeze closure verified before references:',len(cases))
+          PY
+
+      - name: Open and verify unchanged Stage1 references only after freeze closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object "$BASE/REFERENCE_DROPS_V3.json")" = "$REFERENCE_BLOB"
+          test "$(sha256sum "$BASE/REFERENCE_DROPS_V3.json" | awk '{print $1}')" = "$REFERENCE_SHA256"
+          echo 'Stage1 reference identity verified after complete generation closure.'
+
+      - name: Score V5 RAW at frozen tolerances
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf "${RUNNER_TEMP}/v5-eval"
+          PYTHONPATH="$BASE" python "$BASE/evaluate_stage1_v5_drop_with_retry_receipt_v1.py" \
+            --prep-root "${RUNNER_TEMP}/v5-source" \
+            --freeze-root "${RUNNER_TEMP}/v5-freeze" \
+            --references "$BASE/REFERENCE_DROPS_V3.json" \
+            --output-dir "${RUNNER_TEMP}/v5-eval" \
+            --generation-freeze-sha256 "$FREEZE_SHA256" \
+            --generation-freeze-artifact-id "$FREEZE_ARTIFACT_ID"
+
+      - name: Print frozen V5 headline and sensitivity metrics
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,pathlib,hashlib
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'v5-eval'
+          h=json.loads((out/'STAGE1_V5_RAW_HEADLINE_V1.json').read_text())
+          e=json.loads((out/'STAGE1_V5_DROP_EVALUATION_V1.json').read_text())
+          print('HEADLINE')
+          print(json.dumps(h,indent=2,sort_keys=True))
+          print('SENSITIVITY')
+          for tol in ('1.0','2.0','5.0'):
+            print(tol,json.dumps(e['proposalDropsSeconds'][tol]['aggregate'],sort_keys=True))
+          print('OUTPUT_HASHES')
+          for p in sorted(out.iterdir()):
+            if p.is_file():
+              print(hashlib.sha256(p.read_bytes()).hexdigest(),p.name)
+          PY
+
+      - name: Upload immutable V5 RAW evaluation
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v5-raw-evaluation-v1
+          path: ${{ runner.temp }}/v5-eval
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
