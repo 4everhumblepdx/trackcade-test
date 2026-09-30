@@ -1,0 +1,22 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-canary-provider-activation-v1",
+  "activatePaidCanary": true,
+  "executionSourceCommit": "3e7fd1e2ed7913b569b2ce44124b4e8cdf06e77a",
+  "authorizationFile": "research/semantic-external-holdout-v1/STAGE1_V6_CANARY_PROVIDER_AUTHORIZATION_V1.json",
+  "canaryOrdinal": 1,
+  "maximumProviderAttempts": 1,
+  "automaticRetriesAuthorized": false,
+  "standardFallbackAuthorized": false,
+  "fullBatchAuthorized": false,
+  "terminalHoldoutAccessAuthorized": false,
+  "compilerInvocationAuthorized": false,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  }
+}
