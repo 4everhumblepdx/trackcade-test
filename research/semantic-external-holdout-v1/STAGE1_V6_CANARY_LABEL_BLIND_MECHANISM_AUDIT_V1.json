@@ -1,0 +1,114 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-canary-label-blind-mechanism-audit-v1",
+  "status": "frozen-label-blind-zero-provider-call-mechanism-audit",
+  "scope": {
+    "stage": "stage1-v6",
+    "ordinal": 1,
+    "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+    "purpose": "compare historical V5 and frozen V6 canary semantic behavior on the same frozen analyzer packet without opening Stage-1 reference labels"
+  },
+  "researchBoundary": {
+    "referenceLabelsOpened": false,
+    "partialScoringPerformed": false,
+    "correctnessClaimMade": false,
+    "precisionRecallF1ClaimMade": false,
+    "providerCallsDuringAudit": 0,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerModified": false,
+    "additionalPaidSpendAuthorizedOrConsumed": false
+  },
+  "sharedEvidence": {
+    "packetSha256": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86",
+    "sameFrozenPacketObserved": true
+  },
+  "v5": {
+    "developmentRevision": "stage1-drop-semantics-v5-candidate-first-absolute-pattern",
+    "providerRunId": 36648317684,
+    "providerRunAttempt": 1,
+    "providerHarnessCommit": "4f221e0fb0c1d6969969292cb25f05044dff2008",
+    "artifactId": 11069666382,
+    "artifactName": "trackcade-semantic-external-stage1-v5-flex-v1-case-01-completed",
+    "artifactDigest": "sha256:0d1272061b6a9c738e3184acfef187ae88e85058dabd2862f4a06b0c22fdd40d",
+    "providerContract": {
+      "model": "gpt-6-sol",
+      "reasoningEffort": "high",
+      "serviceTier": "flex",
+      "maxOutputTokens": 8192,
+      "store": false
+    },
+    "normalizedProposalSha256": "416823ac2cf121bb29aa21e9d11733bd433a9cb5b4958ae55e612d136e73a594",
+    "proposalCandidateSha256": "d5b8f83c1eefbcae4fe1a622f6bf9220f671ac9e21017c2db204b582047df718",
+    "rawResponseSha256": "d7248fb3156fbc1c8d31c3d69413468179911473b76d0b359fdb3d91e47e3445",
+    "dropPresence": "drop_present",
+    "dropCount": 4,
+    "ambiguousCandidateCount": 0,
+    "dropAnchors": [
+      {"anchorIndex": 15, "timeSeconds": 13.737},
+      {"anchorIndex": 114, "timeSeconds": 73.737},
+      {"anchorIndex": 251, "timeSeconds": 149.666},
+      {"anchorIndex": 370, "timeSeconds": 239.666}
+    ]
+  },
+  "v6": {
+    "developmentRevision": "stage1-v6-frozen-semantic-contract",
+    "providerRunId": 36758887107,
+    "providerRunAttempt": 1,
+    "artifactId": 11116764479,
+    "artifactName": "trackcade-semantic-external-stage1-v6-canary-v1-case-01-completed-valid",
+    "artifactDigest": "sha256:18a1200c9f77f3cc74a7844680168e8f86c7cfdd6b13cc5c9da3a014fcffaf41",
+    "providerContract": {
+      "model": "gpt-6-sol",
+      "reasoningEffort": "high",
+      "serviceTier": "flex",
+      "maxOutputTokens": 8192,
+      "store": false
+    },
+    "normalizedProposalSha256": "f67c6bc0f985ff4b7694c094f2fb9d063a1a13755202c4a5a0a404f2cb52fa75",
+    "proposalCandidateSha256": "26765906977fd6c8fe5d6a53a50ca12a24dda3e8fcd31def1ee30cdd6726bc0c",
+    "rawResponseSha256": "4b5f26d957b6570df9ad3bde1a3d94fc2b6d83a848b31eeee7a9747f84898b8c",
+    "dropPresence": "ambiguous_only",
+    "dropCount": 0,
+    "ambiguousCandidateCount": 1,
+    "ambiguousAnchor": {"anchorIndex": 252, "timeSeconds": 149.674}
+  },
+  "candidateComparison": [
+    {
+      "region": "opening entrance",
+      "timeSeconds": 13.737,
+      "v5": {"anchorIndex": 15, "semanticRole": "drop", "preparation": "clear", "impactRelease": "clear", "sustainedStrongerPassage": "clear"},
+      "v6": {"anchorIndex": 15, "semanticRole": "ordinary_transition", "preparation": "weak", "decisiveImpact": "weak", "sustainedStrongerPassage": "clear", "ordinaryReturnAlternative": "plausible"},
+      "observedChange": "drop demoted to ordinary transition because decisive impact was weak and ordinary entrance remained plausible"
+    },
+    {
+      "region": "return from reduced passage",
+      "timeSeconds": 73.737,
+      "v5": {"anchorIndex": 114, "semanticRole": "drop", "preparation": "clear", "impactRelease": "clear", "sustainedStrongerPassage": "clear"},
+      "v6": {"anchorIndex": 114, "semanticRole": "ordinary_transition", "preparation": "clear", "decisiveImpact": "weak", "sustainedStrongerPassage": "clear", "ordinaryReturnAlternative": "plausible"},
+      "observedChange": "drop demoted to ordinary transition because the rise occurred across the transition rather than as a distinct impact"
+    },
+    {
+      "region": "quiet-break re-entry",
+      "v5": {"anchorIndex": 251, "timeSeconds": 149.666, "semanticRole": "drop", "preparation": "clear", "impactRelease": "clear", "sustainedStrongerPassage": "clear"},
+      "v6": {"anchorIndex": 252, "timeSeconds": 149.674, "semanticRole": "ambiguous", "preparation": "clear", "decisiveImpact": "unclear", "sustainedStrongerPassage": "clear", "ordinaryReturnAlternative": "plausible"},
+      "observedChange": "drop demoted to ambiguous because the packet did not establish a concentrated impact distinct from a strong re-entry"
+    },
+    {
+      "region": "final return from reduced passage",
+      "v5": {"anchorIndex": 370, "timeSeconds": 239.666, "semanticRole": "drop", "preparation": "clear", "impactRelease": "clear", "sustainedStrongerPassage": "clear"},
+      "v6": {"anchorIndex": 371, "timeSeconds": 239.674, "semanticRole": "ordinary_transition", "preparation": "clear", "decisiveImpact": "weak", "sustainedStrongerPassage": "clear", "ordinaryReturnAlternative": "plausible"},
+      "observedChange": "drop demoted to ordinary transition because energy had already begun rising and an ordinary section return remained plausible"
+    }
+  ],
+  "mechanismFinding": {
+    "observedBehaviorChange": "V5 called four Drops on this frozen packet; V6 called zero Drops and retained only the quiet-break re-entry as ambiguous.",
+    "v6SpecificMechanismObserved": "Every former V5 Drop failed the V6 Drop bar on decisive impact and/or the ordinary-return counterfactual. Sustained stronger passage alone no longer produced a Drop.",
+    "causalAttributionLimit": "These are independent provider generations, so this audit establishes an observed contract-consistent behavior change, not deterministic causation by the prompt change alone.",
+    "correctnessLimit": "Stage-1 reference labels remain sealed under the frozen V6 protocol. This audit does not classify the V5 calls as false positives or the V6 abstentions as correct, and it supplies no V6 precision, recall, or F1 evidence."
+  },
+  "nextZeroCostBoundary": {
+    "allowed": "offline contract, validator, fixture, hash, and mechanism stress testing that does not open Stage-1 reference labels",
+    "notAllowedWithoutProtocolCompletionOrExplicitMethodologyChange": "partial V6 scoring against Stage-1 references before all 50 V6 development responses are frozen",
+    "additionalProviderCallsAuthorized": false
+  }
+}
