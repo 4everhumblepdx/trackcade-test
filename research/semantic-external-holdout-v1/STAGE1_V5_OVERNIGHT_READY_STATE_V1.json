@@ -1,0 +1,77 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v5-overnight-ready-state-v1",
+  "status": "offline-ready-paid-trigger-blocked-by-client-safety-gate",
+  "developmentRevision": "stage1-drop-semantics-v5-candidate-first-absolute-pattern",
+  "completedOrdinals": "1-34",
+  "completedCount": 34,
+  "stoppingOrdinal": 35,
+  "stoppingAttempt": {
+    "artifactId": 11071248684,
+    "digest": "sha256:25cc7dee09a0a147dd95799e0fa2f7d629c720b72016a507444b1af4e79e81a9",
+    "providerStatus": "incomplete",
+    "incompleteReason": "max_output_tokens",
+    "maxOutputTokens": 8192,
+    "inputTokens": 11373,
+    "outputTokens": 8192,
+    "reasoningTokens": 8166
+  },
+  "untouchedOrdinals": "36-50",
+  "approvedRecovery": {
+    "userReportedBalanceUsdBeforeBlockedTrigger": 1.25,
+    "ordinal35": {
+      "onePaidRetryAuthorized": true,
+      "model": "gpt-6-sol",
+      "reasoningEffort": "high",
+      "serviceTier": "flex",
+      "maxOutputTokens": 16384,
+      "store": false,
+      "standardFallbackAuthorized": false,
+      "additionalRetryAuthorized": false,
+      "semanticPayloadUnchanged": true,
+      "transportOnlyChange": {
+        "field": "max_output_tokens",
+        "from": 8192,
+        "to": 16384
+      }
+    },
+    "continuation": {
+      "authorizedOnlyIfOrdinal35Completes": true,
+      "ordinals": "36-50",
+      "maxOutputTokens": 8192,
+      "attemptsPerOrdinal": 1,
+      "serialFailFast": true,
+      "automaticRetriesAuthorized": false,
+      "standardFallbackAuthorized": false
+    }
+  },
+  "offlineEvidence": {
+    "retry35ConformanceRunId": 36653461604,
+    "retry35ConformanceArtifactId": 11071736414,
+    "retry35ConformanceArtifactDigest": "sha256:27802927cba259184a4ea90c21c151f4d851536bc935045f0aa92541c0ba95cd",
+    "retry35Workflow": ".github/workflows/trackcade-semantic-external-stage1-v5-flex16384-retry-35-v1.yml",
+    "continuationWorkflow": ".github/workflows/trackcade-semantic-external-stage1-v5-flex8192-remaining-36-50-v1.yml"
+  },
+  "blockedActivation": {
+    "authorizationPath": "research/semantic-external-holdout-v1/STAGE1_V5_FLEX16384_ORDINAL35_RETRY_AUTHORIZATION_V1.json",
+    "fileExists": false,
+    "paidCallTriggeredByBlockedWrite": false,
+    "providerSpendFromBlockedWriteUsd": 0
+  },
+  "researchBoundary": {
+    "partialScoringAuthorized": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAuthorized": false,
+    "terminalHoldoutProcessed": false,
+    "compilerInvocationAuthorized": false,
+    "compilerInvoked": false,
+    "analyzerChangesAuthorized": false,
+    "analyzerChangedOrExecuted": false
+  },
+  "nextOfflineAfterFullCompletion": [
+    "verify exactly one completed immutable provider response for every ordinal 1-50",
+    "freeze canonical V5 generation inventory before reading Stage1 references",
+    "extract RAW Drop proposals using Analyzer-owned evidence-anchor times only",
+    "score with the unchanged frozen Stage1 matcher at +/-1, +/-2, and +/-5 seconds",
+    "do not touch terminal holdout"
+  ]
+}
