@@ -1,0 +1,46 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-canary-provider-authorization-v1",
+  "authorized": true,
+  "authorizationSource": "explicit-user-approval-carried-forward-in-project-handoff",
+  "userReportedOpenAiBalanceUsd": 0.60,
+  "scope": {
+    "stage": "stage1-v6",
+    "purpose": "one-track-live-contract-behavior-canary",
+    "canaryOrdinal": 1,
+    "maximumInitialProviderAttempts": 1,
+    "attemptsPerTrack": 1,
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "fullBatchAuthorized": false,
+    "partialScoringAuthorized": false
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "frozenSource": {
+    "semanticPrepRunId": 36747819119,
+    "semanticPrepArtifactId": 11112534029,
+    "semanticPrepArtifactDigest": "sha256:0d586b737ba729a1386914663d92e7bae1fd85e404f1480e8f034084cbd80134",
+    "semanticPrepManifestSha256": "ebdbf2232a813dbe89b87f4fb3bd938f037d6f15707943c2c0b639a15bc202c8",
+    "semanticPrepFilesSha256": "a8a81dca2fd4f9c5297ebbe594f5144f28f9ae2a7542066db3a3169cd07d1e35",
+    "transportPrepRunId": 36752768892,
+    "transportPrepArtifactId": 11115940514,
+    "transportPrepArtifactDigest": "sha256:bb410bc03a2964f0251328e801a1782ad3e691b3c414db5d9e3f3c71db936a4b",
+    "transportPrepManifestSha256": "de9328b8cba76b82f879e348cc0b0133d33f53d2855b67885d3ed2b96afb9058",
+    "transportPrepFilesSha256": "b272332f49f4da3ee72ac53dc89e6e544e76c609d03e9c7c7fe35ebc02da4777"
+  },
+  "researchBoundary": {
+    "terminalHoldoutAccessAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "compilerInvocationAuthorized": false,
+    "retryRequiresNewExplicitApproval": true,
+    "secondCanaryRequiresNewExplicitApproval": true,
+    "fullV6RunRequiresNewExplicitApproval": true
+  }
+}
