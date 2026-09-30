@@ -1,0 +1,84 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v5-provider-stop-receipt-v1",
+  "status": "stopped-fail-closed-no-partial-score",
+  "developmentRevision": "stage1-drop-semantics-v5-candidate-first-absolute-pattern",
+  "paidRun": {
+    "runId": 36648317684,
+    "runAttempt": 1,
+    "headSha": "4f221e0fb0c1d6969969292cb25f05044dff2008",
+    "providerContract": {
+      "provider": "openai",
+      "api": "responses",
+      "model": "gpt-6-sol",
+      "reasoningEffort": "high",
+      "maxOutputTokens": 8192,
+      "serviceTier": "flex",
+      "store": false
+    }
+  },
+  "authorizedScope": {
+    "ordinals": "1-50",
+    "attemptsPerTrack": 1,
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "partialScoringAuthorized": false
+  },
+  "observedOutcome": {
+    "totalMatrixJobs": 50,
+    "completedProviderResponses": 3,
+    "failedProviderAttemptOrdinal": 4,
+    "untouchedAfterFailFast": "5-50",
+    "partialScoringPerformed": false,
+    "headlineEvaluationPerformed": false
+  },
+  "completedArtifacts": [
+    {
+      "ordinal": 1,
+      "artifactId": 11069666382,
+      "name": "trackcade-semantic-external-stage1-v5-flex-v1-case-01-completed",
+      "digest": "sha256:0d1272061b6a9c738e3184acfef187ae88e85058dabd2862f4a06b0c22fdd40d"
+    },
+    {
+      "ordinal": 2,
+      "artifactId": 11069561588,
+      "name": "trackcade-semantic-external-stage1-v5-flex-v1-case-02-completed",
+      "digest": "sha256:27c37d5239835f137a19daf2f4220803be806abc9961ab22c1343638f5f0ba76"
+    },
+    {
+      "ordinal": 3,
+      "artifactId": 11069223010,
+      "name": "trackcade-semantic-external-stage1-v5-flex-v1-case-03-completed",
+      "digest": "sha256:07d5291430eb66c18884effbb60f416677cb19fdf464559b5b8f6ed1f55de32d"
+    }
+  ],
+  "stoppingAttempt": {
+    "ordinal": 4,
+    "artifactId": 11069456882,
+    "name": "trackcade-semantic-external-stage1-v5-flex-v1-case-04-attempted-no-completed-response",
+    "digest": "sha256:9e9289c34a1ebbe2b9db6b603f070285436bf5a1761d01d6bea5c0769918047e",
+    "httpStatus": 200,
+    "providerStatus": "incomplete",
+    "providerServiceTier": "flex",
+    "incompleteReason": "max_output_tokens",
+    "maxOutputTokens": 8192,
+    "usage": {
+      "inputTokens": 12527,
+      "outputTokens": 8192,
+      "reasoningTokens": 7403,
+      "totalTokens": 20719
+    },
+    "providerCompletedSemanticResponse": false,
+    "retryPerformed": false
+  },
+  "researchBoundary": {
+    "terminalHoldoutProcessed": false,
+    "compilerInvoked": false,
+    "analyzerChangedOrExecuted": false,
+    "standardFallbackUsed": false,
+    "automaticRetryUsed": false
+  },
+  "nextPaidAction": {
+    "requiresNewExplicitNicholasApproval": true,
+    "reason": "ordinal 4 already consumed its one authorized provider attempt and ended incomplete at the frozen 8192 output ceiling"
+  }
+}
