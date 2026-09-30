@@ -1,0 +1,117 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-remaining49-cost-estimate-v1",
+  "status": "zero-cost-estimate-no-provider-call",
+  "estimatedAtUtcDate": "2026-09-30",
+  "purpose": "Estimate the funding needed to complete the remaining 49 frozen Stage1 V6 development provider responses before any development reference opening or scoring.",
+  "frozenProviderContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "serviceTier": "flex",
+    "maxOutputTokens": 8192,
+    "store": false
+  },
+  "pricingBasis": {
+    "contextClass": "short-context",
+    "currency": "USD",
+    "unit": "per-1M-tokens",
+    "rates": {
+      "uncachedInput": 1.0,
+      "cachedInput": 0.1,
+      "cacheWrite": 1.25,
+      "output": 5.0
+    },
+    "cacheWriteAccounting": "non-additive-input-category",
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-sol",
+      "https://developers.openai.com/api/docs/pricing",
+      "https://developers.openai.com/api/docs/guides/prompt-caching"
+    ],
+    "notes": [
+      "GPT-6 Sol Standard short-context rates are $2.00/M input, $0.20/M cached input, $2.50/M cache writes, and $10.00/M output; Flex is 50% of Standard.",
+      "Prompt cache writes are an alternative input-token billing category, not an additive fee on top of uncached input.",
+      "The Stage1 packets are far below the GPT-6 Sol long-context pricing threshold."
+    ]
+  },
+  "historicalUsageBasis": {
+    "experiment": "frozen complete Stage1 V5 generation set",
+    "artifact": {
+      "runId": 36708314272,
+      "artifactId": 11092109845,
+      "artifactName": "trackcade-semantic-external-stage1-v5-generation-freeze-v1",
+      "artifactDigest": "sha256:38065553c4336f8cf57e6ccbefa05d32c0174c8a9bbc3a037ae8d52a28ac08f1"
+    },
+    "reasonForUse": "V6 reuses the exact frozen Stage1 Structure Evidence v2 packets and changes only the semantic contract, making V5 per-track provider usage the best available zero-cost distributional proxy.",
+    "remaining49UsageTotals": {
+      "inputTokens": 672407,
+      "cacheWriteTokens": 672260,
+      "cachedTokens": 0,
+      "ordinaryUncachedInputTokens": 147,
+      "outputTokens": 197113,
+      "reasoningTokensSubsetOfOutput": 148164,
+      "totalTokens": 869520
+    },
+    "remaining49HistoricalProfileCostUsd": 1.826037,
+    "perCompletedCaseHistoricalProfileCostUsd": {
+      "minimum": 0.024228,
+      "mean": 0.0372660612244898,
+      "median": 0.0363655,
+      "p75": 0.041858,
+      "p90": 0.0477425,
+      "p95": 0.04836375,
+      "maximum": 0.056073
+    }
+  },
+  "sameTrackV5V6CanaryCalibration": {
+    "ordinal": 1,
+    "v5Usage": {
+      "inputTokens": 18713,
+      "cacheWriteTokens": 18710,
+      "cachedTokens": 0,
+      "outputTokens": 6239,
+      "reasoningTokensSubsetOfOutput": 5178,
+      "totalTokens": 24952,
+      "modeledFlexCostUsd": 0.0545855
+    },
+    "v6Usage": {
+      "inputTokens": 18981,
+      "cacheWriteTokens": 18978,
+      "cachedTokens": 0,
+      "outputTokens": 6218,
+      "reasoningTokensSubsetOfOutput": 4660,
+      "totalTokens": 25199,
+      "modeledFlexCostUsd": 0.0548155
+    },
+    "v6MinusV5ModeledCostUsd": 0.00023,
+    "v6MinusV5ModeledCostPercent": 0.421361,
+    "qualification": "One same-track comparison is calibration evidence only; it does not guarantee identical deltas across the remaining tracks."
+  },
+  "remaining49Projection": {
+    "method": "V5 remaining49 historical-profile cost plus 49 times the observed same-track V6-minus-V5 canary cost delta",
+    "projectedCostUsd": 1.837307,
+    "roundedPlanningEstimateUsd": 1.84,
+    "oneAttemptAllCasesAt8192OutputEnvelopeUsd": 2.847512,
+    "envelopeQualification": "This is a conservative one-attempt output-cap envelope using the historical per-track V5 input/cache-write profile and 8192 output tokens for every remaining case; it is not a predicted bill.",
+    "retryPolicy": "No retries are included or authorized. Any incomplete V6 response would remain incomplete and any later retry would require separate explicit authorization.",
+    "scientificImplication": "A partial remaining49 run does not unlock development scoring; all 50 V6 development responses must be complete and frozen before Stage1 development references are opened."
+  },
+  "prepaidBillingConstraint": {
+    "minimumCreditPurchaseUsd": 5.0,
+    "minimumAutoRechargeUsd": 5.0,
+    "source": "https://help.openai.com/en/articles/8264644-how",
+    "note": "This billing minimum is an account-funding constraint, not an experiment requirement. No credit purchase is authorized by this receipt."
+  },
+  "researchBoundaries": {
+    "providerCallsDuringEstimate": 0,
+    "paidSpendDuringEstimate": false,
+    "stage1ReferenceLabelsOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerExecuted": false,
+    "additionalProviderCallsAuthorized": false,
+    "creditPurchaseAuthorized": false
+  },
+  "conclusion": "The best zero-cost estimate for completing the 49 remaining V6 development responses is approximately $1.84 at the frozen GPT-6 Sol/High/Flex/8192 contract, with a conservative one-attempt max-output envelope of approximately $2.85."
+}
