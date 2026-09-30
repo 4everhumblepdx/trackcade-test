@@ -1,0 +1,50 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-remaining49-staging-receipt-v1",
+  "createdDate": "2026-09-30",
+  "status": "staged-inactive-no-provider-call-authorized",
+  "providerCallsDuringStaging": 0,
+  "paidSpendDuringStagingUsd": 0,
+  "files": {
+    "inactiveAuthorization": "research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_V1.json",
+    "workflow": ".github/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml",
+    "activation": "research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATE_V1.json"
+  },
+  "stagingCommits": {
+    "inactiveAuthorization": "b1510a615b14de46a85442112ff102ce204afcfb",
+    "workflow": "8af4a0e79323d3de9324d68cb52c5c5a61b0e536"
+  },
+  "observedSafetyState": {
+    "authorizationAuthorized": false,
+    "authorizationStatus": "staged-not-authorized",
+    "activationFileObserved": false,
+    "workflowTriggerPathIsActivationFileOnly": true,
+    "workflowCreationCommitMatchesTriggerPath": false,
+    "ordinal1ExcludedFromRemaining49Matrix": true,
+    "remainingOrdinals": "2-50",
+    "maxParallel": 1,
+    "failFast": true,
+    "attemptsPerOrdinalWhenFutureAuthorized": 1,
+    "automaticRetriesWhenFutureAuthorized": false,
+    "standardFallbackWhenFutureAuthorized": false,
+    "partialScoringWhenFutureAuthorized": false,
+    "stage1ReferenceAccessWhenFutureAuthorized": false,
+    "terminalHoldoutAccessWhenFutureAuthorized": false,
+    "compilerInvocationWhenFutureAuthorized": false,
+    "analyzerExecutionWhenFutureAuthorized": false
+  },
+  "futurePaidActivationRequirements": [
+    "Nicholas Cunningham gives fresh explicit approval for the paid remaining-49 V6 generation.",
+    "The inactive authorization receipt is changed in a separate commit to authorized=true with status authorized-explicit-paid-remaining49.",
+    "A later, separate activation receipt names the authorization commit and the execution-source parent commit.",
+    "Only committing the activation receipt can satisfy the workflow path trigger.",
+    "The workflow re-verifies frozen V6 source/prep artifacts, the ordinal-1 canary, research boundaries, and absence of prior attempt-lock artifacts before exposing OPENAI_API_KEY to a provider step."
+  ],
+  "scientificStateUnaffected": {
+    "stage1ReferencesOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerExecutedOrModified": false,
+    "frozenV6SemanticContractModified": false
+  }
+}
