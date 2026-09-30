@@ -1,0 +1,46 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-remaining49-provider-authorization-template-v1",
+  "authorized": false,
+  "status": "inactive-template-do-not-call-provider",
+  "scope": {
+    "stage": "stage1-v6",
+    "purpose": "complete-remaining-49-development-responses-before-reference-access",
+    "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+    "maximumInitialProviderAttempts": 49,
+    "attemptsPerTrack": 1,
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "partialScoringAuthorized": false,
+    "referenceOpeningAuthorized": false
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "costBasis": {
+    "estimatePath": "research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_COST_ESTIMATE_V1.json",
+    "estimateCommit": "e30ece622cf4a2880d78b076bfc1e896c28d39a5",
+    "roundedPlanningEstimateUsd": 1.84,
+    "conservativeOneAttemptEnvelopeUsd": 2.85,
+    "fundingApproved": false
+  },
+  "researchBoundary": {
+    "stage1ReferencesMayBeOpenedDuringGeneration": false,
+    "terminalHoldoutAccessAuthorized": false,
+    "analyzerExecutionAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "compilerInvocationAuthorized": false,
+    "retryRequiresNewExplicitApproval": true,
+    "additionalCallsBeyondOrdinals2Through50RequireNewExplicitApproval": true
+  },
+  "notes": [
+    "This is an inert template. It is intentionally not the authorization filename consumed by the paid workflow.",
+    "Creating this template does not authorize API spend, credit purchase, or provider execution.",
+    "A future real authorization file requires Nicholas's explicit approval before any remaining49 provider call may run."
+  ]
+}
