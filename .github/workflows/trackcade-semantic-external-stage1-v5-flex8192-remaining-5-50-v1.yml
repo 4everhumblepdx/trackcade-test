@@ -1,0 +1,245 @@
+name: Trackcade V5 — Flex 8192 remaining ordinals 5-50
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V5_FLEX8192_REMAINING_5_50_AUTHORIZATION_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-v5-flex8192-remaining-5-50-v1
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        ordinal: [5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    env:
+      BASE: research/semantic-external-holdout-v1
+      LEARNED: research/learned-interpretation-v1
+      AUTH_FILE: research/semantic-external-holdout-v1/STAGE1_V5_FLEX8192_REMAINING_5_50_AUTHORIZATION_V1.json
+      STOP_FILE: research/semantic-external-holdout-v1/STAGE1_V5_PROVIDER_STOP_RECEIPT_V1.json
+      SOURCE_RUN_ID: '36645240283'
+      SOURCE_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      SOURCE_MANIFEST_SHA256: f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799
+      SOURCE_FILES_SHA256: 1393038c09afff244e4aeb2c745eb5a6f40c5f728991cec5051d3dfb4d34cb6c
+      FLEX_RUN_ID: '36647639925'
+      FLEX_NAME: trackcade-semantic-external-stage1-v5-flex-prep-v1
+      FLEX_MANIFEST_SHA256: 1b9c47e55463fafab4d1be94418b8ffb58e8b6799f2c5a527af40fa5f7d9c93e
+      FLEX_FILES_SHA256: c1a8c4eb5563756b42cd18ab12627a61848541e3217f89de3d422f8800743e0a
+      V5_HARNESS_BLOB: ab06ad22dd4b20e8e75f88390c3bf96e0b33dc85
+      V5_INGESTER_BLOB: db03b02175e0e8545fe9db093d02c78c5c316a68
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify explicit continuation authorization and completed retry gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          python -m py_compile "$BASE/run_stage1_v5_flex_case_v1.py" "$LEARNED/ingest_provider_response_v5.py"
+          test "$(git hash-object "$BASE/run_stage1_v5_flex_case_v1.py")" = "$V5_HARNESS_BLOB"
+          test "$(git hash-object "$LEARNED/ingest_provider_response_v5.py")" = "$V5_INGESTER_BLOB"
+          python - "$AUTH_FILE" "$STOP_FILE" <<'PY'
+          import json,sys
+          a=json.load(open(sys.argv[1])); s=json.load(open(sys.argv[2]))
+          assert a['schema']=='trackcade-semantic-external-stage1-v5-flex8192-remaining-5-50-authorization-v1'
+          assert a['status']=='authorized-one-initial-paid-attempt-per-remaining-ordinal'
+          assert a['ordinals']==list(range(5,51))
+          assert a['authorizationContextBalanceUsd']==2.41
+          assert a['providerContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False,
+          }
+          assert a['attemptsPerOrdinal']==1
+          assert a['automaticRetriesAuthorized'] is False
+          assert a['standardFallbackAuthorized'] is False
+          assert a['partialScoringAuthorized'] is False
+          assert a['terminalHoldoutAuthorized'] is False
+          assert a['compilerInvocationAuthorized'] is False
+          assert a['analyzerChangesAuthorized'] is False
+          r=a['ordinal4CompletedRetryArtifact']
+          assert isinstance(r['artifactId'],int) and r['artifactId']>0
+          assert r['name']=='trackcade-semantic-external-stage1-v5-flex16384-retry4-v1-case-04-completed'
+          assert isinstance(r['digest'],str) and r['digest'].startswith('sha256:') and len(r['digest'])==71
+          assert s['status']=='stopped-fail-closed-no-partial-score'
+          assert s['observedOutcome']['untouchedAfterFailFast']=='5-50'
+          assert s['observedOutcome']['partialScoringPerformed'] is False
+          PY
+          python - "$AUTH_FILE" <<'PY'
+          import json,os,subprocess,sys
+          a=json.load(open(sys.argv[1])); r=a['ordinal4CompletedRetryArtifact']; repo=os.environ['GITHUB_REPOSITORY']
+          d=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{r['artifactId']}"],text=True))
+          assert d['id']==r['artifactId']; assert d['name']==r['name']; assert d['digest']==r['digest']; assert d['expired'] is False
+          assert d['workflow_run']['id']==r['runId']
+          PY
+          pad="$(printf '%02d' '${{ matrix.ordinal }}')"
+          for name in \
+            "trackcade-semantic-external-stage1-v5-flex-v1-case-${pad}-completed" \
+            "trackcade-semantic-external-stage1-v5-flex-v1-case-${pad}-attempted-no-completed-response" \
+            "trackcade-semantic-external-stage1-v5-flex8192-remaining-v1-case-${pad}-completed" \
+            "trackcade-semantic-external-stage1-v5-flex8192-remaining-v1-case-${pad}-attempted-no-completed-response"; do
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '[.artifacts[] | select(.expired == false)] | length')"
+            test "$count" = '0'
+          done
+
+      - name: Download completed ordinal-4 retry evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          readarray -t vals < <(python - "$AUTH_FILE" <<'PY'
+          import json,sys
+          r=json.load(open(sys.argv[1]))['ordinal4CompletedRetryArtifact']
+          print(r['runId']); print(r['name'])
+          PY
+          )
+          gh run download "${vals[0]}" -n "${vals[1]}" -D "${RUNNER_TEMP}/retry4-completed"
+          python - "${RUNNER_TEMP}/retry4-completed/stage1-v5-flex16384-retry4-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['ordinal']==4
+          assert d['providerCompletedSemanticResponse'] is True
+          assert d['observedProviderStatus']=='completed'
+          assert d['observedProviderServiceTier']=='flex'
+          assert d['providerContract']['maxOutputTokens']==16384
+          assert d['additionalRetryAuthorized'] is False
+          PY
+
+      - name: Download exact frozen V5 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_NAME }}
+          path: ${{ runner.temp }}/v5-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen V5 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_NAME }}
+          path: ${{ runner.temp }}/v5-flex
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen manifests and exact 8192 case offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY leaked into preflight environment' >&2
+            exit 1
+          fi
+          test "$(sha256sum "${RUNNER_TEMP}/v5-source/STAGE1_V5_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$SOURCE_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-source/FILES_SHA256.txt" | awk '{print $1}')" = "$SOURCE_FILES_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-flex/STAGE1_V5_FLEX_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$FLEX_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-flex/FILES_SHA256.txt" | awk '{print $1}')" = "$FLEX_FILES_SHA256"
+          OUT="${RUNNER_TEMP}/case-preflight"
+          python "$BASE/run_stage1_v5_flex_case_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v5-source" \
+            --amended-prep-root "${RUNNER_TEMP}/v5-flex" \
+            --ordinal '${{ matrix.ordinal }}' \
+            --output-dir "$OUT" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester "$LEARNED/ingest_provider_response_v5.py" \
+            --preflight-only
+          python - "$OUT/stage1-v5-flex-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['classification']=='offline_preflight_complete_no_provider_call'
+          assert d['providerCallAttempted'] is False
+          assert d['semanticPayloadUnchanged'] is True
+          assert d['providerContract']['maxOutputTokens']==8192
+          assert d['providerContract']['serviceTier']=='flex'
+          PY
+
+      - name: Execute one authorized original-contract V5 Flex 8192 call
+        id: execute
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          rm -rf "${RUNNER_TEMP}/case-live"
+          python "$BASE/run_stage1_v5_flex_case_v1.py" \
+            --source-prep-root "${RUNNER_TEMP}/v5-source" \
+            --amended-prep-root "${RUNNER_TEMP}/v5-flex" \
+            --ordinal '${{ matrix.ordinal }}' \
+            --output-dir "${RUNNER_TEMP}/case-live" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester "$LEARNED/ingest_provider_response_v5.py" \
+            --timeout-seconds 900
+          rc=$?
+          echo "runner_rc=$rc" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Classify immutable case evidence
+        id: classify
+        if: always() && steps.execute.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          status="${RUNNER_TEMP}/case-live/stage1-v5-flex-case-status-v1.json"
+          test -f "$status"
+          outcome="$(python - "$status" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          print('completed' if d.get('providerCompletedSemanticResponse') is True else 'attempted-no-completed-response')
+          PY
+          )"
+          pad="$(printf '%02d' '${{ matrix.ordinal }}')"
+          echo "artifact_name=trackcade-semantic-external-stage1-v5-flex8192-remaining-v1-case-${pad}-${outcome}" >> "$GITHUB_OUTPUT"
+          cat "$status"
+
+      - name: Freeze immutable case evidence
+        if: always() && steps.classify.outputs.artifact_name != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.classify.outputs.artifact_name }}
+          path: ${{ runner.temp }}/case-live
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Enforce fail-fast and no silent retry
+        if: always() && steps.execute.outcome != 'skipped'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "${RUNNER_TEMP}/case-live/stage1-v5-flex-case-status-v1.json" <<'PY'
+          import json,sys
+          d=json.load(open(sys.argv[1]))
+          assert d['retryAuthorized'] is False
+          assert d['standardFallbackUsed'] is False
+          assert d['terminalTracksProcessed'] is False
+          assert d['compilerInvoked'] is False
+          assert d['providerContract']['maxOutputTokens']==8192
+          assert d['providerContract']['serviceTier']=='flex'
+          if d.get('providerCompletedSemanticResponse') is not True:
+            raise SystemExit(f"Ordinal {d['ordinal']} did not complete. Stop remaining V5 batch; no retry authorized.")
+          if d.get('observedProviderServiceTier') != 'flex':
+            raise SystemExit('Observed service tier was not Flex; stop.')
+          allowed={
+            'provider_completed_validated_v5_flex8192_proposal_no_retry',
+            'provider_completed_v5_flex8192_validation_failure_no_retry',
+          }
+          if d.get('classification') not in allowed:
+            raise SystemExit(f"Unexpected completed classification: {d.get('classification')}")
+          PY
