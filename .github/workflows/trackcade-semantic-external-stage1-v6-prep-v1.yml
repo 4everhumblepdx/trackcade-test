@@ -1,0 +1,199 @@
+name: Trackcade V6 — Offline Stage1 prep freeze
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v6-prep-v1.yml
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  prepare-v6:
+    runs-on: ubuntu-24.04
+    env:
+      V5_PREP_RUN_ID: '36645240283'
+      V5_PREP_ARTIFACT_ID: '11068032294'
+      V5_PREP_ARTIFACT_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      V5_PREP_ARTIFACT_DIGEST: sha256:55db9b9144debbf71ec3ca780fd0ff6b91609221337045e4d6b43f02a822dc05
+      V5_PREP_HEAD_SHA: fd6e06bf9b1cff11f257d4eb5c2e2703d913e745
+      V5_PREP_MANIFEST_SHA256: f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799
+      V5_FILES_MANIFEST_SHA256: 1393038c09afff244e4aeb2c745eb5a6f40c5f728991cec5051d3dfb4d34cb6c
+    steps:
+      - name: Checkout exact V6 source commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Assert offline research boundary
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF}" = "refs/heads/trackcade-semantic-external-holdout-v1"
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not be present in V6 prep environment' >&2
+            exit 1
+          fi
+          grep -q -- '--prepare-only' research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py
+          ! grep -q 'REFERENCE_DROPS' research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py
+          grep -q 'providerCallsObserved.*0' research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py
+          grep -q 'terminalTracksProcessed.*False' research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py
+
+      - name: Compile and test V6 contract
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/learned-interpretation-v1/build_learned_request_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v6.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v6.py \
+            research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py \
+            research/semantic-external-holdout-v1/test_stage1_v6_contract.py
+          python research/semantic-external-holdout-v1/test_stage1_v6_contract.py
+
+      - name: Verify frozen V5 prep artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${V5_PREP_ARTIFACT_ID}" > /tmp/v5-artifact-meta.json
+          python - <<'PY'
+          import json, os
+          m=json.load(open('/tmp/v5-artifact-meta.json'))
+          assert m['id']==int(os.environ['V5_PREP_ARTIFACT_ID'])
+          assert m['name']==os.environ['V5_PREP_ARTIFACT_NAME']
+          assert m['digest']==os.environ['V5_PREP_ARTIFACT_DIGEST']
+          assert m['expired'] is False
+          wr=m['workflow_run']
+          assert wr['id']==int(os.environ['V5_PREP_RUN_ID'])
+          assert wr['head_sha']==os.environ['V5_PREP_HEAD_SHA']
+          PY
+
+      - name: Download exact frozen V5 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V5_PREP_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v5-prep
+          repository: ${{ github.repository }}
+          run-id: ${{ env.V5_PREP_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify downloaded V5 prep closure
+        run: |
+          set -euo pipefail
+          echo "${V5_PREP_MANIFEST_SHA256}  /tmp/trackcade-v5-prep/STAGE1_V5_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${V5_FILES_MANIFEST_SHA256}  /tmp/trackcade-v5-prep/FILES_SHA256.txt" | sha256sum -c -
+          python - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('/tmp/trackcade-v5-prep')
+          m=json.load(open(root/'STAGE1_V5_PREP_MANIFEST_V1.json'))
+          assert m['trackCount']==50 and m['providerCallsObserved']==0
+          assert m['referenceLabelsReadByPreparation'] is False
+          assert m['terminalTracksProcessed'] is False
+          assert m['analyzerExecuted'] is False and m['audioDecoded'] is False
+          assert m['compilerInvoked'] is False
+          lines=[x for x in (root/'FILES_SHA256.txt').read_text().splitlines() if x.strip()]
+          assert len(lines)==302
+          for line in lines:
+            expected,rel=line.split('  ',1)
+            p=root/rel
+            assert p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==expected
+          PY
+
+      - name: Record exact V6 source blob identities
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/trackcade-v6-prep
+          python - <<'PY'
+          import json,subprocess
+          paths=[
+            'research/learned-interpretation-v1/build_learned_request_v5.py',
+            'research/learned-interpretation-v1/build_learned_request_v6.py',
+            'research/learned-interpretation-v1/validate_learned_proposal_v3.py',
+            'research/learned-interpretation-v1/validate_learned_proposal_v6.py',
+            'research/learned-interpretation-v1/openai_responses_adapter_v1.py',
+            'research/learned-interpretation-v1/openai_responses_adapter_v6.py',
+            'research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py',
+            'research/semantic-external-holdout-v1/test_stage1_v6_contract.py',
+            'research/semantic-external-holdout-v1/STAGE1_V6_DEVELOPMENT_PROTOCOL.md',
+            '.github/workflows/trackcade-semantic-external-stage1-v6-prep-v1.yml',
+          ]
+          out={
+            'schema':'trackcade-semantic-external-stage1-v6-source-blobs-v1',
+            'headSha':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
+            'files':{p:subprocess.check_output(['git','rev-parse',f'HEAD:{p}'],text=True).strip() for p in paths},
+          }
+          with open('/tmp/trackcade-v6-prep/SOURCE_BLOBS_V1.json','w') as f:
+            json.dump(out,f,indent=2,sort_keys=True); f.write('\n')
+          print(json.dumps(out,indent=2,sort_keys=True))
+          PY
+
+      - name: Prepare all 50 V6 requests and exact payloads offline
+        run: |
+          set -euo pipefail
+          python research/semantic-external-holdout-v1/prepare_stage1_v6_requests.py \
+            --v5-prep-root /tmp/trackcade-v5-prep \
+            --output-dir /tmp/trackcade-v6-prep \
+            --builder research/learned-interpretation-v1/build_learned_request_v6.py \
+            --adapter research/learned-interpretation-v1/openai_responses_adapter_v6.py
+
+      - name: Audit complete V6 prep closure
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib,json,pathlib
+          root=pathlib.Path('/tmp/trackcade-v6-prep')
+          manifest=root/'STAGE1_V6_PREP_MANIFEST_V1.json'
+          files=root/'FILES_SHA256.txt'
+          m=json.load(open(manifest))
+          assert m['schema']=='trackcade-semantic-external-stage1-v6-prep-v1'
+          assert m['status']=='frozen-v6-provider-payloads-prepared-no-provider-call'
+          assert m['trackCount']==50 and m['providerCallsObserved']==0
+          assert m['referenceLabelsReadByPreparation'] is False
+          assert m['terminalTracksProcessed'] is False
+          assert m['analyzerExecuted'] is False and m['audioDecoded'] is False
+          assert m['compilerInvoked'] is False
+          assert m['modelContract']['model']=='gpt-6-sol'
+          assert m['modelContract']['reasoningEffort']=='high'
+          assert m['modelContract']['maxOutputTokens']==8192
+          assert m['modelContract']['store'] is False
+          s=m['semanticContract']
+          assert s['candidateFirst'] and s['decisiveImpactRequiredForDrop']
+          assert s['ordinaryReturnMustBeRuledOutForDrop'] and s['repeatedSimilarDropsAllowed']
+          assert s['confidenceFieldsDiagnosticOnly'] and s['analyzerDescriptorsNotSemanticGates']
+          assert s['priorModelAgreementNotProviderInput'] and s['proposalCountNotSemanticCriterion']
+          assert [r['ordinal'] for r in m['tracks']]==list(range(1,51))
+          assert len({r['id'] for r in m['tracks']})==50
+          for r in m['tracks']:
+            assert r['hashes']['structureEvidenceV2Sha256']==r['sourceV5PacketSha256']
+            case=root/f"cases/{r['ordinal']:02d}-{r['stem']}"
+            p=json.load(open(case/'openai-payload-v6.json'))
+            d=json.load(open(case/'instruction-diff-v6.json'))
+            assert p['model']=='gpt-6-sol' and p['reasoning']=={'effort':'high'}
+            assert p['max_output_tokens']==8192 and p['store'] is False
+            assert 'service_tier' not in p
+            assert d['retuningVariable']=='decisive-impact-plus-ordinary-return-counterfactual'
+            assert d['terminalHoldoutUsed'] is False
+          lines=[x for x in files.read_text().splitlines() if x.strip()]
+          assert len(lines)>300
+          for line in lines:
+            expected,rel=line.split('  ',1)
+            p=root/rel
+            assert p.is_file() and hashlib.sha256(p.read_bytes()).hexdigest()==expected
+          print(json.dumps({
+            'trackCount':50,'providerCalls':0,'terminalTracksProcessed':False,
+            'manifestSha256':hashlib.sha256(manifest.read_bytes()).hexdigest(),
+            'filesManifestSha256':hashlib.sha256(files.read_bytes()).hexdigest(),
+            'filesManifestEntries':len(lines),
+          },indent=2))
+          PY
+
+      - name: Upload immutable V6 prep artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-prep-v1
+          path: /tmp/trackcade-v6-prep
+          if-no-files-found: error
+          retention-days: 90
