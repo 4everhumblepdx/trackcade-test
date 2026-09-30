@@ -1,0 +1,80 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-zero-cost-contract-stress-audit-v1",
+  "status": "frozen-zero-cost-contract-stress-audit-passed",
+  "researchBoundary": {
+    "providerCallsDuringAudit": 0,
+    "referenceLabelsOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerModified": false,
+    "semanticSourceModified": false,
+    "additionalPaidSpendAuthorizedOrConsumed": false
+  },
+  "frozenSource": {
+    "v6PrepRunId": 36747819119,
+    "v6PrepSourceCommit": "a951a0ea2e993fade7d917e692da832138916916",
+    "contractTestBlobSha": "031d297fdda8aee57ed86c68762a4d29050ee319",
+    "validatorV6BlobSha": "ff595dfb7f6abeeac0b9133753c48cb8066448e9"
+  },
+  "verifiedExecution": {
+    "jobId": 109998391656,
+    "jobName": "prepare-v6",
+    "jobConclusion": "success",
+    "step": "Compile and test V6 contract",
+    "testCount": 15,
+    "testResult": "OK",
+    "providerKeyBoundaryVerified": "prep environment explicitly failed if OPENAI_API_KEY was present",
+    "providerCallsObserved": 0,
+    "terminalTracksProcessed": false,
+    "exactV5PacketReuse": true
+  },
+  "contractCasesVerifiedByFrozenSuite": [
+    "qualifying drop requires clear decisive impact",
+    "qualifying drop requires clear preparation and sustained stronger passage",
+    "qualifying drop requires ordinary-return alternative ruled out",
+    "repeated similar qualifying drops remain allowed",
+    "high confidence cannot rescue weak drop semantics",
+    "low confidence does not block otherwise qualifying semantics",
+    "ordinary transition may be high confidence without becoming a drop",
+    "ambiguous classification is valid when ordinary-return cannot be resolved",
+    "track summary is derived rather than a semantic gate",
+    "drop event and drop assessment anchors must match",
+    "independent timestamps are rejected",
+    "provider input excludes labels, source-map aliases, and prior-model outputs",
+    "adapter strict schema contains decisiveImpact and ordinaryReturnAlternative",
+    "V6 instruction encodes the frozen retuning variable and nonvariables"
+  ],
+  "validatorStaticReview": {
+    "dropRequiresAllThreePatternStatesClear": true,
+    "dropRequiresOrdinaryReturnRuledOut": true,
+    "duplicateAssessmentAnchorsRejected": true,
+    "duplicateDropEventAnchorsRejected": true,
+    "dropAssessmentEventSetEqualityRequired": true,
+    "summaryPresenceAndCountsDerivedFromCandidateAssessments": true,
+    "anchorIndexMustReferenceFrozenPacket": true,
+    "unexpectedTimingKeysRejected": true,
+    "confidenceRangeCheckedButNotUsedAsDropGate": true
+  },
+  "liveCanaryCompatibility": {
+    "runId": 36758887107,
+    "artifactId": 11116764479,
+    "normalizedProposalSha256": "f67c6bc0f985ff4b7694c094f2fb9d063a1a13755202c4a5a0a404f2cb52fa75",
+    "validatorStatus": "valid",
+    "validatorErrors": 0,
+    "dropPresence": "ambiguous_only",
+    "dropCount": 0,
+    "ambiguousCandidateCount": 1
+  },
+  "finding": {
+    "contractIntegrity": "No contract or validator defect was found in the frozen core cases relevant to the canary behavior.",
+    "mechanismIntegrity": "The validator structurally prevents a provider from labeling a candidate as Drop when decisive impact is not clear or when an ordinary-return explanation remains plausible.",
+    "scientificLimit": "This is a contract/transport/mechanism audit only. It is not evidence of V6 accuracy because Stage-1 reference labels remain sealed until the protocol permits scoring."
+  },
+  "nextAction": {
+    "recommendedCostNowUsd": 0,
+    "preserveRemainingApiBalance": true,
+    "additionalProviderCallsAuthorized": false,
+    "reason": "The free audit has exhausted the useful label-blind evidence available from one live canary. More model calls would add anecdotes but still would not permit protocol-valid scoring until the 50-response V6 development set is frozen."
+  }
+}
