@@ -1,0 +1,69 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-raw-scorer-staging-receipt-v1",
+  "status": "staged-inactive-label-blind",
+  "sourceCommitTested": "4e766d8645550a29507da83d803bab729945aaa8",
+  "contractWorkflow": {
+    "path": ".github/workflows/trackcade-semantic-external-stage1-v6-raw-scorer-contract-v1.yml",
+    "gitBlobSha": "79dfc1dfa5c13a26de86f7b9d33f91444afad617",
+    "runId": 36782529035,
+    "runAttempt": 1,
+    "jobId": 110116022068,
+    "conclusion": "success",
+    "syntheticTestsPassed": 8,
+    "syntheticTestsFailed": 0
+  },
+  "scorer": {
+    "path": "research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py",
+    "gitBlobSha": "2eadafe97cdfb873fe385c8a1078975dad709dd4",
+    "sha256": "91a72b5c3ce363f20de48f95fc35e9b82e1b2d9ffcea1c9b51942a738794fd84",
+    "activationState": "inactive-until-separate-post-freeze-receipt"
+  },
+  "tests": {
+    "path": "research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py",
+    "gitBlobSha": "e7f3abd0541a022f0e1f6af1406272670ecfeb1e",
+    "sha256": "d709c2925c482b9c10aebbe6a2ad7e268bbabd81cb398977543a6cb5b8e91780"
+  },
+  "inactiveActivationTemplate": {
+    "path": "research/semantic-external-holdout-v1/STAGE1_V6_RAW_SCORING_ACTIVATION_TEMPLATE_V1.json",
+    "gitBlobSha": "151bf96b325b1e7e3aac6f182b7bcbf1b99cad6e",
+    "sha256": "569adca8bec1b6890a359ee12e67d7f9d1e6975588f92869e0cba7ba04373326",
+    "developmentSetScoringAuthorized": false,
+    "stage1ReferenceOpeningAuthorized": false
+  },
+  "historicalRawMatcherProvenance": {
+    "commit": "81985328360e7cd0f70c03ea2b3c63fa94f1d14f",
+    "path": "research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py",
+    "gitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+    "sha256": "90aefb42a868553c75de4c3cca26bb646fc4706e8fbd09892e4a412323b62bb8",
+    "matchingContract": "maximize-cardinality_then-minimize-total-absolute-error_then-lexical-pair-tiebreak"
+  },
+  "evaluationContract": {
+    "primaryToleranceSeconds": 2.0,
+    "sensitivityTolerancesSeconds": [1.0, 2.0, 5.0],
+    "candidateTimingAuthority": "frozen-analyzer-derived-anchor-only",
+    "compilerCleanupAllowed": false,
+    "timestampMovementAllowed": false,
+    "developmentScoreIsUnbiasedGeneralizationEstimate": false,
+    "terminalHoldoutRemainsOnlyUnbiasedSemanticTest": true
+  },
+  "gates": {
+    "requiresComplete50ResponseV6DevelopmentFreeze": true,
+    "requiresExactGenerationFreezeSha256": true,
+    "requiresSeparateActivationReceipt": true,
+    "referenceReadOccursOnlyAfterFreezeAndActivationVerification": true,
+    "terminalHoldoutAccessed": false,
+    "stage1ReferenceLabelsCheckedOutByContractTest": false,
+    "stage1ReferenceLabelsReadByContractTest": false,
+    "partialScoringPerformed": false,
+    "providerCallsPerformed": 0,
+    "paidSpendPerformed": false,
+    "compilerInvoked": false,
+    "analyzerExecuted": false
+  },
+  "notes": [
+    "This receipt freezes an inert scoring path only. It does not authorize development scoring or Stage1 reference opening.",
+    "The successful contract workflow sparse-checked out only the scorer, synthetic tests, and inactive activation template; Stage1 references and terminal holdout data were absent.",
+    "The V6 scorer carries forward only the frozen historical RAW one-to-one matching semantics, not the historical compiler execution path.",
+    "A future activation receipt can be created only after all 50 V6 development responses are complete and frozen and the exact freeze SHA-256 is known."
+  ]
+}
