@@ -1,0 +1,60 @@
+name: Trackcade V6 — Offline Stage1 contract tests
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v6-contract-v1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prove offline boundary
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in V6 contract job' >&2
+            exit 1
+          fi
+
+      - name: Compile V6 sources
+        run: |
+          set -euo pipefail
+          python -m py_compile \
+            research/learned-interpretation-v1/build_learned_request_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v6.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v6.py \
+            research/semantic-external-holdout-v1/test_stage1_v6_contract.py
+
+      - name: Run V6 contract tests
+        run: |
+          set -euo pipefail
+          python research/semantic-external-holdout-v1/test_stage1_v6_contract.py -v
+
+      - name: Verify V6 research boundaries in source
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import sys
+          sys.path.insert(0, 'research/learned-interpretation-v1')
+          import build_learned_request_v6 as b
+          d=b.instruction_diff_record()
+          assert d['labelInformedDevelopmentRevision'] is True
+          assert d['terminalHoldoutUsed'] is False
+          assert d['retuningVariable']=='decisive-impact-plus-ordinary-return-counterfactual'
+          low=b.INSTRUCTION.lower()
+          assert 'semanticconfidence is likewise diagnostic only' in low
+          assert 'proposal count is not a semantic criterion' in low
+          assert 'do not use agreement with any prior model/version as evidence' in low
+          protocol=Path('research/semantic-external-holdout-v1/STAGE1_V6_DEVELOPMENT_PROTOCOL.md').read_text().lower()
+          assert 'no provider call is authorized' in protocol
+          assert 'terminal holdout remains untouched' in protocol
+          PY
