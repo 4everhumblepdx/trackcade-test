@@ -1,0 +1,106 @@
+name: Trackcade V5 — Offline Flex 16384 retry-35 conformance
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v5-flex16384-retry35-conformance-v1.yml
+      - research/semantic-external-holdout-v1/run_stage1_v5_flex16384_retry35_v1.py
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  conformance:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      SOURCE_RUN_ID: '36645240283'
+      SOURCE_NAME: trackcade-semantic-external-stage1-v5-prep-v1
+      SOURCE_MANIFEST_SHA256: f93545e534b11bd207df3f032709f5cd3c1f198cf5529bbf04c0158c696f4799
+      SOURCE_FILES_SHA256: 1393038c09afff244e4aeb2c745eb5a6f40c5f728991cec5051d3dfb4d34cb6c
+      FLEX_RUN_ID: '36647639925'
+      FLEX_NAME: trackcade-semantic-external-stage1-v5-flex-prep-v1
+      FLEX_MANIFEST_SHA256: 1b9c47e55463fafab4d1be94418b8ffb58e8b6799f2c5a527af40fa5f7d9c93e
+      FLEX_FILES_SHA256: c1a8c4eb5563756b42cd18ab12627a61848541e3217f89de3d422f8800743e0a
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Prove offline-only environment and compile harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          if env | grep -q '^OPENAI_API_KEY='; then
+            echo 'OPENAI_API_KEY must not exist in conformance' >&2
+            exit 1
+          fi
+          python -m py_compile \
+            research/semantic-external-holdout-v1/run_stage1_v5_flex16384_retry35_v1.py \
+            research/learned-interpretation-v1/ingest_provider_response_v5.py
+
+      - name: Download exact frozen V5 source prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_NAME }}
+          path: ${{ runner.temp }}/v5-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Download exact frozen V5 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_NAME }}
+          path: ${{ runner.temp }}/v5-flex
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+          github-token: ${{ github.token }}
+
+      - name: Verify frozen manifests and preflight exact retry payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum "${RUNNER_TEMP}/v5-source/STAGE1_V5_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$SOURCE_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-source/FILES_SHA256.txt" | awk '{print $1}')" = "$SOURCE_FILES_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-flex/STAGE1_V5_FLEX_PREP_MANIFEST_V1.json" | awk '{print $1}')" = "$FLEX_MANIFEST_SHA256"
+          test "$(sha256sum "${RUNNER_TEMP}/v5-flex/FILES_SHA256.txt" | awk '{print $1}')" = "$FLEX_FILES_SHA256"
+          OUT="${RUNNER_TEMP}/retry35-preflight"
+          python research/semantic-external-holdout-v1/run_stage1_v5_flex16384_retry35_v1.py \
+            --source-prep-root "${RUNNER_TEMP}/v5-source" \
+            --flex-prep-root "${RUNNER_TEMP}/v5-flex" \
+            --output-dir "$OUT" \
+            --harness-source-commit "$GITHUB_SHA" \
+            --ingester research/learned-interpretation-v1/ingest_provider_response_v5.py \
+            --preflight-only
+          python - "$OUT/stage1-v5-flex16384-retry35-case-status-v1.json" "$OUT/openai-payload-v5-flex16384-retry35.json" <<'PY'
+          import json,sys
+          s=json.load(open(sys.argv[1])); p=json.load(open(sys.argv[2]))
+          assert s['ordinal']==35
+          assert s['classification']=='offline_preflight_complete_no_provider_call'
+          assert s['providerCallAttempted'] is False
+          assert s['semanticPayloadUnchanged'] is True
+          assert s['transportOnlyChange']=={'field':'max_output_tokens','from':8192,'to':16384}
+          assert s['providerContract']=={
+            'provider':'openai','api':'responses','model':'gpt-6-sol',
+            'reasoningEffort':'high','maxOutputTokens':16384,
+            'serviceTier':'flex','store':False,
+          }
+          assert p['model']=='gpt-6-sol'
+          assert p['reasoning']=={'effort':'high'}
+          assert p['max_output_tokens']==16384
+          assert p['service_tier']=='flex'
+          assert p['store'] is False
+          print('V5 retry-35 16384 transport-only conformance passed')
+          PY
+
+      - name: Upload offline conformance evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v5-flex16384-retry35-conformance-v1
+          path: ${{ runner.temp }}/retry35-preflight
+          if-no-files-found: error
+          retention-days: 90
