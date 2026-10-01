@@ -1,0 +1,81 @@
+name: Trackcade V7 — Remaining49 V2 Static Audit
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2-static-audit.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Sparse checkout V2 staging surface
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+            .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml
+            .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_ZERO_ATTEMPT_PREFLIGHT_FAILURE_V1.json
+
+      - name: Verify V2 serial structure and zero-attempt recovery state
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+          python -m py_compile research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+          python - <<'PY'
+          import json,pathlib
+          main=pathlib.Path('.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml').read_text()
+          one=pathlib.Path('.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml').read_text()
+          auth=json.loads(pathlib.Path('research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json').read_text())
+          fail=json.loads(pathlib.Path('research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_ZERO_ATTEMPT_PREFLIGHT_FAILURE_V1.json').read_text())
+          assert auth['authorized'] is True
+          assert auth['ordinals']==list(range(2,51))
+          assert fail['runId']==36934240910
+          assert fail['providerAttemptsConsumed']==0
+          assert fail['ordinalArtifactsCreated']==0
+          assert fail['spendUsd']==0
+          assert 'matrix:' not in main and 'strategy:' not in main
+          assert main.count('uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml')==49
+          for i in range(2,51):
+            marker=f'  case_{i:02d}:'
+            assert main.count(marker)==1
+            block=main[main.index(marker):]
+            end=block.find('\n  case_',1)
+            if end!=-1:
+              block=block[:end]
+            need='preflight' if i==2 else f'case_{i-1:02d}'
+            assert f'needs: {need}' in block
+            assert f'ordinal: {i}' in block
+          assert one.count('Perform exactly one ordinal provider attempt')==1
+          assert one.count('trackcade-v7-remaining49-reserve-v1')==1
+          assert one.count('trackcade-v7-remaining49-finalize-v1')==1
+          print('V2 serial topology and zero-attempt recovery state PASS')
+          PY
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/36934240910/jobs?per_page=100" > /tmp/prior-jobs.json
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/36934240910/artifacts?per_page=100" > /tmp/prior-artifacts.json
+          python - <<'PY'
+          import json
+          jobs=json.load(open('/tmp/prior-jobs.json'))['jobs']
+          arts=json.load(open('/tmp/prior-artifacts.json'))
+          assert len(jobs)==1 and arts['total_count']==0
+          provider=[s for s in jobs[0]['steps'] if s['name'].startswith('One ordinal ') and s['name'].endswith(' provider attempt')]
+          assert len(provider)==49 and all(s['conclusion']=='skipped' for s in provider)
+          print('Prior V1 run independently verified as zero provider attempts')
+          PY
