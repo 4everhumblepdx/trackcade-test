@@ -22,7 +22,6 @@ jobs:
     timeout-minutes: 10
     env:
       PYTHONDONTWRITEBYTECODE: '1'
-      REPORT_DIR: ${{ runner.temp }}/v6-reconciliation-tests
     steps:
       - name: Checkout code and inert receipts only
         uses: actions/checkout@v4
@@ -51,13 +50,13 @@ jobs:
           python -B -m pip install --disable-pip-version-check --only-binary=:all: --no-compile --no-deps PyYAML==6.0.3
 
       - name: Run only synthetic tests with real network and subprocess execution denied
-        run: python -B research/semantic-external-holdout-v1/run_stage1_v6_hosted_reconciliation_tests_v1.py --output-dir "$REPORT_DIR" --require-sparse-workspace
+        run: python -B research/semantic-external-holdout-v1/run_stage1_v6_hosted_reconciliation_tests_v1.py --output-dir "${RUNNER_TEMP}/v6-reconciliation-tests" --require-sparse-workspace
 
       - name: Preserve provider-free test evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: trackcade-stage1-v6-provider-free-reconciliation-tests-v1
-          path: ${{ env.REPORT_DIR }}
+          path: ${{ runner.temp }}/v6-reconciliation-tests
           if-no-files-found: error
           retention-days: 90

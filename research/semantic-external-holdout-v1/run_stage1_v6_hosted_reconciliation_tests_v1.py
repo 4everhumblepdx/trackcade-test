@@ -63,6 +63,7 @@ def validate_workflows():
     require(freeze['jobs']['freeze']['env']['COLLECTOR_BLOB'] == hashlib.sha1(b'blob '+str(len(collector_bytes)).encode()+b'\0'+collector_bytes).hexdigest(), 'collector blob pin mismatch')
     require(hosted['permissions'] == {'contents':'read'}, 'hosted validation permissions changed')
     require(hosted['jobs']['offline-tests']['runs-on'] == 'ubuntu-24.04', 'standard public-repo runner required')
+    require(all('runner.' not in str(v) for v in hosted['jobs']['offline-tests'].get('env',{}).values()), 'runner context is unavailable in job-level env; use RUNNER_TEMP inside a step')
     require('secrets.' not in TEST_WORKFLOW.read_text(encoding='utf-8'), 'test workflow must not expose secrets')
     return {'yamlDocumentsParsed':3, 'remainingOrdinalGroupsVerified':49, 'orderedProgressionVerified':True,
         'preCallReservationsVerified':True,'resultUploadGatesVerified':True,'collectorBlobPinVerified':True}
