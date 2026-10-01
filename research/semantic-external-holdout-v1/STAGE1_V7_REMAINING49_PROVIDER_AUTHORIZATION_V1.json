@@ -47,8 +47,13 @@
   },
   "costPlanning": {
     "estimateReceipt": "research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json",
-    "estimateReceiptExistsAtStaging": false,
+    "estimateReceiptExistsAtStaging": true,
     "canaryObservedEstimatedUsd": 0.041068,
+    "centralRemaining49EstimateUsd": 1.8501695,
+    "observationalCanaryRatioSensitivityUsd": 1.4075419748,
+    "sensitivityLowUsd": 1.60377825,
+    "sensitivityHighUsd": 2.09656075,
+    "conservativeAllCallsAt8192OutputCapUsd": 2.8716445,
     "estimateIsNotSpendAuthorization": true
   }
 }
