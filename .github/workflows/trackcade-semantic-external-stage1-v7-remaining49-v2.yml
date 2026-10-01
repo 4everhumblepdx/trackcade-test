@@ -1,0 +1,601 @@
+name: Trackcade V7 — Remaining 49 V2 — zero-attempt recovery
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v7-remaining49-paid-v2
+  cancel-in-progress: false
+
+jobs:
+  preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+      ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+      FAILURE_RECEIPT: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_ZERO_ATTEMPT_PREFLIGHT_FAILURE_V1.json
+      SOURCE_RUN_ID: '36915758639'
+      SOURCE_ARTIFACT_ID: '11189967853'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-prep-v1
+      SOURCE_ARTIFACT_DIGEST: sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a
+      SOURCE_HEAD_SHA: f83e4de05fda7741479675f475be75eee800b5d8
+      FLEX_RUN_ID: '36920081360'
+      FLEX_ARTIFACT_ID: '11191402965'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+      FLEX_ARTIFACT_DIGEST: sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95
+      FLEX_HEAD_SHA: 307e53261035812617fede7429a2d82dde8c2479
+      CANARY_RUN_ID: '36922442091'
+      CANARY_ARTIFACT_ID: '11191938588'
+      CANARY_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid
+      CANARY_ARTIFACT_DIGEST: sha256:5b3995aa95e4f92af0c2d7b25f9418445bc292a691b7b029165ffe0340b96b4a
+
+    steps:
+      - name: Sparse checkout exact V2 preflight surface with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+            .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml
+            .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_ZERO_ATTEMPT_PREFLIGHT_FAILURE_V1.json
+
+      - name: Verify exact V2 authorization activation and zero-attempt recovery boundary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test "${GITHUB_RUN_ATTEMPT}" = '1'
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "${ACTIVATE_PATH}"
+          python - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          auth=json.load(open(os.environ['AUTH_PATH']))
+          act=json.load(open(os.environ['ACTIVATE_PATH']))
+          fail=json.load(open(os.environ['FAILURE_RECEIPT']))
+          expected=list(range(2,51))
+          contract={'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False}
+          assert auth['schema']=='trackcade-semantic-external-stage1-v7-remaining49-provider-authorization-v1'
+          assert auth['authorized'] is True and auth['status']=='authorized-explicit-paid-remaining49'
+          assert auth['ordinals']==expected and auth['maximumInitialProviderAttempts']==49 and auth['attemptsPerOrdinal']==1
+          assert auth['providerContract']==contract
+          for key in ('automaticRetriesAuthorized','standardFallbackAuthorized','partialScoringAuthorized','stage1ReferenceAccessAuthorized','terminalHoldoutAccessAuthorized','compilerInvocationAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','semanticContractChangesAuthorized'):
+            assert auth['researchBoundary'][key] is False, key
+          assert fail['schema']=='trackcade-semantic-external-stage1-v7-remaining49-zero-attempt-preflight-failure-v1'
+          assert fail['runId']==36934240910 and fail['providerAttemptsConsumed']==0
+          assert fail['ordinalReservationsCreated']==0 and fail['ordinalArtifactsCreated']==0 and fail['spendUsd']==0
+          assert fail['authorizationStillCoversUnconsumedOrdinals']==expected
+          assert act['schema']=='trackcade-semantic-external-stage1-v7-remaining49-provider-activation-v1'
+          assert act['activatePaidRemaining49'] is True
+          assert act['recoveryFromZeroAttemptRunId']==36934240910
+          assert act['authorizationFile']==os.environ['AUTH_PATH']
+          assert act['ordinals']==expected and act['maximumProviderAttempts']==49 and act['attemptsPerOrdinal']==1
+          assert act['providerContract']==contract
+          for key in ('automaticRetriesAuthorized','standardFallbackAuthorized','partialScoringAuthorized','stage1ReferenceOpeningAuthorized','terminalHoldoutAccessAuthorized','compilerInvocationAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','semanticContractChangesAuthorized'):
+            assert act[key] is False, key
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          assert act['executionSourceCommit']==parent
+          files={
+            'executionWorkflowSha256':'.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml',
+            'oneCaseWorkflowSha256':'.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml',
+            'runnerSha256':'research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py',
+            'reserveActionSha256':'.github/actions/trackcade-v7-remaining49-reserve-v1/action.yml',
+            'finalizeActionSha256':'.github/actions/trackcade-v7-remaining49-finalize-v1/action.yml',
+            'failureReceiptSha256':os.environ['FAILURE_RECEIPT'],
+          }
+          for key,path in files.items():
+            assert act[key]==hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest(), key
+          auth_commit=act['authorizationCommit']
+          assert auth_commit=='a889e6f7e37d5f1dde151071932e79e826a293ed'
+          subprocess.run(['git','cat-file','-e',f'{auth_commit}^{{commit}}'],check=True)
+          historical=subprocess.check_output(['git','show',f'{auth_commit}:{os.environ["AUTH_PATH"]}'],text=True)
+          assert json.loads(historical)==auth
+          PY
+
+      - name: Verify immutable artifacts and prior run consumed zero attempts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            ('SOURCE','SOURCE_ARTIFACT_ID','SOURCE_ARTIFACT_NAME','SOURCE_ARTIFACT_DIGEST','SOURCE_RUN_ID','SOURCE_HEAD_SHA'),
+            ('FLEX','FLEX_ARTIFACT_ID','FLEX_ARTIFACT_NAME','FLEX_ARTIFACT_DIGEST','FLEX_RUN_ID','FLEX_HEAD_SHA'),
+          ]
+          for _,idk,namek,digestk,runk,headk in specs:
+            m=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ[idk]}"],text=True))
+            assert m['id']==int(os.environ[idk]) and m['name']==os.environ[namek] and m['digest']==os.environ[digestk]
+            assert m['expired'] is False and m['workflow_run']['id']==int(os.environ[runk]) and m['workflow_run']['head_sha']==os.environ[headk]
+          c=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ['CANARY_ARTIFACT_ID']}"],text=True))
+          assert c['id']==int(os.environ['CANARY_ARTIFACT_ID']) and c['name']==os.environ['CANARY_ARTIFACT_NAME'] and c['digest']==os.environ['CANARY_ARTIFACT_DIGEST']
+          assert c['expired'] is False and c['workflow_run']['id']==int(os.environ['CANARY_RUN_ID'])
+          prior_jobs=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/36934240910/jobs?per_page=100'],text=True))['jobs']
+          prior_art=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/runs/36934240910/artifacts?per_page=100'],text=True))
+          assert len(prior_jobs)==1 and prior_art['total_count']==0
+          steps=prior_jobs[0]['steps']
+          guard=[s for s in steps if s['name']=='Verify frozen prep closures before any provider credential is exposed']
+          assert len(guard)==1 and guard[0]['conclusion']=='failure'
+          provider=[s for s in steps if s['name'].startswith('One ordinal ') and s['name'].endswith(' provider attempt')]
+          assert len(provider)==49 and all(s['conclusion']=='skipped' for s in provider)
+          PY
+          for n in $(seq -w 2 50); do
+            for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+              name="trackcade-semantic-external-stage1-v7-remaining49-v1-case-${n}-${suffix}"
+              test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')" = '0'
+            done
+          done
+
+      - name: Refuse any earlier V2 batch execution
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml/runs?per_page=100" > /tmp/v2-runs.json
+          python - <<'PY'
+          import json,os
+          pages=json.load(open('/tmp/v2-runs.json'))
+          runs=[r for page in pages for r in page['workflow_runs']]
+          assert all(r['id']==int(os.environ['GITHUB_RUN_ID']) for r in runs), 'Unexpected prior V2 paid batch execution exists.'
+          PY
+
+  case_02:
+    needs: preflight
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 2
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_03:
+    needs: case_02
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 3
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_04:
+    needs: case_03
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 4
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_05:
+    needs: case_04
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 5
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_06:
+    needs: case_05
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 6
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_07:
+    needs: case_06
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 7
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_08:
+    needs: case_07
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 8
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_09:
+    needs: case_08
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 9
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_10:
+    needs: case_09
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 10
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_11:
+    needs: case_10
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 11
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_12:
+    needs: case_11
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 12
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_13:
+    needs: case_12
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 13
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_14:
+    needs: case_13
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 14
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_15:
+    needs: case_14
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 15
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_16:
+    needs: case_15
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 16
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_17:
+    needs: case_16
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 17
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_18:
+    needs: case_17
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 18
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_19:
+    needs: case_18
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 19
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_20:
+    needs: case_19
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 20
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_21:
+    needs: case_20
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 21
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_22:
+    needs: case_21
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 22
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_23:
+    needs: case_22
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 23
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_24:
+    needs: case_23
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 24
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_25:
+    needs: case_24
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 25
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_26:
+    needs: case_25
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 26
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_27:
+    needs: case_26
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 27
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_28:
+    needs: case_27
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 28
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_29:
+    needs: case_28
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 29
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_30:
+    needs: case_29
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 30
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_31:
+    needs: case_30
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 31
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_32:
+    needs: case_31
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 32
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_33:
+    needs: case_32
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 33
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_34:
+    needs: case_33
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 34
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_35:
+    needs: case_34
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 35
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_36:
+    needs: case_35
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 36
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_37:
+    needs: case_36
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 37
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_38:
+    needs: case_37
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 38
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_39:
+    needs: case_38
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 39
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_40:
+    needs: case_39
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 40
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_41:
+    needs: case_40
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 41
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_42:
+    needs: case_41
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 42
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_43:
+    needs: case_42
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 43
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_44:
+    needs: case_43
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 44
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_45:
+    needs: case_44
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 45
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_46:
+    needs: case_45
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 46
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_47:
+    needs: case_46
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 47
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_48:
+    needs: case_47
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 48
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_49:
+    needs: case_48
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 49
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+  case_50:
+    needs: case_49
+    uses: ./.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+    with:
+      ordinal: 50
+      activation-path: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+    secrets:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
