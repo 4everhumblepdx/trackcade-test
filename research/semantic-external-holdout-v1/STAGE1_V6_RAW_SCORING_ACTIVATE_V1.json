@@ -1,0 +1,26 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-raw-scoring-activation-v1",
+  "status": "authorized-after-complete-50-response-freeze",
+  "developmentSetScoringAuthorized": true,
+  "stage1ReferenceOpeningAuthorized": true,
+  "terminalHoldoutAuthorized": false,
+  "compilerAuthorized": false,
+  "analyzerExecutionAuthorized": false,
+  "providerCallsAuthorized": false,
+  "tolerancesSeconds": [1.0, 2.0, 5.0],
+  "primaryToleranceSeconds": 2.0,
+  "generationFreezeSha256": "ef3496c28e42b08f25a5d0afb989628ca96dad6ac82ebac0be61a026732fa1a8",
+  "generationFreezeRunId": 36911662121,
+  "generationFreezeArtifactId": 11186333637,
+  "generationFreezeArtifactDigest": "sha256:c4f7e94936b7cb17b2c025231ed9aeea585246a0e4b6371887df1fa5ee25645f",
+  "scoringWorkflowParentCommit": "24fc94b01ae24fd685ae9bc167b4a769debdde06",
+  "scientificQualification": {
+    "labelInformedDevelopmentRevision": true,
+    "developmentScoreIsUnbiasedGeneralizationEstimate": false,
+    "terminalHoldoutRemainsOnlyUnbiasedSemanticTest": true
+  },
+  "notes": [
+    "Authorized only after the complete label-blind 50-response V6 generation freeze succeeded and its exact SHA-256 was pinned.",
+    "This opens only the frozen Stage1 development Drop references for one-time RAW scoring at plus/minus 1, 2, and 5 seconds. No provider calls, terminal holdout access, compiler invocation, Analyzer execution/modification, timestamp movement, thresholding, caps, or post-result cleanup are authorized."
+  ]
+}
