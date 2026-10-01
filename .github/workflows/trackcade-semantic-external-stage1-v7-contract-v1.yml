@@ -1,0 +1,58 @@
+name: TrackCade Stage1 V7 contract v1
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - 'research/learned-interpretation-v1/build_learned_request_v7.py'
+      - 'research/learned-interpretation-v1/validate_learned_proposal_v7.py'
+      - 'research/learned-interpretation-v1/openai_responses_adapter_v7.py'
+      - 'research/semantic-external-holdout-v1/test_stage1_v7_contract.py'
+      - 'research/semantic-external-holdout-v1/STAGE1_V7_DEVELOPMENT_PROTOCOL.md'
+      - '.github/workflows/trackcade-semantic-external-stage1-v7-contract-v1.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout V7 contract machinery without labels or terminal data
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            research/learned-interpretation-v1/
+            research/semantic-external-holdout-v1/test_stage1_v7_contract.py
+            research/semantic-external-holdout-v1/STAGE1_V7_DEVELOPMENT_PROTOCOL.md
+            .github/workflows/trackcade-semantic-external-stage1-v7-contract-v1.yml
+
+      - name: Prove provider-free and label-free workspace
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          ! find . -type f -iname '*terminal*' -print -quit | grep -q .
+          echo 'provider-free label-free V7 contract workspace=PASS'
+
+      - name: Run V7 synthetic contract tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/semantic-external-holdout-v1/test_stage1_v7_contract.py -v
+
+      - name: Record source identities
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum \
+            research/learned-interpretation-v1/build_learned_request_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v7.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v7.py \
+            research/semantic-external-holdout-v1/test_stage1_v7_contract.py \
+            research/semantic-external-holdout-v1/STAGE1_V7_DEVELOPMENT_PROTOCOL.md
