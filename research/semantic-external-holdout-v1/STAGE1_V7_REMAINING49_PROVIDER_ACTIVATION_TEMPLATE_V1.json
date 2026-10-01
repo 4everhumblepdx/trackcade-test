@@ -25,7 +25,16 @@
     "serviceTier": "flex",
     "store": false
   },
-  "executionWorkflowSha256": "REPLACE_AFTER_HOSTED_STAGING_VALIDATION",
-  "runnerSha256": "REPLACE_AFTER_HOSTED_STAGING_VALIDATION",
-  "note": "Template only. This filename does not trigger provider calls. Do not create STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json or set activatePaidRemaining49=true without Nicholas's fresh explicit approval."
+  "executionWorkflowSha256": "ef796b272b71e889c656a99fe95598fb883f2548403d498acccc4140ae6aa4b6",
+  "runnerSha256": "44d2e68626bae9e274f9b95db889979a9de6d97695d50adec381f32697be1f6e",
+  "reserveActionSha256": "c6b1907046bd383271eaf0dfef06a0ebf2210dd8bd3736d341f850efa085a0e2",
+  "finalizeActionSha256": "d9301789a3297a5ce25e2474c790a507d33a2eac151779744e19dbf1c8e4ce89",
+  "hashReceipt": {
+    "runId": 36925237707,
+    "jobId": 110580817648,
+    "headSha": "25b11dc55ecf8d4d9da080473fb3415e7fc90349",
+    "providerCallsObserved": 0,
+    "activationFilePresent": false
+  },
+  "note": "Template only. Hosted-validated execution hashes are frozen here, but this filename does not trigger provider calls. Do not create STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json or set activatePaidRemaining49=true without Nicholas's fresh explicit approval."
 }
