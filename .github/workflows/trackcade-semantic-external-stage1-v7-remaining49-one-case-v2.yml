@@ -1,0 +1,155 @@
+name: Trackcade V7 — One Ordered Remaining49 Case V2
+
+on:
+  workflow_call:
+    inputs:
+      ordinal:
+        required: true
+        type: number
+      activation-path:
+        required: true
+        type: string
+    secrets:
+      OPENAI_API_KEY:
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  case:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      RUNNER: research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+      VALIDATOR: research/learned-interpretation-v1/validate_learned_proposal_v7.py
+      AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+      SOURCE_RUN_ID: '36915758639'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-prep-v1
+      SOURCE_MANIFEST_SHA256: 455602ea8c5a721fac9b3381aca46285fe3c14f1fbcc36f0d08b4ffec01be875
+      SOURCE_FILES_SHA256: 9a55eff093ac8552ef8868c60d410b0b6ade0e243c11a5588066c9d16d9f3672
+      FLEX_RUN_ID: '36920081360'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+      FLEX_MANIFEST_SHA256: a41fdd4e4138fdfda18cda20004f609eb089aeb64ed1be486ee2442b1241a713
+      FLEX_FILES_SHA256: 18805ff58dd5580a7002bc9f7d3a9fa5042539f80ae4b7d1c8a9ddc62e1668f0
+
+    steps:
+      - name: Validate ordinal input
+        env:
+          ORDINAL: ${{ inputs.ordinal }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$ORDINAL" -ge 2
+          test "$ORDINAL" -le 50
+          test "${GITHUB_RUN_ATTEMPT}" = '1'
+          test "${GITHUB_EVENT_NAME}" = 'push'
+          test "${GITHUB_REF}" = 'refs/heads/trackcade-semantic-external-holdout-v1'
+
+      - name: Sparse checkout exact execution surface only
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml
+            .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml
+            research/learned-interpretation-v1/*.py
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+
+      - name: Verify sparse boundary before downloading prep
+        env:
+          ACTIVATE_PATH: ${{ inputs.activation-path }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test -f "$AUTH_PATH"
+          test -f "$ACTIVATE_PATH"
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          ! find . -type f -iname '*terminal*' -print -quit | grep -q .
+          python -m py_compile "$RUNNER" "$VALIDATOR"
+          python - <<'PY'
+          import json,os
+          auth=json.load(open(os.environ['AUTH_PATH']))
+          act=json.load(open(os.environ['ACTIVATE_PATH']))
+          assert auth['schema']=='trackcade-semantic-external-stage1-v7-remaining49-provider-authorization-v1'
+          assert auth['authorized'] is True and auth['status']=='authorized-explicit-paid-remaining49'
+          assert act['schema']=='trackcade-semantic-external-stage1-v7-remaining49-provider-activation-v1'
+          assert act['activatePaidRemaining49'] is True
+          assert act['ordinals']==list(range(2,51))
+          assert act['maximumProviderAttempts']==49 and act['attemptsPerOrdinal']==1
+          for key in ('automaticRetriesAuthorized','standardFallbackAuthorized','partialScoringAuthorized','stage1ReferenceOpeningAuthorized','terminalHoldoutAccessAuthorized','compilerInvocationAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','semanticContractChangesAuthorized'):
+            assert act[key] is False, key
+          PY
+
+      - name: Download exact frozen V7 semantic prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact frozen V7 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-flex8192-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+
+      - name: Verify exact frozen prep closures provider-free
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          ! find /tmp/trackcade-v7-prep /tmp/trackcade-v7-flex8192-prep -type f -iname '*terminal*' -print -quit | grep -q .
+          echo "${SOURCE_MANIFEST_SHA256}  /tmp/trackcade-v7-prep/STAGE1_V7_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${SOURCE_FILES_SHA256}  /tmp/trackcade-v7-prep/FILES_SHA256.txt" | sha256sum -c -
+          echo "${FLEX_MANIFEST_SHA256}  /tmp/trackcade-v7-flex8192-prep/STAGE1_V7_FLEX8192_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${FLEX_FILES_SHA256}  /tmp/trackcade-v7-flex8192-prep/FILES_SHA256.txt" | sha256sum -c -
+
+      - name: Reserve ordinal provider-free
+        id: reserve
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: ${{ inputs.ordinal }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ inputs.activation-path }}
+          github-token: ${{ github.token }}
+
+      - name: Perform exactly one ordinal provider attempt
+        id: live
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve.outputs.lock-artifact-id }}
+          ORDINAL: ${{ inputs.ordinal }}
+          ACTIVATE_PATH: ${{ inputs.activation-path }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf -v NN '%02d' "$ORDINAL"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > "/tmp/v7-lock-${NN}/uploaded-artifact.json"
+          python "$RUNNER" --mode run --ordinal "$ORDINAL" --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir "/tmp/v7-case-${NN}" --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file "/tmp/v7-lock-${NN}/attempt-lock.json" --uploaded-lock "/tmp/v7-lock-${NN}/uploaded-artifact.json"
+
+      - name: Persist and verify completed-valid result
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: ${{ inputs.ordinal }}
+          artifact-outcome: ${{ steps.live.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ inputs.activation-path }}
+          github-token: ${{ github.token }}
