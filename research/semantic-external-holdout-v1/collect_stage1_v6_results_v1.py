@@ -185,6 +185,9 @@ def inspect_case(files: dict[str, bytes], artifact: dict, run: dict, srow: dict,
     variant_name, spec = detect_variant(files, ordinal)
     status = json.loads(files[spec["statusFile"]])
     paths = frozen_paths(source_root, flex_root, srow)
+    for key, name in {"request": "learned-request-v6.json", "packet": "structure-evidence-v2.json",
+                      "sourcePayload": "openai-payload-v6.json", "flexPayload": "openai-payload-v6-flex8192.json"}.items():
+        require(files[name] == paths[key].read_bytes(), f"ordinal {ordinal}: embedded frozen {key} mismatch")
     check_fields(status, {
         "schema": spec["statusSchema"], "stage": "stage1-v6", "ordinal": ordinal,
         "id": srow["id"], "stem": srow["stem"], "harnessSourceCommit": run["head_sha"],
@@ -251,7 +254,8 @@ def inspect_case(files: dict[str, bytes], artifact: dict, run: dict, srow: dict,
     require(summary.get("ambiguousCandidateCount") == len(ambiguous), f"ordinal {ordinal}: derived ambiguous count")
     presence = "drop_present" if drops else ("ambiguous_only" if ambiguous else "no_drop")
     require(summary.get("dropPresence") == presence, f"ordinal {ordinal}: derived presence")
-    require({a.get("anchor") for a in drops} == {e.get("anchor") for e in drop_events}, f"ordinal {ordinal}: Drop event/assessment anchor equality")
+    require({json.dumps(a.get("anchor"), sort_keys=True) for a in drops} ==
+            {json.dumps(e.get("anchor"), sort_keys=True) for e in drop_events}, f"ordinal {ordinal}: Drop event/assessment anchor equality")
 
     ud = usage.get("input_tokens_details") or {}; od = usage.get("output_tokens_details") or {}
     entry = {
@@ -282,6 +286,20 @@ def collect(source_root: Path, flex_root: Path, artifact_root: Path, inventory: 
     seen_artifacts, seen_responses = set(), set()
     for inv in rows:
         ordinal = inv["ordinal"]; run = inv.get("run") or {}; artifact = inv.get("artifact") or {}
+        if ordinal == 1:
+            check_fields(artifact, {"id": 11116764479,
+                "name": "trackcade-semantic-external-stage1-v6-canary-v1-case-01-completed-valid",
+                "digest": "sha256:18a1200c9f77f3cc74a7844680168e8f86c7cfdd6b13cc5c9da3a014fcffaf41"}, "frozen canary")
+            require(run.get("id") == 36758887107, "frozen canary run")
+        else:
+            require(artifact.get("name") == f"trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-completed-valid", f"ordinal {ordinal}: artifact name")
+            lock = inv.get("attemptLock") or {}
+            check_fields(lock, {"expired": False,
+                "name": f"trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-attempt-lock"}, f"ordinal {ordinal}: reservation")
+            require(type(lock.get("id")) is int and lock["id"] != artifact.get("id"), f"ordinal {ordinal}: reservation identity")
+            require(HEX64.fullmatch(str(lock.get("digest", "")).removeprefix("sha256:")) is not None and str(lock.get("digest", "")).startswith("sha256:"), f"ordinal {ordinal}: reservation digest")
+            require((lock.get("workflow_run") or {}).get("id") == run.get("id") and
+                    (lock.get("workflow_run") or {}).get("head_sha") == run.get("head_sha"), f"ordinal {ordinal}: reservation run binding")
         check_fields(run, {"run_attempt": 1, "head_branch": BRANCH, "status": "completed"}, f"ordinal {ordinal}: run")
         require(run.get("conclusion") in {"success", "failure"}, f"ordinal {ordinal}: run conclusion")
         require(isinstance(run.get("id"), int) and isinstance(run.get("head_sha"), str), f"ordinal {ordinal}: run identity")
@@ -294,6 +312,8 @@ def collect(source_root: Path, flex_root: Path, artifact_root: Path, inventory: 
         require(zip_path.is_file(), f"ordinal {ordinal}: missing artifact ZIP")
         files = read_archive(zip_path, artifact)
         entry, proposal_bytes = inspect_case(files, artifact, run, srows[ordinal], frows[ordinal], source_root, flex_root)
+        if ordinal != 1:
+            entry["attemptLock"] = inv["attemptLock"]
         require(entry["openaiResponseId"] not in seen_responses, f"ordinal {ordinal}: duplicate response id")
         seen_responses.add(entry["openaiResponseId"]); entries.append(entry); proposals[ordinal] = proposal_bytes
 

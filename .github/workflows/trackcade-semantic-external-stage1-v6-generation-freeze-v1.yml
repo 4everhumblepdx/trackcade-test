@@ -23,7 +23,7 @@ jobs:
       BASE: research/semantic-external-holdout-v1
       ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V6_GENERATION_FREEZE_ACTIVATE_V1.json
       COLLECTOR: research/semantic-external-holdout-v1/collect_stage1_v6_results_v1.py
-      COLLECTOR_BLOB: 0b86a4f488d625a09380cb26f31ac1c428e01b00
+      COLLECTOR_BLOB: 7a8d740dbd3395725c30506d0554375569d1eeb5
       SOURCE_RUN_ID: '36747819119'
       SOURCE_NAME: trackcade-semantic-external-stage1-v6-prep-v1
       SOURCE_MANIFEST_SHA256: ebdbf2232a813dbe89b87f4fb3bd938f037d6f15707943c2c0b639a15bc202c8
@@ -59,7 +59,6 @@ jobs:
           test -f "$ACTIVATE_PATH"
           test ! -e "$BASE/REFERENCE_DROPS_V3.json"
           test "$(git hash-object "$COLLECTOR")" = "$COLLECTOR_BLOB"
-          python -m py_compile "$COLLECTOR"
           mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
           test "${#changed[@]}" -eq 1
           test "${changed[0]}" = "$ACTIVATE_PATH"
@@ -143,6 +142,7 @@ jobs:
           for ordinal in range(2,51):
               name=f'trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-completed-valid'
               data=gh(f'repos/{repo}/actions/artifacts?name={name}&per_page=100')
+              assert data['total_count']==1, (ordinal,'duplicate or expired completed evidence')
               active=[a for a in data.get('artifacts',[]) if not a.get('expired')]
               assert len(active)==1, (ordinal,name,len(active))
               art=active[0]
@@ -152,9 +152,17 @@ jobs:
               assert run['run_attempt']==1 and run['head_branch']=='trackcade-semantic-external-holdout-v1'
               assert run['status']=='completed' and run['conclusion'] in {'success','failure'}
               assert art['workflow_run']['head_sha']==run['head_sha']
+              for suffix in ('attempted-no-valid-response','local-no-provider-attempt','reserved-no-final-status'):
+                  bad=gh(f'repos/{repo}/actions/artifacts?name=trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-{suffix}&per_page=100')
+                  assert bad['total_count']==0, (ordinal,'conflicting failed attempt evidence')
+              locks=gh(f'repos/{repo}/actions/artifacts?name=trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-attempt-lock&per_page=100')
+              assert locks['total_count']==1 and len(locks['artifacts'])==1, (ordinal,'reservation count')
+              lock=locks['artifacts'][0]
+              assert lock['expired'] is False and lock['workflow_run']['id']==run_id and lock['workflow_run']['head_sha']==run['head_sha']
+              selected_lock={k:lock[k] for k in ('id','name','size_in_bytes','digest','expired','workflow_run')}
               selected_run={k:run[k] for k in ('id','run_attempt','head_branch','head_sha','status','conclusion')}
               selected_art={k:art[k] for k in ('id','name','size_in_bytes','digest','expired','workflow_run')}
-              cases.append({'ordinal':ordinal,'run':selected_run,'artifact':selected_art})
+              cases.append({'ordinal':ordinal,'run':selected_run,'artifact':selected_art,'attemptLock':selected_lock})
               with (root/f"{art['id']}.zip").open('wb') as f:
                   subprocess.run(['gh','api',f"repos/{repo}/actions/artifacts/{art['id']}/zip"],stdout=f,check=True)
           assert len(cases)==50 and [c['ordinal'] for c in cases]==list(range(1,51)) and len(seen)==50

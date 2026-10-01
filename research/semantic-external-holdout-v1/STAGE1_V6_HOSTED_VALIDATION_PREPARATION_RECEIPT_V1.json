@@ -1,0 +1,53 @@
+{
+  "schema": "trackcade-stage1-v6-hosted-validation-preparation-v1",
+  "recordedDate": "2026-10-01",
+  "status": "provider-free-hosted-validation-prepared",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "remoteComparedCommit": "7c17ea256ac33b79a8b4f351c9686a459fca5ac4",
+  "reconciliationCommit": "f26c9331c39c3982286ac631d15a1ef61c70ca5c",
+  "remoteDivergence": {"localAhead": 1, "remoteAhead": 0},
+  "hostedWorkflow": ".github/workflows/trackcade-semantic-external-stage1-v6-reconciliation-tests-v1.yml",
+  "testHarness": "research/semantic-external-holdout-v1/run_stage1_v6_hosted_reconciliation_tests_v1.py",
+  "triggerAudit": {
+    "workflowsParsed": 107,
+    "expectedPushWorkflowCount": 1,
+    "expectedPushWorkflow": "trackcade-semantic-external-stage1-v6-reconciliation-tests-v1.yml",
+    "workflowRunFollowups": 0,
+    "legacyInventoryTriggerNarrowed": "research-file wildcard replaced with inventory_osf_v1.py only; prevents an unrelated OSF fetch/branch write on this push"
+  },
+  "localPreparationChecks": {
+    "testsPassed": 29,
+    "failures": 0,
+    "errors": 0,
+    "yamlDocumentsParsed": 3,
+    "orderedRemainingOrdinalGroupsVerified": 49,
+    "sparseHostedWorkspaceSimulated": true,
+    "unmockedNetworkOrSubprocessAttempts": 0
+  },
+  "hostedIsolation": {
+    "permissions": {"contents": "read"},
+    "runner": "ubuntu-24.04",
+    "publicRepositoryObserved": true,
+    "providerSecretsExposed": false,
+    "referenceAndTerminalDataInSparseCheckout": false,
+    "testProcessNetworkAndSubprocessDenied": true,
+    "realProviderResponsesUsed": false,
+    "artifactDownloadsOfResearchData": false,
+    "onlySyntheticFixturesAndMockedTransport": true
+  },
+  "boundaries": {
+    "providerCalls": 0,
+    "paidSpendUsd": 0,
+    "remaining49Activation": false,
+    "stage1ReferenceLabelsOpened": false,
+    "partialSemanticScoring": false,
+    "terminalHoldoutAccess": false,
+    "compilerInvocation": false,
+    "analyzerExecutionOrModification": false,
+    "frozenV6SemanticContractChanged": false,
+    "ordinal1Regenerated": false,
+    "ordinals2Through50Executed": false
+  },
+  "note": "This receipt is not an activation or spend authorization. Hosted run identities and verified outcomes belong in a subsequent result receipt. The reconciliation receipt remains a historical local-verification record; its canonical code hashes are unchanged."
+}

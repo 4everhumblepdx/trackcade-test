@@ -29,6 +29,81 @@ CONTRACT = {
     "serviceTier": "flex",
     "store": False,
 }
+LOCK_SCHEMA = "trackcade-semantic-external-stage1-v6-remaining49-attempt-lock-v1"
+BRANCH = "refs/heads/trackcade-semantic-external-holdout-v1"
+
+
+def exact(data: dict, expected: dict) -> None:
+    for key, value in expected.items():
+        if type(data.get(key)) is not type(value) or data[key] != value:
+            raise ValueError(f"execution gate mismatch: {key}")
+
+
+def execution_gate(auth: dict, act: dict, ordinal: int, harness_commit: str) -> None:
+    """Local second gate; the workflow additionally verifies Git commit ancestry."""
+    if type(ordinal) is not int or ordinal not in range(2, 51):
+        raise ValueError("remaining49 ordinal must be in 2..50")
+    exact(auth, {
+        "schema": "trackcade-semantic-external-stage1-v6-remaining49-provider-authorization-v1",
+        "authorized": True, "status": "authorized-explicit-paid-remaining49",
+        "ordinals": list(range(2, 51)), "maximumInitialProviderAttempts": 49,
+        "attemptsPerOrdinal": 1, "providerContract": CONTRACT,
+    })
+    exact(auth.get("researchBoundary") or {}, {key: False for key in (
+        "automaticRetriesAuthorized", "standardFallbackAuthorized", "partialScoringAuthorized",
+        "stage1ReferenceAccessAuthorized", "terminalHoldoutAccessAuthorized",
+        "compilerInvocationAuthorized", "analyzerExecutionAuthorized", "analyzerChangesAuthorized",
+        "semanticContractChangesAuthorized",
+    )})
+    exact(act, {
+        "schema": "trackcade-semantic-external-stage1-v6-remaining49-provider-activation-v1",
+        "activatePaidRemaining49": True, "ordinals": list(range(2, 51)),
+        "maximumProviderAttempts": 49, "attemptsPerOrdinal": 1, "providerContract": CONTRACT,
+        **{key: False for key in ("automaticRetriesAuthorized", "standardFallbackAuthorized",
+            "partialScoringAuthorized", "stage1ReferenceOpeningAuthorized", "terminalHoldoutAccessAuthorized",
+            "compilerInvocationAuthorized", "analyzerExecutionAuthorized", "analyzerChangesAuthorized",
+            "semanticContractChangesAuthorized")},
+    })
+    if auth.get("templateOnly") or act.get("templateOnly"):
+        raise ValueError("templates are never executable receipts")
+    if os.environ.get("GITHUB_REF") != BRANCH or os.environ.get("GITHUB_EVENT_NAME") != "push":
+        raise ValueError("runner requires the canonical activation-push workflow")
+    if os.environ.get("GITHUB_RUN_ATTEMPT") != "1" or os.environ.get("GITHUB_SHA") != harness_commit:
+        raise ValueError("rerun or execution commit mismatch")
+    if not os.environ.get("GITHUB_RUN_ID"):
+        raise ValueError("missing workflow run identity")
+
+
+def verify_uploaded_lock(lock: dict, artifact: dict, ordinal: int, commit: str) -> None:
+    exact(lock, {"schema": LOCK_SCHEMA, "ordinal": ordinal, "harnessSourceCommit": commit,
+        "runId": os.environ["GITHUB_RUN_ID"], "runAttempt": 1,
+        "reservationIsSpendAuthorization": False})
+    exact(artifact, {
+        "id": int(os.environ["LOCK_ARTIFACT_ID"]), "expired": False,
+        "name": f"trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-attempt-lock",
+    })
+    exact(artifact.get("workflow_run") or {}, {"id": int(lock["runId"]), "head_sha": commit})
+    if not str(artifact.get("digest", "")).startswith("sha256:"):
+        raise ValueError("uploaded attempt lock lacks digest")
+
+
+def check_completed(out: Path, ordinal: int, commit: str) -> None:
+    status = load(out / "stage1-v6-remaining49-case-status-v1.json")
+    exact(status, {"schema": STATUS_SCHEMA, "ordinal": ordinal, "harnessSourceCommit": commit,
+        "classification": SUCCESS_CLASSIFICATION, "providerContract": CONTRACT,
+        "providerCallAttempted": True, "providerResponseObserved": True,
+        "providerCompletedSemanticResponse": True, "proposalValidated": True,
+        "observedProviderStatus": "completed", "observedProviderServiceTier": "flex",
+        "observedProviderModel": "gpt-6-sol", "semanticPayloadUnchanged": True,
+        "retryAuthorized": False, "standardFallbackUsed": False, "compilerInvoked": False,
+        "terminalTracksProcessed": False, "stage1ReferencesOpened": False, "errors": [],
+        "validatorExitCode": 0})
+    if (out / "provider-step-exit-code.txt").read_text().strip() != "0":
+        raise ValueError("provider runner exit receipt failed")
+    if sha(out / "normalized-proposal.json") != status["normalizedProposalSha256"]:
+        raise ValueError("normalized proposal hash mismatch")
+    from collect_stage1_v6_results_v1 import verify_internal_manifest
+    verify_internal_manifest({p.name: p.read_bytes() for p in out.iterdir() if p.is_file()}, ordinal)
 
 
 def sha_bytes(data: bytes) -> str:
@@ -275,16 +350,44 @@ def finalize_manifest(out: Path) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
+    ap.add_argument("--mode", choices=("prepare", "run", "check"), required=True)
     ap.add_argument("--ordinal", type=int, required=True)
     ap.add_argument("--source-root", type=Path, required=True)
     ap.add_argument("--flex-root", type=Path, required=True)
     ap.add_argument("--output-dir", type=Path, required=True)
     ap.add_argument("--harness-commit", required=True)
     ap.add_argument("--validator", type=Path, required=True)
+    ap.add_argument("--authorization", type=Path, required=True)
+    ap.add_argument("--activation", type=Path, required=True)
+    ap.add_argument("--lock-file", type=Path, required=True)
+    ap.add_argument("--uploaded-lock", type=Path)
     args = ap.parse_args()
-
+    execution_gate(load(args.authorization), load(args.activation), args.ordinal, args.harness_commit)
+    if args.mode == "check":
+        check_completed(args.output_dir, args.ordinal, args.harness_commit)
+        return
     srow, frow, paths = verify_prep(args.source_root, args.flex_root, args.ordinal)
-    status, status_path = prepare_output(args.output_dir, args.ordinal, srow, frow, paths, args.harness_commit)
+    if args.mode == "prepare":
+        if os.environ.get("OPENAI_API_KEY"):
+            raise ValueError("credentials must not be available during reservation")
+        prepare_output(args.output_dir, args.ordinal, srow, frow, paths, args.harness_commit)
+        args.lock_file.parent.mkdir(parents=True, exist_ok=False)
+        save_status(args.lock_file, {"schema": LOCK_SCHEMA, "ordinal": args.ordinal,
+            "harnessSourceCommit": args.harness_commit, "runId": os.environ["GITHUB_RUN_ID"],
+            "runAttempt": 1, "reservationIsSpendAuthorization": False})
+        return
+    if args.uploaded_lock is None:
+        raise ValueError("uploaded attempt lock required before a call")
+    verify_uploaded_lock(load(args.lock_file), load(args.uploaded_lock), args.ordinal, args.harness_commit)
+    status_path = args.output_dir / "stage1-v6-remaining49-case-status-v1.json"
+    status = load(status_path)
+    exact(status, {"schema": STATUS_SCHEMA, "ordinal": args.ordinal,
+        "harnessSourceCommit": args.harness_commit, "providerContract": CONTRACT,
+        "providerCallAttempted": False, "classification": "offline_preflight_complete_no_provider_call"})
+    for key, filename in {"request": "learned-request-v6.json", "packet": "structure-evidence-v2.json",
+        "sourcePayload": "openai-payload-v6.json", "flexPayload": "openai-payload-v6-flex8192.json"}.items():
+        if sha(args.output_dir / filename) != sha(paths[key]):
+            raise ValueError("prepared case changed after reservation")
     try:
         one_provider_attempt(args.output_dir, status, status_path, args.validator)
         (args.output_dir / "provider-step-exit-code.txt").write_text("0\n", encoding="utf-8")
@@ -293,7 +396,14 @@ def main() -> None:
         status["classification"] = "runner_exception_after_or_before_single_attempt_no_retry"
         save_status(status_path, status)
         (args.output_dir / "provider-step-exit-code.txt").write_text("1\n", encoding="utf-8")
+    outcome = "completed-valid" if status.get("classification") == SUCCESS_CLASSIFICATION else (
+        "attempted-no-valid-response" if status.get("providerCallAttempted") else "local-no-provider-attempt")
+    status["artifactOutcome"] = outcome
+    save_status(status_path, status)
     finalize_manifest(args.output_dir)
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+            output.write(f"artifact_outcome={outcome}\n")
     print(json.dumps({
         "ordinal": args.ordinal,
         "classification": status.get("classification"),

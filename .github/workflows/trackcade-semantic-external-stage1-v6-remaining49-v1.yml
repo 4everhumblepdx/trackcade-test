@@ -19,13 +19,9 @@ jobs:
   generate:
     if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.event_name == 'push'
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
-    strategy:
-      fail-fast: true
-      max-parallel: 1
-      matrix:
-        ordinal: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50]
+    timeout-minutes: 360
     env:
+      RUNNER: research/semantic-external-holdout-v1/run_stage1_v6_remaining49_case_v1.py
       AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
       ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATE_V1.json
       SOURCE_HEAD_SHA: a951a0ea2e993fade7d917e692da832138916916
@@ -52,6 +48,14 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml
+            research/learned-interpretation-v1/*.py
+            research/semantic-external-holdout-v1/run_stage1_v6_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/collect_stage1_v6_results_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATE_V1.json
+          sparse-checkout-cone-mode: false
 
       - name: Fail closed unless paid remaining49 authorization and activation are exact
         env:
@@ -66,21 +70,20 @@ jobs:
           test "${#changed[@]}" -eq 1
           test "${changed[0]}" = "${ACTIVATE_PATH}"
           for p in \
+            research/learned-interpretation-v1/build_learned_request_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v2.py \
+            research/learned-interpretation-v1/build_learned_request_v3.py \
+            research/learned-interpretation-v1/build_learned_request_v5.py \
             research/learned-interpretation-v1/build_learned_request_v6.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v1.py \
             research/learned-interpretation-v1/validate_learned_proposal_v6.py \
             research/learned-interpretation-v1/validate_learned_proposal_v3.py \
             research/learned-interpretation-v1/openai_responses_adapter_v1.py \
             research/learned-interpretation-v1/openai_responses_adapter_v6.py; do
             test "$(git rev-parse HEAD:${p})" = "$(git rev-parse ${SOURCE_HEAD_SHA}:${p})"
           done
-          python -m py_compile \
-            research/learned-interpretation-v1/build_learned_request_v6.py \
-            research/learned-interpretation-v1/validate_learned_proposal_v6.py \
-            research/learned-interpretation-v1/validate_learned_proposal_v3.py \
-            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
-            research/learned-interpretation-v1/openai_responses_adapter_v6.py
           python - <<'PY'
-          import json, os, pathlib, subprocess
+          import hashlib, json, os, pathlib, subprocess
           auth=json.load(open(os.environ['AUTH_PATH']))
           act=json.load(open(os.environ['ACTIVATE_PATH']))
           expected=list(range(2,51))
@@ -111,8 +114,14 @@ jobs:
           assert act['providerContract']==contract
           parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
           assert act['executionSourceCommit']==parent
+          assert act['executionWorkflowSha256']==hashlib.sha256(pathlib.Path('.github/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml').read_bytes()).hexdigest()
+          assert act['runnerSha256']==hashlib.sha256(pathlib.Path(os.environ['RUNNER']).read_bytes()).hexdigest()
+          assert act['stage1ReferenceOpeningAuthorized'] is False
+          assert act['analyzerChangesAuthorized'] is False and act['semanticContractChangesAuthorized'] is False
           auth_commit=act['authorizationCommit']
           subprocess.run(['git','cat-file','-e',f'{auth_commit}^{{commit}}'],check=True)
+          subprocess.run(['git','merge-base','--is-ancestor',auth_commit,parent],check=True)
+          assert auth_commit != subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
           historical=subprocess.check_output(['git','show',f'{auth_commit}:{os.environ["AUTH_PATH"]}'],text=True)
           assert json.loads(historical)==auth
           print('Explicit V6 remaining49 authorization and separate activation verified')
@@ -146,19 +155,19 @@ jobs:
           print('Frozen V6 prep plus ordinal-1 canary verified')
           PY
 
-      - name: Reject any existing provider-attempt lock for this ordinal
+      - name: Refuse any earlier remaining49 workflow execution
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          pad="$(printf '%02d' '${{ matrix.ordinal }}')"
-          for name in \
-            "trackcade-semantic-external-stage1-v6-remaining49-v1-case-${pad}-completed-valid" \
-            "trackcade-semantic-external-stage1-v6-remaining49-v1-case-${pad}-attempted-no-valid-response"; do
-            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '[.artifacts[] | select(.expired == false)] | length')"
-            test "$count" = '0'
-          done
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml/runs?per_page=100" > /tmp/v6-remaining49-run-history.json
+          python - <<'PY'
+          import json, os
+          pages=json.load(open('/tmp/v6-remaining49-run-history.json'))
+          runs=[r for page in pages for r in page['workflow_runs']]
+          assert all(r['id']==int(os.environ['GITHUB_RUN_ID']) for r in runs), 'Prior remaining49 execution exists: stop; no resume or retry is authorized.'
+          PY
 
       - name: Download exact frozen V6 semantic prep
         uses: actions/download-artifact@v4
@@ -176,174 +185,2858 @@ jobs:
           github-token: ${{ github.token }}
           run-id: ${{ env.FLEX_RUN_ID }}
 
-      - name: Verify frozen closure and prepare one remaining ordinal offline
+      - name: Verify frozen prep closures without credentials
         shell: bash
         run: |
           set -euo pipefail
-          if env | grep -q '^OPENAI_API_KEY='; then
-            echo 'OPENAI_API_KEY leaked into preflight environment' >&2
-            exit 1
-          fi
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
           echo "${SOURCE_MANIFEST_SHA256}  /tmp/trackcade-v6-prep/STAGE1_V6_PREP_MANIFEST_V1.json" | sha256sum -c -
           echo "${SOURCE_FILES_SHA256}  /tmp/trackcade-v6-prep/FILES_SHA256.txt" | sha256sum -c -
           echo "${FLEX_MANIFEST_SHA256}  /tmp/trackcade-v6-flex8192-prep/STAGE1_V6_FLEX8192_PREP_MANIFEST_V1.json" | sha256sum -c -
           echo "${FLEX_FILES_SHA256}  /tmp/trackcade-v6-flex8192-prep/FILES_SHA256.txt" | sha256sum -c -
-          ORDINAL='${{ matrix.ordinal }}' python - <<'PY'
-          import hashlib,json,os,pathlib,shutil,subprocess
-          def sha(p): return hashlib.sha256(pathlib.Path(p).read_bytes()).hexdigest()
-          def verify(root):
-            root=pathlib.Path(root)
-            for line in (root/'FILES_SHA256.txt').read_text().splitlines():
-              if not line.strip(): continue
-              expected,rel=line.split('  ',1); p=root/rel
-              assert p.is_file() and sha(p)==expected, rel
-          verify('/tmp/trackcade-v6-prep'); verify('/tmp/trackcade-v6-flex8192-prep')
-          srcroot=pathlib.Path('/tmp/trackcade-v6-prep'); flexroot=pathlib.Path('/tmp/trackcade-v6-flex8192-prep')
-          src=json.load(open(srcroot/'STAGE1_V6_PREP_MANIFEST_V1.json')); flex=json.load(open(flexroot/'STAGE1_V6_FLEX8192_PREP_MANIFEST_V1.json'))
-          assert src['schema']=='trackcade-semantic-external-stage1-v6-prep-v1'
-          assert flex['schema']=='trackcade-semantic-external-stage1-v6-flex8192-prep-v1'
-          assert src['providerCallsObserved']==0 and flex['providerCallsObserved']==0
-          assert src['terminalTracksProcessed'] is False and flex['terminalTracksProcessed'] is False
-          assert src['compilerInvoked'] is False and flex['compilerInvoked'] is False
-          assert flex['paidCallsAuthorizedByThisManifest'] is False
-          ordinal=int(os.environ['ORDINAL']); assert 2 <= ordinal <= 50
-          sr=[r for r in src['tracks'] if r['ordinal']==ordinal]; fr=[r for r in flex['tracks'] if r['ordinal']==ordinal]
-          assert len(sr)==1 and len(fr)==1
-          sr,fr=sr[0],fr[0]; assert sr['id']==fr['id'] and sr['stem']==fr['stem']
-          stem=sr['stem']; scase=srcroot/'cases'/f'{ordinal:02d}-{stem}'; fcase=flexroot/'cases'/f'{ordinal:02d}-{stem}'
-          request=scase/'learned-request-v6.json'; packet=scase/'structure-evidence-v2.json'
-          source_payload=scase/'openai-payload-v6.json'; amended_payload=fcase/'openai-payload-v6-flex8192.json'
-          assert sha(request)==fr['learnedRequestV6Sha256']; assert sha(packet)==fr['structureEvidenceV2Sha256']
-          assert sha(source_payload)==fr['sourceV6PayloadSha256']; assert sha(amended_payload)==fr['amendedFlex8192PayloadSha256']
-          sp=json.load(open(source_payload)); ap=json.load(open(amended_payload)); projection=dict(ap); projection.pop('service_tier',None)
-          assert projection==sp
-          assert ap['model']=='gpt-6-sol' and ap['reasoning']=={'effort':'high'} and ap['max_output_tokens']==8192 and ap['service_tier']=='flex' and ap['store'] is False
-          out=pathlib.Path('/tmp/v6-case'); out.mkdir(parents=True,exist_ok=True)
-          shutil.copyfile(request,out/'learned-request-v6.json'); shutil.copyfile(packet,out/'structure-evidence-v2.json')
-          shutil.copyfile(source_payload,out/'openai-payload-v6.json'); shutil.copyfile(amended_payload,out/'openai-payload-v6-flex8192.json')
-          status={
-            'schema':'trackcade-semantic-external-stage1-v6-remaining49-provider-case-v1','stage':'stage1-v6','purpose':'remaining49-development-generation',
-            'ordinal':ordinal,'id':sr['id'],'stem':stem,'harnessSourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
-            'providerContract':{'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False},
-            'sourceRequestSha256':sha(request),'packetSha256':sha(packet),'sourcePayloadSha256':sha(source_payload),'amendedPayloadSha256':sha(amended_payload),
-            'semanticProjectionSha256':fr['semanticProjectionSha256'],'semanticPayloadUnchanged':True,'providerCallAttempted':False,'providerResponseObserved':False,
-            'providerCompletedSemanticResponse':False,'proposalValidated':False,'standardFallbackUsed':False,'retryAuthorized':False,
-            'compilerInvoked':False,'terminalTracksProcessed':False,'stage1ReferencesOpened':False,'classification':'offline_preflight_complete_no_provider_call','errors':[]}
-          (out/'stage1-v6-remaining49-case-status-v1.json').write_text(json.dumps(status,indent=2,sort_keys=True)+'\n')
-          PY
 
-      - name: Perform exactly one authorized V6 Flex call for this ordinal
-        id: live
+      # Explicit sequential steps, rather than a matrix: upload lock, attempt,
+      # upload result, verify completion. Any failure skips every later ordinal.
+
+      - name: Reserve ordinal 2 offline after rejecting all prior evidence
+        shell: bash
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        shell: bash
-        run: |
-          set -uo pipefail
-          python - <<'PY'
-          import datetime as dt, hashlib, json, os, pathlib, subprocess, sys, urllib.error, urllib.request, uuid
-          out=pathlib.Path('/tmp/v6-case'); status_path=out/'stage1-v6-remaining49-case-status-v1.json'; status=json.load(open(status_path))
-          payload_path=out/'openai-payload-v6-flex8192.json'; payload_bytes=payload_path.read_bytes()
-          def now(): return dt.datetime.now(dt.timezone.utc).isoformat().replace('+00:00','Z')
-          def sha_bytes(b): return hashlib.sha256(b).hexdigest()
-          def save(): status_path.write_text(json.dumps(status,indent=2,sort_keys=True)+'\n')
-          status['providerCallAttempted']=True; status['providerCallStartedAt']=now(); status['classification']='provider_call_in_progress'; save()
-          client_request_id=str(uuid.uuid4())
-          req=urllib.request.Request('https://api.openai.com/v1/responses',data=payload_bytes,headers={
-            'Authorization':f"Bearer {os.environ['OPENAI_API_KEY']}",'Content-Type':'application/json','Accept':'application/json',
-            'User-Agent':'trackcade-stage1-v6-remaining49','X-Client-Request-Id':client_request_id},method='POST')
-          try:
-            try:
-              with urllib.request.urlopen(req,timeout=900) as resp:
-                raw=resp.read(); http_status=int(resp.status); http_request_id=resp.headers.get('x-request-id'); http_error=False
-            except urllib.error.HTTPError as exc:
-              raw=exc.read(); http_status=int(exc.code); http_request_id=exc.headers.get('x-request-id') if exc.headers else None; http_error=True
-            except urllib.error.URLError as exc:
-              status.update({'providerCallFinishedAt':now(),'httpStatus':None,'httpRequestId':None,'clientRequestId':client_request_id,'transportError':str(exc.reason),'classification':'flex_transport_failure_no_completed_response'})
-              save(); raise SystemExit(0)
-            status.update({'providerCallFinishedAt':now(),'httpStatus':http_status,'httpRequestId':http_request_id,'clientRequestId':client_request_id,'providerResponseObserved':True})
-            (out/'raw-response.json').write_bytes(raw); status['rawResponseSha256']=sha_bytes(raw)
-            if http_error:
-              try: status['providerHttpError']=json.loads(raw.decode('utf-8')).get('error')
-              except Exception: status['providerHttpError']=None
-              status['classification']='flex_http_failure_no_completed_response'; save(); raise SystemExit(0)
-            response=json.loads(raw.decode('utf-8'))
-            status['observedProviderStatus']=response.get('status'); status['observedProviderResponseId']=response.get('id')
-            status['observedProviderModel']=response.get('model'); status['observedProviderServiceTier']=response.get('service_tier')
-            if isinstance(response.get('usage'),dict): status['usage']=response['usage']
-            if response.get('status')!='completed':
-              status['incompleteDetails']=response.get('incomplete_details'); status['classification']='provider_incomplete_no_completed_response'; save(); raise SystemExit(0)
-            status['providerCompletedSemanticResponse']=True
-            if response.get('service_tier')!='flex':
-              status['errors'].append(f"completed response service_tier was {response.get('service_tier')!r}, expected 'flex'")
-              status['classification']='provider_completed_wrong_service_tier_no_retry'; save(); raise SystemExit(0)
-            learned=pathlib.Path('research/learned-interpretation-v1').resolve(); sys.path.insert(0,str(learned))
-            import openai_responses_adapter_v1 as transport
-            _,candidate_bytes=transport.extract_candidate(raw)
-            candidate=out/'proposal-candidate.json'; candidate.write_bytes(candidate_bytes); status['proposalCandidateSha256']=sha_bytes(candidate_bytes)
-            normalized=out/'normalized-proposal.json'; report=out/'validation-report.json'
-            proc=subprocess.run([sys.executable,str(learned/'validate_learned_proposal_v6.py'),'--packet',str(out/'structure-evidence-v2.json'),'--proposal',str(candidate),'--output',str(normalized),'--report',str(report)],capture_output=True,text=True)
-            (out/'validator-stdout.txt').write_text(proc.stdout); (out/'validator-stderr.txt').write_text(proc.stderr); status['validatorExitCode']=proc.returncode
-            if proc.returncode==0:
-              status['proposalValidated']=True; status['normalizedProposalSha256']=hashlib.sha256(normalized.read_bytes()).hexdigest(); status['classification']='provider_completed_validated_v6_flex8192_remaining49_no_retry'
-            else:
-              status['classification']='provider_completed_v6_validation_failure_no_retry'
-            save()
-          except SystemExit:
-            raise
-          except Exception as exc:
-            status['errors'].append(f'{type(exc).__name__}: {exc}'); status['classification']='provider_attempt_harness_exception_no_retry'; status['providerCallFinishedAt']=status.get('providerCallFinishedAt') or now(); save()
-          PY
-          rc=$?
-          echo "${rc}" > /tmp/v6-case/provider-step-exit-code.txt
-          exit 0
-
-      - name: Finalize immutable case evidence and classify artifact
-        id: classify
-        if: always() && steps.live.outcome != 'skipped'
-        shell: bash
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          ORDINAL='${{ matrix.ordinal }}' python - <<'PY'
-          import hashlib,json,os,pathlib
-          out=pathlib.Path('/tmp/v6-case'); status_path=out/'stage1-v6-remaining49-case-status-v1.json'; s=json.load(open(status_path))
-          outcome='completed-valid' if s.get('providerCompletedSemanticResponse') is True and s.get('proposalValidated') is True else ('attempted-no-valid-response' if s.get('providerCallAttempted') is True else 'local-no-provider-attempt')
-          s['artifactOutcome']=outcome; status_path.write_text(json.dumps(s,indent=2,sort_keys=True)+'\n')
-          rows=[]
-          for p in sorted(x for x in out.rglob('*') if x.is_file() and x.name!='FILES_SHA256.txt'):
-            rows.append(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(out).as_posix()}")
-          (out/'FILES_SHA256.txt').write_text('\n'.join(rows)+'\n')
-          ordinal=int(os.environ['ORDINAL']); pathlib.Path('/tmp/v6-artifact-name.txt').write_text(f'trackcade-semantic-external-stage1-v6-remaining49-v1-case-{ordinal:02d}-{outcome}')
-          print(json.dumps({'ordinal':ordinal,'classification':s.get('classification'),'artifactOutcome':outcome,'providerCallAttempted':s.get('providerCallAttempted'),'usage':s.get('usage')},indent=2))
-          PY
-          echo "artifact_name=$(cat /tmp/v6-artifact-name.txt)" >> "$GITHUB_OUTPUT"
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-02-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 2 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-02 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-02/attempt-lock.json
 
-      - name: Upload immutable V6 attempt evidence
-        if: always() && steps.classify.outputs.artifact_name != ''
+      - name: Persist ordinal 2 reservation before exposing provider credentials
+        id: lock_02
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.classify.outputs.artifact_name }}
-          path: /tmp/v6-case
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-02-attempt-lock
+          path: /tmp/v6-lock-02/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 2 attempt using the canonical runner
+        id: run_02
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_02.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-02/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 2 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-02 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-02/attempt-lock.json --uploaded-lock /tmp/v6-lock-02/uploaded-artifact.json
+
+      - name: Persist ordinal 2 result before continuing
+        id: result_02
+        if: always() && steps.run_02.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-02-${{ steps.run_02.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-02
           if-no-files-found: error
           retention-days: 90
           compression-level: 6
 
-      - name: Enforce fail-fast with no retry or fallback
-        if: always() && steps.live.outcome != 'skipped'
+      - name: Fail closed unless ordinal 2 completed and evidence was uploaded
+        if: always() && steps.run_02.outcome != 'skipped'
         shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_02.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_02.outputs.artifact-id }}
         run: |
           set -euo pipefail
-          python - <<'PY'
-          import json
-          s=json.load(open('/tmp/v6-case/stage1-v6-remaining49-case-status-v1.json'))
-          assert 2 <= s['ordinal'] <= 50
-          assert s['providerCallAttempted'] is True
-          assert s['standardFallbackUsed'] is False and s['retryAuthorized'] is False
-          assert s['compilerInvoked'] is False and s['terminalTracksProcessed'] is False and s['stage1ReferencesOpened'] is False
-          assert s['semanticPayloadUnchanged'] is True
-          assert s['providerContract']=={'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False}
-          if s.get('classification')!='provider_completed_validated_v6_flex8192_remaining49_no_retry':
-            raise SystemExit(f"Ordinal {s['ordinal']} stopped fail-closed after its one authorized attempt: {s.get('classification')}")
-          if s.get('observedProviderServiceTier')!='flex':
-            raise SystemExit('Observed service tier was not Flex; stop remaining matrix.')
-          print(f"Ordinal {s['ordinal']} completed and validated. Continue only under the same explicit remaining49 authorization.")
-          PY
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 2 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-02 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-02/attempt-lock.json
+
+      - name: Reserve ordinal 3 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-03-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 3 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-03 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-03/attempt-lock.json
+
+      - name: Persist ordinal 3 reservation before exposing provider credentials
+        id: lock_03
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-03-attempt-lock
+          path: /tmp/v6-lock-03/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 3 attempt using the canonical runner
+        id: run_03
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_03.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-03/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 3 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-03 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-03/attempt-lock.json --uploaded-lock /tmp/v6-lock-03/uploaded-artifact.json
+
+      - name: Persist ordinal 3 result before continuing
+        id: result_03
+        if: always() && steps.run_03.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-03-${{ steps.run_03.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-03
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 3 completed and evidence was uploaded
+        if: always() && steps.run_03.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_03.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_03.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 3 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-03 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-03/attempt-lock.json
+
+      - name: Reserve ordinal 4 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-04-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 4 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-04 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-04/attempt-lock.json
+
+      - name: Persist ordinal 4 reservation before exposing provider credentials
+        id: lock_04
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-04-attempt-lock
+          path: /tmp/v6-lock-04/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 4 attempt using the canonical runner
+        id: run_04
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_04.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-04/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 4 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-04 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-04/attempt-lock.json --uploaded-lock /tmp/v6-lock-04/uploaded-artifact.json
+
+      - name: Persist ordinal 4 result before continuing
+        id: result_04
+        if: always() && steps.run_04.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-04-${{ steps.run_04.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-04
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 4 completed and evidence was uploaded
+        if: always() && steps.run_04.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_04.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_04.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 4 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-04 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-04/attempt-lock.json
+
+      - name: Reserve ordinal 5 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-05-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 5 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-05 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-05/attempt-lock.json
+
+      - name: Persist ordinal 5 reservation before exposing provider credentials
+        id: lock_05
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-05-attempt-lock
+          path: /tmp/v6-lock-05/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 5 attempt using the canonical runner
+        id: run_05
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_05.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-05/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 5 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-05 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-05/attempt-lock.json --uploaded-lock /tmp/v6-lock-05/uploaded-artifact.json
+
+      - name: Persist ordinal 5 result before continuing
+        id: result_05
+        if: always() && steps.run_05.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-05-${{ steps.run_05.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-05
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 5 completed and evidence was uploaded
+        if: always() && steps.run_05.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_05.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_05.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 5 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-05 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-05/attempt-lock.json
+
+      - name: Reserve ordinal 6 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-06-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 6 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-06 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-06/attempt-lock.json
+
+      - name: Persist ordinal 6 reservation before exposing provider credentials
+        id: lock_06
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-06-attempt-lock
+          path: /tmp/v6-lock-06/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 6 attempt using the canonical runner
+        id: run_06
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_06.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-06/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 6 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-06 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-06/attempt-lock.json --uploaded-lock /tmp/v6-lock-06/uploaded-artifact.json
+
+      - name: Persist ordinal 6 result before continuing
+        id: result_06
+        if: always() && steps.run_06.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-06-${{ steps.run_06.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-06
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 6 completed and evidence was uploaded
+        if: always() && steps.run_06.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_06.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_06.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 6 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-06 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-06/attempt-lock.json
+
+      - name: Reserve ordinal 7 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-07-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 7 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-07 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-07/attempt-lock.json
+
+      - name: Persist ordinal 7 reservation before exposing provider credentials
+        id: lock_07
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-07-attempt-lock
+          path: /tmp/v6-lock-07/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 7 attempt using the canonical runner
+        id: run_07
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_07.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-07/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 7 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-07 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-07/attempt-lock.json --uploaded-lock /tmp/v6-lock-07/uploaded-artifact.json
+
+      - name: Persist ordinal 7 result before continuing
+        id: result_07
+        if: always() && steps.run_07.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-07-${{ steps.run_07.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-07
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 7 completed and evidence was uploaded
+        if: always() && steps.run_07.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_07.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_07.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 7 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-07 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-07/attempt-lock.json
+
+      - name: Reserve ordinal 8 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-08-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 8 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-08 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-08/attempt-lock.json
+
+      - name: Persist ordinal 8 reservation before exposing provider credentials
+        id: lock_08
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-08-attempt-lock
+          path: /tmp/v6-lock-08/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 8 attempt using the canonical runner
+        id: run_08
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_08.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-08/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 8 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-08 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-08/attempt-lock.json --uploaded-lock /tmp/v6-lock-08/uploaded-artifact.json
+
+      - name: Persist ordinal 8 result before continuing
+        id: result_08
+        if: always() && steps.run_08.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-08-${{ steps.run_08.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-08
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 8 completed and evidence was uploaded
+        if: always() && steps.run_08.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_08.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_08.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 8 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-08 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-08/attempt-lock.json
+
+      - name: Reserve ordinal 9 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-09-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 9 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-09 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-09/attempt-lock.json
+
+      - name: Persist ordinal 9 reservation before exposing provider credentials
+        id: lock_09
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-09-attempt-lock
+          path: /tmp/v6-lock-09/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 9 attempt using the canonical runner
+        id: run_09
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_09.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-09/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 9 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-09 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-09/attempt-lock.json --uploaded-lock /tmp/v6-lock-09/uploaded-artifact.json
+
+      - name: Persist ordinal 9 result before continuing
+        id: result_09
+        if: always() && steps.run_09.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-09-${{ steps.run_09.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-09
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 9 completed and evidence was uploaded
+        if: always() && steps.run_09.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_09.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_09.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 9 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-09 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-09/attempt-lock.json
+
+      - name: Reserve ordinal 10 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-10-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 10 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-10 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-10/attempt-lock.json
+
+      - name: Persist ordinal 10 reservation before exposing provider credentials
+        id: lock_10
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-10-attempt-lock
+          path: /tmp/v6-lock-10/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 10 attempt using the canonical runner
+        id: run_10
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_10.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-10/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 10 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-10 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-10/attempt-lock.json --uploaded-lock /tmp/v6-lock-10/uploaded-artifact.json
+
+      - name: Persist ordinal 10 result before continuing
+        id: result_10
+        if: always() && steps.run_10.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-10-${{ steps.run_10.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-10
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 10 completed and evidence was uploaded
+        if: always() && steps.run_10.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_10.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_10.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 10 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-10 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-10/attempt-lock.json
+
+      - name: Reserve ordinal 11 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-11-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 11 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-11 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-11/attempt-lock.json
+
+      - name: Persist ordinal 11 reservation before exposing provider credentials
+        id: lock_11
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-11-attempt-lock
+          path: /tmp/v6-lock-11/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 11 attempt using the canonical runner
+        id: run_11
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_11.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-11/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 11 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-11 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-11/attempt-lock.json --uploaded-lock /tmp/v6-lock-11/uploaded-artifact.json
+
+      - name: Persist ordinal 11 result before continuing
+        id: result_11
+        if: always() && steps.run_11.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-11-${{ steps.run_11.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-11
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 11 completed and evidence was uploaded
+        if: always() && steps.run_11.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_11.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_11.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 11 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-11 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-11/attempt-lock.json
+
+      - name: Reserve ordinal 12 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-12-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 12 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-12 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-12/attempt-lock.json
+
+      - name: Persist ordinal 12 reservation before exposing provider credentials
+        id: lock_12
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-12-attempt-lock
+          path: /tmp/v6-lock-12/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 12 attempt using the canonical runner
+        id: run_12
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_12.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-12/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 12 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-12 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-12/attempt-lock.json --uploaded-lock /tmp/v6-lock-12/uploaded-artifact.json
+
+      - name: Persist ordinal 12 result before continuing
+        id: result_12
+        if: always() && steps.run_12.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-12-${{ steps.run_12.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-12
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 12 completed and evidence was uploaded
+        if: always() && steps.run_12.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_12.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_12.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 12 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-12 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-12/attempt-lock.json
+
+      - name: Reserve ordinal 13 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-13-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 13 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-13 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-13/attempt-lock.json
+
+      - name: Persist ordinal 13 reservation before exposing provider credentials
+        id: lock_13
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-13-attempt-lock
+          path: /tmp/v6-lock-13/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 13 attempt using the canonical runner
+        id: run_13
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_13.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-13/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 13 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-13 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-13/attempt-lock.json --uploaded-lock /tmp/v6-lock-13/uploaded-artifact.json
+
+      - name: Persist ordinal 13 result before continuing
+        id: result_13
+        if: always() && steps.run_13.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-13-${{ steps.run_13.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-13
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 13 completed and evidence was uploaded
+        if: always() && steps.run_13.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_13.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_13.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 13 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-13 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-13/attempt-lock.json
+
+      - name: Reserve ordinal 14 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-14-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 14 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-14 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-14/attempt-lock.json
+
+      - name: Persist ordinal 14 reservation before exposing provider credentials
+        id: lock_14
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-14-attempt-lock
+          path: /tmp/v6-lock-14/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 14 attempt using the canonical runner
+        id: run_14
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_14.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-14/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 14 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-14 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-14/attempt-lock.json --uploaded-lock /tmp/v6-lock-14/uploaded-artifact.json
+
+      - name: Persist ordinal 14 result before continuing
+        id: result_14
+        if: always() && steps.run_14.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-14-${{ steps.run_14.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-14
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 14 completed and evidence was uploaded
+        if: always() && steps.run_14.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_14.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_14.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 14 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-14 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-14/attempt-lock.json
+
+      - name: Reserve ordinal 15 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-15-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 15 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-15 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-15/attempt-lock.json
+
+      - name: Persist ordinal 15 reservation before exposing provider credentials
+        id: lock_15
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-15-attempt-lock
+          path: /tmp/v6-lock-15/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 15 attempt using the canonical runner
+        id: run_15
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_15.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-15/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 15 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-15 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-15/attempt-lock.json --uploaded-lock /tmp/v6-lock-15/uploaded-artifact.json
+
+      - name: Persist ordinal 15 result before continuing
+        id: result_15
+        if: always() && steps.run_15.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-15-${{ steps.run_15.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-15
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 15 completed and evidence was uploaded
+        if: always() && steps.run_15.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_15.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_15.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 15 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-15 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-15/attempt-lock.json
+
+      - name: Reserve ordinal 16 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-16-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 16 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-16 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-16/attempt-lock.json
+
+      - name: Persist ordinal 16 reservation before exposing provider credentials
+        id: lock_16
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-16-attempt-lock
+          path: /tmp/v6-lock-16/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 16 attempt using the canonical runner
+        id: run_16
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_16.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-16/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 16 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-16 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-16/attempt-lock.json --uploaded-lock /tmp/v6-lock-16/uploaded-artifact.json
+
+      - name: Persist ordinal 16 result before continuing
+        id: result_16
+        if: always() && steps.run_16.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-16-${{ steps.run_16.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-16
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 16 completed and evidence was uploaded
+        if: always() && steps.run_16.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_16.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_16.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 16 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-16 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-16/attempt-lock.json
+
+      - name: Reserve ordinal 17 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-17-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 17 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-17 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-17/attempt-lock.json
+
+      - name: Persist ordinal 17 reservation before exposing provider credentials
+        id: lock_17
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-17-attempt-lock
+          path: /tmp/v6-lock-17/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 17 attempt using the canonical runner
+        id: run_17
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_17.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-17/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 17 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-17 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-17/attempt-lock.json --uploaded-lock /tmp/v6-lock-17/uploaded-artifact.json
+
+      - name: Persist ordinal 17 result before continuing
+        id: result_17
+        if: always() && steps.run_17.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-17-${{ steps.run_17.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-17
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 17 completed and evidence was uploaded
+        if: always() && steps.run_17.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_17.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_17.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 17 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-17 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-17/attempt-lock.json
+
+      - name: Reserve ordinal 18 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-18-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 18 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-18 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-18/attempt-lock.json
+
+      - name: Persist ordinal 18 reservation before exposing provider credentials
+        id: lock_18
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-18-attempt-lock
+          path: /tmp/v6-lock-18/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 18 attempt using the canonical runner
+        id: run_18
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_18.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-18/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 18 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-18 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-18/attempt-lock.json --uploaded-lock /tmp/v6-lock-18/uploaded-artifact.json
+
+      - name: Persist ordinal 18 result before continuing
+        id: result_18
+        if: always() && steps.run_18.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-18-${{ steps.run_18.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-18
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 18 completed and evidence was uploaded
+        if: always() && steps.run_18.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_18.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_18.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 18 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-18 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-18/attempt-lock.json
+
+      - name: Reserve ordinal 19 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-19-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 19 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-19 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-19/attempt-lock.json
+
+      - name: Persist ordinal 19 reservation before exposing provider credentials
+        id: lock_19
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-19-attempt-lock
+          path: /tmp/v6-lock-19/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 19 attempt using the canonical runner
+        id: run_19
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_19.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-19/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 19 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-19 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-19/attempt-lock.json --uploaded-lock /tmp/v6-lock-19/uploaded-artifact.json
+
+      - name: Persist ordinal 19 result before continuing
+        id: result_19
+        if: always() && steps.run_19.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-19-${{ steps.run_19.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-19
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 19 completed and evidence was uploaded
+        if: always() && steps.run_19.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_19.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_19.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 19 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-19 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-19/attempt-lock.json
+
+      - name: Reserve ordinal 20 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-20-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 20 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-20 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-20/attempt-lock.json
+
+      - name: Persist ordinal 20 reservation before exposing provider credentials
+        id: lock_20
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-20-attempt-lock
+          path: /tmp/v6-lock-20/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 20 attempt using the canonical runner
+        id: run_20
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_20.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-20/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 20 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-20 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-20/attempt-lock.json --uploaded-lock /tmp/v6-lock-20/uploaded-artifact.json
+
+      - name: Persist ordinal 20 result before continuing
+        id: result_20
+        if: always() && steps.run_20.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-20-${{ steps.run_20.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-20
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 20 completed and evidence was uploaded
+        if: always() && steps.run_20.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_20.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_20.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 20 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-20 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-20/attempt-lock.json
+
+      - name: Reserve ordinal 21 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-21-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 21 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-21 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-21/attempt-lock.json
+
+      - name: Persist ordinal 21 reservation before exposing provider credentials
+        id: lock_21
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-21-attempt-lock
+          path: /tmp/v6-lock-21/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 21 attempt using the canonical runner
+        id: run_21
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_21.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-21/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 21 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-21 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-21/attempt-lock.json --uploaded-lock /tmp/v6-lock-21/uploaded-artifact.json
+
+      - name: Persist ordinal 21 result before continuing
+        id: result_21
+        if: always() && steps.run_21.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-21-${{ steps.run_21.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-21
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 21 completed and evidence was uploaded
+        if: always() && steps.run_21.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_21.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_21.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 21 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-21 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-21/attempt-lock.json
+
+      - name: Reserve ordinal 22 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-22-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 22 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-22 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-22/attempt-lock.json
+
+      - name: Persist ordinal 22 reservation before exposing provider credentials
+        id: lock_22
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-22-attempt-lock
+          path: /tmp/v6-lock-22/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 22 attempt using the canonical runner
+        id: run_22
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_22.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-22/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 22 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-22 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-22/attempt-lock.json --uploaded-lock /tmp/v6-lock-22/uploaded-artifact.json
+
+      - name: Persist ordinal 22 result before continuing
+        id: result_22
+        if: always() && steps.run_22.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-22-${{ steps.run_22.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-22
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 22 completed and evidence was uploaded
+        if: always() && steps.run_22.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_22.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_22.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 22 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-22 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-22/attempt-lock.json
+
+      - name: Reserve ordinal 23 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-23-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 23 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-23 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-23/attempt-lock.json
+
+      - name: Persist ordinal 23 reservation before exposing provider credentials
+        id: lock_23
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-23-attempt-lock
+          path: /tmp/v6-lock-23/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 23 attempt using the canonical runner
+        id: run_23
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_23.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-23/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 23 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-23 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-23/attempt-lock.json --uploaded-lock /tmp/v6-lock-23/uploaded-artifact.json
+
+      - name: Persist ordinal 23 result before continuing
+        id: result_23
+        if: always() && steps.run_23.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-23-${{ steps.run_23.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-23
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 23 completed and evidence was uploaded
+        if: always() && steps.run_23.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_23.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_23.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 23 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-23 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-23/attempt-lock.json
+
+      - name: Reserve ordinal 24 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-24-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 24 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-24 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-24/attempt-lock.json
+
+      - name: Persist ordinal 24 reservation before exposing provider credentials
+        id: lock_24
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-24-attempt-lock
+          path: /tmp/v6-lock-24/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 24 attempt using the canonical runner
+        id: run_24
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_24.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-24/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 24 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-24 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-24/attempt-lock.json --uploaded-lock /tmp/v6-lock-24/uploaded-artifact.json
+
+      - name: Persist ordinal 24 result before continuing
+        id: result_24
+        if: always() && steps.run_24.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-24-${{ steps.run_24.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-24
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 24 completed and evidence was uploaded
+        if: always() && steps.run_24.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_24.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_24.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 24 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-24 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-24/attempt-lock.json
+
+      - name: Reserve ordinal 25 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-25-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 25 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-25 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-25/attempt-lock.json
+
+      - name: Persist ordinal 25 reservation before exposing provider credentials
+        id: lock_25
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-25-attempt-lock
+          path: /tmp/v6-lock-25/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 25 attempt using the canonical runner
+        id: run_25
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_25.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-25/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 25 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-25 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-25/attempt-lock.json --uploaded-lock /tmp/v6-lock-25/uploaded-artifact.json
+
+      - name: Persist ordinal 25 result before continuing
+        id: result_25
+        if: always() && steps.run_25.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-25-${{ steps.run_25.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-25
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 25 completed and evidence was uploaded
+        if: always() && steps.run_25.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_25.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_25.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 25 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-25 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-25/attempt-lock.json
+
+      - name: Reserve ordinal 26 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-26-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 26 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-26 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-26/attempt-lock.json
+
+      - name: Persist ordinal 26 reservation before exposing provider credentials
+        id: lock_26
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-26-attempt-lock
+          path: /tmp/v6-lock-26/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 26 attempt using the canonical runner
+        id: run_26
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_26.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-26/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 26 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-26 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-26/attempt-lock.json --uploaded-lock /tmp/v6-lock-26/uploaded-artifact.json
+
+      - name: Persist ordinal 26 result before continuing
+        id: result_26
+        if: always() && steps.run_26.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-26-${{ steps.run_26.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-26
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 26 completed and evidence was uploaded
+        if: always() && steps.run_26.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_26.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_26.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 26 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-26 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-26/attempt-lock.json
+
+      - name: Reserve ordinal 27 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-27-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 27 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-27 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-27/attempt-lock.json
+
+      - name: Persist ordinal 27 reservation before exposing provider credentials
+        id: lock_27
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-27-attempt-lock
+          path: /tmp/v6-lock-27/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 27 attempt using the canonical runner
+        id: run_27
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_27.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-27/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 27 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-27 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-27/attempt-lock.json --uploaded-lock /tmp/v6-lock-27/uploaded-artifact.json
+
+      - name: Persist ordinal 27 result before continuing
+        id: result_27
+        if: always() && steps.run_27.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-27-${{ steps.run_27.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-27
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 27 completed and evidence was uploaded
+        if: always() && steps.run_27.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_27.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_27.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 27 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-27 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-27/attempt-lock.json
+
+      - name: Reserve ordinal 28 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-28-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 28 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-28 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-28/attempt-lock.json
+
+      - name: Persist ordinal 28 reservation before exposing provider credentials
+        id: lock_28
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-28-attempt-lock
+          path: /tmp/v6-lock-28/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 28 attempt using the canonical runner
+        id: run_28
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_28.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-28/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 28 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-28 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-28/attempt-lock.json --uploaded-lock /tmp/v6-lock-28/uploaded-artifact.json
+
+      - name: Persist ordinal 28 result before continuing
+        id: result_28
+        if: always() && steps.run_28.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-28-${{ steps.run_28.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-28
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 28 completed and evidence was uploaded
+        if: always() && steps.run_28.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_28.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_28.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 28 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-28 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-28/attempt-lock.json
+
+      - name: Reserve ordinal 29 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-29-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 29 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-29 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-29/attempt-lock.json
+
+      - name: Persist ordinal 29 reservation before exposing provider credentials
+        id: lock_29
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-29-attempt-lock
+          path: /tmp/v6-lock-29/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 29 attempt using the canonical runner
+        id: run_29
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_29.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-29/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 29 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-29 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-29/attempt-lock.json --uploaded-lock /tmp/v6-lock-29/uploaded-artifact.json
+
+      - name: Persist ordinal 29 result before continuing
+        id: result_29
+        if: always() && steps.run_29.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-29-${{ steps.run_29.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-29
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 29 completed and evidence was uploaded
+        if: always() && steps.run_29.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_29.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_29.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 29 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-29 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-29/attempt-lock.json
+
+      - name: Reserve ordinal 30 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-30-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 30 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-30 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-30/attempt-lock.json
+
+      - name: Persist ordinal 30 reservation before exposing provider credentials
+        id: lock_30
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-30-attempt-lock
+          path: /tmp/v6-lock-30/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 30 attempt using the canonical runner
+        id: run_30
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_30.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-30/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 30 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-30 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-30/attempt-lock.json --uploaded-lock /tmp/v6-lock-30/uploaded-artifact.json
+
+      - name: Persist ordinal 30 result before continuing
+        id: result_30
+        if: always() && steps.run_30.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-30-${{ steps.run_30.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-30
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 30 completed and evidence was uploaded
+        if: always() && steps.run_30.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_30.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_30.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 30 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-30 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-30/attempt-lock.json
+
+      - name: Reserve ordinal 31 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-31-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 31 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-31 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-31/attempt-lock.json
+
+      - name: Persist ordinal 31 reservation before exposing provider credentials
+        id: lock_31
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-31-attempt-lock
+          path: /tmp/v6-lock-31/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 31 attempt using the canonical runner
+        id: run_31
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_31.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-31/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 31 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-31 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-31/attempt-lock.json --uploaded-lock /tmp/v6-lock-31/uploaded-artifact.json
+
+      - name: Persist ordinal 31 result before continuing
+        id: result_31
+        if: always() && steps.run_31.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-31-${{ steps.run_31.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-31
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 31 completed and evidence was uploaded
+        if: always() && steps.run_31.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_31.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_31.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 31 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-31 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-31/attempt-lock.json
+
+      - name: Reserve ordinal 32 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-32-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 32 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-32 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-32/attempt-lock.json
+
+      - name: Persist ordinal 32 reservation before exposing provider credentials
+        id: lock_32
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-32-attempt-lock
+          path: /tmp/v6-lock-32/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 32 attempt using the canonical runner
+        id: run_32
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_32.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-32/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 32 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-32 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-32/attempt-lock.json --uploaded-lock /tmp/v6-lock-32/uploaded-artifact.json
+
+      - name: Persist ordinal 32 result before continuing
+        id: result_32
+        if: always() && steps.run_32.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-32-${{ steps.run_32.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-32
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 32 completed and evidence was uploaded
+        if: always() && steps.run_32.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_32.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_32.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 32 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-32 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-32/attempt-lock.json
+
+      - name: Reserve ordinal 33 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-33-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 33 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-33 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-33/attempt-lock.json
+
+      - name: Persist ordinal 33 reservation before exposing provider credentials
+        id: lock_33
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-33-attempt-lock
+          path: /tmp/v6-lock-33/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 33 attempt using the canonical runner
+        id: run_33
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_33.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-33/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 33 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-33 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-33/attempt-lock.json --uploaded-lock /tmp/v6-lock-33/uploaded-artifact.json
+
+      - name: Persist ordinal 33 result before continuing
+        id: result_33
+        if: always() && steps.run_33.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-33-${{ steps.run_33.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-33
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 33 completed and evidence was uploaded
+        if: always() && steps.run_33.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_33.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_33.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 33 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-33 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-33/attempt-lock.json
+
+      - name: Reserve ordinal 34 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-34-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 34 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-34 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-34/attempt-lock.json
+
+      - name: Persist ordinal 34 reservation before exposing provider credentials
+        id: lock_34
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-34-attempt-lock
+          path: /tmp/v6-lock-34/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 34 attempt using the canonical runner
+        id: run_34
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_34.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-34/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 34 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-34 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-34/attempt-lock.json --uploaded-lock /tmp/v6-lock-34/uploaded-artifact.json
+
+      - name: Persist ordinal 34 result before continuing
+        id: result_34
+        if: always() && steps.run_34.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-34-${{ steps.run_34.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-34
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 34 completed and evidence was uploaded
+        if: always() && steps.run_34.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_34.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_34.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 34 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-34 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-34/attempt-lock.json
+
+      - name: Reserve ordinal 35 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-35-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 35 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-35 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-35/attempt-lock.json
+
+      - name: Persist ordinal 35 reservation before exposing provider credentials
+        id: lock_35
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-35-attempt-lock
+          path: /tmp/v6-lock-35/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 35 attempt using the canonical runner
+        id: run_35
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_35.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-35/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 35 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-35 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-35/attempt-lock.json --uploaded-lock /tmp/v6-lock-35/uploaded-artifact.json
+
+      - name: Persist ordinal 35 result before continuing
+        id: result_35
+        if: always() && steps.run_35.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-35-${{ steps.run_35.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-35
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 35 completed and evidence was uploaded
+        if: always() && steps.run_35.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_35.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_35.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 35 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-35 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-35/attempt-lock.json
+
+      - name: Reserve ordinal 36 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-36-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 36 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-36 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-36/attempt-lock.json
+
+      - name: Persist ordinal 36 reservation before exposing provider credentials
+        id: lock_36
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-36-attempt-lock
+          path: /tmp/v6-lock-36/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 36 attempt using the canonical runner
+        id: run_36
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_36.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-36/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 36 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-36 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-36/attempt-lock.json --uploaded-lock /tmp/v6-lock-36/uploaded-artifact.json
+
+      - name: Persist ordinal 36 result before continuing
+        id: result_36
+        if: always() && steps.run_36.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-36-${{ steps.run_36.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-36
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 36 completed and evidence was uploaded
+        if: always() && steps.run_36.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_36.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_36.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 36 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-36 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-36/attempt-lock.json
+
+      - name: Reserve ordinal 37 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-37-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 37 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-37 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-37/attempt-lock.json
+
+      - name: Persist ordinal 37 reservation before exposing provider credentials
+        id: lock_37
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-37-attempt-lock
+          path: /tmp/v6-lock-37/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 37 attempt using the canonical runner
+        id: run_37
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_37.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-37/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 37 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-37 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-37/attempt-lock.json --uploaded-lock /tmp/v6-lock-37/uploaded-artifact.json
+
+      - name: Persist ordinal 37 result before continuing
+        id: result_37
+        if: always() && steps.run_37.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-37-${{ steps.run_37.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-37
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 37 completed and evidence was uploaded
+        if: always() && steps.run_37.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_37.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_37.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 37 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-37 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-37/attempt-lock.json
+
+      - name: Reserve ordinal 38 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-38-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 38 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-38 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-38/attempt-lock.json
+
+      - name: Persist ordinal 38 reservation before exposing provider credentials
+        id: lock_38
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-38-attempt-lock
+          path: /tmp/v6-lock-38/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 38 attempt using the canonical runner
+        id: run_38
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_38.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-38/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 38 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-38 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-38/attempt-lock.json --uploaded-lock /tmp/v6-lock-38/uploaded-artifact.json
+
+      - name: Persist ordinal 38 result before continuing
+        id: result_38
+        if: always() && steps.run_38.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-38-${{ steps.run_38.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-38
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 38 completed and evidence was uploaded
+        if: always() && steps.run_38.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_38.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_38.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 38 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-38 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-38/attempt-lock.json
+
+      - name: Reserve ordinal 39 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-39-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 39 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-39 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-39/attempt-lock.json
+
+      - name: Persist ordinal 39 reservation before exposing provider credentials
+        id: lock_39
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-39-attempt-lock
+          path: /tmp/v6-lock-39/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 39 attempt using the canonical runner
+        id: run_39
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_39.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-39/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 39 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-39 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-39/attempt-lock.json --uploaded-lock /tmp/v6-lock-39/uploaded-artifact.json
+
+      - name: Persist ordinal 39 result before continuing
+        id: result_39
+        if: always() && steps.run_39.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-39-${{ steps.run_39.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-39
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 39 completed and evidence was uploaded
+        if: always() && steps.run_39.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_39.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_39.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 39 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-39 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-39/attempt-lock.json
+
+      - name: Reserve ordinal 40 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-40-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 40 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-40 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-40/attempt-lock.json
+
+      - name: Persist ordinal 40 reservation before exposing provider credentials
+        id: lock_40
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-40-attempt-lock
+          path: /tmp/v6-lock-40/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 40 attempt using the canonical runner
+        id: run_40
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_40.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-40/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 40 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-40 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-40/attempt-lock.json --uploaded-lock /tmp/v6-lock-40/uploaded-artifact.json
+
+      - name: Persist ordinal 40 result before continuing
+        id: result_40
+        if: always() && steps.run_40.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-40-${{ steps.run_40.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-40
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 40 completed and evidence was uploaded
+        if: always() && steps.run_40.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_40.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_40.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 40 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-40 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-40/attempt-lock.json
+
+      - name: Reserve ordinal 41 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-41-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 41 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-41 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-41/attempt-lock.json
+
+      - name: Persist ordinal 41 reservation before exposing provider credentials
+        id: lock_41
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-41-attempt-lock
+          path: /tmp/v6-lock-41/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 41 attempt using the canonical runner
+        id: run_41
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_41.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-41/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 41 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-41 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-41/attempt-lock.json --uploaded-lock /tmp/v6-lock-41/uploaded-artifact.json
+
+      - name: Persist ordinal 41 result before continuing
+        id: result_41
+        if: always() && steps.run_41.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-41-${{ steps.run_41.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-41
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 41 completed and evidence was uploaded
+        if: always() && steps.run_41.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_41.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_41.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 41 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-41 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-41/attempt-lock.json
+
+      - name: Reserve ordinal 42 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-42-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 42 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-42 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-42/attempt-lock.json
+
+      - name: Persist ordinal 42 reservation before exposing provider credentials
+        id: lock_42
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-42-attempt-lock
+          path: /tmp/v6-lock-42/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 42 attempt using the canonical runner
+        id: run_42
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_42.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-42/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 42 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-42 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-42/attempt-lock.json --uploaded-lock /tmp/v6-lock-42/uploaded-artifact.json
+
+      - name: Persist ordinal 42 result before continuing
+        id: result_42
+        if: always() && steps.run_42.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-42-${{ steps.run_42.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-42
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 42 completed and evidence was uploaded
+        if: always() && steps.run_42.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_42.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_42.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 42 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-42 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-42/attempt-lock.json
+
+      - name: Reserve ordinal 43 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-43-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 43 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-43 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-43/attempt-lock.json
+
+      - name: Persist ordinal 43 reservation before exposing provider credentials
+        id: lock_43
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-43-attempt-lock
+          path: /tmp/v6-lock-43/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 43 attempt using the canonical runner
+        id: run_43
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_43.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-43/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 43 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-43 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-43/attempt-lock.json --uploaded-lock /tmp/v6-lock-43/uploaded-artifact.json
+
+      - name: Persist ordinal 43 result before continuing
+        id: result_43
+        if: always() && steps.run_43.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-43-${{ steps.run_43.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-43
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 43 completed and evidence was uploaded
+        if: always() && steps.run_43.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_43.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_43.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 43 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-43 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-43/attempt-lock.json
+
+      - name: Reserve ordinal 44 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-44-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 44 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-44 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-44/attempt-lock.json
+
+      - name: Persist ordinal 44 reservation before exposing provider credentials
+        id: lock_44
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-44-attempt-lock
+          path: /tmp/v6-lock-44/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 44 attempt using the canonical runner
+        id: run_44
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_44.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-44/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 44 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-44 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-44/attempt-lock.json --uploaded-lock /tmp/v6-lock-44/uploaded-artifact.json
+
+      - name: Persist ordinal 44 result before continuing
+        id: result_44
+        if: always() && steps.run_44.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-44-${{ steps.run_44.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-44
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 44 completed and evidence was uploaded
+        if: always() && steps.run_44.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_44.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_44.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 44 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-44 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-44/attempt-lock.json
+
+      - name: Reserve ordinal 45 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-45-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 45 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-45 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-45/attempt-lock.json
+
+      - name: Persist ordinal 45 reservation before exposing provider credentials
+        id: lock_45
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-45-attempt-lock
+          path: /tmp/v6-lock-45/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 45 attempt using the canonical runner
+        id: run_45
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_45.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-45/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 45 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-45 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-45/attempt-lock.json --uploaded-lock /tmp/v6-lock-45/uploaded-artifact.json
+
+      - name: Persist ordinal 45 result before continuing
+        id: result_45
+        if: always() && steps.run_45.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-45-${{ steps.run_45.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-45
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 45 completed and evidence was uploaded
+        if: always() && steps.run_45.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_45.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_45.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 45 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-45 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-45/attempt-lock.json
+
+      - name: Reserve ordinal 46 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-46-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 46 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-46 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-46/attempt-lock.json
+
+      - name: Persist ordinal 46 reservation before exposing provider credentials
+        id: lock_46
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-46-attempt-lock
+          path: /tmp/v6-lock-46/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 46 attempt using the canonical runner
+        id: run_46
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_46.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-46/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 46 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-46 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-46/attempt-lock.json --uploaded-lock /tmp/v6-lock-46/uploaded-artifact.json
+
+      - name: Persist ordinal 46 result before continuing
+        id: result_46
+        if: always() && steps.run_46.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-46-${{ steps.run_46.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-46
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 46 completed and evidence was uploaded
+        if: always() && steps.run_46.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_46.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_46.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 46 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-46 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-46/attempt-lock.json
+
+      - name: Reserve ordinal 47 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-47-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 47 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-47 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-47/attempt-lock.json
+
+      - name: Persist ordinal 47 reservation before exposing provider credentials
+        id: lock_47
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-47-attempt-lock
+          path: /tmp/v6-lock-47/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 47 attempt using the canonical runner
+        id: run_47
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_47.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-47/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 47 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-47 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-47/attempt-lock.json --uploaded-lock /tmp/v6-lock-47/uploaded-artifact.json
+
+      - name: Persist ordinal 47 result before continuing
+        id: result_47
+        if: always() && steps.run_47.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-47-${{ steps.run_47.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-47
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 47 completed and evidence was uploaded
+        if: always() && steps.run_47.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_47.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_47.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 47 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-47 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-47/attempt-lock.json
+
+      - name: Reserve ordinal 48 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-48-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 48 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-48 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-48/attempt-lock.json
+
+      - name: Persist ordinal 48 reservation before exposing provider credentials
+        id: lock_48
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-48-attempt-lock
+          path: /tmp/v6-lock-48/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 48 attempt using the canonical runner
+        id: run_48
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_48.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-48/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 48 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-48 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-48/attempt-lock.json --uploaded-lock /tmp/v6-lock-48/uploaded-artifact.json
+
+      - name: Persist ordinal 48 result before continuing
+        id: result_48
+        if: always() && steps.run_48.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-48-${{ steps.run_48.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-48
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 48 completed and evidence was uploaded
+        if: always() && steps.run_48.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_48.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_48.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 48 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-48 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-48/attempt-lock.json
+
+      - name: Reserve ordinal 49 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-49-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 49 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-49 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-49/attempt-lock.json
+
+      - name: Persist ordinal 49 reservation before exposing provider credentials
+        id: lock_49
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-49-attempt-lock
+          path: /tmp/v6-lock-49/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 49 attempt using the canonical runner
+        id: run_49
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_49.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-49/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 49 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-49 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-49/attempt-lock.json --uploaded-lock /tmp/v6-lock-49/uploaded-artifact.json
+
+      - name: Persist ordinal 49 result before continuing
+        id: result_49
+        if: always() && steps.run_49.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-49-${{ steps.run_49.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-49
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 49 completed and evidence was uploaded
+        if: always() && steps.run_49.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_49.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_49.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 49 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-49 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-49/attempt-lock.json
+
+      - name: Reserve ordinal 50 offline after rejecting all prior evidence
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+            name="trackcade-semantic-external-stage1-v6-remaining49-v1-case-50-${suffix}"
+            count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+            test "$count" = '0'
+          done
+          python "$RUNNER" --mode prepare --ordinal 50 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-50 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-50/attempt-lock.json
+
+      - name: Persist ordinal 50 reservation before exposing provider credentials
+        id: lock_50
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-50-attempt-lock
+          path: /tmp/v6-lock-50/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: One ordinal 50 attempt using the canonical runner
+        id: run_50
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock_50.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v6-lock-50/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 50 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-50 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-50/attempt-lock.json --uploaded-lock /tmp/v6-lock-50/uploaded-artifact.json
+
+      - name: Persist ordinal 50 result before continuing
+        id: result_50
+        if: always() && steps.run_50.outcome != 'skipped'
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v6-remaining49-v1-case-50-${{ steps.run_50.outputs.artifact_outcome || 'reserved-no-final-status' }}
+          path: /tmp/v6-case-50
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+
+      - name: Fail closed unless ordinal 50 completed and evidence was uploaded
+        if: always() && steps.run_50.outcome != 'skipped'
+        shell: bash
+        env:
+          RESULT_UPLOAD_OUTCOME: ${{ steps.result_50.outcome }}
+          RESULT_ARTIFACT_ID: ${{ steps.result_50.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          test "$RESULT_UPLOAD_OUTCOME" = 'success'
+          test -n "$RESULT_ARTIFACT_ID"
+          python "$RUNNER" --mode check --ordinal 50 --source-root /tmp/trackcade-v6-prep --flex-root /tmp/trackcade-v6-flex8192-prep --output-dir /tmp/v6-case-50 --harness-commit "$GITHUB_SHA" --validator research/learned-interpretation-v1/validate_learned_proposal_v6.py --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v6-lock-50/attempt-lock.json

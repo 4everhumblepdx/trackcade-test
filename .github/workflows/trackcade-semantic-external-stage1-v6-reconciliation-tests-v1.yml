@@ -1,0 +1,63 @@
+name: Trackcade V6 — Provider-free label-blind reconciliation tests
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v6-reconciliation-tests-v1.yml
+      - research/semantic-external-holdout-v1/run_stage1_v6_hosted_reconciliation_tests_v1.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: trackcade-v6-provider-free-reconciliation-tests-v1
+  cancel-in-progress: false
+
+jobs:
+  offline-tests:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      REPORT_DIR: ${{ runner.temp }}/v6-reconciliation-tests
+    steps:
+      - name: Checkout code and inert receipts only
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml
+            .github/workflows/trackcade-semantic-external-stage1-v6-generation-freeze-v1.yml
+            .github/workflows/trackcade-semantic-external-stage1-v6-reconciliation-tests-v1.yml
+            research/learned-interpretation-v1/*.py
+            research/semantic-external-holdout-v1/test_stage1_v6_contract.py
+            research/semantic-external-holdout-v1/test_stage1_v6_remaining49_reconciliation_v1.py
+            research/semantic-external-holdout-v1/run_stage1_v6_hosted_reconciliation_tests_v1.py
+            research/semantic-external-holdout-v1/run_stage1_v6_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/collect_stage1_v6_results_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_TEMPLATE_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_ARTIFACT_CONTRACT_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_RECONCILIATION_RECEIPT_V1.json
+          sparse-checkout-cone-mode: false
+
+      - name: Install pinned YAML reader from a binary wheel only
+        run: |
+          python -B -m pip install --disable-pip-version-check --only-binary=:all: --no-compile --no-deps PyYAML==6.0.3
+
+      - name: Run only synthetic tests with real network and subprocess execution denied
+        run: python -B research/semantic-external-holdout-v1/run_stage1_v6_hosted_reconciliation_tests_v1.py --output-dir "$REPORT_DIR" --require-sparse-workspace
+
+      - name: Preserve provider-free test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-stage1-v6-provider-free-reconciliation-tests-v1
+          path: ${{ env.REPORT_DIR }}
+          if-no-files-found: error
+          retention-days: 90

@@ -5,8 +5,9 @@ on:
     branches:
       - trackcade-semantic-external-holdout-v1
     paths:
-      - research/semantic-external-holdout-v1/**
-      - .github/workflows/trackcade-semantic-external-inventory-v1.yml
+      # The inventory is already frozen. Unrelated research/receipt edits must
+      # not fetch the corpus inventory or cause an automatic branch write.
+      - research/semantic-external-holdout-v1/inventory_osf_v1.py
 
 permissions:
   contents: write
