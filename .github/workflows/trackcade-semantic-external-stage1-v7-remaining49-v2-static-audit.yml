@@ -64,8 +64,8 @@ jobs:
             assert f'needs: {need}' in block
             assert f'ordinal: {i}' in block
           assert one.count('Perform exactly one ordinal provider attempt')==1
-          assert one.count('trackcade-v7-remaining49-reserve-v1')==1
-          assert one.count('trackcade-v7-remaining49-finalize-v1')==1
+          assert one.count('uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1')==1
+          assert one.count('uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1')==1
           print('V2 serial topology and zero-attempt recovery state PASS')
           PY
           gh api "repos/${GITHUB_REPOSITORY}/actions/runs/36934240910/jobs?per_page=100" > /tmp/prior-jobs.json
