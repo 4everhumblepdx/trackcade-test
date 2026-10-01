@@ -1,0 +1,83 @@
+name: Trackcade V7 remaining49 finalize one ordinal
+description: Provider-free result upload and completed-valid verification for one ordered V7 development ordinal.
+
+inputs:
+  ordinal:
+    required: true
+  artifact-outcome:
+    required: true
+  runner:
+    required: true
+  source-root:
+    required: true
+  flex-root:
+    required: true
+  validator:
+    required: true
+  authorization:
+    required: true
+  activation:
+    required: true
+  github-token:
+    required: true
+
+outputs:
+  result-artifact-id:
+    value: ${{ steps.result.outputs.artifact-id }}
+
+runs:
+  using: composite
+  steps:
+    - name: Derive ordinal metadata
+      id: meta
+      shell: bash
+      env:
+        ORDINAL: ${{ inputs.ordinal }}
+      run: |
+        set -euo pipefail
+        test "$ORDINAL" -ge 2
+        test "$ORDINAL" -le 50
+        printf -v nn '%02d' "$ORDINAL"
+        echo "nn=$nn" >> "$GITHUB_OUTPUT"
+
+    - name: Persist result before any later ordinal can start
+      id: result
+      uses: actions/upload-artifact@v4
+      with:
+        name: trackcade-semantic-external-stage1-v7-remaining49-v1-case-${{ steps.meta.outputs.nn }}-${{ inputs.artifact-outcome }}
+        path: /tmp/v7-case-${{ steps.meta.outputs.nn }}
+        if-no-files-found: error
+        retention-days: 90
+        compression-level: 9
+
+    - name: Verify completed-valid result and immutable upload
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        RESULT_ARTIFACT_ID: ${{ steps.result.outputs.artifact-id }}
+        ORDINAL: ${{ inputs.ordinal }}
+        NN: ${{ steps.meta.outputs.nn }}
+        OUTCOME: ${{ inputs.artifact-outcome }}
+        RUNNER: ${{ inputs.runner }}
+        SOURCE_ROOT: ${{ inputs.source-root }}
+        FLEX_ROOT: ${{ inputs.flex-root }}
+        VALIDATOR: ${{ inputs.validator }}
+        AUTH_PATH: ${{ inputs.authorization }}
+        ACTIVATE_PATH: ${{ inputs.activation }}
+      run: |
+        set -euo pipefail
+        test -z "${OPENAI_API_KEY:-}"
+        test "$OUTCOME" = 'completed-valid'
+        gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${RESULT_ARTIFACT_ID}" > "/tmp/v7-result-${NN}.json"
+        python - <<'PY'
+        import json, os
+        nn=os.environ['NN']
+        m=json.load(open(f'/tmp/v7-result-{nn}.json'))
+        assert m['id']==int(os.environ['RESULT_ARTIFACT_ID'])
+        assert m['name']==f'trackcade-semantic-external-stage1-v7-remaining49-v1-case-{nn}-completed-valid'
+        assert m['expired'] is False
+        assert m['workflow_run']['id']==int(os.environ['GITHUB_RUN_ID'])
+        assert m['workflow_run']['head_sha']==os.environ['GITHUB_SHA']
+        assert str(m.get('digest','')).startswith('sha256:')
+        PY
+        python "$RUNNER" --mode check --ordinal "$ORDINAL" --source-root "$SOURCE_ROOT" --flex-root "$FLEX_ROOT" --output-dir "/tmp/v7-case-${NN}" --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file "/tmp/v7-lock-${NN}/attempt-lock.json"
