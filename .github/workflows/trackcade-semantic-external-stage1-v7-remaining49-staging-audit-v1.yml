@@ -6,6 +6,9 @@ on:
       - trackcade-semantic-external-holdout-v1
     paths:
       - .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-staging-audit-v1.yml
+      - .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v1.yml
+      - .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml
+      - .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml
       - research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
       - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
       - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json
@@ -44,14 +47,17 @@ jobs:
           fetch-depth: 1
           sparse-checkout-cone-mode: false
           sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-staging-audit-v1.yml
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v1.yml
+            .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml
+            .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml
             research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
             research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
             research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json
             research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json
             research/semantic-external-holdout-v1/STAGE1_V7_CANARY_FREEZE_V1.json
-            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-staging-audit-v1.yml
 
-      - name: Prove staging is inert and runner is one-attempt only
+      - name: Prove staging is inert and execution topology is serial
         shell: bash
         run: |
           set -euo pipefail
@@ -59,33 +65,61 @@ jobs:
           test ! -e research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json
           python -m py_compile research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
           python - <<'PY'
-          import ast,json,pathlib
+          import ast,json,pathlib,re
           root=pathlib.Path('research/semantic-external-holdout-v1')
           auth=json.loads((root/'STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json').read_text())
           template=json.loads((root/'STAGE1_V7_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json').read_text())
           cost=json.loads((root/'STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json').read_text())
           freeze=json.loads((root/'STAGE1_V7_CANARY_FREEZE_V1.json').read_text())
+          paid=pathlib.Path('.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v1.yml').read_text()
+          reserve=pathlib.Path('.github/actions/trackcade-v7-remaining49-reserve-v1/action.yml').read_text()
+          finalize=pathlib.Path('.github/actions/trackcade-v7-remaining49-finalize-v1/action.yml').read_text()
+          runner=(root/'run_stage1_v7_remaining49_case_v1.py').read_text()
+
           assert auth['authorized'] is False and auth['status']=='staged-not-authorized'
           assert auth['ordinals']==list(range(2,51)) and auth['maximumInitialProviderAttempts']==49
           assert auth['attemptsPerOrdinal']==1
           assert auth['activation']['activationFileExistsAtStaging'] is False
           assert auth['activation']['activationRequiresFreshExplicitUserApproval'] is True
           assert template['activatePaidRemaining49'] is False
-          assert template['automaticRetriesAuthorized'] is False
-          assert template['standardFallbackAuthorized'] is False
-          assert template['partialScoringAuthorized'] is False
-          assert template['stage1ReferenceOpeningAuthorized'] is False
-          assert template['terminalHoldoutAccessAuthorized'] is False
-          assert template['compilerInvocationAuthorized'] is False
-          assert template['analyzerExecutionAuthorized'] is False
-          assert template['analyzerChangesAuthorized'] is False
-          assert template['semanticContractChangesAuthorized'] is False
+          for key in ('automaticRetriesAuthorized','standardFallbackAuthorized','partialScoringAuthorized','stage1ReferenceOpeningAuthorized','terminalHoldoutAccessAuthorized','compilerInvocationAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','semanticContractChangesAuthorized'):
+            assert template[key] is False, key
           assert cost['scientificBoundaries']['providerCallsDuringEstimate']==0
           assert cost['projectionForRemaining49']['centralEstimateUsd']>0
           assert cost['projectionForRemaining49']['conservativeMaxOutputCapScenarioUsd']>cost['projectionForRemaining49']['centralEstimateUsd']
           assert freeze['artifact']['id']==11191938588
           assert freeze['researchBoundary']['additionalProviderCallsAuthorized'] is False
-          runner=(root/'run_stage1_v7_remaining49_case_v1.py').read_text()
+
+          activation='research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json'
+          assert activation in paid
+          assert 'workflow_dispatch:' not in paid
+          assert 'strategy:' not in paid and 'matrix:' not in paid and 'max-parallel' not in paid
+          assert 'api.openai.com' not in paid
+          assert paid.count('OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}')==49
+          reserve_ord=[int(x) for x in re.findall(r'- name: Reserve ordinal (\d+) provider-free',paid)]
+          run_ord=[int(x) for x in re.findall(r'- name: One ordinal (\d+) provider attempt',paid)]
+          final_ord=[int(x) for x in re.findall(r'- name: Persist and verify ordinal (\d+) before continuing',paid)]
+          expected=list(range(2,51))
+          assert reserve_ord==expected and run_ord==expected and final_ord==expected
+          positions=[]
+          for i in expected:
+            a=paid.index(f'- name: Reserve ordinal {i} provider-free')
+            b=paid.index(f'- name: One ordinal {i} provider attempt')
+            c=paid.index(f'- name: Persist and verify ordinal {i} before continuing')
+            assert a < b < c
+            positions.append((a,b,c))
+          for left,right in zip(positions,positions[1:]):
+            assert left[2] < right[0]
+
+          for helper in (reserve,finalize):
+            assert 'secrets.OPENAI_API_KEY' not in helper
+            assert 'api.openai.com' not in helper
+            assert 'urlopen' not in helper
+          assert 'actions/upload-artifact@v4' in reserve
+          assert 'actions/upload-artifact@v4' in finalize
+          assert 'previous ordinal completed-valid artifact missing or duplicated' in reserve
+          assert "test \"$OUTCOME\" = 'completed-valid'" in finalize
+
           assert 'REFERENCE_DROPS' not in runner
           assert 'range(2, 51)' in runner
           tree=ast.parse(runner)
@@ -101,7 +135,7 @@ jobs:
           while n in parents:
             n=parents[n]
             assert not isinstance(n,(ast.For,ast.AsyncFor,ast.While)), 'provider call nested in loop'
-          print('V7 remaining49 inert gate + one-attempt static runner audit=PASS')
+          print('V7 remaining49 inert gate + strict serial topology + one-call runner audit=PASS')
           PY
 
       - name: Verify frozen V7 artifact metadata
@@ -151,7 +185,7 @@ jobs:
           set -euo pipefail
           test -z "${OPENAI_API_KEY:-}"
           python - <<'PY'
-          import importlib.util,pathlib,sys
+          import importlib.util,pathlib
           p=pathlib.Path('research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py')
           spec=importlib.util.spec_from_file_location('v7runner',p)
           m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
