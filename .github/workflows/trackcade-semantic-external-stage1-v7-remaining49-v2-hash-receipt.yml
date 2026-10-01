@@ -1,0 +1,43 @@
+name: Trackcade V7 — Remaining49 V2 Hash Receipt
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2-hash-receipt.yml
+
+permissions:
+  contents: read
+
+jobs:
+  hash:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Sparse checkout exact V2 execution surface
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml
+            .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml
+            .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_ZERO_ATTEMPT_PREFLIGHT_FAILURE_V1.json
+
+      - name: Verify inactive V2 gate and emit hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V2.json
+          sha256sum \
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v2.yml \
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-one-case-v2.yml \
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py \
+            .github/actions/trackcade-v7-remaining49-reserve-v1/action.yml \
+            .github/actions/trackcade-v7-remaining49-finalize-v1/action.yml \
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_ZERO_ATTEMPT_PREFLIGHT_FAILURE_V1.json
