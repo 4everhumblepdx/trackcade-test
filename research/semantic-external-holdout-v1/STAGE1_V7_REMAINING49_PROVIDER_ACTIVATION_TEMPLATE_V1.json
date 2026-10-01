@@ -1,0 +1,31 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-remaining49-provider-activation-v1",
+  "activatePaidRemaining49": false,
+  "executionSourceCommit": "REPLACE_WITH_AUTHORIZED_PARENT_COMMIT_ONLY_AFTER_EXPLICIT_APPROVAL",
+  "authorizationCommit": "REPLACE_WITH_EXACT_AUTHORIZATION_COMMIT_ONLY_AFTER_EXPLICIT_APPROVAL",
+  "authorizationFile": "research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json",
+  "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "maximumProviderAttempts": 49,
+  "attemptsPerOrdinal": 1,
+  "automaticRetriesAuthorized": false,
+  "standardFallbackAuthorized": false,
+  "partialScoringAuthorized": false,
+  "stage1ReferenceOpeningAuthorized": false,
+  "terminalHoldoutAccessAuthorized": false,
+  "compilerInvocationAuthorized": false,
+  "analyzerExecutionAuthorized": false,
+  "analyzerChangesAuthorized": false,
+  "semanticContractChangesAuthorized": false,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "executionWorkflowSha256": "REPLACE_AFTER_HOSTED_STAGING_VALIDATION",
+  "runnerSha256": "REPLACE_AFTER_HOSTED_STAGING_VALIDATION",
+  "note": "Template only. This filename does not trigger provider calls. Do not create STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json or set activatePaidRemaining49=true without Nicholas's fresh explicit approval."
+}
