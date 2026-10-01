@@ -1,0 +1,126 @@
+{
+  "schema": "trackcade-stage1-v6-hosted-validation-receipt-v1",
+  "status": "provider-free-hosted-validation-passed-paid-path-inactive",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "provenance": {
+    "localReconciliationCommit": "f26c9331c39c3982286ac631d15a1ef61c70ca5c",
+    "authoritativeRemoteBeforePublication": "7c17ea256ac33b79a8b4f351c9686a459fca5ac4",
+    "unexpectedRemoteDivergence": false,
+    "publicationCommit": "2a2ae24ec25820cca7866065e7c1634b0befba3c",
+    "publicationTree": "832266d034b87668c98ffe47e73239dec87ca296",
+    "publicationMethod": "Connected GitHub Git-data publication after command-line credential failure; exact local Git tree preserved, new commit metadata/SHA.",
+    "validatedCommit": "2ca8013ce0e22bcadd275481de983713f9a87ed7",
+    "validatedTree": "3cddd501a82c56484f8a9e46594cb351eff92a37"
+  },
+  "workflow": {
+    "path": ".github/workflows/trackcade-semantic-external-stage1-v6-reconciliation-tests-v1.yml",
+    "id": 372386611,
+    "runId": 36898763676,
+    "runAttempt": 1,
+    "jobId": 110492331049,
+    "url": "https://github.com/4everhumblepdx/trackcade-test/actions/runs/36898763676",
+    "conclusion": "success",
+    "artifact": {
+      "id": 11180068534,
+      "name": "trackcade-stage1-v6-provider-free-reconciliation-tests-v1",
+      "size_in_bytes": 1759,
+      "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11180068534",
+      "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11180068534/zip",
+      "expired": false,
+      "created_at": "2026-10-01T17:21:33Z",
+      "expires_at": "2026-12-30T17:21:23Z",
+      "updated_at": "2026-10-01T17:21:33Z",
+      "digest": "sha256:14d8a6768bba7ad89d0400363937a236de57103e59fa0c93e8d130950a954ea4",
+      "workflow_run": {
+        "id": 36898763676,
+        "repository_id": 1380714386,
+        "head_repository_id": 1380714386,
+        "head_branch": "trackcade-semantic-external-holdout-v1",
+        "head_sha": "2ca8013ce0e22bcadd275481de983713f9a87ed7"
+      }
+    }
+  },
+  "testResult": {
+    "schema": "trackcade-stage1-v6-provider-free-hosted-test-result-v1",
+    "headSha": "2ca8013ce0e22bcadd275481de983713f9a87ed7",
+    "runId": "36898763676",
+    "runAttempt": "1",
+    "platform": "linux",
+    "pythonVersion": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "yamlReaderVersion": "6.0.3",
+    "yamlDocumentsParsed": 3,
+    "remainingOrdinalGroupsVerified": 49,
+    "orderedProgressionVerified": true,
+    "preCallReservationsVerified": true,
+    "resultUploadGatesVerified": true,
+    "collectorBlobPinVerified": true,
+    "testsRun": 29,
+    "testsPassed": 29,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "unmockedNetworkOrSubprocessAttempts": 0,
+    "providerCalls": 0,
+    "paidSpendUsd": 0,
+    "referenceLabelsOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerExecutedOrModified": false,
+    "frozenSemanticContractChanged": false,
+    "syntheticOnly": true,
+    "paidActivationPresent": false,
+    "status": "pass"
+  },
+  "initialHostedDiscrepancy": {
+    "runId": 36898012643,
+    "conclusion": "failure",
+    "jobsStarted": 0,
+    "testsRun": 0,
+    "cause": "GitHub Actions rejects runner.temp in job-level env.",
+    "correction": "Use RUNNER_TEMP in the test shell step and runner.temp in artifact step; added offline context guard.",
+    "paidPathChanged": false
+  },
+  "localComparison": {
+    "testsPassed": 29,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "localPlatform": "Windows / Python 3.12.14",
+    "hostedPlatform": "Ubuntu 24.04 / Python 3.12.3",
+    "behavioralDiscrepancyAfterCorrection": false
+  },
+  "verifiedCoverage": [
+    "One ordered fail-closed remaining-49 path",
+    "Pre-call attempt locks and same-run uploaded reservation identity",
+    "Uploaded-result gates before progression",
+    "Artifact/status schema compatibility",
+    "Collector object-anchor handling and evidence validation",
+    "Semantic non-Drop events remain eligible for separate gameplay/action mapping"
+  ],
+  "executionState": {
+    "remaining49RunsOnBranch": 0,
+    "metadataRunsAudited": 188,
+    "metadataPagesAudited": 2,
+    "onlyRunsSincePublication": [
+      36898012643,
+      36898763676
+    ],
+    "ordinal1": "Frozen canary unchanged",
+    "ordinals2Through50": "Unexecuted",
+    "authorization": false,
+    "activationFileCreatedModifiedOrCommitted": false,
+    "providerCalls": 0,
+    "spendUsd": 0
+  },
+  "freeFollowUp": {
+    "completed": [
+      "Narrowed legacy inventory push trigger to its inventory code to avoid unrelated hosted work.",
+      "Added provider-free sparse-checkout hosted harness and Actions-context regression guard.",
+      "Audited both workflow-run metadata pages; no remaining-49 execution."
+    ],
+    "continuation": "Use the provider-free harness for subsequent scaffolding changes. This receipt grants no paid authorization; preserve frozen semantic code, label blindness and all execution gates."
+  },
+  "scope": "Synthetic hosted validation only; no real prep/canary result archive retrieved, no 50/50 generation freeze or scoring executed. Historical local-only receipt status is superseded by this hosted receipt; canonical path remains STAGE1_V6_CANONICAL_EXECUTION_PATH_V1.md."
+}
