@@ -1,0 +1,2049 @@
+name: Trackcade V7 — Remaining 49 — explicit paid activation only
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v7-remaining49-paid-v1
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      RUNNER: research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+      VALIDATOR: research/learned-interpretation-v1/validate_learned_proposal_v7.py
+      AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+      ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json
+      SOURCE_HEAD_SHA: f83e4de05fda7741479675f475be75eee800b5d8
+      SOURCE_RUN_ID: '36915758639'
+      SOURCE_ARTIFACT_ID: '11189967853'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-prep-v1
+      SOURCE_ARTIFACT_DIGEST: sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a
+      SOURCE_MANIFEST_SHA256: 455602ea8c5a721fac9b3381aca46285fe3c14f1fbcc36f0d08b4ffec01be875
+      SOURCE_FILES_SHA256: 9a55eff093ac8552ef8868c60d410b0b6ade0e243c11a5588066c9d16d9f3672
+      FLEX_HEAD_SHA: 307e53261035812617fede7429a2d82dde8c2479
+      FLEX_RUN_ID: '36920081360'
+      FLEX_ARTIFACT_ID: '11191402965'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+      FLEX_ARTIFACT_DIGEST: sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95
+      FLEX_MANIFEST_SHA256: a41fdd4e4138fdfda18cda20004f609eb089aeb64ed1be486ee2442b1241a713
+      FLEX_FILES_SHA256: 18805ff58dd5580a7002bc9f7d3a9fa5042539f80ae4b7d1c8a9ddc62e1668f0
+      CANARY_RUN_ID: '36922442091'
+      CANARY_ARTIFACT_ID: '11191938588'
+      CANARY_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid
+      CANARY_ARTIFACT_DIGEST: sha256:5b3995aa95e4f92af0c2d7b25f9418445bc292a691b7b029165ffe0340b96b4a
+
+    steps:
+      - name: Checkout exact activation commit with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fail closed unless paid remaining49 authorization and activation are exact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = '1'
+          test -f "${AUTH_PATH}"
+          test -f "${ACTIVATE_PATH}"
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "${ACTIVATE_PATH}"
+          for p in \
+            research/learned-interpretation-v1/build_learned_request_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v7.py; do
+            test "$(git rev-parse HEAD:${p})" = "$(git rev-parse ${SOURCE_HEAD_SHA}:${p})"
+          done
+          python -m py_compile "${RUNNER}" "${VALIDATOR}"
+          python - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          auth=json.load(open(os.environ['AUTH_PATH']))
+          act=json.load(open(os.environ['ACTIVATE_PATH']))
+          expected=list(range(2,51))
+          contract={'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False}
+          assert auth['schema']=='trackcade-semantic-external-stage1-v7-remaining49-provider-authorization-v1'
+          assert auth['status']=='authorized-explicit-paid-remaining49'
+          assert auth['authorized'] is True
+          assert isinstance(auth.get('authorizationSource'),str) and auth['authorizationSource'].strip()
+          assert auth['ordinals']==expected
+          assert auth['maximumInitialProviderAttempts']==49 and auth['attemptsPerOrdinal']==1
+          assert auth['providerContract']==contract
+          c=auth['frozenOrdinal1Canary']
+          assert c['ordinal']==1 and c['artifactId']==int(os.environ['CANARY_ARTIFACT_ID'])
+          assert c['artifactName']==os.environ['CANARY_ARTIFACT_NAME'] and c['artifactDigest']==os.environ['CANARY_ARTIFACT_DIGEST']
+          assert c['reuseAsDevelopmentResponse'] is True and c['rerunOrdinal1Authorized'] is False
+          rb=auth['researchBoundary']
+          for key in ('automaticRetriesAuthorized','standardFallbackAuthorized','partialScoringAuthorized','stage1ReferenceAccessAuthorized','terminalHoldoutAccessAuthorized','compilerInvocationAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','semanticContractChangesAuthorized'):
+            assert rb[key] is False, key
+          assert rb['retryAfterAnyFailedOrInvalidOrdinalRequiresNewExplicitApproval'] is True
+          assert act['schema']=='trackcade-semantic-external-stage1-v7-remaining49-provider-activation-v1'
+          assert act['activatePaidRemaining49'] is True
+          assert act['authorizationFile']==os.environ['AUTH_PATH']
+          assert act['ordinals']==expected
+          assert act['maximumProviderAttempts']==49 and act['attemptsPerOrdinal']==1
+          for key in ('automaticRetriesAuthorized','standardFallbackAuthorized','partialScoringAuthorized','stage1ReferenceOpeningAuthorized','terminalHoldoutAccessAuthorized','compilerInvocationAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','semanticContractChangesAuthorized'):
+            assert act[key] is False, key
+          assert act['providerContract']==contract
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          assert act['executionSourceCommit']==parent
+          workflow=pathlib.Path('.github/workflows/trackcade-semantic-external-stage1-v7-remaining49-v1.yml')
+          runner=pathlib.Path(os.environ['RUNNER'])
+          reserve=pathlib.Path('.github/actions/trackcade-v7-remaining49-reserve-v1/action.yml')
+          finalize=pathlib.Path('.github/actions/trackcade-v7-remaining49-finalize-v1/action.yml')
+          assert act['executionWorkflowSha256']==hashlib.sha256(workflow.read_bytes()).hexdigest()
+          assert act['runnerSha256']==hashlib.sha256(runner.read_bytes()).hexdigest()
+          assert act['reserveActionSha256']==hashlib.sha256(reserve.read_bytes()).hexdigest()
+          assert act['finalizeActionSha256']==hashlib.sha256(finalize.read_bytes()).hexdigest()
+          auth_commit=act['authorizationCommit']
+          subprocess.run(['git','cat-file','-e',f'{auth_commit}^{{commit}}'],check=True)
+          subprocess.run(['git','merge-base','--is-ancestor',auth_commit,parent],check=True)
+          historical=subprocess.check_output(['git','show',f'{auth_commit}:{os.environ["AUTH_PATH"]}'],text=True)
+          assert json.loads(historical)==auth
+          print('Explicit V7 remaining49 authorization and separate activation verified')
+          PY
+
+      - name: Verify immutable V7 prep and frozen ordinal-1 canary artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            ('SOURCE','SOURCE_ARTIFACT_ID','SOURCE_ARTIFACT_NAME','SOURCE_ARTIFACT_DIGEST','SOURCE_RUN_ID','SOURCE_HEAD_SHA'),
+            ('FLEX','FLEX_ARTIFACT_ID','FLEX_ARTIFACT_NAME','FLEX_ARTIFACT_DIGEST','FLEX_RUN_ID','FLEX_HEAD_SHA'),
+          ]
+          for label,idk,namek,digestk,runk,headk in specs:
+            m=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ[idk]}"],text=True))
+            assert m['id']==int(os.environ[idk])
+            assert m['name']==os.environ[namek] and m['digest']==os.environ[digestk]
+            assert m['expired'] is False
+            assert m['workflow_run']['id']==int(os.environ[runk])
+            assert m['workflow_run']['head_sha']==os.environ[headk]
+          c=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ['CANARY_ARTIFACT_ID']}"],text=True))
+          assert c['id']==int(os.environ['CANARY_ARTIFACT_ID'])
+          assert c['name']==os.environ['CANARY_ARTIFACT_NAME'] and c['digest']==os.environ['CANARY_ARTIFACT_DIGEST']
+          assert c['expired'] is False and c['workflow_run']['id']==int(os.environ['CANARY_RUN_ID'])
+          PY
+
+      - name: Refuse any earlier V7 remaining49 paid workflow execution
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api --paginate --slurp "repos/${GITHUB_REPOSITORY}/actions/workflows/trackcade-semantic-external-stage1-v7-remaining49-v1.yml/runs?per_page=100" > /tmp/v7-remaining49-run-history.json
+          python - <<'PY'
+          import json,os
+          pages=json.load(open('/tmp/v7-remaining49-run-history.json'))
+          runs=[r for page in pages for r in page['workflow_runs']]
+          assert all(r['id']==int(os.environ['GITHUB_RUN_ID']) for r in runs), 'Prior V7 remaining49 execution exists: stop; no resume or retry is authorized.'
+          PY
+
+      - name: Download exact frozen V7 semantic prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact frozen V7 Flex 8192 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-flex8192-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+
+      - name: Verify frozen prep closures before any provider credential is exposed
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          ! find . -type f -iname '*terminal*' -print -quit | grep -q .
+          echo "${SOURCE_MANIFEST_SHA256}  /tmp/trackcade-v7-prep/STAGE1_V7_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${SOURCE_FILES_SHA256}  /tmp/trackcade-v7-prep/FILES_SHA256.txt" | sha256sum -c -
+          echo "${FLEX_MANIFEST_SHA256}  /tmp/trackcade-v7-flex8192-prep/STAGE1_V7_FLEX8192_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${FLEX_FILES_SHA256}  /tmp/trackcade-v7-flex8192-prep/FILES_SHA256.txt" | sha256sum -c -
+
+      - name: Reserve ordinal 2 provider-free
+        id: reserve_02
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '2'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 2 provider attempt
+        id: run_02
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_02.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-02/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 2 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-02 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-02/attempt-lock.json --uploaded-lock /tmp/v7-lock-02/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 2 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '2'
+          artifact-outcome: ${{ steps.run_02.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 3 provider-free
+        id: reserve_03
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '3'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 3 provider attempt
+        id: run_03
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_03.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-03/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 3 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-03 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-03/attempt-lock.json --uploaded-lock /tmp/v7-lock-03/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 3 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '3'
+          artifact-outcome: ${{ steps.run_03.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 4 provider-free
+        id: reserve_04
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '4'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 4 provider attempt
+        id: run_04
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_04.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-04/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 4 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-04 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-04/attempt-lock.json --uploaded-lock /tmp/v7-lock-04/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 4 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '4'
+          artifact-outcome: ${{ steps.run_04.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 5 provider-free
+        id: reserve_05
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '5'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 5 provider attempt
+        id: run_05
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_05.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-05/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 5 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-05 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-05/attempt-lock.json --uploaded-lock /tmp/v7-lock-05/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 5 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '5'
+          artifact-outcome: ${{ steps.run_05.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 6 provider-free
+        id: reserve_06
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '6'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 6 provider attempt
+        id: run_06
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_06.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-06/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 6 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-06 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-06/attempt-lock.json --uploaded-lock /tmp/v7-lock-06/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 6 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '6'
+          artifact-outcome: ${{ steps.run_06.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 7 provider-free
+        id: reserve_07
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '7'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 7 provider attempt
+        id: run_07
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_07.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-07/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 7 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-07 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-07/attempt-lock.json --uploaded-lock /tmp/v7-lock-07/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 7 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '7'
+          artifact-outcome: ${{ steps.run_07.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 8 provider-free
+        id: reserve_08
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '8'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 8 provider attempt
+        id: run_08
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_08.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-08/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 8 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-08 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-08/attempt-lock.json --uploaded-lock /tmp/v7-lock-08/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 8 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '8'
+          artifact-outcome: ${{ steps.run_08.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 9 provider-free
+        id: reserve_09
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '9'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 9 provider attempt
+        id: run_09
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_09.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-09/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 9 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-09 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-09/attempt-lock.json --uploaded-lock /tmp/v7-lock-09/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 9 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '9'
+          artifact-outcome: ${{ steps.run_09.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 10 provider-free
+        id: reserve_10
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '10'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 10 provider attempt
+        id: run_10
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_10.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-10/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 10 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-10 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-10/attempt-lock.json --uploaded-lock /tmp/v7-lock-10/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 10 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '10'
+          artifact-outcome: ${{ steps.run_10.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 11 provider-free
+        id: reserve_11
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '11'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 11 provider attempt
+        id: run_11
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_11.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-11/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 11 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-11 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-11/attempt-lock.json --uploaded-lock /tmp/v7-lock-11/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 11 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '11'
+          artifact-outcome: ${{ steps.run_11.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 12 provider-free
+        id: reserve_12
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '12'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 12 provider attempt
+        id: run_12
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_12.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-12/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 12 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-12 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-12/attempt-lock.json --uploaded-lock /tmp/v7-lock-12/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 12 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '12'
+          artifact-outcome: ${{ steps.run_12.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 13 provider-free
+        id: reserve_13
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '13'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 13 provider attempt
+        id: run_13
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_13.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-13/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 13 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-13 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-13/attempt-lock.json --uploaded-lock /tmp/v7-lock-13/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 13 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '13'
+          artifact-outcome: ${{ steps.run_13.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 14 provider-free
+        id: reserve_14
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '14'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 14 provider attempt
+        id: run_14
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_14.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-14/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 14 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-14 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-14/attempt-lock.json --uploaded-lock /tmp/v7-lock-14/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 14 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '14'
+          artifact-outcome: ${{ steps.run_14.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 15 provider-free
+        id: reserve_15
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '15'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 15 provider attempt
+        id: run_15
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_15.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-15/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 15 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-15 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-15/attempt-lock.json --uploaded-lock /tmp/v7-lock-15/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 15 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '15'
+          artifact-outcome: ${{ steps.run_15.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 16 provider-free
+        id: reserve_16
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '16'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 16 provider attempt
+        id: run_16
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_16.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-16/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 16 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-16 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-16/attempt-lock.json --uploaded-lock /tmp/v7-lock-16/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 16 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '16'
+          artifact-outcome: ${{ steps.run_16.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 17 provider-free
+        id: reserve_17
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '17'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 17 provider attempt
+        id: run_17
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_17.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-17/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 17 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-17 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-17/attempt-lock.json --uploaded-lock /tmp/v7-lock-17/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 17 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '17'
+          artifact-outcome: ${{ steps.run_17.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 18 provider-free
+        id: reserve_18
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '18'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 18 provider attempt
+        id: run_18
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_18.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-18/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 18 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-18 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-18/attempt-lock.json --uploaded-lock /tmp/v7-lock-18/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 18 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '18'
+          artifact-outcome: ${{ steps.run_18.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 19 provider-free
+        id: reserve_19
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '19'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 19 provider attempt
+        id: run_19
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_19.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-19/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 19 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-19 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-19/attempt-lock.json --uploaded-lock /tmp/v7-lock-19/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 19 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '19'
+          artifact-outcome: ${{ steps.run_19.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 20 provider-free
+        id: reserve_20
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '20'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 20 provider attempt
+        id: run_20
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_20.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-20/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 20 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-20 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-20/attempt-lock.json --uploaded-lock /tmp/v7-lock-20/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 20 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '20'
+          artifact-outcome: ${{ steps.run_20.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 21 provider-free
+        id: reserve_21
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '21'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 21 provider attempt
+        id: run_21
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_21.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-21/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 21 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-21 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-21/attempt-lock.json --uploaded-lock /tmp/v7-lock-21/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 21 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '21'
+          artifact-outcome: ${{ steps.run_21.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 22 provider-free
+        id: reserve_22
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '22'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 22 provider attempt
+        id: run_22
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_22.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-22/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 22 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-22 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-22/attempt-lock.json --uploaded-lock /tmp/v7-lock-22/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 22 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '22'
+          artifact-outcome: ${{ steps.run_22.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 23 provider-free
+        id: reserve_23
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '23'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 23 provider attempt
+        id: run_23
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_23.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-23/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 23 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-23 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-23/attempt-lock.json --uploaded-lock /tmp/v7-lock-23/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 23 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '23'
+          artifact-outcome: ${{ steps.run_23.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 24 provider-free
+        id: reserve_24
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '24'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 24 provider attempt
+        id: run_24
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_24.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-24/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 24 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-24 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-24/attempt-lock.json --uploaded-lock /tmp/v7-lock-24/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 24 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '24'
+          artifact-outcome: ${{ steps.run_24.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 25 provider-free
+        id: reserve_25
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '25'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 25 provider attempt
+        id: run_25
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_25.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-25/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 25 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-25 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-25/attempt-lock.json --uploaded-lock /tmp/v7-lock-25/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 25 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '25'
+          artifact-outcome: ${{ steps.run_25.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 26 provider-free
+        id: reserve_26
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '26'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 26 provider attempt
+        id: run_26
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_26.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-26/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 26 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-26 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-26/attempt-lock.json --uploaded-lock /tmp/v7-lock-26/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 26 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '26'
+          artifact-outcome: ${{ steps.run_26.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 27 provider-free
+        id: reserve_27
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '27'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 27 provider attempt
+        id: run_27
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_27.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-27/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 27 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-27 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-27/attempt-lock.json --uploaded-lock /tmp/v7-lock-27/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 27 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '27'
+          artifact-outcome: ${{ steps.run_27.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 28 provider-free
+        id: reserve_28
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '28'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 28 provider attempt
+        id: run_28
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_28.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-28/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 28 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-28 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-28/attempt-lock.json --uploaded-lock /tmp/v7-lock-28/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 28 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '28'
+          artifact-outcome: ${{ steps.run_28.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 29 provider-free
+        id: reserve_29
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '29'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 29 provider attempt
+        id: run_29
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_29.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-29/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 29 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-29 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-29/attempt-lock.json --uploaded-lock /tmp/v7-lock-29/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 29 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '29'
+          artifact-outcome: ${{ steps.run_29.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 30 provider-free
+        id: reserve_30
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '30'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 30 provider attempt
+        id: run_30
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_30.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-30/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 30 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-30 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-30/attempt-lock.json --uploaded-lock /tmp/v7-lock-30/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 30 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '30'
+          artifact-outcome: ${{ steps.run_30.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 31 provider-free
+        id: reserve_31
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '31'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 31 provider attempt
+        id: run_31
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_31.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-31/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 31 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-31 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-31/attempt-lock.json --uploaded-lock /tmp/v7-lock-31/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 31 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '31'
+          artifact-outcome: ${{ steps.run_31.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 32 provider-free
+        id: reserve_32
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '32'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 32 provider attempt
+        id: run_32
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_32.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-32/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 32 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-32 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-32/attempt-lock.json --uploaded-lock /tmp/v7-lock-32/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 32 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '32'
+          artifact-outcome: ${{ steps.run_32.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 33 provider-free
+        id: reserve_33
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '33'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 33 provider attempt
+        id: run_33
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_33.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-33/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 33 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-33 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-33/attempt-lock.json --uploaded-lock /tmp/v7-lock-33/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 33 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '33'
+          artifact-outcome: ${{ steps.run_33.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 34 provider-free
+        id: reserve_34
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '34'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 34 provider attempt
+        id: run_34
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_34.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-34/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 34 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-34 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-34/attempt-lock.json --uploaded-lock /tmp/v7-lock-34/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 34 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '34'
+          artifact-outcome: ${{ steps.run_34.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 35 provider-free
+        id: reserve_35
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '35'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 35 provider attempt
+        id: run_35
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_35.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-35/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 35 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-35 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-35/attempt-lock.json --uploaded-lock /tmp/v7-lock-35/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 35 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '35'
+          artifact-outcome: ${{ steps.run_35.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 36 provider-free
+        id: reserve_36
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '36'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 36 provider attempt
+        id: run_36
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_36.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-36/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 36 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-36 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-36/attempt-lock.json --uploaded-lock /tmp/v7-lock-36/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 36 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '36'
+          artifact-outcome: ${{ steps.run_36.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 37 provider-free
+        id: reserve_37
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '37'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 37 provider attempt
+        id: run_37
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_37.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-37/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 37 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-37 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-37/attempt-lock.json --uploaded-lock /tmp/v7-lock-37/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 37 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '37'
+          artifact-outcome: ${{ steps.run_37.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 38 provider-free
+        id: reserve_38
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '38'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 38 provider attempt
+        id: run_38
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_38.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-38/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 38 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-38 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-38/attempt-lock.json --uploaded-lock /tmp/v7-lock-38/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 38 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '38'
+          artifact-outcome: ${{ steps.run_38.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 39 provider-free
+        id: reserve_39
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '39'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 39 provider attempt
+        id: run_39
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_39.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-39/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 39 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-39 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-39/attempt-lock.json --uploaded-lock /tmp/v7-lock-39/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 39 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '39'
+          artifact-outcome: ${{ steps.run_39.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 40 provider-free
+        id: reserve_40
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '40'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 40 provider attempt
+        id: run_40
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_40.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-40/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 40 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-40 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-40/attempt-lock.json --uploaded-lock /tmp/v7-lock-40/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 40 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '40'
+          artifact-outcome: ${{ steps.run_40.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 41 provider-free
+        id: reserve_41
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '41'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 41 provider attempt
+        id: run_41
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_41.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-41/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 41 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-41 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-41/attempt-lock.json --uploaded-lock /tmp/v7-lock-41/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 41 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '41'
+          artifact-outcome: ${{ steps.run_41.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 42 provider-free
+        id: reserve_42
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '42'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 42 provider attempt
+        id: run_42
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_42.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-42/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 42 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-42 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-42/attempt-lock.json --uploaded-lock /tmp/v7-lock-42/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 42 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '42'
+          artifact-outcome: ${{ steps.run_42.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 43 provider-free
+        id: reserve_43
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '43'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 43 provider attempt
+        id: run_43
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_43.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-43/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 43 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-43 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-43/attempt-lock.json --uploaded-lock /tmp/v7-lock-43/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 43 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '43'
+          artifact-outcome: ${{ steps.run_43.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 44 provider-free
+        id: reserve_44
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '44'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 44 provider attempt
+        id: run_44
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_44.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-44/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 44 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-44 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-44/attempt-lock.json --uploaded-lock /tmp/v7-lock-44/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 44 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '44'
+          artifact-outcome: ${{ steps.run_44.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 45 provider-free
+        id: reserve_45
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '45'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 45 provider attempt
+        id: run_45
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_45.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-45/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 45 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-45 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-45/attempt-lock.json --uploaded-lock /tmp/v7-lock-45/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 45 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '45'
+          artifact-outcome: ${{ steps.run_45.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 46 provider-free
+        id: reserve_46
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '46'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 46 provider attempt
+        id: run_46
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_46.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-46/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 46 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-46 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-46/attempt-lock.json --uploaded-lock /tmp/v7-lock-46/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 46 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '46'
+          artifact-outcome: ${{ steps.run_46.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 47 provider-free
+        id: reserve_47
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '47'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 47 provider attempt
+        id: run_47
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_47.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-47/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 47 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-47 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-47/attempt-lock.json --uploaded-lock /tmp/v7-lock-47/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 47 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '47'
+          artifact-outcome: ${{ steps.run_47.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 48 provider-free
+        id: reserve_48
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '48'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 48 provider attempt
+        id: run_48
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_48.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-48/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 48 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-48 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-48/attempt-lock.json --uploaded-lock /tmp/v7-lock-48/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 48 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '48'
+          artifact-outcome: ${{ steps.run_48.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 49 provider-free
+        id: reserve_49
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '49'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 49 provider attempt
+        id: run_49
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_49.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-49/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 49 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-49 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-49/attempt-lock.json --uploaded-lock /tmp/v7-lock-49/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 49 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '49'
+          artifact-outcome: ${{ steps.run_49.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve ordinal 50 provider-free
+        id: reserve_50
+        uses: ./.github/actions/trackcade-v7-remaining49-reserve-v1
+        with:
+          ordinal: '50'
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
+
+      - name: One ordinal 50 provider attempt
+        id: run_50
+        shell: bash
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.reserve_50.outputs.lock-artifact-id }}
+        run: |
+          set -euo pipefail
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-lock-50/uploaded-artifact.json
+          python "$RUNNER" --mode run --ordinal 50 --source-root /tmp/trackcade-v7-prep --flex-root /tmp/trackcade-v7-flex8192-prep --output-dir /tmp/v7-case-50 --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file /tmp/v7-lock-50/attempt-lock.json --uploaded-lock /tmp/v7-lock-50/uploaded-artifact.json
+
+      - name: Persist and verify ordinal 50 before continuing
+        uses: ./.github/actions/trackcade-v7-remaining49-finalize-v1
+        with:
+          ordinal: '50'
+          artifact-outcome: ${{ steps.run_50.outputs.artifact_outcome }}
+          runner: ${{ env.RUNNER }}
+          source-root: /tmp/trackcade-v7-prep
+          flex-root: /tmp/trackcade-v7-flex8192-prep
+          validator: ${{ env.VALIDATOR }}
+          authorization: ${{ env.AUTH_PATH }}
+          activation: ${{ env.ACTIVATE_PATH }}
+          github-token: ${{ github.token }}
