@@ -1,8 +1,8 @@
 {
   "schema": "trackcade-semantic-external-stage1-v7-ordinal04-retry-authorization-v1",
-  "status": "staged-not-authorized",
-  "authorized": false,
-  "authorizationSource": null,
+  "status": "authorized-explicit-one-retry",
+  "authorized": true,
+  "authorizationSource": "Nicholas explicitly approved exactly one additional paid same-contract ordinal-4 retry in ChatGPT on 2026-10-01.",
   "ordinal": 4,
   "maximumRetryProviderAttempts": 1,
   "attemptsPerOrdinal": 1,
@@ -47,7 +47,7 @@
   "activation": {
     "activationFile": "research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json",
     "activationFileExistsAtStaging": false,
-    "freshExplicitUserApprovalRequired": true
+    "freshExplicitUserApprovalRequired": false
   },
-  "note": "Inert staging receipt only. Do not set authorized=true and do not create the retry activation file without fresh explicit Nicholas approval for exactly one same-contract ordinal-4 retry."
+  "note": "Fresh explicit Nicholas approval is recorded for exactly one paid same-contract ordinal-4 retry. No automatic retry, second retry, Standard fallback, output-token-cap change, semantic-contract change, label access, terminal holdout access, Analyzer execution/change, compiler invocation, or partial scoring is authorized."
 }
