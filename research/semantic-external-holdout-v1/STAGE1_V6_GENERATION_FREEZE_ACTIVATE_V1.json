@@ -1,0 +1,19 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-generation-freeze-activation-v1",
+  "status": "activated-offline-freeze-after-complete-remaining49",
+  "activateOfflineFreeze": true,
+  "expectedCompletedOrdinals": [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "ordinal1Source": "frozen-canary",
+  "remainingOrdinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "remaining49RunId": 36906254125,
+  "remaining49ActivationCommit": "2e09e9edb4bcd336f3875bd8e54511e5d30ac979",
+  "providerCallsAuthorizedByFreeze": false,
+  "stage1ReferenceAccessAuthorizedByFreeze": false,
+  "partialScoringAuthorizedByFreeze": false,
+  "terminalHoldoutAccessAuthorizedByFreeze": false,
+  "compilerInvocationAuthorizedByFreeze": false,
+  "analyzerExecutionAuthorizedByFreeze": false,
+  "notes": [
+    "Offline label-blind generation freeze only. Ordinal 1 is the already-frozen canary; ordinals 2-50 are the completed-valid artifacts from the authorized serial remaining49 run. This activation authorizes no provider calls, reference access, scoring, terminal holdout access, compiler invocation, or Analyzer execution."
+  ]
+}
