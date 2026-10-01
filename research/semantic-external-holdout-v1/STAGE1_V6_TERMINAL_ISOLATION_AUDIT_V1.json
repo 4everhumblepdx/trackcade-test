@@ -1,0 +1,40 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-terminal-isolation-audit-v1",
+  "status": "terminal-scoring-blocked-strict-unseen-claim-no-longer-safe",
+  "observedAfterDevelopmentScoring": true,
+  "referenceFile": "research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json",
+  "referenceFileStructure": {
+    "containsStage1Section": true,
+    "containsTerminalSection": true,
+    "sectionsArePhysicallyCoLocatedInSameJsonFile": true
+  },
+  "v6DevelopmentScoring": {
+    "runId": 36912823963,
+    "jobId": 110539437709,
+    "metricsUsedStage1RowsOnly": true,
+    "terminalRowsUsedForMetrics": false,
+    "terminalScoringPerformed": false,
+    "terminalProviderGenerationPerformed": false,
+    "compilerInvoked": false,
+    "analyzerExecuted": false
+  },
+  "isolationFinding": {
+    "wholeReferenceFileWasMaterializedAfterCompleteGenerationFreeze": true,
+    "scorerLoadedTheJsonDocumentThenSelectedStage1Rows": true,
+    "strictClaimThatTerminalLabelsRemainedPhysicallyUnopenedAfterDevelopmentScoringIsNotSafe": true,
+    "v6DevelopmentScoreValidityAffected": false,
+    "reasonDevelopmentScoreValidityUnaffected": "All 50 V6 development provider responses were completed and frozen label-blind before the reference file was opened, and only stage1 rows were used for the reported development metrics."
+  },
+  "requiredFutureBoundary": {
+    "doNotUseCurrentTerminalSectionForAnUnbiasedFinalClaim": true,
+    "doNotUseCurrentTerminalRowsForV7OrLaterDevelopment": true,
+    "freshFinalHoldoutRequiredForStrictUnbiasedGeneralizationClaim": true,
+    "freshHoldoutLabelsMustBePhysicallySeparatedAndUnopenedUntilFinalModelContractIsFrozen": true,
+    "noTerminalEvaluationAuthorizedByThisAudit": true
+  },
+  "notes": [
+    "This audit records an information-isolation issue, not a V6 development scoring defect.",
+    "No terminal label values are copied into this audit receipt.",
+    "Future development diagnostics remain Stage1-only."
+  ]
+}
