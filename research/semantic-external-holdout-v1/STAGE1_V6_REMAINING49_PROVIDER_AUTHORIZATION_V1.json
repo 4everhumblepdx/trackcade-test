@@ -1,7 +1,7 @@
 {
   "schema": "trackcade-semantic-external-stage1-v6-remaining49-provider-authorization-v1",
-  "status": "staged-not-authorized",
-  "authorized": false,
+  "status": "authorized-explicit-paid-remaining49",
+  "authorized": true,
   "purpose": "Complete the remaining Stage 1 V6 development responses after the already-frozen ordinal-1 canary, without opening Stage 1 references.",
   "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
   "maximumInitialProviderAttempts": 49,
@@ -41,7 +41,7 @@
     "activationFile": "research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATE_V1.json",
     "activationFileExistsAtStaging": false,
     "activationRequiresFreshExplicitUserApproval": true,
-    "note": "This staged authorization is intentionally inactive. It must be changed to authorized=true in a later commit after explicit approval, then a separate activation receipt must be committed to trigger any provider call."
+    "note": "Authorized by Nicholas on 2026-10-01 after funding the API balance to $5.60. A separate activation receipt is still required before any provider call."
   },
   "costPlanning": {
     "estimateReceipt": "research/semantic-external-holdout-v1/STAGE1_V6_ZERO_COST_RUN_COST_ESTIMATE_V1.json",
