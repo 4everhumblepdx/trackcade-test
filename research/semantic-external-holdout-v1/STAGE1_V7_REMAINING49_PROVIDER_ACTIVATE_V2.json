@@ -1,0 +1,43 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-remaining49-provider-activation-v1",
+  "activatePaidRemaining49": true,
+  "executionSourceCommit": "624bd3f3934f48aa50383c66b29632e573cee7d3",
+  "authorizationCommit": "a889e6f7e37d5f1dde151071932e79e826a293ed",
+  "authorizationFile": "research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json",
+  "recoveryFromZeroAttemptRunId": 36934240910,
+  "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "maximumProviderAttempts": 49,
+  "attemptsPerOrdinal": 1,
+  "automaticRetriesAuthorized": false,
+  "standardFallbackAuthorized": false,
+  "partialScoringAuthorized": false,
+  "stage1ReferenceOpeningAuthorized": false,
+  "terminalHoldoutAccessAuthorized": false,
+  "compilerInvocationAuthorized": false,
+  "analyzerExecutionAuthorized": false,
+  "analyzerChangesAuthorized": false,
+  "semanticContractChangesAuthorized": false,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "executionWorkflowSha256": "bf5c5351feba282294b9c2aa49a223fafe0648d0d3ab9789784d8e5c3cc795bb",
+  "oneCaseWorkflowSha256": "06d4a876f8bec935482fffc08fe49a6248ea003890e3814865438648593c8e89",
+  "runnerSha256": "44d2e68626bae9e274f9b95db889979a9de6d97695d50adec381f32697be1f6e",
+  "reserveActionSha256": "c6b1907046bd383271eaf0dfef06a0ebf2210dd8bd3736d341f850efa085a0e2",
+  "finalizeActionSha256": "d9301789a3297a5ce25e2474c790a507d33a2eac151779744e19dbf1c8e4ce89",
+  "failureReceiptSha256": "f2e3b70516fb81cb5314f049eeb77c2c33df06fad04dc02b0820b407c3f1006f",
+  "hashReceipt": {
+    "runId": 36935446950,
+    "jobId": 110614504653,
+    "headSha": "9908fdbfa5b2053fdfb38917449ec085c94fd216",
+    "providerCallsObserved": 0,
+    "activationV2Present": false
+  },
+  "note": "Activated under Nicholas's existing explicit V7 remaining49 approval. V1 consumed zero provider attempts; this V2 activation permits the still-unconsumed ordinals 2-50 exactly once each, with no retries or fallback."
+}
