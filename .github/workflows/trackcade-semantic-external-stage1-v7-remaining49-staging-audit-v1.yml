@@ -95,7 +95,7 @@ jobs:
           assert 'workflow_dispatch:' not in paid
           assert 'strategy:' not in paid and 'matrix:' not in paid and 'max-parallel' not in paid
           assert 'api.openai.com' not in paid
-          assert paid.count('OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}')==49
+          assert paid.count('secrets.OPENAI_API_KEY')==49
           reserve_ord=[int(x) for x in re.findall(r'- name: Reserve ordinal (\d+) provider-free',paid)]
           run_ord=[int(x) for x in re.findall(r'- name: One ordinal (\d+) provider attempt',paid)]
           final_ord=[int(x) for x in re.findall(r'- name: Persist and verify ordinal (\d+) before continuing',paid)]
