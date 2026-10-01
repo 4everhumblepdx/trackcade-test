@@ -1,0 +1,133 @@
+name: Trackcade V7 — Ordinal 04 Retry 01
+
+on:
+  push:
+    branches: [trackcade-semantic-external-holdout-v1]
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v7-ordinal04-retry01-paid
+  cancel-in-progress: false
+
+jobs:
+  retry:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      BASE: research/semantic-external-holdout-v1
+      LEARNED: research/learned-interpretation-v1
+      RETRY_RUNNER: research/semantic-external-holdout-v1/run_stage1_v7_ordinal04_retry_v1.py
+      AUTH: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_AUTHORIZATION_V1.json
+      ACT: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json
+      INTERRUPTION: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_INTERRUPTION_ORDINAL04_V1.json
+      SOURCE_RUN: '36915758639'
+      FLEX_RUN: '36920081360'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify one-use retry gate provider-free
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$ACT"
+          python -m py_compile "$BASE/run_stage1_v7_remaining49_case_v1.py" "$RETRY_RUNNER" "$LEARNED/validate_learned_proposal_v7.py"
+          python - <<'PY'
+          import json,os,subprocess
+          contract={'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':8192,'serviceTier':'flex','store':False}
+          a=json.load(open(os.environ['AUTH'])); x=json.load(open(os.environ['ACT'])); i=json.load(open(os.environ['INTERRUPTION']))
+          assert a['schema']=='trackcade-semantic-external-stage1-v7-ordinal04-retry-authorization-v1'
+          assert a['status']=='authorized-explicit-one-retry' and a['authorized'] is True
+          assert a['ordinal']==4 and a['maximumRetryProviderAttempts']==1 and a['attemptsPerOrdinal']==1 and a['providerContract']==contract
+          assert x['schema']=='trackcade-semantic-external-stage1-v7-ordinal04-retry-activation-v1'
+          assert x['activatePaidOrdinal04Retry'] is True and x['ordinal']==4 and x['retryNumber']==1 and x['maximumProviderAttempts']==1 and x['providerContract']==contract
+          assert x['executionSourceCommit']==subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          assert i['interruptedOrdinal']['classification']=='provider_incomplete_no_completed_response_no_retry'
+          assert i['interruptedOrdinal']['incompleteReason']=='max_output_tokens'
+          assert i['unattemptedOrdinals']==list(range(5,51)) and i['researchBoundary']['ordinals5Through50ProviderCalls']==0
+          for k in ('automaticRetryAuthorized','secondRetryAuthorized','standardFallbackAuthorized','maxOutputTokensChangeAuthorized','semanticContractChangesAuthorized','stage1ReferenceOpeningAuthorized','partialScoringAuthorized','terminalHoldoutAccessAuthorized','analyzerExecutionAuthorized','analyzerChangesAuthorized','compilerInvocationAuthorized'):
+            assert x[k] is False,k
+          PY
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/11198480361" --jq '.digest' | grep -Fx 'sha256:f57a416215c8ce6739a278ff172b10dd2727199f7f7a58aa0a53801492e5872e'
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/11197856837" --jq '.digest' | grep -Fx 'sha256:6d0050f200487c4005b8da443d01e0835c1e4ecda1de277cfffb486764346110'
+          for s in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt; do
+            n="trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-$s"
+            test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=$n&per_page=100" --jq '[.artifacts[]|select(.expired==false)]|length')" = 0
+          done
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v7-prep-v1
+          path: /tmp/v7-source
+          repository: ${{ github.repository }}
+          run-id: ${{ env.SOURCE_RUN }}
+          github-token: ${{ github.token }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+          path: /tmp/v7-flex
+          repository: ${{ github.repository }}
+          run-id: ${{ env.FLEX_RUN }}
+          github-token: ${{ github.token }}
+
+      - name: Reserve retry offline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          python "$RETRY_RUNNER" --mode prepare --source-root /tmp/v7-source --flex-root /tmp/v7-flex --output-dir /tmp/v7-retry04 --harness-commit "$GITHUB_SHA" --validator "$LEARNED/validate_learned_proposal_v7.py" --authorization "$AUTH" --activation "$ACT" --interruption "$INTERRUPTION" --lock-file /tmp/v7-retry04-lock/attempt-lock.json
+
+      - name: Persist retry attempt lock
+        id: lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-attempt-lock
+          path: /tmp/v7-retry04-lock/attempt-lock.json
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Perform exactly one authorized retry
+        id: live
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          LOCK_ARTIFACT_ID: ${{ steps.lock.outputs.artifact-id }}
+        shell: bash
+        run: |
+          set -u
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${LOCK_ARTIFACT_ID}" > /tmp/v7-retry04-lock/uploaded.json
+          python "$RETRY_RUNNER" --mode run --source-root /tmp/v7-source --flex-root /tmp/v7-flex --output-dir /tmp/v7-retry04 --harness-commit "$GITHUB_SHA" --validator "$LEARNED/validate_learned_proposal_v7.py" --authorization "$AUTH" --activation "$ACT" --interruption "$INTERRUPTION" --lock-file /tmp/v7-retry04-lock/attempt-lock.json --uploaded-lock /tmp/v7-retry04-lock/uploaded.json
+          exit 0
+
+      - name: Freeze retry result
+        id: result
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-${{ steps.live.outputs.artifact_outcome }}
+          path: /tmp/v7-retry04
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Stop unless retry completed-valid
+        env:
+          OUTCOME: ${{ steps.live.outputs.artifact_outcome }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test "$OUTCOME" = completed-valid
+          python "$RETRY_RUNNER" --mode check --source-root /tmp/v7-source --flex-root /tmp/v7-flex --output-dir /tmp/v7-retry04 --harness-commit "$GITHUB_SHA" --validator "$LEARNED/validate_learned_proposal_v7.py" --authorization "$AUTH" --activation "$ACT" --interruption "$INTERRUPTION" --lock-file /tmp/v7-retry04-lock/attempt-lock.json
