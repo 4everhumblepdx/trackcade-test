@@ -1,0 +1,288 @@
+name: Trackcade V7 — One Paid Canary
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: trackcade-stage1-v7-one-paid-canary
+  cancel-in-progress: false
+
+jobs:
+  canary:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1' && github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      CANARY_ORDINAL: '1'
+      SOURCE_HEAD_SHA: f83e4de05fda7741479675f475be75eee800b5d8
+      SOURCE_RUN_ID: '36915758639'
+      SOURCE_ARTIFACT_ID: '11189967853'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-prep-v1
+      SOURCE_ARTIFACT_DIGEST: sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a
+      SOURCE_MANIFEST_SHA256: 455602ea8c5a721fac9b3381aca46285fe3c14f1fbcc36f0d08b4ffec01be875
+      SOURCE_FILES_SHA256: 9a55eff093ac8552ef8868c60d410b0b6ade0e243c11a5588066c9d16d9f3672
+      FLEX_HEAD_SHA: 307e53261035812617fede7429a2d82dde8c2479
+      FLEX_RUN_ID: '36920081360'
+      FLEX_ARTIFACT_ID: '11191402965'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+      FLEX_ARTIFACT_DIGEST: sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95
+      FLEX_MANIFEST_SHA256: a41fdd4e4138fdfda18cda20004f609eb089aeb64ed1be486ee2442b1241a713
+      FLEX_FILES_SHA256: 18805ff58dd5580a7002bc9f7d3a9fa5042539f80ae4b7d1c8a9ddc62e1668f0
+      AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_AUTHORIZATION_V1.json
+      ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json
+
+    steps:
+      - name: Checkout exact activation commit with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fail closed on re-run, source drift, or invalid activation
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "${GITHUB_RUN_ATTEMPT}" = "1"
+          test -f "${AUTH_PATH}"
+          test -f "${ACTIVATE_PATH}"
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "${ACTIVATE_PATH}"
+          for p in \
+            research/learned-interpretation-v1/build_learned_request_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v7.py; do
+            test "$(git rev-parse HEAD:${p})" = "$(git rev-parse ${SOURCE_HEAD_SHA}:${p})"
+          done
+          python -m py_compile \
+            research/semantic-external-holdout-v1/prepare_stage1_v7_canary_case_v1.py \
+            research/semantic-external-holdout-v1/run_stage1_v7_canary_case_v1.py \
+            research/learned-interpretation-v1/build_learned_request_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v7.py \
+            research/learned-interpretation-v1/validate_learned_proposal_v3.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v1.py \
+            research/learned-interpretation-v1/openai_responses_adapter_v7.py
+          python - <<'PY'
+          import json, os, subprocess
+          auth=json.load(open(os.environ['AUTH_PATH']))
+          act=json.load(open(os.environ['ACTIVATE_PATH']))
+          parent=subprocess.check_output(['git','rev-parse','HEAD^'],text=True).strip()
+          assert auth['schema']=='trackcade-semantic-external-stage1-v7-canary-provider-authorization-v1'
+          assert auth['authorized'] is True
+          assert auth['status']=='authorized-explicit-paid-one-canary'
+          assert isinstance(auth.get('authorizationSource'), str) and auth['authorizationSource'].strip()
+          assert auth['scope']=={
+            'stage':'stage1-v7','purpose':'one-track-live-contract-behavior-canary','canaryOrdinal':1,
+            'maximumInitialProviderAttempts':1,'attemptsPerTrack':1,'automaticRetriesAuthorized':False,
+            'standardFallbackAuthorized':False,'fullBatchAuthorized':False,'partialScoringAuthorized':False,
+          }
+          expected_provider={
+            'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high',
+            'maxOutputTokens':8192,'serviceTier':'flex','store':False,
+          }
+          assert auth['providerContract']==expected_provider
+          rb=auth['researchBoundary']
+          assert rb['terminalHoldoutAccessAuthorized'] is False
+          assert rb['analyzerExecutionAuthorized'] is False
+          assert rb['analyzerChangesAuthorized'] is False
+          assert rb['compilerInvocationAuthorized'] is False
+          assert rb['referenceLabelAccessAuthorized'] is False
+          assert rb['scoringAuthorized'] is False
+          assert rb['retryRequiresNewExplicitApproval'] is True
+          assert rb['secondCanaryRequiresNewExplicitApproval'] is True
+          assert rb['fullV7RunRequiresNewExplicitApproval'] is True
+          assert act['schema']=='trackcade-semantic-external-stage1-v7-canary-provider-activation-v1'
+          assert act['activatePaidCanary'] is True
+          assert act['executionSourceCommit']==parent
+          assert act['authorizationFile']==os.environ['AUTH_PATH']
+          assert act['canaryOrdinal']==1
+          assert act['maximumProviderAttempts']==1
+          assert act['automaticRetriesAuthorized'] is False
+          assert act['standardFallbackAuthorized'] is False
+          assert act['fullBatchAuthorized'] is False
+          assert act['referenceLabelAccessAuthorized'] is False
+          assert act['scoringAuthorized'] is False
+          assert act['terminalHoldoutAccessAuthorized'] is False
+          assert act['analyzerExecutionAuthorized'] is False
+          assert act['analyzerChangesAuthorized'] is False
+          assert act['compilerInvocationAuthorized'] is False
+          assert act['providerContract']==expected_provider
+          print('One-call V7 canary authorization and activation verified')
+          PY
+
+      - name: Verify immutable V7 semantic and Flex artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            ('SOURCE','SOURCE_ARTIFACT_ID','SOURCE_ARTIFACT_NAME','SOURCE_ARTIFACT_DIGEST','SOURCE_RUN_ID','SOURCE_HEAD_SHA'),
+            ('FLEX','FLEX_ARTIFACT_ID','FLEX_ARTIFACT_NAME','FLEX_ARTIFACT_DIGEST','FLEX_RUN_ID','FLEX_HEAD_SHA'),
+          ]
+          for label,idk,namek,digestk,runk,headk in specs:
+            m=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ[idk]}"],text=True))
+            assert m['id']==int(os.environ[idk]), (label,'id')
+            assert m['name']==os.environ[namek], (label,'name')
+            assert m['digest']==os.environ[digestk], (label,'digest')
+            assert m['expired'] is False, (label,'expired')
+            assert m['workflow_run']['id']==int(os.environ[runk]), (label,'run')
+            assert m['workflow_run']['head_sha']==os.environ[headk], (label,'head')
+          print('Frozen V7 semantic and Flex artifacts verified')
+          PY
+
+      - name: Reject any existing V7 canary provider-attempt lock
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          names=[
+            'trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid',
+            'trackcade-semantic-external-stage1-v7-canary-v1-case-01-attempted-no-valid-response',
+          ]
+          for name in names:
+            data=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts?name={name}&per_page=100'],text=True))
+            active=[a for a in data.get('artifacts',[]) if not a.get('expired')]
+            if active:
+              raise SystemExit(f'Existing V7 canary attempt-lock artifact found: {name}')
+          print('No existing V7 canary provider-attempt lock found')
+          PY
+
+      - name: Download exact frozen V7 semantic prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact frozen V7 Flex 8192 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-flex8192-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+
+      - name: Verify frozen closure and construct ordinal-1 canary with no API key
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          echo "${SOURCE_MANIFEST_SHA256}  /tmp/trackcade-v7-prep/STAGE1_V7_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${SOURCE_FILES_SHA256}  /tmp/trackcade-v7-prep/FILES_SHA256.txt" | sha256sum -c -
+          echo "${FLEX_MANIFEST_SHA256}  /tmp/trackcade-v7-flex8192-prep/STAGE1_V7_FLEX8192_PREP_MANIFEST_V1.json" | sha256sum -c -
+          echo "${FLEX_FILES_SHA256}  /tmp/trackcade-v7-flex8192-prep/FILES_SHA256.txt" | sha256sum -c -
+          python research/semantic-external-holdout-v1/prepare_stage1_v7_canary_case_v1.py \
+            --source-prep-root /tmp/trackcade-v7-prep \
+            --flex-prep-root /tmp/trackcade-v7-flex8192-prep \
+            --output-dir /tmp/trackcade-v7-canary
+          python - <<'PY'
+          import json
+          p='/tmp/trackcade-v7-canary/stage1-v7-canary-case-status-v1.json'
+          s=json.load(open(p))
+          assert s['ordinal']==1
+          assert s['classification']=='offline_preflight_complete_no_provider_call'
+          assert s['providerCallAttempted'] is False
+          assert s['providerResponseObserved'] is False
+          assert s['referenceLabelsRead'] is False
+          assert s['scoringPerformed'] is False
+          assert s['analyzerExecuted'] is False
+          assert s['compilerInvoked'] is False
+          assert s['terminalTracksProcessed'] is False
+          PY
+
+      - name: Perform exactly one authorized paid V7 Flex canary call
+        id: live
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/semantic-external-holdout-v1/run_stage1_v7_canary_case_v1.py \
+            --case-dir /tmp/trackcade-v7-canary \
+            --learned-dir research/learned-interpretation-v1 \
+            --timeout-seconds 300
+
+      - name: Audit one-attempt result and bind artifact name
+        id: audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, json, os, pathlib
+          root=pathlib.Path('/tmp/trackcade-v7-canary')
+          status_path=root/'stage1-v7-canary-case-status-v1.json'
+          s=json.loads(status_path.read_text())
+          assert s['schema']=='trackcade-semantic-external-stage1-v7-canary-provider-case-v1'
+          assert s['ordinal']==1
+          assert s['providerCallAttempted'] is True
+          assert s['standardFallbackUsed'] is False
+          assert s['retryAuthorized'] is False
+          assert s['referenceLabelsRead'] is False
+          assert s['scoringPerformed'] is False
+          assert s['analyzerExecuted'] is False
+          assert s['analyzerChanged'] is False
+          assert s['compilerInvoked'] is False
+          assert s['terminalTracksProcessed'] is False
+          assert s['classification'] in {'completed_valid','attempted_no_valid_response'}
+          if s['classification']=='completed_valid':
+            assert s['providerResponseObserved'] is True
+            assert s['providerCompletedSemanticResponse'] is True
+            assert s['proposalValidated'] is True
+            assert (root/'openai-raw-response-v7.json').is_file()
+            assert (root/'learned-proposal-v7-candidate.json').is_file()
+            assert (root/'learned-proposal-v7-normalized.json').is_file()
+            assert (root/'learned-proposal-v7-validation.json').is_file()
+            artifact='trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid'
+          else:
+            assert s['providerCompletedSemanticResponse'] is False
+            assert s['proposalValidated'] is False
+            artifact='trackcade-semantic-external-stage1-v7-canary-v1-case-01-attempted-no-valid-response'
+          receipt={
+            'schema':'trackcade-semantic-external-stage1-v7-canary-run-receipt-v1',
+            'classification':s['classification'],
+            'ordinal':1,
+            'providerAttempts':1,
+            'automaticRetries':0,
+            'standardFallbackUsed':False,
+            'referenceLabelsRead':False,
+            'scoringPerformed':False,
+            'analyzerExecuted':False,
+            'compilerInvoked':False,
+            'terminalTracksProcessed':False,
+            'githubRunId':os.environ['GITHUB_RUN_ID'],
+            'githubRunAttempt':os.environ['GITHUB_RUN_ATTEMPT'],
+            'activationCommit':os.environ['GITHUB_SHA'],
+            'caseStatusSha256':hashlib.sha256(status_path.read_bytes()).hexdigest(),
+          }
+          (root/'STAGE1_V7_CANARY_RUN_RECEIPT_V1.json').write_text(json.dumps(receipt,indent=2,sort_keys=True)+'\n')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+            f.write(f'artifact_name={artifact}\n')
+          print(json.dumps(receipt,indent=2))
+          PY
+
+      - name: Upload immutable V7 provider-attempt lock
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.audit.outputs.artifact_name }}
+          path: /tmp/trackcade-v7-canary
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 9
