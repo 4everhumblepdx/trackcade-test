@@ -1,0 +1,115 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-canary-freeze-v1",
+  "status": "frozen-one-paid-canary-completed-valid-no-retry",
+  "scope": {
+    "stage": "stage1-v7",
+    "purpose": "one-track-live-contract-behavior-canary",
+    "ordinal": 1,
+    "fullBatchRun": false,
+    "headlineScientificEvaluation": false
+  },
+  "execution": {
+    "runId": 36922442091,
+    "runAttempt": 1,
+    "activationCommit": "34b6bac66dff5072816d3399cdd397085f944a59",
+    "authorizationCommit": "42f8a36b8b611047a5c4f39f134fe955900fb643",
+    "workflow": ".github/workflows/trackcade-semantic-external-stage1-v7-canary-v1.yml",
+    "providerCallsConsumed": 1,
+    "automaticRetriesUsed": 0,
+    "standardFallbackUsed": false,
+    "referenceLabelsRead": false,
+    "scoringPerformed": false,
+    "analyzerExecuted": false,
+    "compilerInvoked": false,
+    "terminalHoldoutProcessed": false
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "providerObservation": {
+    "providerStatus": "completed",
+    "responseModel": "gpt-6-sol",
+    "responseId": "resp_04ac8c517d7e001d016abec3a7314887d1860d47d4f523db1f",
+    "httpRequestId": "req_dde87ed7a744450eaafb1acd5a2ae91f",
+    "clientRequestId": "8da7c0c6-f78b-4181-ad12-50e76f1f0900"
+  },
+  "usage": {
+    "inputTokens": 19107,
+    "cacheWriteTokens": 19104,
+    "cachedTokens": 0,
+    "outputTokens": 3437,
+    "reasoningTokens": 2261,
+    "totalTokens": 22544
+  },
+  "costEstimateUsd": {
+    "amount": 0.041068,
+    "pricingDate": "2026-10-01",
+    "serviceTier": "flex",
+    "shortContextRatesPerMillionTokens": {
+      "uncachedInput": 1.0,
+      "cacheWrite": 1.25,
+      "output": 5.0
+    },
+    "calculation": "3 uncached input tokens * $1/M + 19104 cache-write tokens * $1.25/M + 3437 output tokens * $5/M",
+    "note": "Estimate from returned provider usage and published GPT-6 Sol Flex token rates; not an account billing ledger."
+  },
+  "validation": {
+    "classification": "provider_completed_validated_v7_flex8192_canary_no_retry",
+    "proposalValidated": true,
+    "semanticPayloadUnchanged": true,
+    "timingAuthority": "frozen-analyzer-derived-anchor-only",
+    "developmentRevision": "stage1-drop-semantics-v7-orthogonal-structural-context",
+    "normalizedProposalSha256": "c17a246384f8ee9fe50c130b0bc589dfeab80dc0175acd62a0b7b310ff987ecf",
+    "proposalCandidateSha256": "8dbed236cacac13d37aa458017fd8ab1c930e64c3e3a272d28d6f95133e66eeb",
+    "rawResponseSha256": "c2f134e5b90e2c674299c1ccf2de5a2808af3ec2774682e943c027c1380c1a28",
+    "amendedPayloadSha256": "8406c5603b66db962e222041bdab5f9ff33e1294d26615a05bea6d4acfcf9b13",
+    "sourcePayloadSha256": "02f96efa2a3e8c25be7067712e79ee457eac4410c2c6b148833e6f6ec672abea",
+    "sourceRequestSha256": "02a1f6ec5cd44d597b84c779e1baac5a66ef5e58f10aab5a0a2772a90aef059a",
+    "packetSha256": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86",
+    "validationReportSha256": "97185e6347cdd047bb4d40e7f57ffa83f73c1a66590ad1d1c6143a0505d3258d",
+    "caseStatusSha256": "93a3f5972611e7d5de309006347b9f019b0ec80d48e28b8791f2ecab6d75b649",
+    "runReceiptSha256": "98e603fe64c0377e8c9b1d52db4e33146ac83cc3f367b5564603ee95ea7a13ad"
+  },
+  "artifact": {
+    "id": 11191938588,
+    "name": "trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid",
+    "digest": "sha256:5b3995aa95e4f92af0c2d7b25f9418445bc292a691b7b029165ffe0340b96b4a",
+    "fileCount": 10
+  },
+  "semanticBehavior": {
+    "dropPresence": "drop_present",
+    "dropCount": 1,
+    "ambiguousCandidateCount": 0,
+    "candidateAssessmentCount": 5,
+    "eventCount": 12,
+    "dropAnchorIndex": 252,
+    "dropAnchorSeconds": 149.674,
+    "dropAssessment": {
+      "preparation": "clear",
+      "decisiveImpact": "clear",
+      "sustainedStrongerPassage": "clear",
+      "structuralContext": "section_return",
+      "repetitionRelation": "independent",
+      "semanticConfidence": 0.91
+    },
+    "behaviorNote": "Under the frozen V7 contract, the sharp onset after the extended quiet break was classified as a Drop because preparation, decisive impact, and sustained stronger passage were all clear. Structural context remained descriptive rather than a veto. The four other assessed upward transitions remained ordinary_transition. This is label-blind behavior, not a correctness claim."
+  },
+  "researchBoundary": {
+    "canaryIsNotFullV7Evaluation": true,
+    "developmentSetScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerRunPerformed": false,
+    "analyzerModified": false,
+    "additionalProviderCallsAuthorized": false,
+    "retryAuthorized": false,
+    "secondCanaryAuthorized": false,
+    "fullV7BatchAuthorized": false,
+    "semanticCorrectnessUnknownUntilFrozenDevelopmentGenerationAndAuthorizedScoring": true
+  }
+}
