@@ -60,7 +60,7 @@ jobs:
           live_activation='research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json'
           assert live_activation in paid
           assert 'workflow_dispatch:' not in paid
-          assert paid.count('OPENAI_API_KEY:') == 1
+          assert sum(1 for line in paid.splitlines() if line.lstrip().startswith('OPENAI_API_KEY:')) == 1
           assert paid.count('secrets.OPENAI_API_KEY') == 1
           assert paid.count('Perform exactly one authorized paid V7 Flex canary call') == 1
           assert 'STAGE1_V7_CANARY_PROVIDER_AUTHORIZATION_V1.json' in paid
