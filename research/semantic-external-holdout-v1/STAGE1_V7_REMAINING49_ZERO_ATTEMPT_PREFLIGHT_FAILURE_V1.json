@@ -1,0 +1,22 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-remaining49-zero-attempt-preflight-failure-v1",
+  "status": "frozen-zero-provider-attempt-preflight-failure",
+  "runId": 36934240910,
+  "jobId": 110610631466,
+  "activationCommit": "6b5d5fdc943722501878bf558aaa43c2d2692f67",
+  "failedStep": "Verify frozen prep closures before any provider credential is exposed",
+  "failureCause": "The repo-wide filename guard matched an unrelated file whose name contained terminal before ordinal 2 was reserved. The immutable prep artifacts themselves were downloaded successfully and their GitHub artifact digests matched before the guard failed.",
+  "providerAttemptsConsumed": 0,
+  "ordinalReservationsCreated": 0,
+  "ordinalArtifactsCreated": 0,
+  "automaticRetriesUsed": 0,
+  "standardFallbackUsed": false,
+  "referenceLabelsOpened": false,
+  "scoringPerformed": false,
+  "analyzerExecuted": false,
+  "compilerInvoked": false,
+  "terminalHoldoutProcessed": false,
+  "spendUsd": 0,
+  "authorizationStillCoversUnconsumedOrdinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "note": "This receipt records an infrastructure-only preflight failure. It is not a provider retry authorization and does not permit any ordinal to be attempted more than once."
+}
