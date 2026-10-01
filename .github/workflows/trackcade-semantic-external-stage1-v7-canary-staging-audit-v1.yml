@@ -1,0 +1,112 @@
+name: Trackcade V7 — Canary Staging Audit
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v7-canary-staging-audit-v1.yml
+      - .github/workflows/trackcade-semantic-external-stage1-v7-canary-v1.yml
+      - research/semantic-external-holdout-v1/run_stage1_v7_canary_case_v1.py
+      - research/semantic-external-holdout-v1/prepare_stage1_v7_canary_case_v1.py
+      - research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_AUTHORIZATION_V1.json
+      - research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATION_TEMPLATE_V1.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout staging surface
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v7-canary-v1.yml
+            .github/workflows/trackcade-semantic-external-stage1-v7-canary-staging-audit-v1.yml
+            research/semantic-external-holdout-v1/run_stage1_v7_canary_case_v1.py
+            research/semantic-external-holdout-v1/prepare_stage1_v7_canary_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATION_TEMPLATE_V1.json
+
+      - name: Audit inert spend gate and one-attempt runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json
+          python -m py_compile \
+            research/semantic-external-holdout-v1/run_stage1_v7_canary_case_v1.py \
+            research/semantic-external-holdout-v1/prepare_stage1_v7_canary_case_v1.py
+          python - <<'PY'
+          import ast, json, pathlib
+
+          root=pathlib.Path('.')
+          paid_path=root/'.github/workflows/trackcade-semantic-external-stage1-v7-canary-v1.yml'
+          runner_path=root/'research/semantic-external-holdout-v1/run_stage1_v7_canary_case_v1.py'
+          auth_path=root/'research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_AUTHORIZATION_V1.json'
+          template_path=root/'research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATION_TEMPLATE_V1.json'
+          paid=paid_path.read_text()
+          runner=runner_path.read_text()
+          auth=json.loads(auth_path.read_text())
+          template=json.loads(template_path.read_text())
+
+          live_activation='research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json'
+          assert live_activation in paid
+          assert 'workflow_dispatch:' not in paid
+          assert paid.count('OPENAI_API_KEY:') == 1
+          assert paid.count('secrets.OPENAI_API_KEY') == 1
+          assert paid.count('Perform exactly one authorized paid V7 Flex canary call') == 1
+          assert 'STAGE1_V7_CANARY_PROVIDER_AUTHORIZATION_V1.json' in paid
+          assert "GITHUB_RUN_ATTEMPT" in paid
+          assert "automaticRetriesAuthorized'] is False" in paid
+          assert "standardFallbackAuthorized'] is False" in paid
+          assert "fullBatchAuthorized'] is False" in paid
+          assert "referenceLabelAccessAuthorized'] is False" in paid
+          assert "scoringAuthorized'] is False" in paid
+          assert "terminalHoldoutAccessAuthorized'] is False" in paid
+          assert "analyzerExecutionAuthorized'] is False" in paid
+          assert "compilerInvocationAuthorized'] is False" in paid
+
+          assert auth['authorized'] is False
+          assert auth['status']=='staged-not-authorized'
+          assert auth['activation']['activationFileExistsAtStaging'] is False
+          assert auth['activation']['activationRequiresFreshExplicitUserApproval'] is True
+          assert template['activatePaidCanary'] is False
+          assert template['maximumProviderAttempts']==1
+          assert template['automaticRetriesAuthorized'] is False
+          assert template['standardFallbackAuthorized'] is False
+          assert template['fullBatchAuthorized'] is False
+          assert template['referenceLabelAccessAuthorized'] is False
+          assert template['scoringAuthorized'] is False
+          assert template['terminalHoldoutAccessAuthorized'] is False
+          assert template['analyzerExecutionAuthorized'] is False
+          assert template['compilerInvocationAuthorized'] is False
+
+          tree=ast.parse(runner)
+          parents={}
+          for node in ast.walk(tree):
+            for child in ast.iter_child_nodes(node):
+              parents[child]=node
+          calls=[]
+          for node in ast.walk(tree):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr=='perform_request':
+              calls.append(node)
+          assert len(calls)==1, f'expected exactly one perform_request call, got {len(calls)}'
+          n=calls[0]
+          while n in parents:
+            n=parents[n]
+            assert not isinstance(n, (ast.For, ast.AsyncFor, ast.While)), 'provider call nested in a loop'
+          assert runner.count('perform_request(')==1
+          assert 'provider_attempt_started_no_retry_authorized' in runner
+          assert 'retryAuthorized' in runner
+          assert 'standardFallbackUsed' in runner
+          assert 'REFERENCE_DROPS' not in runner
+          print('V7 paid-canary staging is inert; runner has exactly one non-loop provider call site')
+          PY
