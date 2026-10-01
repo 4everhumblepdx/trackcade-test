@@ -265,7 +265,7 @@ class V7ContractTests(unittest.TestCase):
         self.assertIn("impact morphology separated from structural context", low)
         self.assertIn("structural context is descriptive and must never by itself authorize or reject a drop", low)
         self.assertIn("a qualifying drop may have any structuralcontext value", low)
-        self.assertIn("decisiveimpact=unclear is not sufficient for drop", low)
+        self.assertIn("`decisiveimpact=unclear` is not sufficient for drop", low)
         self.assertIn("repeated or structurally similar transitions may all be drops", low)
         self.assertIn("proposal count is not a semantic criterion", low)
         self.assertIn("do not use agreement with any prior model/version as evidence", low)
