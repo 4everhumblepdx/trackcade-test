@@ -1,0 +1,114 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-ordinal04-retry01-result-v1",
+  "status": "frozen-stopped-after-authorized-retry-incomplete-no-second-retry",
+  "createdDate": "2026-10-01",
+  "scope": {
+    "ordinal": 4,
+    "retryNumber": 1,
+    "runId": 36940271204,
+    "jobId": 110629889856,
+    "activationCommit": "5bea9bd5aec9e178cbbcef73e4058078f260e392",
+    "executionSourceCommit": "19ae77a88db93a1e3742b7a5a2e1a41b843df839",
+    "authorizationCommit": "056850a810789e0aa99c5bbb97379fcf22100e73"
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "originalOrdinal4Attempt": {
+    "runId": 36935550063,
+    "jobId": 110615748113,
+    "attemptLockArtifactId": 11198480361,
+    "resultArtifactId": 11197856837,
+    "resultArtifactDigest": "sha256:6d0050f200487c4005b8da443d01e0835c1e4ecda1de277cfffb486764346110",
+    "classification": "provider_incomplete_no_completed_response_no_retry",
+    "usage": {
+      "inputTokens": 12921,
+      "cacheWriteTokens": 12918,
+      "cachedTokens": 0,
+      "outputTokens": 8192,
+      "reasoningTokens": 6952,
+      "totalTokens": 21113
+    },
+    "estimatedCostAtFrozenPricingSnapshotUsd": 0.0571105
+  },
+  "retryAttempt": {
+    "providerCallAttempted": true,
+    "providerResponseObserved": true,
+    "classification": "provider_incomplete_no_completed_response_no_retry",
+    "artifactOutcome": "attempted-no-valid-response",
+    "providerCompletedSemanticResponse": false,
+    "proposalValidated": false,
+    "attemptLockArtifact": {
+      "id": 11199269077,
+      "name": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-attempt-lock",
+      "digest": "sha256:31897eb74e52965786cffd5e88a912b7921e941ab5178b7af519f0f6b03c6141"
+    },
+    "resultArtifact": {
+      "id": 11200315147,
+      "name": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-attempted-no-valid-response",
+      "digest": "sha256:89da81776587ba591490da9bbee83ab1638cb2fd2b174c8309847d90b7901c50"
+    },
+    "usage": {
+      "inputTokens": 12921,
+      "cacheWriteTokens": 12918,
+      "cachedTokens": 0,
+      "outputTokens": 8192,
+      "reasoningTokens": 6732,
+      "totalTokens": 21113
+    },
+    "estimatedCostAtFrozenPricingSnapshotUsd": 0.0571105
+  },
+  "spendEstimateAtFrozenPricingSnapshot": {
+    "pricingBasis": {
+      "uncachedInputUsdPerMillion": 1.0,
+      "cachedInputUsdPerMillion": 0.1,
+      "cacheWriteUsdPerMillion": 1.25,
+      "outputIncludingReasoningUsdPerMillion": 5.0,
+      "cacheWritePricingIsAlternativeToUncachedInputNotAdditive": true
+    },
+    "remaining49Ordinals2Through4OriginalUsd": 0.127434,
+    "ordinal4Retry01Usd": 0.0571105,
+    "remaining49ThroughRetry01Usd": 0.1845445,
+    "v7CanaryOrdinal1Usd": 0.041068,
+    "v7TotalIncludingCanaryThroughRetry01Usd": 0.2256125,
+    "billingIsEstimateNotIndependentAccountVerification": true,
+    "preRemaining49UserReportedBalanceApproximatelyUsd": 5.6,
+    "doNotTreatUserReportedBalanceAsCurrentAvailableBalance": true
+  },
+  "scientificInterpretation": {
+    "retryCompletedValid": false,
+    "semanticValidationReached": false,
+    "outputTokensEqualFrozenMaximum": true,
+    "originalAndRetryInputOutputTotalTokenCountsMatch": true,
+    "originalReasoningTokens": 6952,
+    "retryReasoningTokens": 6732,
+    "meaning": "The explicitly authorized same-contract retry again failed to produce a completed semantic response while consuming the full frozen 8192 output-token allowance. This is not a V7 semantic validation rejection because no completed proposal reached semantic validation."
+  },
+  "researchBoundary": {
+    "retryAuthorizationExhausted": true,
+    "secondRetryAuthorized": false,
+    "automaticRetryPerformed": false,
+    "standardFallbackUsed": false,
+    "partialScoringPerformed": false,
+    "stage1ReferenceAccessed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerExecuted": false,
+    "analyzerChanged": false,
+    "semanticContractChanged": false,
+    "ordinals5Through50ProviderCalls": 0,
+    "resumeConditionMet": false
+  },
+  "nextDecision": {
+    "noFurtherProviderCallAuthorized": true,
+    "raisingMaxOutputTokensWouldChangeFrozenProviderContract": true,
+    "changingModelOrReasoningEffortWouldChangeProviderContract": true,
+    "freshExplicitApprovalRequiredForAnyFurtherPaidExperiment": true
+  }
+}
