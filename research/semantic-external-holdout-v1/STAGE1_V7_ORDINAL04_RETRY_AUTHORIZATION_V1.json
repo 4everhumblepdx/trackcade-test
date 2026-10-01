@@ -1,0 +1,53 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-ordinal04-retry-authorization-v1",
+  "status": "staged-not-authorized",
+  "authorized": false,
+  "authorizationSource": null,
+  "ordinal": 4,
+  "maximumRetryProviderAttempts": 1,
+  "attemptsPerOrdinal": 1,
+  "originalAttempt": {
+    "runId": 36935550063,
+    "jobId": 110615748113,
+    "attemptLockArtifactId": 11198480361,
+    "resultArtifactId": 11197856837,
+    "resultArtifactName": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-attempted-no-valid-response",
+    "resultArtifactDigest": "sha256:6d0050f200487c4005b8da443d01e0835c1e4ecda1de277cfffb486764346110",
+    "classification": "provider_incomplete_no_completed_response_no_retry",
+    "incompleteReason": "max_output_tokens",
+    "providerAttemptsConsumed": 1
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "researchBoundary": {
+    "automaticRetriesAuthorized": false,
+    "secondRetryAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "maxOutputTokensChangeAuthorized": false,
+    "semanticContractChangesAuthorized": false,
+    "stage1ReferenceAccessAuthorized": false,
+    "partialScoringAuthorized": false,
+    "terminalHoldoutAccessAuthorized": false,
+    "analyzerExecutionAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "compilerInvocationAuthorized": false
+  },
+  "costPlanning": {
+    "originalOrdinal4EstimatedUsd": 0.0571105,
+    "sameContractRetryPlanningCeilingUsdApproximately": 0.0571105,
+    "billingEstimateOnly": true
+  },
+  "activation": {
+    "activationFile": "research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json",
+    "activationFileExistsAtStaging": false,
+    "freshExplicitUserApprovalRequired": true
+  },
+  "note": "Inert staging receipt only. Do not set authorized=true and do not create the retry activation file without fresh explicit Nicholas approval for exactly one same-contract ordinal-4 retry."
+}
