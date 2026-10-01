@@ -1,0 +1,63 @@
+name: Trackcade V7 — Ordinal 04 Retry Live Workflow Audit
+
+on:
+  push:
+    branches: [trackcade-semantic-external-holdout-v1]
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v7-ordinal04-retry-live-audit-v1.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      LIVE: .github/workflows/trackcade-semantic-external-stage1-v7-ordinal04-retry-v1.yml
+      AUTH: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_AUTHORIZATION_V1.json
+      ACT: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json
+      RETRY_RUNNER: research/semantic-external-holdout-v1/run_stage1_v7_ordinal04_retry_v1.py
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Verify live retry workflow provider-free
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e "$ACT"
+          python -m py_compile "$RETRY_RUNNER"
+          python - <<'PY'
+          import json,os,pathlib
+          live=pathlib.Path(os.environ['LIVE']).read_text()
+          auth=json.load(open(os.environ['AUTH']))
+          assert auth['status']=='authorized-explicit-one-retry' and auth['authorized'] is True
+          assert auth['ordinal']==4 and auth['maximumRetryProviderAttempts']==1
+          assert live.count('Perform exactly one authorized retry')==1
+          assert live.count('OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}')==1
+          assert live.count('--mode run')==1
+          assert live.count('--mode prepare')==1
+          assert live.count('--mode check')==1
+          assert live.count('case-04-retry-01-attempt-lock')>=1
+          assert live.count('automaticRetryAuthorized')==1
+          assert live.count('secondRetryAuthorized')==1
+          assert live.count('standardFallbackAuthorized')==1
+          assert 'cancel-in-progress: false' in live
+          assert 'STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json' in live
+          assert 'curl ' not in live and 'api.openai.com' not in live
+          lock=live.index('Persist retry attempt lock')
+          call=live.index('Perform exactly one authorized retry')
+          result=live.index('Freeze retry result')
+          stop=live.index('Stop unless retry completed-valid')
+          assert lock < call < result < stop
+          PY
+          for s in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt; do
+            n="trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-$s"
+            test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=$n&per_page=100" --jq '[.artifacts[]|select(.expired==false)]|length')" = 0
+          done
+          echo 'V7 ordinal04 live workflow audit PASS — activation absent, no retry artifact exists, provider credential unavailable'
