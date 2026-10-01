@@ -1,0 +1,90 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-remaining49-cost-estimate-v1",
+  "createdDate": "2026-10-01",
+  "scope": "Estimate remaining Stage 1 V7 provider-generation cost without making provider calls, opening references, or changing the frozen V7 semantic contract.",
+  "scientificBoundaries": {
+    "providerCallsDuringEstimate": 0,
+    "paidSpendDuringEstimate": 0,
+    "referenceLabelsOpened": false,
+    "partialScoringPerformed": false,
+    "terminalHoldoutAccessed": false,
+    "compilerInvoked": false,
+    "analyzerModified": false,
+    "frozenV7SemanticContractModified": false,
+    "additionalProviderCallsAuthorized": false
+  },
+  "pricingSnapshot": {
+    "model": "gpt-6-sol",
+    "serviceTier": "flex",
+    "contextClass": "short_context",
+    "currency": "USD",
+    "perMillionTokens": {
+      "uncachedInput": 1.0,
+      "cachedInput": 0.1,
+      "cacheWrite": 1.25,
+      "outputIncludingReasoning": 5.0
+    },
+    "notes": [
+      "Flex is priced at 50% of GPT-6 Sol Standard rates as verified on 2026-10-01.",
+      "Cache-write pricing is not additive: an input token uses the uncached-input, cached-input, or cache-write rate.",
+      "Reasoning tokens are included in output tokens and billed at the output-token rate.",
+      "No observed Stage 1 request approaches the >272K-input long-context threshold."
+    ],
+    "officialSources": [
+      "https://developers.openai.com/api/docs/models/gpt-6-sol",
+      "https://developers.openai.com/api/docs/pricing"
+    ]
+  },
+  "v7Canary": {
+    "ordinal": 1,
+    "runId": 36922442091,
+    "artifactId": 11191938588,
+    "inputTokens": 19107,
+    "cacheWriteTokens": 19104,
+    "cachedTokens": 0,
+    "outputTokens": 3437,
+    "reasoningTokensIncludedInOutput": 2261,
+    "estimatedCostAtPricingSnapshotUsd": 0.041068
+  },
+  "historicalProxy": {
+    "source": "Frozen V5 ordinals 2-50 usage profile retained by the V6 cost receipt, because V7 still reuses the same 50 frozen Structure Evidence v2 packets.",
+    "v5Ordinals2Through50InputSideCostUsd": 0.840472,
+    "v5Ordinals2Through50OutputSideCostUsd": 0.985565,
+    "v5CanaryInputTokens": 18713,
+    "v5CanaryCacheWriteTokens": 18710,
+    "v5CanaryOutputTokens": 6239,
+    "v7CanaryInputDeltaVersusV5": 394,
+    "v7CanaryCacheWriteDeltaVersusV5": 394,
+    "v7CanaryOutputRatioVersusV5": 0.5508895656
+  },
+  "projectionForRemaining49": {
+    "basis": "Use exact historical V5 ordinals 2-50 input/output usage as the conservative central proxy; add the observed +394 input/cache-write-token V7 prompt delta per track from the same ordinal-1 packet; do not assume the V7 canary's much lower output usage generalizes.",
+    "projectedInputSideCostUsd": 0.8646045,
+    "projectedOutputSideCostUsdAtHistoricalV5Volume": 0.985565,
+    "centralEstimateUsd": 1.8501695,
+    "centralAveragePerRemainingTrackUsd": 0.0377585612,
+    "sensitivityIfOutputVolume25PercentLowerUsd": 1.60377825,
+    "sensitivityIfOutputVolume25PercentHigherUsd": 2.09656075,
+    "observationalSensitivityIfV7CanaryOutputRatioGeneralizedUsd": 1.4075419748,
+    "conservativeMaxOutputCapScenarioUsd": 2.8716445,
+    "maxOutputCapScenarioDefinition": "All 49 remaining calls consume the projected input-side cost plus the full frozen 8192 output-token cap, with no retries.",
+    "limitations": [
+      "Output/reasoning-token use varies by track.",
+      "The V7 canary is only one direct same-track token comparison, so its lower output usage is not used as the central estimate.",
+      "The per-track +394 prompt delta is extrapolated from ordinal 1; exact input tokenization can vary slightly across tracks.",
+      "This is a planning estimate, not spend authorization or an account billing guarantee."
+    ]
+  },
+  "userReportedBalanceContext": {
+    "balanceBeforeV7CanaryUsd": 5.6,
+    "v7CanaryEstimatedSpendUsd": 0.041068,
+    "estimatedBalanceAfterCanaryUsd": 5.558932,
+    "independentlyVerified": false,
+    "conservativeRemaining49HeadroomUsd": 2.6872875,
+    "interpretation": "On the reported balance and current pricing, the remaining49 V7 run appears funded even under the full-output-cap planning scenario, but execution remains blocked pending a separate explicit approval."
+  },
+  "currentRecommendation": {
+    "spendNow": false,
+    "reason": "Complete and validate all provider-free V7 remaining49 infrastructure first; only then request fresh explicit approval for the one-attempt-per-ordinal batch."
+  }
+}
