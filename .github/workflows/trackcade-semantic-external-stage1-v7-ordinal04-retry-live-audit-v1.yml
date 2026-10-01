@@ -39,7 +39,8 @@ jobs:
           assert auth['status']=='authorized-explicit-one-retry' and auth['authorized'] is True
           assert auth['ordinal']==4 and auth['maximumRetryProviderAttempts']==1
           assert live.count('Perform exactly one authorized retry')==1
-          assert live.count('OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}')==1
+          secret_expr='OPENAI_API_KEY: $' + '{{ secrets.OPENAI_API_KEY }}'
+          assert live.count(secret_expr)==1
           assert live.count('--mode run')==1
           assert live.count('--mode prepare')==1
           assert live.count('--mode check')==1
