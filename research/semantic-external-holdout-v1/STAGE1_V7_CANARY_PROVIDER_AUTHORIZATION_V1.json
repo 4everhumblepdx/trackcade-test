@@ -1,0 +1,66 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-canary-provider-authorization-v1",
+  "status": "staged-not-authorized",
+  "authorized": false,
+  "authorizationSource": null,
+  "purpose": "Stage one V7 live contract-behavior canary behind an explicit future spend gate; this file itself authorizes no provider call.",
+  "scope": {
+    "stage": "stage1-v7",
+    "purpose": "one-track-live-contract-behavior-canary",
+    "canaryOrdinal": 1,
+    "maximumInitialProviderAttempts": 1,
+    "attemptsPerTrack": 1,
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "fullBatchAuthorized": false,
+    "partialScoringAuthorized": false
+  },
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "frozenSource": {
+    "semanticPrep": {
+      "runId": 36915758639,
+      "headSha": "f83e4de05fda7741479675f475be75eee800b5d8",
+      "artifactId": 11189967853,
+      "artifactName": "trackcade-semantic-external-stage1-v7-prep-v1",
+      "artifactDigest": "sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a",
+      "manifestSha256": "455602ea8c5a721fac9b3381aca46285fe3c14f1fbcc36f0d08b4ffec01be875",
+      "filesManifestSha256": "9a55eff093ac8552ef8868c60d410b0b6ade0e243c11a5588066c9d16d9f3672",
+      "filesManifestEntries": 301
+    },
+    "transportPrep": {
+      "runId": 36920081360,
+      "headSha": "307e53261035812617fede7429a2d82dde8c2479",
+      "artifactId": 11191402965,
+      "artifactName": "trackcade-semantic-external-stage1-v7-flex8192-prep-v1",
+      "artifactDigest": "sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95",
+      "manifestSha256": "a41fdd4e4138fdfda18cda20004f609eb089aeb64ed1be486ee2442b1241a713",
+      "filesManifestSha256": "18805ff58dd5580a7002bc9f7d3a9fa5042539f80ae4b7d1c8a9ddc62e1668f0",
+      "filesManifestEntries": 351
+    }
+  },
+  "researchBoundary": {
+    "terminalHoldoutAccessAuthorized": false,
+    "analyzerExecutionAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "compilerInvocationAuthorized": false,
+    "referenceLabelAccessAuthorized": false,
+    "scoringAuthorized": false,
+    "retryRequiresNewExplicitApproval": true,
+    "secondCanaryRequiresNewExplicitApproval": true,
+    "fullV7RunRequiresNewExplicitApproval": true
+  },
+  "activation": {
+    "activationFile": "research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json",
+    "activationFileExistsAtStaging": false,
+    "activationRequiresFreshExplicitUserApproval": true,
+    "note": "Do not set authorized=true and do not create the activation file until Nicholas explicitly approves the paid V7 canary call."
+  }
+}
