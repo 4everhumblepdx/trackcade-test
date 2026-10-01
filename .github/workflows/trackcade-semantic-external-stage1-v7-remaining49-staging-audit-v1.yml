@@ -1,0 +1,164 @@
+name: Trackcade V7 — Remaining49 Staging Audit
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-staging-audit-v1.yml
+      - research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+      - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+      - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json
+      - research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    if: github.ref == 'refs/heads/trackcade-semantic-external-holdout-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      SOURCE_RUN_ID: '36915758639'
+      SOURCE_ARTIFACT_ID: '11189967853'
+      SOURCE_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-prep-v1
+      SOURCE_ARTIFACT_DIGEST: sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a
+      SOURCE_HEAD_SHA: f83e4de05fda7741479675f475be75eee800b5d8
+      FLEX_RUN_ID: '36920081360'
+      FLEX_ARTIFACT_ID: '11191402965'
+      FLEX_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+      FLEX_ARTIFACT_DIGEST: sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95
+      FLEX_HEAD_SHA: 307e53261035812617fede7429a2d82dde8c2479
+      CANARY_RUN_ID: '36922442091'
+      CANARY_ARTIFACT_ID: '11191938588'
+      CANARY_ARTIFACT_NAME: trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid
+      CANARY_ARTIFACT_DIGEST: sha256:5b3995aa95e4f92af0c2d7b25f9418445bc292a691b7b029165ffe0340b96b4a
+
+    steps:
+      - name: Checkout only V7 remaining49 staging surface
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_CANARY_FREEZE_V1.json
+            .github/workflows/trackcade-semantic-external-stage1-v7-remaining49-staging-audit-v1.yml
+
+      - name: Prove staging is inert and runner is one-attempt only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json
+          python -m py_compile research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+          python - <<'PY'
+          import ast,json,pathlib
+          root=pathlib.Path('research/semantic-external-holdout-v1')
+          auth=json.loads((root/'STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json').read_text())
+          template=json.loads((root/'STAGE1_V7_REMAINING49_PROVIDER_ACTIVATION_TEMPLATE_V1.json').read_text())
+          cost=json.loads((root/'STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json').read_text())
+          freeze=json.loads((root/'STAGE1_V7_CANARY_FREEZE_V1.json').read_text())
+          assert auth['authorized'] is False and auth['status']=='staged-not-authorized'
+          assert auth['ordinals']==list(range(2,51)) and auth['maximumInitialProviderAttempts']==49
+          assert auth['attemptsPerOrdinal']==1
+          assert auth['activation']['activationFileExistsAtStaging'] is False
+          assert auth['activation']['activationRequiresFreshExplicitUserApproval'] is True
+          assert template['activatePaidRemaining49'] is False
+          assert template['automaticRetriesAuthorized'] is False
+          assert template['standardFallbackAuthorized'] is False
+          assert template['partialScoringAuthorized'] is False
+          assert template['stage1ReferenceOpeningAuthorized'] is False
+          assert template['terminalHoldoutAccessAuthorized'] is False
+          assert template['compilerInvocationAuthorized'] is False
+          assert template['analyzerExecutionAuthorized'] is False
+          assert template['analyzerChangesAuthorized'] is False
+          assert template['semanticContractChangesAuthorized'] is False
+          assert cost['scientificBoundaries']['providerCallsDuringEstimate']==0
+          assert cost['projectionForRemaining49']['centralEstimateUsd']>0
+          assert cost['projectionForRemaining49']['conservativeMaxOutputCapScenarioUsd']>cost['projectionForRemaining49']['centralEstimateUsd']
+          assert freeze['artifact']['id']==11191938588
+          assert freeze['researchBoundary']['additionalProviderCallsAuthorized'] is False
+          runner=(root/'run_stage1_v7_remaining49_case_v1.py').read_text()
+          assert 'REFERENCE_DROPS' not in runner
+          assert 'range(2, 51)' in runner
+          tree=ast.parse(runner)
+          parents={}
+          for node in ast.walk(tree):
+            for child in ast.iter_child_nodes(node): parents[child]=node
+          calls=[]
+          for node in ast.walk(tree):
+            if isinstance(node,ast.Call) and isinstance(node.func,ast.Attribute) and node.func.attr=='urlopen':
+              calls.append(node)
+          assert len(calls)==1, f'expected exactly one provider HTTP call site, got {len(calls)}'
+          n=calls[0]
+          while n in parents:
+            n=parents[n]
+            assert not isinstance(n,(ast.For,ast.AsyncFor,ast.While)), 'provider call nested in loop'
+          print('V7 remaining49 inert gate + one-attempt static runner audit=PASS')
+          PY
+
+      - name: Verify frozen V7 artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          specs=[
+            ('SOURCE','SOURCE_ARTIFACT_ID','SOURCE_ARTIFACT_NAME','SOURCE_ARTIFACT_DIGEST','SOURCE_RUN_ID','SOURCE_HEAD_SHA'),
+            ('FLEX','FLEX_ARTIFACT_ID','FLEX_ARTIFACT_NAME','FLEX_ARTIFACT_DIGEST','FLEX_RUN_ID','FLEX_HEAD_SHA'),
+            ('CANARY','CANARY_ARTIFACT_ID','CANARY_ARTIFACT_NAME','CANARY_ARTIFACT_DIGEST','CANARY_RUN_ID',None),
+          ]
+          for label,idk,namek,digestk,runk,headk in specs:
+            m=json.loads(subprocess.check_output(['gh','api',f"repos/{repo}/actions/artifacts/{os.environ[idk]}"],text=True))
+            assert m['id']==int(os.environ[idk]), (label,'id')
+            assert m['name']==os.environ[namek], (label,'name')
+            assert m['digest']==os.environ[digestk], (label,'digest')
+            assert m['expired'] is False, (label,'expired')
+            assert m['workflow_run']['id']==int(os.environ[runk]), (label,'run')
+            if headk: assert m['workflow_run']['head_sha']==os.environ[headk], (label,'head')
+          print('V7 prep/Flex/canary immutable artifact metadata=PASS')
+          PY
+
+      - name: Download exact V7 semantic prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SOURCE_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact V7 Flex prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.FLEX_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v7-flex8192-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.FLEX_RUN_ID }}
+
+      - name: Exercise V7 prep verification on boundary ordinals without credentials
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          python - <<'PY'
+          import importlib.util,pathlib,sys
+          p=pathlib.Path('research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py')
+          spec=importlib.util.spec_from_file_location('v7runner',p)
+          m=importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
+          src=pathlib.Path('/tmp/trackcade-v7-prep'); flex=pathlib.Path('/tmp/trackcade-v7-flex8192-prep')
+          for ordinal in (2,25,50):
+            srow,frow,paths=m.verify_prep(src,flex,ordinal)
+            assert srow['ordinal']==ordinal and frow['ordinal']==ordinal
+            assert all(x.is_file() for x in paths.values())
+          print('V7 remaining49 exact frozen prep verification ordinals 2/25/50=PASS')
+          PY
