@@ -1,9 +1,9 @@
 {
   "schema": "trackcade-semantic-external-stage1-v7-canary-provider-authorization-v1",
-  "status": "staged-not-authorized",
-  "authorized": false,
-  "authorizationSource": null,
-  "purpose": "Stage one V7 live contract-behavior canary behind an explicit future spend gate; this file itself authorizes no provider call.",
+  "status": "authorized-explicit-paid-one-canary",
+  "authorized": true,
+  "authorizationSource": "Nicholas explicit chat approval on 2026-10-01: yessir",
+  "purpose": "Authorize exactly one V7 live contract-behavior canary after provider-free staging and hosted audits passed.",
   "scope": {
     "stage": "stage1-v7",
     "purpose": "one-track-live-contract-behavior-canary",
@@ -61,6 +61,6 @@
     "activationFile": "research/semantic-external-holdout-v1/STAGE1_V7_CANARY_PROVIDER_ACTIVATE_V1.json",
     "activationFileExistsAtStaging": false,
     "activationRequiresFreshExplicitUserApproval": true,
-    "note": "Do not set authorized=true and do not create the activation file until Nicholas explicitly approves the paid V7 canary call."
+    "note": "Fresh explicit approval received from Nicholas on 2026-10-01 for exactly one paid V7 canary. The activation file must be a separate commit whose parent is this authorized source commit."
   }
 }
