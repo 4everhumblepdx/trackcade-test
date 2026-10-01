@@ -1,0 +1,123 @@
+name: TrackCade Stage1 V7 prep v1
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - 'research/learned-interpretation-v1/build_learned_request_v7.py'
+      - 'research/learned-interpretation-v1/openai_responses_adapter_v7.py'
+      - 'research/semantic-external-holdout-v1/prepare_stage1_v7_requests.py'
+      - 'research/semantic-external-holdout-v1/STAGE1_V7_DEVELOPMENT_PROTOCOL.md'
+      - '.github/workflows/trackcade-semantic-external-stage1-v7-prep-v1.yml'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      V6_PREP_RUN_ID: '36747819119'
+      V6_PREP_ARTIFACT_ID: '11112534029'
+      V6_PREP_ARTIFACT_NAME: 'trackcade-semantic-external-stage1-v6-prep-v1'
+      V6_PREP_ARTIFACT_DIGEST: 'sha256:0d586b737ba729a1386914663d92e7bae1fd85e404f1480e8f034084cbd80134'
+    steps:
+      - name: Checkout V7 prep machinery without labels or terminal data
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            research/learned-interpretation-v1/
+            research/semantic-external-holdout-v1/prepare_stage1_v7_requests.py
+            research/semantic-external-holdout-v1/STAGE1_V7_DEVELOPMENT_PROTOCOL.md
+            .github/workflows/trackcade-semantic-external-stage1-v7-prep-v1.yml
+
+      - name: Fail closed on provider and label boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json
+          ! find . -type f -iname '*terminal*' -print -quit | grep -q .
+          echo 'provider-free label-free V7 prep workspace=PASS'
+
+      - name: Verify exact frozen V6 prep artifact metadata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, os, subprocess
+          repo=os.environ['GITHUB_REPOSITORY']
+          artifact_id=os.environ['V6_PREP_ARTIFACT_ID']
+          m=json.loads(subprocess.check_output(['gh','api',f'repos/{repo}/actions/artifacts/{artifact_id}'], text=True))
+          assert m['id']==int(artifact_id)
+          assert m['name']==os.environ['V6_PREP_ARTIFACT_NAME']
+          assert m['digest']==os.environ['V6_PREP_ARTIFACT_DIGEST']
+          assert m['expired'] is False
+          assert m['workflow_run']['id']==int(os.environ['V6_PREP_RUN_ID'])
+          print('exact frozen V6 prep artifact metadata=PASS')
+          PY
+
+      - name: Download exact frozen V6 prep
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.V6_PREP_ARTIFACT_NAME }}
+          path: /tmp/trackcade-v6-prep
+          github-token: ${{ github.token }}
+          run-id: ${{ env.V6_PREP_RUN_ID }}
+
+      - name: Build all 50 V7 requests and payloads prepare-only
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          python research/semantic-external-holdout-v1/prepare_stage1_v7_requests.py \
+            --v6-prep-root /tmp/trackcade-v6-prep \
+            --output-dir /tmp/trackcade-v7-prep \
+            --builder research/learned-interpretation-v1/build_learned_request_v7.py \
+            --adapter research/learned-interpretation-v1/openai_responses_adapter_v7.py
+
+      - name: Audit V7 prep closure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('/tmp/trackcade-v7-prep')
+          m=json.loads((root/'STAGE1_V7_PREP_MANIFEST_V1.json').read_text())
+          assert m['schema']=='trackcade-semantic-external-stage1-v7-prep-v1'
+          assert m['status']=='frozen-v7-provider-payloads-prepared-no-provider-call'
+          assert m['trackCount']==50 and len(m['tracks'])==50
+          assert [x['ordinal'] for x in m['tracks']]==list(range(1,51))
+          assert m['referenceLabelsReadByPreparation'] is False
+          assert m['terminalTracksProcessed'] is False
+          assert m['existingTerminalPhysicallyUnseenClaimAllowed'] is False
+          assert m['providerCallsObserved']==0
+          assert m['analyzerExecuted'] is False
+          assert m['audioDecoded'] is False
+          assert m['compilerInvoked'] is False
+          assert m['semanticContract']['structuralContextOrthogonalNotGate'] is True
+          assert m['semanticContract']['decisiveImpactUnclearInsufficientForDrop'] is True
+          assert len({x['id'] for x in m['tracks']})==50
+          assert len({x['hashes']['structureEvidenceV2Sha256'] for x in m['tracks']})==50
+          print('V7 50/50 prepare-only closure=PASS')
+          PY
+          sha256sum /tmp/trackcade-v7-prep/STAGE1_V7_PREP_MANIFEST_V1.json
+          sha256sum /tmp/trackcade-v7-prep/FILES_SHA256.txt
+
+      - name: Upload immutable V7 prepare-only artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: trackcade-semantic-external-stage1-v7-prep-v1
+          path: /tmp/trackcade-v7-prep/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 9
+          overwrite: false
