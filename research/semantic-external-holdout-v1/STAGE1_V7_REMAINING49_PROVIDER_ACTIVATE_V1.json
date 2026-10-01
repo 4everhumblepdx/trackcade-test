@@ -1,0 +1,40 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-remaining49-provider-activation-v1",
+  "activatePaidRemaining49": true,
+  "executionSourceCommit": "a889e6f7e37d5f1dde151071932e79e826a293ed",
+  "authorizationCommit": "a889e6f7e37d5f1dde151071932e79e826a293ed",
+  "authorizationFile": "research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_AUTHORIZATION_V1.json",
+  "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "maximumProviderAttempts": 49,
+  "attemptsPerOrdinal": 1,
+  "automaticRetriesAuthorized": false,
+  "standardFallbackAuthorized": false,
+  "partialScoringAuthorized": false,
+  "stage1ReferenceOpeningAuthorized": false,
+  "terminalHoldoutAccessAuthorized": false,
+  "compilerInvocationAuthorized": false,
+  "analyzerExecutionAuthorized": false,
+  "analyzerChangesAuthorized": false,
+  "semanticContractChangesAuthorized": false,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "executionWorkflowSha256": "ef796b272b71e889c656a99fe95598fb883f2548403d498acccc4140ae6aa4b6",
+  "runnerSha256": "44d2e68626bae9e274f9b95db889979a9de6d97695d50adec381f32697be1f6e",
+  "reserveActionSha256": "c6b1907046bd383271eaf0dfef06a0ebf2210dd8bd3736d341f850efa085a0e2",
+  "finalizeActionSha256": "d9301789a3297a5ce25e2474c790a507d33a2eac151779744e19dbf1c8e4ce89",
+  "hashReceipt": {
+    "runId": 36925237707,
+    "jobId": 110580817648,
+    "headSha": "25b11dc55ecf8d4d9da080473fb3415e7fc90349",
+    "providerCallsObserved": 0,
+    "activationFilePresent": false
+  },
+  "note": "Activated after explicit user approval on 2026-10-01. Scope is exactly one initial provider attempt for each ordinal 2-50, with no retry, fallback, scoring, reference-label access, terminal access, Analyzer execution/change, compiler invocation, or semantic-contract change."
+}
