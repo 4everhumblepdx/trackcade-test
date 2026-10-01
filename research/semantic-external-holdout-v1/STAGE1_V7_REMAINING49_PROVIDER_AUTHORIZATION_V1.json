@@ -1,0 +1,54 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v7-remaining49-provider-authorization-v1",
+  "status": "staged-not-authorized",
+  "authorized": false,
+  "authorizationSource": null,
+  "purpose": "Stage ordinals 2-50 behind an explicit future spend gate after the frozen ordinal-1 V7 canary; this file itself authorizes no provider call.",
+  "ordinals": [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],
+  "maximumInitialProviderAttempts": 49,
+  "attemptsPerOrdinal": 1,
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 8192,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "frozenOrdinal1Canary": {
+    "ordinal": 1,
+    "runId": 36922442091,
+    "artifactId": 11191938588,
+    "artifactName": "trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid",
+    "artifactDigest": "sha256:5b3995aa95e4f92af0c2d7b25f9418445bc292a691b7b029165ffe0340b96b4a",
+    "freezeFile": "research/semantic-external-holdout-v1/STAGE1_V7_CANARY_FREEZE_V1.json",
+    "reuseAsDevelopmentResponse": true,
+    "rerunOrdinal1Authorized": false
+  },
+  "researchBoundary": {
+    "automaticRetriesAuthorized": false,
+    "standardFallbackAuthorized": false,
+    "partialScoringAuthorized": false,
+    "stage1ReferenceAccessAuthorized": false,
+    "terminalHoldoutAccessAuthorized": false,
+    "compilerInvocationAuthorized": false,
+    "analyzerExecutionAuthorized": false,
+    "analyzerChangesAuthorized": false,
+    "semanticContractChangesAuthorized": false,
+    "retryAfterAnyFailedOrInvalidOrdinalRequiresNewExplicitApproval": true,
+    "additionalSpendBeyondThisRemaining49RunRequiresNewExplicitApproval": true
+  },
+  "activation": {
+    "activationFile": "research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_PROVIDER_ACTIVATE_V1.json",
+    "activationFileExistsAtStaging": false,
+    "activationRequiresFreshExplicitUserApproval": true,
+    "note": "Do not set authorized=true and do not create the activation file until Nicholas explicitly approves the paid V7 remaining49 run after reviewing the zero-cost cost estimate and hosted staging audit."
+  },
+  "costPlanning": {
+    "estimateReceipt": "research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_COST_ESTIMATE_V1.json",
+    "estimateReceiptExistsAtStaging": false,
+    "canaryObservedEstimatedUsd": 0.041068,
+    "estimateIsNotSpendAuthorization": true
+  }
+}
