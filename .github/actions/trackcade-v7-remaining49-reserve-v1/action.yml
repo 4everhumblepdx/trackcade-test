@@ -1,0 +1,91 @@
+name: Trackcade V7 remaining49 reserve one ordinal
+description: Provider-free reservation and immutable attempt-lock upload for one ordered V7 development ordinal.
+
+inputs:
+  ordinal:
+    required: true
+  runner:
+    required: true
+  source-root:
+    required: true
+  flex-root:
+    required: true
+  validator:
+    required: true
+  authorization:
+    required: true
+  activation:
+    required: true
+  github-token:
+    required: true
+
+outputs:
+  nn:
+    value: ${{ steps.meta.outputs.nn }}
+  lock-artifact-id:
+    value: ${{ steps.lock.outputs.artifact-id }}
+
+runs:
+  using: composite
+  steps:
+    - name: Derive ordinal metadata
+      id: meta
+      shell: bash
+      env:
+        ORDINAL: ${{ inputs.ordinal }}
+      run: |
+        set -euo pipefail
+        test "$ORDINAL" -ge 2
+        test "$ORDINAL" -le 50
+        printf -v nn '%02d' "$ORDINAL"
+        prev=$((ORDINAL-1))
+        printf -v prev_nn '%02d' "$prev"
+        echo "nn=$nn" >> "$GITHUB_OUTPUT"
+        echo "prev_nn=$prev_nn" >> "$GITHUB_OUTPUT"
+
+    - name: Reserve ordinal offline after rejecting prior evidence
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        ORDINAL: ${{ inputs.ordinal }}
+        NN: ${{ steps.meta.outputs.nn }}
+        PREV_NN: ${{ steps.meta.outputs.prev_nn }}
+        RUNNER: ${{ inputs.runner }}
+        SOURCE_ROOT: ${{ inputs.source-root }}
+        FLEX_ROOT: ${{ inputs.flex-root }}
+        VALIDATOR: ${{ inputs.validator }}
+        AUTH_PATH: ${{ inputs.authorization }}
+        ACTIVATE_PATH: ${{ inputs.activation }}
+      run: |
+        set -euo pipefail
+        test -z "${OPENAI_API_KEY:-}"
+        if [ "$ORDINAL" -gt 2 ]; then
+          prior="trackcade-semantic-external-stage1-v7-remaining49-v1-case-${PREV_NN}-completed-valid"
+          gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${prior}&per_page=100" > "/tmp/v7-prior-${PREV_NN}.json"
+          python - <<'PY'
+        import json, os
+        p=f"/tmp/v7-prior-{os.environ['PREV_NN']}.json"
+        data=json.load(open(p))
+        active=[a for a in data.get('artifacts',[]) if not a.get('expired')]
+        assert len(active)==1, 'previous ordinal completed-valid artifact missing or duplicated'
+        a=active[0]
+        assert a['workflow_run']['id']==int(os.environ['GITHUB_RUN_ID'])
+        assert a['workflow_run']['head_sha']==os.environ['GITHUB_SHA']
+        PY
+        fi
+        for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt reserved-no-final-status; do
+          name="trackcade-semantic-external-stage1-v7-remaining49-v1-case-${NN}-${suffix}"
+          count="$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')"
+          test "$count" = '0'
+        done
+        python "$RUNNER" --mode prepare --ordinal "$ORDINAL" --source-root "$SOURCE_ROOT" --flex-root "$FLEX_ROOT" --output-dir "/tmp/v7-case-${NN}" --harness-commit "$GITHUB_SHA" --validator "$VALIDATOR" --authorization "$AUTH_PATH" --activation "$ACTIVATE_PATH" --lock-file "/tmp/v7-lock-${NN}/attempt-lock.json"
+
+    - name: Persist reservation before any provider credential is available
+      id: lock
+      uses: actions/upload-artifact@v4
+      with:
+        name: trackcade-semantic-external-stage1-v7-remaining49-v1-case-${{ steps.meta.outputs.nn }}-attempt-lock
+        path: /tmp/v7-lock-${{ steps.meta.outputs.nn }}/attempt-lock.json
+        if-no-files-found: error
+        retention-days: 90
+        compression-level: 9
