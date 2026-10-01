@@ -1,0 +1,54 @@
+name: TrackCade V6 — remaining49 launch hash preflight
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v6-remaining49-hash-preflight-v1.yml
+
+permissions:
+  contents: read
+
+jobs:
+  hash-preflight:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout exact preflight commit
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout: |
+            .github/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml
+            research/semantic-external-holdout-v1/run_stage1_v6_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_V1.json
+          sparse-checkout-cone-mode: false
+
+      - name: Prove provider-free state and print exact launch hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_ACTIVATE_V1.json
+          echo "preflight_commit=${GITHUB_SHA}"
+          sha256sum .github/workflows/trackcade-semantic-external-stage1-v6-remaining49-v1.yml
+          sha256sum research/semantic-external-holdout-v1/run_stage1_v6_remaining49_case_v1.py
+          python - <<'PY'
+          import json
+          p='research/semantic-external-holdout-v1/STAGE1_V6_REMAINING49_PROVIDER_AUTHORIZATION_V1.json'
+          x=json.load(open(p, encoding='utf-8'))
+          assert x['authorized'] is True
+          assert x['fundingApproved'] is True
+          assert x['executionScope']['ordinals'] == '2-50'
+          assert x['executionScope']['maximumProviderAttempts'] == 49
+          assert x['executionScope']['attemptsPerOrdinal'] == 1
+          assert x['forbidden']['automaticRetries'] is False
+          assert x['forbidden']['standardFallback'] is False
+          assert x['forbidden']['partialScoring'] is False
+          assert x['forbidden']['stage1ReferenceLabelAccess'] is False
+          assert x['forbidden']['terminalHoldoutAccess'] is False
+          assert x['forbidden']['compilerInvocation'] is False
+          assert x['forbidden']['analyzerExecutionOrModification'] is False
+          print('authorization_contract=PASS')
+          PY
