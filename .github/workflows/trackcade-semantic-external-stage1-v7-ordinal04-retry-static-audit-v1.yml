@@ -1,0 +1,70 @@
+name: Trackcade V7 — Ordinal 04 Retry Static Audit
+
+on:
+  push:
+    branches:
+      - trackcade-semantic-external-holdout-v1
+    paths:
+      - .github/workflows/trackcade-semantic-external-stage1-v7-ordinal04-retry-static-audit-v1.yml
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      BASE_RUNNER: research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+      RETRY_RUNNER: research/semantic-external-holdout-v1/run_stage1_v7_ordinal04_retry_v1.py
+      AUTH_PATH: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_AUTHORIZATION_V1.json
+      ACTIVATE_PATH: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_ACTIVATE_V1.json
+      INTERRUPTION_PATH: research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_INTERRUPTION_ORDINAL04_V1.json
+      PROTOCOL_PATH: research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_PROTOCOL_V1.md
+
+    steps:
+      - name: Sparse checkout staged retry surface
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+            research/semantic-external-holdout-v1/run_stage1_v7_ordinal04_retry_v1.py
+            research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_AUTHORIZATION_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_REMAINING49_INTERRUPTION_ORDINAL04_V1.json
+            research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_RETRY_PROTOCOL_V1.md
+
+      - name: Verify retry harness is inert and contract-preserving
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -z "${OPENAI_API_KEY:-}"
+          test ! -e "$ACTIVATE_PATH"
+          python -m py_compile "$BASE_RUNNER" "$RETRY_RUNNER"
+          python - <<'PY'
+          import json,os,pathlib
+          auth=json.load(open(os.environ["AUTH_PATH"]))
+          interruption=json.load(open(os.environ["INTERRUPTION_PATH"]))
+          protocol=pathlib.Path(os.environ["PROTOCOL_PATH"]).read_text()
+          runner=pathlib.Path(os.environ["RETRY_RUNNER"]).read_text()
+          contract={"provider":"openai","api":"responses","model":"gpt-6-sol","reasoningEffort":"high","maxOutputTokens":8192,"serviceTier":"flex","store":False}
+          assert auth["status"]=="staged-not-authorized" and auth["authorized"] is False
+          assert auth["providerContract"]==contract
+          assert interruption["interruptedOrdinal"]["ordinal"]==4
+          assert interruption["interruptedOrdinal"]["incompleteReason"]=="max_output_tokens"
+          assert interruption["unattemptedOrdinals"]==list(range(5,51))
+          assert "Status: staged protocol only. This document authorizes no provider call." in protocol
+          assert runner.count("base.one_provider_attempt(")==1
+          assert "RETRY_NUMBER = 1" in runner and "ORDINAL = 4" in runner
+          assert '"retryAuthorized": True' in runner
+          assert "case-04-retry-01-attempt-lock" in runner
+          PY
+          for suffix in attempt-lock completed-valid attempted-no-valid-response local-no-provider-attempt; do
+            name="trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-${suffix}"
+            test "$(gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts?name=${name}&per_page=100" --jq '.total_count')" = '0'
+          done
+          echo "Ordinal 04 retry static audit PASS — no provider credential exposed and no activation present"
