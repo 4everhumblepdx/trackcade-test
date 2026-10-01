@@ -1,0 +1,125 @@
+{
+  "schema": "trackcade-semantic-external-stage1-v6-raw-development-result-receipt-v1",
+  "status": "development-scored-post-freeze-posthoc-diagnostic-recorded",
+  "generationFreeze": {
+    "runId": 36911662121,
+    "artifactId": 11186333637,
+    "artifactDigest": "sha256:c4f7e94936b7cb17b2c025231ed9aeea585246a0e4b6371887df1fa5ee25645f",
+    "freezeJsonSha256": "ef3496c28e42b08f25a5d0afb989628ca96dad6ac82ebac0be61a026732fa1a8",
+    "trackCount": 50
+  },
+  "rawDevelopmentEvaluation": {
+    "runId": 36912823963,
+    "jobId": 110539437709,
+    "artifactId": 11187407681,
+    "artifactName": "trackcade-semantic-external-stage1-v6-raw-development-evaluation-v1",
+    "artifactDigest": "sha256:4520303d0b52a828927ae4640ec810ae776352fbe41d0c606fbb911e9e43b6cc",
+    "evaluationJsonSha256": "f2fb52f4c5b1e460c4a109ec7ee6ab803d410cddd65216d22584e0a62d4fe415",
+    "primaryToleranceSeconds": 2.0,
+    "referenceSupport": 46,
+    "candidateSupport": 2,
+    "plusMinus1Seconds": {
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 44,
+      "precision": 1.0,
+      "recall": 0.043478260869565216,
+      "f1": 0.08333333333333333
+    },
+    "plusMinus2Seconds": {
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 44,
+      "precision": 1.0,
+      "recall": 0.043478260869565216,
+      "f1": 0.08333333333333333
+    },
+    "plusMinus5Seconds": {
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 44,
+      "precision": 1.0,
+      "recall": 0.043478260869565216,
+      "f1": 0.08333333333333333
+    }
+  },
+  "frozenRawPlusMinus2Baselines": {
+    "v3": {
+      "truePositives": 19,
+      "falsePositives": 64,
+      "falseNegatives": 27,
+      "precision": 0.2289156626506024,
+      "recall": 0.41304347826086957,
+      "f1": 0.2945736434108527,
+      "candidateSupport": 83
+    },
+    "v5": {
+      "truePositives": 19,
+      "falsePositives": 83,
+      "falseNegatives": 27,
+      "precision": 0.18627450980392157,
+      "recall": 0.41304347826086957,
+      "f1": 0.25675675675675674,
+      "candidateSupport": 102
+    },
+    "v6": {
+      "truePositives": 2,
+      "falsePositives": 0,
+      "falseNegatives": 44,
+      "precision": 1.0,
+      "recall": 0.043478260869565216,
+      "f1": 0.08333333333333333,
+      "candidateSupport": 2
+    }
+  },
+  "labelAwareInterpretation": {
+    "result": "V6 eliminated observed development false positives but overcorrected severely, reducing true-positive support from 19 to 2 and RAW plus/minus-2 F1 from 29.46 percent in V3 and 25.68 percent in V5 to 8.33 percent.",
+    "developmentOnly": true,
+    "unbiasedGeneralizationClaim": false
+  },
+  "frozenProposalGateDistribution": {
+    "candidateAssessments": 220,
+    "semanticRole": {
+      "ordinary_transition": 160,
+      "ambiguous": 58,
+      "drop": 2
+    },
+    "preparation": {
+      "clear": 126,
+      "weak": 84,
+      "absent": 10
+    },
+    "decisiveImpact": {
+      "clear": 22,
+      "weak": 132,
+      "absent": 36,
+      "unclear": 30
+    },
+    "sustainedStrongerPassage": {
+      "clear": 182,
+      "weak": 27,
+      "absent": 11
+    },
+    "ordinaryReturnAlternative": {
+      "ruled_out": 2,
+      "plausible": 218
+    },
+    "strictV6FourGatePassCount": 2,
+    "preparationClearPlusDecisiveImpactClearPlusSustainedClearIgnoringOrdinaryReturnGateCount": 14,
+    "preparationClearPlusDecisiveImpactClearOrUnclearPlusSustainedClearIgnoringOrdinaryReturnGateCount": 38
+  },
+  "postHocDiagnosticQualification": {
+    "ordinaryReturnAlternativeIsPrimaryObservedChokePoint": true,
+    "reason": "The model generated 220 candidate assessments and marked decisiveImpact clear 22 times, but ordinaryReturnAlternative was plausible on 218 of 220 assessments and ruled_out only twice, exactly matching emitted Drop count.",
+    "counterfactualCountsAreNotAuthorizedProductionRules": true,
+    "noThresholdOrContractChangeMade": true
+  },
+  "boundaries": {
+    "providerCallsByScoring": 0,
+    "compilerInvoked": false,
+    "analyzerExecuted": false,
+    "terminalScoringPerformed": false,
+    "terminalRowsUsedForMetrics": false,
+    "additionalPaidSpendAuthorized": false
+  }
+}
