@@ -1,0 +1,173 @@
+{
+  "schema": "trackcade-stage1-v8-ordinal04-frozen-result-v1",
+  "status": "frozen-completed-valid-stop-no-further-execution",
+  "createdDateLocal": "2026-10-01",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "commits": {
+    "v7FrozenResult": "8d882217813941b139af077b404aec52a5aa3a89",
+    "forensicReport": "6bef5c9e34298a7ee74db582e60e76ad27ca1cdc",
+    "v8AuditedSource": "83022a8ca4eef994991f90f7c9ef2982d2851084",
+    "v8Activation": "c9fa3b9498b1618536628ca9f79db2ff42ce8b06"
+  },
+  "forensicConclusion": "Both V7 ordinal4 responses progress normally through visible structured assessment output and into events, then truncate inside the second event string at the provider-reported max_output_tokens limit. No visible repetition or task divergence. Encrypted reasoning remains unobservable; no claim about hidden loops or semantic correctness.",
+  "providerFreeAudit": {
+    "runId": 36946864823,
+    "jobId": 110650875689,
+    "conclusion": "success",
+    "testsPassed": 16,
+    "failures": 0,
+    "errors": 0,
+    "frozenDependenciesVerified": 11,
+    "providerCalls": 0,
+    "spendUsd": 0
+  },
+  "singleDiagnostic": {
+    "version": "V8",
+    "ordinal": 4,
+    "runId": 36947107596,
+    "jobId": 110651626913,
+    "runAttempt": 1,
+    "workflowConclusion": "success",
+    "providerCalls": 1,
+    "retries": 0,
+    "lockArtifact": {
+      "id": 11202462350,
+      "name": "trackcade-stage1-v8-ordinal04-budget-v1-attempt-lock",
+      "digest": "sha256:4e5e79bf7a1c4ab2c50d89a4b79b24ba9adcb649d2620f423668a98557fc6505"
+    },
+    "resultArtifact": {
+      "id": 11203065070,
+      "name": "trackcade-stage1-v8-ordinal04-budget-v1-result",
+      "digest": "sha256:41f951b9264afb5bb6f943bfaf42d9eeef7a8f79e6bef4e0b36e86f9067cb9be"
+    },
+    "providerStatus": {
+      "analyzerChanged": false,
+      "analyzerExecuted": false,
+      "artifactOutcome": "completed-valid",
+      "classification": "provider_completed_validated_v8_ordinal04_flex25000_no_retry",
+      "clientRequestId": "77e105fa-2b06-44d9-9910-491a1a777522",
+      "compilerInvoked": false,
+      "errors": [],
+      "harnessSourceCommit": "c9fa3b9498b1618536628ca9f79db2ff42ce8b06",
+      "httpRequestId": "req_54dc0340c1144e7d9a3e0821447b68e0",
+      "httpStatus": 200,
+      "normalizedProposalSha256": "f2177dc9cadf235f8acf1564c63d3e3db4382302193daa97c6d095838c3d16a0",
+      "observedProviderModel": "gpt-6-sol",
+      "observedProviderResponseId": "resp_0291c5a8075324d6016abefd61ee4887d0988f270eccc3951b",
+      "observedProviderServiceTier": "flex",
+      "observedProviderStatus": "completed",
+      "ordinal": 4,
+      "proposalCandidateSha256": "5e0afac4dfe13a3485867eed7999ec7764b41088f96cc3e5d490cc5c084d1bf1",
+      "proposalValidated": true,
+      "providerCallAttempted": true,
+      "providerCallFinishedAt": "2026-10-02T00:41:10.832404Z",
+      "providerCallStartedAt": "2026-10-02T00:40:01.330883Z",
+      "providerCompletedSemanticResponse": true,
+      "providerContract": {
+        "api": "responses",
+        "maxOutputTokens": 25000,
+        "model": "gpt-6-sol",
+        "provider": "openai",
+        "reasoningEffort": "high",
+        "serviceTier": "flex",
+        "store": false
+      },
+      "providerResponseObserved": true,
+      "rawResponseSha256": "6526ab7e3216dd1ac6a0139564c2ec1b273d2531e1541e16b3ed6770a01c8a0e",
+      "referenceLabelsRead": false,
+      "retryAuthorized": false,
+      "schema": "trackcade-stage1-v8-ordinal04-status-v1",
+      "scoringPerformed": false,
+      "semanticPayloadUnchangedExceptOutputCap": true,
+      "stage": "stage1-v8",
+      "stage1ReferencesOpened": false,
+      "standardFallbackUsed": false,
+      "terminalTracksProcessed": false,
+      "usage": {
+        "input_tokens": 12921,
+        "input_tokens_details": {
+          "cache_write_tokens": 12918,
+          "cached_tokens": 0
+        },
+        "output_tokens": 9627,
+        "output_tokens_details": {
+          "reasoning_tokens": 7768
+        },
+        "total_tokens": 22548
+      },
+      "validatorExitCode": 0
+    }
+  },
+  "validation": {
+    "analyzerDescriptorsNotSemanticGates": true,
+    "confidenceFieldsDiagnosticOnly": true,
+    "decisiveImpactRequiredForDrop": true,
+    "decisiveImpactUnclearInsufficientForDrop": true,
+    "errors": [],
+    "packet": "/tmp/v8-ordinal04/structure-evidence-v2.json",
+    "proposal": "/tmp/v8-ordinal04/proposal-candidate.json",
+    "repeatedSimilarDropsAllowed": true,
+    "schema": "trackcade-learned-proposal-validation-v7",
+    "status": "valid",
+    "structuralContextOrthogonalNotGate": true,
+    "timingAuthority": "frozen-analyzer-derived-anchor-only",
+    "trackSummaryDerivedNotGate": true
+  },
+  "evidenceVerification": {
+    "archiveDigestVerified": true,
+    "allManifestEntriesVerified": true,
+    "normalizedProposalHashVerified": true,
+    "rawResponseHashVerified": true,
+    "actualSubmittedPayloadOnlyMaxOutputTokensChanged": true,
+    "sameFrozenInputBytesVerified": true,
+    "completedValidProposalExists": true,
+    "proposalBodiesKeptInImmutableArtifactNotPublishedInGit": true
+  },
+  "tokenUsage": {
+    "inputTokens": 12921,
+    "cacheWriteTokens": 12918,
+    "cachedTokens": 0,
+    "uncachedNonCacheWriteTokens": 3,
+    "outputTokensIncludingReasoning": 9627,
+    "reasoningTokens": 7768,
+    "totalTokens": 22548
+  },
+  "spendEstimate": {
+    "pricingMethod": "Existing frozen V7 pricing snapshot, unchanged; cache-write input replaces uncached input pricing and is not additive. Output charge includes reasoning once.",
+    "pricingSnapshot": {
+      "uncachedInputUsdPerMillion": 1.0,
+      "cachedInputUsdPerMillion": 0.1,
+      "cacheWriteUsdPerMillion": 1.25,
+      "outputIncludingReasoningUsdPerMillion": 5.0,
+      "cacheWriteAlternativeNotAdditive": true
+    },
+    "formula": "(3*1 + 12918*1.25 + 0*0.1 + 9627*5)/1000000",
+    "estimatedNewV8SpendUsd": 0.0642855,
+    "independentBillingVerificationPerformed": false
+  },
+  "frozenState": {
+    "v7Immutable": true,
+    "v7Ordinal2": "completed-valid",
+    "v7Ordinal3": "completed-valid",
+    "v7Ordinal4Original": "incomplete-unaccepted-unscored",
+    "v7Ordinal4Retry01": "incomplete-unaccepted-unscored",
+    "v7SecondRetryAuthorized": false,
+    "v8Ordinal4": "completed-valid-frozen-separate-experiment",
+    "v8FurtherCallsAuthorized": false,
+    "ordinals5Through50": "unattempted",
+    "ordinals5Through50CallsThisTask": 0,
+    "referenceLabelsOpened": false,
+    "terminalHoldoutAccessed": false,
+    "partialScoringPerformed": false,
+    "anySemanticScoringPerformed": false,
+    "compilerInvoked": false,
+    "analyzerExecutedOrModified": false,
+    "nonDropGameplayEligibilityPreserved": true
+  },
+  "publicationIntegrity": {
+    "method": "Connected GitHub Git-data publication with exact local-tree equality; commit metadata creates different remote SHA from local source commits.",
+    "inputPublicationReview": "Automatic review rejected public publication of packet/prompt bodies. Safe alternative uses the existing immutable result artifact and exact hashes; no new input bodies committed to remote."
+  },
+  "stopState": "The single authorized attempt is consumed. Stop after freezing this receipt. Do not retry, change another parameter, reopen V7, score, or execute ordinals 5-50."
+}
