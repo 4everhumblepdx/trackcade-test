@@ -1,0 +1,1827 @@
+{
+  "schema": "trackcade-stage1-v8-remaining46-execution-receipt-v1",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "authorizationCommit": "27c237bff50a9bef422e3425a315a7e9b35823ac",
+  "activationCommit": "0badee205b40d857ba91d617abf38266092e21a1",
+  "auditedExecutionSource": "e248e6c6bd8af2c48b3670ab3b8507e370c30bfb",
+  "providerFreeAuditRun": 37068635961,
+  "liveRunId": 37070370544,
+  "liveJobId": 111048144329,
+  "runAttempt": 1,
+  "runConclusion": "success",
+  "authorizedEstimatedSpendCeilingUsd": "3.50",
+  "budgetAccounting": "reserve-then-reconcile-v2",
+  "reservationUsdPerAttempt": "0.225",
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 25000,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "cases": [
+    {
+      "ordinal": 5,
+      "lockArtifact": {
+        "id": 11254386906,
+        "digest": "sha256:3ca5e7f7601e5caca6bdf118b14c1095efc3c41452922d255439f5a58b88d073",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-05-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254441728,
+        "digest": "sha256:1102c7858920133c5c322278e62f6ed6eed488e950475ece18e48bb45f24fc0c",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-05-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14950,
+        "input_tokens_details": {
+          "cache_write_tokens": 14947,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4179,
+        "output_tokens_details": {
+          "reasoning_tokens": 3106
+        },
+        "total_tokens": 19129
+      },
+      "manifestSha256": "e9ad3b7175089c89fd2037f74938a322a7b557a4bb6b6421aa8396445fec6d37",
+      "statusSha256": "a8c6c89ec4cd36c8bcbc9f21e8c4b4a6dcc8717ba0546bf6e5d9324245e16082",
+      "rawResponseSha256": "1e6138451782f788748401071ecdc07b6f9a2c750b6fa0fb50cd8bbcd3528e70",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03958175",
+      "cumulativeReconciledEstimatedSpendUsd": "0.03958175"
+    },
+    {
+      "ordinal": 6,
+      "lockArtifact": {
+        "id": 11255055786,
+        "digest": "sha256:2661b5fa93f92f2e93e5b43995ef44f7929e3b13aec62a47f78c42c998a51819",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-06-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.03958175",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254252436,
+        "digest": "sha256:cbfecfc9a7f8fc570dd15938606486b5f28f0ee9a5063c152be6fde5b365c58f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-06-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11759,
+        "input_tokens_details": {
+          "cache_write_tokens": 11756,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4143,
+        "output_tokens_details": {
+          "reasoning_tokens": 3057
+        },
+        "total_tokens": 15902
+      },
+      "manifestSha256": "d3f83fbed8bc1f5642e1db13a6fb45a950e2cd43280c577404fe5c81d5e44540",
+      "statusSha256": "1f0797253ceae9fa8424a875a44bb104fe908d77ff70da5822ac530b0041a03f",
+      "rawResponseSha256": "d1dc53d3bfd6c075887fa71193b6df5515057f5389718fa9af1c7abe17bb53dc",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.035413",
+      "cumulativeReconciledEstimatedSpendUsd": "0.07499475"
+    },
+    {
+      "ordinal": 7,
+      "lockArtifact": {
+        "id": 11253907872,
+        "digest": "sha256:17f1a5c099fdc6395a8e6cc5255a2d335520448a4f0dca72934df759520e5f7f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-07-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.07499475",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11253833220,
+        "digest": "sha256:6c3be65e9c57fce1d8bb72cb8fac13b67580420af960f56d84c1bc6f5dcd6235",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-07-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 13899,
+        "input_tokens_details": {
+          "cache_write_tokens": 13896,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5518,
+        "output_tokens_details": {
+          "reasoning_tokens": 4382
+        },
+        "total_tokens": 19417
+      },
+      "manifestSha256": "009e605629127b37c647557765a212064fc2fc1958af3ceff37f2d3216896cc7",
+      "statusSha256": "5b4ad2cb9591a52c2f247a9a7801d6f931dadf3b31fa8063bec79ff5d92768a4",
+      "rawResponseSha256": "aa0937705572e14957bb743b1ec9ac778a502efb544c41276b979007c3b1752d",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.044963",
+      "cumulativeReconciledEstimatedSpendUsd": "0.11995775"
+    },
+    {
+      "ordinal": 8,
+      "lockArtifact": {
+        "id": 11254182701,
+        "digest": "sha256:916f3578e0991bd327e3a8685135d50691e5b1346080b09c6cb72bc1f7968e2f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-08-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.11995775",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254117953,
+        "digest": "sha256:f33e632adb8c81b7f68de5ddc3fc331baefdf7a296aba1542fec576d7bd4a31f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-08-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11926,
+        "input_tokens_details": {
+          "cache_write_tokens": 11923,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3034,
+        "output_tokens_details": {
+          "reasoning_tokens": 2407
+        },
+        "total_tokens": 14960
+      },
+      "manifestSha256": "536a60f524986b1c81748ccbe2edb0f1d958ad0f4c3fd7b0175c0ee60449e81f",
+      "statusSha256": "0eff14c26ac8c05145bbc3803a55bc309e8ccb886487696d3f72a672faf62ad8",
+      "rawResponseSha256": "772fd3b9a46888a5018e33d405799f80a019f5c387d9759f30b31da4e9ac4b77",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03007675",
+      "cumulativeReconciledEstimatedSpendUsd": "0.15003450"
+    },
+    {
+      "ordinal": 9,
+      "lockArtifact": {
+        "id": 11253953023,
+        "digest": "sha256:b8c562b30ba155bde5f42ea67d3ab62a66b43e39e17d7cf4189a6041bb142432",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-09-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.15003450",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11253918252,
+        "digest": "sha256:3bb47e14b8358c903c6bf6cee1bb42ee32921636b7a7a9d90a089097ea8c9e39",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-09-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 27311,
+        "input_tokens_details": {
+          "cache_write_tokens": 27308,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4327,
+        "output_tokens_details": {
+          "reasoning_tokens": 3506
+        },
+        "total_tokens": 31638
+      },
+      "manifestSha256": "d9d8335333835393ab1812c1b63065416ef701fd747aa2f254df15a7b73601b0",
+      "statusSha256": "bb635500571c9e8afe41de58b361cf48e5ceb230fd372a1fc71f0a0064dccac8",
+      "rawResponseSha256": "331aff051dd559c9f472e9ff5832ec24b51013b16c04a95a79d468da2568c371",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.055773",
+      "cumulativeReconciledEstimatedSpendUsd": "0.20580750"
+    },
+    {
+      "ordinal": 10,
+      "lockArtifact": {
+        "id": 11253868249,
+        "digest": "sha256:cb278ddbfd4478a1bd7896530853792902699b34614c0b0849bd5207dd181c7f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-10-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.20580750",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11253918315,
+        "digest": "sha256:c89da9246c91d8a6b6807d9b6a531e39ae16b033bfe2098c1414e514703845a6",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-10-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 10834,
+        "input_tokens_details": {
+          "cache_write_tokens": 10831,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2320,
+        "output_tokens_details": {
+          "reasoning_tokens": 1472
+        },
+        "total_tokens": 13154
+      },
+      "manifestSha256": "f397e2ba3f885907279725c7082dd708a6c83f57202d28069a49cfdb3cb05d36",
+      "statusSha256": "078be3d755d9b44ac1dfc452371f3a00759f4a6ab811555b75a6503ced8e8a35",
+      "rawResponseSha256": "d65949a04bccc23b8965a6bf6e12b832ce7d8397c1477edb8271895e540a14b2",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.02514175",
+      "cumulativeReconciledEstimatedSpendUsd": "0.23094925"
+    },
+    {
+      "ordinal": 11,
+      "lockArtifact": {
+        "id": 11253998140,
+        "digest": "sha256:0c1467837ed03371a4831d40d7558ef9b1d344c8ab55103ccd39653b83db77c6",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-11-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.23094925",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254707295,
+        "digest": "sha256:cf68a0d7f5d74036c45bb0cc00924819b9a5024187407e2eadda117982bcfaf7",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-11-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 17478,
+        "input_tokens_details": {
+          "cache_write_tokens": 17475,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4298,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 21776
+      },
+      "manifestSha256": "ff4ec017e4564851f5ae11faf4051a33028e99439a5a5ec3de080c8ec7dccde5",
+      "statusSha256": "c8519cf73e1ef654fb91c535487d5273c785eafe14e5efd8cd5586226ed2c75a",
+      "rawResponseSha256": "9b916e9a258dd018cb8f7a53cd71ce474f5643cfd9914951899d2bea1787e2f9",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.04333675",
+      "cumulativeReconciledEstimatedSpendUsd": "0.27428600"
+    },
+    {
+      "ordinal": 12,
+      "lockArtifact": {
+        "id": 11254347827,
+        "digest": "sha256:e1ce96c2811aeb250b7520cafa2111ffd0e0709b9fa3ea3f3ac6a7af111e0c0e",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-12-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.27428600",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254352833,
+        "digest": "sha256:8bcad59cbc6a93ee1206c60e383bdb4d27522d5399ed77750cb600caa68b7b89",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-12-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11994,
+        "input_tokens_details": {
+          "cache_write_tokens": 11991,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3223,
+        "output_tokens_details": {
+          "reasoning_tokens": 2456
+        },
+        "total_tokens": 15217
+      },
+      "manifestSha256": "b4a63b368164a1b5fdc85d018af7d1610a4d9bdad8e40919fc67f27a79472fb5",
+      "statusSha256": "da0376c03992bbd903f9d7c41d5d94a42c29ae9e71f6424dfbf22881bf5e504f",
+      "rawResponseSha256": "9863378e73cde61f4c3d4589f1d60209bbb16f6d0eff4472bb2f213de7526211",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03110675",
+      "cumulativeReconciledEstimatedSpendUsd": "0.30539275"
+    },
+    {
+      "ordinal": 13,
+      "lockArtifact": {
+        "id": 11254732393,
+        "digest": "sha256:47352c0560ee0015989f5ee3de796c649db26a6f24c4fec937e48263bb64f899",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-13-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.30539275",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11253813992,
+        "digest": "sha256:559127b37efed109701549a2a521a0df41e91708d16f716a0c5e42c55c641a2f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-13-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 15734,
+        "input_tokens_details": {
+          "cache_write_tokens": 15731,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5073,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 20807
+      },
+      "manifestSha256": "ac696be689f0b4acfa04cffca54fe47a256e8d6a679fdf34c7efc5b56c62223d",
+      "statusSha256": "bfef64409c2e905ffc15f54bcc79bdd553bad34b2008e5861b2169f6758be9a3",
+      "rawResponseSha256": "45e6466fc8c56c0fe48228d609ff638672455262276c1bc8b50adbcbb6e6d48e",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.04503175",
+      "cumulativeReconciledEstimatedSpendUsd": "0.35042450"
+    },
+    {
+      "ordinal": 14,
+      "lockArtifact": {
+        "id": 11253938626,
+        "digest": "sha256:9a3ad941eea35f0d48800e4eab7841390732c3b0fc5187fa2c43226f886be55c",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-14-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.35042450",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254987411,
+        "digest": "sha256:77679df24691fc9a219f1a28bac71b06fc8e3b5d46c816ae1336a6d533439218",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-14-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 10918,
+        "input_tokens_details": {
+          "cache_write_tokens": 10915,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4634,
+        "output_tokens_details": {
+          "reasoning_tokens": 3528
+        },
+        "total_tokens": 15552
+      },
+      "manifestSha256": "253f8325586fcb0b71dfefc47dc43d3ca666cc7d9cf5d5ffcbd9270bb89c733d",
+      "statusSha256": "687cbbb69c5a1cf70c523baff93ba61297a58c701c5c79b67625a996928978ba",
+      "rawResponseSha256": "e6b294feaf903ead806fb9813a14eddf9f8d7308f462e9ddbc342824b2e0552b",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03681675",
+      "cumulativeReconciledEstimatedSpendUsd": "0.38724125"
+    },
+    {
+      "ordinal": 15,
+      "lockArtifact": {
+        "id": 11254707849,
+        "digest": "sha256:f9c335f78b84cfb8d70fc6b2cd1abbf5cefd57caab84b7a5e724ddfc6d1ef71f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-15-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.38724125",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254987710,
+        "digest": "sha256:ed5c019c3c5a02834486aac59004fffb0b4b61706f7bf6e495efe2def1e54fb5",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-15-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11947,
+        "input_tokens_details": {
+          "cache_write_tokens": 11944,
+          "cached_tokens": 0
+        },
+        "output_tokens": 6921,
+        "output_tokens_details": {
+          "reasoning_tokens": 5178
+        },
+        "total_tokens": 18868
+      },
+      "manifestSha256": "f7a3ab9d97a127e04e2f9e7e5f55863ec3af075823ba5aa421720b0175616fb9",
+      "statusSha256": "985ad0c1cfcbf7a4b43d1bdd3aaf50d2866d556b9304cdf03cc24268ca2ab644",
+      "rawResponseSha256": "c5354696e5c9feb5b9dff9b24d76a43d7a6c35ec48601c8ecb6d94f2ddd77d5a",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.049538",
+      "cumulativeReconciledEstimatedSpendUsd": "0.43677925"
+    },
+    {
+      "ordinal": 16,
+      "lockArtifact": {
+        "id": 11254733105,
+        "digest": "sha256:648c35b190daf4284b247356c4e8cd2aa473529fa6f567c6972e6f861fefc37f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-16-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.43677925",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254643477,
+        "digest": "sha256:0d5c358bcf540a1724d33f98cea0357a2fa5e7a18f5fe440e7cdc862400b3715",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-16-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 15413,
+        "input_tokens_details": {
+          "cache_write_tokens": 15410,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4898,
+        "output_tokens_details": {
+          "reasoning_tokens": 3728
+        },
+        "total_tokens": 20311
+      },
+      "manifestSha256": "0c8a11ed37ac02426d56fe3d8d2fefaaf1caebdfb094ee2c58776e4729d6f760",
+      "statusSha256": "499d173ecb072e0920e2057d609e2aa0e215857e287417a5628c5741b1e492fd",
+      "rawResponseSha256": "68e93bd0a6fe472bfbb2ad7621982a62fbc4ad9b64d6f0810b982f0ba7e3ae34",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0437555",
+      "cumulativeReconciledEstimatedSpendUsd": "0.48053475"
+    },
+    {
+      "ordinal": 17,
+      "lockArtifact": {
+        "id": 11254448625,
+        "digest": "sha256:fb5c56962cda5eb66b3506835c91c7bfa536a2d4f40aa8d33c7e048c95ba2a46",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-17-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.48053475",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254394097,
+        "digest": "sha256:909c64ff46a9bb70caba1139662cfcab3632d6fc1ff6a2967d2a6f84d3acd716",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-17-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11052,
+        "input_tokens_details": {
+          "cache_write_tokens": 11049,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4564,
+        "output_tokens_details": {
+          "reasoning_tokens": 3484
+        },
+        "total_tokens": 15616
+      },
+      "manifestSha256": "ec2b221c63eac5f37f559839840ef91b91930535e2c41872e1769164a4a71cc7",
+      "statusSha256": "420e06e685869a630ecae8f3d7e82b52b1ab30933316ac9f7f7f119630222997",
+      "rawResponseSha256": "e1774a73a3b0fdf35cdaa5a2e341d160b843eca9838c1533f676537352b6a72c",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03663425",
+      "cumulativeReconciledEstimatedSpendUsd": "0.51716900"
+    },
+    {
+      "ordinal": 18,
+      "lockArtifact": {
+        "id": 11254738793,
+        "digest": "sha256:58d8bf0ae903dfbb18f12fdc6f952cb160b041f8d29587082d956d1952764dcf",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-18-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.51716900",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11253969366,
+        "digest": "sha256:4893af69585d7639ecd109d79cf774ca503ab7b5eced2e1f7baa34cfcea2859e",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-18-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 12959,
+        "input_tokens_details": {
+          "cache_write_tokens": 12956,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4987,
+        "output_tokens_details": {
+          "reasoning_tokens": 3915
+        },
+        "total_tokens": 17946
+      },
+      "manifestSha256": "dd7de3b904567bd9fd7f1860a4660aa4dbb01a5ac8b28f3a619dedd666ea484b",
+      "statusSha256": "265ed627a72f487ed78344768ea9ed348c445642a85324b54271824e990bbe75",
+      "rawResponseSha256": "b5dc5824cd6d3796add694ff03cce751a724618825b74f07c14182033b21b842",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.041133",
+      "cumulativeReconciledEstimatedSpendUsd": "0.55830200"
+    },
+    {
+      "ordinal": 19,
+      "lockArtifact": {
+        "id": 11253894382,
+        "digest": "sha256:30b810322a7bd0a233084c36b7f01e96f836bed2b7888c0a2ffa0f1d572a380c",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-19-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.55830200",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254484056,
+        "digest": "sha256:3f549fbbd4b9e1cc52f7221eb25dfcf150618a79e6b75ba651df4d42bdc5c6dd",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-19-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 16063,
+        "input_tokens_details": {
+          "cache_write_tokens": 16060,
+          "cached_tokens": 0
+        },
+        "output_tokens": 2953,
+        "output_tokens_details": {
+          "reasoning_tokens": 2141
+        },
+        "total_tokens": 19016
+      },
+      "manifestSha256": "3940d30adf7b9bd902bd5ebec23325a388020ed9dbe7d3883b742b027cc5f302",
+      "statusSha256": "be5f3df1ad9fdc6ff4897ba872f79114a2dfc21fe064a204eca00412f698a084",
+      "rawResponseSha256": "47176ef67ecb35f5df6cd9d3118dcce151cda05e098bab19faac56708b340629",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.034843",
+      "cumulativeReconciledEstimatedSpendUsd": "0.59314500"
+    },
+    {
+      "ordinal": 20,
+      "lockArtifact": {
+        "id": 11255018400,
+        "digest": "sha256:654914eb4ac568f909aadd866bfe4748cc49f35792e1915738ab31701e43c425",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-20-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.59314500",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255048473,
+        "digest": "sha256:24d9f33affa5694abce74428ed409c43b54fb57ccd416981c8cb086661b5567f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-20-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14539,
+        "input_tokens_details": {
+          "cache_write_tokens": 14536,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1756,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 16295
+      },
+      "manifestSha256": "9acc6432b6757b71983ebf08cf42d2f3c5679bdeff8cccd06810e54b5e0bbec6",
+      "statusSha256": "059be6d2672464045e48542873ac964e2d37244997c24809623ec64e3a67485d",
+      "rawResponseSha256": "810aa2b9d765383e6dad3ca679561d8f1d052df63755abfd4d06001c54f49166",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.026953",
+      "cumulativeReconciledEstimatedSpendUsd": "0.62009800"
+    },
+    {
+      "ordinal": 21,
+      "lockArtifact": {
+        "id": 11254968672,
+        "digest": "sha256:8213a74009c8cc735aac146d1e775ad943cba0593f49ab5588c96a51887c9ebd",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-21-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.62009800",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254239324,
+        "digest": "sha256:392ca99a503ce01276efd45c6180abab334a7361351c87a3a5e4dc12050776cc",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-21-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 12584,
+        "input_tokens_details": {
+          "cache_write_tokens": 12581,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3764,
+        "output_tokens_details": {
+          "reasoning_tokens": 2961
+        },
+        "total_tokens": 16348
+      },
+      "manifestSha256": "ac3c71f96655e9841e7393d6c0b8329ad05027c6089269c18b647d153c66300f",
+      "statusSha256": "96f39ce50a9f44b370c68ead5d16836616df90fcf7ab78a9d351868beeb6ba85",
+      "rawResponseSha256": "2759300d39d52be4273df2dd658e735a1b69ef6f0ca6ab320cb36aaec29e62e1",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03454925",
+      "cumulativeReconciledEstimatedSpendUsd": "0.65464725"
+    },
+    {
+      "ordinal": 22,
+      "lockArtifact": {
+        "id": 11255065246,
+        "digest": "sha256:806750943db54f1be66387874d142e69be4e2837964e80cedfc07ceb356778a3",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-22-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.65464725",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254399674,
+        "digest": "sha256:1dba8cd98b50b777c9d742266125b98f56a120ccc4e91ccae8072d59547e39d0",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-22-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 13228,
+        "input_tokens_details": {
+          "cache_write_tokens": 13225,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4406,
+        "output_tokens_details": {
+          "reasoning_tokens": 3612
+        },
+        "total_tokens": 17634
+      },
+      "manifestSha256": "c1935882e7973d4617c57ec5913d0a37fb5c86539f7847a8a18905d00e4df5a5",
+      "statusSha256": "1a15ea9b40b467ffbb14d97241e40ca3fc611fb223ea452fbd8c4b09da094117",
+      "rawResponseSha256": "59feaf96e6d80481ece3585353085ce8a73c6adcab3b73e9c462264e6aeaa8bc",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03856425",
+      "cumulativeReconciledEstimatedSpendUsd": "0.69321150"
+    },
+    {
+      "ordinal": 23,
+      "lockArtifact": {
+        "id": 11254539424,
+        "digest": "sha256:a9554c6e68520dc55c4c176454e6996667438b8e2968a5d49df7ebe447db66ae",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-23-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.69321150",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254649607,
+        "digest": "sha256:9a0e4e2519c118a0607814098678cced8e1dc50bd9214beedd2f15e92cf73f12",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-23-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 13591,
+        "input_tokens_details": {
+          "cache_write_tokens": 13588,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4870,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 18461
+      },
+      "manifestSha256": "4f591b9e32e8c7093619fd45cf6de0e7d4425eea9892113ee63f81283e0eee55",
+      "statusSha256": "1b0dbd5526b3da7b228be9905c9e5bff15eab4580900e7c9ff2d5b07d71f6567",
+      "rawResponseSha256": "edc0a750b217b03ce6af251d9b1594b6f8ea31cc513cd3048547f6edfe495908",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.041338",
+      "cumulativeReconciledEstimatedSpendUsd": "0.73454950"
+    },
+    {
+      "ordinal": 24,
+      "lockArtifact": {
+        "id": 11254524958,
+        "digest": "sha256:f9d0d6b46d291de3293f973eb7b1be747c32d6557156deda2f6f9ec600d66cd2",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-24-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.73454950",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254489766,
+        "digest": "sha256:154f906d5bbe180d63995242f060f6aef622ded2de5c744364c5abe268ac7fe3",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-24-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 17607,
+        "input_tokens_details": {
+          "cache_write_tokens": 17604,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3316,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 20923
+      },
+      "manifestSha256": "3a8d8e81ea66220970b2083bcd157ae949b0e3929a10ead6355f1b493b2fec82",
+      "statusSha256": "a4a0e58571dcaa7ea5059a49463731bde458010a2154c92502a4589a757331c4",
+      "rawResponseSha256": "926eaa9bc438beb30fe0c7c3a7a02eae2bb440003a1b4bec492a33d5ae036f04",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.038588",
+      "cumulativeReconciledEstimatedSpendUsd": "0.77313750"
+    },
+    {
+      "ordinal": 25,
+      "lockArtifact": {
+        "id": 11254569798,
+        "digest": "sha256:04364e0698ea72632a3c3fb8570d498a5ef44bf74fca32299169a6c4f2a3efb8",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-25-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.77313750",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11254689941,
+        "digest": "sha256:df52772ed7f8ea9cba9ac3968c0de3dde4c337c895b7bd9d94e66c20caebb522",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-25-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 12815,
+        "input_tokens_details": {
+          "cache_write_tokens": 12812,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3561,
+        "output_tokens_details": {
+          "reasoning_tokens": 2588
+        },
+        "total_tokens": 16376
+      },
+      "manifestSha256": "4403c6760bb2cf4676fab4af50e581ec05b6e94df3bfc43c8b1ad6b06cd6038f",
+      "statusSha256": "8b0592774189e2f56c4d7bd5a03b1fbfc9fc25507e115afb955cc6848b925822",
+      "rawResponseSha256": "81ea852c6eb14c3cf9f0b54d9131d6948eed73a23de8afc0b9f585156629d0c2",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.033823",
+      "cumulativeReconciledEstimatedSpendUsd": "0.80696050"
+    },
+    {
+      "ordinal": 26,
+      "lockArtifact": {
+        "id": 11255390291,
+        "digest": "sha256:8903bb0fcf1218028844b6f9d7368bf35c2ee7e8770b0158e8971be578521e40",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-26-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.80696050",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255625198,
+        "digest": "sha256:c7af7995e37678e002aaa4bfca830155c9f8b3317a033c6dfc94c75b2491c046",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-26-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 13727,
+        "input_tokens_details": {
+          "cache_write_tokens": 13724,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4721,
+        "output_tokens_details": {
+          "reasoning_tokens": 3455
+        },
+        "total_tokens": 18448
+      },
+      "manifestSha256": "639055ad7933be0f364dc1a605ecdb89fe0e98a575fc51e00af02705707a9433",
+      "statusSha256": "71e1ee4dae974e74165aeda3a06cef5a3f8f68723dc29b5b8f1ebf91fc6333cd",
+      "rawResponseSha256": "90e891d930052a4af9719e0350fb621f8a81b8efdea2e4ba22cfaef5544194b5",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.040763",
+      "cumulativeReconciledEstimatedSpendUsd": "0.84772350"
+    },
+    {
+      "ordinal": 27,
+      "lockArtifact": {
+        "id": 11255370448,
+        "digest": "sha256:7d4fe7fd123f3b61a8a17abf04116ebaf6dbcd110803b87e6b87d1c707a3d189",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-27-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.84772350",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255775161,
+        "digest": "sha256:b33c8e0e0539c768f8211c99e49d146f845b34eeeeae0fce036699a8664582a5",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-27-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 10857,
+        "input_tokens_details": {
+          "cache_write_tokens": 10854,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4978,
+        "output_tokens_details": {
+          "reasoning_tokens": 4142
+        },
+        "total_tokens": 15835
+      },
+      "manifestSha256": "d08f49f1c07638468643874aedfb32d3ce086fa4c4544f812adfefd541c7f145",
+      "statusSha256": "f749994eb8ae260e67187a356b3c8dc80c05603dfe27c82c4cbb59eba63d361a",
+      "rawResponseSha256": "b0c9750b6a1b993da34f9e6beee656d50fcef03d113604affdbc18dcbb374a1b",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0384605",
+      "cumulativeReconciledEstimatedSpendUsd": "0.88618400"
+    },
+    {
+      "ordinal": 28,
+      "lockArtifact": {
+        "id": 11254794942,
+        "digest": "sha256:62b97830857411e05fcf6ab71cce50828bb2cb6e316c7e45f730a33edd0a7c60",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-28-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.88618400",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255715314,
+        "digest": "sha256:f079b1805032324d90e91de1ebafc2e8c6e3a5beef250f60829c6607e1145f35",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-28-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 15488,
+        "input_tokens_details": {
+          "cache_write_tokens": 15485,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5307,
+        "output_tokens_details": {
+          "reasoning_tokens": 3477
+        },
+        "total_tokens": 20795
+      },
+      "manifestSha256": "b08bd208d95ff1a15f7a2ab673312370742edab933b7792f48fc64ac40a93f41",
+      "statusSha256": "e42f4c276adde05b12e133b987eb9dd2fecddf98c88619c059c5d8fe62cff303",
+      "rawResponseSha256": "995f6b0996fa8cf38951771a1bc66f18f9c79ce0fb4d02f8b55ef48be28a5424",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.04589425",
+      "cumulativeReconciledEstimatedSpendUsd": "0.93207825"
+    },
+    {
+      "ordinal": 29,
+      "lockArtifact": {
+        "id": 11255990073,
+        "digest": "sha256:143a461ca0642005e32fe64992cd17af950d02c75c3aeba309d8ff3973793ae0",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-29-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.93207825",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255695424,
+        "digest": "sha256:18544f433c6f23c22e9bbdf3e517786a10b8ee48968f08258417215910c354ec",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-29-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 18293,
+        "input_tokens_details": {
+          "cache_write_tokens": 18290,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4747,
+        "output_tokens_details": {
+          "reasoning_tokens": 3588
+        },
+        "total_tokens": 23040
+      },
+      "manifestSha256": "9885ace3271c4f1767706ac1b663eab69ef703a43a3cbcad0527e77613a1b60c",
+      "statusSha256": "16930a016a59ec9c93152d24fe107516df0deeabdc2faed19b29d1ecb65b6151",
+      "rawResponseSha256": "da4b2533530a9033c5407cb28f68d0f9f4941e944fc675f9d6ad82f4193effed",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0466005",
+      "cumulativeReconciledEstimatedSpendUsd": "0.97867875"
+    },
+    {
+      "ordinal": 30,
+      "lockArtifact": {
+        "id": 11255445809,
+        "digest": "sha256:7fda8007ac957726fc686a10123d32093ceebe11320989e14c3aeb4a85f43100",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-30-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "0.97867875",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255059623,
+        "digest": "sha256:05ca6f3dea2ff605cc63565c70b4b6da6709a67c085dd13767b001100ab95e28",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-30-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 15416,
+        "input_tokens_details": {
+          "cache_write_tokens": 15413,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4871,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 20287
+      },
+      "manifestSha256": "979719c96335ebc3be61caa1e5e0c57cebb67c7db6eab2b4cb818f0eb1bc2524",
+      "statusSha256": "436502bb323106d49cc4756b5c00784acbbe8a8e64f84124cdb6b2b0340a2847",
+      "rawResponseSha256": "9df608f33ae963a6c8e934396f2c71bbc2d336a22c6aaba72a69cbba00cf061f",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.04362425",
+      "cumulativeReconciledEstimatedSpendUsd": "1.02230300"
+    },
+    {
+      "ordinal": 31,
+      "lockArtifact": {
+        "id": 11255044649,
+        "digest": "sha256:e97e9f7a8150acd573e9d9cf52950eaf732ab907a77daf48b83f7e538c33bfd8",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-31-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.02230300",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255024946,
+        "digest": "sha256:d6fc39f621c8f1239b16e3a40cc21bcf0e244ce99a867ac709d3808f4db6caa4",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-31-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14321,
+        "input_tokens_details": {
+          "cache_write_tokens": 14318,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5476,
+        "output_tokens_details": {
+          "reasoning_tokens": 4494
+        },
+        "total_tokens": 19797
+      },
+      "manifestSha256": "eda6d478e5ecddaebc23c72ac24c6ceb28162a49d20a0323d131097511e720a2",
+      "statusSha256": "2989e86e1017f7522cfc045293c50ee26836a63b3c6c74e3662841bf3a0abbf4",
+      "rawResponseSha256": "ec20b02c82ee0e4f4b2d40021d355d07458b9c7692ba9242bbd742d5b2aac5e5",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0452805",
+      "cumulativeReconciledEstimatedSpendUsd": "1.06758350"
+    },
+    {
+      "ordinal": 32,
+      "lockArtifact": {
+        "id": 11255655738,
+        "digest": "sha256:790dffba5a855696c4d833f13608bd58b2f14147bd63e38269023130dca3110f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-32-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.06758350",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255391124,
+        "digest": "sha256:3ebd8aecc881e1fa6982e69f0c094f8133c7ff87c47cbb2ae25393d4ce8d24ed",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-32-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 12829,
+        "input_tokens_details": {
+          "cache_write_tokens": 12826,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5220,
+        "output_tokens_details": {
+          "reasoning_tokens": 3449
+        },
+        "total_tokens": 18049
+      },
+      "manifestSha256": "ce173398f57a15a3e5d5f563512765ee7e49bacffb0d283a221ed26b31ee840b",
+      "statusSha256": "efa2fc71eb6d109c3b2245e62724cc3e649804e22e21f880016e300ddaa552f5",
+      "rawResponseSha256": "33f29bc5ba6ad0845963a41aa8084f7d46753e2541200457c1909e555b83c03f",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0421355",
+      "cumulativeReconciledEstimatedSpendUsd": "1.10971900"
+    },
+    {
+      "ordinal": 33,
+      "lockArtifact": {
+        "id": 11255371216,
+        "digest": "sha256:c90450f8094526d7d9475b6ae30d2b10091f07c53565429de9dd5940c309ee5e",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-33-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.10971900",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255825857,
+        "digest": "sha256:5fd581465c6de7feabbb2223cbdce372fe74e6cf3c2eba6f175abdb25844f596",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-33-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 10269,
+        "input_tokens_details": {
+          "cache_write_tokens": 10266,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3640,
+        "output_tokens_details": {
+          "reasoning_tokens": 2915
+        },
+        "total_tokens": 13909
+      },
+      "manifestSha256": "65922e3b76678f16844fb8a867566d68befb0aea51628c0360daafdd069d7c9d",
+      "statusSha256": "d3dd956982a4f888b33f28dacbdca35ff86d2d644c709ffe5e0dc2eb5b321309",
+      "rawResponseSha256": "490de1710412de4355ed0933ab6f8a41ba25026494fb1bde6c86aa24111e99c0",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0310355",
+      "cumulativeReconciledEstimatedSpendUsd": "1.14075450"
+    },
+    {
+      "ordinal": 34,
+      "lockArtifact": {
+        "id": 11256080552,
+        "digest": "sha256:b7f8c2584a4a0debd5e14ba15bd8fefc3ba86c97e7519a7f99e51e9e1f3f2ffe",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-34-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.14075450",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255660485,
+        "digest": "sha256:918c0ccc94b88c6e5a712bbb9127c070ff87d6aa758af503e7bb6fa97f1c629b",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-34-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 17075,
+        "input_tokens_details": {
+          "cache_write_tokens": 17072,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4352,
+        "output_tokens_details": {
+          "reasoning_tokens": 2913
+        },
+        "total_tokens": 21427
+      },
+      "manifestSha256": "aeddfc7734661b9d4e1fb068eca22b10008a04dfad4a39abf67463aa8dd25f15",
+      "statusSha256": "ba28535bb53ec9c2ed3b44664611f5895f6f9f96445f5cfc8b52cfa0f9f917ed",
+      "rawResponseSha256": "fc2027fb69c9439d08a17ab939684fc85f9810da633169e06cd542c4b80b7049",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.043103",
+      "cumulativeReconciledEstimatedSpendUsd": "1.18385750"
+    },
+    {
+      "ordinal": 35,
+      "lockArtifact": {
+        "id": 11255525584,
+        "digest": "sha256:182415494f44b23eaae75cd0371804204b556078efe8eece75a2afa48c139115",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-35-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.18385750",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255091239,
+        "digest": "sha256:c1bd7cb014a955914214c73951d66936cc6ec0711d04e39af2d5995139d92e9c",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-35-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11767,
+        "input_tokens_details": {
+          "cache_write_tokens": 11764,
+          "cached_tokens": 0
+        },
+        "output_tokens": 6330,
+        "output_tokens_details": {
+          "reasoning_tokens": 5178
+        },
+        "total_tokens": 18097
+      },
+      "manifestSha256": "d61277ccd33b69e2e527dc4c16f20cde7565bd30eaef94b34254801c330c4ceb",
+      "statusSha256": "57e0de0f0f1f870963320e9dfbba44f1875a842f1db9dbbd0d45c63059d6f8d6",
+      "rawResponseSha256": "ffe436546ec715c9f95ec8526de73790bd784c3ce7baf2309299cd2b19a79df0",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.046358",
+      "cumulativeReconciledEstimatedSpendUsd": "1.23021550"
+    },
+    {
+      "ordinal": 36,
+      "lockArtifact": {
+        "id": 11255595611,
+        "digest": "sha256:d6192ac897b2e6ff93d39f05f21d8ce13750eee0b9b47a31677bed14a463a3fd",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-36-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.23021550",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255885503,
+        "digest": "sha256:aec61213a0979703a20396355ede43d14ad571325b99fadc77719d4b3bd8a8c6",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-36-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 10843,
+        "input_tokens_details": {
+          "cache_write_tokens": 10840,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4419,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 15262
+      },
+      "manifestSha256": "d70032271e9a0f9e32468e22f16b1ad3cdb3df685d09d8e33097319da710683c",
+      "statusSha256": "abef3597e7b19b719212a051073053885226074cb730069a0682a70188219c48",
+      "rawResponseSha256": "35ed41528d745db975c9e58b11fa8783b60afa062bba5322bbaec52a30e75aa4",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.035648",
+      "cumulativeReconciledEstimatedSpendUsd": "1.26586350"
+    },
+    {
+      "ordinal": 37,
+      "lockArtifact": {
+        "id": 11255376030,
+        "digest": "sha256:667923ceca2063e50e6056999179681e98d58ccfe41318a4598ddfa3d1b32f37",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-37-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.26586350",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255461797,
+        "digest": "sha256:61c85c84c6b0d53aff696de2dd7d5a283e279f5f9179a32a2d40eafd57caf6fc",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-37-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 17571,
+        "input_tokens_details": {
+          "cache_write_tokens": 17568,
+          "cached_tokens": 0
+        },
+        "output_tokens": 8759,
+        "output_tokens_details": {
+          "reasoning_tokens": 7180
+        },
+        "total_tokens": 26330
+      },
+      "manifestSha256": "5c5807c9988460286dd9b7feebd340e2757d3f760015dc29fa1e7e66538079d2",
+      "statusSha256": "1ec9d0d1bf34150cb8a7aa752436818901f9b6702d15fd56cb00f187c6d20978",
+      "rawResponseSha256": "5a0160de18748f84aaa806816430ac0a10ac1df2183156c56a942e3e698a0ebc",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.065758",
+      "cumulativeReconciledEstimatedSpendUsd": "1.33162150"
+    },
+    {
+      "ordinal": 38,
+      "lockArtifact": {
+        "id": 11256210982,
+        "digest": "sha256:756feb3e6e21cd47907637853d974b480ac9584514d0a5c2e1d0356326b81ad5",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-38-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.33162150",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11256231064,
+        "digest": "sha256:d81f0fc718a6bdb566f286cf613a049f0ad87483ee1833484b9150a26131af3a",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-38-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 13184,
+        "input_tokens_details": {
+          "cache_write_tokens": 13181,
+          "cached_tokens": 0
+        },
+        "output_tokens": 6825,
+        "output_tokens_details": {
+          "reasoning_tokens": 4625
+        },
+        "total_tokens": 20009
+      },
+      "manifestSha256": "fc265bdb9feecd4ac82ea6a3edd3d55861ad23e3b6a5abb61bbaae151f959c5a",
+      "statusSha256": "7fbf8f5a63d91b8993a0ef9383b0cad05d20cfbc2a97ebb05afe1719c4b49cee",
+      "rawResponseSha256": "d37ce6e737dd4cc1a3754b042e59639a49bdf4a3f1e02118e359eeba3a0d0744",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.05060425",
+      "cumulativeReconciledEstimatedSpendUsd": "1.38222575"
+    },
+    {
+      "ordinal": 39,
+      "lockArtifact": {
+        "id": 11255631875,
+        "digest": "sha256:3f2e00582b6095177b31b395553ac1b1d2d021080e9698136da92b5b84822c01",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-39-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.38222575",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11256006585,
+        "digest": "sha256:bb1421d5462b4bcc0703b5ad57ca582018c7f7ca3e443dc4ab4b093fc9bd1f4e",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-39-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 15196,
+        "input_tokens_details": {
+          "cache_write_tokens": 15193,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3965,
+        "output_tokens_details": {
+          "reasoning_tokens": 3106
+        },
+        "total_tokens": 19161
+      },
+      "manifestSha256": "9826874267dad9447cd457e02d1815a5452b3f66a49bfdcdf88912061f423692",
+      "statusSha256": "fd38333d1d8122ae22e2d6d1cd199db5606bcdbc139368930a8e7a23865b2f8a",
+      "rawResponseSha256": "5556e28644aeb708c53d40842fde1a77fd521c96f617781f1d5eb88f195635ed",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.03881925",
+      "cumulativeReconciledEstimatedSpendUsd": "1.42104500"
+    },
+    {
+      "ordinal": 40,
+      "lockArtifact": {
+        "id": 11256246021,
+        "digest": "sha256:f2bd7502d2e2feb463f5a8bab0eccc690a14991474f6bdbccac0892d1cb000de",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-40-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.42104500",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255596190,
+        "digest": "sha256:c8d17a9c26942a546ba3bac2ddfe9cc2bd8f44ebe94d543f4cca40c5cb81ef5a",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-40-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 11305,
+        "input_tokens_details": {
+          "cache_write_tokens": 11302,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4200,
+        "output_tokens_details": {
+          "reasoning_tokens": 3624
+        },
+        "total_tokens": 15505
+      },
+      "manifestSha256": "c99014f143bedc9947f6cafa0dcef8228146ede0c194246a78bf747f3469e87a",
+      "statusSha256": "17e9bcf31e7e313025521f34f24fe66204c300522b48aa7c64b4bbad77b8d4ab",
+      "rawResponseSha256": "3960e94211c3f167addb4a521295e2dd29bdd9c3f846e35b6bd77f3b16376f2a",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0351305",
+      "cumulativeReconciledEstimatedSpendUsd": "1.45617550"
+    },
+    {
+      "ordinal": 41,
+      "lockArtifact": {
+        "id": 11255871026,
+        "digest": "sha256:90e5a9fb6c3cba195cbb13b86dd1bf6d58bbfbe1641b69f2fb69701ea8afbcb9",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-41-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.45617550",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255111880,
+        "digest": "sha256:7d123a3a82b36a8a2f9cdde3e36b85ed2424129ff009cd69bb858e1745ec87ea",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-41-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14148,
+        "input_tokens_details": {
+          "cache_write_tokens": 14145,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5255,
+        "output_tokens_details": {
+          "reasoning_tokens": 4142
+        },
+        "total_tokens": 19403
+      },
+      "manifestSha256": "07dce9ec76a45cf1f02a5a83ca5ab74047ec1c965e0f9e2b2cadf88876ba8264",
+      "statusSha256": "1d834c098734b8bb3163c9dcec82c310fba8da44e4916ac07832ea14a0b05256",
+      "rawResponseSha256": "995e145b8bd9e5aa4df4f67e43762b41301025ef4b26c0e85e8cd8448b426841",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.04395925",
+      "cumulativeReconciledEstimatedSpendUsd": "1.50013475"
+    },
+    {
+      "ordinal": 42,
+      "lockArtifact": {
+        "id": 11255092000,
+        "digest": "sha256:ad9fe193c263a871174112eae9d90ea4deceab143a4a6afdfd36642f73ba103f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-42-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.50013475",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255431813,
+        "digest": "sha256:53a4dc89dcf0fa20a0917e3327f3a9c94e5ef9b9441dba288ebead03a3988228",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-42-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14265,
+        "input_tokens_details": {
+          "cache_write_tokens": 14262,
+          "cached_tokens": 0
+        },
+        "output_tokens": 7302,
+        "output_tokens_details": {
+          "reasoning_tokens": 5696
+        },
+        "total_tokens": 21567
+      },
+      "manifestSha256": "738d5ded5057e0cffe6801ba2c6dee274c0e148032f9e5388c8818b28184da0f",
+      "statusSha256": "5e960534efa1f11c484d2231dd5d6fd7ea54227b1572f4e0458ff812824a45a3",
+      "rawResponseSha256": "a723f7009b399bb56a9b2fca071524d4ff8cd5779d0a7d0b7acca36266929ee2",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0543405",
+      "cumulativeReconciledEstimatedSpendUsd": "1.55447525"
+    },
+    {
+      "ordinal": 43,
+      "lockArtifact": {
+        "id": 11255112218,
+        "digest": "sha256:50e8f54768999cfac18388d5d02aaabc0a15ad0adbfefc218f222af403f53b60",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-43-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.55447525",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11256077349,
+        "digest": "sha256:0af9b218af7dd0904694157d1bdae3ccac751fa9cabc77c3c1eed8cdfbe6f7a8",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-43-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14617,
+        "input_tokens_details": {
+          "cache_write_tokens": 14614,
+          "cached_tokens": 0
+        },
+        "output_tokens": 1676,
+        "output_tokens_details": {
+          "reasoning_tokens": 1034
+        },
+        "total_tokens": 16293
+      },
+      "manifestSha256": "5f01136e47f2288a1ffb0b65c0d2558172e7c2c61e98d62169c572d7dea54c66",
+      "statusSha256": "59a5039a7a2d38ebb74e9058919568a0c94995e6d2f14ebe50e34e162a322141",
+      "rawResponseSha256": "cfebb821dac04572e80d43eabe4fd5cafb29983fa02029988843bc4698d41ea0",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0266505",
+      "cumulativeReconciledEstimatedSpendUsd": "1.58112575"
+    },
+    {
+      "ordinal": 44,
+      "lockArtifact": {
+        "id": 11255637994,
+        "digest": "sha256:9641b9a6e3a882b99bbafbd79468730c4e929649f762571ada213ab788305367",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-44-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.58112575",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255793194,
+        "digest": "sha256:79566904e3818aa37dffd3759cb4f5650fcf3c5f5cc4f4e61587cdf6f149ab8f",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-44-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 20681,
+        "input_tokens_details": {
+          "cache_write_tokens": 20678,
+          "cached_tokens": 0
+        },
+        "output_tokens": 7645,
+        "output_tokens_details": {
+          "reasoning_tokens": 5929
+        },
+        "total_tokens": 28326
+      },
+      "manifestSha256": "3b1ce2e4cb2b163f697f23e3602df51194e9379fd3174bf25553f74aba67a224",
+      "statusSha256": "3d6ba18c0c750138e39a6af0da3d98af9fd7abeb49ab4a68d751d2f64a067a36",
+      "rawResponseSha256": "a53cbe3d187e10c4ff5dec83b1f405aeb4c2654550d3bd3ca2af336db8ea51a2",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.0640755",
+      "cumulativeReconciledEstimatedSpendUsd": "1.64520125"
+    },
+    {
+      "ordinal": 45,
+      "lockArtifact": {
+        "id": 11255698236,
+        "digest": "sha256:1423b98705af5f69b9a8a2da2aee8f65c98d2699385928158b6d17e1dfe4f237",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-45-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.64520125",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11256232769,
+        "digest": "sha256:e4138145370be319ba610796dfddc6738ae4160fb305c56d378034d538290f12",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-45-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 15668,
+        "input_tokens_details": {
+          "cache_write_tokens": 15665,
+          "cached_tokens": 0
+        },
+        "output_tokens": 6263,
+        "output_tokens_details": {
+          "reasoning_tokens": 4660
+        },
+        "total_tokens": 21931
+      },
+      "manifestSha256": "83e9eaf68a0f60e583b65e5a9de7358f0bd33e97a06b94b78baed9abf8ecab52",
+      "statusSha256": "255228488a6ae4ed5e22cb31b94e8be9e32387881e9f3e9f2e8fe10a9c78fb43",
+      "rawResponseSha256": "718412f05679cafc7f28efc6153f82e71429e0ac54cc048507cbd9c07e19ccf3",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.05089925",
+      "cumulativeReconciledEstimatedSpendUsd": "1.69610050"
+    },
+    {
+      "ordinal": 46,
+      "lockArtifact": {
+        "id": 11256023136,
+        "digest": "sha256:846e308763e61ebf8210a4de017758e01fb0d50eef70b02c37ceec40eeb9779d",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-46-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.69610050",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11256078394,
+        "digest": "sha256:a92285479cc9e7b0bac83adbe6481dcae7a27907bde3e69b53fa28438751acd5",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-46-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 13744,
+        "input_tokens_details": {
+          "cache_write_tokens": 13741,
+          "cached_tokens": 0
+        },
+        "output_tokens": 5402,
+        "output_tokens_details": {
+          "reasoning_tokens": 4335
+        },
+        "total_tokens": 19146
+      },
+      "manifestSha256": "0798955dbc1a2313e797ac79968d7540b7d878771d5adcc0779d25b0bdab587b",
+      "statusSha256": "21322e81a0f2af91b7ad308333841427ea6a272e108c671c673a61f8febdfd03",
+      "rawResponseSha256": "8e3e746555103a7abdc4e3586ee1fefc0215d4414d6f2ea861e01cc297a4b512",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.04418925",
+      "cumulativeReconciledEstimatedSpendUsd": "1.74028975"
+    },
+    {
+      "ordinal": 47,
+      "lockArtifact": {
+        "id": 11255633934,
+        "digest": "sha256:2e9b93593b7475dd0a99012d32cb0a88ce9222292d28625fdfbaa9731dd0967d",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-47-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.74028975",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255469441,
+        "digest": "sha256:9e0fe1b2040c5819a89a39855e72e958ba0a99ae1295e8e0d5a5a956242e86df",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-47-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 12415,
+        "input_tokens_details": {
+          "cache_write_tokens": 12412,
+          "cached_tokens": 0
+        },
+        "output_tokens": 6333,
+        "output_tokens_details": {
+          "reasoning_tokens": 4660
+        },
+        "total_tokens": 18748
+      },
+      "manifestSha256": "5598d36eabd2fa4441af41bc3560bbe07e85b7155ac22a9323188d2338c94fa5",
+      "statusSha256": "5ba30d69d5790813876bbcd204f930058abbd8fc3ea0b82bf1bb7becceebeab5",
+      "rawResponseSha256": "e1a11b187e528e9107c08ff14ef3d9a9e15eb3acaa69149f26dc7fab6b689c4d",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.047183",
+      "cumulativeReconciledEstimatedSpendUsd": "1.78747275"
+    },
+    {
+      "ordinal": 48,
+      "lockArtifact": {
+        "id": 11255479373,
+        "digest": "sha256:566454c2bcc4c05e045e6867c002415231adae0cf9cd90d53c223785030ed93b",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-48-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.78747275",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255124979,
+        "digest": "sha256:d3125636f9f9801f63f8b291a544e33df288396bd8d5efaf7a8bebd7e58ee540",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-48-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 12395,
+        "input_tokens_details": {
+          "cache_write_tokens": 12392,
+          "cached_tokens": 0
+        },
+        "output_tokens": 3084,
+        "output_tokens_details": {
+          "reasoning_tokens": 2360
+        },
+        "total_tokens": 15479
+      },
+      "manifestSha256": "389d9246701988fa0c70bd240e1cf1f07bae45b7b1729d6bf6170b6e94d61698",
+      "statusSha256": "507a6fe5bbf9775b442cdacedefa0dd32437dbbe86a4eb11e875c27e205bb31a",
+      "rawResponseSha256": "75fb7a6f4d4433f7e7ccc298eec0b35a7206f453225fc49e3de15cd9bf968027",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.030913",
+      "cumulativeReconciledEstimatedSpendUsd": "1.81838575"
+    },
+    {
+      "ordinal": 49,
+      "lockArtifact": {
+        "id": 11256028834,
+        "digest": "sha256:58d50aa7aefd3777a44ca41d610e8cfb0edb1682c4da270eff31166a4faa8751",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-49-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.81838575",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255844306,
+        "digest": "sha256:a1cbfd7be0699dac792a6062a4a14c349f54f980a3d320d6418cd7584e3032ef",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-49-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14075,
+        "input_tokens_details": {
+          "cache_write_tokens": 14072,
+          "cached_tokens": 0
+        },
+        "output_tokens": 4238,
+        "output_tokens_details": {
+          "reasoning_tokens": 3019
+        },
+        "total_tokens": 18313
+      },
+      "manifestSha256": "a02e0037bde0a3c6ee4ff036f6b98896b41bcf167fb6d006a583b49849f9a65f",
+      "statusSha256": "c533a06dc8f4a85ca6ef1080c6a0f2d5fce87ec2e894a5e154affcdf787aade8",
+      "rawResponseSha256": "0f9fda6c3f8c6f208e615dc8f3b7ad5b7358466c0f0536edf747408d70d6ae2c",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.038783",
+      "cumulativeReconciledEstimatedSpendUsd": "1.85716875"
+    },
+    {
+      "ordinal": 50,
+      "lockArtifact": {
+        "id": 11255819339,
+        "digest": "sha256:986d15205014ca45855b714fb169b199c8ba99c0742d50ec30e39c2e85ced277",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-50-attempt-lock"
+      },
+      "reservationUsd": "0.225",
+      "ledgerBeforeReconciledUsd": "1.85716875",
+      "providerCallConfirmed": true,
+      "resultArtifact": {
+        "id": 11255844421,
+        "digest": "sha256:3d325e28586de60eff3d0dcf7c1a13fada7afea0440ec746a68a0b4fb59d322b",
+        "name": "trackcade-stage1-v8-remaining46-v1-case-50-result"
+      },
+      "classification": "provider_completed_validated_v8_flex25000_remaining46_no_retry",
+      "reconciled": true,
+      "artifactOutcome": "completed-valid",
+      "usage": {
+        "input_tokens": 14434,
+        "input_tokens_details": {
+          "cache_write_tokens": 14431,
+          "cached_tokens": 0
+        },
+        "output_tokens": 6789,
+        "output_tokens_details": {
+          "reasoning_tokens": 5178
+        },
+        "total_tokens": 21223
+      },
+      "manifestSha256": "da2d4ed5c4e5cab033d5ef323777a00b6d58a697e1731a048de49de188134934",
+      "statusSha256": "cc282309015803ade61347f0fa8d8f3db90adc7cb2b6a75cb7b95cf3510934dc",
+      "rawResponseSha256": "9ae9aa2d67484cd6a2c74a5f36effab8908159ef3557bd5ef7252309fa99cda5",
+      "errors": [],
+      "budgetIntegrityError": null,
+      "verifiedEstimatedCostUsd": "0.05198675",
+      "cumulativeReconciledEstimatedSpendUsd": "1.90915550"
+    }
+  ],
+  "providerCallsConfirmed": 46,
+  "uncertainAttemptOrdinals": [],
+  "completedValidCases": 46,
+  "highestOrdinalWithLock": 50,
+  "highestConfirmedProviderOrdinal": 50,
+  "finalReconciledOrdinal": 50,
+  "cumulativeReconciledEstimatedSpendUsd": "1.90915550",
+  "knownAttemptEstimatedSpendUsd": "1.90915550",
+  "unknownCostOrdinals": [],
+  "unresolvedReservationOrdinals": [],
+  "unresolvedReservationUsd": "0.000",
+  "remainingUnderAuthorizedCeilingAfterReconciliationUsd": "1.59084450",
+  "remainingAfterRetainedReservationsUsd": "1.59084450",
+  "allOrdinals5Through50Completed": true,
+  "failureSteps": [],
+  "laterOrdinalsUnattempted": [],
+  "retries": 0,
+  "fallbacks": 0,
+  "labelsOpened": false,
+  "terminalHoldoutAccessed": false,
+  "semanticScoring": false,
+  "analyzerExecutedOrModified": false,
+  "compilerInvoked": false,
+  "semanticProviderContractChanged": false,
+  "scientificRecommendation": "A preserved: V7 1\u20133 predecessor observations, V8 from4, explicit mixed-cap provenance.",
+  "actualProviderAccountBalanceInspectedOrInferred": false,
+  "stop": "Execution finished/stopped. Authorization and activation consumed; no retry, rerun, resume, skip-ahead or additional provider calls authorized.",
+  "providerFreeAuditResult": {
+    "runId": 37068635961,
+    "passed": 36,
+    "failures": 0,
+    "errors": 0,
+    "historicalRunId": 37068635993,
+    "historicalPassed": 16
+  },
+  "frozenEstimatedPricingUsdPerMillionTokens": {
+    "uncachedInput": "1",
+    "cacheWriteInput": "1.25",
+    "cachedInput": "0.1",
+    "outputIncludingReasoning": "5",
+    "formula": "(input - cache_write - cached + 1.25*cache_write + 0.1*cached + 5*output)/1000000; reasoning is included in output, never added again."
+  },
+  "evidenceVerification": {
+    "immutableZipDigestsVerified": true,
+    "resultManifestClosureVerified": true,
+    "rawUsageMatchesStatus": true,
+    "existingFrozenUsageEstimatorApplied": true,
+    "precedingReconciledArtifactLedgerMatchesExactly": true,
+    "lockVerifiedBeforeProviderStep": true,
+    "allCompletedCasesRequireSuccessfulUploadedResultProgressionGate": true,
+    "fullRawInputAndResponseContentKeptInImmutableArtifactsOnly": true
+  }
+}
