@@ -1,0 +1,117 @@
+{
+  "name": "Trackcade V8 \u2014 One ordinal04 budget diagnostic",
+  "on": {
+    "push": {
+      "branches": [
+        "trackcade-semantic-external-holdout-v1"
+      ],
+      "paths": [
+        "research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_ACTIVATE_V1.json"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "concurrency": {
+    "group": "trackcade-stage1-v8-ordinal04-budget-v1-paid",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "diagnostic": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 25,
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "V8_FROZEN_INPUT": "/tmp/v8-frozen-input"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "fetch-depth": 0,
+            "persist-credentials": false,
+            "sparse-checkout-cone-mode": false,
+            "sparse-checkout": "/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py\n/research/learned-interpretation-v1/validate_learned_proposal_v7.py\n/research/learned-interpretation-v1/validate_learned_proposal_v3.py\n/research/learned-interpretation-v1/validate_learned_proposal_v1.py\n/research/learned-interpretation-v1/openai_responses_adapter_v1.py\n/research/learned-interpretation-v1/build_learned_request_v1.py\n/research/learned-interpretation-v1/build_learned_request_v2.py\n/research/learned-interpretation-v1/build_learned_request_v3.py\n/research/learned-interpretation-v1/build_learned_request_v5.py\n/research/learned-interpretation-v1/build_learned_request_v6.py\n/research/learned-interpretation-v1/build_learned_request_v7.py\n/research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_FORENSIC_AUTOPSY_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_CONTRACT_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_AUTHORIZATION_V1.json\n/research/semantic-external-holdout-v1/run_stage1_v8_ordinal04_budget_v1.py\n/research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py\n/research/semantic-external-holdout-v1/test_stage1_v8_ordinal04_budget_v1.py\n/.github/workflows/trackcade-semantic-external-stage1-v8-ordinal04-budget-v1.yml\n/.github/workflows/trackcade-semantic-external-stage1-v8-ordinal04-static-audit-v1.yml\n/research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_ACTIVATE_V1.json"
+          }
+        },
+        {
+          "name": "Verify frozen retry evidence identity without provider credential",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "run": "python -B research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py --verify-evidence"
+        },
+        {
+          "name": "Retrieve only frozen ordinal4 evidence",
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-attempted-no-valid-response",
+            "path": "/tmp/v8-frozen-input",
+            "repository": "${{ github.repository }}",
+            "run-id": 36940271204,
+            "github-token": "${{ github.token }}"
+          }
+        },
+        {
+          "name": "Audit immutable source and one-use history before credentials",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "run": "python -B research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py --live-preflight"
+        },
+        {
+          "name": "Reserve ordinal4 without credential",
+          "run": "python -B research/semantic-external-holdout-v1/run_stage1_v8_ordinal04_budget_v1.py --ordinal 4 --output /tmp/v8-ordinal04 --lock /tmp/v8-lock/attempt-lock.json --mode prepare"
+        },
+        {
+          "name": "Persist immutable attempt lock",
+          "id": "lock",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v8-ordinal04-budget-v1-attempt-lock",
+            "path": "/tmp/v8-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "name": "Verify uploaded immutable lock before credential exposure",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock.outputs.artifact-id }}"
+          },
+          "run": "python -B research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py --uploaded-lock /tmp/v8-lock/uploaded.json"
+        },
+        {
+          "name": "Exactly one V8 ordinal4 provider call",
+          "id": "live",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock.outputs.artifact-id }}"
+          },
+          "run": "python -B research/semantic-external-holdout-v1/run_stage1_v8_ordinal04_budget_v1.py --ordinal 4 --output /tmp/v8-ordinal04 --lock /tmp/v8-lock/attempt-lock.json --mode run --uploaded-lock /tmp/v8-lock/uploaded.json"
+        },
+        {
+          "name": "Freeze exact diagnostic evidence",
+          "id": "result",
+          "if": "${{ always() && steps.live.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v8-ordinal04-budget-v1-result",
+            "path": "/tmp/v8-ordinal04",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "name": "Stop after ordinal4",
+          "run": "python -B research/semantic-external-holdout-v1/run_stage1_v8_ordinal04_budget_v1.py --ordinal 4 --output /tmp/v8-ordinal04 --lock /tmp/v8-lock/attempt-lock.json --mode check"
+        }
+      ]
+    }
+  }
+}

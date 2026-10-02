@@ -1,0 +1,22 @@
+{
+  "schema": "trackcade-stage1-v8-ordinal04-authorization-v1",
+  "authorized": true,
+  "ordinal": 4,
+  "maximumProviderAttempts": 1,
+  "retries": 0,
+  "source": "Nicholas current explicit conditional authorization: only after forensic truncation support and all provider-free audits pass.",
+  "providerContract": {
+    "provider": "openai",
+    "api": "responses",
+    "model": "gpt-6-sol",
+    "reasoningEffort": "high",
+    "maxOutputTokens": 25000,
+    "serviceTier": "flex",
+    "store": false
+  },
+  "conditions": [
+    "forensic-clean-visible-output-cap-truncation",
+    "provider-free-static-conformance-pass"
+  ],
+  "ordinals5Through50Authorized": false
+}

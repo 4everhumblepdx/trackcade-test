@@ -1,0 +1,73 @@
+{
+  "name": "Trackcade V8 \u2014 Provider-free ordinal04 conformance",
+  "on": {
+    "push": {
+      "branches": [
+        "trackcade-semantic-external-holdout-v1"
+      ],
+      "paths": [
+        ".github/workflows/trackcade-semantic-external-stage1-v8-ordinal04-budget-v1.yml",
+        ".github/workflows/trackcade-semantic-external-stage1-v8-ordinal04-static-audit-v1.yml",
+        "research/semantic-external-holdout-v1/*v8*",
+        "research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_CONTRACT_V1.json",
+        "research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_AUTHORIZATION_V1.json"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "jobs": {
+    "audit": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 10,
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "V8_FROZEN_INPUT": "/tmp/v8-frozen-input"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "fetch-depth": 0,
+            "persist-credentials": false,
+            "sparse-checkout-cone-mode": false,
+            "sparse-checkout": "/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py\n/research/learned-interpretation-v1/validate_learned_proposal_v7.py\n/research/learned-interpretation-v1/validate_learned_proposal_v3.py\n/research/learned-interpretation-v1/validate_learned_proposal_v1.py\n/research/learned-interpretation-v1/openai_responses_adapter_v1.py\n/research/learned-interpretation-v1/build_learned_request_v1.py\n/research/learned-interpretation-v1/build_learned_request_v2.py\n/research/learned-interpretation-v1/build_learned_request_v3.py\n/research/learned-interpretation-v1/build_learned_request_v5.py\n/research/learned-interpretation-v1/build_learned_request_v6.py\n/research/learned-interpretation-v1/build_learned_request_v7.py\n/research/semantic-external-holdout-v1/STAGE1_V7_ORDINAL04_FORENSIC_AUTOPSY_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_CONTRACT_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_AUTHORIZATION_V1.json\n/research/semantic-external-holdout-v1/run_stage1_v8_ordinal04_budget_v1.py\n/research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py\n/research/semantic-external-holdout-v1/test_stage1_v8_ordinal04_budget_v1.py\n/.github/workflows/trackcade-semantic-external-stage1-v8-ordinal04-budget-v1.yml\n/.github/workflows/trackcade-semantic-external-stage1-v8-ordinal04-static-audit-v1.yml"
+          }
+        },
+        {
+          "name": "Verify frozen retry evidence identity without provider credential",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "run": "python -B research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py --verify-evidence"
+        },
+        {
+          "name": "Retrieve only frozen ordinal4 evidence",
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-04-retry-01-attempted-no-valid-response",
+            "path": "/tmp/v8-frozen-input",
+            "repository": "${{ github.repository }}",
+            "run-id": 36940271204,
+            "github-token": "${{ github.token }}"
+          }
+        },
+        {
+          "name": "Provider-free static and synthetic conformance",
+          "run": "python -B research/semantic-external-holdout-v1/audit_stage1_v8_ordinal04_budget_v1.py --report /tmp/v8-audit.json"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v8-ordinal04-provider-free-audit-v1",
+            "path": "/tmp/v8-audit.json",
+            "if-no-files-found": "error",
+            "retention-days": 90
+          }
+        }
+      ]
+    }
+  }
+}
