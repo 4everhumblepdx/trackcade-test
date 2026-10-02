@@ -68,7 +68,10 @@
     "No account balance inspected or inferred.",
     "Token forecasts extrapolate only the stated observed V7/V8 cases; no V5 historical usage or new provider estimates used.",
     "Byte-envelope/input allowance is a deliberately conservative engineering estimate, not a provider-tokenization or billing guarantee.",
-    "Reservations are never refunded; lower actual usage does not permit extra calls. Unknown usage or over-reservation cost closes execution before any later call.",
-    "A smaller future approved ceiling will stop before all 46 calls if the next fixed reservation does not fit."
-  ]
+    "A smaller future approved ceiling will stop before all 46 calls if the next fixed reservation does not fit.",
+    "The temporary $0.225 reservation is replaced with verified estimated cost only after immutable uploaded result and usage verification. Missing, invalid or uncertain evidence retains the reservation and stops. $10.35 is conservative maximum capacity, not mandatory minimum approval."
+  ],
+  "budgetAccounting": "reserve-then-reconcile-v2",
+  "conservativeGuardIsMandatoryMinimumAuthorization": false,
+  "v8Ordinal4RepeatPeakPreCallRequiredCeilingUsd": "3.1178475"
 }

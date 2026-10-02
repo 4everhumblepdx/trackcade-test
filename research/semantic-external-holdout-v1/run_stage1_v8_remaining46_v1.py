@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Inert V8 ordinals 5â€“50; one attempt, frozen results, non-refundable budget reservations."""
+"""Inert V8 ordinals 5-50; one attempt, freeze-before-reconcile budget accounting."""
 import argparse,json,os,sys
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
@@ -17,6 +17,7 @@ WORK=Path(os.environ.get('V8_CONT_WORK','/tmp/v8-continuation'))
 SOURCE=Path(os.environ.get('V8_SOURCE_PREP','/tmp/v8-source-prep'))
 FLEX=Path(os.environ.get('V8_FLEX_PREP','/tmp/v8-flex-prep'))
 RESERVATION=Decimal('0.225')
+ACCOUNTING='reserve-then-reconcile-v2'
 sha_bytes,sha,load,now,save_json=base.sha_bytes,base.sha,base.load,base.now,base.save_json
 urllib,uuid,subprocess=base.urllib,base.uuid,base.subprocess
 
@@ -32,7 +33,7 @@ def ordinal(value):
     return value
 
 def gate(auth,act):
-    expected={'ordinals':list(range(5,51)),'maximumInitialProviderAttempts':46,'retries':0,'ordinals1Through4Authorized':False,'providerContract':CONTRACT['providerContract']}
+    expected={'ordinals':list(range(5,51)),'maximumInitialProviderAttempts':46,'retries':0,'ordinals1Through4Authorized':False,'providerContract':CONTRACT['providerContract'],'budgetAccounting':ACCOUNTING}
     base.exact(auth,{'schema':'trackcade-stage1-v8-remaining46-authorization-v1','authorized':True,**expected})
     base.exact(act,{'schema':'trackcade-stage1-v8-remaining46-activation-v1','activate':True,**expected})
     if auth.get('templateOnly') or act.get('templateOnly'):raise ValueError('templates cannot execute')
@@ -60,12 +61,36 @@ def frozen_case(n):
 
 def ledger_for_next(ledger,n,budget):
     ordinal(n)
-    base.exact(ledger,{'schema':'trackcade-stage1-v8-remaining46-ledger-v1','runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':n-1,'estimatedSpendCeilingUsd':str(budget)})
-    charged=decimal_usd(ledger['chargedUsd']);known=decimal_usd(ledger['knownEstimatedSpendUsd'])
-    if charged!=RESERVATION*(n-5) or known>charged:raise ValueError('ledger sequence, reservation or known-spend mismatch')
-    if n>5 and (not ledger.get('resultArtifactId') or not ledger.get('resultArtifactDigest')):raise ValueError('missing predecessor frozen result')
-    if charged+RESERVATION>budget:raise ValueError('next worst-case reservation exceeds authorized estimated ceiling')
-    return charged+RESERVATION
+    base.exact(ledger,{'schema':'trackcade-stage1-v8-remaining46-ledger-v2','budgetAccounting':ACCOUNTING,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':n-1,'estimatedSpendCeilingUsd':str(budget)})
+    entries=ledger.get('reconciledAttempts')
+    if not isinstance(entries,list) or len(entries)!=n-5:raise ValueError('reconciled sequence mismatch')
+    total=Decimal('0');ids=set()
+    for previous,entry in enumerate(entries,5):
+        out=location(previous);status=load(out/'status.json');base.verify_files_manifest(out)
+        base.exact(entry,{'ordinal':previous,'statusSha256':sha(out/'status.json'),'manifestSha256':sha(out/'FILES_SHA256.txt')})
+        if not entry.get('resultArtifactId') or entry['resultArtifactId'] in ids or not str(entry.get('resultArtifactDigest','')).startswith('sha256:'):raise ValueError('missing or duplicated frozen result identity')
+        ids.add(entry['resultArtifactId'])
+        base.exact(status['ledgerBefore'],{'schema':ledger['schema'],'budgetAccounting':ACCOUNTING,'runId':ledger['runId'],'commit':ledger['commit'],'lastCompletedOrdinal':previous-1,'estimatedSpendCeilingUsd':str(budget),'reconciledEstimatedSpendUsd':str(total),'reconciledAttempts':entries[:previous-5]})
+        cost=frozen_result_cost(previous,status)
+        if decimal_usd(entry['estimatedCostUsd'])!=cost:raise ValueError('reconciled cost does not match frozen usage')
+        total+=cost
+    if decimal_usd(ledger['reconciledEstimatedSpendUsd'])!=total:raise ValueError('reconciled cumulative spend mismatch')
+    if entries:base.exact(ledger,{'resultArtifactId':entries[-1]['resultArtifactId'],'resultArtifactDigest':entries[-1]['resultArtifactDigest']})
+    elif total or ledger.get('resultArtifactId') is not None or ledger.get('resultArtifactDigest') is not None:raise ValueError('nonempty initial ledger')
+    if total+RESERVATION>budget:raise ValueError('next worst-case reservation exceeds authorized estimated ceiling')
+    return total+RESERVATION
+
+def frozen_result_cost(n,status):
+    out=location(n)
+    base.exact(status,{'schema':'trackcade-stage1-v8-remaining46-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':CONTRACT['providerContract'],'classification':SUCCESS_CLASSIFICATION,'artifactOutcome':'completed-valid','proposalValidated':True,'providerCallAttempted':True,'observedProviderStatus':'completed','observedProviderModel':'gpt-6-sol','observedProviderServiceTier':'flex','validatorExitCode':0,'errors':[]})
+    if status.get('budgetIntegrityError'):raise ValueError('budget integrity failure; no reconciliation')
+    raw=load(out/'raw-response.json')
+    if sha(out/'raw-response.json')!=status['rawResponseSha256'] or raw.get('usage')!=status['usage']:raise ValueError('usage does not match frozen provider evidence')
+    if sha(out/'normalized-proposal.json')!=status['normalizedProposalSha256']:raise ValueError('proposal identity changed')
+    if load(out/'validation-report.json').get('status')!='valid':raise ValueError('validator receipt not valid')
+    cost=estimate_usage(status['usage'])
+    if cost>RESERVATION or decimal_usd(status['observedEstimatedCostUsd'])!=cost:raise ValueError('invalid frozen estimated cost; reservation retained')
+    return cost
 
 def estimate_usage(usage):
     if not isinstance(usage,dict):raise ValueError('unknown usage; stop with reservation retained')
@@ -82,7 +107,7 @@ def lockfile(n):return WORK/f'{ordinal(n):02d}-lock'/'attempt-lock.json'
 def ledger_path():return WORK/'ledger.json'
 
 def verify_lock(n,lock,artifact):
-    base.exact(lock,{'schema':'trackcade-stage1-v8-remaining46-attempt-lock-v1','ordinal':ordinal(n),'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':CONTRACT['providerContract']})
+    base.exact(lock,{'schema':'trackcade-stage1-v8-remaining46-attempt-lock-v1','budgetAccounting':ACCOUNTING,'ordinal':ordinal(n),'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':CONTRACT['providerContract']})
     base.exact(artifact,{'id':int(os.environ['LOCK_ARTIFACT_ID']),'name':f'{NAMESPACE}-case-{n:02d}-attempt-lock','expired':False})
     base.exact(artifact.get('workflow_run') or {},{'id':int(os.environ['GITHUB_RUN_ID']),'head_sha':os.environ['GITHUB_SHA']})
     if not str(artifact.get('digest','')).startswith('sha256:'):raise ValueError('lock has no immutable digest')
@@ -90,7 +115,7 @@ def verify_lock(n,lock,artifact):
 def initialize(budget):
     if os.environ.get('OPENAI_API_KEY'):raise ValueError('credential present before reservation')
     WORK.mkdir(parents=True,exist_ok=False)
-    save_json(ledger_path(),{'schema':'trackcade-stage1-v8-remaining46-ledger-v1','runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':4,'chargedUsd':'0','knownEstimatedSpendUsd':'0','estimatedSpendCeilingUsd':str(budget),'resultArtifactId':None,'resultArtifactDigest':None})
+    save_json(ledger_path(),{'schema':'trackcade-stage1-v8-remaining46-ledger-v2','budgetAccounting':ACCOUNTING,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':4,'reconciledEstimatedSpendUsd':'0','reconciledAttempts':[],'estimatedSpendCeilingUsd':str(budget),'resultArtifactId':None,'resultArtifactDigest':None})
 
 def prepare(n,budget):
     if os.environ.get('OPENAI_API_KEY'):raise ValueError('credential exposed before lock creation')
@@ -99,9 +124,9 @@ def prepare(n,budget):
     for key,name in [('request','learned-request-v7.json'),('packet','structure-evidence-v2.json'),('flexPayload','openai-payload-v7-flex8192.json')]:
         (out/name).write_bytes(paths[key].read_bytes())
     (out/'openai-payload-v8-flex25000.json').write_bytes(payload)
-    save_json(out/'status.json',{'schema':'trackcade-stage1-v8-remaining46-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':CONTRACT['providerContract'],'classification':'offline_reserved_no_provider_call','providerCallAttempted':False,'providerResponseObserved':False,'providerCompletedSemanticResponse':False,'proposalValidated':False,'errors':[],'retryAuthorized':False,'standardFallbackUsed':False,'referenceLabelsRead':False,'scoringPerformed':False,'terminalTracksProcessed':False,'stage1ReferencesOpened':False,'analyzerExecuted':False,'analyzerChanged':False,'compilerInvoked':False,'ledgerBefore':ledger,'chargedUsdAfterAttempt':str(charge),'reservationUsd':str(RESERVATION),'onlyMaxOutputTokensChanged':True})
+    save_json(out/'status.json',{'schema':'trackcade-stage1-v8-remaining46-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':CONTRACT['providerContract'],'classification':'offline_reserved_no_provider_call','providerCallAttempted':False,'providerResponseObserved':False,'providerCompletedSemanticResponse':False,'proposalValidated':False,'errors':[],'retryAuthorized':False,'standardFallbackUsed':False,'referenceLabelsRead':False,'scoringPerformed':False,'terminalTracksProcessed':False,'stage1ReferencesOpened':False,'analyzerExecuted':False,'analyzerChanged':False,'compilerInvoked':False,'ledgerBefore':ledger,'reservedCeilingUsdDuringAttempt':str(charge),'budgetAccounting':ACCOUNTING,'reservationUsd':str(RESERVATION),'onlyMaxOutputTokensChanged':True})
     lockfile(n).parent.mkdir(exist_ok=False)
-    save_json(lockfile(n),{'schema':'trackcade-stage1-v8-remaining46-attempt-lock-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':CONTRACT['providerContract'],'ledgerBefore':ledger,'submittedPayloadSha256':row['v8PayloadSha256']})
+    save_json(lockfile(n),{'schema':'trackcade-stage1-v8-remaining46-attempt-lock-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':CONTRACT['providerContract'],'budgetAccounting':ACCOUNTING,'ledgerBefore':ledger,'submittedPayloadSha256':row['v8PayloadSha256']})
 
 def run(n,budget):
     out=location(n);lock=load(lockfile(n));verify_lock(n,lock,load(lockfile(n).parent/'uploaded.json'))
@@ -135,15 +160,15 @@ def advance(n,budget,artifact):
     base.exact(artifact,{'id':int(os.environ['RESULT_ARTIFACT_ID']),'name':f'{NAMESPACE}-case-{n:02d}-result','expired':False})
     base.exact(artifact.get('workflow_run') or {},{'id':int(os.environ['GITHUB_RUN_ID']),'head_sha':os.environ['GITHUB_SHA']})
     if not str(artifact.get('digest','')).startswith('sha256:'):raise ValueError('immutable result digest missing')
-    base.exact(status,{'schema':'trackcade-stage1-v8-remaining46-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':CONTRACT['providerContract'],'classification':SUCCESS_CLASSIFICATION,'artifactOutcome':'completed-valid','proposalValidated':True,'providerCallAttempted':True,'observedProviderStatus':'completed','observedProviderModel':'gpt-6-sol','observedProviderServiceTier':'flex','validatorExitCode':0,'errors':[]})
-    if status.get('budgetIntegrityError'):raise ValueError('budget integrity failure; no progression')
-    if sha(out/'normalized-proposal.json')!=status['normalizedProposalSha256']:raise ValueError('proposal identity changed')
-    if load(out/'validation-report.json').get('status')!='valid':raise ValueError('validator receipt not valid')
+    cost=frozen_result_cost(n,status)
     ledger=load(ledger_path());charge=ledger_for_next(ledger,n,budget)
     if status['ledgerBefore']!=ledger:raise ValueError('result does not bind current predecessor ledger')
-    cost=estimate_usage(status['usage'])
+    base.exact(status,{'budgetAccounting':ACCOUNTING,'reservedCeilingUsdDuringAttempt':str(charge),'reservationUsd':str(RESERVATION)})
     if cost>RESERVATION or charge>budget:raise ValueError('budget exceeded; stop')
-    next_ledger={**ledger,'lastCompletedOrdinal':n,'chargedUsd':str(charge),'knownEstimatedSpendUsd':str(decimal_usd(ledger['knownEstimatedSpendUsd'])+cost),'resultArtifactId':artifact['id'],'resultArtifactDigest':artifact['digest']}
+    verify_lock(n,load(lockfile(n)),load(lockfile(n).parent/'uploaded.json'))
+    if load(lockfile(n))['ledgerBefore']!=ledger:raise ValueError('lock ledger mismatch; reservation retained')
+    entry={'ordinal':n,'estimatedCostUsd':str(cost),'resultArtifactId':artifact['id'],'resultArtifactDigest':artifact['digest'],'statusSha256':sha(out/'status.json'),'manifestSha256':sha(out/'FILES_SHA256.txt')}
+    next_ledger={**ledger,'lastCompletedOrdinal':n,'reconciledEstimatedSpendUsd':str(decimal_usd(ledger['reconciledEstimatedSpendUsd'])+cost),'reconciledAttempts':ledger['reconciledAttempts']+[entry],'resultArtifactId':artifact['id'],'resultArtifactDigest':artifact['digest']}
     temp=WORK/'ledger-next.json';save_json(temp,next_ledger);temp.replace(ledger_path())
 
 def main():

@@ -99,10 +99,11 @@
     "conservativeInputAllowanceTokens": 76428,
     "payloadByteEnvelopeOverheadAllowance": 4096,
     "fullOutputAllowanceTokens": 25000,
-    "noReservationRefunds": true,
     "unknownOrInvalidUsageStops": true,
     "observedCostAboveReservationStops": true,
-    "guardIsEstimatedNotAccountBillingLimit": true
+    "guardIsEstimatedNotAccountBillingLimit": true,
+    "reconcileOnlyAfterVerifiedImmutableResult": true,
+    "unresolvedReservationRetainedAndStops": true
   },
   "pricingSnapshot": {
     "uncachedInputUsdPerMillion": 1.0,
@@ -111,5 +112,6 @@
     "outputIncludingReasoningUsdPerMillion": 5.0,
     "cacheWriteAlternativeNotAdditive": true
   },
-  "stopPolicy": "Stop on every incomplete, invalid, provider/transport error, unexpected usage, contract/integrity failure, budget failure, or result/lock freeze failure. Persist failure evidence when possible; never retry or resume this workflow."
+  "stopPolicy": "Stop on every incomplete, invalid, provider/transport error, unexpected usage, contract/integrity failure, budget failure, or result/lock freeze failure. Persist failure evidence when possible; never retry or resume this workflow.",
+  "budgetAccounting": "reserve-then-reconcile-v2"
 }

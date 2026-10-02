@@ -8,9 +8,9 @@ import run_stage1_v8_remaining46_v1 as r
 class InertContinuationTests(unittest.TestCase):
     def env(self):return mock.patch.dict(os.environ,{'GITHUB_RUN_ID':'123','GITHUB_SHA':'synthetic','GITHUB_REF':r.base.BRANCH,'GITHUB_EVENT_NAME':'push','GITHUB_RUN_ATTEMPT':'1'},clear=True)
     def receipts(self):
-        common={'ordinals':list(range(5,51)),'maximumInitialProviderAttempts':46,'retries':0,'ordinals1Through4Authorized':False,'providerContract':copy.deepcopy(r.CONTRACT['providerContract']),'estimatedSpendCeilingUsd':'10.35'}
+        common={'budgetAccounting':r.ACCOUNTING,'ordinals':list(range(5,51)),'maximumInitialProviderAttempts':46,'retries':0,'ordinals1Through4Authorized':False,'providerContract':copy.deepcopy(r.CONTRACT['providerContract']),'estimatedSpendCeilingUsd':'10.35'}
         return {'schema':'trackcade-stage1-v8-remaining46-authorization-v1','authorized':True,**copy.deepcopy(common)},{'schema':'trackcade-stage1-v8-remaining46-activation-v1','activate':True,**copy.deepcopy(common)}
-    def ledger(self,n=5):return {'schema':'trackcade-stage1-v8-remaining46-ledger-v1','runId':'123','commit':'synthetic','lastCompletedOrdinal':n-1,'estimatedSpendCeilingUsd':'10.35','chargedUsd':str(r.RESERVATION*(n-5)),'knownEstimatedSpendUsd':'0','resultArtifactId':77 if n>5 else None,'resultArtifactDigest':'sha256:prior' if n>5 else None}
+    def ledger(self):return {'schema':'trackcade-stage1-v8-remaining46-ledger-v2','budgetAccounting':r.ACCOUNTING,'runId':'123','commit':'synthetic','lastCompletedOrdinal':4,'estimatedSpendCeilingUsd':'10.35','reconciledEstimatedSpendUsd':'0','reconciledAttempts':[],'resultArtifactId':None,'resultArtifactDigest':None}
     def usage(self):return {'input_tokens':12921,'output_tokens':9627,'total_tokens':22548,'input_tokens_details':{'cache_write_tokens':12918,'cached_tokens':0},'output_tokens_details':{'reasoning_tokens':7768}}
     def test_no_activation_or_real_authorization(self):self.assertFalse(r.ACT.exists());self.assertFalse(r.AUTH.exists())
     def test_templates_cannot_authorize(self):
@@ -31,7 +31,7 @@ class InertContinuationTests(unittest.TestCase):
         with self.env():self.assertEqual(r.gate(*self.receipts()),Decimal('10.35'))
     def test_gate_rejects_scope_retries_template_contract_drift(self):
         with self.env():
-            for key,value in [('authorized',False),('templateOnly',True),('ordinals',list(range(4,51))),('retries',1),('maximumInitialProviderAttempts',47),('ordinals1Through4Authorized',True)]:
+            for key,value in [('authorized',False),('templateOnly',True),('budgetAccounting','old'),('ordinals',list(range(4,51))),('retries',1),('maximumInitialProviderAttempts',47),('ordinals1Through4Authorized',True)]:
                 a,x=self.receipts();a[key]=value
                 with self.subTest(key=key),self.assertRaises(ValueError):r.gate(a,x)
             for key,value in [('maxOutputTokens',8192),('model','other'),('reasoningEffort','low'),('serviceTier','standard'),('store',True)]:
@@ -52,20 +52,84 @@ class InertContinuationTests(unittest.TestCase):
             ledger=self.ledger();ledger['estimatedSpendCeilingUsd']='0.225'
             self.assertEqual(r.ledger_for_next(ledger,5,Decimal('0.225')),Decimal('0.225'))
             with self.assertRaises(ValueError):r.ledger_for_next(ledger,5,Decimal('0.224999'))
-    def test_all46_conservative_reservations_fit_exact_10_35(self):
-        with self.env():
-            for n in range(5,51):self.assertEqual(r.ledger_for_next(self.ledger(n),n,Decimal('10.35')),r.RESERVATION*(n-4))
-            self.assertEqual(r.RESERVATION*46,Decimal('10.350'))
     def test_stale_wrong_run_skipped_and_tampered_ledger_fail(self):
         with self.env():
-            for key,value in [('runId','999'),('commit','other'),('lastCompletedOrdinal',5),('chargedUsd','0.001'),('knownEstimatedSpendUsd','0.01')]:
+            for key,value in [('schema','trackcade-stage1-v8-remaining46-ledger-v1'),('budgetAccounting','old'),('runId','999'),('commit','other'),('lastCompletedOrdinal',5),('reconciledEstimatedSpendUsd','0.001'),('reconciledAttempts',[{}]),('resultArtifactId',1)]:
                 l=self.ledger();l[key]=value
                 with self.subTest(key=key),self.assertRaises(ValueError):r.ledger_for_next(l,5,Decimal('10.35'))
-            l=self.ledger(6);l['resultArtifactId']=None
-            with self.assertRaises(ValueError):r.ledger_for_next(l,6,Decimal('10.35'))
-    def test_no_refund_from_lower_actual_cost(self):
-        with self.env():
-            ledger=self.ledger(6);self.assertEqual(r.ledger_for_next(ledger,6,Decimal('10.35')),Decimal('0.450'))
+    def valid_attempt(self,out,status,p,validator):
+        (out/'normalized-proposal.json').write_bytes(b'{}\n');r.save_json(out/'validation-report.json',{'status':'valid','errors':[]})
+        r.save_json(out/'raw-response.json',{'status':'completed','model':'gpt-6-sol','service_tier':'flex','usage':self.usage()})
+        status.update({'providerCallAttempted':True,'classification':r.SUCCESS_CLASSIFICATION,'usage':self.usage(),'rawResponseSha256':r.sha(out/'raw-response.json'),'proposalValidated':True,'observedProviderStatus':'completed','observedProviderModel':'gpt-6-sol','observedProviderServiceTier':'flex','validatorExitCode':0,'normalizedProposalSha256':r.sha(out/'normalized-proposal.json')});r.save_json(p,status)
+    def frozen_case_result(self,n,budget):
+        r.prepare(n,budget)
+        lock_id=n+100;result_id=n+200
+        metadata={'id':lock_id,'name':r.NAMESPACE+f'-case-{n:02d}-attempt-lock','expired':False,'digest':'sha256:synthetic-lock','workflow_run':{'id':123,'head_sha':'synthetic'}}
+        r.save_json(r.lockfile(n).parent/'uploaded.json',metadata)
+        with mock.patch.dict(os.environ,{'LOCK_ARTIFACT_ID':str(lock_id)}),mock.patch.object(r,'one_provider_attempt',side_effect=self.valid_attempt):r.run(n,budget)
+        return {'id':result_id,'name':r.NAMESPACE+f'-case-{n:02d}-result','expired':False,'digest':'sha256:synthetic-result','workflow_run':{'id':123,'head_sha':'synthetic'}}
+    def reconcile(self,n,budget,metadata):
+        with mock.patch.dict(os.environ,{'LOCK_ARTIFACT_ID':str(n+100),'RESULT_ARTIFACT_ID':str(metadata['id'])}):r.advance(n,budget,metadata)
+    def test_all46_reconcile_under_lower_ceiling(self):
+        with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'):
+            budget=Decimal('3.25');r.initialize(budget)
+            for n in range(5,51):
+                m=self.frozen_case_result(n,budget);self.reconcile(n,budget,m)
+                self.assertEqual(r.load(r.ledger_path())['reconciledEstimatedSpendUsd'],str(Decimal(n-4)*Decimal('0.0642855')))
+            self.assertEqual(r.load(r.ledger_path())['reconciledEstimatedSpendUsd'],'2.9571330')
+    def test_reconciliation_releases_only_verified_difference(self):
+        with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'):
+            budget=Decimal('0.30');r.initialize(budget);m=self.frozen_case_result(5,budget)
+            before=r.load(r.ledger_path());self.assertEqual(before['reconciledEstimatedSpendUsd'],'0')
+            with self.assertRaises(ValueError):r.prepare(6,budget)
+            self.reconcile(5,budget,m)
+            self.assertEqual(r.load(r.ledger_path())['reconciledEstimatedSpendUsd'],'0.0642855')
+            self.assertEqual(r.ledger_for_next(r.load(r.ledger_path()),6,budget),Decimal('0.2892855'))
+    def test_next_call_stops_when_reconciled_cost_plus_reserve_exceeds_budget(self):
+        with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'):
+            budget=Decimal('0.225');r.initialize(budget);m=self.frozen_case_result(5,budget);self.reconcile(5,budget,m)
+            with self.assertRaises(ValueError):r.prepare(6,budget)
+    def test_missing_corrupt_or_wrong_result_never_reconciles(self):
+        for kind in ['expired','wrong-run','wrong-head','no-digest','manifest-missing','raw-missing','usage-drift','cost-drift','lock-drift','ledger-write-failure']:
+            with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'),self.subTest(kind=kind):
+                budget=Decimal('0.30');r.initialize(budget);m=self.frozen_case_result(5,budget);before=r.ledger_path().read_bytes()
+                if kind=='expired':m['expired']=True
+                elif kind=='wrong-run':m['workflow_run']['id']=99
+                elif kind=='wrong-head':m['workflow_run']['head_sha']='other'
+                elif kind=='no-digest':m['digest']=None
+                elif kind=='manifest-missing':(r.location(5)/'FILES_SHA256.txt').unlink()
+                elif kind=='raw-missing':(r.location(5)/'raw-response.json').unlink()
+                elif kind in ['usage-drift','cost-drift']:
+                    p=r.location(5)/'status.json';status=r.load(p)
+                    if kind=='usage-drift':status['usage']['output_tokens_details']['reasoning_tokens']=0
+                    else:status['observedEstimatedCostUsd']='0.01'
+                    r.save_json(p,status);r.base.finalize_manifest(r.location(5))
+                elif kind=='lock-drift':p=r.lockfile(5);lock=r.load(p);lock['ledgerBefore']={};r.save_json(p,lock)
+                failure=mock.patch.object(r.Path,'replace',side_effect=OSError('synthetic storage failure')) if kind=='ledger-write-failure' else mock.patch.dict(os.environ,{})
+                with failure,self.assertRaises((ValueError,FileNotFoundError,OSError)):self.reconcile(5,budget,m)
+                self.assertEqual(r.ledger_path().read_bytes(),before);self.assertTrue(r.lockfile(5).exists())
+                with self.assertRaises(ValueError):r.prepare(6,budget)
+    def test_previous_frozen_evidence_and_ledger_tampering_stop(self):
+        for kind in ['sum','history-cost','history-id','history-hash','previous-evidence']:
+            with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'),self.subTest(kind=kind):
+                budget=Decimal('0.30');r.initialize(budget);m=self.frozen_case_result(5,budget);self.reconcile(5,budget,m);l=r.load(r.ledger_path())
+                if kind=='sum':l['reconciledEstimatedSpendUsd']='0'
+                elif kind=='history-cost':l['reconciledAttempts'][0]['estimatedCostUsd']='0'
+                elif kind=='history-id':l['reconciledAttempts'][0]['resultArtifactId']=None
+                elif kind=='history-hash':l['reconciledAttempts'][0]['statusSha256']='other'
+                else:(r.location(5)/'raw-response.json').write_bytes(b'{}')
+                with self.assertRaises(ValueError):r.ledger_for_next(l,6,budget)
+    def test_usage_error_or_over_reservation_keeps_lock_and_stops(self):
+        for cost in [None,Decimal('0.226')]:
+            with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'),mock.patch.dict(os.environ,{'LOCK_ARTIFACT_ID':'11','RESULT_ARTIFACT_ID':'22'}),self.subTest(cost=cost):
+                budget=self.setup_prepare(Path(tmp));before=r.ledger_path().read_bytes()
+                effect=mock.patch.object(r,'estimate_usage',side_effect=ValueError('unknown usage')) if cost is None else mock.patch.object(r,'estimate_usage',return_value=cost)
+                with effect,mock.patch.object(r,'one_provider_attempt',side_effect=self.valid_attempt):r.run(5,budget)
+                r.base.verify_files_manifest(r.location(5));self.assertEqual(r.load(r.location(5)/'status.json')['artifactOutcome'],'stopped-frozen-failure')
+                m={'id':22,'name':r.NAMESPACE+'-case-05-result','expired':False,'digest':'sha256:synthetic-result','workflow_run':{'id':123,'head_sha':'synthetic'}}
+                with self.assertRaises(ValueError):r.advance(5,budget,m)
+                self.assertEqual(r.ledger_path().read_bytes(),before);self.assertTrue(r.lockfile(5).exists())
+
     def test_frozen_pricing_no_double_charge_reasoning_or_cachewrite(self):self.assertEqual(r.estimate_usage(self.usage()),Decimal('0.0642855'))
     def test_unknown_malformed_and_over_envelope_usage_stops(self):
         for u in [None,{},self.usage()]:
@@ -132,14 +196,11 @@ class InertContinuationTests(unittest.TestCase):
     def test_uploaded_success_gate_then_no_duplicate_advance(self):
         with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'),mock.patch.dict(os.environ,{'LOCK_ARTIFACT_ID':'11','RESULT_ARTIFACT_ID':'22'}):
             self.setup_prepare(Path(tmp))
-            def valid(out,status,p,validator):
-                (out/'normalized-proposal.json').write_bytes(b'{}\n');r.save_json(out/'validation-report.json',{'status':'valid','errors':[]})
-                status.update({'providerCallAttempted':True,'classification':r.SUCCESS_CLASSIFICATION,'usage':self.usage(),'proposalValidated':True,'observedProviderStatus':'completed','observedProviderModel':'gpt-6-sol','observedProviderServiceTier':'flex','validatorExitCode':0,'normalizedProposalSha256':r.sha(out/'normalized-proposal.json')});r.save_json(p,status)
-            with mock.patch.object(r,'one_provider_attempt',side_effect=valid):r.run(5,Decimal('10.35'))
+            with mock.patch.object(r,'one_provider_attempt',side_effect=self.valid_attempt):r.run(5,Decimal('10.35'))
             m={'id':22,'name':r.NAMESPACE+'-case-05-result','expired':False,'digest':'sha256:synthetic-result','workflow_run':{'id':123,'head_sha':'synthetic'}}
             bad=dict(m);bad['expired']=True
             with self.assertRaises(ValueError):r.advance(5,Decimal('10.35'),bad)
-            r.advance(5,Decimal('10.35'),m);self.assertEqual(r.load(r.ledger_path())['chargedUsd'],'0.225')
+            r.advance(5,Decimal('10.35'),m);self.assertEqual(r.load(r.ledger_path())['reconciledEstimatedSpendUsd'],'0.0642855')
             with self.assertRaises(ValueError):r.advance(5,Decimal('10.35'),m)
             r.prepare(6,Decimal('10.35'))
 

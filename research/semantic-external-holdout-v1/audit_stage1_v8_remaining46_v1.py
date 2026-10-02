@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Provider-free conformance; GitHub-only metadata gates for future authorized execution."""
-import argparse,hashlib,json,os,socket,subprocess,sys,unittest
+import argparse,ast,hashlib,json,os,socket,subprocess,sys,unittest
 from pathlib import Path
 from unittest import mock
 import urllib.request
@@ -12,7 +12,7 @@ AUDIT_WF='.github/workflows/trackcade-semantic-external-stage1-v8-remaining46-au
 ACT='research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_ACTIVATE_V1.json'
 AUTH='research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUTHORIZATION_V1.json'
 def sha(p):return hashlib.sha256(p.read_bytes().replace(b'\r\n',b'\n')).hexdigest()
-def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT,text=True).strip()
+def git(*args):return subprocess.check_output(['git',*args],cwd=ROOT,text=True,encoding='utf-8').strip()
 def ensure_no_credential():
     if os.environ.get('OPENAI_API_KEY'):raise ValueError('provider credential in provider-free phase')
 def gh(path):return json.loads(subprocess.check_output(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/'+path],text=True))
@@ -35,6 +35,19 @@ def static_checks(inert=True):
     assert c['ordinals']==list(range(5,51)) and c['attemptsPerOrdinal']==1 and c['retries']==0
     assert c['providerContract']=={'provider':'openai','api':'responses','model':'gpt-6-sol','reasoningEffort':'high','maxOutputTokens':25000,'serviceTier':'flex','store':False}
     assert c['spendGuard']['authorizedCeilingUsd'] is None and c['spendGuard']['reservationUsdPerAttempt']=='0.225'
+    assert c['budgetAccounting']==r.ACCOUNTING=='reserve-then-reconcile-v2'
+    assert c['spendGuard']['reconcileOnlyAfterVerifiedImmutableResult'] and c['spendGuard']['unresolvedReservationRetainedAndStops']
+    accounting_base='fa72dab608138029f9174fc7c9806d0d8819ae4d'
+    path='research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py'
+    prior=ast.parse(git('show',accounting_base+':'+path));current=ast.parse((ROOT/path).read_text(encoding='utf-8'))
+    for name in ['frozen_case','estimate_usage','one_provider_attempt','ordinal']:
+        old_node=next(x for x in prior.body if isinstance(x,ast.FunctionDef) and x.name==name)
+        new_node=next(x for x in current.body if isinstance(x,ast.FunctionDef) and x.name==name)
+        assert ast.dump(old_node)==ast.dump(new_node),'non-budget experiment drift: '+name
+    for path in [WF,AUDIT_WF,'research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_MAPPING_V1.json']:
+        assert git('show',accounting_base+':'+path)==(ROOT/path).read_text(encoding='utf-8').strip(),path
+    prior_contract=json.loads(git('show',accounting_base+':research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_CONTRACT_V1.json'))
+    assert {k:v for k,v in c.items() if k not in ['spendGuard','budgetAccounting']}=={k:v for k,v in prior_contract.items() if k!='spendGuard'}
     if inert:assert not r.ACT.exists() and not r.AUTH.exists(),'real activation/authorization must remain absent during inert audit'
     assert r.base.sha(BASE/'STAGE1_V8_REMAINING46_MAPPING_V1.json')==c['mappingSha256']
     for p,h in c['frozenDependenciesSha256'].items():assert sha(ROOT/p)==h,p
@@ -43,9 +56,9 @@ def static_checks(inert=True):
         old=r.load(paths['flexPayload']);new=json.loads(payload)
         assert {k for k in old if old[k]!=new[k]}=={'max_output_tokens'}
         assert old['input']==new['input'] and old['instructions']==new['instructions'] and old['text']==new['text']
-    old=(BASE/'run_stage1_v8_ordinal04_budget_v1.py').read_text()
+    old=(BASE/'run_stage1_v8_ordinal04_budget_v1.py').read_text(encoding='utf-8')
     expected=old[old.index('def one_provider_attempt('):old.index('\ndef main(')].strip()
-    new=(BASE/'run_stage1_v8_remaining46_v1.py').read_text()
+    new=(BASE/'run_stage1_v8_remaining46_v1.py').read_text(encoding='utf-8')
     actual=new[new.index('def one_provider_attempt('):new.index('\nif __name__==')].strip()
     assert expected==actual and actual.count('urllib.request.urlopen(')==1
     assert 'while ' not in actual and 'range(' not in actual
@@ -76,7 +89,7 @@ def static_checks(inert=True):
     if os.environ.get('GITHUB_ACTIONS')=='true':
         for p in ROOT.glob('research/**/*'):
             if p.is_file():assert p.relative_to(ROOT).as_posix() in allow,p
-    return {'activationAbsent':not r.ACT.exists(),'realAuthorizationAbsent':not r.AUTH.exists(),'frozenCasesChecked':46,'ordinals1Through4Excluded':True,'oneAttemptPerOrdinal':True,'noRetryOrFallback':True,'outputCapOnlyDeltaForAll46':True,'transportIdenticalToV8Diagnostic':True,'lockBeforeSecretForAll46':True,'resultFreezeAfterEachAttempt':True,'uploadedResultRequiredBeforeProgression':True,'noLabelsHoldoutAnalyzerCompilerOrScoring':True,'spendGuardFailClosed':True,'priorRecordsUnmodified':True,'nonDropGameplayEligibilityPreserved':True}
+    return {'activationAbsent':not r.ACT.exists(),'realAuthorizationAbsent':not r.AUTH.exists(),'frozenCasesChecked':46,'ordinals1Through4Excluded':True,'oneAttemptPerOrdinal':True,'noRetryOrFallback':True,'outputCapOnlyDeltaForAll46':True,'transportIdenticalToV8Diagnostic':True,'lockBeforeSecretForAll46':True,'resultFreezeAfterEachAttempt':True,'uploadedResultRequiredBeforeProgression':True,'noLabelsHoldoutAnalyzerCompilerOrScoring':True,'spendGuardFailClosed':True,'reserveThenReconcileV2':True,'frozenResultAndUsageRequiredBeforeRelease':True,'executionBudgetOnlyAmendment':True,'priorRecordsUnmodified':True,'nonDropGameplayEligibilityPreserved':True}
 
 def live_preflight():
     ensure_no_credential();static_checks(inert=False);auth=r.load(r.AUTH);act=r.load(r.ACT);budget=r.gate(auth,act)
@@ -84,7 +97,10 @@ def live_preflight():
     assert git('rev-parse',act['authorizationCommit']+':'+AUTH)==git('rev-parse','HEAD:'+AUTH)
     pins={p.lstrip('/') for p in r.load(ROOT/AUDIT_WF)['jobs']['audit']['steps'][0]['with']['sparse-checkout'].splitlines()}
     assert set(act['sourceSha256'])==pins
-    for p,h in act['sourceSha256'].items():assert sha(ROOT/p)==h,p
+    for p,h in act['sourceSha256'].items():
+        assert sha(ROOT/p)==h,p
+        audited=subprocess.check_output(['git','show',act['auditedSourceCommit']+':'+p],cwd=ROOT)
+        assert hashlib.sha256(audited.replace(b'\r\n',b'\n')).hexdigest()==h,'audit must cover this exact accounting source: '+p
     audit=gh('actions/runs/'+str(act['staticAuditRunId']))
     assert audit['status']=='completed' and audit['conclusion']=='success' and audit['run_attempt']==1 and audit['head_sha']==act['auditedSourceCommit'] and audit['path']==AUDIT_WF
     runs=pages('actions/workflows/'+WF.split('/')[-1]+'/runs','workflow_runs')

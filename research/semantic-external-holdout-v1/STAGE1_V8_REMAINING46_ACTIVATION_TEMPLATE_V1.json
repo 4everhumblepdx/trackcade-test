@@ -66,5 +66,6 @@
   },
   "estimatedSpendCeilingUsd": null,
   "retries": 0,
-  "ordinals1Through4Authorized": false
+  "ordinals1Through4Authorized": false,
+  "budgetAccounting": "reserve-then-reconcile-v2"
 }
