@@ -204,4 +204,52 @@ class InertContinuationTests(unittest.TestCase):
             with self.assertRaises(ValueError):r.advance(5,Decimal('10.35'),m)
             r.prepare(6,Decimal('10.35'))
 
+    def actual_workflow(self):return r.load(r.ROOT/'.github/workflows/trackcade-semantic-external-stage1-v8-remaining46-v1.yml')
+    def test_actual_workflow_all46_lock_result_wiring(self):
+        import audit_stage1_v8_remaining46_v1 as audit
+        wf=self.actual_workflow();self.assertEqual(audit.workflow_artifact_wiring(wf),46)
+        gates=[s for s in wf['jobs']['serial']['steps'] if s.get('id','').startswith('gate')]
+        self.assertEqual([s['id'] for s in gates],[f'gate{n:02d}' for n in range(5,51)])
+        for n,step in zip(range(5,51),gates):
+            outputs={f'lock{n:02d}':{'artifact-id':n+100},f'result{n:02d}':{'artifact-id':n+200}}
+            self.assertEqual(audit.reconciliation_step_env(step,outputs),{'LOCK_ARTIFACT_ID':str(n+100),'RESULT_ARTIFACT_ID':str(n+200)})
+            self.assertNotIn('OPENAI_API_KEY',step['env'])
+    def test_each_missing_or_cross_ordinal_gate_id_fails_audit(self):
+        import audit_stage1_v8_remaining46_v1 as audit
+        for n in range(5,51):
+            for variable,prefix in [('LOCK_ARTIFACT_ID','lock'),('RESULT_ARTIFACT_ID','result')]:
+                for mutation in ['missing','other-ordinal']:
+                    wf=self.actual_workflow();step=next(s for s in wf['jobs']['serial']['steps'] if s.get('id')==f'gate{n:02d}')
+                    if mutation=='missing':step['env'].pop(variable)
+                    else:step['env'][variable]='${{ steps.'+prefix+f'{(n+1 if n<50 else 5):02d}'+'.outputs.artifact-id }}'
+                    with self.subTest(ordinal=n,variable=variable,mutation=mutation),self.assertRaises(ValueError):audit.workflow_artifact_wiring(wf)
+    def test_each_verify_and_live_lock_id_is_required(self):
+        import audit_stage1_v8_remaining46_v1 as audit
+        for n in range(5,51):
+            for prefix in ['verify','live']:
+                for mutation in ['missing','other-ordinal']:
+                    wf=self.actual_workflow();step=next(s for s in wf['jobs']['serial']['steps'] if s.get('id')==f'{prefix}{n:02d}')
+                    if mutation=='missing':step['env'].pop('LOCK_ARTIFACT_ID')
+                    else:step['env']['LOCK_ARTIFACT_ID']='${{ steps.lock'+f'{(n+1 if n<50 else 5):02d}'+'.outputs.artifact-id }}'
+                    with self.subTest(ordinal=n,prefix=prefix,mutation=mutation),self.assertRaises(ValueError):audit.workflow_artifact_wiring(wf)
+    def test_actual_gate05_environment_reconciles_synthetic_result(self):
+        import audit_stage1_v8_remaining46_v1 as audit
+        with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'):
+            budget=Decimal('3.50');r.initialize(budget);metadata=self.frozen_case_result(5,budget)
+            step=next(s for s in self.actual_workflow()['jobs']['serial']['steps'] if s.get('id')=='gate05')
+            env=audit.reconciliation_step_env(step,{'lock05':{'artifact-id':105},'result05':{'artifact-id':metadata['id']}})
+            self.assertNotIn('OPENAI_API_KEY',os.environ)
+            with mock.patch.dict(os.environ,env):r.advance(5,budget,metadata)
+            self.assertEqual(r.load(r.ledger_path())['reconciledEstimatedSpendUsd'],'0.0642855')
+            self.assertEqual(r.load(r.ledger_path())['lastCompletedOrdinal'],5)
+    def test_omitted_actual_gate05_lock_reproduces_runtime_failure(self):
+        import audit_stage1_v8_remaining46_v1 as audit
+        with tempfile.TemporaryDirectory() as tmp,self.env(),mock.patch.object(r,'WORK',Path(tmp)/'w'):
+            budget=Decimal('3.50');r.initialize(budget);metadata=self.frozen_case_result(5,budget);before=r.ledger_path().read_bytes()
+            step=next(s for s in self.actual_workflow()['jobs']['serial']['steps'] if s.get('id')=='gate05')
+            step['env'].pop('LOCK_ARTIFACT_ID')
+            with self.assertRaises(ValueError):audit.reconciliation_step_env(step,{'lock05':{'artifact-id':105},'result05':{'artifact-id':metadata['id']}})
+            with mock.patch.dict(os.environ,{'RESULT_ARTIFACT_ID':str(metadata['id'])}),self.assertRaisesRegex(KeyError,'LOCK_ARTIFACT_ID'):r.advance(5,budget,metadata)
+            self.assertEqual(r.ledger_path().read_bytes(),before)
+
 if __name__=='__main__':unittest.main()

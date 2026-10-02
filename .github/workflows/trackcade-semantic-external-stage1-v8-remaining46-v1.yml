@@ -115,7 +115,8 @@
           "name": "Require uploaded valid result and budget before progression 05",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result05.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result05.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock05.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 5"
         },
@@ -170,7 +171,8 @@
           "name": "Require uploaded valid result and budget before progression 06",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result06.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result06.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock06.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 6"
         },
@@ -225,7 +227,8 @@
           "name": "Require uploaded valid result and budget before progression 07",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result07.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result07.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock07.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 7"
         },
@@ -280,7 +283,8 @@
           "name": "Require uploaded valid result and budget before progression 08",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result08.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result08.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock08.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 8"
         },
@@ -335,7 +339,8 @@
           "name": "Require uploaded valid result and budget before progression 09",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result09.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result09.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock09.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 9"
         },
@@ -390,7 +395,8 @@
           "name": "Require uploaded valid result and budget before progression 10",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result10.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result10.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock10.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 10"
         },
@@ -445,7 +451,8 @@
           "name": "Require uploaded valid result and budget before progression 11",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result11.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result11.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock11.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 11"
         },
@@ -500,7 +507,8 @@
           "name": "Require uploaded valid result and budget before progression 12",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result12.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result12.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock12.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 12"
         },
@@ -555,7 +563,8 @@
           "name": "Require uploaded valid result and budget before progression 13",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result13.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result13.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock13.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 13"
         },
@@ -610,7 +619,8 @@
           "name": "Require uploaded valid result and budget before progression 14",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result14.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result14.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock14.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 14"
         },
@@ -665,7 +675,8 @@
           "name": "Require uploaded valid result and budget before progression 15",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result15.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result15.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock15.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 15"
         },
@@ -720,7 +731,8 @@
           "name": "Require uploaded valid result and budget before progression 16",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result16.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result16.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock16.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 16"
         },
@@ -775,7 +787,8 @@
           "name": "Require uploaded valid result and budget before progression 17",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result17.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result17.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock17.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 17"
         },
@@ -830,7 +843,8 @@
           "name": "Require uploaded valid result and budget before progression 18",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result18.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result18.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock18.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 18"
         },
@@ -885,7 +899,8 @@
           "name": "Require uploaded valid result and budget before progression 19",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result19.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result19.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock19.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 19"
         },
@@ -940,7 +955,8 @@
           "name": "Require uploaded valid result and budget before progression 20",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result20.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result20.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock20.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 20"
         },
@@ -995,7 +1011,8 @@
           "name": "Require uploaded valid result and budget before progression 21",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result21.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result21.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock21.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 21"
         },
@@ -1050,7 +1067,8 @@
           "name": "Require uploaded valid result and budget before progression 22",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result22.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result22.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock22.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 22"
         },
@@ -1105,7 +1123,8 @@
           "name": "Require uploaded valid result and budget before progression 23",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result23.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result23.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock23.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 23"
         },
@@ -1160,7 +1179,8 @@
           "name": "Require uploaded valid result and budget before progression 24",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result24.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result24.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock24.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 24"
         },
@@ -1215,7 +1235,8 @@
           "name": "Require uploaded valid result and budget before progression 25",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result25.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result25.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock25.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 25"
         },
@@ -1270,7 +1291,8 @@
           "name": "Require uploaded valid result and budget before progression 26",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result26.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result26.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock26.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 26"
         },
@@ -1325,7 +1347,8 @@
           "name": "Require uploaded valid result and budget before progression 27",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result27.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result27.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock27.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 27"
         },
@@ -1380,7 +1403,8 @@
           "name": "Require uploaded valid result and budget before progression 28",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result28.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result28.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock28.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 28"
         },
@@ -1435,7 +1459,8 @@
           "name": "Require uploaded valid result and budget before progression 29",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result29.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result29.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock29.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 29"
         },
@@ -1490,7 +1515,8 @@
           "name": "Require uploaded valid result and budget before progression 30",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result30.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result30.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock30.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 30"
         },
@@ -1545,7 +1571,8 @@
           "name": "Require uploaded valid result and budget before progression 31",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result31.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result31.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock31.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 31"
         },
@@ -1600,7 +1627,8 @@
           "name": "Require uploaded valid result and budget before progression 32",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result32.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result32.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock32.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 32"
         },
@@ -1655,7 +1683,8 @@
           "name": "Require uploaded valid result and budget before progression 33",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result33.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result33.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock33.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 33"
         },
@@ -1710,7 +1739,8 @@
           "name": "Require uploaded valid result and budget before progression 34",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result34.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result34.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock34.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 34"
         },
@@ -1765,7 +1795,8 @@
           "name": "Require uploaded valid result and budget before progression 35",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result35.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result35.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock35.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 35"
         },
@@ -1820,7 +1851,8 @@
           "name": "Require uploaded valid result and budget before progression 36",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result36.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result36.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock36.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 36"
         },
@@ -1875,7 +1907,8 @@
           "name": "Require uploaded valid result and budget before progression 37",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result37.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result37.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock37.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 37"
         },
@@ -1930,7 +1963,8 @@
           "name": "Require uploaded valid result and budget before progression 38",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result38.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result38.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock38.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 38"
         },
@@ -1985,7 +2019,8 @@
           "name": "Require uploaded valid result and budget before progression 39",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result39.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result39.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock39.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 39"
         },
@@ -2040,7 +2075,8 @@
           "name": "Require uploaded valid result and budget before progression 40",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result40.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result40.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock40.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 40"
         },
@@ -2095,7 +2131,8 @@
           "name": "Require uploaded valid result and budget before progression 41",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result41.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result41.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock41.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 41"
         },
@@ -2150,7 +2187,8 @@
           "name": "Require uploaded valid result and budget before progression 42",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result42.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result42.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock42.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 42"
         },
@@ -2205,7 +2243,8 @@
           "name": "Require uploaded valid result and budget before progression 43",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result43.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result43.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock43.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 43"
         },
@@ -2260,7 +2299,8 @@
           "name": "Require uploaded valid result and budget before progression 44",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result44.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result44.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock44.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 44"
         },
@@ -2315,7 +2355,8 @@
           "name": "Require uploaded valid result and budget before progression 45",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result45.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result45.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock45.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 45"
         },
@@ -2370,7 +2411,8 @@
           "name": "Require uploaded valid result and budget before progression 46",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result46.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result46.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock46.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 46"
         },
@@ -2425,7 +2467,8 @@
           "name": "Require uploaded valid result and budget before progression 47",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result47.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result47.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock47.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 47"
         },
@@ -2480,7 +2523,8 @@
           "name": "Require uploaded valid result and budget before progression 48",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result48.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result48.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock48.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 48"
         },
@@ -2535,7 +2579,8 @@
           "name": "Require uploaded valid result and budget before progression 49",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result49.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result49.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock49.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 49"
         },
@@ -2590,7 +2635,8 @@
           "name": "Require uploaded valid result and budget before progression 50",
           "env": {
             "GH_TOKEN": "${{ github.token }}",
-            "RESULT_ARTIFACT_ID": "${{ steps.result50.outputs.artifact-id }}"
+            "RESULT_ARTIFACT_ID": "${{ steps.result50.outputs.artifact-id }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock50.outputs.artifact-id }}"
           },
           "run": "python -B \"$A\" --advance 50"
         }

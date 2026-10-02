@@ -30,6 +30,31 @@ def verify_prep_metadata():
         r.base.exact(actual,{'id':expected['id'],'name':expected['name'],'digest':expected['digest'],'expired':False})
         if actual['workflow_run']['id']!=expected['runId']:raise ValueError('prep run mismatch')
 
+def workflow_artifact_wiring(wf):
+    """Validate the parsed ordinal-to-step environment, not filename/string presence."""
+    steps=wf['jobs']['serial']['steps'];identified=[s for s in steps if 'id' in s]
+    by_id={s['id']:s for s in identified}
+    if len(by_id)!=len(identified):raise ValueError('duplicate workflow step identity')
+    for n in range(5,51):
+        lock='${{ steps.lock'+f'{n:02d}'+'.outputs.artifact-id }}'
+        result='${{ steps.result'+f'{n:02d}'+'.outputs.artifact-id }}'
+        for prefix in ['verify','live','gate']:
+            step=by_id[prefix+f'{n:02d}'];env=step.get('env',{})
+            if env.get('LOCK_ARTIFACT_ID')!=lock:raise ValueError(f'{prefix}{n:02d}: missing or cross-ordinal lock ID')
+            if prefix=='gate' and env.get('RESULT_ARTIFACT_ID')!=result:raise ValueError(f'gate{n:02d}: missing or cross-ordinal result ID')
+    return 46
+
+def reconciliation_step_env(step,outputs):
+    """Resolve the actual two workflow expressions against synthetic action outputs."""
+    n=int(step['id'][4:]);resolved={}
+    for variable,prefix in [('LOCK_ARTIFACT_ID','lock'),('RESULT_ARTIFACT_ID','result')]:
+        name=prefix+f'{n:02d}'
+        if step.get('env',{}).get(variable)!='${{ steps.'+name+'.outputs.artifact-id }}':raise ValueError('invalid gate environment: '+variable)
+        value=outputs[name]['artifact-id']
+        if type(value) is not int or value<=0:raise ValueError('invalid synthetic action output')
+        resolved[variable]=str(value)
+    return resolved
+
 def static_checks(inert=True):
     ensure_no_credential();c=r.CONTRACT
     assert c['ordinals']==list(range(5,51)) and c['attemptsPerOrdinal']==1 and c['retries']==0
@@ -44,8 +69,20 @@ def static_checks(inert=True):
         old_node=next(x for x in prior.body if isinstance(x,ast.FunctionDef) and x.name==name)
         new_node=next(x for x in current.body if isinstance(x,ast.FunctionDef) and x.name==name)
         assert ast.dump(old_node)==ast.dump(new_node),'non-budget experiment drift: '+name
-    for path in [WF,AUDIT_WF,'research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_MAPPING_V1.json']:
+    for path in [AUDIT_WF,'research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_MAPPING_V1.json']:
         assert git('show',accounting_base+':'+path)==(ROOT/path).read_text(encoding='utf-8').strip(),path
+    # The only paid-workflow delta is the 46 missing lock-ID environment entries.
+    previous_wf=json.loads(git('show','7825cb7e2a8d9cafcb4570577c48cf4a2796b88d:'+WF))
+    for step in previous_wf['jobs']['serial']['steps']:
+        if step.get('id','').startswith('gate'):
+            n=int(step['id'][4:]);step['env']['LOCK_ARTIFACT_ID']='${{ steps.lock'+f'{n:02d}'+'.outputs.artifact-id }}'
+    assert r.load(ROOT/WF)==previous_wf,'unexpected paid-workflow delta'
+    frozen='7825cb7e2a8d9cafcb4570577c48cf4a2796b88d'
+    for name in ['run_stage1_v8_remaining46_v1.py','STAGE1_V8_REMAINING46_CONTRACT_V1.json','STAGE1_V8_REMAINING46_COST_MODEL_V1.json','STAGE1_V8_REMAINING46_PROTOCOL_V1.md']:
+        path='research/semantic-external-holdout-v1/'+name
+        assert git('show',frozen+':'+path)==(ROOT/path).read_text(encoding='utf-8').strip(),'frozen accounting or historical evidence drift: '+path
+    path='research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_PREACTIVATION_STOP_V1.json'
+    assert git('show',frozen+':'+path)==git('show','HEAD:'+path),'historical stop receipt changed'
     prior_contract=json.loads(git('show',accounting_base+':research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_CONTRACT_V1.json'))
     assert {k:v for k,v in c.items() if k not in ['spendGuard','budgetAccounting']}=={k:v for k,v in prior_contract.items() if k!='spendGuard'}
     if inert:assert not r.ACT.exists() and not r.AUTH.exists(),'real activation/authorization must remain absent during inert audit'
@@ -65,6 +102,7 @@ def static_checks(inert=True):
     changes=git('diff','--name-only',c['preTaskFrozenHead'],'HEAD').splitlines()
     assert all('v8_remaining46' in p.lower() or 'v8-remaining46' in p.lower() for p in changes),changes
     wf=r.load(ROOT/WF);af=r.load(ROOT/AUDIT_WF)
+    assert workflow_artifact_wiring(wf)==46
     assert wf['on']=={'push':{'branches':['trackcade-semantic-external-holdout-v1'],'paths':[ACT]}}
     assert len(wf['jobs'])==1 and wf['permissions']=={'contents':'read','actions':'read'}
     assert wf['concurrency']['cancel-in-progress'] is False
@@ -89,7 +127,7 @@ def static_checks(inert=True):
     if os.environ.get('GITHUB_ACTIONS')=='true':
         for p in ROOT.glob('research/**/*'):
             if p.is_file():assert p.relative_to(ROOT).as_posix() in allow,p
-    return {'activationAbsent':not r.ACT.exists(),'realAuthorizationAbsent':not r.AUTH.exists(),'frozenCasesChecked':46,'ordinals1Through4Excluded':True,'oneAttemptPerOrdinal':True,'noRetryOrFallback':True,'outputCapOnlyDeltaForAll46':True,'transportIdenticalToV8Diagnostic':True,'lockBeforeSecretForAll46':True,'resultFreezeAfterEachAttempt':True,'uploadedResultRequiredBeforeProgression':True,'noLabelsHoldoutAnalyzerCompilerOrScoring':True,'spendGuardFailClosed':True,'reserveThenReconcileV2':True,'frozenResultAndUsageRequiredBeforeRelease':True,'executionBudgetOnlyAmendment':True,'priorRecordsUnmodified':True,'nonDropGameplayEligibilityPreserved':True}
+    return {'activationAbsent':not r.ACT.exists(),'realAuthorizationAbsent':not r.AUTH.exists(),'frozenCasesChecked':46,'ordinals1Through4Excluded':True,'oneAttemptPerOrdinal':True,'noRetryOrFallback':True,'outputCapOnlyDeltaForAll46':True,'transportIdenticalToV8Diagnostic':True,'lockBeforeSecretForAll46':True,'resultFreezeAfterEachAttempt':True,'uploadedResultRequiredBeforeProgression':True,'noLabelsHoldoutAnalyzerCompilerOrScoring':True,'spendGuardFailClosed':True,'reserveThenReconcileV2':True,'frozenResultAndUsageRequiredBeforeRelease':True,'executionBudgetOnlyAmendment':True,'reconciliationGateWiringChecked':46,'actualWorkflowEnvironmentSeamCovered':True,'syntheticOrdinal5ReconciliationCovered':True,'omittedLockRegressionCovered':True,'runnerAndReserveReconcileV2Unchanged':True,'priorRecordsUnmodified':True,'nonDropGameplayEligibilityPreserved':True}
 
 def live_preflight():
     ensure_no_credential();static_checks(inert=False);auth=r.load(r.AUTH);act=r.load(r.ACT);budget=r.gate(auth,act)
