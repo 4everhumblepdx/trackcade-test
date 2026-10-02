@@ -1,0 +1,115 @@
+{
+  "schema": "trackcade-stage1-v8-remaining46-budget-amendment-receipt-v2",
+  "dateUtc": "2026-10-02",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "frozenStartHead": "fa72dab608138029f9174fc7c9806d0d8819ae4d",
+  "originalAuditedContinuationSource": "459e27b596b9cde9444b341370312bad76090f26",
+  "amendedAuditedSourceCommit": "ca3f13da312bb3795b430a417697cd65453ec96f",
+  "localSourceCommit": "73c555d9c34d90c54732a1c140e8b283d4381c06",
+  "identicalSourceTree": "13e92581713485600ebf7c505b738aa292800e00",
+  "finalPreparationCommit": "The commit containing this receipt; final SHA recorded in outputs repository-state document.",
+  "status": "inert-provider-free-budget-accounting-amended-stop",
+  "budgetAccounting": "reserve-then-reconcile-v2",
+  "ledgerSchema": "trackcade-stage1-v8-remaining46-ledger-v2",
+  "reservationUsdPerAttempt": "0.225",
+  "preCallRule": "Reverify frozen prior result/usage provenance and cumulative reconciled costs for this exact run/commit; require reconciledSpend+0.225<=authorizedCeiling; immutable uploaded attempt lock verified before provider credential exposure.",
+  "reconciliationRule": "After immutable result artifact identity, manifest closure, complete valid proposal, raw response/status usage agreement and frozen pricing estimate<=0.225 are verified, atomically append one frozen-cost entry and reconcile the reservation to its cost.",
+  "failureRule": "Missing, invalid, incomplete, uncertain, wrong-provenance or unfreezable evidence retains the immutable reservation lock, does not advance/reconcile the ledger, and stops. No retry, fallback, duplicate, resume or next ordinal.",
+  "budgetUnset": true,
+  "actualEstimatedSpendCeilingUsd": null,
+  "realAuthorizationAbsent": true,
+  "realActivationAbsent": true,
+  "authorizationPath": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUTHORIZATION_V1.json",
+  "activationPath": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_ACTIVATE_V1.json",
+  "futureGate": "Fresh explicit scope/budget approval required. Templates remain inert and name accounting-v2. New successful audit and source hashes must match the exact amended source; the old accounting audit cannot authorize it.",
+  "preserved": {
+    "ordinals": "5–50 only",
+    "providerContract": "OpenAI Responses / gpt-6-sol / high / flex / store=false / max_output_tokens=25000",
+    "providerTransportUnchanged": true,
+    "frozenUsagePricingFunctionUnchanged": true,
+    "frozenPayloadConstructionUnchanged": true,
+    "mappingUnchanged": true,
+    "workflowsUnchanged": true,
+    "promptsSchemaValidatorsPreprocessingUnchanged": true,
+    "oneAttemptNoRetriesNoFallback": true,
+    "scientificRecommendation": "A; V7 1–3 remain predecessor observations, V8 from4; explicit mixed-cap provenance",
+    "v7v8ExperimentalRecordsUnchanged": true,
+    "labelsTerminalIsolation": true,
+    "noAnalyzerCompilerScoring": true,
+    "nonDropGameplayEligibilityPreserved": true
+  },
+  "costInterpretation": {
+    "observedProjectionsUnchanged": true,
+    "conservativeCapacityUsd": "10.35",
+    "conservativeCapacityIsRequiredMinimum": false,
+    "v8Ordinal4Repeat46EstimatedTotalUsd": "2.9571330",
+    "v8Ordinal4RepeatPeakPreCallRequiredCeilingUsd": "3.1178475",
+    "forecastsNotGuaranteesOrAuthorization": true
+  },
+  "audit": {
+    "localPassed": 31,
+    "hostedPassed": 31,
+    "historicalPassed": 16,
+    "failures": 0,
+    "errors": 0,
+    "hostedRunId": 37060959348,
+    "historicalRunId": 37060959303,
+    "artifactId": 11250441252,
+    "artifactDigest": "sha256:65c049784ff5a63367301519239744dc46af4a19316a586af8cc28f02fac4659",
+    "localHostedDiscrepancies": []
+  },
+  "amendedSourceFiles": [
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_ACTIVATION_TEMPLATE_V1.json",
+      "sha": "77c37fd2b4c749981c97b65aece5e20227520ecf",
+      "length": 1001
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUTHORIZATION_TEMPLATE_V1.json",
+      "sha": "928c2139f29e8af72466c24c655ba76d741b6776",
+      "length": 892
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_CONTRACT_V1.json",
+      "sha": "5198fce6a20dd5037fd01cce7e807b2e5fc384b9",
+      "length": 4162
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_COST_MODEL_V1.json",
+      "sha": "73a488b559fe3f30c06533495aea516158207847",
+      "length": 3169
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_PROTOCOL_V1.md",
+      "sha": "ba58d3a8cc5c075a9d0f3004e44031a15d049182",
+      "length": 9485
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/audit_stage1_v8_remaining46_v1.py",
+      "sha": "c41f22d01849c69691ec135c4817a0aacea5982b",
+      "length": 11241
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py",
+      "sha": "c264094ae45c2acc17b2c0ac0848edd8494c84e7",
+      "length": 20903
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/test_stage1_v8_remaining46_v1.py",
+      "sha": "96daa629bf2aac1158c32f5cb170cba8e9e0dd12",
+      "length": 19866
+    }
+  ],
+  "addedReceiptFiles": [
+    "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_BUDGET_AUDIT_RESULT_V2.json",
+    "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_BUDGET_AMENDMENT_RECEIPT_V2.json"
+  ],
+  "historicalPreparationReceiptsPreserved": true,
+  "providerCalls": 0,
+  "providerCredentialExposed": false,
+  "estimatedProviderSpendUsd": 0,
+  "ordinals5Through50": "unattempted",
+  "stop": "Provider-free amendment complete. No ordinal5 execution, actual approval, actual activation, or spending ceiling set."
+}
+
