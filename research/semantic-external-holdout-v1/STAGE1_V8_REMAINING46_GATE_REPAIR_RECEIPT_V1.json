@@ -1,0 +1,83 @@
+{
+  "schema": "trackcade-stage1-v8-remaining46-gate-repair-receipt-v1",
+  "dateUtc": "2026-10-02",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "frozenPreactivationStopHead": "7825cb7e2a8d9cafcb4570577c48cf4a2796b88d",
+  "previousAmendedAuditedSource": "ca3f13da312bb3795b430a417697cd65453ec96f",
+  "newAuditedSourceCommit": "e248e6c6bd8af2c48b3670ab3b8507e370c30bfb",
+  "localSourceCommit": "a26fcf81c38dea33b285d9d43eda521fbf6ff5fc",
+  "identicalSourceTree": "5e3a0e27c0f894468fc364fe86887c3253d7dfa7",
+  "finalReceiptCommit": "Containing commit; exact final SHA in outputs state document.",
+  "defect": "Every gate05–gate50 omitted LOCK_ARTIFACT_ID required by the unchanged advance/verify_lock runner seam.",
+  "repair": "Each gateNN env now includes LOCK_ARTIFACT_ID=${{ steps.lockNN.outputs.artifact-id }}; existing RESULT_ARTIFACT_ID=${{ steps.resultNN.outputs.artifact-id }} retained. Exactly46 added gate environment entries, no other paid-workflow changes.",
+  "runnerChanged": false,
+  "runnerLockVerificationWeakened": false,
+  "providerSemanticContractChanged": false,
+  "reserveThenReconcileV2Changed": false,
+  "reservationUsdPerAttempt": "0.225",
+  "mappingInputsPromptsValidatorsPreprocessingChanged": false,
+  "retries": 0,
+  "fallbacks": 0,
+  "oldStopReceipt": "STAGE1_V8_REMAINING46_PREACTIVATION_STOP_V1.json",
+  "oldStopReceiptUnmodified": true,
+  "priorExperimentalRecordsUnmodified": true,
+  "scientificRecommendation": "A preserved; V7 1–3 remain predecessor observations, V8 begins at4; explicit mixed-cap provenance.",
+  "sourceFilesChanged": [
+    {
+      "path": ".github/workflows/trackcade-semantic-external-stage1-v8-remaining46-v1.yml",
+      "sha": "083791f24c7e7e171fdbd0acc9f2746bd84fef40",
+      "length": 95209
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/audit_stage1_v8_remaining46_v1.py",
+      "sha": "c3d3992cda2f6bfa0e8431eac59b0a9274746fb7",
+      "length": 14114
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/test_stage1_v8_remaining46_v1.py",
+      "sha": "fc809e2792bd94c6ea0b4ac59eb6f2be260c55da",
+      "length": 24046
+    }
+  ],
+  "addedReceiptFiles": [
+    "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_GATE_REPAIR_AUDIT_V1.json",
+    "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_GATE_REPAIR_RECEIPT_V1.json"
+  ],
+  "audit": {
+    "parsedWorkflowStructuralChecksAll46": true,
+    "liveAndVerifyMatchingLockIdsAll46": true,
+    "gateMatchingLockResultIdsAll46": true,
+    "syntheticOrdinal5ActualWorkflowEnvSucceeded": true,
+    "omittedLockNegativeRegressionReproducedKeyError": true,
+    "crossOrdinalMutationsRejected": true,
+    "localPassed": 36,
+    "hostedPassed": 36,
+    "historicalPassed": 16,
+    "failures": 0,
+    "errors": 0,
+    "hostedAuditRunId": 37068635961,
+    "historicalAuditRunId": 37068635993,
+    "artifactId": 11253762807,
+    "artifactDigest": "sha256:0d81e8e2bebb65a367f97a37b00f1d6bde273a6207f148ec64ef7720daa5ef6f",
+    "localHostedDiscrepancies": []
+  },
+  "authorizationAbsent": true,
+  "activationAbsent": true,
+  "intendedFutureEstimatedCeilingUsd": "3.50",
+  "actualAuthorizedEstimatedCeilingUsd": null,
+  "priorPaidApprovalNotUsedOrInferred": true,
+  "ordinals5Through50": "unattempted",
+  "providerCalls": 0,
+  "providerCredentialExposure": 0,
+  "estimatedProviderSpendUsd": 0,
+  "labelsOpened": false,
+  "terminalHoldoutAccessed": false,
+  "semanticScoring": false,
+  "analyzerExecutedOrModified": false,
+  "compilerInvoked": false,
+  "nonDropGameplayEligibilityPreserved": true,
+  "state": "provider-free-harness-repair-audited-inert-stop",
+  "stop": "No authorization, activation, ordinal5 execution or paid calls. Future paid launch requires fresh exact-source scope/budget approval."
+}
+
