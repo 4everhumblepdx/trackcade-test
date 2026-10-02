@@ -1,0 +1,89 @@
+{
+  "name": "Trackcade V8 \u2014 Provider-free remaining46 inert audit",
+  "on": {
+    "push": {
+      "branches": [
+        "trackcade-semantic-external-holdout-v1"
+      ],
+      "paths": [
+        ".github/workflows/trackcade-semantic-external-stage1-v8-remaining46-audit-v1.yml",
+        ".github/workflows/trackcade-semantic-external-stage1-v8-remaining46-v1.yml",
+        "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_ACTIVATION_TEMPLATE_V1.json",
+        "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUTHORIZATION_TEMPLATE_V1.json",
+        "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_CONTRACT_V1.json",
+        "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_COST_MODEL_V1.json",
+        "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_MAPPING_V1.json",
+        "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_PROTOCOL_V1.md",
+        "research/semantic-external-holdout-v1/audit_stage1_v8_remaining46_v1.py",
+        "research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py",
+        "research/semantic-external-holdout-v1/test_stage1_v8_remaining46_v1.py"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "jobs": {
+    "audit": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 15,
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "R": "research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py",
+        "A": "research/semantic-external-holdout-v1/audit_stage1_v8_remaining46_v1.py"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "fetch-depth": 0,
+            "persist-credentials": false,
+            "sparse-checkout-cone-mode": false,
+            "sparse-checkout": "/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py\n/research/learned-interpretation-v1/validate_learned_proposal_v7.py\n/research/learned-interpretation-v1/validate_learned_proposal_v3.py\n/research/learned-interpretation-v1/validate_learned_proposal_v1.py\n/research/learned-interpretation-v1/openai_responses_adapter_v1.py\n/research/learned-interpretation-v1/build_learned_request_v1.py\n/research/learned-interpretation-v1/build_learned_request_v2.py\n/research/learned-interpretation-v1/build_learned_request_v3.py\n/research/learned-interpretation-v1/build_learned_request_v5.py\n/research/learned-interpretation-v1/build_learned_request_v6.py\n/research/learned-interpretation-v1/build_learned_request_v7.py\n/research/semantic-external-holdout-v1/run_stage1_v8_ordinal04_budget_v1.py\n/research/semantic-external-holdout-v1/STAGE1_V8_ORDINAL04_CONTRACT_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_CONTRACT_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_MAPPING_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_COST_MODEL_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUTHORIZATION_TEMPLATE_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_ACTIVATION_TEMPLATE_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_PROTOCOL_V1.md\n/research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py\n/research/semantic-external-holdout-v1/audit_stage1_v8_remaining46_v1.py\n/research/semantic-external-holdout-v1/test_stage1_v8_remaining46_v1.py\n/.github/workflows/trackcade-semantic-external-stage1-v8-remaining46-v1.yml\n/.github/workflows/trackcade-semantic-external-stage1-v8-remaining46-audit-v1.yml"
+          }
+        },
+        {
+          "name": "Verify frozen prep metadata without provider credential",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "run": "python -B \"$A\" --verify-prep"
+        },
+        {
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "trackcade-semantic-external-stage1-v7-prep-v1",
+            "path": "/tmp/v8-source-prep",
+            "repository": "${{ github.repository }}",
+            "run-id": 36915758639,
+            "github-token": "${{ github.token }}"
+          }
+        },
+        {
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "trackcade-semantic-external-stage1-v7-flex8192-prep-v1",
+            "path": "/tmp/v8-flex-prep",
+            "repository": "${{ github.repository }}",
+            "run-id": 36920081360,
+            "github-token": "${{ github.token }}"
+          }
+        },
+        {
+          "name": "Static and guarded synthetic conformance",
+          "run": "python -B \"$A\" --report /tmp/v8-remaining46-audit.json"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v8-remaining46-provider-free-audit-v1",
+            "path": "/tmp/v8-remaining46-audit.json",
+            "if-no-files-found": "error",
+            "retention-days": 90
+          }
+        }
+      ]
+    }
+  }
+}

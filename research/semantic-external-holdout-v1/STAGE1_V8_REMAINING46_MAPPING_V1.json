@@ -1,0 +1,605 @@
+{
+  "schema": "trackcade-stage1-v8-remaining46-mapping-v1",
+  "sourceManifestSha256": "455602ea8c5a721fac9b3381aca46285fe3c14f1fbcc36f0d08b4ffec01be875",
+  "flexManifestSha256": "a41fdd4e4138fdfda18cda20004f609eb089aeb64ed1be486ee2442b1241a713",
+  "cases": [
+    {
+      "ordinal": 5,
+      "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+      "stem": "73229079",
+      "inputHashes": {
+        "learned-request-v7.json": "22eaa1edb8ecb7ad5fc5d73df0897d533dfe513eb83503199f544f901e3b14ec",
+        "structure-evidence-v2.json": "9da0ce23d902216825aaa7f0c905a500bec2f093d2617e4b1c5d134661f67d26",
+        "openai-payload-v7.json": "50011d22b01076ddf3690072b1a0a12e597fa255fb1b66465aa3ad9748460f4c",
+        "openai-payload-v7-flex8192.json": "c608ea8656c72b05e4f1fbf1a7e4783565a8bb8dfb2c9d559aa3bded814576b7"
+      },
+      "v8PayloadSha256": "523283ae90c7549597c8045e47d3189a27986754af7db16461ee6db29614d406",
+      "v8PayloadBytes": 47008
+    },
+    {
+      "ordinal": 6,
+      "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+      "stem": "45052168",
+      "inputHashes": {
+        "learned-request-v7.json": "5c54fe4ed827d822eb70d3ce79531147a5ea4030eb44456950a0950c9bc585a6",
+        "structure-evidence-v2.json": "ff7b811de67cc03e6b8f12daa755ea951b87e45feecb950292c3c9ad5ef730cc",
+        "openai-payload-v7.json": "3461eadc8cc775105e68a8f96b830bcf646466173104277e7ddbfad8a32d4626",
+        "openai-payload-v7-flex8192.json": "4d3394119af82797eaa8bac84994a3e55adb3b13f41297132902d3f927760c47"
+      },
+      "v8PayloadSha256": "455b25ce8f8d65c80143bffe2de00783520f56cdab620c77013f93190852ca42",
+      "v8PayloadBytes": 42205
+    },
+    {
+      "ordinal": 7,
+      "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+      "stem": "97169237",
+      "inputHashes": {
+        "learned-request-v7.json": "5b1109bf66f7cfea902e7906696bb8c6b63c38c80776d31c7e86845c7f79bd3c",
+        "structure-evidence-v2.json": "debcf0679178121811d8529ba36d05f607292881c1469a99632046facc3ab415",
+        "openai-payload-v7.json": "da3530f438b0cf1a8cb22ab0437da8b738781b3d2f737b06bcaf5d6e5565b832",
+        "openai-payload-v7-flex8192.json": "8d027f4e965e6f879068b091dbd3dc3a8b71c67af5dc78a5ce7ebcecc84c875b"
+      },
+      "v8PayloadSha256": "b17fa5aa661d1c3f83aaeaace311360831e232da0a06cce2667ad26298af5302",
+      "v8PayloadBytes": 47648
+    },
+    {
+      "ordinal": 8,
+      "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+      "stem": "39637970",
+      "inputHashes": {
+        "learned-request-v7.json": "378a6e55d2c2e2c27ef00af62f2b36a8c14af8e9d8f6f5ef29eaaf53b70da222",
+        "structure-evidence-v2.json": "cef184a0dd25418a1fa531d4bcb0ceed9a53294c047cc9c7a1be389c386851b7",
+        "openai-payload-v7.json": "c93db0df044b398d7109279965d646118ea68f65ff59959abdfb1395c6d9203c",
+        "openai-payload-v7-flex8192.json": "b7f92337a300abd84aa505cc0d53a169118eadf7ab8a38f0257e7808a916c690"
+      },
+      "v8PayloadSha256": "b639e9da8aa17829001a794e29a08334d4a649fb5b2b04a3f4c63d67a84be353",
+      "v8PayloadBytes": 40897
+    },
+    {
+      "ordinal": 9,
+      "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+      "stem": "60170982",
+      "inputHashes": {
+        "learned-request-v7.json": "ea1c77da51895eaf9edf3022193e1af9bf2cad25a59a2348b97a3db9c7a3fe23",
+        "structure-evidence-v2.json": "875bfecc98e13603fb92d2ce75abab40982725610a79aaf27e8a7f6320476362",
+        "openai-payload-v7.json": "ee6e4c6b6541a5bea2d62b8c892db037d95fd030470e2d666ef28b16467940cc",
+        "openai-payload-v7-flex8192.json": "921bbaea72881e8cca9740cb81c2d6557df6236c1447d5f43a9492e6f04b5291"
+      },
+      "v8PayloadSha256": "6944e245f1fa69836bc6b7caaae3895db8a81b0e6f695f68e09d19ff5de9e0b2",
+      "v8PayloadBytes": 67018
+    },
+    {
+      "ordinal": 10,
+      "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+      "stem": "60779381",
+      "inputHashes": {
+        "learned-request-v7.json": "2a739393412bc9128496c7d688254e3af67c1c4e3a32229015ed936cba736eff",
+        "structure-evidence-v2.json": "e11baee5f8075ccb9ce05728eb96afe8460e0f3a97b8ef3a265dc9450e35391f",
+        "openai-payload-v7.json": "e86ce821958961b005c9a9ac0942d033705dde6a1733c4af1af0659081d787e3",
+        "openai-payload-v7-flex8192.json": "e6c9e59870a31a73763c0550d482ae48a6553e9e38897c6a067ab13fdd286dbd"
+      },
+      "v8PayloadSha256": "8207546726d9b8bb5ae66d8d92506f211e787508392cb665b87b65a17b7c762f",
+      "v8PayloadBytes": 40646
+    },
+    {
+      "ordinal": 11,
+      "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+      "stem": "98468953",
+      "inputHashes": {
+        "learned-request-v7.json": "f4d5884a8ab738ef523c49ba8ecf69ef8d6c48362960afe7458b56d5b6048b18",
+        "structure-evidence-v2.json": "f82f41173ab6b87244f3f478e372744422f20ffa789eb6547f51c1fb2d562327",
+        "openai-payload-v7.json": "9a621207cd74ea6d7782c86b604864d045b5d424707c3c0d7c6a9bb717b10921",
+        "openai-payload-v7-flex8192.json": "be32329ee1b87d73284217d5f8d17a2b1894429416586d860018b3c7f29d5af9"
+      },
+      "v8PayloadSha256": "a3546ffcfa4f15bb444c15b07b7f98de19adc62ccd74802bd70cdc1f1af396dc",
+      "v8PayloadBytes": 49866
+    },
+    {
+      "ordinal": 12,
+      "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+      "stem": "91570090",
+      "inputHashes": {
+        "learned-request-v7.json": "27e714b8f46eb0b3d2b3e79d57f021ccdcb4a3c112750d3de585b7a9af8c7858",
+        "structure-evidence-v2.json": "353069bdbd7de2e1a9604a1a43b93f8caf1d4fee9df735d5946c4364722aebcd",
+        "openai-payload-v7.json": "2954a8b452537498f78a3e6c295d0c0b4480c16bf58c3a25ee32674f93d20da0",
+        "openai-payload-v7-flex8192.json": "74580f0b10d96ae5426f7e19653fe07813382cf1bcc647a8d2c8abaf1e5e2c98"
+      },
+      "v8PayloadSha256": "99e3541ba5afd0d8814f94fcc7e15769aa2d4042565ea20ae062f5e8f2bc7645",
+      "v8PayloadBytes": 41145
+    },
+    {
+      "ordinal": 13,
+      "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+      "stem": "125282679",
+      "inputHashes": {
+        "learned-request-v7.json": "929fb3a087646d89712f8d50b2692ec7587e0541908fb57014c5b600d2176ea2",
+        "structure-evidence-v2.json": "9237151bd13fc9330bb6ad01b228e6951d3c57432e707b47dce0070e52f23db7",
+        "openai-payload-v7.json": "c8762e42b7da3ba68ac2ab2062d7cb11f4082bb3468b66ea4fe649baacf2bf62",
+        "openai-payload-v7-flex8192.json": "1f95fb6ff01795f3ed2d47632e42fe3395814799f6e703c6870cb4fb7c1da4fd"
+      },
+      "v8PayloadSha256": "cbbd81ce3fd92e92ea1b0fbf7bdf2e3d9e0015927ff32495830cde8fe0fc7b47",
+      "v8PayloadBytes": 47573
+    },
+    {
+      "ordinal": 14,
+      "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+      "stem": "121885015",
+      "inputHashes": {
+        "learned-request-v7.json": "a0237ce978df9a706177ff49fabd7008b73d662b40b8903ce0d7a1ed1056e6b8",
+        "structure-evidence-v2.json": "16be08847577b98f847d917ecfe159a120cbf52defd32276a928866f1f339281",
+        "openai-payload-v7.json": "0e3193d93896f2abb5572ed1b28f3508470085aec071334a7579bd7a5cb063d8",
+        "openai-payload-v7-flex8192.json": "810561925e40a17fe68cfe1dd0f6416f1f45070670cffe331ed5af642faddc5a"
+      },
+      "v8PayloadSha256": "3a9151505efde17666d90a6f4fb7c1b34cfb86af5626d6ddf39601b370f6055d",
+      "v8PayloadBytes": 38888
+    },
+    {
+      "ordinal": 15,
+      "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+      "stem": "53652782",
+      "inputHashes": {
+        "learned-request-v7.json": "07233c774ae041083db5c44dc87fb8ec3d3e60271c322f947f2e15bf901738ee",
+        "structure-evidence-v2.json": "7ab93028870cc521529aadee56fb392b2bde2bb92aa22af557f662f1f9b79514",
+        "openai-payload-v7.json": "f31cb00460458f4d73d66317cd2974ccbd087f059a918378e1ba6756d6a7e2b1",
+        "openai-payload-v7-flex8192.json": "992eb988efa631242de33e4a006100b3583c95c3571dd856ec814deeb538f04b"
+      },
+      "v8PayloadSha256": "ebd47af9d74fd82b76908f7841996aadc314a6447a43898d7d9d5fe9d68c0cb4",
+      "v8PayloadBytes": 42785
+    },
+    {
+      "ordinal": 16,
+      "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+      "stem": "48207706",
+      "inputHashes": {
+        "learned-request-v7.json": "7b8efa1433ac39adacfebc25d405112e108096adb03b87bbc2c2c96ab0a33cc4",
+        "structure-evidence-v2.json": "e7240a7c140d676b128b58e39a225d59286ad60e5f7acb6d820b4353d31243a7",
+        "openai-payload-v7.json": "534f9bf87ca9f232c86643eeeb37914a134d57bb63b6b678ecd67bacdcacc335",
+        "openai-payload-v7-flex8192.json": "92b7a231e9cf48f887100a0b8c77ffb2e36677140755d280463bea2d65ec666a"
+      },
+      "v8PayloadSha256": "9aa2c9d313b5024677a0cdf0013c9ab9352defdc17b0a0a1186ec314ed1c6116",
+      "v8PayloadBytes": 50698
+    },
+    {
+      "ordinal": 17,
+      "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+      "stem": "81381341",
+      "inputHashes": {
+        "learned-request-v7.json": "b7115c5466497a6633729651dca37f717a0312dfc028a76d2d731d6cd790100a",
+        "structure-evidence-v2.json": "062d93eca9693ccb3d90621382c39a00a0af0270da7dd49b19607c86ce38b33a",
+        "openai-payload-v7.json": "3fb5125aea6126a59bedec2ad04e60a3d797df30fdd77558d48a6bd081dded81",
+        "openai-payload-v7-flex8192.json": "aa20cb0bcec0ff6582b64a8fb9d2397da70b29ddae22469fe7c29a586eab2ab7"
+      },
+      "v8PayloadSha256": "73f537809525e10f6e2507baabb8e7e0d474afed4009d4bf725ba8b0058bce10",
+      "v8PayloadBytes": 40794
+    },
+    {
+      "ordinal": 18,
+      "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+      "stem": "91744869",
+      "inputHashes": {
+        "learned-request-v7.json": "ef786d459c8ba19a475d74637542621ebd8623fc6c87dc203ea0782462966b38",
+        "structure-evidence-v2.json": "048bdb1f311daad6a196d9aaa2cefe4913e250fe31b74406dfc1229793fb41e5",
+        "openai-payload-v7.json": "2484b5a7bbf838263c5db6624906e3427d09517fbb6b039f426db1d6e35ee2ed",
+        "openai-payload-v7-flex8192.json": "e4b2d32ed0d2a343b0596d2c8c17ed64c37247523874c870bff1b9f588cc7414"
+      },
+      "v8PayloadSha256": "92c68749c31a8c5ed24fc3d5e5ee326ee706b31c847877e5a402fd424503df4e",
+      "v8PayloadBytes": 42448
+    },
+    {
+      "ordinal": 19,
+      "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+      "stem": "70906479",
+      "inputHashes": {
+        "learned-request-v7.json": "79350d7440f940e1f41641d7aedef67aa1b42634976e83a428911af97224e555",
+        "structure-evidence-v2.json": "a94050ceec59700b0102a01da621f5af1bd9008aad19e41f48d6990d0a8612ea",
+        "openai-payload-v7.json": "64c00f15b2094a5f3945e7366de46bdbcbd07c6adc294cc11667d6ad52b2d634",
+        "openai-payload-v7-flex8192.json": "d981de7c9fd4e16fdfc54bd37491cb345e0d39541db85c2e7142cced39399cd2"
+      },
+      "v8PayloadSha256": "51bdb3f0cdc122ea188a8e9c217e3d4d427064b9065ffe5db2f33f6bd4fb7929",
+      "v8PayloadBytes": 49941
+    },
+    {
+      "ordinal": 20,
+      "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+      "stem": "109446919",
+      "inputHashes": {
+        "learned-request-v7.json": "d18006b544f4eb434536e00eff45f4a7b7e808ad3e29459cbf3c4ec180410081",
+        "structure-evidence-v2.json": "685b9b9fbb2e63993f667d0f2c546751b6fdfffc7173be0ba83f411dcf496dfa",
+        "openai-payload-v7.json": "a72f9ff61f1ca2da19f315d6dce5bb4c4671bb00b485f22cc489692818df3ca0",
+        "openai-payload-v7-flex8192.json": "78381e337627f44544feda668c192513401b6f736adcac153e14d1409d06d2a2"
+      },
+      "v8PayloadSha256": "e712bc19379f28c8cd721779315b4474c44a3151c26f852d8d8e8a35fc8101aa",
+      "v8PayloadBytes": 46659
+    },
+    {
+      "ordinal": 21,
+      "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+      "stem": "85840934",
+      "inputHashes": {
+        "learned-request-v7.json": "d9f0380090acf5bb4db07321eeabefe31a523f4104f1a084ef4fbf8715578693",
+        "structure-evidence-v2.json": "96e376545a5443192dce769f7b1fd2db88e533b55ade325c5c197f1c181c62db",
+        "openai-payload-v7.json": "5929b8fc8ee842773c31fd8a606acabb8de2709bc91ec560b4c4f51c42d194bf",
+        "openai-payload-v7-flex8192.json": "dcf88517414e7e0dbadefa8ef83f8f75213c3d8a1ba8f69938c5cf2b6624c356"
+      },
+      "v8PayloadSha256": "9ddfd9cdd750ae6fac1f62edbe586c8144b26d27d92a1c3d96f04984f2af3f0d",
+      "v8PayloadBytes": 42078
+    },
+    {
+      "ordinal": 22,
+      "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+      "stem": "126290034",
+      "inputHashes": {
+        "learned-request-v7.json": "8edb4726ea9a67c92ec7a47462eaa1b73bcf51d284315f9e52a23e0132ba370a",
+        "structure-evidence-v2.json": "4612d582b791057be467e978912349cfed3bebc2abaf02174d8a127148f82f2f",
+        "openai-payload-v7.json": "440774056dd01033cabb44f0725d5b8a42dc1aa68b2714db2b48ee12340763fb",
+        "openai-payload-v7-flex8192.json": "93d802ea0af76b6ad3c750492b120d737162410fbaf862b7980c7f1d1cb568bd"
+      },
+      "v8PayloadSha256": "3254c3d97308c5cd9aa98b1a5b351c3d4bc918fd41e80bcd01bd4e890229ceba",
+      "v8PayloadBytes": 43042
+    },
+    {
+      "ordinal": 23,
+      "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+      "stem": "84061701",
+      "inputHashes": {
+        "learned-request-v7.json": "98221a3b8937c295b22760a747f104c089f1dba4c59ac3a39b8cce2a887bd3ef",
+        "structure-evidence-v2.json": "9d9a5f6c6a9dda5d1ac1de8977725f5f3346e64033957afe0df1784a5470f756",
+        "openai-payload-v7.json": "df9ce001e2d7bb28bff33a5bc51524323725307f11cfdf7579423e1d9c86d91d",
+        "openai-payload-v7-flex8192.json": "3685418ce47d1d5fc56fdcd1f2fb52f5c6ef919ab7fad26a6af9c564137cad96"
+      },
+      "v8PayloadSha256": "b1132cc70729ede6d9f660c9b14f7c99048f9aed634c1433790bf2d66a1afefe",
+      "v8PayloadBytes": 46674
+    },
+    {
+      "ordinal": 24,
+      "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+      "stem": "74937346",
+      "inputHashes": {
+        "learned-request-v7.json": "18004c67837e0ff7062963cbd6ed8124ab377bae648067764bd519062570a958",
+        "structure-evidence-v2.json": "f18b20fb5f9a6e5cf8fc3adf918a28f277b6c62146778264eed57a09be89572b",
+        "openai-payload-v7.json": "150c7c0138ef9938a901c12a0784bbc6fab8946a8037bb0a0502c275a244d856",
+        "openai-payload-v7-flex8192.json": "8c1e3cc3f76d67c2200fe76e546d7d019ddf923f3868b1b2a571809e0a950d18"
+      },
+      "v8PayloadSha256": "94767729eaa3a9064701b35f0ac9a7801f4152b421dcfa83a69842eac46db380",
+      "v8PayloadBytes": 50679
+    },
+    {
+      "ordinal": 25,
+      "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+      "stem": "32192109",
+      "inputHashes": {
+        "learned-request-v7.json": "d09909def3c73c9df1b908f6a1f2bc926727a70daf2a0f183c87f547418f94e9",
+        "structure-evidence-v2.json": "1e0f9770ca8c1e67b64c42549a7046497fcc267e93658e845b5f41f2f5ead25e",
+        "openai-payload-v7.json": "7e167485485d46512f65f1507c27685fe8a35b4da102f015aba3f346922b0d8a",
+        "openai-payload-v7-flex8192.json": "55ca101d260112d10980e65e781f6c3c3d01749e861ce92b4819d6c61dd7164d"
+      },
+      "v8PayloadSha256": "8c307af855b085a6bd6989be64259b5a1c3a2deaf4c559371c6395a7e77c7f78",
+      "v8PayloadBytes": 42836
+    },
+    {
+      "ordinal": 26,
+      "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+      "stem": "60864932",
+      "inputHashes": {
+        "learned-request-v7.json": "fe3d547e160cf2c4b1b974efab132e72e3843065211ebecb68e4b3c2742b67f2",
+        "structure-evidence-v2.json": "56e9f8811698ca6dd3d91019631e3d77ef2105b0fc9de3a549ef2fff1566401e",
+        "openai-payload-v7.json": "417c5de83275d1f6e1a579d2377af5e188e1febb8995157edb9adc53f56858bc",
+        "openai-payload-v7-flex8192.json": "1086b901ceb6b64b1dd8b735acabd53470e07c886c107d740eed674f8fc8126b"
+      },
+      "v8PayloadSha256": "794a729b460361d605932f72c290634812d14a584999621c6186ff920ef23faf",
+      "v8PayloadBytes": 45923
+    },
+    {
+      "ordinal": 27,
+      "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+      "stem": "39970700",
+      "inputHashes": {
+        "learned-request-v7.json": "f90431392a7f2b03200f0c91b1df06d379934946810cfb413be2127437b1bab0",
+        "structure-evidence-v2.json": "8c03c93e7718e5c943b2b4185f7b1ad970d961be717cca6d8c67df5e0b33b3f6",
+        "openai-payload-v7.json": "86a608c98e7dcdcf8d74b2e58c4d32fe25a14426de5a6560721299e9dfc553bf",
+        "openai-payload-v7-flex8192.json": "14718351313fbe31b1b46063457a48a550301261ee88a655e71f715d91eaf1d8"
+      },
+      "v8PayloadSha256": "1eab336a26a919e36bc887e64509dfc523df278e119969a29fb6f4cd998fa0ca",
+      "v8PayloadBytes": 39325
+    },
+    {
+      "ordinal": 28,
+      "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+      "stem": "126774902",
+      "inputHashes": {
+        "learned-request-v7.json": "23125e10942f8a90aac41bb8196293855d57c849e82411471f960ce745d96af6",
+        "structure-evidence-v2.json": "9f0da0ac0879ef9dc56c3042b3bac72346d650b0c8d60f89deafa051ada2fa06",
+        "openai-payload-v7.json": "32e3881c2bc9afd24b6c674e2e193925dd2790157a2a37ca7f783b709f3e6fe1",
+        "openai-payload-v7-flex8192.json": "a5848a0fc405bae1896a7f673732acccd2dacbee83f6e465eb47670007d7263d"
+      },
+      "v8PayloadSha256": "0d41339157c127fefba3b9052d887c9eb9e9c4b4a9654623b239621e9368b335",
+      "v8PayloadBytes": 49005
+    },
+    {
+      "ordinal": 29,
+      "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+      "stem": "76926936",
+      "inputHashes": {
+        "learned-request-v7.json": "8aac9a523047a0b204f28cb82f625be64d01d3f72d1c0b32391a11af0dcf1725",
+        "structure-evidence-v2.json": "2c5a94c0a6a996c1a4335033b53baf76bcbf1f4adbe56fb30dc41c9912a8f464",
+        "openai-payload-v7.json": "f231038883615987648f41605200319ee6b6d3067255a9c70c896b65e8eeee02",
+        "openai-payload-v7-flex8192.json": "87e2e978c26b6a9b851df632eb4872e86ab9b1def2c3d0ad46c87bda7b6f555e"
+      },
+      "v8PayloadSha256": "e59c8f4c70b873622c3251da3386f1cc7c82404f3816def07aef02be9ad0a7e5",
+      "v8PayloadBytes": 51867
+    },
+    {
+      "ordinal": 30,
+      "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+      "stem": "60368032",
+      "inputHashes": {
+        "learned-request-v7.json": "576e46fd6fe89beed0f3e7713729a3b1f53eec40177243fb6b003146d61f7791",
+        "structure-evidence-v2.json": "da573c9b366062e5cae9cb66ff7641211c759c3f659ea3cc21c781479259c507",
+        "openai-payload-v7.json": "70bdd24e8051f3685fcdf856c48a9fc39298f8d91b8c78020c037e2f67aeca5b",
+        "openai-payload-v7-flex8192.json": "9a1520e6a024b97b9e973f3fb59341751606dc6f6a8290ca8b3b993718ecd009"
+      },
+      "v8PayloadSha256": "9016d2b62be2cf1615d854fefcb1486ab897ebe22198ceadb89767bb2a835dec",
+      "v8PayloadBytes": 48782
+    },
+    {
+      "ordinal": 31,
+      "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+      "stem": "60809730",
+      "inputHashes": {
+        "learned-request-v7.json": "a424562c4074570cc4e2c58e75b98f09cfc4e0ad6cf0d309589c1ac4d7e8ff56",
+        "structure-evidence-v2.json": "1a9bb8e69b04ded6614da42aceb045a0aa84916dc0dafe1b2aff556e93034459",
+        "openai-payload-v7.json": "80b37e157d9f8bcd2f8cfa18073b94140a28cb985bb8472f5844211083f3add9",
+        "openai-payload-v7-flex8192.json": "3484ebac1cf7e8bcc8e2b6c9125e5d3a327dd41c54ca9e0a802dce8d04410513"
+      },
+      "v8PayloadSha256": "998f1bdbf50346351b7eb485883756e97281cc2cb3b70ba7f5ba9f86700d1ccd",
+      "v8PayloadBytes": 44039
+    },
+    {
+      "ordinal": 32,
+      "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+      "stem": "57232773",
+      "inputHashes": {
+        "learned-request-v7.json": "2976246d96ef25c2c6542476da4d15e1e92602be90d60b4a4ac3bcde7a02480a",
+        "structure-evidence-v2.json": "6e0cdeafac5d5addebaaaf508e672643a9008779ddc7b1a98ba97f3e4a56cbd6",
+        "openai-payload-v7.json": "365a6165b695cc0b7d3229b56137cb3e075b3794fbbee08e6ad5cf11e1a45926",
+        "openai-payload-v7-flex8192.json": "ba22dc81129827e34be7103dbf76690c865a903bee89b4e871438de0ad6bac8a"
+      },
+      "v8PayloadSha256": "6884134a198484a729961a093f7f7425541d5feebab87d4b56cba3873fc25592",
+      "v8PayloadBytes": 43351
+    },
+    {
+      "ordinal": 33,
+      "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+      "stem": "37942877",
+      "inputHashes": {
+        "learned-request-v7.json": "0de303251d228d5b70bdf3ed689078ffaf5c253bd7b0fe4bb30546dbaaec7bff",
+        "structure-evidence-v2.json": "14dd5784dec94a2a728499cf6b618cb30da26fd7548afd7a6ab8d0a1be865a2a",
+        "openai-payload-v7.json": "dca98b945f9a576088022c1205d3735885651da331932ccf7582c11e74f153a6",
+        "openai-payload-v7-flex8192.json": "edbdc5baacf6af8d92e94ed0ae0cc6cd2e6e01e1e3ba2f3f211428aa6f7fb57d"
+      },
+      "v8PayloadSha256": "b81e87ecfc32ad8054291573506500c0f8897915fbb0a1e70bf22f1a441dca0e",
+      "v8PayloadBytes": 38595
+    },
+    {
+      "ordinal": 34,
+      "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+      "stem": "57931601",
+      "inputHashes": {
+        "learned-request-v7.json": "0de78acc2478fa6bc068bb022fdaff75d0265b33078343643845d939384ecaf4",
+        "structure-evidence-v2.json": "298e6e58f74181b7d6e8cabd743315d1b93f43252ee2a072c34a4a0ff7af1cb5",
+        "openai-payload-v7.json": "8cbed3276a22c8347bfe5c7df5307b3c679941eaaf1dc6101e31e80f851832ea",
+        "openai-payload-v7-flex8192.json": "d85fb5a7fa8d57933e0571d9d41ee6d16062a178988ba70e0ad4f9fdb32dd43b"
+      },
+      "v8PayloadSha256": "4cc6b2191eeacb40b30306cdcb952e591c8b7d745d360aa20ca62ecb0fd3bea2",
+      "v8PayloadBytes": 49642
+    },
+    {
+      "ordinal": 35,
+      "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+      "stem": "96730252",
+      "inputHashes": {
+        "learned-request-v7.json": "3b1d320674ba0c593de88ba93e801be4f4546cc71f0fc5f7982e265d50dbc8dd",
+        "structure-evidence-v2.json": "b6735d3b387e9b6a73c7e2dfdfc0056dd578bb14383c9638dbdb0832ab6c3cdd",
+        "openai-payload-v7.json": "387992018c878a876240bff1a8016a49691868535cfa86f14121b977b61d52f6",
+        "openai-payload-v7-flex8192.json": "7ad8e8d829654bb5eb9eeb342f9d9eeb8bc448ed3ada9b77565c2176a0d3e794"
+      },
+      "v8PayloadSha256": "d8d889a26a7e55284b7a11a9d651c048507122534e2b4732bfa7d77dcaf3f6f9",
+      "v8PayloadBytes": 41137
+    },
+    {
+      "ordinal": 36,
+      "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+      "stem": "53719180",
+      "inputHashes": {
+        "learned-request-v7.json": "21330745f205ed84fbcd1ac594736cf22940dea640cd9eed2a60e69549f0c992",
+        "structure-evidence-v2.json": "41d7178accff38daa4bdb22ab3596faf15a25618d57771d5d5c4d363de975d96",
+        "openai-payload-v7.json": "066c0691d019068639b74cd359e2b2d8cb55a12654a1a87bb38414426977dcf5",
+        "openai-payload-v7-flex8192.json": "ea94866cb9f6ded7d17e68ece2bb608bb0198a58fcc98310eba6fda5fba2c233"
+      },
+      "v8PayloadSha256": "e96f7808cc9be4332957cc34f6114cf06d619a8ff9235ed960d77b2193696664",
+      "v8PayloadBytes": 39997
+    },
+    {
+      "ordinal": 37,
+      "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+      "stem": "72517913",
+      "inputHashes": {
+        "learned-request-v7.json": "87af998950afa5c6b3a912c99c30b992c053cf66618526e55218b48934064516",
+        "structure-evidence-v2.json": "67396d31527f97dca0fe31477f97eca256a676cac8ac7dc43af0b3dd3f2ff5f4",
+        "openai-payload-v7.json": "e8c87d7cf410a8d1045fcbe99d6a490efd83616ee346b6379476862dd3844440",
+        "openai-payload-v7-flex8192.json": "2d3c596f66fb9f8516cf0ad4d902e9dba15b0f2b3d6500ace32e2bf338d43ed2"
+      },
+      "v8PayloadSha256": "9b54bfe53b1c6a8660b2d6613656b37485797c460ef595b6e85018342f6bbd71",
+      "v8PayloadBytes": 52163
+    },
+    {
+      "ordinal": 38,
+      "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+      "stem": "127164225",
+      "inputHashes": {
+        "learned-request-v7.json": "3abd599aa3c40d88fcaf36e4a3d77436e8995f7540d932dc57808353c539eaf5",
+        "structure-evidence-v2.json": "f882a517d7a223293b727ec0f1f8b073443dc6a1d63ed053eba2d2af79051540",
+        "openai-payload-v7.json": "8eaf1dc7c1f458fa295f44746be88ce34da1e5db83504df0755b0a5e51dc9d97",
+        "openai-payload-v7-flex8192.json": "1000822a15ee67f8c418ca85b59b48f3a6a61ee4eee45978c6028a8398410468"
+      },
+      "v8PayloadSha256": "7f4e0486b363234029c222d28f38c97d96fc007cc9532a059aedd591a59cd28f",
+      "v8PayloadBytes": 45201
+    },
+    {
+      "ordinal": 39,
+      "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+      "stem": "47275398",
+      "inputHashes": {
+        "learned-request-v7.json": "b9982921d6a4252d03fc1e82cb62ff9c5d5378b1d83042ff34a2c8dc82cdf0ef",
+        "structure-evidence-v2.json": "c14afc72b8a335778ea70030e0d8a69b2a9ed6856c3724ad0d8b520dd0da2641",
+        "openai-payload-v7.json": "218796ee232c8f839ba3dd29a8d3ff548188acb9ff8dcffd44954aa291e83a89",
+        "openai-payload-v7-flex8192.json": "854d0c486735b8fcc80a021946cfb900aafd148879c53446280661dd8e875b8d"
+      },
+      "v8PayloadSha256": "417fe839ef28acdf4683910703295f4b136878c6816369de441e314d5a44ce2e",
+      "v8PayloadBytes": 48450
+    },
+    {
+      "ordinal": 40,
+      "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+      "stem": "91165591",
+      "inputHashes": {
+        "learned-request-v7.json": "abe768714108d9f43322a0f30a94363a951dce032158a65a1a8cbed63bc11c03",
+        "structure-evidence-v2.json": "7579d6f16b3452f3baad6d19c932e5e51f7bf00c2a65b5095dc47d2b3a7372b6",
+        "openai-payload-v7.json": "7d738256a17aa70b76ace1b0777a889f6eb6bfdc9d4c0b4147e0fd5cd7564c8f",
+        "openai-payload-v7-flex8192.json": "6bb02339d8bacef458be40b7761081dc79e5c60ca88267dd1344b7d425f03f63"
+      },
+      "v8PayloadSha256": "6e042fb6271075b054a891476ff395404002a7f7566c8f0bbd8e895ebbe79348",
+      "v8PayloadBytes": 39889
+    },
+    {
+      "ordinal": 41,
+      "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+      "stem": "79678819",
+      "inputHashes": {
+        "learned-request-v7.json": "c4289e1ac7a7f080f01d71fad93893c1d191522909feb5179d60a86fa349fd4c",
+        "structure-evidence-v2.json": "5fab48ce338a5d7502bd1ebdd8962837bf506863f7542bbad094d2f308cf2e4b",
+        "openai-payload-v7.json": "bb1448259f5e042fecc344a36940c4d2e815c7b0528f50a3ca443f1f0cc232d8",
+        "openai-payload-v7-flex8192.json": "10312a1d5ea089e156488a9d94b89d3fb048a1ed720d73debd7f92c88412f90e"
+      },
+      "v8PayloadSha256": "a59459a02461554505c95fd6a12bb18bdcaa08e68566ecb4abc65521a060f27c",
+      "v8PayloadBytes": 46944
+    },
+    {
+      "ordinal": 42,
+      "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+      "stem": "60529832",
+      "inputHashes": {
+        "learned-request-v7.json": "f9cf9d9c8baa57766aca916725d555bf55d493d7968fc55f09705c6840c348d5",
+        "structure-evidence-v2.json": "fedd709aaed00244801ddf498973016c01c4b9cd9dac1c7481c955b0321e6336",
+        "openai-payload-v7.json": "280198e9b837484c75485368bf516b9d4cf20046663630aa5aaaeb822cab0635",
+        "openai-payload-v7-flex8192.json": "0abea3c14993d3a5622ddfaaaf0caddf8695a7c889e04ec50d6a6f3efbfd9b11"
+      },
+      "v8PayloadSha256": "627af357d3932085d5ce15c8256fb03b15d60f13e99546aa33d1b3ba056b5cb6",
+      "v8PayloadBytes": 47789
+    },
+    {
+      "ordinal": 43,
+      "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+      "stem": "65673638",
+      "inputHashes": {
+        "learned-request-v7.json": "977be7e5975ce00f5593cdbac3ba2f41dd98590780a08de5f48bb98a0119ad54",
+        "structure-evidence-v2.json": "43ca23725cf9f62aab6df722511b253ca009c46d10a9bac17b80bcb40c5afecb",
+        "openai-payload-v7.json": "4614e7e318ecaa72d3b412af21c6f38c49926e30de4aa7ebd425795baef29182",
+        "openai-payload-v7-flex8192.json": "8589993e7951655d371ff93066bb86ddf7a97ce95f8dddb94f2725f5d436ffd0"
+      },
+      "v8PayloadSha256": "f94e0e9e0e8e48a32c3f368b14084cbc25e1177ed9365591ab74177481651ef5",
+      "v8PayloadBytes": 45627
+    },
+    {
+      "ordinal": 44,
+      "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+      "stem": "32339733",
+      "inputHashes": {
+        "learned-request-v7.json": "60af870ffeef02db59a834c1f66d6f472fc5d19a3718db42cc21ab8d9e80bad9",
+        "structure-evidence-v2.json": "b2176bcb287fd15209b730153d636b0ced51fb07c270bc72b31b638cc8671637",
+        "openai-payload-v7.json": "0a2ba0cdf314c5c861929bbd7e0127106bd2cc9c1c1ccfac051c38ff13c62c0f",
+        "openai-payload-v7-flex8192.json": "e2bd2cd7b7296db7ef6ffdfb388e51cd3df55d9bd561c7de977661aeb3de0464"
+      },
+      "v8PayloadSha256": "454a778174add760be9cfffdead72ace48257ba24dbb287bbfb8ba7dd918ebea",
+      "v8PayloadBytes": 59495
+    },
+    {
+      "ordinal": 45,
+      "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+      "stem": "37088222",
+      "inputHashes": {
+        "learned-request-v7.json": "d4ef07a05fdc365e9773549c4357ab399bf00dc71548338c26ee762804a1d017",
+        "structure-evidence-v2.json": "a0a60580dbe60b3f861f8d3e19bbd66227d9fc0d9714cf3aca23516028d5f3b4",
+        "openai-payload-v7.json": "608e3b869d54b93f0ec9e4185c62753c3dee26eb1c2e42262ad3743b60771a5a",
+        "openai-payload-v7-flex8192.json": "9eff4ee1741358e745333643f9ab786c39aa4d5bd545b043b0c9780539307653"
+      },
+      "v8PayloadSha256": "12d05c71db4f894b3bf540b542ce08b0de970809f062eed5380550a2fa93bb69",
+      "v8PayloadBytes": 49303
+    },
+    {
+      "ordinal": 46,
+      "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+      "stem": "34226765",
+      "inputHashes": {
+        "learned-request-v7.json": "0df09f2fe9cf5ce6a54e45bdcd85ad7c990bc5b8dcd494c0b49093c6b2f57ea0",
+        "structure-evidence-v2.json": "aad2535b15b659688fb64ae4cdcba29f1ae1b68086c9bb1915e72d770571b23f",
+        "openai-payload-v7.json": "34b33a0408b2682f4ac623735debe5623a27b28d1f50d1d6a8cf312f797858e0",
+        "openai-payload-v7-flex8192.json": "0533a3ff1e3b7b25b99a4ef7ace90b5ebd9e4fb916f7a3f7d28667d5e2e8090e"
+      },
+      "v8PayloadSha256": "0a0d86a7f4498d539f08b6589ca31de9e69c87de3a904bce4a05f2d398658604",
+      "v8PayloadBytes": 44390
+    },
+    {
+      "ordinal": 47,
+      "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+      "stem": "84747227",
+      "inputHashes": {
+        "learned-request-v7.json": "5c85ed19b66942d06a8932f2f172c56b4678593e53b7dd67227144eb9d47ea9e",
+        "structure-evidence-v2.json": "10fe3d3fd53152738d203611ee796eb862addc259c16c98b3f5dae9cc94ff8e6",
+        "openai-payload-v7.json": "069b1f51a437692995b16c4b55ceea99516e14ef403aaee9ea7e6dc413492507",
+        "openai-payload-v7-flex8192.json": "3627cf0c44c174cbbdb063c9e466fc07c1ce7fb686191297f683980050ab5622"
+      },
+      "v8PayloadSha256": "103fa18f3ffae8a2da3af76984c159bbca10140179b1163a7f2b48b8ce7106d6",
+      "v8PayloadBytes": 42542
+    },
+    {
+      "ordinal": 48,
+      "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+      "stem": "57561267",
+      "inputHashes": {
+        "learned-request-v7.json": "13c8bc69c5596c3487ff60e53ce143d0baa09a405cdfbca9c3124ec34b6f7b55",
+        "structure-evidence-v2.json": "844b7b78ab3aa4b52fc0479ce910361aad5952c1885aed2db9924d7d9b2f8c2e",
+        "openai-payload-v7.json": "a399daf940d5783bbdc2d4507d61a3f9a984ccf93787c8e49a448c632209ec2c",
+        "openai-payload-v7-flex8192.json": "c3a086a656f764cb73dc024cf77f23264345ef3abdceb3163e07c94bd5f80cc5"
+      },
+      "v8PayloadSha256": "88e5e2450bb063a7b01491919a411f4dc106e07a24a424867f6521299af7f9c6",
+      "v8PayloadBytes": 41645
+    },
+    {
+      "ordinal": 49,
+      "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+      "stem": "92251267",
+      "inputHashes": {
+        "learned-request-v7.json": "b911ac161c95c370997df30021ccdf93190556d50c21566b6b006cb969e7a7e8",
+        "structure-evidence-v2.json": "09dc6a6d4b79ef0750d62c43eea8739a8c4cd4533d1a89bbe260bbecb5988dda",
+        "openai-payload-v7.json": "0da0e0cf8edd62131dd8abfef1ce7b58c808df473516965ebec607bc8404cffc",
+        "openai-payload-v7-flex8192.json": "0bd8ce1c1198a1674cb7447048aec629a7f305950a81863058454a084861e63b"
+      },
+      "v8PayloadSha256": "e6f4ab67389f96a4677a4549e714c789f6d11217fe32a03fa07e1262d496f01f",
+      "v8PayloadBytes": 45910
+    },
+    {
+      "ordinal": 50,
+      "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+      "stem": "57916551",
+      "inputHashes": {
+        "learned-request-v7.json": "23493de857836daaac63c3095ce6c8d8dcbac81b75a6066399eb24a0cc545ff4",
+        "structure-evidence-v2.json": "d4160e60fc7cb66bd26f61336b6840a5bc4b3bcb739ddf13877555968a372345",
+        "openai-payload-v7.json": "567bab06a4bfb02456a07ab94a121c7c4eb579332d57e401094ed8fbf7fa2ef1",
+        "openai-payload-v7-flex8192.json": "72ee5248065884902017ce72d0ac1eac1ab9a98b9127c83f6b2c4e2a3144a856"
+      },
+      "v8PayloadSha256": "864591c215aac24ca1f2dec353753276464db53aedfd8d30f8f8acab3e548ca0",
+      "v8PayloadBytes": 47101
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "schema": "trackcade-stage1-v8-remaining46-cost-model-v1",
+  "providerCalls": 0,
+  "spendUsd": 0,
+  "pricingSnapshot": {
+    "uncachedInputUsdPerMillion": 1.0,
+    "cachedInputUsdPerMillion": 0.1,
+    "cacheWriteUsdPerMillion": 1.25,
+    "outputIncludingReasoningUsdPerMillion": 5.0,
+    "cacheWriteAlternativeNotAdditive": true
+  },
+  "observations": [
+    {
+      "version": "V7",
+      "ordinal": 1,
+      "inputTokens": 19107,
+      "outputTokens": 3437,
+      "estimatedCostUsd": "0.041068"
+    },
+    {
+      "version": "V7",
+      "ordinal": 2,
+      "inputTokens": 13134,
+      "outputTokens": 4860,
+      "estimatedCostUsd": "0.04071675"
+    },
+    {
+      "version": "V7",
+      "ordinal": 3,
+      "inputTokens": 12474,
+      "outputTokens": 2803,
+      "estimatedCostUsd": "0.02960675"
+    },
+    {
+      "version": "V8",
+      "ordinal": 4,
+      "inputTokens": 12921,
+      "outputTokens": 9627,
+      "reasoningTokens": 7768,
+      "estimatedCostUsd": "0.0642855"
+    },
+    {
+      "version": "V7",
+      "ordinal": 4,
+      "attempt": "original and retry01 separately",
+      "estimatedCostUsdEach": "0.0571105",
+      "completedValid": false
+    }
+  ],
+  "projections46CallsUsd": {
+    "low": "1.36191050",
+    "central": "2.02028550",
+    "high": "2.9571330",
+    "full25000OutputAtLargestObservedInput": "6.84865250",
+    "conservativeReservationGuard": "10.350"
+  },
+  "projectionDefinitions": {
+    "low": "Repeat cheapest completed observation; optimistic sensitivity, not guaranteed lower bound.",
+    "central": "Unweighted mean of four completed V7/V8 observations, multiplied by 46; very small mixed-cap sample.",
+    "high": "Repeat V8 ordinal4 completed observation; not a guaranteed upper bound.",
+    "fullCap": "All 46 output ceilings exhausted, all input at largest observed input count and highest frozen input rate.",
+    "guard": "Four times largest observed input count (76428), highest input rate, full 25000 output: $0.220535 per attempt, rounded upward to $0.225. Every fixed frozen payload fits byte length plus 4096 within that input allowance."
+  },
+  "maximumFrozenV8PayloadBytes": 67018,
+  "recommendedFutureMaximumAuthorizedEstimatedSpendUsd": "10.35",
+  "actualAuthorizedEstimatedSpendUsd": null,
+  "limitations": [
+    "No account balance inspected or inferred.",
+    "Token forecasts extrapolate only the stated observed V7/V8 cases; no V5 historical usage or new provider estimates used.",
+    "Byte-envelope/input allowance is a deliberately conservative engineering estimate, not a provider-tokenization or billing guarantee.",
+    "Reservations are never refunded; lower actual usage does not permit extra calls. Unknown usage or over-reservation cost closes execution before any later call.",
+    "A smaller future approved ceiling will stop before all 46 calls if the next fixed reservation does not fit."
+  ]
+}
