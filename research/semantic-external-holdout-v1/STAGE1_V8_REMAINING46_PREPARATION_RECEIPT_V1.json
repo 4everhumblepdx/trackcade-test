@@ -1,0 +1,140 @@
+{
+  "schema": "trackcade-stage1-v8-remaining46-preparation-receipt-v1",
+  "preparedDateUtc": "2026-10-02",
+  "repository": "4everhumblepdx/trackcade-test",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "frozenStartHead": "651198e68294e0ca52b4090108fbec77129aedcd",
+  "sourceCommit": "459e27b596b9cde9444b341370312bad76090f26",
+  "localSourceCommit": "1b09896e53e4e542e25df51654458d2912e67751",
+  "identicalSourceTree": "f41c3fda6afe5856e3a0b7c147d9414e03f08dde",
+  "publication": "Connected GitHub Git-data publication; exact source trees verified. This receipt's containing commit is the final preparation state; no self-referential final commit hash embedded.",
+  "state": "provider-free-prepared-inert-stop",
+  "canonical": {
+    "workflow": ".github/workflows/trackcade-semantic-external-stage1-v8-remaining46-v1.yml",
+    "runner": "run_stage1_v8_remaining46_v1.py",
+    "contract": "STAGE1_V8_REMAINING46_CONTRACT_V1.json",
+    "mapping": "STAGE1_V8_REMAINING46_MAPPING_V1.json",
+    "costModel": "STAGE1_V8_REMAINING46_COST_MODEL_V1.json",
+    "protocol": "STAGE1_V8_REMAINING46_PROTOCOL_V1.md",
+    "auditResult": "STAGE1_V8_REMAINING46_AUDIT_RESULT_V1.json",
+    "authorization": "STAGE1_V8_REMAINING46_AUTHORIZATION_V1.json",
+    "activation": "STAGE1_V8_REMAINING46_ACTIVATE_V1.json"
+  },
+  "actualAuthorizationExists": false,
+  "actualActivationExists": false,
+  "actualAuthorizedEstimatedSpendUsd": null,
+  "futureActivationMechanism": "Fresh explicit Nicholas scope/budget authorization in a preceding commit, then a separate activation-file-only commit binding the authorization, successful source audit, exact source hashes and unchanged frozen contract. Templates cannot authorize or activate. No workflow_dispatch or rerun execution; any prior live run blocks reuse.",
+  "scientificRecommendation": "A: preserve V7 completed-valid ordinals1-3 as predecessor-contract observations and V8 from4; any eventual combined collection must explicitly retain mixed-cap provenance. B requires separate future approval and fresh version-specific reruns outside this continuation.",
+  "frozenRecordsPreserved": {
+    "v7CompletedValidOrdinals": [
+      1,
+      2,
+      3
+    ],
+    "v7Ordinal4OriginalAndRetry": "incomplete/unaccepted/unscored; no retries available",
+    "v8Ordinal4": "completed-valid under 25000 cap; existing authorization consumed",
+    "v8Ordinal4Run": 36947107596,
+    "v8Ordinal4ResultArtifact": 11203065070,
+    "v8Ordinal4EstimatedCostUsd": "0.0642855",
+    "ordinals5Through50": "unattempted"
+  },
+  "costProjection46Usd": {
+    "low": "1.36191050",
+    "central": "2.02028550",
+    "high": "2.9571330",
+    "fullCapAtLargestObservedInput": "6.84865250",
+    "conservativeGuardRecommendedFutureCeiling": "10.35"
+  },
+  "spendGuard": {
+    "reservationUsdPerAttempt": "0.225",
+    "decimalPreCallCumulativeGuard": true,
+    "noRefunds": true,
+    "actualBudgetUnset": true,
+    "forecastNotBillingGuarantee": true,
+    "accountBalanceNotInspected": true,
+    "unknownUsageOrOverReservationStops": true
+  },
+  "auditSummary": {
+    "localPassed": 27,
+    "hostedPrimaryPassed": 27,
+    "hostedHistoricalPassed": 16,
+    "failures": 0,
+    "errors": 0,
+    "primaryRun": 36999688700,
+    "historicalRun": 36999688604,
+    "localHostedBehaviorDiscrepancies": []
+  },
+  "createdSourceFiles": [
+    {
+      "path": ".github/workflows/trackcade-semantic-external-stage1-v8-remaining46-audit-v1.yml",
+      "sha": "77d93dabecbe591de3cc343210a4b48ecbe59ae8",
+      "length": 5045
+    },
+    {
+      "path": ".github/workflows/trackcade-semantic-external-stage1-v8-remaining46-v1.yml",
+      "sha": "857a74077d0f97372371f97a3bf7ed7ebabacd2c",
+      "length": 91759
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_ACTIVATION_TEMPLATE_V1.json",
+      "sha": "b00ef874b296abb1e1dddba21d6b306f9e6c94e3",
+      "length": 950
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUTHORIZATION_TEMPLATE_V1.json",
+      "sha": "2deb797e7f8a46a2c058920526383f3aeadc9db3",
+      "length": 841
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_CONTRACT_V1.json",
+      "sha": "473c620a083f60a0e324d234c9f04edd1bfe5f94",
+      "length": 4039
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_COST_MODEL_V1.json",
+      "sha": "2fcb8bfc4b1586ff6201fb159776bd66b1f3c111",
+      "length": 2871
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_MAPPING_V1.json",
+      "sha": "7151b8503beee84bd0a5616955758e6381523a65",
+      "length": 32425
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_PROTOCOL_V1.md",
+      "sha": "185092c62a02e4d0bb94a3b9cda2c96a3b07bd3a",
+      "length": 8432
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/audit_stage1_v8_remaining46_v1.py",
+      "sha": "0b4d90238acf9e0b629ec101066ddfed2d5dd991",
+      "length": 9503
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py",
+      "sha": "908e95dfa0341aa62cf8ee4e9bb1c2fc740491ab",
+      "length": 18367
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/test_stage1_v8_remaining46_v1.py",
+      "sha": "54f394ec2dc46a811717512227322642d84c1190",
+      "length": 13576
+    }
+  ],
+  "createdReceiptFiles": [
+    "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_AUDIT_RESULT_V1.json",
+    "research/semantic-external-holdout-v1/STAGE1_V8_REMAINING46_PREPARATION_RECEIPT_V1.json"
+  ],
+  "priorExperimentalFilesChanged": 0,
+  "providerCalls": 0,
+  "providerCredentialExposed": false,
+  "estimatedProviderSpendUsd": 0,
+  "labelsOpened": false,
+  "terminalHoldoutAccessed": false,
+  "semanticScoring": false,
+  "analyzerExecutedOrModified": false,
+  "compilerInvoked": false,
+  "nonDropGameplayEligibilityPreserved": true,
+  "stop": "Do not activate or execute ordinal5. Future paid execution needs separate explicit scope/budget approval; no approval is requested or inferred now."
+}
+
