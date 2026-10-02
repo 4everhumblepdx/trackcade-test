@@ -1,0 +1,120 @@
+{
+  "schema": "trackcade-stage1-v7-ordinal04-forensic-autopsy-v1",
+  "frozenSourceCommit": "8d882217813941b139af077b404aec52a5aa3a89",
+  "conclusion": "visible-structured-output-cleanly-truncated-at-combined-output-cap",
+  "supportsSingleVariableV8Diagnostic": true,
+  "identicalSubmittedPayloadBytes": true,
+  "attempts": [
+    {
+      "attempt": "original",
+      "artifactId": 11197856837,
+      "archiveSha256": "6d0050f200487c4005b8da443d01e0835c1e4ecda1de277cfffb486764346110",
+      "rawResponseSha256": "483436435a4bf2aea7de574f75ccab253a95fd3868f63f8074cbdc35fca7abef",
+      "payloadSha256": "f72ef31743accb1220786a66bfe622b4e1db24ecc71b79b665bdc67a36c33e55",
+      "packetSha256": "558b2b110e5c342b49da7d38f2ffa215ee6f442e1ff0c2a879c3d923171c58f7",
+      "requestSha256": "da72772b007f5e09a72724a608ac5083d36bac5573edbf73e27e54c7a6896864",
+      "manifestAllEntriesVerified": true,
+      "providerStatus": "incomplete",
+      "incompleteDetails": {
+        "reason": "max_output_tokens"
+      },
+      "providerError": null,
+      "usage": {
+        "input_tokens": 12921,
+        "input_tokens_details": {
+          "cache_write_tokens": 12918,
+          "cached_tokens": 0
+        },
+        "output_tokens": 8192,
+        "output_tokens_details": {
+          "reasoning_tokens": 6952
+        },
+        "total_tokens": 21113
+      },
+      "visibleNonReasoningTokenRemainder": 1240,
+      "visibleTextCharacters": 5463,
+      "visibleTextSha256": "ea8347ebe7204d14e819fc1786ac0ada8ac9e2b67b5882be9e2a73de7e90c8dd",
+      "reasoningItems": 14,
+      "reasoningReadable": false,
+      "visibleMessageItems": 1,
+      "completeAssessmentObjects": 13,
+      "assessmentRequiredFieldSetsMatch": true,
+      "assessmentAnchorsStrictlyIncreasing": true,
+      "duplicateAssessmentObjects": 0,
+      "duplicateAssessmentRationales": 0,
+      "firstEventObjectSyntacticallyComplete": true,
+      "secondEventTruncatedInsideString": true,
+      "truncatedField": "name",
+      "wholeOutputJsonParseError": {
+        "message": "Unterminated string starting at",
+        "position": 5457
+      },
+      "observableProgression": "candidateAssessments array closed; events array started; first event complete; second event cut inside string",
+      "visibleLoopOrTaskDivergenceObserved": false,
+      "partialProposalRecoveredAcceptedValidatedOrScored": false
+    },
+    {
+      "attempt": "retry1",
+      "artifactId": 11200315147,
+      "archiveSha256": "89da81776587ba591490da9bbee83ab1638cb2fd2b174c8309847d90b7901c50",
+      "rawResponseSha256": "bf4a6fa35f56888a0a444bf5fc2df242b94f7dc5c67e5add04b1f4554bc7d8b2",
+      "payloadSha256": "f72ef31743accb1220786a66bfe622b4e1db24ecc71b79b665bdc67a36c33e55",
+      "packetSha256": "558b2b110e5c342b49da7d38f2ffa215ee6f442e1ff0c2a879c3d923171c58f7",
+      "requestSha256": "da72772b007f5e09a72724a608ac5083d36bac5573edbf73e27e54c7a6896864",
+      "manifestAllEntriesVerified": true,
+      "providerStatus": "incomplete",
+      "incompleteDetails": {
+        "reason": "max_output_tokens"
+      },
+      "providerError": null,
+      "usage": {
+        "input_tokens": 12921,
+        "input_tokens_details": {
+          "cache_write_tokens": 12918,
+          "cached_tokens": 0
+        },
+        "output_tokens": 8192,
+        "output_tokens_details": {
+          "reasoning_tokens": 6732
+        },
+        "total_tokens": 21113
+      },
+      "visibleNonReasoningTokenRemainder": 1460,
+      "visibleTextCharacters": 5625,
+      "visibleTextSha256": "0b258b9db6c9d1e38908bcd82c19fe696ef0789a77f507b41268720383d7c88c",
+      "reasoningItems": 13,
+      "reasoningReadable": false,
+      "visibleMessageItems": 1,
+      "completeAssessmentObjects": 11,
+      "assessmentRequiredFieldSetsMatch": true,
+      "assessmentAnchorsStrictlyIncreasing": true,
+      "duplicateAssessmentObjects": 0,
+      "duplicateAssessmentRationales": 0,
+      "firstEventObjectSyntacticallyComplete": true,
+      "secondEventTruncatedInsideString": true,
+      "truncatedField": "rationale",
+      "wholeOutputJsonParseError": {
+        "message": "Unterminated string starting at",
+        "position": 5582
+      },
+      "observableProgression": "candidateAssessments array closed; events array started; first event complete; second event cut inside string",
+      "visibleLoopOrTaskDivergenceObserved": false,
+      "partialProposalRecoveredAcceptedValidatedOrScored": false
+    }
+  ],
+  "limitations": [
+    "Encrypted reasoning is opaque: no claim that hidden reasoning did not loop or diverge.",
+    "No completed proposal exists; whole-output JSON is invalid from end truncation, not evidence of an earlier syntax breakdown.",
+    "No semantic correctness assessed; partial objects examined only as forensic syntax, never as proposals."
+  ],
+  "boundaries": {
+    "providerCalls": 0,
+    "spendUsd": 0,
+    "referenceLabelsOpened": false,
+    "terminalHoldoutAccessed": false,
+    "semanticScoringPerformed": false,
+    "compilerInvoked": false,
+    "analyzerExecutedOrModified": false,
+    "v7Modified": false
+  }
+}
