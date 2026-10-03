@@ -1,0 +1,23 @@
+{
+  "schema": "trackcade-stage1-v9-execution-audit-v1",
+  "headSha": "7a86a4a3fca400a5071806b844ecb5d286147d97",
+  "runId": "37143772695",
+  "testsRun": 91,
+  "passed": 91,
+  "failures": 0,
+  "errors": 0,
+  "failureTests": [],
+  "errorTests": [],
+  "result": "PASS",
+  "realNetworkAttempts": 0,
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "credentialExposed": false,
+  "semanticSource": "3ee7028529e69950d514537f1d6e16841519bad9",
+  "semanticTreatmentUnchanged": true,
+  "structuralOrdinalGroupsVerified": 50,
+  "realAuthorizationExists": false,
+  "realActivationExists": false,
+  "terminalAccessed": false
+}
+
