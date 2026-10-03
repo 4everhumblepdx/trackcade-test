@@ -1,0 +1,106 @@
+diff --git a/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml b/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml
+index 423ee22..de8cd47 100644
+--- a/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml
++++ b/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml
+@@ -69,10 +69,11 @@
+           "uses": "actions/upload-artifact@v4",
+           "with": {
+             "name": "trackcade-stage1-v9-execution-provider-free-audit-v1",
+-            "path": "/tmp/v9-execution-audit.json",
++            "path": "/tmp/v9-execution-audit.json\n/tmp/v9-execution-audit.log",
+             "if-no-files-found": "error",
+             "retention-days": 90
+-          }
++          },
++          "if": "always()"
+         }
+       ]
+     }
+diff --git a/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py b/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py
+index 84cf428..4b8e3d8 100644
+--- a/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py
++++ b/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py
+@@ -4,11 +4,19 @@ from pathlib import Path
+ from unittest import mock
+ import execute_stage1_v9_grounded_v1 as e
+ 
++def run_audit(suite,report_path):
++    e.no_key();stream=io.StringIO();capture=io.StringIO()
++    with mock.patch.object(socket.socket,'connect',side_effect=AssertionError('network forbidden')) as connect,mock.patch.object(socket,'create_connection',side_effect=AssertionError('network forbidden')) as connection,mock.patch.object(urllib.request,'urlopen',side_effect=AssertionError('HTTP forbidden')) as http,contextlib.redirect_stdout(capture):result=unittest.TextTestRunner(stream=stream,verbosity=2).run(suite)
++    report={'schema':'trackcade-stage1-v9-execution-audit-v1','headSha':os.environ.get('GITHUB_SHA') or e.git('rev-parse','HEAD'),'runId':os.environ.get('GITHUB_RUN_ID'),'testsRun':result.testsRun,'passed':result.testsRun-len(result.failures)-len(result.errors),'failures':len(result.failures),'errors':len(result.errors),'failureTests':[test.id() for test,_ in result.failures],'errorTests':[test.id() for test,_ in result.errors],'result':'PASS' if result.wasSuccessful() and not (connect.call_count+connection.call_count+http.call_count) else 'FAIL','realNetworkAttempts':connect.call_count+connection.call_count+http.call_count,'providerCalls':0,'providerSpendUsd':'0','credentialExposed':False,'semanticSource':e.SEMANTIC,'semanticTreatmentUnchanged':True,'structuralOrdinalGroupsVerified':50,'realAuthorizationExists':e.r.AUTH.exists(),'realActivationExists':e.r.ACT.exists(),'terminalAccessed':False}
++    test_log=stream.getvalue()
++    report_path.with_suffix('.log').write_bytes(test_log.encode())
++    e.save(report_path,report)
++    print(test_log,end='')
++    print(json.dumps(report))
++    if report['result']!='PASS':raise SystemExit(1)
++
+ if __name__=='__main__':
+     ap=argparse.ArgumentParser();ap.add_argument('--report',type=Path,required=True);args=ap.parse_args()
+-    e.no_key();e.static();stream=io.StringIO();capture=io.StringIO();suite=unittest.TestSuite()
++    e.no_key();e.static();suite=unittest.TestSuite()
+     for name in ['test_stage1_v9_grounded_contract_v1','test_stage1_v9_grounded_execution_v1','test_stage1_v9_execution_v1']:suite.addTests(unittest.defaultTestLoader.loadTestsFromName(name))
+-    with mock.patch.object(socket.socket,'connect',side_effect=AssertionError('network forbidden')) as connect,mock.patch.object(socket,'create_connection',side_effect=AssertionError('network forbidden')) as connection,mock.patch.object(urllib.request,'urlopen',side_effect=AssertionError('HTTP forbidden')) as http,contextlib.redirect_stdout(capture):result=unittest.TextTestRunner(stream=stream,verbosity=2).run(suite)
+-    report={'schema':'trackcade-stage1-v9-execution-audit-v1','headSha':os.environ.get('GITHUB_SHA') or e.git('rev-parse','HEAD'),'runId':os.environ.get('GITHUB_RUN_ID'),'testsRun':result.testsRun,'passed':result.testsRun-len(result.failures)-len(result.errors),'failures':len(result.failures),'errors':len(result.errors),'result':'PASS' if result.wasSuccessful() and not (connect.call_count+connection.call_count+http.call_count) else 'FAIL','realNetworkAttempts':connect.call_count+connection.call_count+http.call_count,'providerCalls':0,'providerSpendUsd':'0','credentialExposed':False,'semanticSource':e.SEMANTIC,'semanticTreatmentUnchanged':True,'structuralOrdinalGroupsVerified':50,'realAuthorizationExists':e.r.AUTH.exists(),'realActivationExists':e.r.ACT.exists(),'terminalAccessed':False}
+-    e.save(args.report,report);args.report.with_suffix('.log').write_bytes(stream.getvalue().encode());print(json.dumps(report))
+-    if report['result']!='PASS':raise SystemExit(1)
++    run_audit(suite,args.report)
+diff --git a/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py b/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py
+index 0acab31..386e628 100644
+--- a/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py
++++ b/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py
+@@ -100,4 +100,54 @@ class SecretIntegrityRegressionTests(unittest.TestCase):
+                 else:step['run']+=' # ${{ secrets.FAKE }}'
+                 with self.subTest(n=n,mode=mode),self.assertRaises(ValueError):e.wiring(bad)
+ 
++class AuditObservabilityTests(unittest.TestCase):
++    def synthetic(self,kind):
++        import audit_stage1_v9_execution_v1 as audit
++        import contextlib,io
++        class Synthetic(unittest.TestCase):
++            def test_diagnostic(self):
++                if kind=='error':raise ValueError('synthetic observability error')
++                if kind=='failure':self.fail('synthetic observability assertion')
++        suite=unittest.defaultTestLoader.loadTestsFromTestCase(Synthetic)
++        emitted=io.StringIO()
++        with tempfile.TemporaryDirectory() as temp:
++            report=Path(temp)/'audit.json'
++            with contextlib.redirect_stdout(emitted):
++                if kind=='pass':audit.run_audit(suite,report)
++                else:
++                    with self.assertRaises(SystemExit) as raised:audit.run_audit(suite,report)
++                    self.assertEqual(raised.exception.code,1)
++            data=json.loads(report.read_text());log=report.with_suffix('.log').read_text()
++        self.assertIn(log,emitted.getvalue())
++        self.assertEqual(json.loads(emitted.getvalue().splitlines()[-1]),data)
++        self.assertEqual(data['realNetworkAttempts'],0)
++        return data,log
++    def test_synthetic_error_is_identified_logged_emitted_and_nonzero(self):
++        data,log=self.synthetic('error')
++        self.assertEqual(data['result'],'FAIL');self.assertEqual(data['errors'],1)
++        self.assertEqual(len(data['errorTests']),1);self.assertTrue(data['errorTests'][0].endswith('Synthetic.test_diagnostic'))
++        self.assertEqual(data['failureTests'],[])
++        self.assertIn('Traceback (most recent call last)',log);self.assertIn('ValueError: synthetic observability error',log)
++    def test_synthetic_failure_is_identified_logged_emitted_and_nonzero(self):
++        data,log=self.synthetic('failure')
++        self.assertEqual(data['result'],'FAIL');self.assertEqual(data['failures'],1)
++        self.assertEqual(len(data['failureTests']),1);self.assertTrue(data['failureTests'][0].endswith('Synthetic.test_diagnostic'))
++        self.assertEqual(data['errorTests'],[])
++        self.assertIn('Traceback (most recent call last)',log);self.assertIn('AssertionError: synthetic observability assertion',log)
++    def test_success_still_writes_report_and_log(self):
++        data,log=self.synthetic('pass')
++        self.assertEqual(data['result'],'PASS');self.assertEqual(data['testsRun'],1)
++        self.assertEqual(data['failureTests'],[]);self.assertEqual(data['errorTests'],[])
++        self.assertIn('OK',log)
++    def test_hosted_failure_upload_is_always_without_failure_bypass_or_secret(self):
++        wf=e.r.load(e.ROOT/e.AUDIT_WF);steps=wf['jobs']['audit']['steps']
++        upload=steps[-1]
++        self.assertEqual(upload['uses'],'actions/upload-artifact@v4');self.assertEqual(upload['if'],'always()')
++        self.assertEqual(upload['with']['path'].splitlines(),['/tmp/v9-execution-audit.json','/tmp/v9-execution-audit.log'])
++        self.assertEqual(upload['with']['if-no-files-found'],'error')
++        self.assertTrue(any('audit_stage1_v9_execution_v1.py --report' in step.get('run','') for step in steps))
++        self.assertFalse(any('continue-on-error' in step for step in steps))
++        self.assertNotIn('continue-on-error',wf['jobs']['audit'])
++        self.assertNotIn('secrets.',json.dumps(wf));self.assertNotIn('OPENAI_API_KEY',json.dumps(wf))
++
+ if __name__=='__main__':unittest.main()

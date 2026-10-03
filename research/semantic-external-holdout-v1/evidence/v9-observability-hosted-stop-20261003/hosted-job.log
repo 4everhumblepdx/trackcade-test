@@ -1,0 +1,430 @@
+﻿2026-10-03T17:58:27.2152988Z Current runner version: '2.337.0'
+2026-10-03T17:58:27.2177286Z ##[group]Runner Image Provisioner
+2026-10-03T17:58:27.2178216Z Hosted Compute Agent
+2026-10-03T17:58:27.2179171Z Version: 20260901.588
+2026-10-03T17:58:27.2179898Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-03T17:58:27.2180659Z Build Date: 2026-09-01T19:56:44Z
+2026-10-03T17:58:27.2181393Z Worker ID: {98563e6c-fddd-428d-a208-7c14df21339d}
+2026-10-03T17:58:27.2182565Z Azure Region: eastus2
+2026-10-03T17:58:27.2183152Z ##[endgroup]
+2026-10-03T17:58:27.2185490Z ##[group]Operating System
+2026-10-03T17:58:27.2186795Z Ubuntu
+2026-10-03T17:58:27.2187777Z 24.04.5
+2026-10-03T17:58:27.2189112Z LTS
+2026-10-03T17:58:27.2190072Z ##[endgroup]
+2026-10-03T17:58:27.2191086Z ##[group]Runner Image
+2026-10-03T17:58:27.2192374Z Image: ubuntu-24.04
+2026-10-03T17:58:27.2193484Z Version: 20260927.320.1
+2026-10-03T17:58:27.2195858Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-03T17:58:27.2198542Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-03T17:58:27.2200772Z ##[endgroup]
+2026-10-03T17:58:27.2202794Z ##[group]GITHUB_TOKEN Permissions
+2026-10-03T17:58:27.2205132Z Actions: read
+2026-10-03T17:58:27.2205806Z Contents: read
+2026-10-03T17:58:27.2206443Z Metadata: read
+2026-10-03T17:58:27.2207077Z ##[endgroup]
+2026-10-03T17:58:27.2209344Z Secret source: Actions
+2026-10-03T17:58:27.2210399Z Cache mode: write
+2026-10-03T17:58:27.2211111Z Prepare workflow directory
+2026-10-03T17:58:27.2753483Z Prepare all required actions
+2026-10-03T17:58:27.2824379Z Getting action download info
+2026-10-03T17:58:27.5143841Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-03T17:58:27.6221262Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-10-03T17:58:27.8230309Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-03T17:58:28.0348930Z Complete job name: audit
+2026-10-03T17:58:28.1107112Z ##[group]Run actions/checkout@v4
+2026-10-03T17:58:28.1107979Z with:
+2026-10-03T17:58:28.1108402Z   fetch-depth: 0
+2026-10-03T17:58:28.1109073Z   persist-credentials: false
+2026-10-03T17:58:28.1109612Z   sparse-checkout-cone-mode: false
+2026-10-03T17:58:28.1121383Z   sparse-checkout: /.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml
+/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-v1.yml
+/research/learned-interpretation-v1/build_learned_request_v1.py
+/research/learned-interpretation-v1/build_learned_request_v2.py
+/research/learned-interpretation-v1/build_learned_request_v3.py
+/research/learned-interpretation-v1/build_learned_request_v5.py
+/research/learned-interpretation-v1/build_learned_request_v6.py
+/research/learned-interpretation-v1/build_learned_request_v7.py
+/research/learned-interpretation-v1/openai_responses_adapter_v1.py
+/research/learned-interpretation-v1/validate_learned_proposal_v1.py
+/research/learned-interpretation-v1/validate_learned_proposal_v3.py
+/research/learned-interpretation-v1/validate_learned_proposal_v7.py
+/research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_PREDICTION_MANIFEST_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_EXECUTION_POLICY_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_CONTRACT_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_MAPPING_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_SEMANTIC_DIFF_V1.patch
+/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py
+/research/semantic-external-holdout-v1/build_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+/research/semantic-external-holdout-v1/run_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/stage_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py
+/research/semantic-external-holdout-v1/test_stage1_v9_grounded_contract_v1.py
+/research/semantic-external-holdout-v1/test_stage1_v9_grounded_execution_v1.py
+2026-10-03T17:58:28.1133770Z   repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:58:28.1137469Z   token: ***
+2026-10-03T17:58:28.1137926Z   ssh-strict: true
+2026-10-03T17:58:28.1138352Z   ssh-user: git
+2026-10-03T17:58:28.1138925Z   clean: true
+2026-10-03T17:58:28.1139334Z   fetch-tags: false
+2026-10-03T17:58:28.1139773Z   show-progress: true
+2026-10-03T17:58:28.1140209Z   lfs: false
+2026-10-03T17:58:28.1140615Z   submodules: false
+2026-10-03T17:58:28.1141061Z   set-safe-directory: true
+2026-10-03T17:58:28.1141560Z   allow-unsafe-pr-checkout: false
+2026-10-03T17:58:28.1142392Z env:
+2026-10-03T17:58:28.1142820Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:58:28.1143556Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:58:28.1144335Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:58:28.1144896Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:58:28.1145368Z ##[endgroup]
+2026-10-03T17:58:28.2207369Z Syncing repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:58:28.2210709Z ##[group]Getting Git version info
+2026-10-03T17:58:28.2212089Z Working directory is '/home/runner/work/trackcade-test/trackcade-test'
+2026-10-03T17:58:28.2223998Z [command]/usr/bin/git version
+2026-10-03T17:58:28.2341652Z git version 2.55.0
+2026-10-03T17:58:28.2364910Z ##[endgroup]
+2026-10-03T17:58:28.2382397Z Temporarily overriding HOME='/home/runner/work/_temp/542107c4-b7f4-4cf8-90c9-ee96fba5f839' before making global git config changes
+2026-10-03T17:58:28.2385173Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:58:28.2390566Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/trackcade-test/trackcade-test
+2026-10-03T17:58:28.2444884Z Deleting the contents of '/home/runner/work/trackcade-test/trackcade-test'
+2026-10-03T17:58:28.2451195Z ##[group]Initializing the repository
+2026-10-03T17:58:28.2463247Z [command]/usr/bin/git init /home/runner/work/trackcade-test/trackcade-test
+2026-10-03T17:58:28.2582426Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-03T17:58:28.2589932Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-03T17:58:28.2606469Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-03T17:58:28.2608039Z hint: call:
+2026-10-03T17:58:28.2609469Z hint:
+2026-10-03T17:58:28.2610691Z hint: 	git config --global init.defaultBranch <name>
+2026-10-03T17:58:28.2612028Z hint:
+2026-10-03T17:58:28.2613184Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-03T17:58:28.2614927Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-03T17:58:28.2616213Z hint:
+2026-10-03T17:58:28.2616936Z hint: 	git branch -m <name>
+2026-10-03T17:58:28.2617759Z hint:
+2026-10-03T17:58:28.2619088Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-03T17:58:28.2620967Z Initialized empty Git repository in /home/runner/work/trackcade-test/trackcade-test/.git/
+2026-10-03T17:58:28.2623895Z [command]/usr/bin/git remote add origin https://github.com/4everhumblepdx/trackcade-test
+2026-10-03T17:58:28.2669428Z ##[endgroup]
+2026-10-03T17:58:28.2670793Z ##[group]Disabling automatic garbage collection
+2026-10-03T17:58:28.2675246Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-03T17:58:28.2716176Z ##[endgroup]
+2026-10-03T17:58:28.2717575Z ##[group]Setting up auth
+2026-10-03T17:58:28.2727474Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:58:28.2772080Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:58:28.3187414Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:58:28.3227018Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:58:28.3490778Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:58:28.3518212Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:58:28.3742534Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-03T17:58:28.3790877Z ##[endgroup]
+2026-10-03T17:58:28.3792566Z ##[group]Fetching the repository
+2026-10-03T17:58:28.3797321Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules --filter=blob:none origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-03T17:58:29.0219443Z From https://github.com/4everhumblepdx/trackcade-test
+2026-10-03T17:58:29.0231145Z  * [new branch]      __do_not_use_more_branch_ops -> origin/__do_not_use_more_branch_ops
+2026-10-03T17:58:29.0233432Z  * [new branch]      __noop_should_not_create -> origin/__noop_should_not_create
+2026-10-03T17:58:29.0235946Z  * [new branch]      __placeholder           -> origin/__placeholder
+2026-10-03T17:58:29.0238267Z  * [new branch]      analyzer-stress-ci      -> origin/analyzer-stress-ci
+2026-10-03T17:58:29.0240821Z  * [new branch]      analyzer-stress-v015-experiment -> origin/analyzer-stress-v015-experiment
+2026-10-03T17:58:29.0243045Z  * [new branch]      analyzer-stress-v016-volume -> origin/analyzer-stress-v016-volume
+2026-10-03T17:58:29.0245345Z  * [new branch]      analyzer-stress-v017-volume -> origin/analyzer-stress-v017-volume
+2026-10-03T17:58:29.0247839Z  * [new branch]      analyzer-stress-v018-ballroom -> origin/analyzer-stress-v018-ballroom
+2026-10-03T17:58:29.0250328Z  * [new branch]      analyzer-v020-phase-context -> origin/analyzer-v020-phase-context
+2026-10-03T17:58:29.0252126Z  * [new branch]      main                    -> origin/main
+2026-10-03T17:58:29.0253210Z  * [new branch]      release/analyzer-v0.19  -> origin/release/analyzer-v0.19
+2026-10-03T17:58:29.0254484Z  * [new branch]      release/analyzer-v0.19-rc1 -> origin/release/analyzer-v0.19-rc1
+2026-10-03T17:58:29.0255850Z  * [new branch]      trackcade-analyzer-stress -> origin/trackcade-analyzer-stress
+2026-10-03T17:58:29.0257119Z  * [new branch]      trackcade-art-assets-v1 -> origin/trackcade-art-assets-v1
+2026-10-03T17:58:29.0259620Z  * [new branch]      trackcade-gameplay-difficulty-v1 -> origin/trackcade-gameplay-difficulty-v1
+2026-10-03T17:58:29.0261753Z  * [new branch]      trackcade-learned-interpretation-v1 -> origin/trackcade-learned-interpretation-v1
+2026-10-03T17:58:29.0263467Z  * [new branch]      trackcade-musical-interpretation-v1 -> origin/trackcade-musical-interpretation-v1
+2026-10-03T17:58:29.0265019Z  * [new branch]      trackcade-musical-structure-v1 -> origin/trackcade-musical-structure-v1
+2026-10-03T17:58:29.0266602Z  * [new branch]      trackcade-openai-infra-diagnostic-v1 -> origin/trackcade-openai-infra-diagnostic-v1
+2026-10-03T17:58:29.0268157Z  * [new branch]      trackcade-openai-live-v1-freeze -> origin/trackcade-openai-live-v1-freeze
+2026-10-03T17:58:29.0270339Z  * [new branch]      trackcade-openai-sol-v1-freeze -> origin/trackcade-openai-sol-v1-freeze
+2026-10-03T17:58:29.0271776Z  * [new branch]      trackcade-openai-sol-v1-work -> origin/trackcade-openai-sol-v1-work
+2026-10-03T17:58:29.0273262Z  * [new branch]      trackcade-semantic-external-holdout-v1 -> origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:58:29.0274897Z  * [new branch]      trackcade-semantic-internal-holdout-v1 -> origin/trackcade-semantic-internal-holdout-v1
+2026-10-03T17:58:29.0276654Z  * [new branch]      trackcade-semantic-internal-holdout-v1-freeze -> origin/trackcade-semantic-internal-holdout-v1-freeze
+2026-10-03T17:58:29.0278582Z  * [new branch]      trackcade-semantic-quality-v1 -> origin/trackcade-semantic-quality-v1
+2026-10-03T17:58:29.0280352Z  * [new branch]      trackcade-v3-offline-collection -> origin/trackcade-v3-offline-collection
+2026-10-03T17:58:29.0282508Z  * [new branch]      trackcade-visual-world-v1 -> origin/trackcade-visual-world-v1
+2026-10-03T17:58:29.0285243Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-13 -> trackcade-v3-provider-attempt-ordinal-13
+2026-10-03T17:58:29.0288597Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-23 -> trackcade-v3-provider-attempt-ordinal-23
+2026-10-03T17:58:29.0291917Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-31 -> trackcade-v3-provider-attempt-ordinal-31
+2026-10-03T17:58:29.0294804Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-35 -> trackcade-v3-provider-attempt-ordinal-35
+2026-10-03T17:58:29.0297951Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-38 -> trackcade-v3-provider-attempt-ordinal-38
+2026-10-03T17:58:29.0301080Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-42 -> trackcade-v3-provider-attempt-ordinal-42
+2026-10-03T17:58:29.0303668Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-44 -> trackcade-v3-provider-attempt-ordinal-44
+2026-10-03T17:58:29.0306539Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-45 -> trackcade-v3-provider-attempt-ordinal-45
+2026-10-03T17:58:29.0310583Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-46 -> trackcade-v3-provider-attempt-ordinal-46
+2026-10-03T17:58:29.0312447Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-47 -> trackcade-v3-provider-attempt-ordinal-47
+2026-10-03T17:58:29.0314014Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-48 -> trackcade-v3-provider-attempt-ordinal-48
+2026-10-03T17:58:29.0315524Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-49 -> trackcade-v3-provider-attempt-ordinal-49
+2026-10-03T17:58:29.0317063Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-50 -> trackcade-v3-provider-attempt-ordinal-50
+2026-10-03T17:58:29.0319859Z  * [new tag]         trackcade-v3-retry-ordinal-42-evidence-11028077891-v1 -> trackcade-v3-retry-ordinal-42-evidence-11028077891-v1
+2026-10-03T17:58:29.0323224Z  * [new tag]         trackcade-v3-retry-ordinal-46-evidence-11030495842-v1 -> trackcade-v3-retry-ordinal-46-evidence-11030495842-v1
+2026-10-03T17:58:29.0327050Z [command]/usr/bin/git branch --list --remote origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:58:29.0328962Z   origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:58:29.0331629Z [command]/usr/bin/git rev-parse refs/remotes/origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:58:29.0339491Z 5a45e4154266a2e7744a6962c3208aafe78dd990
+2026-10-03T17:58:29.0344053Z ##[endgroup]
+2026-10-03T17:58:29.0345874Z ##[group]Determining the checkout info
+2026-10-03T17:58:29.0347726Z ##[endgroup]
+2026-10-03T17:58:29.0349729Z ##[group]Setting up sparse checkout
+2026-10-03T17:58:29.0351406Z [command]/usr/bin/git config core.sparseCheckout true
+2026-10-03T17:58:29.0388416Z [command]/usr/bin/git rev-parse --git-path info/sparse-checkout
+2026-10-03T17:58:29.0414476Z .git/info/sparse-checkout
+2026-10-03T17:58:29.0421497Z ##[endgroup]
+2026-10-03T17:58:29.0423060Z ##[group]Checking out the ref
+2026-10-03T17:58:29.0427120Z [command]/usr/bin/git checkout --progress --force -B trackcade-semantic-external-holdout-v1 refs/remotes/origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:58:29.2443712Z Switched to a new branch 'trackcade-semantic-external-holdout-v1'
+2026-10-03T17:58:29.2449877Z branch 'trackcade-semantic-external-holdout-v1' set up to track 'origin/trackcade-semantic-external-holdout-v1'.
+2026-10-03T17:58:29.2457660Z ##[endgroup]
+2026-10-03T17:58:29.2503811Z [command]/usr/bin/git log -1 --format=%H
+2026-10-03T17:58:29.2531567Z 5a45e4154266a2e7744a6962c3208aafe78dd990
+2026-10-03T17:58:29.2541179Z ##[group]Removing auth
+2026-10-03T17:58:29.2544874Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:58:29.2625082Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:58:29.2815070Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:58:29.2843896Z http.https://github.com/.extraheader
+2026-10-03T17:58:29.2853954Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T17:58:29.2896967Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:58:29.3119347Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:58:29.3156525Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:58:29.3374738Z ##[endgroup]
+2026-10-03T17:58:29.3664874Z ##[group]Run actions/download-artifact@v4
+2026-10-03T17:58:29.3666159Z with:
+2026-10-03T17:58:29.3667333Z   name: trackcade-semantic-external-stage1-v7-prep-v1
+2026-10-03T17:58:29.3669092Z   path: /tmp/v9-source-original
+2026-10-03T17:58:29.3670357Z   repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:58:29.3671603Z   run-id: 36915758639
+2026-10-03T17:58:29.3680632Z   github-token: ***
+2026-10-03T17:58:29.3681654Z   merge-multiple: false
+2026-10-03T17:58:29.3682643Z env:
+2026-10-03T17:58:29.3683543Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:58:29.3685069Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:58:29.3686757Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:58:29.3687932Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:58:29.3689265Z ##[endgroup]
+2026-10-03T17:58:29.5295863Z Downloading single artifact
+2026-10-03T17:58:29.5374972Z (node:2383) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-03T17:58:29.5376657Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-03T17:58:29.5654836Z (node:2383) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-03T17:58:29.7520649Z Preparing to download the following artifacts:
+2026-10-03T17:58:29.7522122Z - trackcade-semantic-external-stage1-v7-prep-v1 (ID: 11189967853, Size: 1815072, Expected Digest: sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a)
+2026-10-03T17:58:29.7554461Z Downloading artifact '11189967853' from '4everhumblepdx/trackcade-test'
+2026-10-03T17:58:29.8968577Z Redirecting to blob download url: https://productionresultssa8.blob.core.windows.net/actions-results/f2bbb9b9-6b1b-81de-b180-fbc175fbf803/workflow-job-run-1a46a708-ebb7-5c62-8a56-f52e82b10e57/artifacts/57808eddb381302156b8d9b42185ab703dd36f4f3528c7ea6973d58f3b8e16e6.zip
+2026-10-03T17:58:29.8970719Z Starting download of artifact to: /tmp/v9-source-original
+2026-10-03T17:58:29.9992592Z (node:2383) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-03T17:58:30.1703257Z SHA256 digest of downloaded artifact is 4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a
+2026-10-03T17:58:30.1704287Z Artifact download completed successfully.
+2026-10-03T17:58:30.1704991Z Total of 1 artifact(s) downloaded
+2026-10-03T17:58:30.1710372Z Download artifact has finished successfully
+2026-10-03T17:58:30.1892455Z ##[group]Run actions/download-artifact@v4
+2026-10-03T17:58:30.1892760Z with:
+2026-10-03T17:58:30.1893058Z   name: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+2026-10-03T17:58:30.1893431Z   path: /tmp/v9-flex-original
+2026-10-03T17:58:30.1893979Z   repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:58:30.1894260Z   run-id: 36920081360
+2026-10-03T17:58:30.1896570Z   github-token: ***
+2026-10-03T17:58:30.1896801Z   merge-multiple: false
+2026-10-03T17:58:30.1897014Z env:
+2026-10-03T17:58:30.1897216Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:58:30.1897585Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:58:30.1898005Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:58:30.1898274Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:58:30.1898498Z ##[endgroup]
+2026-10-03T17:58:30.3357865Z Downloading single artifact
+2026-10-03T17:58:30.3430806Z (node:2396) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-03T17:58:30.3431523Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-03T17:58:30.3669613Z (node:2396) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-03T17:58:30.5745835Z Preparing to download the following artifacts:
+2026-10-03T17:58:30.5747497Z - trackcade-semantic-external-stage1-v7-flex8192-prep-v1 (ID: 11191402965, Size: 2424937, Expected Digest: sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95)
+2026-10-03T17:58:30.5787357Z Downloading artifact '11191402965' from '4everhumblepdx/trackcade-test'
+2026-10-03T17:58:30.7286036Z Redirecting to blob download url: https://productionresultssa0.blob.core.windows.net/actions-results/3c98a025-30f0-8b3e-9f98-57fd51405fb4/workflow-job-run-eddfaff9-7c00-5a40-a326-dfa1ea7a9088/artifacts/e009d6b09a9bc1aab3d24d7feb1f84058f31790b524dc4cf786ff05ab2c34a1f.zip
+2026-10-03T17:58:30.7287885Z Starting download of artifact to: /tmp/v9-flex-original
+2026-10-03T17:58:30.8164070Z (node:2396) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-03T17:58:31.0357023Z SHA256 digest of downloaded artifact is ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95
+2026-10-03T17:58:31.0358191Z Artifact download completed successfully.
+2026-10-03T17:58:31.0358959Z Total of 1 artifact(s) downloaded
+2026-10-03T17:58:31.0363286Z Download artifact has finished successfully
+2026-10-03T17:58:31.0508430Z ##[group]Run python -B "$E" prep
+2026-10-03T17:58:31.0509105Z [36;1mpython -B "$E" prep[0m
+2026-10-03T17:58:31.0788161Z shell: /usr/bin/bash -e {0}
+2026-10-03T17:58:31.0788460Z env:
+2026-10-03T17:58:31.0788942Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:58:31.0789409Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:58:31.0789918Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:58:31.0790248Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:58:31.0790519Z ##[endgroup]
+2026-10-03T17:58:31.7984397Z ##[group]Run python -B research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py --report /tmp/v9-execution-audit.json
+2026-10-03T17:58:31.7985425Z [36;1mpython -B research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py --report /tmp/v9-execution-audit.json[0m
+2026-10-03T17:58:31.8049911Z shell: /usr/bin/bash -e {0}
+2026-10-03T17:58:31.8050171Z env:
+2026-10-03T17:58:31.8050389Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:58:31.8050790Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:58:31.8051224Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:58:31.8051513Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:58:31.8051749Z ##[endgroup]
+2026-10-03T17:58:38.4860326Z test_all_instructions_same (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_all_instructions_same) ... ok
+2026-10-03T17:58:38.4862417Z test_all_mixed_caps (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_all_mixed_caps) ... ok
+2026-10-03T17:58:38.4864364Z test_all_payloads_rebuild_exactly (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_all_payloads_rebuild_exactly) ... ok
+2026-10-03T17:58:38.4866205Z test_all_provider_settings_and_schema (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_all_provider_settings_and_schema) ... ok
+2026-10-03T17:58:38.4867588Z test_all_staged_hashes (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_all_staged_hashes) ... ok
+2026-10-03T17:58:38.4868939Z test_baseline_dependencies_unchanged (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_baseline_dependencies_unchanged) ... ok
+2026-10-03T17:58:38.4870642Z test_baseline_records_unchanged (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_baseline_records_unchanged) ... ok
+2026-10-03T17:58:38.4871924Z test_budget_reconciliation_structure_preserved (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_budget_reconciliation_structure_preserved) ... ok
+2026-10-03T17:58:38.4873331Z test_candidate_coverage_instruction_unchanged (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_candidate_coverage_instruction_unchanged) ... ok
+2026-10-03T17:58:38.4874696Z test_confidence_and_non_drop_rules_unchanged (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_confidence_and_non_drop_rules_unchanged) ... ok
+2026-10-03T17:58:38.4875838Z test_credential_absent (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_credential_absent) ... ok
+2026-10-03T17:58:38.4876767Z test_exact_50_ordinals (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_exact_50_ordinals) ... ok
+2026-10-03T17:58:38.4877862Z test_exact_single_instruction_insertion (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_exact_single_instruction_insertion) ... ok
+2026-10-03T17:58:38.4879301Z test_foreign_label_or_result_fields_rejected (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_foreign_label_or_result_fields_rejected) ... ok
+2026-10-03T17:58:38.4880429Z test_frozen_definition_and_other_criteria_retained (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_frozen_definition_and_other_criteria_retained) ... ok
+2026-10-03T17:58:38.4881445Z test_inputs_packet_identical (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_inputs_packet_identical) ... ok
+2026-10-03T17:58:38.4882371Z test_label_leakage_absent_all_payloads (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_label_leakage_absent_all_payloads) ... ok
+2026-10-03T17:58:38.4883337Z test_nested_label_injection_rejected (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_nested_label_injection_rejected) ... ok
+2026-10-03T17:58:38.4884168Z test_no_activation (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_activation) ... ok
+2026-10-03T17:58:38.4884919Z test_no_execution_workflow (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_execution_workflow) ... ok
+2026-10-03T17:58:38.4885955Z test_no_extra_request_changes (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_extra_request_changes) ... ok
+2026-10-03T17:58:38.4886785Z test_no_real_authorization (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_real_authorization) ... ok
+2026-10-03T17:58:38.4887586Z test_no_terminal_path_reads (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_terminal_path_reads) ... ok
+2026-10-03T17:58:38.4888436Z test_no_threshold_filter_or_veto (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_threshold_filter_or_veto) ... ok
+2026-10-03T17:58:38.4889761Z test_no_threshold_new_output_schema (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_no_threshold_new_output_schema) ... ok
+2026-10-03T17:58:38.4891005Z test_per_ordinal_usage_cap_failure (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_per_ordinal_usage_cap_failure) ... ok
+2026-10-03T17:58:38.4892034Z test_pre_call_consumed_marker_precedes_key_access (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_pre_call_consumed_marker_precedes_key_access) ... ok
+2026-10-03T17:58:38.4893327Z test_pricing_usage_function_byte_behavior_unchanged (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_pricing_usage_function_byte_behavior_unchanged) ... ok
+2026-10-03T17:58:38.4894274Z test_scorer_unchanged (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_scorer_unchanged) ... ok
+2026-10-03T17:58:38.4895520Z test_synthetic_A_concentrated_support_permitted_by_instruction (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_synthetic_A_concentrated_support_permitted_by_instruction) ... ok
+2026-10-03T17:58:38.4896825Z test_synthetic_B_average_or_gradual_not_sufficient_instruction (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_synthetic_B_average_or_gradual_not_sufficient_instruction) ... ok
+2026-10-03T17:58:38.4898124Z test_synthetic_C_meaningful_non_drop_retained_instruction (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_synthetic_C_meaningful_non_drop_retained_instruction) ... ok
+2026-10-03T17:58:38.4899333Z test_transport_one_call_and_no_retry (test_stage1_v9_grounded_contract_v1.GroundingContractTests.test_transport_one_call_and_no_retry) ... ok
+2026-10-03T17:58:38.4900273Z test_absent_key_never_calls_transport (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_absent_key_never_calls_transport) ... ok
+2026-10-03T17:58:38.4901246Z test_all50_reconcile_under_lower_ceiling (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_all50_reconcile_under_lower_ceiling) ... ok
+2026-10-03T17:58:38.4902298Z test_budget_exact_boundary_and_next_call_refused (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_budget_exact_boundary_and_next_call_refused) ... ok
+2026-10-03T17:58:38.4903428Z test_cli_fails_before_provider_without_authorization (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_cli_fails_before_provider_without_authorization) ... ok
+2026-10-03T17:58:38.4904531Z test_credential_denied_before_reservation (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_credential_denied_before_reservation) ... ok
+2026-10-03T17:58:38.4905442Z test_frozen_mapping_all50 (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_frozen_mapping_all50) ... ok
+2026-10-03T17:58:38.4906467Z test_frozen_pricing_no_double_charge_reasoning_or_cachewrite (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_frozen_pricing_no_double_charge_reasoning_or_cachewrite) ... ok
+2026-10-03T17:58:38.4907505Z test_frozen_settings_exact (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_frozen_settings_exact) ... ok
+2026-10-03T17:58:38.4908452Z test_future_explicit_matching_approval_gate (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_future_explicit_matching_approval_gate) ... ok
+2026-10-03T17:58:38.4910032Z test_gate_rejects_scope_retries_template_contract_drift (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_gate_rejects_scope_retries_template_contract_drift) ... ok
+2026-10-03T17:58:38.4911165Z test_http_failure_one_call_no_fallback (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_http_failure_one_call_no_fallback) ... ok
+2026-10-03T17:58:38.4912295Z test_incomplete_attempt_frozen_and_second_invocation_refused (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_incomplete_attempt_frozen_and_second_invocation_refused) ... ok
+2026-10-03T17:58:38.4913515Z test_lock_identity_expiration_and_other_ordinal_fail (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_lock_identity_expiration_and_other_ordinal_fail) ... ok
+2026-10-03T17:58:38.4914684Z test_missing_corrupt_or_wrong_result_never_reconciles (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_missing_corrupt_or_wrong_result_never_reconciles) ... ok
+2026-10-03T17:58:38.4915766Z test_missing_uploaded_lock_refuses_call (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_missing_uploaded_lock_refuses_call) ... ok
+2026-10-03T17:58:38.4916957Z test_next_call_stops_when_reconciled_cost_plus_reserve_exceeds_budget (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_next_call_stops_when_reconciled_cost_plus_reserve_exceeds_budget) ... ok
+2026-10-03T17:58:38.4918261Z test_no_activation_or_real_authorization (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_no_activation_or_real_authorization) ... ok
+2026-10-03T17:58:38.4919447Z test_ordinals_exact_and_lower_ordinals_rejected (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_ordinals_exact_and_lower_ordinals_rejected) ... ok
+2026-10-03T17:58:38.4920627Z test_preparation_no_transport_and_no_duplicate_reservation (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_preparation_no_transport_and_no_duplicate_reservation) ... ok
+2026-10-03T17:58:38.4921867Z test_previous_frozen_evidence_and_ledger_tampering_stop (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_previous_frozen_evidence_and_ledger_tampering_stop) ... ok
+2026-10-03T17:58:38.4923077Z test_reconciliation_releases_only_verified_difference (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_reconciliation_releases_only_verified_difference) ... ok
+2026-10-03T17:58:38.4924163Z test_rerun_branch_and_dispatch_rejected (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_rerun_branch_and_dispatch_rejected) ... ok
+2026-10-03T17:58:38.4925268Z test_small_cap_overrun_freezes_failure_and_cannot_continue (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_small_cap_overrun_freezes_failure_and_cannot_continue) ... ok
+2026-10-03T17:58:38.4926466Z test_stale_wrong_run_skipped_and_tampered_ledger_fail (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_stale_wrong_run_skipped_and_tampered_ledger_fail) ... ok
+2026-10-03T17:58:38.4927501Z test_templates_cannot_authorize (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_templates_cannot_authorize) ... ERROR
+2026-10-03T17:58:38.4928443Z test_transport_error_one_call_no_retry (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_transport_error_one_call_no_retry) ... ok
+2026-10-03T17:58:38.4929626Z test_transport_incomplete_never_extracts_or_validates (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_transport_incomplete_never_extracts_or_validates) ... ok
+2026-10-03T17:58:38.4930698Z test_unauthorized_amounts_fail_closed (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_unauthorized_amounts_fail_closed) ... ok
+2026-10-03T17:58:38.4931758Z test_unknown_malformed_and_over_envelope_usage_stops (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_unknown_malformed_and_over_envelope_usage_stops) ... ok
+2026-10-03T17:58:38.4932915Z test_uploaded_success_gate_then_no_duplicate_advance (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_uploaded_success_gate_then_no_duplicate_advance) ... ok
+2026-10-03T17:58:38.4934228Z test_usage_error_or_over_reservation_keeps_lock_and_stops (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_usage_error_or_over_reservation_keeps_lock_and_stops) ... ok
+2026-10-03T17:58:38.4935282Z test_wrong_model_and_tier_stops (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_wrong_model_and_tier_stops) ... ok
+2026-10-03T17:58:38.4936387Z test_hosted_failure_upload_is_always_without_failure_bypass_or_secret (test_stage1_v9_execution_v1.AuditObservabilityTests.test_hosted_failure_upload_is_always_without_failure_bypass_or_secret) ... ok
+2026-10-03T17:58:38.4937525Z test_success_still_writes_report_and_log (test_stage1_v9_execution_v1.AuditObservabilityTests.test_success_still_writes_report_and_log) ... ok
+2026-10-03T17:58:38.4938609Z test_synthetic_error_is_identified_logged_emitted_and_nonzero (test_stage1_v9_execution_v1.AuditObservabilityTests.test_synthetic_error_is_identified_logged_emitted_and_nonzero) ... ok
+2026-10-03T17:58:38.4939989Z test_synthetic_failure_is_identified_logged_emitted_and_nonzero (test_stage1_v9_execution_v1.AuditObservabilityTests.test_synthetic_failure_is_identified_logged_emitted_and_nonzero) ... ok
+2026-10-03T17:58:38.4941311Z test_actual_gate_environment_reconciles_without_secret (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_actual_gate_environment_reconciles_without_secret) ... ok
+2026-10-03T17:58:38.4942382Z test_all_50_gate_ids_match_and_mutations_refused (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_all_50_gate_ids_match_and_mutations_refused) ... ok
+2026-10-03T17:58:38.4943355Z test_all_live_and_verify_lock_ids_required (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_all_live_and_verify_lock_ids_required) ... ok
+2026-10-03T17:58:38.4944270Z test_budget_stop_no_lock_no_transport (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_budget_stop_no_lock_no_transport) ... ok
+2026-10-03T17:58:38.4945202Z test_corrupt_ledger_is_not_clean_budget_stop (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_corrupt_ledger_is_not_clean_budget_stop) ... ok
+2026-10-03T17:58:38.4946205Z test_exact_frozen_source_and_structural_wiring (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_exact_frozen_source_and_structural_wiring) ... ok
+2026-10-03T17:58:38.4947249Z test_missing_auth_fails_before_credential_transport (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_missing_auth_fails_before_credential_transport) ... ok
+2026-10-03T17:58:38.4948236Z test_no_provider_key_in_audit_workflow (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_no_provider_key_in_audit_workflow) ... ok
+2026-10-03T17:58:38.4949489Z test_no_rerun_dispatch_or_cancel_in_progress (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_no_rerun_dispatch_or_cancel_in_progress) ... ok
+2026-10-03T17:58:38.4950465Z test_result_always_frozen_after_live_failure (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_result_always_frozen_after_live_failure) ... ok
+2026-10-03T17:58:38.4951383Z test_secret_only_after_verified_lock (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_secret_only_after_verified_lock) ... ok
+2026-10-03T17:58:38.4952419Z test_sparse_generation_excludes_terminal_labels_and_scores (test_stage1_v9_execution_v1.ExecutionHarnessTests.test_sparse_generation_excludes_terminal_labels_and_scores) ... ok
+2026-10-03T17:58:38.4953636Z test_each_live_matching_verifier_and_lock_and_exact_secret (test_stage1_v9_execution_v1.SecretIntegrityRegressionTests.test_each_live_matching_verifier_and_lock_and_exact_secret) ... ok
+2026-10-03T17:58:38.4954786Z test_each_nonlive_group_secret_is_value_error (test_stage1_v9_execution_v1.SecretIntegrityRegressionTests.test_each_nonlive_group_secret_is_value_error) ... ok
+2026-10-03T17:58:38.4955846Z test_every_unnamed_step_secret_is_value_error (test_stage1_v9_execution_v1.SecretIntegrityRegressionTests.test_every_unnamed_step_secret_is_value_error) ... ok
+2026-10-03T17:58:38.4956806Z test_exact_ordered_secret_set (test_stage1_v9_execution_v1.SecretIntegrityRegressionTests.test_exact_ordered_secret_set) ... ok
+2026-10-03T17:58:38.4957866Z test_extra_secret_steps_named_or_unnamed (test_stage1_v9_execution_v1.SecretIntegrityRegressionTests.test_extra_secret_steps_named_or_unnamed) ... ok
+2026-10-03T17:58:38.4959048Z test_live_id_missing_duplicate_or_step_missing (test_stage1_v9_execution_v1.SecretIntegrityRegressionTests.test_live_id_missing_duplicate_or_step_missing) ... ok
+2026-10-03T17:58:38.4959640Z 
+2026-10-03T17:58:38.4959763Z ======================================================================
+2026-10-03T17:58:38.4960374Z ERROR: test_templates_cannot_authorize (test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_templates_cannot_authorize)
+2026-10-03T17:58:38.4961023Z ----------------------------------------------------------------------
+2026-10-03T17:58:38.4961418Z Traceback (most recent call last):
+2026-10-03T17:58:38.4962168Z   File "/home/runner/work/trackcade-test/trackcade-test/research/semantic-external-holdout-v1/test_stage1_v9_grounded_execution_v1.py", line 17, in test_templates_cannot_authorize
+2026-10-03T17:58:38.4963385Z     with self.env(),self.assertRaises(ValueError):r.gate(r.load(r.BASE/'STAGE1_V9_GROUNDED_AUTHORIZATION_TEMPLATE_V1.json'),r.load(r.BASE/'STAGE1_V9_GROUNDED_ACTIVATION_TEMPLATE_V1.json'))
+2026-10-03T17:58:38.4964323Z                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T17:58:38.4965046Z   File "/home/runner/work/trackcade-test/trackcade-test/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py", line 51, in load
+2026-10-03T17:58:38.4965763Z     return json.loads(path.read_text(encoding="utf-8"))
+2026-10-03T17:58:38.4966089Z                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T17:58:38.4966430Z   File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+2026-10-03T17:58:38.4966840Z     with self.open(mode='r', encoding=encoding, errors=errors) as f:
+2026-10-03T17:58:38.4967196Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T17:58:38.4967530Z   File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+2026-10-03T17:58:38.4967916Z     return io.open(self, mode, buffering, encoding, errors, newline)
+2026-10-03T17:58:38.4968285Z            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-03T17:58:38.4969220Z FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/trackcade-test/trackcade-test/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_AUTHORIZATION_TEMPLATE_V1.json'
+2026-10-03T17:58:38.4969953Z 
+2026-10-03T17:58:38.4970097Z ----------------------------------------------------------------------
+2026-10-03T17:58:38.4970418Z Ran 87 tests in 6.432s
+2026-10-03T17:58:38.4970546Z 
+2026-10-03T17:58:38.4970630Z FAILED (errors=1)
+2026-10-03T17:58:38.4972903Z {"schema": "trackcade-stage1-v9-execution-audit-v1", "headSha": "5a45e4154266a2e7744a6962c3208aafe78dd990", "runId": "37142463075", "testsRun": 87, "passed": 86, "failures": 0, "errors": 1, "failureTests": [], "errorTests": ["test_stage1_v9_grounded_execution_v1.InertContinuationTests.test_templates_cannot_authorize"], "result": "FAIL", "realNetworkAttempts": 0, "providerCalls": 0, "providerSpendUsd": "0", "credentialExposed": false, "semanticSource": "3ee7028529e69950d514537f1d6e16841519bad9", "semanticTreatmentUnchanged": true, "structuralOrdinalGroupsVerified": 50, "realAuthorizationExists": false, "realActivationExists": false, "terminalAccessed": false}
+2026-10-03T17:58:38.5077970Z ##[error]Process completed with exit code 1.
+2026-10-03T17:58:38.5145934Z ##[group]Run actions/upload-artifact@v4
+2026-10-03T17:58:38.5146238Z with:
+2026-10-03T17:58:38.5146522Z   name: trackcade-stage1-v9-execution-provider-free-audit-v1
+2026-10-03T17:58:38.5146960Z   path: /tmp/v9-execution-audit.json
+/tmp/v9-execution-audit.log
+2026-10-03T17:58:38.5147314Z   if-no-files-found: error
+2026-10-03T17:58:38.5147545Z   retention-days: 90
+2026-10-03T17:58:38.5147761Z   compression-level: 6
+2026-10-03T17:58:38.5147972Z   overwrite: false
+2026-10-03T17:58:38.5148184Z   include-hidden-files: false
+2026-10-03T17:58:38.5148411Z env:
+2026-10-03T17:58:38.5148605Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:58:38.5149298Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:58:38.5149738Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:58:38.5150123Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:58:38.5168318Z ##[endgroup]
+2026-10-03T17:58:38.6805120Z (node:2497) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-03T17:58:38.6805929Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-03T17:58:38.6856574Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-10-03T17:58:38.6859044Z The least common ancestor is /tmp. This will be the root directory of the artifact
+2026-10-03T17:58:38.6860310Z With the provided path, there will be 2 files uploaded
+2026-10-03T17:58:38.6865729Z Artifact name is valid!
+2026-10-03T17:58:38.6866734Z Root directory input is valid!
+2026-10-03T17:58:38.9017913Z Beginning upload of artifact content to blob storage
+2026-10-03T17:58:38.9226744Z (node:2497) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-03T17:58:38.9622204Z Uploaded bytes 3302
+2026-10-03T17:58:38.9806290Z Finished uploading artifact content to blob storage!
+2026-10-03T17:58:38.9807379Z SHA256 digest of uploaded artifact zip is 447e1ddbaeaf8b70705c7c817d01f138ce182b09260a0283400bef638b42ad80
+2026-10-03T17:58:38.9810823Z Finalizing artifact upload
+2026-10-03T17:58:39.1874902Z Artifact trackcade-stage1-v9-execution-provider-free-audit-v1.zip successfully finalized. Artifact ID 11280628592
+2026-10-03T17:58:39.1876797Z Artifact trackcade-stage1-v9-execution-provider-free-audit-v1 has been successfully uploaded! Final size is 3302 bytes. Artifact ID is 11280628592
+2026-10-03T17:58:39.1882154Z Artifact download URL: https://github.com/4everhumblepdx/trackcade-test/actions/runs/37142463075/artifacts/11280628592
+2026-10-03T17:58:39.2073548Z Post job cleanup.
+2026-10-03T17:58:39.2911833Z [command]/usr/bin/git version
+2026-10-03T17:58:39.2956932Z git version 2.55.0
+2026-10-03T17:58:39.3002241Z Temporarily overriding HOME='/home/runner/work/_temp/1838c487-919d-43ee-ae6c-26bf7b6e48e6' before making global git config changes
+2026-10-03T17:58:39.3008459Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:58:39.3009803Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/trackcade-test/trackcade-test
+2026-10-03T17:58:39.3050673Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:58:39.3088012Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:58:39.3336659Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:58:39.3375643Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:58:39.3629952Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:58:39.3667108Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:58:39.4046060Z Cleaning up orphan processes
+2026-10-03T17:58:39.4324526Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/download-artifact@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+
