@@ -1,0 +1,1258 @@
+{
+  "schema": "trackcade-stage1-mixed-v7-v8-descriptive-errors-v1",
+  "primaryResultCommit": "44c3fe1d2ab50f905bbb54367b5cb6d517c94420",
+  "primaryResultLocalSha256": "b804859986ebfca05c2ce05bc9ff8d4d731eae0230e669b1eed36f5430c930d2",
+  "falsePositiveEventCategories": {
+    "zero-reference-track": 30,
+    "unmatched-proposal-over-5s-from-any-reference": 28,
+    "timing-miss-over-2s-within-5s": 2
+  },
+  "falseNegativeEventCategories": {
+    "reference-over-5s-from-any-proposal": 16,
+    "reference-track-with-zero-drop-proposals": 7,
+    "timing-miss-over-2s-within-5s": 2
+  },
+  "zeroReferenceTracksWithProposals": [
+    1,
+    4,
+    15,
+    16,
+    20,
+    21,
+    22,
+    27,
+    34,
+    36,
+    37,
+    44,
+    46,
+    49
+  ],
+  "positiveReferenceTracksWithZeroProposals": [
+    8,
+    13,
+    17,
+    35
+  ],
+  "frozenStructuralContextFP": {
+    "section_return": 15,
+    "chorus_or_section_entrance": 30,
+    "generic_reentry": 7,
+    "breakdown_ending": 8
+  },
+  "frozenStructuralContextTP": {
+    "chorus_or_section_entrance": 10,
+    "generic_reentry": 5,
+    "section_return": 5,
+    "other_transition": 1
+  },
+  "falsePositiveEvents": [
+    {
+      "ordinal": 1,
+      "candidateIndex": 0,
+      "seconds": 149.674,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 7,
+      "anchorIndex": 252,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 4,
+      "candidateIndex": 0,
+      "seconds": 52.007,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 1,
+      "anchorIndex": 4,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 4,
+      "candidateIndex": 1,
+      "seconds": 127.188,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 6,
+      "anchorIndex": 41,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 4,
+      "candidateIndex": 2,
+      "seconds": 168.007,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 9,
+      "anchorIndex": 71,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 4,
+      "candidateIndex": 3,
+      "seconds": 203.201,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 11,
+      "anchorIndex": 89,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 4,
+      "candidateIndex": 4,
+      "seconds": 218.419,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 13,
+      "anchorIndex": 96,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 6,
+      "candidateIndex": 1,
+      "seconds": 75.024,
+      "nearestReferenceAbsoluteErrorSeconds": 43.024,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 6,
+      "anchorIndex": 71,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 7,
+      "candidateIndex": 0,
+      "seconds": 12.152,
+      "nearestReferenceAbsoluteErrorSeconds": 137.848,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 0,
+      "anchorIndex": 4,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 7,
+      "candidateIndex": 1,
+      "seconds": 75.652,
+      "nearestReferenceAbsoluteErrorSeconds": 74.348,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 3,
+      "anchorIndex": 91,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 7,
+      "candidateIndex": 2,
+      "seconds": 123.148,
+      "nearestReferenceAbsoluteErrorSeconds": 26.852000000000004,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 5,
+      "anchorIndex": 139,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 9,
+      "candidateIndex": 0,
+      "seconds": 138.67,
+      "nearestReferenceAbsoluteErrorSeconds": 213.33,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 1,
+      "anchorIndex": 315,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 9,
+      "candidateIndex": 1,
+      "seconds": 194.384,
+      "nearestReferenceAbsoluteErrorSeconds": 157.616,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 2,
+      "anchorIndex": 417,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 14,
+      "candidateIndex": 0,
+      "seconds": 60.6,
+      "nearestReferenceAbsoluteErrorSeconds": 46.4,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 1,
+      "anchorIndex": 42,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 15,
+      "candidateIndex": 0,
+      "seconds": 11.369,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 1,
+      "anchorIndex": 3,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 15,
+      "candidateIndex": 1,
+      "seconds": 57.997,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 8,
+      "anchorIndex": 42,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 15,
+      "candidateIndex": 2,
+      "seconds": 98.459,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 12,
+      "anchorIndex": 67,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 16,
+      "candidateIndex": 0,
+      "seconds": 30.027,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 0,
+      "anchorIndex": 5,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 16,
+      "candidateIndex": 1,
+      "seconds": 120.027,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 2,
+      "anchorIndex": 70,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 18,
+      "candidateIndex": 0,
+      "seconds": 44.436,
+      "nearestReferenceAbsoluteErrorSeconds": 68.564,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 1,
+      "anchorIndex": 28,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 20,
+      "candidateIndex": 0,
+      "seconds": 290.1,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 3,
+      "anchorIndex": 148,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 21,
+      "candidateIndex": 0,
+      "seconds": 105.378,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 3,
+      "anchorIndex": 107,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 22,
+      "candidateIndex": 0,
+      "seconds": 81.908,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 2,
+      "anchorIndex": 56,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 25,
+      "candidateIndex": 0,
+      "seconds": 61.537,
+      "nearestReferenceAbsoluteErrorSeconds": 15.463000000000001,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 2,
+      "anchorIndex": 59,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 25,
+      "candidateIndex": 1,
+      "seconds": 102.675,
+      "nearestReferenceAbsoluteErrorSeconds": 25.674999999999997,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 5,
+      "anchorIndex": 138,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 26,
+      "candidateIndex": 2,
+      "seconds": 277.552,
+      "nearestReferenceAbsoluteErrorSeconds": 33.55200000000002,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 10,
+      "anchorIndex": 172,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 27,
+      "candidateIndex": 0,
+      "seconds": 26.14,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 1,
+      "anchorIndex": 3,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 27,
+      "candidateIndex": 1,
+      "seconds": 71.045,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 5,
+      "anchorIndex": 61,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 28,
+      "candidateIndex": 1,
+      "seconds": 216.602,
+      "nearestReferenceAbsoluteErrorSeconds": 38.602000000000004,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 5,
+      "anchorIndex": 172,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 28,
+      "candidateIndex": 2,
+      "seconds": 277.54,
+      "nearestReferenceAbsoluteErrorSeconds": 99.54000000000002,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 7,
+      "anchorIndex": 214,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 28,
+      "candidateIndex": 3,
+      "seconds": 344.102,
+      "nearestReferenceAbsoluteErrorSeconds": 166.10199999999998,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 11,
+      "anchorIndex": 293,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 29,
+      "candidateIndex": 0,
+      "seconds": 39.3,
+      "nearestReferenceAbsoluteErrorSeconds": 54.7,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 0,
+      "anchorIndex": 61,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 30,
+      "candidateIndex": 0,
+      "seconds": 18.776,
+      "nearestReferenceAbsoluteErrorSeconds": 103.224,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 0,
+      "anchorIndex": 3,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 30,
+      "candidateIndex": 2,
+      "seconds": 198.775,
+      "nearestReferenceAbsoluteErrorSeconds": 60.224999999999994,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 4,
+      "anchorIndex": 168,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 32,
+      "candidateIndex": 0,
+      "seconds": 64.58,
+      "nearestReferenceAbsoluteErrorSeconds": 17.42,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 1,
+      "anchorIndex": 61,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 32,
+      "candidateIndex": 1,
+      "seconds": 217.093,
+      "nearestReferenceAbsoluteErrorSeconds": 50.09299999999999,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 8,
+      "anchorIndex": 167,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 34,
+      "candidateIndex": 0,
+      "seconds": 78.909,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 6,
+      "anchorIndex": 97,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 34,
+      "candidateIndex": 1,
+      "seconds": 231.288,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 8,
+      "anchorIndex": 254,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 36,
+      "candidateIndex": 0,
+      "seconds": 56.093,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 2,
+      "anchorIndex": 26,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 37,
+      "candidateIndex": 0,
+      "seconds": 185.184,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 6,
+      "anchorIndex": 205,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 37,
+      "candidateIndex": 1,
+      "seconds": 226.368,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 8,
+      "anchorIndex": 227,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 37,
+      "candidateIndex": 2,
+      "seconds": 341.372,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 10,
+      "anchorIndex": 316,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 37,
+      "candidateIndex": 3,
+      "seconds": 405.662,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 11,
+      "anchorIndex": 363,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 38,
+      "candidateIndex": 0,
+      "seconds": 29.555,
+      "nearestReferenceAbsoluteErrorSeconds": 60.445,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 1,
+      "anchorIndex": 24,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 38,
+      "candidateIndex": 2,
+      "seconds": 142.055,
+      "nearestReferenceAbsoluteErrorSeconds": 45.94499999999999,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 7,
+      "anchorIndex": 99,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 38,
+      "candidateIndex": 4,
+      "seconds": 217.596,
+      "nearestReferenceAbsoluteErrorSeconds": 29.596000000000004,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 12,
+      "anchorIndex": 155,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "generic_reentry",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 39,
+      "candidateIndex": 1,
+      "seconds": 177.761,
+      "nearestReferenceAbsoluteErrorSeconds": 2.7609999999999957,
+      "category": "timing-miss-over-2s-within-5s",
+      "frozenEventIndex": 5,
+      "anchorIndex": 181,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 42,
+      "candidateIndex": 0,
+      "seconds": 14.896,
+      "nearestReferenceAbsoluteErrorSeconds": 81.104,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 0,
+      "anchorIndex": 19,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 42,
+      "candidateIndex": 1,
+      "seconds": 125.669,
+      "nearestReferenceAbsoluteErrorSeconds": 29.668999999999997,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 10,
+      "anchorIndex": 137,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 42,
+      "candidateIndex": 2,
+      "seconds": 169.077,
+      "nearestReferenceAbsoluteErrorSeconds": 10.076999999999998,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 13,
+      "anchorIndex": 178,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 43,
+      "candidateIndex": 0,
+      "seconds": 88.476,
+      "nearestReferenceAbsoluteErrorSeconds": 2.475999999999999,
+      "category": "timing-miss-over-2s-within-5s",
+      "frozenEventIndex": 1,
+      "anchorIndex": 92,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 43,
+      "candidateIndex": 1,
+      "seconds": 242.614,
+      "nearestReferenceAbsoluteErrorSeconds": 156.614,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 3,
+      "anchorIndex": 228,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 44,
+      "candidateIndex": 0,
+      "seconds": 28.642,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 0,
+      "anchorIndex": 39,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 44,
+      "candidateIndex": 1,
+      "seconds": 298.176,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 9,
+      "anchorIndex": 366,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 44,
+      "candidateIndex": 2,
+      "seconds": 335.099,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 11,
+      "anchorIndex": 433,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 44,
+      "candidateIndex": 3,
+      "seconds": 368.791,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 12,
+      "anchorIndex": 492,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "section_return",
+        "repetitionRelation": "repeated_similar"
+      }
+    },
+    {
+      "ordinal": 46,
+      "candidateIndex": 0,
+      "seconds": 14.041,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 0,
+      "anchorIndex": 2,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 46,
+      "candidateIndex": 1,
+      "seconds": 83.237,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 2,
+      "anchorIndex": 38,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 47,
+      "candidateIndex": 1,
+      "seconds": 186.607,
+      "nearestReferenceAbsoluteErrorSeconds": 61.393,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 6,
+      "anchorIndex": 96,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 49,
+      "candidateIndex": 0,
+      "seconds": 215.899,
+      "nearestReferenceAbsoluteErrorSeconds": null,
+      "category": "zero-reference-track",
+      "frozenEventIndex": 5,
+      "anchorIndex": 105,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "chorus_or_section_entrance",
+        "repetitionRelation": "independent"
+      }
+    },
+    {
+      "ordinal": 50,
+      "candidateIndex": 1,
+      "seconds": 188.608,
+      "nearestReferenceAbsoluteErrorSeconds": 9.391999999999996,
+      "category": "unmatched-proposal-over-5s-from-any-reference",
+      "frozenEventIndex": 4,
+      "anchorIndex": 170,
+      "frozenSemanticAssessment": {
+        "semanticRole": "drop",
+        "preparation": "clear",
+        "decisiveImpact": "clear",
+        "sustainedStrongerPassage": "clear",
+        "structuralContext": "breakdown_ending",
+        "repetitionRelation": "independent"
+      }
+    }
+  ],
+  "falseNegativeEvents": [
+    {
+      "ordinal": 7,
+      "referenceIndex": 0,
+      "seconds": 150.0,
+      "nearestCandidateAbsoluteErrorSeconds": 26.852000000000004,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 8,
+      "referenceIndex": 0,
+      "seconds": 55.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 8,
+      "referenceIndex": 1,
+      "seconds": 200.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 9,
+      "referenceIndex": 0,
+      "seconds": 352.0,
+      "nearestCandidateAbsoluteErrorSeconds": 157.616,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 13,
+      "referenceIndex": 0,
+      "seconds": 87.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 17,
+      "referenceIndex": 0,
+      "seconds": 54.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 17,
+      "referenceIndex": 1,
+      "seconds": 117.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 18,
+      "referenceIndex": 0,
+      "seconds": 113.0,
+      "nearestCandidateAbsoluteErrorSeconds": 68.564,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 23,
+      "referenceIndex": 0,
+      "seconds": 68.0,
+      "nearestCandidateAbsoluteErrorSeconds": 96.619,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 25,
+      "referenceIndex": 0,
+      "seconds": 77.0,
+      "nearestCandidateAbsoluteErrorSeconds": 15.463000000000001,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 25,
+      "referenceIndex": 1,
+      "seconds": 130.0,
+      "nearestCandidateAbsoluteErrorSeconds": 27.325000000000003,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 28,
+      "referenceIndex": 1,
+      "seconds": 178.0,
+      "nearestCandidateAbsoluteErrorSeconds": 38.602000000000004,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 29,
+      "referenceIndex": 0,
+      "seconds": 94.0,
+      "nearestCandidateAbsoluteErrorSeconds": 54.7,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 29,
+      "referenceIndex": 1,
+      "seconds": 293.0,
+      "nearestCandidateAbsoluteErrorSeconds": 253.7,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 32,
+      "referenceIndex": 0,
+      "seconds": 82.0,
+      "nearestCandidateAbsoluteErrorSeconds": 17.42,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 32,
+      "referenceIndex": 1,
+      "seconds": 127.0,
+      "nearestCandidateAbsoluteErrorSeconds": 62.42,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 32,
+      "referenceIndex": 2,
+      "seconds": 167.0,
+      "nearestCandidateAbsoluteErrorSeconds": 50.09299999999999,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 35,
+      "referenceIndex": 0,
+      "seconds": 76.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 35,
+      "referenceIndex": 1,
+      "seconds": 167.0,
+      "nearestCandidateAbsoluteErrorSeconds": null,
+      "category": "reference-track-with-zero-drop-proposals"
+    },
+    {
+      "ordinal": 39,
+      "referenceIndex": 1,
+      "seconds": 175.0,
+      "nearestCandidateAbsoluteErrorSeconds": 2.7609999999999957,
+      "category": "timing-miss-over-2s-within-5s"
+    },
+    {
+      "ordinal": 41,
+      "referenceIndex": 0,
+      "seconds": 88.0,
+      "nearestCandidateAbsoluteErrorSeconds": 135.286,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 42,
+      "referenceIndex": 0,
+      "seconds": 96.0,
+      "nearestCandidateAbsoluteErrorSeconds": 29.668999999999997,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 42,
+      "referenceIndex": 1,
+      "seconds": 159.0,
+      "nearestCandidateAbsoluteErrorSeconds": 10.076999999999998,
+      "category": "reference-over-5s-from-any-proposal"
+    },
+    {
+      "ordinal": 43,
+      "referenceIndex": 0,
+      "seconds": 86.0,
+      "nearestCandidateAbsoluteErrorSeconds": 2.475999999999999,
+      "category": "timing-miss-over-2s-within-5s"
+    },
+    {
+      "ordinal": 47,
+      "referenceIndex": 1,
+      "seconds": 248.0,
+      "nearestCandidateAbsoluteErrorSeconds": 61.393,
+      "category": "reference-over-5s-from-any-proposal"
+    }
+  ],
+  "interpretationLimits": [
+    "An unmatched reference/proposal under the \u00b12s event matcher is an observed benchmark mismatch, not a label for overall musical value or gameplay usefulness.",
+    "Nearest-time distances describe frozen events; they do not change the one-to-one score or move timestamps.",
+    "Repeated/nearby competition is counted only when an unmatched event has another-side event within the frozen \u00b12s window.",
+    "Frozen structural-context distributions are descriptive; no causal explanation, future threshold, or improvement is inferred.",
+    "No semantic improvement, alternate scoring, rerun, or post-label tuning was implemented."
+  ],
+  "hypothesesForFutureImprovements": [],
+  "providerCalls": 0,
+  "terminalAccess": false
+}
