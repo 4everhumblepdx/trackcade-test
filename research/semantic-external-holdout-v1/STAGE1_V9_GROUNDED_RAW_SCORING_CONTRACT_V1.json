@@ -1,0 +1,76 @@
+{
+  "schema": "trackcade-stage1-v9-grounded-one-use-raw-scoring-contract-v1",
+  "status": "frozen-before-v9-scoring",
+  "predictionManifest": {
+    "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_PREDICTION_MANIFEST_V1.json",
+    "commit": "288dec76ba93632e238622ef080d561109a6dca1",
+    "sha256": "79d68032c2da15fd124aea77fa2df199ac833849b176e46ea52a03441894ba07"
+  },
+  "scoringExecutionsAuthorized": 1,
+  "executionSources": [
+    {
+      "path": "research/semantic-external-holdout-v1/score_stage1_mixed_raw_v1.py",
+      "sha256": "10c69f940aebfa44a83ce2fa4fb5a6d6b8b8df0cd1716feffe6400789913ecfd"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py",
+      "sha256": "da92ab573d79b9da47c2897498463b182d6d85b4251923e3c14854c1a300cf26"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/isolate_stage1_reference_v1.py",
+      "sha256": "c129f7cd57c8cd580dd2fae50a80e7d9473ababb0affb1ac6683d1a34b70925a"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/score_stage1_v9_frozen_raw_v1.py",
+      "sha256": "4a652c49ea02263651eeb45ad84b835f61e2bff821a2f9f58269c6aff72dd54c"
+    }
+  ],
+  "historicalMatcherCommit": "81985328360e7cd0f70c03ea2b3c63fa94f1d14f",
+  "matcherFunctionsASTVerifiedIdentical": [
+    "metric_values",
+    "better",
+    "match_one_to_one",
+    "timing_summary",
+    "score_track",
+    "aggregate"
+  ],
+  "candidateExtraction": "Unchanged score_stage1_mixed_raw_v1.candidates: all kind=drop evidence object anchors, duplicates retained, sorted; no filters.",
+  "reportingAdapterOnly": "Use unchanged frozen RAW score_track and aggregate for 50 V9 cases at 1/2/5s; omit obsolete empty V7/V8 subgroup aggregation.",
+  "primaryToleranceSeconds": 2,
+  "sensitivityTolerancesSeconds": [
+    1,
+    5
+  ],
+  "isolatedStage1Reference": {
+    "sourceResultCommit": "44c3fe1d2ab50f905bbb54367b5cb6d517c94420",
+    "sourceResultPath": "research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_RAW_RESULT_V1.json",
+    "sha256": "0f2d546c90d522d266c99cf5311c0efaeb7f5750e736ba5dac08f3b42b0c6859",
+    "isolationProof": {
+      "method": "one-byte HTTP 206 ranges, pinned immutable commit path, exact Content-Range/Content-Length and ETag; stop on Stage1 closing bracket",
+      "startOffset": 185,
+      "endOffsetExclusive": 6080,
+      "labelValueByteRequests": 5895,
+      "terminalBytesRequestedOrRead": 0,
+      "fullReferenceFileDownloadedOrParsed": false,
+      "completeReferenceSha256IndependentlyComputed": false,
+      "wholeReferenceSha256IsHistoricalCitationOnly": true
+    },
+    "method": "Reuse exact previously isolated Stage1-only bytes, verify frozen hash after single-use scoring lock; no full reference or terminal access."
+  },
+  "baseline": {
+    "TP": 21,
+    "FP": 60,
+    "FN": 25,
+    "precision": 0.25925925925925924,
+    "recall": 0.45652173913043476,
+    "microF1": 0.33070866141732286,
+    "zeroReferenceFP": 30
+  },
+  "predictionsModified": false,
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "terminalAccessAllowed": false,
+  "analyzerAllowed": false,
+  "compilerAllowed": false,
+  "developmentEvidenceOnly": true
+}
