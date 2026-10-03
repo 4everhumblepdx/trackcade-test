@@ -1,0 +1,406 @@
+{
+  "dropCountDistribution": {
+    "0": 9,
+    "1": 6,
+    "2": 4,
+    "3": 1,
+    "4": 2,
+    "5": 1
+  },
+  "falseDropEventCount": 30,
+  "trackCount": 23,
+  "tracks": [
+    {
+      "dropCount": 1,
+      "durationSeconds": 355.674059,
+      "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 1,
+      "packetGlobalEnergy": 0.8046,
+      "referenceCount": 0,
+      "sectionCount": 9,
+      "semanticEventCount": 12,
+      "trackSummary": {
+        "ambiguousCandidateCount": 0,
+        "dropCount": 1,
+        "dropPresence": "drop_present",
+        "rationale": "Of the assessed upward transitions, the onset after the extended quiet break has clear preparation, a distinct impact, and sustained higher energy. The other returns lack a comparably distinct impact at their anchors."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 206.915918,
+      "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 2,
+      "packetGlobalEnergy": 0.6703,
+      "referenceCount": 0,
+      "sectionCount": 6,
+      "semanticEventCount": 9,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "The strongest re-entry has clear preceding withdrawal and a stronger following section, but its boundary apex does not establish a decisive impact onset. Other rises lack a coherent preparation-and-impact shape."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 242.155102,
+      "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+      "lowDemandWindowCount": 3,
+      "ordinal": 3,
+      "packetGlobalEnergy": 0.3711,
+      "referenceCount": 0,
+      "sectionCount": 9,
+      "semanticEventCount": 6,
+      "trackSummary": {
+        "ambiguousCandidateCount": 2,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "Two major transitions have preparation and sustained stronger passages, but neither has a clearly isolated impact onset at its anchor. The other assessed rises lack the required preparation or stronger release."
+      }
+    },
+    {
+      "dropCount": 5,
+      "durationSeconds": 281.6,
+      "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 4,
+      "packetGlobalEnergy": 0.3732,
+      "referenceCount": 0,
+      "sectionCount": 16,
+      "semanticEventCount": 15,
+      "trackSummary": {
+        "ambiguousCandidateCount": 3,
+        "dropCount": 5,
+        "dropPresence": "drop_present",
+        "rationale": "Five independently supported transitions combine withdrawal, a locally distinct onset, and a sustained stronger passage. Three shorter or less decisive re-entries remain ambiguous rather than being treated as drops."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 246.883265,
+      "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+      "lowDemandWindowCount": 1,
+      "ordinal": 5,
+      "packetGlobalEnergy": 0.5407,
+      "referenceCount": 0,
+      "sectionCount": 8,
+      "semanticEventCount": 11,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "The two major upward transitions lead to sustained stronger passages, but neither establishes a decisive impact at its assessed anchor. The later return has clear preparation yet remains ambiguous on impact morphology; the other assessed transitions do not show a complete preparation\u2013impact\u2013stronger-passage shape."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 373.368163,
+      "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+      "lowDemandWindowCount": 1,
+      "ordinal": 11,
+      "packetGlobalEnergy": 0.7831,
+      "referenceCount": 0,
+      "sectionCount": 5,
+      "semanticEventCount": 6,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "Both assessed transitions lead from lower to sustained stronger energy, but neither has a clearly supported decisive impact at its candidate anchor. The later re-entry remains ambiguous rather than a proposed drop."
+      }
+    },
+    {
+      "dropCount": 3,
+      "durationSeconds": 170.083265,
+      "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+      "lowDemandWindowCount": 5,
+      "ordinal": 15,
+      "packetGlobalEnergy": 0.668,
+      "referenceCount": 0,
+      "sectionCount": 10,
+      "semanticEventCount": 15,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 3,
+        "dropPresence": "drop_present",
+        "rationale": "Three candidates combine a quieter preparation, a distinct onset at the anchor, and a sustained stronger passage. The return after near-silence has uncertain impact placement and remains ambiguous."
+      }
+    },
+    {
+      "dropCount": 2,
+      "durationSeconds": 404.114286,
+      "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+      "lowDemandWindowCount": 5,
+      "ordinal": 16,
+      "packetGlobalEnergy": 0.4749,
+      "referenceCount": 0,
+      "sectionCount": 12,
+      "semanticEventCount": 9,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 2,
+        "dropPresence": "drop_present",
+        "rationale": "Two quiet-to-strong transitions have distinct onset evidence and sustained stronger passages. A later strong re-entry lacks equally clear impact evidence at its candidate anchor; the remaining assessed returns do not show a decisive impact there."
+      }
+    },
+    {
+      "dropCount": 1,
+      "durationSeconds": 432.43102,
+      "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+      "lowDemandWindowCount": 4,
+      "ordinal": 20,
+      "packetGlobalEnergy": 0.5568,
+      "referenceCount": 0,
+      "sectionCount": 7,
+      "semanticEventCount": 5,
+      "trackSummary": {
+        "ambiguousCandidateCount": 0,
+        "dropCount": 1,
+        "dropPresence": "drop_present",
+        "rationale": "Of the assessed upward transitions, the return after the long low-energy passage has clear preparation, a concentrated impact, and a sustained stronger passage. The earlier rises lack a distinct impact at their anchors."
+      }
+    },
+    {
+      "dropCount": 1,
+      "durationSeconds": 205.322449,
+      "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+      "lowDemandWindowCount": 1,
+      "ordinal": 21,
+      "packetGlobalEnergy": 0.6974,
+      "referenceCount": 0,
+      "sectionCount": 6,
+      "semanticEventCount": 7,
+      "trackSummary": {
+        "ambiguousCandidateCount": 0,
+        "dropCount": 1,
+        "dropPresence": "drop_present",
+        "rationale": "The return from the extended quiet section has a sharp onset and sustained stronger passage. The earlier rise is gradual, and the later brief dip only recovers to the prior energy level."
+      }
+    },
+    {
+      "dropCount": 1,
+      "durationSeconds": 226.991995,
+      "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+      "lowDemandWindowCount": 1,
+      "ordinal": 22,
+      "packetGlobalEnergy": 0.7218,
+      "referenceCount": 0,
+      "sectionCount": 3,
+      "semanticEventCount": 7,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 1,
+        "dropPresence": "drop_present",
+        "rationale": "One marked transition has supported preparation, a locally distinct impact, and a sustained stronger aftermath. A later rise has no clearly isolated impact, while another follows only a brief dip and develops gradually."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 402.311837,
+      "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 24,
+      "packetGlobalEnergy": 0.7402,
+      "referenceCount": 0,
+      "sectionCount": 4,
+      "semanticEventCount": 9,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "The low-demand passage clearly gives way to sustained higher energy, but the available evidence does not locate a decisive impact at its ending anchor. No other clear preparation\u2013impact\u2013stronger-passage transition is identified."
+      }
+    },
+    {
+      "dropCount": 2,
+      "durationSeconds": 123.339116,
+      "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 27,
+      "packetGlobalEnergy": 0.6399,
+      "referenceCount": 0,
+      "sectionCount": 5,
+      "semanticEventCount": 8,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 2,
+        "dropPresence": "drop_present",
+        "rationale": "Two transitions each have a discernible buildup or lower-energy passage, a concentrated rise, and a sustained stronger continuation. A later lift has a clear rise but only weak evidence of preparation."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 308.58449,
+      "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+      "lowDemandWindowCount": 0,
+      "ordinal": 31,
+      "packetGlobalEnergy": 0.6776,
+      "referenceCount": 0,
+      "sectionCount": 2,
+      "semanticEventCount": 5,
+      "trackSummary": {
+        "ambiguousCandidateCount": 3,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "Several transitions have a lift or local impact, but none clearly combines preparation, a decisive impact at its anchor, and a sustained stronger passage."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 227.474286,
+      "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+      "lowDemandWindowCount": 1,
+      "ordinal": 33,
+      "packetGlobalEnergy": 0.5672,
+      "referenceCount": 0,
+      "sectionCount": 4,
+      "semanticEventCount": 5,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "The main upward boundary has clear preparation and a stronger passage afterward, but its decisive impact remains unclear. Other assessed re-entries lack the full preparation, impact, and sustained-strength pattern."
+      }
+    },
+    {
+      "dropCount": 2,
+      "durationSeconds": 451.223991,
+      "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+      "lowDemandWindowCount": 3,
+      "ordinal": 34,
+      "packetGlobalEnergy": 0.4776,
+      "referenceCount": 0,
+      "sectionCount": 9,
+      "semanticEventCount": 14,
+      "trackSummary": {
+        "ambiguousCandidateCount": 0,
+        "dropCount": 2,
+        "dropPresence": "drop_present",
+        "rationale": "Two subdued-to-strong transitions combine sustained preparation, a concentrated onset, and a stronger continuing passage. Other upward transitions lack comparably clear impact morphology."
+      }
+    },
+    {
+      "dropCount": 1,
+      "durationSeconds": 150.057302,
+      "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+      "lowDemandWindowCount": 0,
+      "ordinal": 36,
+      "packetGlobalEnergy": 0.8119,
+      "referenceCount": 0,
+      "sectionCount": 5,
+      "semanticEventCount": 5,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 1,
+        "dropPresence": "drop_present",
+        "rationale": "The transition after the pronounced quiet passage supports preparation, a distinct impact, and sustained increased energy. The later return has preparation and renewed energy, but its impact morphology remains uncertain."
+      }
+    },
+    {
+      "dropCount": 4,
+      "durationSeconds": 467.951995,
+      "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+      "lowDemandWindowCount": 3,
+      "ordinal": 37,
+      "packetGlobalEnergy": 0.6781,
+      "referenceCount": 0,
+      "sectionCount": 11,
+      "semanticEventCount": 12,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 4,
+        "dropPresence": "drop_present",
+        "rationale": "Four assessed transitions each have a lower-energy preparation, a locally distinct impact, and a sustained stronger passage. The brief dip and recovery at another candidate lacks equally clear preparation and impact evidence."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 213.174694,
+      "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+      "lowDemandWindowCount": 1,
+      "ordinal": 40,
+      "packetGlobalEnergy": 0.6062,
+      "referenceCount": 0,
+      "sectionCount": 3,
+      "semanticEventCount": 6,
+      "trackSummary": {
+        "ambiguousCandidateCount": 0,
+        "dropCount": 0,
+        "dropPresence": "no_drop",
+        "rationale": "The identifiable re-entry follows a quieter passage but lacks a clearly concentrated impact and clearly sustained stronger passage. Other prominent crests are peaks, while the ending loses energy."
+      }
+    },
+    {
+      "dropCount": 4,
+      "durationSeconds": 404.323265,
+      "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+      "lowDemandWindowCount": 3,
+      "ordinal": 44,
+      "packetGlobalEnergy": 0.6723,
+      "referenceCount": 0,
+      "sectionCount": 18,
+      "semanticEventCount": 13,
+      "trackSummary": {
+        "ambiguousCandidateCount": 2,
+        "dropCount": 4,
+        "dropPresence": "drop_present",
+        "rationale": "Four transitions each show preparation, a locally distinct impact, and a sustained stronger passage. Two other plausible re-entries lack sufficiently clear preparation or an impact at the candidate anchor."
+      }
+    },
+    {
+      "dropCount": 2,
+      "durationSeconds": 338.663991,
+      "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 46,
+      "packetGlobalEnergy": 0.7006,
+      "referenceCount": 0,
+      "sectionCount": 7,
+      "semanticEventCount": 9,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 2,
+        "dropPresence": "drop_present",
+        "rationale": "Two transitions have a clear quiet preparation, concentrated impact, and sustained stronger passage. The later climactic entrance has uncertain impact placement; other recoveries rise without a decisive onset."
+      }
+    },
+    {
+      "dropCount": 0,
+      "durationSeconds": 133.333333,
+      "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+      "lowDemandWindowCount": 2,
+      "ordinal": 48,
+      "packetGlobalEnergy": 0.6033,
+      "referenceCount": 0,
+      "sectionCount": 5,
+      "semanticEventCount": 5,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 0,
+        "dropPresence": "ambiguous_only",
+        "rationale": "The main upward transition has clear lower-energy preparation and a sustained stronger passage, but a decisive impact at its anchor is unclear. The other assessed transitions lack the required preparation-and-impact shape."
+      }
+    },
+    {
+      "dropCount": 1,
+      "durationSeconds": 352.130612,
+      "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+      "lowDemandWindowCount": 3,
+      "ordinal": 49,
+      "packetGlobalEnergy": 0.6421,
+      "referenceCount": 0,
+      "sectionCount": 7,
+      "semanticEventCount": 9,
+      "trackSummary": {
+        "ambiguousCandidateCount": 1,
+        "dropCount": 1,
+        "dropPresence": "drop_present",
+        "rationale": "The transition out of the extended lower-energy break supports a clear preparation, localized impact, and sustained stronger passage. Another strong return has uncertain impact placement; the other assessed transitions lack a distinct impact or stronger release."
+      }
+    }
+  ],
+  "tracksWithDropProposals": 14
+}

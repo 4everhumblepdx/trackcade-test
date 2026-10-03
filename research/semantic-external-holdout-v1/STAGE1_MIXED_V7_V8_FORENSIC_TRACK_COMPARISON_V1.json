@@ -1,0 +1,122 @@
+{
+  "dropCount": {
+    "reference_positive": {
+      "count": 27,
+      "iqr": 1.5,
+      "maximum": 5,
+      "median": 2.0,
+      "minimum": 0,
+      "q1": 1.0,
+      "q3": 2.5
+    },
+    "zero_reference": {
+      "count": 23,
+      "iqr": 2.0,
+      "maximum": 5,
+      "median": 1.0,
+      "minimum": 0,
+      "q1": 0.0,
+      "q3": 2.0
+    }
+  },
+  "durationSeconds": {
+    "reference_positive": {
+      "count": 27,
+      "iqr": 124.59767599999998,
+      "maximum": 496.3,
+      "median": 274.311837,
+      "minimum": 133.172245,
+      "q1": 218.0312245,
+      "q3": 342.6289005
+    },
+    "zero_reference": {
+      "count": 23,
+      "iqr": 177.79469400000005,
+      "maximum": 467.951995,
+      "median": 281.6,
+      "minimum": 123.339116,
+      "q1": 210.04530599999998,
+      "q3": 387.84000000000003
+    }
+  },
+  "lowDemandWindowCount": {
+    "reference_positive": {
+      "count": 27,
+      "iqr": 2.0,
+      "maximum": 4,
+      "median": 2.0,
+      "minimum": 0,
+      "q1": 1.0,
+      "q3": 3.0
+    },
+    "zero_reference": {
+      "count": 23,
+      "iqr": 2.0,
+      "maximum": 5,
+      "median": 2.0,
+      "minimum": 0,
+      "q1": 1.0,
+      "q3": 3.0
+    }
+  },
+  "packetGlobalEnergy": {
+    "reference_positive": {
+      "count": 27,
+      "iqr": 0.09550000000000003,
+      "maximum": 0.8639,
+      "median": 0.6538,
+      "minimum": 0.3993,
+      "q1": 0.59685,
+      "q3": 0.69235
+    },
+    "zero_reference": {
+      "count": 23,
+      "iqr": 0.137,
+      "maximum": 0.8119,
+      "median": 0.668,
+      "minimum": 0.3711,
+      "q1": 0.562,
+      "q3": 0.6990000000000001
+    }
+  },
+  "sectionCount": {
+    "reference_positive": {
+      "count": 27,
+      "iqr": 4.0,
+      "maximum": 13,
+      "median": 9.0,
+      "minimum": 3,
+      "q1": 7.0,
+      "q3": 11.0
+    },
+    "zero_reference": {
+      "count": 23,
+      "iqr": 4.0,
+      "maximum": 18,
+      "median": 7.0,
+      "minimum": 2,
+      "q1": 5.0,
+      "q3": 9.0
+    }
+  },
+  "semanticEventCount": {
+    "reference_positive": {
+      "count": 27,
+      "iqr": 4.0,
+      "maximum": 17,
+      "median": 9.0,
+      "minimum": 4,
+      "q1": 7.5,
+      "q3": 11.5
+    },
+    "zero_reference": {
+      "count": 23,
+      "iqr": 5.5,
+      "maximum": 15,
+      "median": 9.0,
+      "minimum": 5,
+      "q1": 6.0,
+      "q3": 11.5
+    }
+  }
+}

@@ -1,0 +1,4423 @@
+{
+  "anchor.confidence": {
+    "groups": {
+      "TP": {
+        "count": 13,
+        "groupCount": 21,
+        "iqr": 0.13770000000000004,
+        "maximum": 0.9109,
+        "median": 0.8104,
+        "minimum": 0.6364,
+        "missingCount": 8,
+        "q1": 0.7227,
+        "q3": 0.8604
+      },
+      "all_FP": {
+        "count": 37,
+        "groupCount": 60,
+        "iqr": 0.11439999999999995,
+        "maximum": 0.9502,
+        "median": 0.7415,
+        "minimum": 0.35,
+        "missingCount": 23,
+        "q1": 0.6762,
+        "q3": 0.7906
+      },
+      "greater_than_5s_FP": {
+        "count": 18,
+        "groupCount": 28,
+        "iqr": 0.07422499999999999,
+        "maximum": 0.8571,
+        "median": 0.7463,
+        "minimum": 0.35,
+        "missingCount": 10,
+        "q1": 0.699075,
+        "q3": 0.7733
+      },
+      "zero_reference_FP": {
+        "count": 19,
+        "groupCount": 30,
+        "iqr": 0.13760000000000006,
+        "maximum": 0.9502,
+        "median": 0.7196,
+        "minimum": 0.35,
+        "missingCount": 11,
+        "q1": 0.6722,
+        "q3": 0.8098000000000001
+      }
+    },
+    "type": "numeric"
+  },
+  "anchor.priority": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.15384615384615385,
+            "proportionOfGroup": 0.09523809523809523,
+            "value": "accent"
+          },
+          {
+            "count": 11,
+            "proportionOfAvailable": 0.8461538461538461,
+            "proportionOfGroup": 0.5238095238095238,
+            "value": "core"
+          }
+        ],
+        "count": 13,
+        "groupCount": 21,
+        "missingCount": 8
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.1891891891891892,
+            "proportionOfGroup": 0.11666666666666667,
+            "value": "accent"
+          },
+          {
+            "count": 30,
+            "proportionOfAvailable": 0.8108108108108109,
+            "proportionOfGroup": 0.5,
+            "value": "core"
+          }
+        ],
+        "count": 37,
+        "groupCount": 60,
+        "missingCount": 23
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.1111111111111111,
+            "proportionOfGroup": 0.07142857142857142,
+            "value": "accent"
+          },
+          {
+            "count": 16,
+            "proportionOfAvailable": 0.8888888888888888,
+            "proportionOfGroup": 0.5714285714285714,
+            "value": "core"
+          }
+        ],
+        "count": 18,
+        "groupCount": 28,
+        "missingCount": 10
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.2631578947368421,
+            "proportionOfGroup": 0.16666666666666666,
+            "value": "accent"
+          },
+          {
+            "count": 14,
+            "proportionOfAvailable": 0.7368421052631579,
+            "proportionOfGroup": 0.4666666666666667,
+            "value": "core"
+          }
+        ],
+        "count": 19,
+        "groupCount": 30,
+        "missingCount": 11
+      }
+    },
+    "type": "categorical"
+  },
+  "anchor.salience": {
+    "groups": {
+      "TP": {
+        "count": 13,
+        "groupCount": 21,
+        "iqr": 0.07219999999999993,
+        "maximum": 0.9791,
+        "median": 0.9199,
+        "minimum": 0.7293,
+        "missingCount": 8,
+        "q1": 0.8695,
+        "q3": 0.9417
+      },
+      "all_FP": {
+        "count": 37,
+        "groupCount": 60,
+        "iqr": 0.05349999999999999,
+        "maximum": 0.9913,
+        "median": 0.9328,
+        "minimum": 0.6352,
+        "missingCount": 23,
+        "q1": 0.9005,
+        "q3": 0.954
+      },
+      "greater_than_5s_FP": {
+        "count": 18,
+        "groupCount": 28,
+        "iqr": 0.041549999999999976,
+        "maximum": 0.9885,
+        "median": 0.93405,
+        "minimum": 0.6693,
+        "missingCount": 10,
+        "q1": 0.91815,
+        "q3": 0.9597
+      },
+      "zero_reference_FP": {
+        "count": 19,
+        "groupCount": 30,
+        "iqr": 0.0695,
+        "maximum": 0.9913,
+        "median": 0.9124,
+        "minimum": 0.6352,
+        "missingCount": 11,
+        "q1": 0.87695,
+        "q3": 0.94645
+      }
+    },
+    "type": "numeric"
+  },
+  "anchor.source": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.38461538461538464,
+            "proportionOfGroup": 0.23809523809523808,
+            "value": "beat"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.07692307692307693,
+            "proportionOfGroup": 0.047619047619047616,
+            "value": "onset"
+          },
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.5384615384615384,
+            "proportionOfGroup": 0.3333333333333333,
+            "value": "transition"
+          }
+        ],
+        "count": 13,
+        "groupCount": 21,
+        "missingCount": 8
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.1891891891891892,
+            "proportionOfGroup": 0.11666666666666667,
+            "value": "beat"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.08108108108108109,
+            "proportionOfGroup": 0.05,
+            "value": "onset"
+          },
+          {
+            "count": 27,
+            "proportionOfAvailable": 0.7297297297297297,
+            "proportionOfGroup": 0.45,
+            "value": "transition"
+          }
+        ],
+        "count": 37,
+        "groupCount": 60,
+        "missingCount": 23
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.05555555555555555,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "beat"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.05555555555555555,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "onset"
+          },
+          {
+            "count": 16,
+            "proportionOfAvailable": 0.8888888888888888,
+            "proportionOfGroup": 0.5714285714285714,
+            "value": "transition"
+          }
+        ],
+        "count": 18,
+        "groupCount": 28,
+        "missingCount": 10
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 6,
+            "proportionOfAvailable": 0.3157894736842105,
+            "proportionOfGroup": 0.2,
+            "value": "beat"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.10526315789473684,
+            "proportionOfGroup": 0.06666666666666667,
+            "value": "onset"
+          },
+          {
+            "count": 11,
+            "proportionOfAvailable": 0.5789473684210527,
+            "proportionOfGroup": 0.36666666666666664,
+            "value": "transition"
+          }
+        ],
+        "count": 19,
+        "groupCount": 30,
+        "missingCount": 11
+      }
+    },
+    "type": "categorical"
+  },
+  "assessment.decisiveImpact": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 21,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 60,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 28,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 30,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "assessment.preparation": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 21,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 60,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 28,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 30,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "assessment.repetitionRelation": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.3333333333333333,
+            "proportionOfGroup": 0.3333333333333333,
+            "value": "independent"
+          },
+          {
+            "count": 13,
+            "proportionOfAvailable": 0.6190476190476191,
+            "proportionOfGroup": 0.6190476190476191,
+            "value": "repeated_similar"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.047619047619047616,
+            "proportionOfGroup": 0.047619047619047616,
+            "value": "unclear"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 23,
+            "proportionOfAvailable": 0.38333333333333336,
+            "proportionOfGroup": 0.38333333333333336,
+            "value": "independent"
+          },
+          {
+            "count": 37,
+            "proportionOfAvailable": 0.6166666666666667,
+            "proportionOfGroup": 0.6166666666666667,
+            "value": "repeated_similar"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 12,
+            "proportionOfAvailable": 0.42857142857142855,
+            "proportionOfGroup": 0.42857142857142855,
+            "value": "independent"
+          },
+          {
+            "count": 16,
+            "proportionOfAvailable": 0.5714285714285714,
+            "proportionOfGroup": 0.5714285714285714,
+            "value": "repeated_similar"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 11,
+            "proportionOfAvailable": 0.36666666666666664,
+            "proportionOfGroup": 0.36666666666666664,
+            "value": "independent"
+          },
+          {
+            "count": 19,
+            "proportionOfAvailable": 0.6333333333333333,
+            "proportionOfGroup": 0.6333333333333333,
+            "value": "repeated_similar"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "assessment.semanticConfidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.08000000000000007,
+        "maximum": 0.93,
+        "median": 0.88,
+        "minimum": 0.76,
+        "missingCount": 0,
+        "q1": 0.82,
+        "q3": 0.9
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.08499999999999996,
+        "maximum": 0.94,
+        "median": 0.82,
+        "minimum": 0.7,
+        "missingCount": 0,
+        "q1": 0.7875000000000001,
+        "q3": 0.8725
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.07250000000000001,
+        "maximum": 0.94,
+        "median": 0.82,
+        "minimum": 0.72,
+        "missingCount": 0,
+        "q1": 0.77,
+        "q3": 0.8425
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.08750000000000002,
+        "maximum": 0.92,
+        "median": 0.83,
+        "minimum": 0.7,
+        "missingCount": 0,
+        "q1": 0.7925,
+        "q3": 0.88
+      }
+    },
+    "type": "numeric"
+  },
+  "assessment.semanticRole": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 21,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 60,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 28,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 30,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "assessment.structuralContext": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 10,
+            "proportionOfAvailable": 0.47619047619047616,
+            "proportionOfGroup": 0.47619047619047616,
+            "value": "chorus_or_section_entrance"
+          },
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.23809523809523808,
+            "proportionOfGroup": 0.23809523809523808,
+            "value": "generic_reentry"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.047619047619047616,
+            "proportionOfGroup": 0.047619047619047616,
+            "value": "other_transition"
+          },
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.23809523809523808,
+            "proportionOfGroup": 0.23809523809523808,
+            "value": "section_return"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 8,
+            "proportionOfAvailable": 0.13333333333333333,
+            "proportionOfGroup": 0.13333333333333333,
+            "value": "breakdown_ending"
+          },
+          {
+            "count": 30,
+            "proportionOfAvailable": 0.5,
+            "proportionOfGroup": 0.5,
+            "value": "chorus_or_section_entrance"
+          },
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.11666666666666667,
+            "proportionOfGroup": 0.11666666666666667,
+            "value": "generic_reentry"
+          },
+          {
+            "count": 15,
+            "proportionOfAvailable": 0.25,
+            "proportionOfGroup": 0.25,
+            "value": "section_return"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.17857142857142858,
+            "proportionOfGroup": 0.17857142857142858,
+            "value": "breakdown_ending"
+          },
+          {
+            "count": 12,
+            "proportionOfAvailable": 0.42857142857142855,
+            "proportionOfGroup": 0.42857142857142855,
+            "value": "chorus_or_section_entrance"
+          },
+          {
+            "count": 4,
+            "proportionOfAvailable": 0.14285714285714285,
+            "proportionOfGroup": 0.14285714285714285,
+            "value": "generic_reentry"
+          },
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.25,
+            "proportionOfGroup": 0.25,
+            "value": "section_return"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.1,
+            "proportionOfGroup": 0.1,
+            "value": "breakdown_ending"
+          },
+          {
+            "count": 17,
+            "proportionOfAvailable": 0.5666666666666667,
+            "proportionOfGroup": 0.5666666666666667,
+            "value": "chorus_or_section_entrance"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.1,
+            "proportionOfGroup": 0.1,
+            "value": "generic_reentry"
+          },
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.23333333333333334,
+            "proportionOfGroup": 0.23333333333333334,
+            "value": "section_return"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "assessment.sustainedStrongerPassage": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 21,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 60,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 28,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 30,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "clear"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "boundary.distanceSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.4679999999999893,
+        "maximum": 9.765000000000015,
+        "median": 0.0030000000000001137,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.4679999999999893
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.012250000000001648,
+        "maximum": 4.115000000000002,
+        "median": 0.0,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.012250000000001648
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.0042499999999972005,
+        "maximum": 1.1980000000000075,
+        "median": 0.0,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.0042499999999972005
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.4955000000000025,
+        "maximum": 4.115000000000002,
+        "median": 0.003999999999997783,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.4955000000000025
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.energyDelta": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.1538,
+        "maximum": 0.6149,
+        "median": 0.3595,
+        "minimum": 0.0816,
+        "missingCount": 0,
+        "q1": 0.2811,
+        "q3": 0.4349
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.25755,
+        "maximum": 0.7486,
+        "median": 0.3554,
+        "minimum": -0.2421,
+        "missingCount": 0,
+        "q1": 0.2106,
+        "q3": 0.46815
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.247575,
+        "maximum": 0.57,
+        "median": 0.3135,
+        "minimum": -0.1937,
+        "missingCount": 0,
+        "q1": 0.189575,
+        "q3": 0.43715
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.20279999999999998,
+        "maximum": 0.7486,
+        "median": 0.37385,
+        "minimum": -0.2421,
+        "missingCount": 0,
+        "q1": 0.25812500000000005,
+        "q3": 0.46092500000000003
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.incomingSectionConfidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.18100000000000005,
+        "maximum": 0.9589,
+        "median": 0.8361,
+        "minimum": 0.6044,
+        "missingCount": 0,
+        "q1": 0.7494,
+        "q3": 0.9304
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.16104999999999992,
+        "maximum": 0.9923,
+        "median": 0.82265,
+        "minimum": 0.5066,
+        "missingCount": 0,
+        "q1": 0.749125,
+        "q3": 0.910175
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.14222499999999993,
+        "maximum": 0.9903,
+        "median": 0.79175,
+        "minimum": 0.688,
+        "missingCount": 0,
+        "q1": 0.739375,
+        "q3": 0.8815999999999999
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.1125250000000001,
+        "maximum": 0.9923,
+        "median": 0.8403,
+        "minimum": 0.5066,
+        "missingCount": 0,
+        "q1": 0.793225,
+        "q3": 0.90575
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.incomingSectionEnergy": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.09750000000000003,
+        "maximum": 0.9415,
+        "median": 0.8714,
+        "minimum": 0.6655,
+        "missingCount": 0,
+        "q1": 0.7972,
+        "q3": 0.8947
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.18455,
+        "maximum": 0.9306,
+        "median": 0.8021,
+        "minimum": 0.4979,
+        "missingCount": 0,
+        "q1": 0.6886,
+        "q3": 0.87315
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.1733,
+        "maximum": 0.9032,
+        "median": 0.8021,
+        "minimum": 0.4979,
+        "missingCount": 0,
+        "q1": 0.69985,
+        "q3": 0.87315
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.21330000000000005,
+        "maximum": 0.9306,
+        "median": 0.79445,
+        "minimum": 0.5142,
+        "missingCount": 0,
+        "q1": 0.64725,
+        "q3": 0.86055
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.after": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.14057799999999998,
+        "maximum": 0.986421,
+        "median": 0.898207,
+        "minimum": 0.627516,
+        "missingCount": 0,
+        "q1": 0.802366,
+        "q3": 0.942944
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.2585327500000001,
+        "maximum": 0.964537,
+        "median": 0.8390945000000001,
+        "minimum": 0.115355,
+        "missingCount": 0,
+        "q1": 0.6358809999999999,
+        "q3": 0.89441375
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.22864000000000007,
+        "maximum": 0.964537,
+        "median": 0.837518,
+        "minimum": 0.115355,
+        "missingCount": 0,
+        "q1": 0.6318732499999999,
+        "q3": 0.86051325
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.251289,
+        "maximum": 0.96156,
+        "median": 0.8370295000000001,
+        "minimum": 0.430016,
+        "missingCount": 0,
+        "q1": 0.643229,
+        "q3": 0.894518
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.at": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.18547599999999997,
+        "maximum": 0.99675,
+        "median": 0.807684,
+        "minimum": 0.445711,
+        "missingCount": 0,
+        "q1": 0.733774,
+        "q3": 0.91925
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.24405675000000004,
+        "maximum": 0.979103,
+        "median": 0.75038,
+        "minimum": 0.223039,
+        "missingCount": 0,
+        "q1": 0.5828194999999999,
+        "q3": 0.82687625
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.26962149999999996,
+        "maximum": 0.979103,
+        "median": 0.7219875,
+        "minimum": 0.33438,
+        "missingCount": 0,
+        "q1": 0.55725475,
+        "q3": 0.82687625
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.20314025000000002,
+        "maximum": 0.925385,
+        "median": 0.75038,
+        "minimum": 0.223039,
+        "missingCount": 0,
+        "q1": 0.592845,
+        "q3": 0.79598525
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.before": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.18610200000000005,
+        "maximum": 0.76817,
+        "median": 0.447295,
+        "minimum": 0.268621,
+        "missingCount": 0,
+        "q1": 0.373396,
+        "q3": 0.559498
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.24685774999999993,
+        "maximum": 0.983723,
+        "median": 0.43466899999999997,
+        "minimum": 0.121454,
+        "missingCount": 0,
+        "q1": 0.2826945,
+        "q3": 0.52955225
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.18956050000000002,
+        "maximum": 0.911512,
+        "median": 0.44939799999999996,
+        "minimum": 0.159202,
+        "missingCount": 0,
+        "q1": 0.35245875000000004,
+        "q3": 0.5420192500000001
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.24567299999999997,
+        "maximum": 0.983723,
+        "median": 0.366418,
+        "minimum": 0.121454,
+        "missingCount": 0,
+        "q1": 0.24018075,
+        "q3": 0.48585375
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.changeAfter": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.146126,
+        "maximum": 0.318922,
+        "median": 0.033502,
+        "minimum": -0.143277,
+        "missingCount": 0,
+        "q1": -0.010329,
+        "q3": 0.135797
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.16030575,
+        "maximum": 0.528796,
+        "median": 0.058883000000000005,
+        "minimum": -0.436109,
+        "missingCount": 0,
+        "q1": -0.0040625,
+        "q3": 0.15624325
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.148908,
+        "maximum": 0.296891,
+        "median": 0.041937,
+        "minimum": -0.276998,
+        "missingCount": 0,
+        "q1": 4.224999999999997e-05,
+        "q3": 0.14895025
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.23420475000000002,
+        "maximum": 0.528796,
+        "median": 0.072738,
+        "minimum": -0.436109,
+        "missingCount": 0,
+        "q1": -0.013892000000000002,
+        "q3": 0.22031275
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.netChange": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.12973800000000002,
+        "maximum": 0.600407,
+        "median": 0.370175,
+        "minimum": 0.211029,
+        "missingCount": 0,
+        "q1": 0.330706,
+        "q3": 0.460444
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.19589600000000001,
+        "maximum": 0.791778,
+        "median": 0.357762,
+        "minimum": -0.796157,
+        "missingCount": 0,
+        "q1": 0.27364125,
+        "q3": 0.46953725
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.14175225000000002,
+        "maximum": 0.512133,
+        "median": 0.3372715,
+        "minimum": -0.796157,
+        "missingCount": 0,
+        "q1": 0.258484,
+        "q3": 0.40023625
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.23371375,
+        "maximum": 0.791778,
+        "median": 0.41328299999999996,
+        "minimum": -0.465873,
+        "missingCount": 0,
+        "q1": 0.29015575,
+        "q3": 0.5238695
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.riseInto": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.179225,
+        "maximum": 0.545854,
+        "median": 0.354568,
+        "minimum": -0.099092,
+        "missingCount": 0,
+        "q1": 0.247717,
+        "q3": 0.426942
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.18968075,
+        "maximum": 0.695224,
+        "median": 0.282715,
+        "minimum": -0.51916,
+        "missingCount": 0,
+        "q1": 0.19989649999999998,
+        "q3": 0.38957725
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.13354425000000003,
+        "maximum": 0.520019,
+        "median": 0.241398,
+        "minimum": -0.51916,
+        "missingCount": 0,
+        "q1": 0.19989649999999998,
+        "q3": 0.33344075
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.22121624999999998,
+        "maximum": 0.695224,
+        "median": 0.3192035,
+        "minimum": -0.25552,
+        "missingCount": 0,
+        "q1": 0.2013175,
+        "q3": 0.42253375
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.localEnergy.windowSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 1.877107,
+        "maximum": 3.754458,
+        "median": 3.431954,
+        "minimum": 1.814909,
+        "missingCount": 0,
+        "q1": 1.872893,
+        "q3": 3.75
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 1.7297284999999998,
+        "maximum": 3.779468,
+        "median": 2.3525275,
+        "minimum": 1.6,
+        "missingCount": 0,
+        "q1": 1.89729925,
+        "q3": 3.62702775
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 1.8755597499999999,
+        "maximum": 3.779468,
+        "median": 2.7487684999999997,
+        "minimum": 1.6,
+        "missingCount": 0,
+        "q1": 1.8744402500000001,
+        "q3": 3.75
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 1.29065925,
+        "maximum": 3.753989,
+        "median": 2.6128035,
+        "minimum": 1.751825,
+        "missingCount": 0,
+        "q1": 1.90921275,
+        "q3": 3.199872
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.previousSectionConfidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.13349999999999995,
+        "maximum": 0.9479,
+        "median": 0.748,
+        "minimum": 0.5417,
+        "missingCount": 0,
+        "q1": 0.6971,
+        "q3": 0.8306
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.21484999999999999,
+        "maximum": 0.9887,
+        "median": 0.8013,
+        "minimum": 0.4679,
+        "missingCount": 0,
+        "q1": 0.6836249999999999,
+        "q3": 0.8984749999999999
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.15912499999999996,
+        "maximum": 0.9847,
+        "median": 0.7908,
+        "minimum": 0.4926,
+        "missingCount": 0,
+        "q1": 0.7186,
+        "q3": 0.877725
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.24687499999999996,
+        "maximum": 0.9887,
+        "median": 0.8126,
+        "minimum": 0.4679,
+        "missingCount": 0,
+        "q1": 0.6564,
+        "q3": 0.9032749999999999
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.previousSectionEnergy": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.1946,
+        "maximum": 0.7923,
+        "median": 0.4639,
+        "minimum": 0.2896,
+        "missingCount": 0,
+        "q1": 0.367,
+        "q3": 0.5616
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.26662499999999995,
+        "maximum": 0.9011,
+        "median": 0.41659999999999997,
+        "minimum": 0.0762,
+        "missingCount": 0,
+        "q1": 0.295325,
+        "q3": 0.56195
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.20739999999999997,
+        "maximum": 0.9011,
+        "median": 0.45199999999999996,
+        "minimum": 0.2214,
+        "missingCount": 0,
+        "q1": 0.35635,
+        "q3": 0.56375
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.315825,
+        "maximum": 0.8208,
+        "median": 0.36795,
+        "minimum": 0.0762,
+        "missingCount": 0,
+        "q1": 0.2097,
+        "q3": 0.525525
+      }
+    },
+    "type": "numeric"
+  },
+  "boundary.signedOffsetSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.01500000000001478,
+        "maximum": 0.8579999999999899,
+        "median": 0.0,
+        "minimum": -9.765000000000015,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.01500000000001478
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.0010000000000021103,
+        "maximum": 3.2110000000000127,
+        "median": 0.0,
+        "minimum": -4.115000000000002,
+        "missingCount": 0,
+        "q1": -0.0010000000000021103,
+        "q3": 0.0
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.0010000000000021103,
+        "maximum": 0.8479999999999848,
+        "median": 0.0,
+        "minimum": -1.1980000000000075,
+        "missingCount": 0,
+        "q1": -0.0010000000000021103,
+        "q3": 0.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.00624999999999698,
+        "maximum": 3.2110000000000127,
+        "median": 0.0,
+        "minimum": -4.115000000000002,
+        "missingCount": 0,
+        "q1": -0.004750000000000476,
+        "q3": 0.0014999999999965041
+      }
+    },
+    "type": "numeric"
+  },
+  "energy.global": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.15139999999999998,
+        "maximum": 0.7913,
+        "median": 0.6473,
+        "minimum": 0.3993,
+        "missingCount": 0,
+        "q1": 0.5495,
+        "q3": 0.7009
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.08555000000000001,
+        "maximum": 0.8639,
+        "median": 0.6538,
+        "minimum": 0.3732,
+        "missingCount": 0,
+        "q1": 0.59255,
+        "q3": 0.6781
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.04515000000000002,
+        "maximum": 0.8639,
+        "median": 0.6527000000000001,
+        "minimum": 0.5074,
+        "missingCount": 0,
+        "q1": 0.629575,
+        "q3": 0.674725
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.2005,
+        "maximum": 0.8119,
+        "median": 0.668,
+        "minimum": 0.3732,
+        "missingCount": 0,
+        "q1": 0.4776,
+        "q3": 0.6781
+      }
+    },
+    "type": "numeric"
+  },
+  "energy.interpolatedAtEvent": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.13919029714979692,
+        "maximum": 0.959989873417721,
+        "median": 0.8303721057429352,
+        "minimum": 0.6130422048997756,
+        "missingCount": 0,
+        "q1": 0.782503092783505,
+        "q3": 0.921693389933302
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.2042308146920332,
+        "maximum": 0.9791026112185672,
+        "median": 0.7706659964434179,
+        "minimum": 0.33208337988826886,
+        "missingCount": 0,
+        "q1": 0.6268421174883961,
+        "q3": 0.8310729321804293
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.24207133428570826,
+        "maximum": 0.9791026112185672,
+        "median": 0.7519476839457646,
+        "minimum": 0.33208337988826886,
+        "missingCount": 0,
+        "q1": 0.5817555426952292,
+        "q3": 0.8238268769809375
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.1929307100367823,
+        "maximum": 0.9731852901484552,
+        "median": 0.7662673940500615,
+        "minimum": 0.37367127024722957,
+        "missingCount": 0,
+        "q1": 0.6306419203272761,
+        "q3": 0.8235726303640584
+      }
+    },
+    "type": "numeric"
+  },
+  "event.positionFraction": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.35396025360952105,
+        "maximum": 0.758226595207083,
+        "median": 0.4114614165455017,
+        "minimum": 0.22857248323568916,
+        "missingCount": 0,
+        "q1": 0.31260408204695883,
+        "q3": 0.6665643356564799
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.4363340578245352,
+        "maximum": 0.9459036841329665,
+        "median": 0.5129054396294868,
+        "minimum": 0.04145997322756407,
+        "missingCount": 0,
+        "q1": 0.2585913305942312,
+        "q3": 0.6949253884187664
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.4520075889323754,
+        "maximum": 0.9459036841329665,
+        "median": 0.5590465798051196,
+        "minimum": 0.05501482968450659,
+        "missingCount": 0,
+        "q1": 0.2659420622226946,
+        "q3": 0.71794965115507
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.397835820758955,
+        "maximum": 0.9121191678148919,
+        "median": 0.4677019296176653,
+        "minimum": 0.04145997322756407,
+        "missingCount": 0,
+        "q1": 0.25858849232111863,
+        "q3": 0.6564243130800737
+      }
+    },
+    "type": "numeric"
+  },
+  "event.semanticConfidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.08000000000000007,
+        "maximum": 0.93,
+        "median": 0.88,
+        "minimum": 0.76,
+        "missingCount": 0,
+        "q1": 0.82,
+        "q3": 0.9
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.08499999999999996,
+        "maximum": 0.94,
+        "median": 0.82,
+        "minimum": 0.7,
+        "missingCount": 0,
+        "q1": 0.7875000000000001,
+        "q3": 0.8725
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.07250000000000001,
+        "maximum": 0.94,
+        "median": 0.82,
+        "minimum": 0.72,
+        "missingCount": 0,
+        "q1": 0.77,
+        "q3": 0.8425
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.08750000000000002,
+        "maximum": 0.92,
+        "median": 0.83,
+        "minimum": 0.7,
+        "missingCount": 0,
+        "q1": 0.7925,
+        "q3": 0.88
+      }
+    },
+    "type": "numeric"
+  },
+  "followingSection.activity": {
+    "groups": {
+      "TP": {
+        "count": 20,
+        "groupCount": 21,
+        "iqr": 0.14965,
+        "maximum": 0.3454,
+        "median": 0.20405,
+        "minimum": 0.0157,
+        "missingCount": 1,
+        "q1": 0.12645,
+        "q3": 0.2761
+      },
+      "all_FP": {
+        "count": 56,
+        "groupCount": 60,
+        "iqr": 0.08900000000000002,
+        "maximum": 0.4272,
+        "median": 0.1971,
+        "minimum": 0.0547,
+        "missingCount": 4,
+        "q1": 0.148775,
+        "q3": 0.23777500000000001
+      },
+      "greater_than_5s_FP": {
+        "count": 26,
+        "groupCount": 28,
+        "iqr": 0.054675,
+        "maximum": 0.4272,
+        "median": 0.20140000000000002,
+        "minimum": 0.0547,
+        "missingCount": 2,
+        "q1": 0.1817,
+        "q3": 0.236375
+      },
+      "zero_reference_FP": {
+        "count": 28,
+        "groupCount": 30,
+        "iqr": 0.128325,
+        "maximum": 0.2887,
+        "median": 0.19635000000000002,
+        "minimum": 0.07,
+        "missingCount": 2,
+        "q1": 0.123725,
+        "q3": 0.25205
+      }
+    },
+    "type": "numeric"
+  },
+  "followingSection.confidence": {
+    "groups": {
+      "TP": {
+        "count": 20,
+        "groupCount": 21,
+        "iqr": 0.16085000000000005,
+        "maximum": 0.9847,
+        "median": 0.83805,
+        "minimum": 0.6044,
+        "missingCount": 1,
+        "q1": 0.743725,
+        "q3": 0.904575
+      },
+      "all_FP": {
+        "count": 56,
+        "groupCount": 60,
+        "iqr": 0.17595000000000005,
+        "maximum": 0.9877,
+        "median": 0.77415,
+        "minimum": 0.5066,
+        "missingCount": 4,
+        "q1": 0.680425,
+        "q3": 0.856375
+      },
+      "greater_than_5s_FP": {
+        "count": 26,
+        "groupCount": 28,
+        "iqr": 0.15892499999999998,
+        "maximum": 0.9633,
+        "median": 0.76145,
+        "minimum": 0.6267,
+        "missingCount": 2,
+        "q1": 0.68055,
+        "q3": 0.839475
+      },
+      "zero_reference_FP": {
+        "count": 28,
+        "groupCount": 30,
+        "iqr": 0.20287500000000014,
+        "maximum": 0.9877,
+        "median": 0.7717499999999999,
+        "minimum": 0.5066,
+        "missingCount": 2,
+        "q1": 0.6788749999999999,
+        "q3": 0.88175
+      }
+    },
+    "type": "numeric"
+  },
+  "followingSection.duration": {
+    "groups": {
+      "TP": {
+        "count": 20,
+        "groupCount": 21,
+        "iqr": 41.4815,
+        "maximum": 103.125,
+        "median": 30.462,
+        "minimum": 4.219,
+        "missingCount": 1,
+        "q1": 13.20125,
+        "q3": 54.68275
+      },
+      "all_FP": {
+        "count": 56,
+        "groupCount": 60,
+        "iqr": 41.431250000000006,
+        "maximum": 155.237,
+        "median": 22.969,
+        "minimum": 5.116,
+        "missingCount": 4,
+        "q1": 11.8,
+        "q3": 53.23125
+      },
+      "greater_than_5s_FP": {
+        "count": 26,
+        "groupCount": 28,
+        "iqr": 26.101,
+        "maximum": 155.237,
+        "median": 18.543,
+        "minimum": 7.491,
+        "missingCount": 2,
+        "q1": 11.4275,
+        "q3": 37.5285
+      },
+      "zero_reference_FP": {
+        "count": 28,
+        "groupCount": 30,
+        "iqr": 47.7295,
+        "maximum": 137.135,
+        "median": 27.261499999999998,
+        "minimum": 5.116,
+        "missingCount": 2,
+        "q1": 11.8,
+        "q3": 59.5295
+      }
+    },
+    "type": "numeric"
+  },
+  "followingSection.energy": {
+    "groups": {
+      "TP": {
+        "count": 20,
+        "groupCount": 21,
+        "iqr": 0.38410000000000005,
+        "maximum": 0.874,
+        "median": 0.6891,
+        "minimum": 0.0394,
+        "missingCount": 1,
+        "q1": 0.360025,
+        "q3": 0.744125
+      },
+      "all_FP": {
+        "count": 56,
+        "groupCount": 60,
+        "iqr": 0.3645999999999999,
+        "maximum": 0.9214,
+        "median": 0.6221,
+        "minimum": 0.0764,
+        "missingCount": 4,
+        "q1": 0.4303,
+        "q3": 0.7948999999999999
+      },
+      "greater_than_5s_FP": {
+        "count": 26,
+        "groupCount": 28,
+        "iqr": 0.27147500000000013,
+        "maximum": 0.9214,
+        "median": 0.6297,
+        "minimum": 0.0764,
+        "missingCount": 2,
+        "q1": 0.528225,
+        "q3": 0.7997000000000001
+      },
+      "zero_reference_FP": {
+        "count": 28,
+        "groupCount": 30,
+        "iqr": 0.46302499999999996,
+        "maximum": 0.9065,
+        "median": 0.6035999999999999,
+        "minimum": 0.1199,
+        "missingCount": 2,
+        "q1": 0.2929,
+        "q3": 0.755925
+      }
+    },
+    "type": "numeric"
+  },
+  "inLowDemandWindow": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 19,
+            "proportionOfAvailable": 0.9047619047619048,
+            "proportionOfGroup": 0.9047619047619048,
+            "value": false
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.09523809523809523,
+            "proportionOfGroup": 0.09523809523809523,
+            "value": true
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 57,
+            "proportionOfAvailable": 0.95,
+            "proportionOfGroup": 0.95,
+            "value": false
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.05,
+            "proportionOfGroup": 0.05,
+            "value": true
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 26,
+            "proportionOfAvailable": 0.9285714285714286,
+            "proportionOfGroup": 0.9285714285714286,
+            "value": false
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.07142857142857142,
+            "proportionOfGroup": 0.07142857142857142,
+            "value": true
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 29,
+            "proportionOfAvailable": 0.9666666666666667,
+            "proportionOfGroup": 0.9666666666666667,
+            "value": false
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.03333333333333333,
+            "proportionOfGroup": 0.03333333333333333,
+            "value": true
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "landmark.distanceSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.47199999999998,
+        "maximum": 4.8870000000000005,
+        "median": 0.009000000000014552,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.47199999999998
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.11000000000000298,
+        "maximum": 30.461000000000002,
+        "median": 0.0015000000000000568,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.11000000000000298
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.007750000000012136,
+        "maximum": 18.570999999999998,
+        "median": 0.0010000000000029985,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.007750000000012136
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.6752500000000001,
+        "maximum": 30.461000000000002,
+        "median": 0.006000000000000227,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.6752500000000001
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.intensity": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.10870000000000002,
+        "maximum": 1,
+        "median": 0.8785,
+        "minimum": 0.6655,
+        "missingCount": 0,
+        "q1": 0.7972,
+        "q3": 0.9059
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.21467500000000006,
+        "maximum": 1,
+        "median": 0.80235,
+        "minimum": 0.0764,
+        "missingCount": 0,
+        "q1": 0.66145,
+        "q3": 0.876125
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.1743,
+        "maximum": 0.989,
+        "median": 0.8012,
+        "minimum": 0.0764,
+        "missingCount": 0,
+        "q1": 0.69985,
+        "q3": 0.87415
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.24940000000000007,
+        "maximum": 1,
+        "median": 0.80185,
+        "minimum": 0.1617,
+        "missingCount": 0,
+        "q1": 0.6254,
+        "q3": 0.8748
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.after": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.085812,
+        "maximum": 0.986421,
+        "median": 0.91026,
+        "minimum": 0.695393,
+        "missingCount": 0,
+        "q1": 0.855802,
+        "q3": 0.941614
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.282996,
+        "maximum": 0.964537,
+        "median": 0.8302309999999999,
+        "minimum": 0.066073,
+        "missingCount": 0,
+        "q1": 0.61141775,
+        "q3": 0.89441375
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.2741785,
+        "maximum": 0.964537,
+        "median": 0.8208344999999999,
+        "minimum": 0.066073,
+        "missingCount": 0,
+        "q1": 0.58633475,
+        "q3": 0.86051325
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.2766025,
+        "maximum": 0.96156,
+        "median": 0.820747,
+        "minimum": 0.110244,
+        "missingCount": 0,
+        "q1": 0.6179155000000001,
+        "q3": 0.894518
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.at": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.18945299999999998,
+        "maximum": 0.99675,
+        "median": 0.865831,
+        "minimum": 0.606045,
+        "missingCount": 0,
+        "q1": 0.742946,
+        "q3": 0.932399
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.26654975000000003,
+        "maximum": 0.988294,
+        "median": 0.75038,
+        "minimum": 0.032046,
+        "missingCount": 0,
+        "q1": 0.57244025,
+        "q3": 0.83899
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.29900749999999987,
+        "maximum": 0.988294,
+        "median": 0.7109639999999999,
+        "minimum": 0.241436,
+        "missingCount": 0,
+        "q1": 0.5237580000000001,
+        "q3": 0.8227654999999999
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.2241359999999999,
+        "maximum": 0.973185,
+        "median": 0.7543770000000001,
+        "minimum": 0.032046,
+        "missingCount": 0,
+        "q1": 0.6202222500000001,
+        "q3": 0.84435825
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.before": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.16905799999999999,
+        "maximum": 0.91345,
+        "median": 0.465463,
+        "minimum": 0.326883,
+        "missingCount": 0,
+        "q1": 0.391415,
+        "q3": 0.560473
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.25587475,
+        "maximum": 0.983723,
+        "median": 0.43246850000000003,
+        "minimum": 0.042047,
+        "missingCount": 0,
+        "q1": 0.27721225,
+        "q3": 0.533087
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.25423075000000006,
+        "maximum": 0.96869,
+        "median": 0.44793700000000003,
+        "minimum": 0.159202,
+        "missingCount": 0,
+        "q1": 0.31745199999999996,
+        "q3": 0.57168275
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.25624125000000003,
+        "maximum": 0.983723,
+        "median": 0.366418,
+        "minimum": 0.042047,
+        "missingCount": 0,
+        "q1": 0.24018075,
+        "q3": 0.49642200000000003
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.changeAfter": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.143071,
+        "maximum": 0.318922,
+        "median": -0.005318,
+        "minimum": -0.143277,
+        "missingCount": 0,
+        "q1": -0.021043,
+        "q3": 0.122028
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.159834,
+        "maximum": 0.36987,
+        "median": 0.024669,
+        "minimum": -0.436109,
+        "missingCount": 0,
+        "q1": -0.026314999999999998,
+        "q3": 0.133519
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.15436475,
+        "maximum": 0.296891,
+        "median": 0.021434500000000002,
+        "minimum": -0.276998,
+        "missingCount": 0,
+        "q1": -0.010103500000000001,
+        "q3": 0.14426125
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.19665775000000002,
+        "maximum": 0.36987,
+        "median": 0.043044,
+        "minimum": -0.436109,
+        "missingCount": 0,
+        "q1": -0.069459,
+        "q3": 0.12719875
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.netChange": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.12973800000000002,
+        "maximum": 0.600407,
+        "median": 0.370175,
+        "minimum": -0.003189,
+        "missingCount": 0,
+        "q1": 0.330706,
+        "q3": 0.460444
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.21794875000000002,
+        "maximum": 0.803545,
+        "median": 0.34741049999999996,
+        "minimum": -0.796157,
+        "missingCount": 0,
+        "q1": 0.2515885,
+        "q3": 0.46953725
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.19072350000000002,
+        "maximum": 0.512133,
+        "median": 0.32507149999999996,
+        "minimum": -0.796157,
+        "missingCount": 0,
+        "q1": 0.20951275,
+        "q3": 0.40023625
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.24835975,
+        "maximum": 0.803545,
+        "median": 0.4123265,
+        "minimum": -0.465873,
+        "missingCount": 0,
+        "q1": 0.27550975,
+        "q3": 0.5238695
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.riseInto": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.14571999999999996,
+        "maximum": 0.545854,
+        "median": 0.366509,
+        "minimum": -0.099092,
+        "missingCount": 0,
+        "q1": 0.281222,
+        "q3": 0.426942
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.19763075000000002,
+        "maximum": 0.843379,
+        "median": 0.266063,
+        "minimum": -0.51916,
+        "missingCount": 0,
+        "q1": 0.19361,
+        "q3": 0.39124075
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.1564795,
+        "maximum": 0.520019,
+        "median": 0.2148775,
+        "minimum": -0.51916,
+        "missingCount": 0,
+        "q1": 0.17696125000000001,
+        "q3": 0.33344075
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.284036,
+        "maximum": 0.843379,
+        "median": 0.3192035,
+        "minimum": -0.281079,
+        "missingCount": 0,
+        "q1": 0.1931675,
+        "q3": 0.4772035
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.localEnergy.windowSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 1.877107,
+        "maximum": 3.754458,
+        "median": 3.431954,
+        "minimum": 1.814909,
+        "missingCount": 0,
+        "q1": 1.872893,
+        "q3": 3.75
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 1.7297284999999998,
+        "maximum": 3.779468,
+        "median": 2.3525275,
+        "minimum": 1.6,
+        "missingCount": 0,
+        "q1": 1.89729925,
+        "q3": 3.62702775
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 1.8755597499999999,
+        "maximum": 3.779468,
+        "median": 2.7487684999999997,
+        "minimum": 1.6,
+        "missingCount": 0,
+        "q1": 1.8744402500000001,
+        "q3": 3.75
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 1.29065925,
+        "maximum": 3.753989,
+        "median": 2.6128035,
+        "minimum": 1.751825,
+        "missingCount": 0,
+        "q1": 1.90921275,
+        "q3": 3.199872
+      }
+    },
+    "type": "numeric"
+  },
+  "landmark.signedOffsetSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.4679999999999893,
+        "maximum": 4.8870000000000005,
+        "median": 0.0,
+        "minimum": -1.406000000000006,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.4679999999999893
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.0017500000000021387,
+        "maximum": 30.461000000000002,
+        "median": 0.0,
+        "minimum": -18.570999999999998,
+        "missingCount": 0,
+        "q1": -0.001250000000003304,
+        "q3": 0.0004999999999988347
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.002249999999999197,
+        "maximum": 12.188000000000045,
+        "median": 0.0,
+        "minimum": -18.570999999999998,
+        "missingCount": 0,
+        "q1": -0.002249999999999197,
+        "q3": 0.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.009750000000002146,
+        "maximum": 30.461000000000002,
+        "median": 0.0,
+        "minimum": -8.323,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.009750000000002146
+      }
+    },
+    "type": "numeric"
+  },
+  "previousLowDemandWindow.confidence": {
+    "groups": {
+      "TP": {
+        "count": 15,
+        "groupCount": 21,
+        "iqr": 0.14859999999999995,
+        "maximum": 0.8735,
+        "median": 0.6774,
+        "minimum": 0.4705,
+        "missingCount": 6,
+        "q1": 0.6185,
+        "q3": 0.7671
+      },
+      "all_FP": {
+        "count": 43,
+        "groupCount": 60,
+        "iqr": 0.1197999999999999,
+        "maximum": 0.9339,
+        "median": 0.7147,
+        "minimum": 0.4705,
+        "missingCount": 17,
+        "q1": 0.66785,
+        "q3": 0.78765
+      },
+      "greater_than_5s_FP": {
+        "count": 17,
+        "groupCount": 28,
+        "iqr": 0.1714,
+        "maximum": 0.8602,
+        "median": 0.7613,
+        "minimum": 0.4705,
+        "missingCount": 11,
+        "q1": 0.6525,
+        "q3": 0.8239
+      },
+      "zero_reference_FP": {
+        "count": 25,
+        "groupCount": 30,
+        "iqr": 0.06880000000000008,
+        "maximum": 0.9339,
+        "median": 0.7117,
+        "minimum": 0.601,
+        "missingCount": 5,
+        "q1": 0.6737,
+        "q3": 0.7425
+      }
+    },
+    "type": "numeric"
+  },
+  "previousLowDemandWindow.durationSeconds": {
+    "groups": {
+      "TP": {
+        "count": 15,
+        "groupCount": 21,
+        "iqr": 28.805000000000014,
+        "maximum": 66.038,
+        "median": 20.23599999999999,
+        "minimum": 5.6540000000000035,
+        "missingCount": 6,
+        "q1": 10.56949999999999,
+        "q3": 39.374500000000005
+      },
+      "all_FP": {
+        "count": 43,
+        "groupCount": 60,
+        "iqr": 17.261000000000003,
+        "maximum": 91.72200000000004,
+        "median": 25.557,
+        "minimum": 5.6540000000000035,
+        "missingCount": 17,
+        "q1": 12.857,
+        "q3": 30.118000000000002
+      },
+      "greater_than_5s_FP": {
+        "count": 17,
+        "groupCount": 28,
+        "iqr": 35.812,
+        "maximum": 78.75,
+        "median": 30.0,
+        "minimum": 5.6540000000000035,
+        "missingCount": 11,
+        "q1": 12.0,
+        "q3": 47.812
+      },
+      "zero_reference_FP": {
+        "count": 25,
+        "groupCount": 30,
+        "iqr": 7.682999999999993,
+        "maximum": 91.72200000000004,
+        "median": 25.557,
+        "minimum": 8.322,
+        "missingCount": 5,
+        "q1": 17.936000000000007,
+        "q3": 25.619
+      }
+    },
+    "type": "numeric"
+  },
+  "previousLowDemandWindow.energy": {
+    "groups": {
+      "TP": {
+        "count": 15,
+        "groupCount": 21,
+        "iqr": 0.25315,
+        "maximum": 0.6902,
+        "median": 0.367,
+        "minimum": 0.1524,
+        "missingCount": 6,
+        "q1": 0.2334,
+        "q3": 0.48655
+      },
+      "all_FP": {
+        "count": 43,
+        "groupCount": 60,
+        "iqr": 0.2766,
+        "maximum": 0.6902,
+        "median": 0.2752,
+        "minimum": 0.0762,
+        "missingCount": 17,
+        "q1": 0.1552,
+        "q3": 0.4318
+      },
+      "greater_than_5s_FP": {
+        "count": 17,
+        "groupCount": 28,
+        "iqr": 0.2914,
+        "maximum": 0.6902,
+        "median": 0.3735,
+        "minimum": 0.1487,
+        "missingCount": 11,
+        "q1": 0.2563,
+        "q3": 0.5477
+      },
+      "zero_reference_FP": {
+        "count": 25,
+        "groupCount": 30,
+        "iqr": 0.3035,
+        "maximum": 0.5132,
+        "median": 0.2364,
+        "minimum": 0.0762,
+        "missingCount": 5,
+        "q1": 0.1283,
+        "q3": 0.4318
+      }
+    },
+    "type": "numeric"
+  },
+  "previousLowDemandWindow.gapSeconds": {
+    "groups": {
+      "TP": {
+        "count": 15,
+        "groupCount": 21,
+        "iqr": 44.79999999999997,
+        "maximum": 103.59100000000004,
+        "median": 44.063,
+        "minimum": 0.0,
+        "missingCount": 6,
+        "q1": 8.63000000000001,
+        "q3": 53.42999999999998
+      },
+      "all_FP": {
+        "count": 43,
+        "groupCount": 60,
+        "iqr": 66.74349999999998,
+        "maximum": 192.8,
+        "median": 7.723000000000013,
+        "minimum": 0.0,
+        "missingCount": 17,
+        "q1": 0.0,
+        "q3": 66.74349999999998
+      },
+      "greater_than_5s_FP": {
+        "count": 17,
+        "groupCount": 28,
+        "iqr": 60.857,
+        "maximum": 127.49999999999997,
+        "median": 7.723000000000013,
+        "minimum": 0.0,
+        "missingCount": 11,
+        "q1": 0.0,
+        "q3": 60.857
+      },
+      "zero_reference_FP": {
+        "count": 25,
+        "groupCount": 30,
+        "iqr": 91.163,
+        "maximum": 192.8,
+        "median": 26.387999999999998,
+        "minimum": 0.0,
+        "missingCount": 5,
+        "q1": 0.006000000000000227,
+        "q3": 91.169
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSection.activity": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.0552,
+        "maximum": 0.2888,
+        "median": 0.1744,
+        "minimum": 0.1064,
+        "missingCount": 0,
+        "q1": 0.1508,
+        "q3": 0.206
+      },
+      "all_FP": {
+        "count": 59,
+        "groupCount": 60,
+        "iqr": 0.0955,
+        "maximum": 0.343,
+        "median": 0.1672,
+        "minimum": 0.0486,
+        "missingCount": 1,
+        "q1": 0.11624999999999999,
+        "q3": 0.21175
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.08177499999999999,
+        "maximum": 0.343,
+        "median": 0.1873,
+        "minimum": 0.0645,
+        "missingCount": 0,
+        "q1": 0.13925,
+        "q3": 0.221025
+      },
+      "zero_reference_FP": {
+        "count": 29,
+        "groupCount": 30,
+        "iqr": 0.08070000000000001,
+        "maximum": 0.3068,
+        "median": 0.1517,
+        "minimum": 0.0486,
+        "missingCount": 1,
+        "q1": 0.109,
+        "q3": 0.1897
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSection.confidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.18189999999999995,
+        "maximum": 0.9479,
+        "median": 0.7409,
+        "minimum": 0.4419,
+        "missingCount": 0,
+        "q1": 0.6487,
+        "q3": 0.8306
+      },
+      "all_FP": {
+        "count": 59,
+        "groupCount": 60,
+        "iqr": 0.22859999999999991,
+        "maximum": 0.9887,
+        "median": 0.7937,
+        "minimum": 0.4757,
+        "missingCount": 1,
+        "q1": 0.667,
+        "q3": 0.8956
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.13992499999999997,
+        "maximum": 0.9847,
+        "median": 0.7908,
+        "minimum": 0.4926,
+        "missingCount": 0,
+        "q1": 0.7186,
+        "q3": 0.858525
+      },
+      "zero_reference_FP": {
+        "count": 29,
+        "groupCount": 30,
+        "iqr": 0.253,
+        "maximum": 0.9887,
+        "median": 0.8036,
+        "minimum": 0.4757,
+        "missingCount": 1,
+        "q1": 0.6525,
+        "q3": 0.9055
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSection.duration": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 36.855999999999995,
+        "maximum": 87.187,
+        "median": 21.562,
+        "minimum": 8.437,
+        "missingCount": 0,
+        "q1": 9.429,
+        "q3": 46.285
+      },
+      "all_FP": {
+        "count": 59,
+        "groupCount": 60,
+        "iqr": 19.781499999999998,
+        "maximum": 91.722,
+        "median": 23.57,
+        "minimum": 5.654,
+        "missingCount": 1,
+        "q1": 14.065000000000001,
+        "q3": 33.8465
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 19.68725,
+        "maximum": 78.75,
+        "median": 19.494,
+        "minimum": 5.654,
+        "missingCount": 0,
+        "q1": 14.8025,
+        "q3": 34.48975
+      },
+      "zero_reference_FP": {
+        "count": 29,
+        "groupCount": 30,
+        "iqr": 17.608,
+        "maximum": 91.722,
+        "median": 23.57,
+        "minimum": 8.0,
+        "missingCount": 1,
+        "q1": 11.25,
+        "q3": 28.858
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSection.energy": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.17380000000000007,
+        "maximum": 0.9097,
+        "median": 0.53,
+        "minimum": 0.2334,
+        "missingCount": 0,
+        "q1": 0.4588,
+        "q3": 0.6326
+      },
+      "all_FP": {
+        "count": 59,
+        "groupCount": 60,
+        "iqr": 0.27254999999999996,
+        "maximum": 0.9011,
+        "median": 0.4233,
+        "minimum": 0.0762,
+        "missingCount": 1,
+        "q1": 0.29845,
+        "q3": 0.571
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.22385,
+        "maximum": 0.9011,
+        "median": 0.49954999999999994,
+        "minimum": 0.2202,
+        "missingCount": 0,
+        "q1": 0.37575000000000003,
+        "q3": 0.5996
+      },
+      "zero_reference_FP": {
+        "count": 29,
+        "groupCount": 30,
+        "iqr": 0.34099999999999997,
+        "maximum": 0.8817,
+        "median": 0.3559,
+        "minimum": 0.0762,
+        "missingCount": 1,
+        "q1": 0.1854,
+        "q3": 0.5264
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSection.energyReductionFromPrior": {
+    "groups": {
+      "TP": {
+        "count": 18,
+        "groupCount": 21,
+        "iqr": 0.573075,
+        "maximum": 0.5182,
+        "median": 0.03344999999999998,
+        "minimum": -0.39089999999999997,
+        "missingCount": 3,
+        "q1": -0.2269,
+        "q3": 0.346175
+      },
+      "all_FP": {
+        "count": 49,
+        "groupCount": 60,
+        "iqr": 0.5247,
+        "maximum": 0.724,
+        "median": 0.27959999999999996,
+        "minimum": -0.43590000000000007,
+        "missingCount": 11,
+        "q1": -0.09380000000000001,
+        "q3": 0.4309
+      },
+      "greater_than_5s_FP": {
+        "count": 24,
+        "groupCount": 28,
+        "iqr": 0.525875,
+        "maximum": 0.6482,
+        "median": 0.2403,
+        "minimum": -0.43590000000000007,
+        "missingCount": 4,
+        "q1": -0.150075,
+        "q3": 0.37579999999999997
+      },
+      "zero_reference_FP": {
+        "count": 24,
+        "groupCount": 30,
+        "iqr": 0.5189,
+        "maximum": 0.724,
+        "median": 0.30965,
+        "minimum": -0.42110000000000003,
+        "missingCount": 6,
+        "q1": -0.04887499999999999,
+        "q3": 0.470025
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSemanticEvent.gapSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 12.241,
+        "maximum": 52.50000000000001,
+        "median": 16.404000000000025,
+        "minimum": 1.406000000000006,
+        "missingCount": 0,
+        "q1": 9.320999999999998,
+        "q3": 21.561999999999998
+      },
+      "all_FP": {
+        "count": 53,
+        "groupCount": 60,
+        "iqr": 22.131,
+        "maximum": 91.72200000000004,
+        "median": 17.936000000000007,
+        "minimum": 0.01300000000000523,
+        "missingCount": 7,
+        "q1": 8.793000000000006,
+        "q3": 30.924000000000007
+      },
+      "greater_than_5s_FP": {
+        "count": 24,
+        "groupCount": 28,
+        "iqr": 19.23625000000001,
+        "maximum": 78.75,
+        "median": 19.719000000000005,
+        "minimum": 0.016000000000019554,
+        "missingCount": 4,
+        "q1": 12.572499999999994,
+        "q3": 31.808750000000003
+      },
+      "zero_reference_FP": {
+        "count": 27,
+        "groupCount": 30,
+        "iqr": 19.585999999999984,
+        "maximum": 91.72200000000004,
+        "median": 16.666000000000004,
+        "minimum": 0.01300000000000523,
+        "missingCount": 3,
+        "q1": 7.736000000000011,
+        "q3": 27.321999999999996
+      }
+    },
+    "type": "numeric"
+  },
+  "previousSemanticEvent.kind": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.047619047619047616,
+            "proportionOfGroup": 0.047619047619047616,
+            "value": "drop"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.14285714285714285,
+            "proportionOfGroup": 0.14285714285714285,
+            "value": "energy"
+          },
+          {
+            "count": 17,
+            "proportionOfAvailable": 0.8095238095238095,
+            "proportionOfGroup": 0.8095238095238095,
+            "value": "section"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.05660377358490566,
+            "proportionOfGroup": 0.05,
+            "value": "drop"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.03773584905660377,
+            "proportionOfGroup": 0.03333333333333333,
+            "value": "energy"
+          },
+          {
+            "count": 4,
+            "proportionOfAvailable": 0.07547169811320754,
+            "proportionOfGroup": 0.06666666666666667,
+            "value": "peak"
+          },
+          {
+            "count": 44,
+            "proportionOfAvailable": 0.8301886792452831,
+            "proportionOfGroup": 0.7333333333333333,
+            "value": "section"
+          }
+        ],
+        "count": 53,
+        "groupCount": 60,
+        "missingCount": 7
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.041666666666666664,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "drop"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.041666666666666664,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "energy"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.041666666666666664,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "peak"
+          },
+          {
+            "count": 21,
+            "proportionOfAvailable": 0.875,
+            "proportionOfGroup": 0.75,
+            "value": "section"
+          }
+        ],
+        "count": 24,
+        "groupCount": 28,
+        "missingCount": 4
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.07407407407407407,
+            "proportionOfGroup": 0.06666666666666667,
+            "value": "drop"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.1111111111111111,
+            "proportionOfGroup": 0.1,
+            "value": "peak"
+          },
+          {
+            "count": 22,
+            "proportionOfAvailable": 0.8148148148148148,
+            "proportionOfGroup": 0.7333333333333333,
+            "value": "section"
+          }
+        ],
+        "count": 27,
+        "groupCount": 30,
+        "missingCount": 3
+      }
+    },
+    "type": "categorical"
+  },
+  "section.activity": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.04829999999999998,
+        "maximum": 0.3182,
+        "median": 0.2046,
+        "minimum": 0.1662,
+        "missingCount": 0,
+        "q1": 0.1887,
+        "q3": 0.237
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.09059999999999999,
+        "maximum": 0.4341,
+        "median": 0.22875,
+        "minimum": 0.101,
+        "missingCount": 0,
+        "q1": 0.181175,
+        "q3": 0.271775
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.08702499999999999,
+        "maximum": 0.4341,
+        "median": 0.2219,
+        "minimum": 0.1153,
+        "missingCount": 0,
+        "q1": 0.181175,
+        "q3": 0.2682
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.09675,
+        "maximum": 0.3646,
+        "median": 0.23954999999999999,
+        "minimum": 0.101,
+        "missingCount": 0,
+        "q1": 0.176975,
+        "q3": 0.273725
+      }
+    },
+    "type": "numeric"
+  },
+  "section.activityChangeFromPrevious": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.08660000000000004,
+        "maximum": 0.1104,
+        "median": 0.0469,
+        "minimum": -0.1099,
+        "missingCount": 0,
+        "q1": 0.00019999999999997797,
+        "q3": 0.08680000000000002
+      },
+      "all_FP": {
+        "count": 59,
+        "groupCount": 60,
+        "iqr": 0.11295000000000001,
+        "maximum": 0.2606,
+        "median": 0.0605,
+        "minimum": -0.14030000000000004,
+        "missingCount": 1,
+        "q1": 0.0026499999999999996,
+        "q3": 0.11560000000000001
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.103275,
+        "maximum": 0.17170000000000002,
+        "median": 0.053300000000000014,
+        "minimum": -0.14030000000000004,
+        "missingCount": 0,
+        "q1": -0.0026249999999999954,
+        "q3": 0.10065
+      },
+      "zero_reference_FP": {
+        "count": 29,
+        "groupCount": 30,
+        "iqr": 0.11759999999999998,
+        "maximum": 0.2606,
+        "median": 0.0605,
+        "minimum": -0.067,
+        "missingCount": 1,
+        "q1": 0.018100000000000005,
+        "q3": 0.1357
+      }
+    },
+    "type": "numeric"
+  },
+  "section.ageSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 12.858000000000004,
+        "maximum": 35.995000000000005,
+        "median": 0.009000000000014552,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 12.858000000000004
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 1.3672500000000056,
+        "maximum": 81.908,
+        "median": 0.0,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 1.3672500000000056
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.004249999999998977,
+        "maximum": 24.08699999999999,
+        "median": 0.0,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 0.004249999999998977
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 6.408500000000002,
+        "maximum": 81.908,
+        "median": 0.009500000000002728,
+        "minimum": 0.0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 6.408500000000002
+      }
+    },
+    "type": "numeric"
+  },
+  "section.confidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.21909999999999996,
+        "maximum": 0.9589,
+        "median": 0.7825,
+        "minimum": 0.5417,
+        "missingCount": 0,
+        "q1": 0.7117,
+        "q3": 0.9308
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.16622499999999996,
+        "maximum": 0.9923,
+        "median": 0.8263,
+        "minimum": 0.4679,
+        "missingCount": 0,
+        "q1": 0.73375,
+        "q3": 0.899975
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.15017499999999995,
+        "maximum": 0.9903,
+        "median": 0.7894,
+        "minimum": 0.4974,
+        "missingCount": 0,
+        "q1": 0.731425,
+        "q3": 0.8815999999999999
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.10822500000000002,
+        "maximum": 0.9923,
+        "median": 0.84565,
+        "minimum": 0.4679,
+        "missingCount": 0,
+        "q1": 0.787175,
+        "q3": 0.8954
+      }
+    },
+    "type": "numeric"
+  },
+  "section.duration": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 30.989,
+        "maximum": 76.048,
+        "median": 34.687,
+        "minimum": 7.847,
+        "missingCount": 0,
+        "q1": 17.761,
+        "q3": 48.75
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 41.244499999999995,
+        "maximum": 155.237,
+        "median": 29.307,
+        "minimum": 8.0,
+        "missingCount": 0,
+        "q1": 19.88125,
+        "q3": 61.12575
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 33.51625,
+        "maximum": 155.237,
+        "median": 27.8575,
+        "minimum": 8.322,
+        "missingCount": 0,
+        "q1": 15.937,
+        "q3": 49.45325
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 41.69825,
+        "maximum": 109.655,
+        "median": 29.307,
+        "minimum": 8.0,
+        "missingCount": 0,
+        "q1": 20.984,
+        "q3": 62.68225
+      }
+    },
+    "type": "numeric"
+  },
+  "section.energy": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.43360000000000004,
+        "maximum": 0.9415,
+        "median": 0.8354,
+        "minimum": 0.3177,
+        "missingCount": 0,
+        "q1": 0.4611,
+        "q3": 0.8947
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.2554249999999999,
+        "maximum": 0.9306,
+        "median": 0.7940499999999999,
+        "minimum": 0.2008,
+        "missingCount": 0,
+        "q1": 0.6117,
+        "q3": 0.8671249999999999
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.20867499999999994,
+        "maximum": 0.9032,
+        "median": 0.8012,
+        "minimum": 0.2214,
+        "missingCount": 0,
+        "q1": 0.664475,
+        "q3": 0.87315
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.2691,
+        "maximum": 0.9306,
+        "median": 0.739,
+        "minimum": 0.2008,
+        "missingCount": 0,
+        "q1": 0.585075,
+        "q3": 0.854175
+      }
+    },
+    "type": "numeric"
+  },
+  "section.energyChangeFromPrevious": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.3385,
+        "maximum": 0.6149,
+        "median": 0.2811,
+        "minimum": -0.40330000000000005,
+        "missingCount": 0,
+        "q1": 0.03300000000000003,
+        "q3": 0.37150000000000005
+      },
+      "all_FP": {
+        "count": 59,
+        "groupCount": 60,
+        "iqr": 0.40769999999999995,
+        "maximum": 0.7485999999999999,
+        "median": 0.32930000000000004,
+        "minimum": -0.5741,
+        "missingCount": 1,
+        "q1": 0.0645,
+        "q3": 0.47219999999999995
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.392375,
+        "maximum": 0.5700000000000001,
+        "median": 0.29005000000000003,
+        "minimum": -0.5741,
+        "missingCount": 0,
+        "q1": 0.042675,
+        "q3": 0.43505
+      },
+      "zero_reference_FP": {
+        "count": 29,
+        "groupCount": 30,
+        "iqr": 0.39159999999999995,
+        "maximum": 0.7485999999999999,
+        "median": 0.3729,
+        "minimum": -0.4243,
+        "missingCount": 1,
+        "q1": 0.07250000000000001,
+        "q3": 0.46409999999999996
+      }
+    },
+    "type": "numeric"
+  },
+  "structureConfidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.0865999999999999,
+        "maximum": 0.8858,
+        "median": 0.7475,
+        "minimum": 0.6225,
+        "missingCount": 0,
+        "q1": 0.7213,
+        "q3": 0.8079
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.07062500000000005,
+        "maximum": 0.8858,
+        "median": 0.73725,
+        "minimum": 0.6266,
+        "missingCount": 0,
+        "q1": 0.722275,
+        "q3": 0.7929
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.13090000000000002,
+        "maximum": 0.8858,
+        "median": 0.7475,
+        "minimum": 0.6266,
+        "missingCount": 0,
+        "q1": 0.7137,
+        "q3": 0.8446
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.045950000000000046,
+        "maximum": 0.8761,
+        "median": 0.732,
+        "minimum": 0.6754,
+        "missingCount": 0,
+        "q1": 0.72385,
+        "q3": 0.7698
+      }
+    },
+    "type": "numeric"
+  },
+  "timingTrust.reasons": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.23809523809523808,
+            "proportionOfGroup": 0.23809523809523808,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.09523809523809523,
+            "proportionOfGroup": 0.09523809523809523,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.23809523809523808,
+            "proportionOfGroup": 0.23809523809523808,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.14285714285714285,
+            "proportionOfGroup": 0.14285714285714285,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.09523809523809523,
+            "proportionOfGroup": 0.09523809523809523,
+            "value": "overall-timing-confidence-below-strict-threshold | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.047619047619047616,
+            "proportionOfGroup": 0.047619047619047616,
+            "value": "pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.14285714285714285,
+            "proportionOfGroup": 0.14285714285714285,
+            "value": "whole-track-phase-coherence-below-strict-threshold"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 16,
+            "proportionOfAvailable": 0.26666666666666666,
+            "proportionOfGroup": 0.26666666666666666,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.03333333333333333,
+            "proportionOfGroup": 0.03333333333333333,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.016666666666666666,
+            "proportionOfGroup": 0.016666666666666666,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 11,
+            "proportionOfAvailable": 0.18333333333333332,
+            "proportionOfGroup": 0.18333333333333332,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 12,
+            "proportionOfAvailable": 0.2,
+            "proportionOfGroup": 0.2,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.03333333333333333,
+            "proportionOfGroup": 0.03333333333333333,
+            "value": "overall-timing-confidence-below-strict-threshold | native-detectors-disagree | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold | metrical-hierarchy-ambiguity-too-high-for-standard"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.016666666666666666,
+            "proportionOfGroup": 0.016666666666666666,
+            "value": "overall-timing-confidence-below-strict-threshold | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 10,
+            "proportionOfAvailable": 0.16666666666666666,
+            "proportionOfGroup": 0.16666666666666666,
+            "value": "pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.08333333333333333,
+            "proportionOfGroup": 0.08333333333333333,
+            "value": "whole-track-phase-coherence-below-strict-threshold"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 9,
+            "proportionOfAvailable": 0.32142857142857145,
+            "proportionOfGroup": 0.32142857142857145,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.03571428571428571,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.17857142857142858,
+            "proportionOfGroup": 0.17857142857142858,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.10714285714285714,
+            "proportionOfGroup": 0.10714285714285714,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.03571428571428571,
+            "proportionOfGroup": 0.03571428571428571,
+            "value": "overall-timing-confidence-below-strict-threshold | native-detectors-disagree | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold | metrical-hierarchy-ambiguity-too-high-for-standard"
+          },
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.25,
+            "proportionOfGroup": 0.25,
+            "value": "pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.07142857142857142,
+            "proportionOfGroup": 0.07142857142857142,
+            "value": "whole-track-phase-coherence-below-strict-threshold"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 7,
+            "proportionOfAvailable": 0.23333333333333334,
+            "proportionOfGroup": 0.23333333333333334,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.06666666666666667,
+            "proportionOfGroup": 0.06666666666666667,
+            "value": "beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 6,
+            "proportionOfAvailable": 0.2,
+            "proportionOfGroup": 0.2,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 9,
+            "proportionOfAvailable": 0.3,
+            "proportionOfGroup": 0.3,
+            "value": "overall-timing-confidence-below-strict-threshold | beat-snap-dispersion-too-wide-for-strict-scoring | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 1,
+            "proportionOfAvailable": 0.03333333333333333,
+            "proportionOfGroup": 0.03333333333333333,
+            "value": "overall-timing-confidence-below-strict-threshold | pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold | metrical-grid-coherence-below-strict-threshold"
+          },
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.1,
+            "proportionOfGroup": 0.1,
+            "value": "pulse-family-ambiguity-too-high-for-strict | whole-track-phase-coherence-below-strict-threshold"
+          },
+          {
+            "count": 2,
+            "proportionOfAvailable": 0.06666666666666667,
+            "proportionOfGroup": 0.06666666666666667,
+            "value": "whole-track-phase-coherence-below-strict-threshold"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "timingTrust.recommendedGlobalHalfWindowMs": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 12.0,
+        "maximum": 127,
+        "median": 82.0,
+        "minimum": 68,
+        "missingCount": 0,
+        "q1": 76.0,
+        "q3": 88.0
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 43.5,
+        "maximum": 127,
+        "median": 84.0,
+        "minimum": 65,
+        "missingCount": 0,
+        "q1": 75.5,
+        "q3": 119.0
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 17.0,
+        "maximum": 120,
+        "median": 78.0,
+        "minimum": 65,
+        "missingCount": 0,
+        "q1": 71.0,
+        "q3": 88.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 46.0,
+        "maximum": 127,
+        "median": 119.0,
+        "minimum": 65,
+        "missingCount": 0,
+        "q1": 76.0,
+        "q3": 122.0
+      }
+    },
+    "type": "numeric"
+  },
+  "timingTrust.strictScoringAllowed": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 21,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": false
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 60,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": false
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 28,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": false
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 30,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": false
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "timingTrust.tier": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 5,
+            "proportionOfAvailable": 0.23809523809523808,
+            "proportionOfGroup": 0.23809523809523808,
+            "value": "loose"
+          },
+          {
+            "count": 16,
+            "proportionOfAvailable": 0.7619047619047619,
+            "proportionOfGroup": 0.7619047619047619,
+            "value": "standard"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 20,
+            "proportionOfAvailable": 0.3333333333333333,
+            "proportionOfGroup": 0.3333333333333333,
+            "value": "loose"
+          },
+          {
+            "count": 40,
+            "proportionOfAvailable": 0.6666666666666666,
+            "proportionOfGroup": 0.6666666666666666,
+            "value": "standard"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 3,
+            "proportionOfAvailable": 0.10714285714285714,
+            "proportionOfGroup": 0.10714285714285714,
+            "value": "loose"
+          },
+          {
+            "count": 25,
+            "proportionOfAvailable": 0.8928571428571429,
+            "proportionOfGroup": 0.8928571428571429,
+            "value": "standard"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 16,
+            "proportionOfAvailable": 0.5333333333333333,
+            "proportionOfGroup": 0.5333333333333333,
+            "value": "loose"
+          },
+          {
+            "count": 14,
+            "proportionOfAvailable": 0.4666666666666667,
+            "proportionOfGroup": 0.4666666666666667,
+            "value": "standard"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "timingTrust.timingConfidence": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 0.08479999999999999,
+        "maximum": 0.9003,
+        "median": 0.7942,
+        "minimum": 0.7191,
+        "missingCount": 0,
+        "q1": 0.7441,
+        "q3": 0.8289
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 0.09232499999999988,
+        "maximum": 0.9003,
+        "median": 0.7906,
+        "minimum": 0.6088,
+        "missingCount": 0,
+        "q1": 0.7366,
+        "q3": 0.8289249999999999
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 0.06082499999999991,
+        "maximum": 0.8849,
+        "median": 0.7924,
+        "minimum": 0.6361,
+        "missingCount": 0,
+        "q1": 0.7681,
+        "q3": 0.8289249999999999
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 0.126525,
+        "maximum": 0.8779,
+        "median": 0.7745,
+        "minimum": 0.6088,
+        "missingCount": 0,
+        "q1": 0.701775,
+        "q3": 0.8283
+      }
+    },
+    "type": "numeric"
+  },
+  "track.ambiguousCandidateCount": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 1.0,
+        "maximum": 3,
+        "median": 1.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 1.0
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 2.0,
+        "maximum": 3,
+        "median": 1.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 2.0
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 2.0,
+        "maximum": 3,
+        "median": 1.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 0.0,
+        "q3": 2.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 1.0,
+        "maximum": 3,
+        "median": 1.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 1.0,
+        "q3": 2.0
+      }
+    },
+    "type": "numeric"
+  },
+  "track.dropCount": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 1.0,
+        "maximum": 5,
+        "median": 2.0,
+        "minimum": 1,
+        "missingCount": 0,
+        "q1": 2.0,
+        "q3": 3.0
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 2.0,
+        "maximum": 5,
+        "median": 3.0,
+        "minimum": 1,
+        "missingCount": 0,
+        "q1": 2.0,
+        "q3": 4.0
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 2.0,
+        "maximum": 5,
+        "median": 3.0,
+        "minimum": 1,
+        "missingCount": 0,
+        "q1": 2.0,
+        "q3": 4.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 2.0,
+        "maximum": 5,
+        "median": 3.0,
+        "minimum": 1,
+        "missingCount": 0,
+        "q1": 2.0,
+        "q3": 4.0
+      }
+    },
+    "type": "numeric"
+  },
+  "track.dropPresence": {
+    "groups": {
+      "TP": {
+        "categories": [
+          {
+            "count": 21,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop_present"
+          }
+        ],
+        "count": 21,
+        "groupCount": 21,
+        "missingCount": 0
+      },
+      "all_FP": {
+        "categories": [
+          {
+            "count": 60,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop_present"
+          }
+        ],
+        "count": 60,
+        "groupCount": 60,
+        "missingCount": 0
+      },
+      "greater_than_5s_FP": {
+        "categories": [
+          {
+            "count": 28,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop_present"
+          }
+        ],
+        "count": 28,
+        "groupCount": 28,
+        "missingCount": 0
+      },
+      "zero_reference_FP": {
+        "categories": [
+          {
+            "count": 30,
+            "proportionOfAvailable": 1.0,
+            "proportionOfGroup": 1.0,
+            "value": "drop_present"
+          }
+        ],
+        "count": 30,
+        "groupCount": 30,
+        "missingCount": 0
+      }
+    },
+    "type": "categorical"
+  },
+  "track.durationSeconds": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 85.21142900000001,
+        "maximum": 395.676735,
+        "median": 274.311837,
+        "minimum": 133.172245,
+        "missingCount": 0,
+        "q1": 256.078367,
+        "q3": 341.289796
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 159.3791835,
+        "maximum": 496.3,
+        "median": 311.457959,
+        "minimum": 123.339116,
+        "missingCount": 0,
+        "q1": 220.5,
+        "q3": 379.8791835
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 136.70878150000004,
+        "maximum": 496.3,
+        "median": 280.32000000000005,
+        "minimum": 133.172245,
+        "missingCount": 0,
+        "q1": 208.31375275,
+        "q3": 345.02253425000004
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 163.67926874999998,
+        "maximum": 467.951995,
+        "median": 345.3973015,
+        "minimum": 123.339116,
+        "missingCount": 0,
+        "q1": 240.64399625000001,
+        "q3": 404.323265
+      }
+    },
+    "type": "numeric"
+  },
+  "track.lowDemandWindowCount": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 1.0,
+        "maximum": 4,
+        "median": 3.0,
+        "minimum": 1,
+        "missingCount": 0,
+        "q1": 2.0,
+        "q3": 3.0
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 2.0,
+        "maximum": 5,
+        "median": 2.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 1.0,
+        "q3": 3.0
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 2.0,
+        "maximum": 4,
+        "median": 2.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 1.0,
+        "q3": 3.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 1.0,
+        "maximum": 5,
+        "median": 3.0,
+        "minimum": 0,
+        "missingCount": 0,
+        "q1": 2.0,
+        "q3": 3.0
+      }
+    },
+    "type": "numeric"
+  },
+  "track.sectionCount": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 3.0,
+        "maximum": 13,
+        "median": 10.0,
+        "minimum": 4,
+        "missingCount": 0,
+        "q1": 8.0,
+        "q3": 11.0
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 4.5,
+        "maximum": 18,
+        "median": 10.0,
+        "minimum": 3,
+        "missingCount": 0,
+        "q1": 7.75,
+        "q3": 12.25
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 2.25,
+        "maximum": 13,
+        "median": 10.0,
+        "minimum": 4,
+        "missingCount": 0,
+        "q1": 8.75,
+        "q3": 11.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 9.0,
+        "maximum": 18,
+        "median": 10.5,
+        "minimum": 3,
+        "missingCount": 0,
+        "q1": 7.0,
+        "q3": 16.0
+      }
+    },
+    "type": "numeric"
+  },
+  "track.semanticEventCount": {
+    "groups": {
+      "TP": {
+        "count": 21,
+        "groupCount": 21,
+        "iqr": 4.0,
+        "maximum": 13,
+        "median": 9.0,
+        "minimum": 6,
+        "missingCount": 0,
+        "q1": 8.0,
+        "q3": 12.0
+      },
+      "all_FP": {
+        "count": 60,
+        "groupCount": 60,
+        "iqr": 4.0,
+        "maximum": 17,
+        "median": 12.0,
+        "minimum": 4,
+        "missingCount": 0,
+        "q1": 9.0,
+        "q3": 13.0
+      },
+      "greater_than_5s_FP": {
+        "count": 28,
+        "groupCount": 28,
+        "iqr": 4.0,
+        "maximum": 17,
+        "median": 11.0,
+        "minimum": 4,
+        "missingCount": 0,
+        "q1": 9.0,
+        "q3": 13.0
+      },
+      "zero_reference_FP": {
+        "count": 30,
+        "groupCount": 30,
+        "iqr": 5.75,
+        "maximum": 15,
+        "median": 12.0,
+        "minimum": 5,
+        "missingCount": 0,
+        "q1": 9.0,
+        "q3": 14.75
+      }
+    },
+    "type": "numeric"
+  },
+  "twoSectionsBack.activity": {
+    "groups": {
+      "TP": {
+        "count": 18,
+        "groupCount": 21,
+        "iqr": 0.11827499999999999,
+        "maximum": 0.32,
+        "median": 0.18875,
+        "minimum": 0.0479,
+        "missingCount": 3,
+        "q1": 0.105075,
+        "q3": 0.22335
+      },
+      "all_FP": {
+        "count": 49,
+        "groupCount": 60,
+        "iqr": 0.1054,
+        "maximum": 0.4341,
+        "median": 0.231,
+        "minimum": 0.0287,
+        "missingCount": 11,
+        "q1": 0.1674,
+        "q3": 0.2728
+      },
+      "greater_than_5s_FP": {
+        "count": 24,
+        "groupCount": 28,
+        "iqr": 0.06105000000000002,
+        "maximum": 0.4341,
+        "median": 0.23165000000000002,
+        "minimum": 0.1049,
+        "missingCount": 4,
+        "q1": 0.19225,
+        "q3": 0.2533
+      },
+      "zero_reference_FP": {
+        "count": 24,
+        "groupCount": 30,
+        "iqr": 0.14104999999999998,
+        "maximum": 0.3464,
+        "median": 0.21894999999999998,
+        "minimum": 0.0287,
+        "missingCount": 6,
+        "q1": 0.132225,
+        "q3": 0.273275
+      }
+    },
+    "type": "numeric"
+  },
+  "twoSectionsBack.confidence": {
+    "groups": {
+      "TP": {
+        "count": 18,
+        "groupCount": 21,
+        "iqr": 0.16974999999999996,
+        "maximum": 0.9422,
+        "median": 0.77765,
+        "minimum": 0.4754,
+        "missingCount": 3,
+        "q1": 0.655675,
+        "q3": 0.825425
+      },
+      "all_FP": {
+        "count": 49,
+        "groupCount": 60,
+        "iqr": 0.23639999999999994,
+        "maximum": 0.9826,
+        "median": 0.7734,
+        "minimum": 0.4771,
+        "missingCount": 11,
+        "q1": 0.6348,
+        "q3": 0.8712
+      },
+      "greater_than_5s_FP": {
+        "count": 24,
+        "groupCount": 28,
+        "iqr": 0.2597249999999999,
+        "maximum": 0.9616,
+        "median": 0.78515,
+        "minimum": 0.489,
+        "missingCount": 4,
+        "q1": 0.6158250000000001,
+        "q3": 0.8755499999999999
+      },
+      "zero_reference_FP": {
+        "count": 24,
+        "groupCount": 30,
+        "iqr": 0.201225,
+        "maximum": 0.9826,
+        "median": 0.7552,
+        "minimum": 0.4771,
+        "missingCount": 6,
+        "q1": 0.6642,
+        "q3": 0.865425
+      }
+    },
+    "type": "numeric"
+  },
+  "twoSectionsBack.duration": {
+    "groups": {
+      "TP": {
+        "count": 18,
+        "groupCount": 21,
+        "iqr": 30.958999999999996,
+        "maximum": 96.563,
+        "median": 18.2855,
+        "minimum": 5.654,
+        "missingCount": 3,
+        "q1": 11.823,
+        "q3": 42.782
+      },
+      "all_FP": {
+        "count": 49,
+        "groupCount": 60,
+        "iqr": 41.037,
+        "maximum": 128.194,
+        "median": 23.57,
+        "minimum": 5.486,
+        "missingCount": 11,
+        "q1": 13.909,
+        "q3": 54.946
+      },
+      "greater_than_5s_FP": {
+        "count": 24,
+        "groupCount": 28,
+        "iqr": 30.082250000000002,
+        "maximum": 128.194,
+        "median": 22.5,
+        "minimum": 8.322,
+        "missingCount": 4,
+        "q1": 14.46525,
+        "q3": 44.5475
+      },
+      "zero_reference_FP": {
+        "count": 24,
+        "groupCount": 30,
+        "iqr": 49.667,
+        "maximum": 108.277,
+        "median": 26.0925,
+        "minimum": 5.486,
+        "missingCount": 6,
+        "q1": 12.71825,
+        "q3": 62.38525
+      }
+    },
+    "type": "numeric"
+  },
+  "twoSectionsBack.energy": {
+    "groups": {
+      "TP": {
+        "count": 18,
+        "groupCount": 21,
+        "iqr": 0.4497999999999999,
+        "maximum": 0.957,
+        "median": 0.74495,
+        "minimum": 0.1524,
+        "missingCount": 3,
+        "q1": 0.4035,
+        "q3": 0.8533
+      },
+      "all_FP": {
+        "count": 49,
+        "groupCount": 60,
+        "iqr": 0.3116,
+        "maximum": 0.962,
+        "median": 0.7107,
+        "minimum": 0.0679,
+        "missingCount": 11,
+        "q1": 0.5598,
+        "q3": 0.8714
+      },
+      "greater_than_5s_FP": {
+        "count": 24,
+        "groupCount": 28,
+        "iqr": 0.342075,
+        "maximum": 0.962,
+        "median": 0.6860999999999999,
+        "minimum": 0.1487,
+        "missingCount": 4,
+        "q1": 0.534525,
+        "q3": 0.8766
+      },
+      "zero_reference_FP": {
+        "count": 24,
+        "groupCount": 30,
+        "iqr": 0.24872500000000008,
+        "maximum": 0.922,
+        "median": 0.7100500000000001,
+        "minimum": 0.0679,
+        "missingCount": 6,
+        "q1": 0.60705,
+        "q3": 0.8557750000000001
+      }
+    },
+    "type": "numeric"
+  }
+}
