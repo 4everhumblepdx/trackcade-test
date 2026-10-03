@@ -1,0 +1,276 @@
+{
+  "accounting": "reserve-then-reconcile-v2",
+  "allInputPacketBytesIdenticalToBaseline": true,
+  "allPreexistingTrackedFilesChanged": false,
+  "analyzerInvokedOrModified": false,
+  "anchorsOrScoringChanged": false,
+  "attemptsPerOrdinal": 1,
+  "baselineHead": "97ed64d35893eab13b3d721f85eded5bfec2afe1",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "candidateCoverageProof": "Remove single added block to restore complete frozen instruction; all discovery/sparsity/count statements retained byte-for-byte; pure transformation performs no discovery. This does not guarantee identical stochastic future outputs.",
+  "candidateCoverageTreatmentCombined": false,
+  "candidateDiscoveryAndCoveragePolicyChanged": false,
+  "caps": {
+    "ordinals1Through3": 8192,
+    "ordinals4Through50": 25000
+  },
+  "caseCount": 50,
+  "comparisonContract": "STAGE1_V9_GROUNDED_COMPARISON_CONTRACT_V1.json",
+  "compilerInvoked": false,
+  "cost": {
+    "all50AtReservationCeilingUsd": "11.250",
+    "authorizedCeilingUsd": null,
+    "budgetAccounting": "reserve-then-reconcile-v2",
+    "forecastLimits": [
+      "Observed extrapolation, not prediction interval",
+      "First three cases retain 8192 caps; V8 projection requested as approximate scale",
+      "Evidence-citation instructions may increase token use",
+      "No account balance or billing inspected",
+      "3.50 covers observed-repeat last reservation 3.447142, but a more expensive treatment may stop before 50; no retry/resume or automatic ceiling increase"
+    ],
+    "frozenPricing": {
+      "cacheWriteInput": "1.25",
+      "cachedInput": "0.1",
+      "formula": "(input - cache_write - cached + 1.25*cache_write + 0.1*cached + 5*output)/1000000; reasoning is included in output, never added again.",
+      "outputIncludingReasoning": "5",
+      "uncachedInput": "1"
+    },
+    "guaranteed50CompletionUnderRecommendedCeiling": false,
+    "illustrative50CallObservedEnvelopeUsd": [
+      "1.25708750",
+      "3.287900"
+    ],
+    "meanPerCaseUsd": "0.04198810638297872340425531915",
+    "observedPerAttemptRangeUsd": [
+      "0.02514175",
+      "0.065758"
+    ],
+    "observedTotalEstimatedUsd": "1.97344100",
+    "observedV8CompletedValidCases": 47,
+    "projected50CallCentralUsd": "2.099405319148936170212765957",
+    "providerCalls": 0,
+    "providerSpendUsd": "0",
+    "recommendationOnly": true,
+    "recommendedFutureHardEstimatedSpendCeilingUsd": "3.50",
+    "reservationUsdPerAttempt": "0.225",
+    "schema": "trackcade-stage1-v9-grounded-cost-model-v1",
+    "scope": "Estimated-cost ledger limit, not provider billing/account cap. In-flight over-envelope usage can exceed the estimate; freeze evidence and stop, never refund uncertain usage.",
+    "worstObservedRepeatBeforeLastReservationUsd": "3.447142"
+  },
+  "dateLocal": "2026-10-03",
+  "dropDefinitionChanged": false,
+  "exactPromptDiffPath": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_SEMANTIC_DIFF_V1.patch",
+  "fallbacks": 0,
+  "forensicRecordsPreserved": true,
+  "frozenBaselinePredictionsPreserved": true,
+  "futureExecutionReadiness": "Inert staging only. A separately audited future paid workflow/secret wiring and explicit authorization are still required.",
+  "historicalAuthorizationAndActivationRecords": "Preserved unchanged; do not authorize independent V9",
+  "historicalV7V8RecordsPreserved": true,
+  "immutableResultUploadedBeforeReconcilePreserved": true,
+  "labelIsolationProof": {
+    "builder": "Pure request/payload transformation with no filesystem or network; strict top-level allowlist and recursive forbidden-key rejection",
+    "comparisonTargets": "Stored only in separate comparison contract, never read by builder/runtime",
+    "currentBaselineManifestUse": "Pre-label provenance metadata verifies identity/packet bytes/per-ordinal caps only; no prior proposal bodies or outcome artifacts enter preparation",
+    "pinnedArchives": "Explicit Stage1-only entry reads; original packet/request/flex identities verified for all 50",
+    "providerPayload": "Exactly packet, responseContract, integrity; only instruction hash and version metadata change alongside instruction block",
+    "runtime": "Five allowed private prep filenames per ordinal; each hash checked against pinned independent mapping; no reference/forensic/scorer/result file reads"
+  },
+  "localSourceMetadataCommit": "f6f396a6f98fb4b95f1c091b1bdb33a85f01405f",
+  "lockBeforeCredentialLookupPreserved": true,
+  "newSemanticProposalsGenerated": 0,
+  "nonDropGameplayEligibilityPreserved": true,
+  "numericThresholdFilterOrVetoAdded": false,
+  "onlySemanticDelta": "Existing decisiveImpact judgment must cite actual anchor-local packet evidence and distinguish it from section-average differences and gradual/multi-second rises; missing support is not invented",
+  "ordinals": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+  ],
+  "partialResponseAcceptance": false,
+  "preparationOrSustainChanged": false,
+  "preprocessingChanged": false,
+  "providerCalls": 0,
+  "providerCredentialExposed": false,
+  "providerFreeAudit": {
+    "credentialExposed": false,
+    "errors": 0,
+    "failures": 0,
+    "instructionContractTestsOnly": true,
+    "logSha256": "835f1e47063e277307ef0fa29e7c3937c2ddbd2ac3ee6704d1b63e9413433e19",
+    "modelBehaviorValidated": false,
+    "paidWorkflowCreated": false,
+    "passed": 65,
+    "providerCalls": 0,
+    "providerSpendUsd": "0",
+    "realActivationExists": false,
+    "realAuthorizationExists": false,
+    "realHttpAttempts": 0,
+    "realSocketConnectsAttempted": 0,
+    "result": "PASS",
+    "schema": "trackcade-stage1-v9-grounded-offline-audit-v1",
+    "skipped": 0,
+    "terminalAccessed": false,
+    "testsRun": 65
+  },
+  "providerSettingsChanged": false,
+  "providerSpendUsd": "0",
+  "realV9ActivationExists": false,
+  "realV9AuthorizationExists": false,
+  "repository": "4everhumblepdx/trackcade-test",
+  "retries": 0,
+  "schema": "trackcade-stage1-v9-grounded-provider-free-staging-receipt-v1",
+  "schemaChanged": false,
+  "scientificRecommendation": "A unchanged",
+  "scoringPerformed": false,
+  "sourceCommit": "3ee7028529e69950d514537f1d6e16841519bad9",
+  "sourceFiles": [
+    {
+      "gitBlobSha": "7a877440aeb0a920de27250795ff9bb2c8ad68a0",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_ACTIVATION_TEMPLATE_V1.json",
+      "sha256": "b70048dbc6caeae8d938ccbe9c4bef9f6a331a056cff9167bfc483d9fdd54e95"
+    },
+    {
+      "gitBlobSha": "711626eca52d210b9a9899d4fb9c25d853ffff86",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_AUDIT_RESULT_V1.json",
+      "sha256": "7c3d0312795c6a41f1deea128b080ce16be48d0e2a998af242a7e67f4265f346"
+    },
+    {
+      "gitBlobSha": "95048b66c4684e2c32d018fa36725da672321d28",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_AUTHORIZATION_TEMPLATE_V1.json",
+      "sha256": "d048d904cf94aa877fb1a69228b958be5ca33f2bed897cda9ee3b7236a85ea31"
+    },
+    {
+      "gitBlobSha": "7fcd056d813841adfeb1e18866b86323fff91e6b",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_COMPARISON_CONTRACT_V1.json",
+      "sha256": "d0f0fcbd9f9882f8008eef469a41e1193035c835b0364c56957aebe2ed8c0df3"
+    },
+    {
+      "gitBlobSha": "dc659110787b9ce118ad14420f348f93b13f7bc6",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_CONTRACT_V1.json",
+      "sha256": "14b9d6c12d5a81d8c58db298b3c5dc7ca98e1cc6849b10c704f3e23e3031f5f2"
+    },
+    {
+      "gitBlobSha": "8399e3e66c56cf84143128b569978c77d6d95cce",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_COST_MODEL_V1.json",
+      "sha256": "2a1a8d8b2a4422a628498fefd4f084f32754cffbe7f6d2bc90be53d0ebce3ed3"
+    },
+    {
+      "gitBlobSha": "c72bc02262000aea7e75298db3f0494ed5a30fac",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_EXECUTION_DIFF_V1.patch",
+      "sha256": "e96c2b0f9256520d06f8f7fd59b0ef6da1a45571cef98f581529ef401ad74c95"
+    },
+    {
+      "gitBlobSha": "946cfe64f0b49dec8bebbd50bca9222a8dfaa93c",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_MAPPING_V1.json",
+      "sha256": "3755aefda046c71796faab571e5537ef409dbde4ab28a2e39fb9fe9a8941981f"
+    },
+    {
+      "gitBlobSha": "9bcb36765b920e2c24f71e479d1fa81fe2e5f52a",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_PROTOCOL_V1.md",
+      "sha256": "93cba1c3e4ff56c86489b2cac1de8730679aed215a3442aaa528cc3ef84746f4"
+    },
+    {
+      "gitBlobSha": "6f125d9e1b77a5786adaf333f0ee3ab416406b12",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_SEMANTIC_DIFF_V1.patch",
+      "sha256": "ff8a72ae857ffeb0413c5e0916ef76fc398c115d24353b1e70620adfd8a4e495"
+    },
+    {
+      "gitBlobSha": "53c42b64d63860bf304ffe26da37647434b854da",
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_SOURCE_DIFF_V1.json",
+      "sha256": "6111ed44aca7583a3f4f791ad723ee943cfa7c6bb95d1796ae8bddb5a21f9d5a"
+    },
+    {
+      "gitBlobSha": "bd54a5c2985371550a6afcede396ea4ebbce905b",
+      "path": "research/semantic-external-holdout-v1/audit_stage1_v9_grounded_v1.py",
+      "sha256": "990aae4a17c1725918cb52ecd539a07b592c06e32ab04f32330175e82e4e93a1"
+    },
+    {
+      "gitBlobSha": "451fadacd4483c409545496f95e2fa3b3fb48071",
+      "path": "research/semantic-external-holdout-v1/build_stage1_v9_grounded_v1.py",
+      "sha256": "3b4ad20d4deea05e2f760c045a64f4ff59739b03345551050beb0ee81ee6ff68"
+    },
+    {
+      "gitBlobSha": "e26c49242b5f8fe2e49b23bf1f9c6f00ba4856d0",
+      "path": "research/semantic-external-holdout-v1/run_stage1_v9_grounded_v1.py",
+      "sha256": "adcec0b565a3793d5e361087eb94fbb87e588efac913c89d693e80fecc2782c8"
+    },
+    {
+      "gitBlobSha": "ce5754616218110299793932890108ab6aebec3a",
+      "path": "research/semantic-external-holdout-v1/stage_stage1_v9_grounded_v1.py",
+      "sha256": "10cee6316661887fe069e8413b4772badc2411301d205c35a35473acae79f3de"
+    },
+    {
+      "gitBlobSha": "777fe7a28052a718671fe27f960114944c643819",
+      "path": "research/semantic-external-holdout-v1/test_stage1_v9_grounded_contract_v1.py",
+      "sha256": "e756584f1e5b6e547655aef1a121686fcfdd3c89349a13eb7336f464a9508bc5"
+    },
+    {
+      "gitBlobSha": "0409585e2359cab281a82299afd820b5ad5c7604",
+      "path": "research/semantic-external-holdout-v1/test_stage1_v9_grounded_execution_v1.py",
+      "sha256": "5a963cab8e94fa9666cc280fea81a001c72b3b58aa4e79e62815d6c270d2edbb"
+    }
+  ],
+  "sourceTree": "0138accec483df7ed64aa21de06cc49374802420",
+  "stop": "Provider-free staging/audit complete; no spend authorized or execution activated. Enclosing receipt commit is final frozen HEAD.",
+  "tableFreezeCommit": "66043b858e13eb3706d24f77d26baf7afb0b14d5",
+  "terminalAccessed": false,
+  "terminalEvaluationPrepared": false,
+  "terminalIsolation": "No terminal paths read or extracted; Stage1-only ordinals and original hashed input allowlist; injected terminal keys rejected",
+  "terminalMetadataInspected": false,
+  "uncertainResultReservationReleased": false,
+  "validatorsChanged": false,
+  "version": "stage1-v9-decisive-impact-evidence-grounding-v1",
+  "workflowTriggerAudit": {
+    "executionWorkflowCreated": false,
+    "hostedRunsTriggered": 0,
+    "matchingWorkflows": [],
+    "workflowsChecked": 129
+  }
+}
