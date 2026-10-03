@@ -1,0 +1,4305 @@
+{
+  "schema": "trackcade-stage1-v9-grounded-raw-result-v1",
+  "status": "frozen-complete-50-development-raw-drop-score",
+  "scoringContractCommit": "1a959b3f0bffff1a073f38461abf4a598fcd6a5c",
+  "scoringContractSha256": "ba18ea12fc6ab21c5228b37aef04da0af4ca8d6eda2c3e203993b484781ae605",
+  "predictionManifest": {
+    "path": "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_PREDICTION_MANIFEST_V1.json",
+    "commit": "288dec76ba93632e238622ef080d561109a6dca1",
+    "sha256": "79d68032c2da15fd124aea77fa2df199ac833849b176e46ea52a03441894ba07"
+  },
+  "stage1ReferenceSha256": "0f2d546c90d522d266c99cf5311c0efaeb7f5750e736ba5dac08f3b42b0c6859",
+  "stage1ReferenceProvenance": {
+    "sourceResultCommit": "44c3fe1d2ab50f905bbb54367b5cb6d517c94420",
+    "sourceResultPath": "research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_RAW_RESULT_V1.json",
+    "sha256": "0f2d546c90d522d266c99cf5311c0efaeb7f5750e736ba5dac08f3b42b0c6859",
+    "isolationProof": {
+      "method": "one-byte HTTP 206 ranges, pinned immutable commit path, exact Content-Range/Content-Length and ETag; stop on Stage1 closing bracket",
+      "startOffset": 185,
+      "endOffsetExclusive": 6080,
+      "labelValueByteRequests": 5895,
+      "terminalBytesRequestedOrRead": 0,
+      "fullReferenceFileDownloadedOrParsed": false,
+      "completeReferenceSha256IndependentlyComputed": false,
+      "wholeReferenceSha256IsHistoricalCitationOnly": true
+    },
+    "method": "Reuse exact previously isolated Stage1-only bytes, verify frozen hash after single-use scoring lock; no full reference or terminal access."
+  },
+  "caseCount": 50,
+  "primaryScoringPasses": 1,
+  "primaryToleranceSeconds": 2,
+  "headline": {
+    "referenceSupport": 46,
+    "candidateSupport": 21,
+    "matchedSupport": 11,
+    "micro": {
+      "precision": 0.5238095238095238,
+      "recall": 0.2391304347826087,
+      "f1": 0.32835820895522383,
+      "truePositives": 11,
+      "falsePositives": 10,
+      "falseNegatives": 35
+    },
+    "macro": {
+      "precision": 0.8966666666666667,
+      "recall": 0.59,
+      "f1": 0.5486666666666666
+    },
+    "meanAbsoluteErrorSeconds": 0.7715454545454541,
+    "medianAbsoluteErrorSeconds": 0.7510000000000048,
+    "maxAbsoluteErrorSeconds": 1.7750000000000057
+  },
+  "zeroReferenceFP": 4,
+  "sensitivity": {
+    "1": {
+      "toleranceSeconds": 1.0,
+      "aggregate": {
+        "referenceSupport": 46,
+        "candidateSupport": 21,
+        "matchedSupport": 9,
+        "micro": {
+          "precision": 0.42857142857142855,
+          "recall": 0.1956521739130435,
+          "f1": 0.26865671641791045,
+          "truePositives": 9,
+          "falsePositives": 12,
+          "falseNegatives": 37
+        },
+        "macro": {
+          "precision": 0.87,
+          "recall": 0.57,
+          "f1": 0.5273333333333333
+        },
+        "meanAbsoluteErrorSeconds": 0.5587777777777758,
+        "medianAbsoluteErrorSeconds": 0.6189999999999998,
+        "maxAbsoluteErrorSeconds": 0.9300000000000068
+      },
+      "perTrack": [
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 1,
+          "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 2,
+          "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 3,
+          "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 4,
+          "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 5,
+          "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 6,
+          "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            32.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 2,
+          "truePositives": 0,
+          "falsePositives": 2,
+          "falseNegatives": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 7,
+          "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            150.0
+          ],
+          "predictedDropsSeconds": [
+            12.152,
+            75.651
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0,
+            1
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 8,
+          "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            55.0,
+            200.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 9,
+          "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            352.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 10,
+          "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            100.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 11,
+          "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 12,
+          "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            55.0,
+            158.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 13,
+          "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            87.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 107.0,
+              "candidateSeconds": 106.126,
+              "absoluteErrorSeconds": 0.8739999999999952
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.8739999999999952
+          ],
+          "meanAbsoluteErrorSeconds": 0.8739999999999952,
+          "medianAbsoluteErrorSeconds": 0.8739999999999952,
+          "maxAbsoluteErrorSeconds": 0.8739999999999952,
+          "ordinal": 14,
+          "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            107.0
+          ],
+          "predictedDropsSeconds": [
+            106.126
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 3,
+          "truePositives": 0,
+          "falsePositives": 3,
+          "falseNegatives": 0,
+          "precision": 0.0,
+          "recall": 1.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 15,
+          "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [
+            11.369,
+            57.997,
+            98.459
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 16,
+          "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 17,
+          "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            54.0,
+            117.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 18,
+          "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            113.0
+          ],
+          "predictedDropsSeconds": [
+            44.436
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 264.0,
+              "candidateSeconds": 263.744,
+              "absoluteErrorSeconds": 0.2559999999999718
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.2559999999999718
+          ],
+          "meanAbsoluteErrorSeconds": 0.2559999999999718,
+          "medianAbsoluteErrorSeconds": 0.2559999999999718,
+          "maxAbsoluteErrorSeconds": 0.2559999999999718,
+          "ordinal": 19,
+          "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            264.0
+          ],
+          "predictedDropsSeconds": [
+            263.744
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 20,
+          "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 21,
+          "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 22,
+          "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "matchedPairs": [
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 0,
+              "referenceSeconds": 164.0,
+              "candidateSeconds": 164.619,
+              "absoluteErrorSeconds": 0.6189999999999998
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.6189999999999998
+          ],
+          "meanAbsoluteErrorSeconds": 0.6189999999999998,
+          "medianAbsoluteErrorSeconds": 0.6189999999999998,
+          "maxAbsoluteErrorSeconds": 0.6189999999999998,
+          "ordinal": 23,
+          "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            68.0,
+            164.0
+          ],
+          "predictedDropsSeconds": [
+            164.619
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 24,
+          "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 25,
+          "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            77.0,
+            130.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 26,
+          "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            109.0,
+            244.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.0,
+          "recall": 1.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 27,
+          "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [
+            26.14
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 28,
+          "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            90.0,
+            178.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 29,
+          "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            94.0,
+            293.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 3,
+          "truePositives": 1,
+          "falsePositives": 2,
+          "falseNegatives": 1,
+          "precision": 0.3333333333333333,
+          "recall": 0.5,
+          "f1": 0.4,
+          "matchedPairs": [
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 2,
+              "referenceSeconds": 259.0,
+              "candidateSeconds": 258.775,
+              "absoluteErrorSeconds": 0.22500000000002274
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.22500000000002274
+          ],
+          "meanAbsoluteErrorSeconds": 0.22500000000002274,
+          "medianAbsoluteErrorSeconds": 0.22500000000002274,
+          "maxAbsoluteErrorSeconds": 0.22500000000002274,
+          "ordinal": 30,
+          "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            122.0,
+            259.0
+          ],
+          "predictedDropsSeconds": [
+            18.775,
+            123.775,
+            258.775
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0,
+            1
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 31,
+          "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 3,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 3,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 32,
+          "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            82.0,
+            127.0,
+            167.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1,
+            2
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 33,
+          "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 34,
+          "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 35,
+          "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            76.0,
+            167.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 36,
+          "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 37,
+          "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 3,
+          "truePositives": 2,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "f1": 0.8,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 1,
+              "referenceSeconds": 90.0,
+              "candidateSeconds": 89.555,
+              "absoluteErrorSeconds": 0.4449999999999932
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 2,
+              "referenceSeconds": 188.0,
+              "candidateSeconds": 188.93,
+              "absoluteErrorSeconds": 0.9300000000000068
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.4449999999999932,
+            0.9300000000000068
+          ],
+          "meanAbsoluteErrorSeconds": 0.6875,
+          "medianAbsoluteErrorSeconds": 0.6875,
+          "maxAbsoluteErrorSeconds": 0.9300000000000068,
+          "ordinal": 38,
+          "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            90.0,
+            188.0
+          ],
+          "predictedDropsSeconds": [
+            29.555,
+            89.555,
+            188.93
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 39,
+          "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            87.0,
+            175.0
+          ],
+          "predictedDropsSeconds": [
+            88.683
+          ],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 40,
+          "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 41,
+          "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            88.0,
+            224.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 42,
+          "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            96.0,
+            159.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 43,
+          "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            86.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 44,
+          "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 45,
+          "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            74.0,
+            132.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 46,
+          "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 2,
+          "truePositives": 1,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 120.0,
+              "candidateSeconds": 120.044,
+              "absoluteErrorSeconds": 0.04399999999999693
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.04399999999999693
+          ],
+          "meanAbsoluteErrorSeconds": 0.04399999999999693,
+          "medianAbsoluteErrorSeconds": 0.04399999999999693,
+          "maxAbsoluteErrorSeconds": 0.04399999999999693,
+          "ordinal": 47,
+          "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            120.0,
+            248.0
+          ],
+          "predictedDropsSeconds": [
+            120.044,
+            186.606
+          ],
+          "unmatchedReferenceIndices": [
+            1
+          ],
+          "unmatchedCandidateIndices": [
+            1
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 48,
+          "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 49,
+          "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 2,
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 85.0,
+              "candidateSeconds": 85.751,
+              "absoluteErrorSeconds": 0.7510000000000048
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 1,
+              "referenceSeconds": 198.0,
+              "candidateSeconds": 198.885,
+              "absoluteErrorSeconds": 0.8849999999999909
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.7510000000000048,
+            0.8849999999999909
+          ],
+          "meanAbsoluteErrorSeconds": 0.8179999999999978,
+          "medianAbsoluteErrorSeconds": 0.8179999999999978,
+          "maxAbsoluteErrorSeconds": 0.8849999999999909,
+          "ordinal": 50,
+          "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            85.0,
+            198.0
+          ],
+          "predictedDropsSeconds": [
+            85.751,
+            198.885
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        }
+      ],
+      "zeroReferenceFP": 4
+    },
+    "2": {
+      "toleranceSeconds": 2.0,
+      "aggregate": {
+        "referenceSupport": 46,
+        "candidateSupport": 21,
+        "matchedSupport": 11,
+        "micro": {
+          "precision": 0.5238095238095238,
+          "recall": 0.2391304347826087,
+          "f1": 0.32835820895522383,
+          "truePositives": 11,
+          "falsePositives": 10,
+          "falseNegatives": 35
+        },
+        "macro": {
+          "precision": 0.8966666666666667,
+          "recall": 0.59,
+          "f1": 0.5486666666666666
+        },
+        "meanAbsoluteErrorSeconds": 0.7715454545454541,
+        "medianAbsoluteErrorSeconds": 0.7510000000000048,
+        "maxAbsoluteErrorSeconds": 1.7750000000000057
+      },
+      "perTrack": [
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 1,
+          "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 2,
+          "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 3,
+          "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 4,
+          "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 5,
+          "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 6,
+          "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            32.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 2,
+          "truePositives": 0,
+          "falsePositives": 2,
+          "falseNegatives": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 7,
+          "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            150.0
+          ],
+          "predictedDropsSeconds": [
+            12.152,
+            75.651
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0,
+            1
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 8,
+          "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            55.0,
+            200.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 9,
+          "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            352.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 10,
+          "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            100.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 11,
+          "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 12,
+          "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            55.0,
+            158.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 13,
+          "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            87.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 107.0,
+              "candidateSeconds": 106.126,
+              "absoluteErrorSeconds": 0.8739999999999952
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.8739999999999952
+          ],
+          "meanAbsoluteErrorSeconds": 0.8739999999999952,
+          "medianAbsoluteErrorSeconds": 0.8739999999999952,
+          "maxAbsoluteErrorSeconds": 0.8739999999999952,
+          "ordinal": 14,
+          "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            107.0
+          ],
+          "predictedDropsSeconds": [
+            106.126
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 3,
+          "truePositives": 0,
+          "falsePositives": 3,
+          "falseNegatives": 0,
+          "precision": 0.0,
+          "recall": 1.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 15,
+          "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [
+            11.369,
+            57.997,
+            98.459
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 16,
+          "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 17,
+          "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            54.0,
+            117.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 18,
+          "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            113.0
+          ],
+          "predictedDropsSeconds": [
+            44.436
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 264.0,
+              "candidateSeconds": 263.744,
+              "absoluteErrorSeconds": 0.2559999999999718
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.2559999999999718
+          ],
+          "meanAbsoluteErrorSeconds": 0.2559999999999718,
+          "medianAbsoluteErrorSeconds": 0.2559999999999718,
+          "maxAbsoluteErrorSeconds": 0.2559999999999718,
+          "ordinal": 19,
+          "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            264.0
+          ],
+          "predictedDropsSeconds": [
+            263.744
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 20,
+          "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 21,
+          "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 22,
+          "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "matchedPairs": [
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 0,
+              "referenceSeconds": 164.0,
+              "candidateSeconds": 164.619,
+              "absoluteErrorSeconds": 0.6189999999999998
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.6189999999999998
+          ],
+          "meanAbsoluteErrorSeconds": 0.6189999999999998,
+          "medianAbsoluteErrorSeconds": 0.6189999999999998,
+          "maxAbsoluteErrorSeconds": 0.6189999999999998,
+          "ordinal": 23,
+          "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            68.0,
+            164.0
+          ],
+          "predictedDropsSeconds": [
+            164.619
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 24,
+          "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 25,
+          "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            77.0,
+            130.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 26,
+          "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            109.0,
+            244.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.0,
+          "recall": 1.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 27,
+          "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [
+            26.14
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 28,
+          "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            90.0,
+            178.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 29,
+          "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            94.0,
+            293.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 3,
+          "truePositives": 2,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "f1": 0.8,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 1,
+              "referenceSeconds": 122.0,
+              "candidateSeconds": 123.775,
+              "absoluteErrorSeconds": 1.7750000000000057
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 2,
+              "referenceSeconds": 259.0,
+              "candidateSeconds": 258.775,
+              "absoluteErrorSeconds": 0.22500000000002274
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            1.7750000000000057,
+            0.22500000000002274
+          ],
+          "meanAbsoluteErrorSeconds": 1.0000000000000142,
+          "medianAbsoluteErrorSeconds": 1.0000000000000142,
+          "maxAbsoluteErrorSeconds": 1.7750000000000057,
+          "ordinal": 30,
+          "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            122.0,
+            259.0
+          ],
+          "predictedDropsSeconds": [
+            18.775,
+            123.775,
+            258.775
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 31,
+          "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 3,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 3,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 32,
+          "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            82.0,
+            127.0,
+            167.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1,
+            2
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 33,
+          "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 34,
+          "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 35,
+          "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            76.0,
+            167.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 36,
+          "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 37,
+          "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 3,
+          "truePositives": 2,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "f1": 0.8,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 1,
+              "referenceSeconds": 90.0,
+              "candidateSeconds": 89.555,
+              "absoluteErrorSeconds": 0.4449999999999932
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 2,
+              "referenceSeconds": 188.0,
+              "candidateSeconds": 188.93,
+              "absoluteErrorSeconds": 0.9300000000000068
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.4449999999999932,
+            0.9300000000000068
+          ],
+          "meanAbsoluteErrorSeconds": 0.6875,
+          "medianAbsoluteErrorSeconds": 0.6875,
+          "maxAbsoluteErrorSeconds": 0.9300000000000068,
+          "ordinal": 38,
+          "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            90.0,
+            188.0
+          ],
+          "predictedDropsSeconds": [
+            29.555,
+            89.555,
+            188.93
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 87.0,
+              "candidateSeconds": 88.683,
+              "absoluteErrorSeconds": 1.683000000000007
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            1.683000000000007
+          ],
+          "meanAbsoluteErrorSeconds": 1.683000000000007,
+          "medianAbsoluteErrorSeconds": 1.683000000000007,
+          "maxAbsoluteErrorSeconds": 1.683000000000007,
+          "ordinal": 39,
+          "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            87.0,
+            175.0
+          ],
+          "predictedDropsSeconds": [
+            88.683
+          ],
+          "unmatchedReferenceIndices": [
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 40,
+          "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 41,
+          "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            88.0,
+            224.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 42,
+          "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            96.0,
+            159.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 43,
+          "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            86.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 44,
+          "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 45,
+          "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            74.0,
+            132.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 46,
+          "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 2,
+          "truePositives": 1,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 120.0,
+              "candidateSeconds": 120.044,
+              "absoluteErrorSeconds": 0.04399999999999693
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.04399999999999693
+          ],
+          "meanAbsoluteErrorSeconds": 0.04399999999999693,
+          "medianAbsoluteErrorSeconds": 0.04399999999999693,
+          "maxAbsoluteErrorSeconds": 0.04399999999999693,
+          "ordinal": 47,
+          "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            120.0,
+            248.0
+          ],
+          "predictedDropsSeconds": [
+            120.044,
+            186.606
+          ],
+          "unmatchedReferenceIndices": [
+            1
+          ],
+          "unmatchedCandidateIndices": [
+            1
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 48,
+          "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 49,
+          "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 2,
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 85.0,
+              "candidateSeconds": 85.751,
+              "absoluteErrorSeconds": 0.7510000000000048
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 1,
+              "referenceSeconds": 198.0,
+              "candidateSeconds": 198.885,
+              "absoluteErrorSeconds": 0.8849999999999909
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.7510000000000048,
+            0.8849999999999909
+          ],
+          "meanAbsoluteErrorSeconds": 0.8179999999999978,
+          "medianAbsoluteErrorSeconds": 0.8179999999999978,
+          "maxAbsoluteErrorSeconds": 0.8849999999999909,
+          "ordinal": 50,
+          "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            85.0,
+            198.0
+          ],
+          "predictedDropsSeconds": [
+            85.751,
+            198.885
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        }
+      ],
+      "zeroReferenceFP": 4
+    },
+    "5": {
+      "toleranceSeconds": 5.0,
+      "aggregate": {
+        "referenceSupport": 46,
+        "candidateSupport": 21,
+        "matchedSupport": 11,
+        "micro": {
+          "precision": 0.5238095238095238,
+          "recall": 0.2391304347826087,
+          "f1": 0.32835820895522383,
+          "truePositives": 11,
+          "falsePositives": 10,
+          "falseNegatives": 35
+        },
+        "macro": {
+          "precision": 0.8966666666666667,
+          "recall": 0.59,
+          "f1": 0.5486666666666666
+        },
+        "meanAbsoluteErrorSeconds": 0.7715454545454541,
+        "medianAbsoluteErrorSeconds": 0.7510000000000048,
+        "maxAbsoluteErrorSeconds": 1.7750000000000057
+      },
+      "perTrack": [
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 1,
+          "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 2,
+          "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 3,
+          "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 4,
+          "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 5,
+          "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 6,
+          "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            32.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 2,
+          "truePositives": 0,
+          "falsePositives": 2,
+          "falseNegatives": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 7,
+          "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            150.0
+          ],
+          "predictedDropsSeconds": [
+            12.152,
+            75.651
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0,
+            1
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 8,
+          "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            55.0,
+            200.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 9,
+          "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            352.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 10,
+          "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            100.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 11,
+          "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 12,
+          "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            55.0,
+            158.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 13,
+          "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            87.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 107.0,
+              "candidateSeconds": 106.126,
+              "absoluteErrorSeconds": 0.8739999999999952
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.8739999999999952
+          ],
+          "meanAbsoluteErrorSeconds": 0.8739999999999952,
+          "medianAbsoluteErrorSeconds": 0.8739999999999952,
+          "maxAbsoluteErrorSeconds": 0.8739999999999952,
+          "ordinal": 14,
+          "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            107.0
+          ],
+          "predictedDropsSeconds": [
+            106.126
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 3,
+          "truePositives": 0,
+          "falsePositives": 3,
+          "falseNegatives": 0,
+          "precision": 0.0,
+          "recall": 1.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 15,
+          "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [
+            11.369,
+            57.997,
+            98.459
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0,
+            1,
+            2
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 16,
+          "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 17,
+          "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            54.0,
+            117.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 18,
+          "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            113.0
+          ],
+          "predictedDropsSeconds": [
+            44.436
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 264.0,
+              "candidateSeconds": 263.744,
+              "absoluteErrorSeconds": 0.2559999999999718
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.2559999999999718
+          ],
+          "meanAbsoluteErrorSeconds": 0.2559999999999718,
+          "medianAbsoluteErrorSeconds": 0.2559999999999718,
+          "maxAbsoluteErrorSeconds": 0.2559999999999718,
+          "ordinal": 19,
+          "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            264.0
+          ],
+          "predictedDropsSeconds": [
+            263.744
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 20,
+          "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 21,
+          "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 22,
+          "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "matchedPairs": [
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 0,
+              "referenceSeconds": 164.0,
+              "candidateSeconds": 164.619,
+              "absoluteErrorSeconds": 0.6189999999999998
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.6189999999999998
+          ],
+          "meanAbsoluteErrorSeconds": 0.6189999999999998,
+          "medianAbsoluteErrorSeconds": 0.6189999999999998,
+          "maxAbsoluteErrorSeconds": 0.6189999999999998,
+          "ordinal": 23,
+          "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            68.0,
+            164.0
+          ],
+          "predictedDropsSeconds": [
+            164.619
+          ],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 24,
+          "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 25,
+          "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            77.0,
+            130.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 26,
+          "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            109.0,
+            244.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 1,
+          "truePositives": 0,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.0,
+          "recall": 1.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 27,
+          "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [
+            26.14
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 28,
+          "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            90.0,
+            178.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 29,
+          "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            94.0,
+            293.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 3,
+          "truePositives": 2,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "f1": 0.8,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 1,
+              "referenceSeconds": 122.0,
+              "candidateSeconds": 123.775,
+              "absoluteErrorSeconds": 1.7750000000000057
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 2,
+              "referenceSeconds": 259.0,
+              "candidateSeconds": 258.775,
+              "absoluteErrorSeconds": 0.22500000000002274
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            1.7750000000000057,
+            0.22500000000002274
+          ],
+          "meanAbsoluteErrorSeconds": 1.0000000000000142,
+          "medianAbsoluteErrorSeconds": 1.0000000000000142,
+          "maxAbsoluteErrorSeconds": 1.7750000000000057,
+          "ordinal": 30,
+          "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            122.0,
+            259.0
+          ],
+          "predictedDropsSeconds": [
+            18.775,
+            123.775,
+            258.775
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 31,
+          "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 3,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 3,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 32,
+          "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            82.0,
+            127.0,
+            167.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1,
+            2
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 33,
+          "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 34,
+          "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 35,
+          "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            76.0,
+            167.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 36,
+          "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 37,
+          "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 3,
+          "truePositives": 2,
+          "falsePositives": 1,
+          "falseNegatives": 0,
+          "precision": 0.6666666666666666,
+          "recall": 1.0,
+          "f1": 0.8,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 1,
+              "referenceSeconds": 90.0,
+              "candidateSeconds": 89.555,
+              "absoluteErrorSeconds": 0.4449999999999932
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 2,
+              "referenceSeconds": 188.0,
+              "candidateSeconds": 188.93,
+              "absoluteErrorSeconds": 0.9300000000000068
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.4449999999999932,
+            0.9300000000000068
+          ],
+          "meanAbsoluteErrorSeconds": 0.6875,
+          "medianAbsoluteErrorSeconds": 0.6875,
+          "maxAbsoluteErrorSeconds": 0.9300000000000068,
+          "ordinal": 38,
+          "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            90.0,
+            188.0
+          ],
+          "predictedDropsSeconds": [
+            29.555,
+            89.555,
+            188.93
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": [
+            0
+          ]
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 1,
+          "truePositives": 1,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.5,
+          "f1": 0.6666666666666666,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 87.0,
+              "candidateSeconds": 88.683,
+              "absoluteErrorSeconds": 1.683000000000007
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            1.683000000000007
+          ],
+          "meanAbsoluteErrorSeconds": 1.683000000000007,
+          "medianAbsoluteErrorSeconds": 1.683000000000007,
+          "maxAbsoluteErrorSeconds": 1.683000000000007,
+          "ordinal": 39,
+          "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            87.0,
+            175.0
+          ],
+          "predictedDropsSeconds": [
+            88.683
+          ],
+          "unmatchedReferenceIndices": [
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 40,
+          "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 41,
+          "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            88.0,
+            224.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 42,
+          "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            96.0,
+            159.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 1,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 1,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 43,
+          "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            86.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 44,
+          "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 2,
+          "precision": 1.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 45,
+          "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            74.0,
+            132.0
+          ],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [
+            0,
+            1
+          ],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 46,
+          "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 2,
+          "truePositives": 1,
+          "falsePositives": 1,
+          "falseNegatives": 1,
+          "precision": 0.5,
+          "recall": 0.5,
+          "f1": 0.5,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 120.0,
+              "candidateSeconds": 120.044,
+              "absoluteErrorSeconds": 0.04399999999999693
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.04399999999999693
+          ],
+          "meanAbsoluteErrorSeconds": 0.04399999999999693,
+          "medianAbsoluteErrorSeconds": 0.04399999999999693,
+          "maxAbsoluteErrorSeconds": 0.04399999999999693,
+          "ordinal": 47,
+          "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            120.0,
+            248.0
+          ],
+          "predictedDropsSeconds": [
+            120.044,
+            186.606
+          ],
+          "unmatchedReferenceIndices": [
+            1
+          ],
+          "unmatchedCandidateIndices": [
+            1
+          ]
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 48,
+          "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 0,
+          "candidateCount": 0,
+          "truePositives": 0,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [],
+          "matchedTimingErrorsSeconds": [],
+          "meanAbsoluteErrorSeconds": null,
+          "medianAbsoluteErrorSeconds": null,
+          "maxAbsoluteErrorSeconds": null,
+          "ordinal": 49,
+          "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [],
+          "predictedDropsSeconds": [],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        },
+        {
+          "referenceCount": 2,
+          "candidateCount": 2,
+          "truePositives": 2,
+          "falsePositives": 0,
+          "falseNegatives": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0,
+          "matchedPairs": [
+            {
+              "referenceIndex": 0,
+              "candidateIndex": 0,
+              "referenceSeconds": 85.0,
+              "candidateSeconds": 85.751,
+              "absoluteErrorSeconds": 0.7510000000000048
+            },
+            {
+              "referenceIndex": 1,
+              "candidateIndex": 1,
+              "referenceSeconds": 198.0,
+              "candidateSeconds": 198.885,
+              "absoluteErrorSeconds": 0.8849999999999909
+            }
+          ],
+          "matchedTimingErrorsSeconds": [
+            0.7510000000000048,
+            0.8849999999999909
+          ],
+          "meanAbsoluteErrorSeconds": 0.8179999999999978,
+          "medianAbsoluteErrorSeconds": 0.8179999999999978,
+          "maxAbsoluteErrorSeconds": 0.8849999999999909,
+          "ordinal": 50,
+          "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+          "semanticVersion": "V9",
+          "referenceDropsSeconds": [
+            85.0,
+            198.0
+          ],
+          "predictedDropsSeconds": [
+            85.751,
+            198.885
+          ],
+          "unmatchedReferenceIndices": [],
+          "unmatchedCandidateIndices": []
+        }
+      ],
+      "zeroReferenceFP": 4
+    }
+  },
+  "baseline": {
+    "TP": 21,
+    "FP": 60,
+    "FN": 25,
+    "precision": 0.25925925925925924,
+    "recall": 0.45652173913043476,
+    "microF1": 0.33070866141732286,
+    "zeroReferenceFP": 30
+  },
+  "preregisteredCountChecks": {
+    "TPAtLeast21": false,
+    "FPBelow60": true,
+    "zeroReferenceFPBelow30": true
+  },
+  "allPreregisteredCountChecksPass": false,
+  "semanticEventKindCounts": {
+    "section": 242,
+    "peak": 84,
+    "energy": 113,
+    "drop": 21
+  },
+  "nonDropGameplayActionability": "Non-Drop musical events remain eligible for gameplay interactions; Drop metrics do not assess gameplay usefulness.",
+  "providerCallsDuringScoring": 0,
+  "providerSpendDuringScoringUsd": "0",
+  "terminalHoldoutAccessed": false,
+  "analyzerExecutedOrModified": false,
+  "compilerInvoked": false,
+  "predictionModifiedOrRegenerated": false,
+  "interpretation": "Stage1 development evidence only; no unseen-track generalization claim."
+}

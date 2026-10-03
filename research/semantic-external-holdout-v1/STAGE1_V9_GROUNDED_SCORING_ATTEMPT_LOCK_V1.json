@@ -1,0 +1,9 @@
+{
+  "schema": "trackcade-stage1-v9-one-use-scoring-lock-v1",
+  "status": "consumed-before-stage1-label-access",
+  "contractCommit": "1a959b3f0bffff1a073f38461abf4a598fcd6a5c",
+  "contractSha256": "ba18ea12fc6ab21c5228b37aef04da0af4ca8d6eda2c3e203993b484781ae605",
+  "predictionManifestSha256": "79d68032c2da15fd124aea77fa2df199ac833849b176e46ea52a03441894ba07",
+  "createdUnix": 1791059267.083772,
+  "terminalAccessed": false
+}
