@@ -1,0 +1,177 @@
+{
+  "FNCategoryCounts": {
+    "nearby_drop_timing_2_to_5s": 2,
+    "no_semantic_event_within_5s": 6,
+    "non_drop_event_within_2s": 6,
+    "semantic_event_2_to_5s": 11
+  },
+  "Stage1LabelsUsed": "Existing frozen Stage1-only result for authorized development diagnostics",
+  "analyzerExecutedOrModified": false,
+  "artifacts": [
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_EVENTS_V1.csv",
+      "sha256": "fbab04caa3bd1cbd190269b682cb4839a27d77a945eb30c88452819bf0facc45"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_EVENTS_V1.json",
+      "sha256": "42a6b6ac197a6823d669899225b3d272f550571598d30426add5e7a132ee1ebb"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_FALSE_NEGATIVES_V1.csv",
+      "sha256": "2ea0e9eb613180464ffaff2d973a00556a0333a95fed3cd12a363ae108068ae9"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_FALSE_NEGATIVES_V1.json",
+      "sha256": "6ac61017fbd51c2a5a8b2212b5aae593e8492cc7fe01c34a931730486f34948f"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_FEATURE_SUMMARIES_V1.json",
+      "sha256": "27b438215a243eabca298e681e8ad6cf3018a5711a7ad23b814ee26174576b6d"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_REPORT_V1.md",
+      "sha256": "f25b763ce87a015eb782a19ddbc6aa758b8a10dda2ef13f1fc12e8cfa4d2dc41"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_TABLE_FREEZE_V1.json",
+      "sha256": "ac60205c1c4e7a1da4f52b05a998ddbcedccbdf923334c8563fd8c578ff71411"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_TRACK_COMPARISON_V1.json",
+      "sha256": "63ce0afd6ddbf1cc2487ffc481e3fb02726ad7b32bb39403b087bdb2abb701c6"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_TRACKS_V1.csv",
+      "sha256": "752b0c46879d626ae248962905711a60414c144055aead904a878c0766634f8f"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_TRACKS_V1.json",
+      "sha256": "1b5c4ef6d43de393176fe1b7041f09704ca01faae6a9612df632b111e86c767c"
+    },
+    {
+      "path": "STAGE1_MIXED_V7_V8_FORENSIC_ZERO_REFERENCE_V1.json",
+      "sha256": "ca8c3dae597ff89dca043b41e3246e08dc8742891dd7729543457691ffb7dbfe"
+    }
+  ],
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "checks": [
+    {
+      "name": "100 cached input hashes match frozen manifest",
+      "status": "PASS"
+    },
+    {
+      "name": "81 times equal frozen scorer predictions",
+      "status": "PASS"
+    },
+    {
+      "name": "frozen outcomes copied, no scorer rerun",
+      "status": "PASS"
+    },
+    {
+      "name": "25 FN and 50 track rows accounted for",
+      "status": "PASS"
+    },
+    {
+      "name": "79-feature keys identical and label-derived values excluded from feature maps",
+      "status": "PASS"
+    },
+    {
+      "name": "9 table artifact hashes verify",
+      "status": "PASS"
+    },
+    {
+      "name": "deterministic table rerun produces identical bytes",
+      "status": "PASS"
+    },
+    {
+      "name": "47 V8 costs independently recomputed with frozen pricing",
+      "status": "PASS"
+    },
+    {
+      "name": "standard-library-only offline analysis imports",
+      "status": "PASS"
+    },
+    {
+      "name": "no changes to any preexisting tracked files",
+      "status": "PASS"
+    },
+    {
+      "name": "129 workflow triggers checked: zero forensic file matches",
+      "status": "PASS"
+    }
+  ],
+  "compilerInvoked": false,
+  "credentialAccessedOrExposed": false,
+  "dateLocal": "2026-10-03",
+  "dominantObservedProblem": "Drop selection/definition disagreement rather than small timing offsets; acoustic mechanism uncertain",
+  "eventRows": 81,
+  "existingAuthorizationOrActivationChanged": false,
+  "expectedFreshProviderCallsIfLaterAuthorized": 50,
+  "falseNegativeRows": 25,
+  "hypotheses": [
+    {
+      "concept": "Mandatory anchor-local packet-evidence citation for the existing decisive-impact judgment within the existing rationale",
+      "id": "H1",
+      "implemented": false,
+      "layer": "semantic interpretation"
+    },
+    {
+      "concept": "Independent candidate-coverage audit for plausible local transitions without weakening Drop acceptance",
+      "id": "H2",
+      "implemented": false,
+      "layer": "semantic interpretation"
+    }
+  ],
+  "hypothesesWrittenAfterTableFreeze": true,
+  "newAuthorizationOrActivationCreated": false,
+  "newSemanticVersionImplemented": false,
+  "nonDropGameplayEligibilityPreserved": true,
+  "predictionsModifiedOrRegenerated": false,
+  "preservePerOrdinalOutputCaps": {
+    "ordinals1To3": 8192,
+    "ordinals4To50": 25000
+  },
+  "primaryResultCommitUnchanged": "44c3fe1d2ab50f905bbb54367b5cb6d517c94420",
+  "projectedCost": {
+    "frozenPricingMethod": {
+      "cacheWriteInput": "1.25",
+      "cachedInput": "0.1",
+      "formula": "(input - cache_write - cached + 1.25*cache_write + 0.1*cached + 5*output)/1000000; reasoning is included in output, never added again.",
+      "outputIncludingReasoning": "5",
+      "uncachedInput": "1"
+    },
+    "futureSpendAuthorized": false,
+    "illustrative50CallEnvelopeUsd": [
+      "1.25708750",
+      "3.287900"
+    ],
+    "limitation": "Observed-cost approximation, not a ceiling or prediction interval; first three frozen caps are smaller and future reasoning cost may rise.",
+    "observedEstimatedTotalUsd": "1.97344100",
+    "observedMeanUsd": "0.04198810638297872340425531915",
+    "observedPerCaseMaximumUsd": "0.065758",
+    "observedPerCaseMinimumUsd": "0.02514175",
+    "observedV8CaseCount": 47,
+    "projected50CallMeanUsd": "2.099405319148936170212765957"
+  },
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "recommendedExperiment": "H1 only; conceptual recommendation, no executable prompt, contract or prediction set created",
+  "repository": "4everhumblepdx/trackcade-test",
+  "scalarPreLabelFeatures": 79,
+  "schema": "trackcade-stage1-mixed-raw-forensic-receipt-v1",
+  "scientificRecommendation": "A unchanged",
+  "scoringContractCommitUnchanged": "350ad7b5b64cbceea955c3f25e53bbd39d778d36",
+  "scoringRerun": false,
+  "semanticSystemChanged": false,
+  "sourceHead": "284c723148f72c3f5b05fed73660231b22012d14",
+  "stop": "Forensics frozen; no experiment executed or authorized. Enclosing receipt commit is the final repository state.",
+  "tableFreezeCommit": "66043b858e13eb3706d24f77d26baf7afb0b14d5",
+  "tableFreezeLocalMetadataCommit": "fe13853b83a6cebf3272c9d6e684c5e3213f2814",
+  "tableFreezeTree": "bc077bf4577dca5864206b11d59cccc4cfe1cbe2",
+  "terminalHoldoutAccessed": false,
+  "terminalMetadataInspection": false,
+  "trackRows": 50,
+  "zeroReferenceFPs": 30,
+  "zeroReferenceTrackCount": 23,
+  "zeroReferenceTracksWithDrops": 14
+}
