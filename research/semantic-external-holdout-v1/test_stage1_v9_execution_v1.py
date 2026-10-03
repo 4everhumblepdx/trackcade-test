@@ -150,4 +150,53 @@ class AuditObservabilityTests(unittest.TestCase):
         self.assertNotIn('continue-on-error',wf['jobs']['audit'])
         self.assertNotIn('secrets.',json.dumps(wf));self.assertNotIn('OPENAI_API_KEY',json.dumps(wf))
 
+class AuditTemplateFixtureTests(unittest.TestCase):
+    TEMPLATE_HASHES={
+        'STAGE1_V9_GROUNDED_AUTHORIZATION_TEMPLATE_V1.json':'d048d904cf94aa877fb1a69228b958be5ca33f2bed897cda9ee3b7236a85ea31',
+        'STAGE1_V9_GROUNDED_ACTIVATION_TEMPLATE_V1.json':'b70048dbc6caeae8d938ccbe9c4bef9f6a331a056cff9167bfc483d9fdd54e95',
+    }
+    def wf(self):return e.r.load(e.ROOT/e.AUDIT_WF)
+    def test_exact_two_inert_sparse_additions_only(self):
+        original=json.loads(e.git('show','5a45e4154266a2e7744a6962c3208aafe78dd990:'+e.AUDIT_WF))
+        amended=self.wf();checkout=amended['jobs']['audit']['steps'][0]['with']
+        oldpaths=original['jobs']['audit']['steps'][0]['with']['sparse-checkout'].splitlines()
+        added=['/research/semantic-external-holdout-v1/'+name for name in self.TEMPLATE_HASHES]
+        self.assertEqual(checkout['sparse-checkout'].splitlines(),oldpaths+added)
+        checkout['sparse-checkout']=original['jobs']['audit']['steps'][0]['with']['sparse-checkout']
+        self.assertEqual(amended,original)
+        self.assertEqual(e.r.load(e.ROOT/e.WF),json.loads(e.git('show','5a45e4154266a2e7744a6962c3208aafe78dd990:'+e.WF)))
+    def test_templates_present_with_exact_frozen_bytes_and_inert_fields(self):
+        import hashlib,subprocess
+        for name,digest in self.TEMPLATE_HASHES.items():
+            path=e.BASE/name
+            with self.subTest(template=name):
+                self.assertTrue(path.is_file())
+                data=path.read_bytes();self.assertEqual(hashlib.sha256(data).hexdigest(),digest)
+                frozen=subprocess.check_output(['git','show',e.SEMANTIC+':'+path.relative_to(e.ROOT).as_posix()],cwd=e.ROOT)
+                self.assertEqual(data,frozen)
+                obj=json.loads(data);self.assertIs(obj['templateOnly'],True);self.assertIsNone(obj['estimatedSpendCeilingUsd'])
+                self.assertIs(obj['authorized' if 'AUTHORIZATION' in name else 'activate'],False)
+    def test_original_template_test_runs_in_sparse_equivalent_fixture(self):
+        r=e.r;t=prior.InertContinuationTests();allowed=self.wf()['jobs']['audit']['steps'][0]['with']['sparse-checkout'].splitlines()
+        with tempfile.TemporaryDirectory() as temp:
+            fixture=Path(temp)/'research/semantic-external-holdout-v1';fixture.mkdir(parents=True)
+            for name in self.TEMPLATE_HASHES:
+                self.assertIn('/research/semantic-external-holdout-v1/'+name,allowed)
+                (fixture/name).write_bytes((e.BASE/name).read_bytes())
+            self.assertEqual(sorted(p.name for p in fixture.iterdir()),sorted(self.TEMPLATE_HASHES))
+            with mock.patch.object(r,'BASE',fixture),mock.patch.object(r,'AUTH',fixture/r.AUTH.name),mock.patch.object(r,'ACT',fixture/r.ACT.name):
+                t.test_templates_cannot_authorize()
+                self.assertFalse(r.AUTH.exists());self.assertFalse(r.ACT.exists())
+                with t.env():
+                    a,x=t.receipts()
+                    with self.assertRaises(ValueError):r.gate(r.load(fixture/'STAGE1_V9_GROUNDED_AUTHORIZATION_TEMPLATE_V1.json'),x)
+                    with self.assertRaises(ValueError):r.gate(a,r.load(fixture/'STAGE1_V9_GROUNDED_ACTIVATION_TEMPLATE_V1.json'))
+    def test_audit_dependency_isolation_and_real_approvals_absent(self):
+        wf=self.wf();paths=wf['jobs']['audit']['steps'][0]['with']['sparse-checkout'].splitlines()
+        self.assertNotIn('/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_AUTHORIZATION_V1.json',paths)
+        self.assertNotIn('/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_ACTIVATE_V1.json',paths)
+        self.assertFalse(e.r.AUTH.exists());self.assertFalse(e.r.ACT.exists())
+        self.assertNotIn('secrets.',json.dumps(wf));self.assertNotIn('OPENAI_API_KEY',json.dumps(wf))
+        self.assertFalse(any(any(key in path.lower() for key in ['terminal','reference','scor','forensic','analyzer','compiler']) for path in paths))
+
 if __name__=='__main__':unittest.main()
