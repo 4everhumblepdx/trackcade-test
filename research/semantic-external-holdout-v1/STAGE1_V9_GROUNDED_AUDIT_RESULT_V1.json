@@ -1,0 +1,21 @@
+{
+  "credentialExposed": false,
+  "errors": 0,
+  "failures": 0,
+  "instructionContractTestsOnly": true,
+  "logSha256": "835f1e47063e277307ef0fa29e7c3937c2ddbd2ac3ee6704d1b63e9413433e19",
+  "modelBehaviorValidated": false,
+  "paidWorkflowCreated": false,
+  "passed": 65,
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "realActivationExists": false,
+  "realAuthorizationExists": false,
+  "realHttpAttempts": 0,
+  "realSocketConnectsAttempted": 0,
+  "result": "PASS",
+  "schema": "trackcade-stage1-v9-grounded-offline-audit-v1",
+  "skipped": 0,
+  "terminalAccessed": false,
+  "testsRun": 65
+}

@@ -1,0 +1,64 @@
+{
+  "baselineCanonicalSourceSha256": {
+    "research/learned-interpretation-v1/build_learned_request_v7.py": "7bc767b89e94f0bf40c7acfe5ca5fab732f9a3f466e24f48d3b4f94ea59f1d8d",
+    "research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_RAW_SCORING_CONTRACT_V1.json": "65c2e6cc501bb439ba646adc9a3deb05ab4a56f73389ed015a31b154d12052a9",
+    "research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py": "91a72b5c3ce363f20de48f95fc35e9b82e1b2d9ffcea1c9b51942a738794fd84",
+    "research/semantic-external-holdout-v1/run_stage1_v8_remaining46_v1.py": "d141f7b4d9754d47c37ceaea691212d22b8bebe4f85193f05bed6e6ac2a6ca5d",
+    "research/semantic-external-holdout-v1/score_stage1_mixed_raw_v1.py": "10c69f940aebfa44a83ce2fa4fb5a6d6b8b8df0cd1716feffe6400789913ecfd"
+  },
+  "baselineInstructionSha256": "cb47f65fdb5b8402602cf6bb363c27c3364a7bcc7fcf4071ac24ba4f5242dc3b",
+  "candidateCoverageProofLimit": "Instruction/policy and construction path preserved; stochastic future model candidate output cannot be guaranteed identical without generation, which is forbidden here.",
+  "exactInstructionDelta": "Single inserted grounding block; remove block to recover frozen instruction byte-for-byte",
+  "executionBehaviorProof": [
+    "one_provider_attempt AST identical after payload filename substitution",
+    "estimate_usage AST identical",
+    "advance AST identical",
+    "ledger_for_next AST identical after namespace/history start substitutions"
+  ],
+  "executionMechanicalChanges": [
+    "V9 artifact/status/ledger namespace and paths",
+    "50-case ordered range and initial predecessor 0",
+    "hash-pinned V9 private prep inputs",
+    "per-ordinal cap identity and returned usage checks"
+  ],
+  "futureWorkflowRequiredBeforeAnyExecution": true,
+  "groundingBlockSha256": "1a5431ecdccb54c595ece713a2ec6aa1606634728229eccb8e0b8c3d4c3d74de",
+  "newSourceSha256": {
+    "audit_stage1_v9_grounded_v1.py": "990aae4a17c1725918cb52ecd539a07b592c06e32ab04f32330175e82e4e93a1",
+    "build_stage1_v9_grounded_v1.py": "3b4ad20d4deea05e2f760c045a64f4ff59739b03345551050beb0ee81ee6ff68",
+    "run_stage1_v9_grounded_v1.py": "adcec0b565a3793d5e361087eb94fbb87e588efac913c89d693e80fecc2782c8",
+    "stage_stage1_v9_grounded_v1.py": "10cee6316661887fe069e8413b4772badc2411301d205c35a35473acae79f3de",
+    "test_stage1_v9_grounded_contract_v1.py": "e756584f1e5b6e547655aef1a121686fcfdd3c89349a13eb7336f464a9508bc5",
+    "test_stage1_v9_grounded_execution_v1.py": "5a963cab8e94fa9666cc280fea81a001c72b3b58aa4e79e62815d6c270d2edbb"
+  },
+  "noPaidWorkflow": true,
+  "onlyOtherProviderInputValueChanges": [
+    "integrity.instructionSha256",
+    "integrity.developmentRevision (independent provenance identifier)"
+  ],
+  "schema": "trackcade-stage1-v9-grounded-source-diff-v1",
+  "sourceHead": "97ed64d35893eab13b3d721f85eded5bfec2afe1",
+  "treatmentInstructionSha256": "faa39fd1f20a11d8a5cdd27f598deb3b531088a7fd2fd1518ceddbc20de1639d",
+  "unchangedInstructions": [
+    "Drop musical definition",
+    "preparation",
+    "sustained stronger passage",
+    "other event definitions",
+    "candidate discovery/coverage/sparsity/count policy",
+    "timestamp/anchor authority",
+    "confidence semantics",
+    "structural context orthogonality",
+    "repeated-similar permission",
+    "non-Drop gameplay eligibility"
+  ],
+  "unchangedProviderPayloadValues": [
+    "packet",
+    "responseContract",
+    "text/output schema",
+    "model",
+    "reasoning",
+    "service_tier",
+    "store",
+    "max_output_tokens per ordinal"
+  ]
+}

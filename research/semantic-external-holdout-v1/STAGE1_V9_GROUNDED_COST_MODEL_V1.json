@@ -1,0 +1,40 @@
+{
+  "all50AtReservationCeilingUsd": "11.250",
+  "authorizedCeilingUsd": null,
+  "budgetAccounting": "reserve-then-reconcile-v2",
+  "forecastLimits": [
+    "Observed extrapolation, not prediction interval",
+    "First three cases retain 8192 caps; V8 projection requested as approximate scale",
+    "Evidence-citation instructions may increase token use",
+    "No account balance or billing inspected",
+    "3.50 covers observed-repeat last reservation 3.447142, but a more expensive treatment may stop before 50; no retry/resume or automatic ceiling increase"
+  ],
+  "frozenPricing": {
+    "cacheWriteInput": "1.25",
+    "cachedInput": "0.1",
+    "formula": "(input - cache_write - cached + 1.25*cache_write + 0.1*cached + 5*output)/1000000; reasoning is included in output, never added again.",
+    "outputIncludingReasoning": "5",
+    "uncachedInput": "1"
+  },
+  "guaranteed50CompletionUnderRecommendedCeiling": false,
+  "illustrative50CallObservedEnvelopeUsd": [
+    "1.25708750",
+    "3.287900"
+  ],
+  "meanPerCaseUsd": "0.04198810638297872340425531915",
+  "observedPerAttemptRangeUsd": [
+    "0.02514175",
+    "0.065758"
+  ],
+  "observedTotalEstimatedUsd": "1.97344100",
+  "observedV8CompletedValidCases": 47,
+  "projected50CallCentralUsd": "2.099405319148936170212765957",
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "recommendationOnly": true,
+  "recommendedFutureHardEstimatedSpendCeilingUsd": "3.50",
+  "reservationUsdPerAttempt": "0.225",
+  "schema": "trackcade-stage1-v9-grounded-cost-model-v1",
+  "scope": "Estimated-cost ledger limit, not provider billing/account cap. In-flight over-envelope usage can exceed the estimate; freeze evidence and stop, never refund uncertain usage.",
+  "worstObservedRepeatBeforeLastReservationUsd": "3.447142"
+}

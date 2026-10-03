@@ -1,0 +1,196 @@
+--- frozen-V8-serial-runner
++++ independent-V9-mixedcaps-runner
+@@ -1,5 +1,5 @@
+ #!/usr/bin/env python3
+-"""Inert V8 ordinals 5-50; one attempt, freeze-before-reconcile budget accounting."""
++"""Inert V9 evidence-grounded ordinals 1-50; one attempt, freeze-before-reconcile budget accounting."""
+ import argparse,json,os,sys
+ from decimal import Decimal, InvalidOperation
+ from pathlib import Path
+@@ -7,15 +7,14 @@
+ 
+ BASE=Path(__file__).resolve().parent
+ ROOT=BASE.parent.parent
+-CONTRACT=base.load(BASE/'STAGE1_V8_REMAINING46_CONTRACT_V1.json')
+-MAPPING=base.load(BASE/'STAGE1_V8_REMAINING46_MAPPING_V1.json')
+-AUTH=BASE/'STAGE1_V8_REMAINING46_AUTHORIZATION_V1.json'
+-ACT=BASE/'STAGE1_V8_REMAINING46_ACTIVATE_V1.json'
+-NAMESPACE='trackcade-stage1-v8-remaining46-v1'
+-SUCCESS_CLASSIFICATION='provider_completed_validated_v8_flex25000_remaining46_no_retry'
+-WORK=Path(os.environ.get('V8_CONT_WORK','/tmp/v8-continuation'))
+-SOURCE=Path(os.environ.get('V8_SOURCE_PREP','/tmp/v8-source-prep'))
+-FLEX=Path(os.environ.get('V8_FLEX_PREP','/tmp/v8-flex-prep'))
++CONTRACT=base.load(BASE/'STAGE1_V9_GROUNDED_CONTRACT_V1.json')
++MAPPING=base.load(BASE/'STAGE1_V9_GROUNDED_MAPPING_V1.json')
++AUTH=BASE/'STAGE1_V9_GROUNDED_AUTHORIZATION_V1.json'
++ACT=BASE/'STAGE1_V9_GROUNDED_ACTIVATE_V1.json'
++NAMESPACE='trackcade-stage1-v9-grounded-v1'
++SUCCESS_CLASSIFICATION='provider_completed_validated_v9_grounded_mixedcaps_no_retry'
++WORK=Path(os.environ.get('V9_WORK','/tmp/v9-grounded'))
++SOURCE=Path(os.environ.get('V9_SOURCE_PREP','/tmp/v9-grounded-prep'))
+ RESERVATION=Decimal('0.225')
+ ACCOUNTING='reserve-then-reconcile-v2'
+ sha_bytes,sha,load,now,save_json=base.sha_bytes,base.sha,base.load,base.now,base.save_json
+@@ -29,13 +28,13 @@
+     return d
+ 
+ def ordinal(value):
+-    if type(value) is not int or value not in range(5,51):raise ValueError('only ordinals 5â€“50 permitted')
++    if type(value) is not int or value not in range(1,51):raise ValueError('only ordinals 5ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“50 permitted')
+     return value
+ 
+ def gate(auth,act):
+-    expected={'ordinals':list(range(5,51)),'maximumInitialProviderAttempts':46,'retries':0,'ordinals1Through4Authorized':False,'providerContract':CONTRACT['providerContract'],'budgetAccounting':ACCOUNTING}
+-    base.exact(auth,{'schema':'trackcade-stage1-v8-remaining46-authorization-v1','authorized':True,**expected})
+-    base.exact(act,{'schema':'trackcade-stage1-v8-remaining46-activation-v1','activate':True,**expected})
++    expected={'ordinals':list(range(1,51)),'maximumInitialProviderAttempts':50,'retries':0,'outputCaps':CONTRACT['outputCaps'],'providerContract':CONTRACT['providerContract'],'budgetAccounting':ACCOUNTING}
++    base.exact(auth,{'schema':'trackcade-stage1-v9-grounded-authorization-v1','authorized':True,**expected})
++    base.exact(act,{'schema':'trackcade-stage1-v9-grounded-activation-v1','activate':True,**expected})
+     if auth.get('templateOnly') or act.get('templateOnly'):raise ValueError('templates cannot execute')
+     budget=decimal_usd(auth.get('estimatedSpendCeilingUsd'))
+     if budget<=0 or act.get('estimatedSpendCeilingUsd')!=auth['estimatedSpendCeilingUsd']:raise ValueError('budget approval missing or inconsistent')
+@@ -43,34 +42,40 @@
+         raise ValueError('only canonical first activation push may execute')
+     return budget
+ 
++def provider_contract(n):
++    ordinal(n)
++    return {**CONTRACT['providerContract'], 'maxOutputTokens': CONTRACT['outputCaps'][str(n)]}
++
+ def frozen_case(n):
+     ordinal(n)
+-    if base.sha(BASE/'STAGE1_V8_REMAINING46_MAPPING_V1.json')!=CONTRACT['mappingSha256']:raise ValueError('mapping identity changed')
+-    if CONTRACT['ordinals']!=list(range(5,51)) or [r['ordinal'] for r in MAPPING['cases']]!=list(range(5,51)):raise ValueError('ordinal mapping drift')
+-    row=MAPPING['cases'][n-5]
+-    s,f,paths=base.verify_prep(SOURCE,FLEX,n)
+-    if (s['id'],s['stem'])!=(row['id'],row['stem']):raise ValueError('case identity drift')
+-    for key,name in [('request','learned-request-v7.json'),('packet','structure-evidence-v2.json'),('sourcePayload','openai-payload-v7.json'),('flexPayload','openai-payload-v7-flex8192.json')]:
+-        if sha(paths[key])!=row['inputHashes'][name]:raise ValueError('frozen input hash drift')
+-    old=load(paths['flexPayload']);payload=dict(old);payload['max_output_tokens']=25000
+-    if {k for k in old if old[k]!=payload[k]}!={'max_output_tokens'}:raise ValueError('payload changed beyond output cap')
+-    encoded=(json.dumps(payload,indent=2,sort_keys=True)+'\n').encode()
+-    if sha_bytes(encoded)!=row['v8PayloadSha256']:raise ValueError('V8 payload drift')
++    if sha(BASE/'STAGE1_V9_GROUNDED_MAPPING_V1.json')!=CONTRACT['mappingSha256']:raise ValueError('mapping identity changed')
++    if CONTRACT['ordinals']!=list(range(1,51)) or [r['ordinal'] for r in MAPPING['cases']]!=list(range(1,51)):raise ValueError('ordinal mapping drift')
++    row=MAPPING['cases'][n-1]
++    folder=SOURCE/'cases'/f"{n:02d}-{row['stem']}"
++    paths={'request':folder/'learned-request-v9.json','packet':folder/'structure-evidence-v2.json','flexPayload':folder/'baseline-payload.json'}
++    for name,digest in row['inputHashes'].items():
++        if name not in {'structure-evidence-v2.json','baseline-request.json','baseline-payload.json','learned-request-v9.json','openai-payload-v9-grounded.json'}:raise ValueError('unexpected input path')
++        if sha(folder/name)!=digest:raise ValueError('frozen input drift')
++    encoded=(folder/'openai-payload-v9-grounded.json').read_bytes()
++    payload=load(folder/'openai-payload-v9-grounded.json')
++    if payload['max_output_tokens']!=provider_contract(n)['maxOutputTokens']:raise ValueError('mixed cap drift')
++    if sha_bytes(encoded)!=row['v9PayloadSha256']:raise ValueError('V9 payload drift')
+     if len(encoded)+4096>76428:raise ValueError('input byte envelope exceeds conservative guard allowance')
+     return row,paths,encoded
+ 
++
+ def ledger_for_next(ledger,n,budget):
+     ordinal(n)
+-    base.exact(ledger,{'schema':'trackcade-stage1-v8-remaining46-ledger-v2','budgetAccounting':ACCOUNTING,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':n-1,'estimatedSpendCeilingUsd':str(budget)})
++    base.exact(ledger,{'schema':'trackcade-stage1-v9-grounded-ledger-v2','budgetAccounting':ACCOUNTING,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':n-1,'estimatedSpendCeilingUsd':str(budget)})
+     entries=ledger.get('reconciledAttempts')
+-    if not isinstance(entries,list) or len(entries)!=n-5:raise ValueError('reconciled sequence mismatch')
++    if not isinstance(entries,list) or len(entries)!=n-1:raise ValueError('reconciled sequence mismatch')
+     total=Decimal('0');ids=set()
+-    for previous,entry in enumerate(entries,5):
++    for previous,entry in enumerate(entries,1):
+         out=location(previous);status=load(out/'status.json');base.verify_files_manifest(out)
+         base.exact(entry,{'ordinal':previous,'statusSha256':sha(out/'status.json'),'manifestSha256':sha(out/'FILES_SHA256.txt')})
+         if not entry.get('resultArtifactId') or entry['resultArtifactId'] in ids or not str(entry.get('resultArtifactDigest','')).startswith('sha256:'):raise ValueError('missing or duplicated frozen result identity')
+         ids.add(entry['resultArtifactId'])
+-        base.exact(status['ledgerBefore'],{'schema':ledger['schema'],'budgetAccounting':ACCOUNTING,'runId':ledger['runId'],'commit':ledger['commit'],'lastCompletedOrdinal':previous-1,'estimatedSpendCeilingUsd':str(budget),'reconciledEstimatedSpendUsd':str(total),'reconciledAttempts':entries[:previous-5]})
++        base.exact(status['ledgerBefore'],{'schema':ledger['schema'],'budgetAccounting':ACCOUNTING,'runId':ledger['runId'],'commit':ledger['commit'],'lastCompletedOrdinal':previous-1,'estimatedSpendCeilingUsd':str(budget),'reconciledEstimatedSpendUsd':str(total),'reconciledAttempts':entries[:previous-1]})
+         cost=frozen_result_cost(previous,status)
+         if decimal_usd(entry['estimatedCostUsd'])!=cost:raise ValueError('reconciled cost does not match frozen usage')
+         total+=cost
+@@ -82,13 +87,14 @@
+ 
+ def frozen_result_cost(n,status):
+     out=location(n)
+-    base.exact(status,{'schema':'trackcade-stage1-v8-remaining46-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':CONTRACT['providerContract'],'classification':SUCCESS_CLASSIFICATION,'artifactOutcome':'completed-valid','proposalValidated':True,'providerCallAttempted':True,'observedProviderStatus':'completed','observedProviderModel':'gpt-6-sol','observedProviderServiceTier':'flex','validatorExitCode':0,'errors':[]})
++    base.exact(status,{'schema':'trackcade-stage1-v9-grounded-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':provider_contract(n),'classification':SUCCESS_CLASSIFICATION,'artifactOutcome':'completed-valid','proposalValidated':True,'providerCallAttempted':True,'observedProviderStatus':'completed','observedProviderModel':'gpt-6-sol','observedProviderServiceTier':'flex','validatorExitCode':0,'errors':[]})
+     if status.get('budgetIntegrityError'):raise ValueError('budget integrity failure; no reconciliation')
+     raw=load(out/'raw-response.json')
+     if sha(out/'raw-response.json')!=status['rawResponseSha256'] or raw.get('usage')!=status['usage']:raise ValueError('usage does not match frozen provider evidence')
+     if sha(out/'normalized-proposal.json')!=status['normalizedProposalSha256']:raise ValueError('proposal identity changed')
+     if load(out/'validation-report.json').get('status')!='valid':raise ValueError('validator receipt not valid')
+     cost=estimate_usage(status['usage'])
++    if status['usage']['output_tokens']>provider_contract(n)['maxOutputTokens']:raise ValueError('per-ordinal output cap exceeded')
+     if cost>RESERVATION or decimal_usd(status['observedEstimatedCostUsd'])!=cost:raise ValueError('invalid frozen estimated cost; reservation retained')
+     return cost
+ 
+@@ -107,7 +113,7 @@
+ def ledger_path():return WORK/'ledger.json'
+ 
+ def verify_lock(n,lock,artifact):
+-    base.exact(lock,{'schema':'trackcade-stage1-v8-remaining46-attempt-lock-v1','budgetAccounting':ACCOUNTING,'ordinal':ordinal(n),'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':CONTRACT['providerContract']})
++    base.exact(lock,{'schema':'trackcade-stage1-v9-grounded-attempt-lock-v1','budgetAccounting':ACCOUNTING,'ordinal':ordinal(n),'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':provider_contract(n)})
+     base.exact(artifact,{'id':int(os.environ['LOCK_ARTIFACT_ID']),'name':f'{NAMESPACE}-case-{n:02d}-attempt-lock','expired':False})
+     base.exact(artifact.get('workflow_run') or {},{'id':int(os.environ['GITHUB_RUN_ID']),'head_sha':os.environ['GITHUB_SHA']})
+     if not str(artifact.get('digest','')).startswith('sha256:'):raise ValueError('lock has no immutable digest')
+@@ -115,29 +121,29 @@
+ def initialize(budget):
+     if os.environ.get('OPENAI_API_KEY'):raise ValueError('credential present before reservation')
+     WORK.mkdir(parents=True,exist_ok=False)
+-    save_json(ledger_path(),{'schema':'trackcade-stage1-v8-remaining46-ledger-v2','budgetAccounting':ACCOUNTING,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':4,'reconciledEstimatedSpendUsd':'0','reconciledAttempts':[],'estimatedSpendCeilingUsd':str(budget),'resultArtifactId':None,'resultArtifactDigest':None})
++    save_json(ledger_path(),{'schema':'trackcade-stage1-v9-grounded-ledger-v2','budgetAccounting':ACCOUNTING,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'lastCompletedOrdinal':0,'reconciledEstimatedSpendUsd':'0','reconciledAttempts':[],'estimatedSpendCeilingUsd':str(budget),'resultArtifactId':None,'resultArtifactDigest':None})
+ 
+ def prepare(n,budget):
+     if os.environ.get('OPENAI_API_KEY'):raise ValueError('credential exposed before lock creation')
+     ledger=load(ledger_path());charge=ledger_for_next(ledger,n,budget);row,paths,payload=frozen_case(n)
+     out=location(n);out.mkdir(exist_ok=False)
+-    for key,name in [('request','learned-request-v7.json'),('packet','structure-evidence-v2.json'),('flexPayload','openai-payload-v7-flex8192.json')]:
++    for key,name in [('request','learned-request-v9.json'),('packet','structure-evidence-v2.json'),('flexPayload','baseline-payload.json')]:
+         (out/name).write_bytes(paths[key].read_bytes())
+-    (out/'openai-payload-v8-flex25000.json').write_bytes(payload)
+-    save_json(out/'status.json',{'schema':'trackcade-stage1-v8-remaining46-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':CONTRACT['providerContract'],'classification':'offline_reserved_no_provider_call','providerCallAttempted':False,'providerResponseObserved':False,'providerCompletedSemanticResponse':False,'proposalValidated':False,'errors':[],'retryAuthorized':False,'standardFallbackUsed':False,'referenceLabelsRead':False,'scoringPerformed':False,'terminalTracksProcessed':False,'stage1ReferencesOpened':False,'analyzerExecuted':False,'analyzerChanged':False,'compilerInvoked':False,'ledgerBefore':ledger,'reservedCeilingUsdDuringAttempt':str(charge),'budgetAccounting':ACCOUNTING,'reservationUsd':str(RESERVATION),'onlyMaxOutputTokensChanged':True})
++    (out/'openai-payload-v9-grounded.json').write_bytes(payload)
++    save_json(out/'status.json',{'schema':'trackcade-stage1-v9-grounded-status-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'harnessSourceCommit':os.environ['GITHUB_SHA'],'providerContract':provider_contract(n),'classification':'offline_reserved_no_provider_call','providerCallAttempted':False,'providerResponseObserved':False,'providerCompletedSemanticResponse':False,'proposalValidated':False,'errors':[],'retryAuthorized':False,'standardFallbackUsed':False,'referenceLabelsRead':False,'scoringPerformed':False,'terminalTracksProcessed':False,'stage1ReferencesOpened':False,'analyzerExecuted':False,'analyzerChanged':False,'compilerInvoked':False,'ledgerBefore':ledger,'reservedCeilingUsdDuringAttempt':str(charge),'budgetAccounting':ACCOUNTING,'reservationUsd':str(RESERVATION),'onlyDecisiveImpactGroundingChanged':True})
+     lockfile(n).parent.mkdir(exist_ok=False)
+-    save_json(lockfile(n),{'schema':'trackcade-stage1-v8-remaining46-attempt-lock-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':CONTRACT['providerContract'],'budgetAccounting':ACCOUNTING,'ledgerBefore':ledger,'submittedPayloadSha256':row['v8PayloadSha256']})
++    save_json(lockfile(n),{'schema':'trackcade-stage1-v9-grounded-attempt-lock-v1','ordinal':n,'runId':os.environ['GITHUB_RUN_ID'],'commit':os.environ['GITHUB_SHA'],'attempts':1,'retryAuthorized':False,'reservationUsd':str(RESERVATION),'providerContract':provider_contract(n),'budgetAccounting':ACCOUNTING,'ledgerBefore':ledger,'submittedPayloadSha256':row['v9PayloadSha256']})
+ 
+ def run(n,budget):
+     out=location(n);lock=load(lockfile(n));verify_lock(n,lock,load(lockfile(n).parent/'uploaded.json'))
+     ledger=load(ledger_path());ledger_for_next(ledger,n,budget)
+     if ledger!=lock['ledgerBefore']:raise ValueError('stale or changed budget ledger')
+     row,paths,payload=frozen_case(n)
+-    for name in ['learned-request-v7.json','structure-evidence-v2.json','openai-payload-v7-flex8192.json']:
++    for name in ['learned-request-v9.json','structure-evidence-v2.json','baseline-payload.json']:
+         if sha(out/name)!=row['inputHashes'][name]:raise ValueError('reserved input changed')
+-    if (out/'openai-payload-v8-flex25000.json').read_bytes()!=payload:raise ValueError('reserved payload changed')
++    if (out/'openai-payload-v9-grounded.json').read_bytes()!=payload:raise ValueError('reserved payload changed')
+     status_path=out/'status.json';status=load(status_path)
+-    base.exact(status,{'ordinal':n,'providerCallAttempted':False,'classification':'offline_reserved_no_provider_call','providerContract':CONTRACT['providerContract'],'harnessSourceCommit':os.environ['GITHUB_SHA']})
++    base.exact(status,{'ordinal':n,'providerCallAttempted':False,'classification':'offline_reserved_no_provider_call','providerContract':provider_contract(n),'harnessSourceCommit':os.environ['GITHUB_SHA']})
+     with (out/'attempt-consumed.json').open('x',encoding='utf-8') as f:json.dump({'ordinal':n,'oneAttemptOnly':True},f)
+     try:
+         one_provider_attempt(out,status,status_path,ROOT/'research/learned-interpretation-v1/validate_learned_proposal_v7.py')
+@@ -148,6 +154,7 @@
+     status=load(status_path)
+     try:
+         cost=estimate_usage(status.get('usage'));status['observedEstimatedCostUsd']=str(cost)
++        if status['usage']['output_tokens']>provider_contract(n)['maxOutputTokens']:raise ValueError('per-ordinal output cap exceeded')
+         if cost>RESERVATION:raise ValueError('observed estimated cost exceeds reservation; stop')
+     except ValueError as exc:
+         status['budgetIntegrityError']=str(exc)
+@@ -172,7 +179,7 @@
+     temp=WORK/'ledger-next.json';save_json(temp,next_ledger);temp.replace(ledger_path())
+ 
+ def main():
+-    ap=argparse.ArgumentParser();ap.add_argument('mode',choices=['initialize','prepare','run']);ap.add_argument('ordinal',type=int,nargs='?',choices=range(5,51));args=ap.parse_args()
++    ap=argparse.ArgumentParser();ap.add_argument('mode',choices=['initialize','prepare','run']);ap.add_argument('ordinal',type=int,nargs='?',choices=range(1,51));args=ap.parse_args()
+     budget=gate(load(AUTH),load(ACT))
+     if args.mode=='initialize':initialize(budget)
+     elif args.ordinal is None:raise ValueError('ordinal required')
+@@ -185,7 +192,7 @@
+     api_key = os.environ.get("OPENAI_API_KEY")
+     if not api_key:
+         raise RuntimeError("OPENAI_API_KEY missing at authorized live-call step")
+-    payload_path = out / "openai-payload-v8-flex25000.json"
++    payload_path = out / "openai-payload-v9-grounded.json"
+     payload_bytes = payload_path.read_bytes()
+     client_request_id = str(uuid.uuid4())
+     status["providerCallAttempted"] = True

@@ -1,0 +1,810 @@
+{
+  "cases": [
+    {
+      "analysisJsonSha256": "e765b9ad598bcf817160310729b08277c53fcb09e77e3a13df05ba0908850474",
+      "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "8406c5603b66db962e222041bdab5f9ff33e1294d26615a05bea6d4acfcf9b13",
+        "baseline-request.json": "02a1f6ec5cd44d597b84c779e1baac5a66ef5e58f10aab5a0a2772a90aef059a",
+        "learned-request-v9.json": "e0b26a4b650b0358e370b1ccedc9c60e0caf04dccee53faa738609307f62686d",
+        "openai-payload-v9-grounded.json": "97d7aac12ea64099c8336c6fec99343f674c238bacc00e68e99187f1a2df30f5",
+        "structure-evidence-v2.json": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86"
+      },
+      "maxOutputTokens": 8192,
+      "ordinal": 1,
+      "stem": "86533027",
+      "v9PayloadBytes": 56686,
+      "v9PayloadSha256": "97d7aac12ea64099c8336c6fec99343f674c238bacc00e68e99187f1a2df30f5"
+    },
+    {
+      "analysisJsonSha256": "34e6f489933a313454ac43754c1e96b0260ce4b8d143daad532e9c7efcd1b43e",
+      "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "ceae37fe52ae11198014c6de6d67b5fa57f5ad07d591721d2c2f69c14c70bb43",
+        "baseline-request.json": "2308a4570fdc2ab8debce46dd5755dbf0be2fd3315ef1e7ef98bc60af11018f9",
+        "learned-request-v9.json": "8c8d9b983782733d11152361327d90fca02c85efea3be5c72cc07cd33cc84d3d",
+        "openai-payload-v9-grounded.json": "7eaad9d808587599d740d275d30c45e8984e6636bf20a7b57702890063febcaa",
+        "structure-evidence-v2.json": "4d320b4e8ab4b7e9ab9555deb1a49b59f8ba962c9b294bb016530e5ff2d37f36"
+      },
+      "maxOutputTokens": 8192,
+      "ordinal": 2,
+      "stem": "54634175",
+      "v9PayloadBytes": 46379,
+      "v9PayloadSha256": "7eaad9d808587599d740d275d30c45e8984e6636bf20a7b57702890063febcaa"
+    },
+    {
+      "analysisJsonSha256": "8e4af74d5c90730e7f479e55270999209a3834fd4e0a13a0e16cb7645086f949",
+      "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "00de0238a844796cb56f3de1f058d8d2be0367593bfabe84d09986e7591c3ce9",
+        "baseline-request.json": "37ab8d672257f86d03b8a304b3867a07378fb46a050924096553f40530698d0a",
+        "learned-request-v9.json": "30060ffb23200d0db37beffbd2a552e0a4d82c07041d0b7eb186fb385c22f7a8",
+        "openai-payload-v9-grounded.json": "ec85d2a0cb20e2a764438dc9979b0fface6de652f80f40ab8d7887778fba0e9c",
+        "structure-evidence-v2.json": "218b7a9eec89451663eeac9128a46dfab8f024399efa72524a55d30c31ad1fcd"
+      },
+      "maxOutputTokens": 8192,
+      "ordinal": 3,
+      "stem": "41211831",
+      "v9PayloadBytes": 46092,
+      "v9PayloadSha256": "ec85d2a0cb20e2a764438dc9979b0fface6de652f80f40ab8d7887778fba0e9c"
+    },
+    {
+      "analysisJsonSha256": "222d2440a2fe5e2fe8281af343f01914d3cc757a1196db4aba015f0b789c5cf8",
+      "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "201659dcb74dedd153b9e073db0b32a010ea5450411512e6341665ac8a84b973",
+        "baseline-request.json": "da72772b007f5e09a72724a608ac5083d36bac5573edbf73e27e54c7a6896864",
+        "learned-request-v9.json": "6faab12700919b38c4d0129387ce80efe771d5e587087ce063a2f486fb92a7ad",
+        "openai-payload-v9-grounded.json": "10f0953bcacec9e99a68592d74252a97e2bb04f6946a0c86ca4d8a403a19e332",
+        "structure-evidence-v2.json": "558b2b110e5c342b49da7d38f2ffa215ee6f442e1ff0c2a879c3d923171c58f7"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 4,
+      "stem": "87619325",
+      "v9PayloadBytes": 49207,
+      "v9PayloadSha256": "10f0953bcacec9e99a68592d74252a97e2bb04f6946a0c86ca4d8a403a19e332"
+    },
+    {
+      "analysisJsonSha256": "0e2e455d3e4c30e8ddfcfd51fa086b38ed711e3470846e5e76e0d90658d1a39e",
+      "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "523283ae90c7549597c8045e47d3189a27986754af7db16461ee6db29614d406",
+        "baseline-request.json": "22eaa1edb8ecb7ad5fc5d73df0897d533dfe513eb83503199f544f901e3b14ec",
+        "learned-request-v9.json": "6d6ce34bb75488509c8206bcc20e7a822f91317d23a9f051b72fa8e9ba17aaa6",
+        "openai-payload-v9-grounded.json": "fbd2a22753715b05a288f01770630c1d4a373ab8b464cfaecf0c46ec9958d5e9",
+        "structure-evidence-v2.json": "9da0ce23d902216825aaa7f0c905a500bec2f093d2617e4b1c5d134661f67d26"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 5,
+      "stem": "73229079",
+      "v9PayloadBytes": 49120,
+      "v9PayloadSha256": "fbd2a22753715b05a288f01770630c1d4a373ab8b464cfaecf0c46ec9958d5e9"
+    },
+    {
+      "analysisJsonSha256": "aecd8e7a3c83bb1fc8fd9d48dbbda39db0c01a85dcd7af4e9f449c85084a3950",
+      "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "455b25ce8f8d65c80143bffe2de00783520f56cdab620c77013f93190852ca42",
+        "baseline-request.json": "5c54fe4ed827d822eb70d3ce79531147a5ea4030eb44456950a0950c9bc585a6",
+        "learned-request-v9.json": "b4677bb840a45fc8505cd60e7fddd21c00c3bd95f96d3909eaf51761b7ac76db",
+        "openai-payload-v9-grounded.json": "6e027f7ebb216a0662e52284d9e86de221e88876069be1875e0996be8e7ead93",
+        "structure-evidence-v2.json": "ff7b811de67cc03e6b8f12daa755ea951b87e45feecb950292c3c9ad5ef730cc"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 6,
+      "stem": "45052168",
+      "v9PayloadBytes": 44317,
+      "v9PayloadSha256": "6e027f7ebb216a0662e52284d9e86de221e88876069be1875e0996be8e7ead93"
+    },
+    {
+      "analysisJsonSha256": "d6a9a8fdfbce61c25233f0ac9eab7c418f1774b7d6b8f5e029d6f72d787b657a",
+      "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "b17fa5aa661d1c3f83aaeaace311360831e232da0a06cce2667ad26298af5302",
+        "baseline-request.json": "5b1109bf66f7cfea902e7906696bb8c6b63c38c80776d31c7e86845c7f79bd3c",
+        "learned-request-v9.json": "7bfefd90f199651b3b43f7d7ff3dcdcff395d802a5973437379d2d6a88eb3381",
+        "openai-payload-v9-grounded.json": "5110744948c8d51349cc81630b83dd0b5b8b280eff85d3f44339682bf3857cb7",
+        "structure-evidence-v2.json": "debcf0679178121811d8529ba36d05f607292881c1469a99632046facc3ab415"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 7,
+      "stem": "97169237",
+      "v9PayloadBytes": 49760,
+      "v9PayloadSha256": "5110744948c8d51349cc81630b83dd0b5b8b280eff85d3f44339682bf3857cb7"
+    },
+    {
+      "analysisJsonSha256": "26643d655480e3ce7d99d5e12de46b6fe9ac45f40b570cfa2c776278358a46c7",
+      "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "b639e9da8aa17829001a794e29a08334d4a649fb5b2b04a3f4c63d67a84be353",
+        "baseline-request.json": "378a6e55d2c2e2c27ef00af62f2b36a8c14af8e9d8f6f5ef29eaaf53b70da222",
+        "learned-request-v9.json": "47b898aa8f9ffed1cde5cc6bf496966d672edd9ad7ded71c8dbfd339012fb141",
+        "openai-payload-v9-grounded.json": "6354dce4e6e4c15e96136789e536c3faa3563a3899d90e603e40638eaa09cc25",
+        "structure-evidence-v2.json": "cef184a0dd25418a1fa531d4bcb0ceed9a53294c047cc9c7a1be389c386851b7"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 8,
+      "stem": "39637970",
+      "v9PayloadBytes": 43009,
+      "v9PayloadSha256": "6354dce4e6e4c15e96136789e536c3faa3563a3899d90e603e40638eaa09cc25"
+    },
+    {
+      "analysisJsonSha256": "3d175b0d3dd2d2a31b4310e37564c23670b94abaa3b0053ddd3ef73f9a5b1430",
+      "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "6944e245f1fa69836bc6b7caaae3895db8a81b0e6f695f68e09d19ff5de9e0b2",
+        "baseline-request.json": "ea1c77da51895eaf9edf3022193e1af9bf2cad25a59a2348b97a3db9c7a3fe23",
+        "learned-request-v9.json": "2f8b2cf4d44ec4657dfacd2d40ee709610d2dab051d95604041fcfcffc502661",
+        "openai-payload-v9-grounded.json": "85356d6cde3fb91caa7e5b6ada80fcae6249efdd4cbb20bfc6a31e28fb21fef7",
+        "structure-evidence-v2.json": "875bfecc98e13603fb92d2ce75abab40982725610a79aaf27e8a7f6320476362"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 9,
+      "stem": "60170982",
+      "v9PayloadBytes": 69130,
+      "v9PayloadSha256": "85356d6cde3fb91caa7e5b6ada80fcae6249efdd4cbb20bfc6a31e28fb21fef7"
+    },
+    {
+      "analysisJsonSha256": "dea40d5600b1730e59ea20e6dc12a96470360c8611627daf4367a67443ecf7b2",
+      "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "8207546726d9b8bb5ae66d8d92506f211e787508392cb665b87b65a17b7c762f",
+        "baseline-request.json": "2a739393412bc9128496c7d688254e3af67c1c4e3a32229015ed936cba736eff",
+        "learned-request-v9.json": "7a7b2a4b720ff6955192213d3e4ffc3bb6584e01981deca4b3b28ee382906343",
+        "openai-payload-v9-grounded.json": "1e1301454c40524a75c1ebed537477443afc4b6b5b5a05cb02e254f70702855c",
+        "structure-evidence-v2.json": "e11baee5f8075ccb9ce05728eb96afe8460e0f3a97b8ef3a265dc9450e35391f"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 10,
+      "stem": "60779381",
+      "v9PayloadBytes": 42758,
+      "v9PayloadSha256": "1e1301454c40524a75c1ebed537477443afc4b6b5b5a05cb02e254f70702855c"
+    },
+    {
+      "analysisJsonSha256": "93403394ba055b1beb76e52e14c2202e444b5bf26142a3c9754962db0d4b87fe",
+      "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "a3546ffcfa4f15bb444c15b07b7f98de19adc62ccd74802bd70cdc1f1af396dc",
+        "baseline-request.json": "f4d5884a8ab738ef523c49ba8ecf69ef8d6c48362960afe7458b56d5b6048b18",
+        "learned-request-v9.json": "3cc197eaf3312ccf9feaf6f5f7ca269c40877a154349b2506aef2e1dc73dc626",
+        "openai-payload-v9-grounded.json": "f16f6ba7c009f887f6460984ac35f978d21bf5df9d1be7ea4e0ff0f21333f8ef",
+        "structure-evidence-v2.json": "f82f41173ab6b87244f3f478e372744422f20ffa789eb6547f51c1fb2d562327"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 11,
+      "stem": "98468953",
+      "v9PayloadBytes": 51978,
+      "v9PayloadSha256": "f16f6ba7c009f887f6460984ac35f978d21bf5df9d1be7ea4e0ff0f21333f8ef"
+    },
+    {
+      "analysisJsonSha256": "90cc6c58d4404fb67508441acd275f09bd6c411a87291a8cdd4a15f2547e4c06",
+      "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "99e3541ba5afd0d8814f94fcc7e15769aa2d4042565ea20ae062f5e8f2bc7645",
+        "baseline-request.json": "27e714b8f46eb0b3d2b3e79d57f021ccdcb4a3c112750d3de585b7a9af8c7858",
+        "learned-request-v9.json": "08b71bcf97d4352764fb82736650591fe2b54c01997a063b4eb363842dbcd21d",
+        "openai-payload-v9-grounded.json": "c1ae5085ac863d375e4da14858e3314149377714dc95c711027a6bac57e2db1b",
+        "structure-evidence-v2.json": "353069bdbd7de2e1a9604a1a43b93f8caf1d4fee9df735d5946c4364722aebcd"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 12,
+      "stem": "91570090",
+      "v9PayloadBytes": 43257,
+      "v9PayloadSha256": "c1ae5085ac863d375e4da14858e3314149377714dc95c711027a6bac57e2db1b"
+    },
+    {
+      "analysisJsonSha256": "0cb71fb16601c8432777b0fbc13e1e5720d2b097562507bf9e0edbc442432dd4",
+      "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "cbbd81ce3fd92e92ea1b0fbf7bdf2e3d9e0015927ff32495830cde8fe0fc7b47",
+        "baseline-request.json": "929fb3a087646d89712f8d50b2692ec7587e0541908fb57014c5b600d2176ea2",
+        "learned-request-v9.json": "0460dab1f0735d747c04362a51abc1c5160fa0e4cb89f4f1a3c413bb64cfa80c",
+        "openai-payload-v9-grounded.json": "6a2402b3c4ce2197e69d629bcab1d3fc5f35019397d3ed6c8f3b2442fa998cfd",
+        "structure-evidence-v2.json": "9237151bd13fc9330bb6ad01b228e6951d3c57432e707b47dce0070e52f23db7"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 13,
+      "stem": "125282679",
+      "v9PayloadBytes": 49685,
+      "v9PayloadSha256": "6a2402b3c4ce2197e69d629bcab1d3fc5f35019397d3ed6c8f3b2442fa998cfd"
+    },
+    {
+      "analysisJsonSha256": "4506c08ae662777cd1a8c0fe93cbc312836e34667461516598d20615943c6bd8",
+      "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "3a9151505efde17666d90a6f4fb7c1b34cfb86af5626d6ddf39601b370f6055d",
+        "baseline-request.json": "a0237ce978df9a706177ff49fabd7008b73d662b40b8903ce0d7a1ed1056e6b8",
+        "learned-request-v9.json": "d8b533c53502d3b9b33a2830c87cf8df128b8c835142dda27894edacd8284c02",
+        "openai-payload-v9-grounded.json": "7f88b1e461fbdcd678b1813f256933e2ee647dad64855e477c43ae346e5b8bca",
+        "structure-evidence-v2.json": "16be08847577b98f847d917ecfe159a120cbf52defd32276a928866f1f339281"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 14,
+      "stem": "121885015",
+      "v9PayloadBytes": 41000,
+      "v9PayloadSha256": "7f88b1e461fbdcd678b1813f256933e2ee647dad64855e477c43ae346e5b8bca"
+    },
+    {
+      "analysisJsonSha256": "ec6e7efdc94e03c740ebcbc437b4edee5efbe5fc89d0fb9d511d3d6b2002e2d7",
+      "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "ebd47af9d74fd82b76908f7841996aadc314a6447a43898d7d9d5fe9d68c0cb4",
+        "baseline-request.json": "07233c774ae041083db5c44dc87fb8ec3d3e60271c322f947f2e15bf901738ee",
+        "learned-request-v9.json": "806d9ec430685da71240b065bfd949b6e0fa7f74172bacfee589f5762c2fc569",
+        "openai-payload-v9-grounded.json": "aab3e3336468470fcd7cee46c6f58bba585e08c11f701b820350c938a07dbacc",
+        "structure-evidence-v2.json": "7ab93028870cc521529aadee56fb392b2bde2bb92aa22af557f662f1f9b79514"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 15,
+      "stem": "53652782",
+      "v9PayloadBytes": 44897,
+      "v9PayloadSha256": "aab3e3336468470fcd7cee46c6f58bba585e08c11f701b820350c938a07dbacc"
+    },
+    {
+      "analysisJsonSha256": "b402528bfa413ec447c06576583377c532b71f710d57e111ce69c39dc8eeccc9",
+      "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "9aa2c9d313b5024677a0cdf0013c9ab9352defdc17b0a0a1186ec314ed1c6116",
+        "baseline-request.json": "7b8efa1433ac39adacfebc25d405112e108096adb03b87bbc2c2c96ab0a33cc4",
+        "learned-request-v9.json": "4ebc6d22056cf91d131db77fe472395a80f249f823416cef31127ffcaeb3f64c",
+        "openai-payload-v9-grounded.json": "9090c3feb4858bad25839da565d1fe57587daaeb25541daeb80ce55f5398c1f8",
+        "structure-evidence-v2.json": "e7240a7c140d676b128b58e39a225d59286ad60e5f7acb6d820b4353d31243a7"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 16,
+      "stem": "48207706",
+      "v9PayloadBytes": 52810,
+      "v9PayloadSha256": "9090c3feb4858bad25839da565d1fe57587daaeb25541daeb80ce55f5398c1f8"
+    },
+    {
+      "analysisJsonSha256": "45d63535fa41f9c4225cd4ce568dc3ad2f5bb7a8cc566618b2d4476fbf45dc14",
+      "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "73f537809525e10f6e2507baabb8e7e0d474afed4009d4bf725ba8b0058bce10",
+        "baseline-request.json": "b7115c5466497a6633729651dca37f717a0312dfc028a76d2d731d6cd790100a",
+        "learned-request-v9.json": "894645e4bd754d7665eb8f7f40140ca204e9eaed5468c350e304f0cf5726c2fc",
+        "openai-payload-v9-grounded.json": "f067bc734323191d15eece7b53b9182e09a154157a4ad3e5e9b374b2614ba2db",
+        "structure-evidence-v2.json": "062d93eca9693ccb3d90621382c39a00a0af0270da7dd49b19607c86ce38b33a"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 17,
+      "stem": "81381341",
+      "v9PayloadBytes": 42906,
+      "v9PayloadSha256": "f067bc734323191d15eece7b53b9182e09a154157a4ad3e5e9b374b2614ba2db"
+    },
+    {
+      "analysisJsonSha256": "11e7f5f1d48444c7dd0b07a7b653ee8ca29fcde570a04e83d67496a52372156f",
+      "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "92c68749c31a8c5ed24fc3d5e5ee326ee706b31c847877e5a402fd424503df4e",
+        "baseline-request.json": "ef786d459c8ba19a475d74637542621ebd8623fc6c87dc203ea0782462966b38",
+        "learned-request-v9.json": "c4aeb421428150b7c5160552b2765994150bc2e00a99e0c6865813e059c912ca",
+        "openai-payload-v9-grounded.json": "39c62a90e6f3614023c70c67183d47c6c8926cb06bce8587ad1cacb7c7d91e92",
+        "structure-evidence-v2.json": "048bdb1f311daad6a196d9aaa2cefe4913e250fe31b74406dfc1229793fb41e5"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 18,
+      "stem": "91744869",
+      "v9PayloadBytes": 44560,
+      "v9PayloadSha256": "39c62a90e6f3614023c70c67183d47c6c8926cb06bce8587ad1cacb7c7d91e92"
+    },
+    {
+      "analysisJsonSha256": "6636602cc32470d52a705d978b911f11516def5d50d974fd553e4b9acec22ac9",
+      "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "51bdb3f0cdc122ea188a8e9c217e3d4d427064b9065ffe5db2f33f6bd4fb7929",
+        "baseline-request.json": "79350d7440f940e1f41641d7aedef67aa1b42634976e83a428911af97224e555",
+        "learned-request-v9.json": "2138e43a8c64992f29f1f0a98f6cd028d86c4de3e1e9344e5879e647596f72ea",
+        "openai-payload-v9-grounded.json": "0d60860ce373b4805b70a7caa8f19fb62b4ba9a2153884c20b353d71a47da358",
+        "structure-evidence-v2.json": "a94050ceec59700b0102a01da621f5af1bd9008aad19e41f48d6990d0a8612ea"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 19,
+      "stem": "70906479",
+      "v9PayloadBytes": 52053,
+      "v9PayloadSha256": "0d60860ce373b4805b70a7caa8f19fb62b4ba9a2153884c20b353d71a47da358"
+    },
+    {
+      "analysisJsonSha256": "8f77f4e39b7ff176c8ea43746b8197f9e1f542c4e4c155e3105be711f90faeb8",
+      "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "e712bc19379f28c8cd721779315b4474c44a3151c26f852d8d8e8a35fc8101aa",
+        "baseline-request.json": "d18006b544f4eb434536e00eff45f4a7b7e808ad3e29459cbf3c4ec180410081",
+        "learned-request-v9.json": "c27bb55c2cb7e16093b0a81cd787ed3fd52f9ba05109ef9e441e0eaa6aee057a",
+        "openai-payload-v9-grounded.json": "eb2161c174db48d26b6d877f0f07b8185d9dfcb720425b9f1002eda1ebdebb0c",
+        "structure-evidence-v2.json": "685b9b9fbb2e63993f667d0f2c546751b6fdfffc7173be0ba83f411dcf496dfa"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 20,
+      "stem": "109446919",
+      "v9PayloadBytes": 48771,
+      "v9PayloadSha256": "eb2161c174db48d26b6d877f0f07b8185d9dfcb720425b9f1002eda1ebdebb0c"
+    },
+    {
+      "analysisJsonSha256": "f48e5ba8c5a0ef19d35837568de2add1992269441eae0ca2d29427396953b665",
+      "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "9ddfd9cdd750ae6fac1f62edbe586c8144b26d27d92a1c3d96f04984f2af3f0d",
+        "baseline-request.json": "d9f0380090acf5bb4db07321eeabefe31a523f4104f1a084ef4fbf8715578693",
+        "learned-request-v9.json": "d1c0fedd84cc40f7725d52ef9cbe779aa293df49fd17dcf53f9f901b571c72b0",
+        "openai-payload-v9-grounded.json": "af1c1e0482f2e5235879827f464c643c7baaa33f65bd33076d6c6249e22ff364",
+        "structure-evidence-v2.json": "96e376545a5443192dce769f7b1fd2db88e533b55ade325c5c197f1c181c62db"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 21,
+      "stem": "85840934",
+      "v9PayloadBytes": 44190,
+      "v9PayloadSha256": "af1c1e0482f2e5235879827f464c643c7baaa33f65bd33076d6c6249e22ff364"
+    },
+    {
+      "analysisJsonSha256": "4e8079b929b32a1ee06556cc6af7173d78519f73fad906f218549b3a7eb2539f",
+      "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "3254c3d97308c5cd9aa98b1a5b351c3d4bc918fd41e80bcd01bd4e890229ceba",
+        "baseline-request.json": "8edb4726ea9a67c92ec7a47462eaa1b73bcf51d284315f9e52a23e0132ba370a",
+        "learned-request-v9.json": "2647bbb3595c20c604c5de5311e000fe3b63cc3abbba90f7c5db7597436c683f",
+        "openai-payload-v9-grounded.json": "07e1cad9e011314b66ad4f90b0386b81c3493d3d023fd72600c2209e285429c8",
+        "structure-evidence-v2.json": "4612d582b791057be467e978912349cfed3bebc2abaf02174d8a127148f82f2f"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 22,
+      "stem": "126290034",
+      "v9PayloadBytes": 45154,
+      "v9PayloadSha256": "07e1cad9e011314b66ad4f90b0386b81c3493d3d023fd72600c2209e285429c8"
+    },
+    {
+      "analysisJsonSha256": "6f118b1cebc96a41c5a15b76ccb99a692c13079bdf649ed4ca8cb00cc99fba84",
+      "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "b1132cc70729ede6d9f660c9b14f7c99048f9aed634c1433790bf2d66a1afefe",
+        "baseline-request.json": "98221a3b8937c295b22760a747f104c089f1dba4c59ac3a39b8cce2a887bd3ef",
+        "learned-request-v9.json": "d80fbdb149834d3558c735cc5dc2a68e6c841f1d9b8c73053e59eebf22464dc9",
+        "openai-payload-v9-grounded.json": "c9fd65f114d7e57b06544fce02f1003a55b8e8697caf09d97809ef82781e009c",
+        "structure-evidence-v2.json": "9d9a5f6c6a9dda5d1ac1de8977725f5f3346e64033957afe0df1784a5470f756"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 23,
+      "stem": "84061701",
+      "v9PayloadBytes": 48786,
+      "v9PayloadSha256": "c9fd65f114d7e57b06544fce02f1003a55b8e8697caf09d97809ef82781e009c"
+    },
+    {
+      "analysisJsonSha256": "87157ea210df1354f7e1a2090ebce2a69c5866e9a37e10d260f033c13c77980e",
+      "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "94767729eaa3a9064701b35f0ac9a7801f4152b421dcfa83a69842eac46db380",
+        "baseline-request.json": "18004c67837e0ff7062963cbd6ed8124ab377bae648067764bd519062570a958",
+        "learned-request-v9.json": "e3b07d10cc3ee2711e914038f16cfd212e7dbec5ba3c14bbdb2efbd6bdf65ee8",
+        "openai-payload-v9-grounded.json": "b8726211ad44d6d5081a4aff06cfeb263e5b301374cbd7b7f9f1a1a6db605792",
+        "structure-evidence-v2.json": "f18b20fb5f9a6e5cf8fc3adf918a28f277b6c62146778264eed57a09be89572b"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 24,
+      "stem": "74937346",
+      "v9PayloadBytes": 52791,
+      "v9PayloadSha256": "b8726211ad44d6d5081a4aff06cfeb263e5b301374cbd7b7f9f1a1a6db605792"
+    },
+    {
+      "analysisJsonSha256": "2ab4e7bd362f33cb0a2a9aff303f8811c059a9a313c9790a64b44a792c42e62d",
+      "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "8c307af855b085a6bd6989be64259b5a1c3a2deaf4c559371c6395a7e77c7f78",
+        "baseline-request.json": "d09909def3c73c9df1b908f6a1f2bc926727a70daf2a0f183c87f547418f94e9",
+        "learned-request-v9.json": "ff093a4d830fd8aa6ffc9395fbec5d28fc75f281a780ec9fda0fb86a47251a1b",
+        "openai-payload-v9-grounded.json": "f9f51984a3ca3d37eb9d8c3eed7fad4b4d3a6e8503c0dba19695e5f033de562f",
+        "structure-evidence-v2.json": "1e0f9770ca8c1e67b64c42549a7046497fcc267e93658e845b5f41f2f5ead25e"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 25,
+      "stem": "32192109",
+      "v9PayloadBytes": 44948,
+      "v9PayloadSha256": "f9f51984a3ca3d37eb9d8c3eed7fad4b4d3a6e8503c0dba19695e5f033de562f"
+    },
+    {
+      "analysisJsonSha256": "64ba515170bca14af6bd1b0012bf89672354214c900a1257c6a1d2aa5dc77a79",
+      "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "794a729b460361d605932f72c290634812d14a584999621c6186ff920ef23faf",
+        "baseline-request.json": "fe3d547e160cf2c4b1b974efab132e72e3843065211ebecb68e4b3c2742b67f2",
+        "learned-request-v9.json": "685e138d5973e44e6b96ca2e469182d9f1f7ed086324a9b4a2412271a6f649a7",
+        "openai-payload-v9-grounded.json": "c1ba90142b3901c96a38ce3d88739949bff53c8e56090cc6b5c516e47c4ff91f",
+        "structure-evidence-v2.json": "56e9f8811698ca6dd3d91019631e3d77ef2105b0fc9de3a549ef2fff1566401e"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 26,
+      "stem": "60864932",
+      "v9PayloadBytes": 48035,
+      "v9PayloadSha256": "c1ba90142b3901c96a38ce3d88739949bff53c8e56090cc6b5c516e47c4ff91f"
+    },
+    {
+      "analysisJsonSha256": "0e02a9268d25a50618d5c5e7584a9ef19ab405b268379ce2d331326b1af44153",
+      "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "1eab336a26a919e36bc887e64509dfc523df278e119969a29fb6f4cd998fa0ca",
+        "baseline-request.json": "f90431392a7f2b03200f0c91b1df06d379934946810cfb413be2127437b1bab0",
+        "learned-request-v9.json": "abd8d97f100cfdc4ed1c2f0134e912bdbd72614028c5529eca3f7c0cfedacbc8",
+        "openai-payload-v9-grounded.json": "ce411f506ae1ac010f900ea78bc4fc9a4ec4892eb7782f4a1110d99874d5864c",
+        "structure-evidence-v2.json": "8c03c93e7718e5c943b2b4185f7b1ad970d961be717cca6d8c67df5e0b33b3f6"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 27,
+      "stem": "39970700",
+      "v9PayloadBytes": 41437,
+      "v9PayloadSha256": "ce411f506ae1ac010f900ea78bc4fc9a4ec4892eb7782f4a1110d99874d5864c"
+    },
+    {
+      "analysisJsonSha256": "2bcaec257f207e46afe6351d701a1b8a394da82ac0152fd14e306e752b9b556e",
+      "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "0d41339157c127fefba3b9052d887c9eb9e9c4b4a9654623b239621e9368b335",
+        "baseline-request.json": "23125e10942f8a90aac41bb8196293855d57c849e82411471f960ce745d96af6",
+        "learned-request-v9.json": "ee5d8fa2caa7d73617e07795921ea3c32bb7e22af16788cd4beaf98786c74810",
+        "openai-payload-v9-grounded.json": "e6e6e6ae755a8b619c3e0da3cfbb90c64abdc5dafc02527821a523b70dbc3e21",
+        "structure-evidence-v2.json": "9f0da0ac0879ef9dc56c3042b3bac72346d650b0c8d60f89deafa051ada2fa06"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 28,
+      "stem": "126774902",
+      "v9PayloadBytes": 51117,
+      "v9PayloadSha256": "e6e6e6ae755a8b619c3e0da3cfbb90c64abdc5dafc02527821a523b70dbc3e21"
+    },
+    {
+      "analysisJsonSha256": "c7fcda5f1706505d988971dfe7cd993299f0c55b787813637da3c6f722458868",
+      "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "e59c8f4c70b873622c3251da3386f1cc7c82404f3816def07aef02be9ad0a7e5",
+        "baseline-request.json": "8aac9a523047a0b204f28cb82f625be64d01d3f72d1c0b32391a11af0dcf1725",
+        "learned-request-v9.json": "582a15b8ce47d789de6c8009cc0b970b7df4f5c6b2e06b9e55233d47a578b7e2",
+        "openai-payload-v9-grounded.json": "1ba075258dfdcea57a09d6e0ad4c9f11c03e8623bbf3fbf800b96904432e038e",
+        "structure-evidence-v2.json": "2c5a94c0a6a996c1a4335033b53baf76bcbf1f4adbe56fb30dc41c9912a8f464"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 29,
+      "stem": "76926936",
+      "v9PayloadBytes": 53979,
+      "v9PayloadSha256": "1ba075258dfdcea57a09d6e0ad4c9f11c03e8623bbf3fbf800b96904432e038e"
+    },
+    {
+      "analysisJsonSha256": "9971a397589d70078cefce5abf490d515c319675b7f02a3a772664d324d1de53",
+      "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "9016d2b62be2cf1615d854fefcb1486ab897ebe22198ceadb89767bb2a835dec",
+        "baseline-request.json": "576e46fd6fe89beed0f3e7713729a3b1f53eec40177243fb6b003146d61f7791",
+        "learned-request-v9.json": "9239cee479e30a55cf7a26c67bfd74f01a128d5133b16d5f27cca5c856a081a3",
+        "openai-payload-v9-grounded.json": "b189c9e3e1634447d810cd04d89b4d42442a197ba9fa19a939dcc3148c7fa50a",
+        "structure-evidence-v2.json": "da573c9b366062e5cae9cb66ff7641211c759c3f659ea3cc21c781479259c507"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 30,
+      "stem": "60368032",
+      "v9PayloadBytes": 50894,
+      "v9PayloadSha256": "b189c9e3e1634447d810cd04d89b4d42442a197ba9fa19a939dcc3148c7fa50a"
+    },
+    {
+      "analysisJsonSha256": "b3ec89afdbb8094096e799138d17e7518fa345004bf01c914f659463b983ca12",
+      "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "998f1bdbf50346351b7eb485883756e97281cc2cb3b70ba7f5ba9f86700d1ccd",
+        "baseline-request.json": "a424562c4074570cc4e2c58e75b98f09cfc4e0ad6cf0d309589c1ac4d7e8ff56",
+        "learned-request-v9.json": "f32fdd94b1bcd8c422a951d995f958e9fcdfe636b128c3cb6b7e05b853c71189",
+        "openai-payload-v9-grounded.json": "dfce1d13debe12bcee71ac815bdd9fae8f8430579671ae0bb53630bbf0f0676d",
+        "structure-evidence-v2.json": "1a9bb8e69b04ded6614da42aceb045a0aa84916dc0dafe1b2aff556e93034459"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 31,
+      "stem": "60809730",
+      "v9PayloadBytes": 46151,
+      "v9PayloadSha256": "dfce1d13debe12bcee71ac815bdd9fae8f8430579671ae0bb53630bbf0f0676d"
+    },
+    {
+      "analysisJsonSha256": "e5a5f1465e209a6b617724e4b7d190d7571a4d4cf61fa997bc58db9db56563e3",
+      "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "6884134a198484a729961a093f7f7425541d5feebab87d4b56cba3873fc25592",
+        "baseline-request.json": "2976246d96ef25c2c6542476da4d15e1e92602be90d60b4a4ac3bcde7a02480a",
+        "learned-request-v9.json": "9cb77a9d43eb4979c774e3c74cce60db28aeb98468f4d1dda8ebab9c31c640d5",
+        "openai-payload-v9-grounded.json": "9672d67f8c0ba0bf2c295f267c2cbe4fbf4203b5fd5c4fa2c9d1c854b2ae029b",
+        "structure-evidence-v2.json": "6e0cdeafac5d5addebaaaf508e672643a9008779ddc7b1a98ba97f3e4a56cbd6"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 32,
+      "stem": "57232773",
+      "v9PayloadBytes": 45463,
+      "v9PayloadSha256": "9672d67f8c0ba0bf2c295f267c2cbe4fbf4203b5fd5c4fa2c9d1c854b2ae029b"
+    },
+    {
+      "analysisJsonSha256": "9ae2b8ef5955e73c25ba7fb398bfe6c1ca46bda5c14ebea0b82b8f8317c23371",
+      "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "b81e87ecfc32ad8054291573506500c0f8897915fbb0a1e70bf22f1a441dca0e",
+        "baseline-request.json": "0de303251d228d5b70bdf3ed689078ffaf5c253bd7b0fe4bb30546dbaaec7bff",
+        "learned-request-v9.json": "5a581fe3b4260b712e93ddf6aaac0446f7ff734ed8a51a2debd2db473c75cb27",
+        "openai-payload-v9-grounded.json": "81036b96be0bf7c70988d6e01f24512cb3cb55ea0c2cdb6b5dee7efcb284c991",
+        "structure-evidence-v2.json": "14dd5784dec94a2a728499cf6b618cb30da26fd7548afd7a6ab8d0a1be865a2a"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 33,
+      "stem": "37942877",
+      "v9PayloadBytes": 40707,
+      "v9PayloadSha256": "81036b96be0bf7c70988d6e01f24512cb3cb55ea0c2cdb6b5dee7efcb284c991"
+    },
+    {
+      "analysisJsonSha256": "f4c9788e105d5312b9f527cfeb27d3bf2dfc32a67ebe76dbfc5be8e7e3791810",
+      "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "4cc6b2191eeacb40b30306cdcb952e591c8b7d745d360aa20ca62ecb0fd3bea2",
+        "baseline-request.json": "0de78acc2478fa6bc068bb022fdaff75d0265b33078343643845d939384ecaf4",
+        "learned-request-v9.json": "b264c0708d6ff135ec7be94274c5d15bdd3f20f1263b1ae50aead8f5874691a5",
+        "openai-payload-v9-grounded.json": "2f53f2fb21d3ff8b59233fa461772901eb5b718a4ea1d8340a80b7427ada8ae9",
+        "structure-evidence-v2.json": "298e6e58f74181b7d6e8cabd743315d1b93f43252ee2a072c34a4a0ff7af1cb5"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 34,
+      "stem": "57931601",
+      "v9PayloadBytes": 51754,
+      "v9PayloadSha256": "2f53f2fb21d3ff8b59233fa461772901eb5b718a4ea1d8340a80b7427ada8ae9"
+    },
+    {
+      "analysisJsonSha256": "d9d14e64911535d8e9030915605cbe8bc3f783956759534e5cdf5e0a7cc0eb95",
+      "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "d8d889a26a7e55284b7a11a9d651c048507122534e2b4732bfa7d77dcaf3f6f9",
+        "baseline-request.json": "3b1d320674ba0c593de88ba93e801be4f4546cc71f0fc5f7982e265d50dbc8dd",
+        "learned-request-v9.json": "90c065863d7c2ee2ac246caeb1d06f7d877797ca24242c7f6723f795c6635825",
+        "openai-payload-v9-grounded.json": "f554ad84c412237552ee5df5fdec70509151d0a357372a06c039693abccae6eb",
+        "structure-evidence-v2.json": "b6735d3b387e9b6a73c7e2dfdfc0056dd578bb14383c9638dbdb0832ab6c3cdd"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 35,
+      "stem": "96730252",
+      "v9PayloadBytes": 43249,
+      "v9PayloadSha256": "f554ad84c412237552ee5df5fdec70509151d0a357372a06c039693abccae6eb"
+    },
+    {
+      "analysisJsonSha256": "b8c59c3e22469e0224db543230a0900791b1df028aad07f48ba39af7e01d8fa3",
+      "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "e96f7808cc9be4332957cc34f6114cf06d619a8ff9235ed960d77b2193696664",
+        "baseline-request.json": "21330745f205ed84fbcd1ac594736cf22940dea640cd9eed2a60e69549f0c992",
+        "learned-request-v9.json": "082dcb5c514b776641a8ae7c102ba7089446aebb79404007b060e421a919bdb5",
+        "openai-payload-v9-grounded.json": "b14ad2831a01ae8a5c83c6ce61b1953e6a1c3c8a160d5c9aa88614f5968dd19d",
+        "structure-evidence-v2.json": "41d7178accff38daa4bdb22ab3596faf15a25618d57771d5d5c4d363de975d96"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 36,
+      "stem": "53719180",
+      "v9PayloadBytes": 42109,
+      "v9PayloadSha256": "b14ad2831a01ae8a5c83c6ce61b1953e6a1c3c8a160d5c9aa88614f5968dd19d"
+    },
+    {
+      "analysisJsonSha256": "c3dfb20b6104059d8b8f01250d952296542fa972f4842deb2ae84ef110e3cf68",
+      "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "9b54bfe53b1c6a8660b2d6613656b37485797c460ef595b6e85018342f6bbd71",
+        "baseline-request.json": "87af998950afa5c6b3a912c99c30b992c053cf66618526e55218b48934064516",
+        "learned-request-v9.json": "ae0567ad2a31481fe8a96e044532f9af784053855326b29f9bce0222fcdea775",
+        "openai-payload-v9-grounded.json": "87dcee30ecc0f8153d07eb1fd3d78f09fa86f79c9f57f1acecddffbbb151b7e0",
+        "structure-evidence-v2.json": "67396d31527f97dca0fe31477f97eca256a676cac8ac7dc43af0b3dd3f2ff5f4"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 37,
+      "stem": "72517913",
+      "v9PayloadBytes": 54275,
+      "v9PayloadSha256": "87dcee30ecc0f8153d07eb1fd3d78f09fa86f79c9f57f1acecddffbbb151b7e0"
+    },
+    {
+      "analysisJsonSha256": "c90a5850d5260e80960aeeed983b6cf61fc54cb991cb5c04be5ea7d1999af0bb",
+      "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "7f4e0486b363234029c222d28f38c97d96fc007cc9532a059aedd591a59cd28f",
+        "baseline-request.json": "3abd599aa3c40d88fcaf36e4a3d77436e8995f7540d932dc57808353c539eaf5",
+        "learned-request-v9.json": "bebecb33a30a52726cfc7f40fb59d876d89e03cf04d9e4ae43a562bb1c0325b3",
+        "openai-payload-v9-grounded.json": "9f436f9b1f56fbd0c3342ebb80fb3d8dc6e57cd6a53ac816acb7d528f4bfc940",
+        "structure-evidence-v2.json": "f882a517d7a223293b727ec0f1f8b073443dc6a1d63ed053eba2d2af79051540"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 38,
+      "stem": "127164225",
+      "v9PayloadBytes": 47313,
+      "v9PayloadSha256": "9f436f9b1f56fbd0c3342ebb80fb3d8dc6e57cd6a53ac816acb7d528f4bfc940"
+    },
+    {
+      "analysisJsonSha256": "3e9f520fa9eeefddd82c7a3417be7f9150959a3e7c08cb9035e450458f0871bc",
+      "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "417fe839ef28acdf4683910703295f4b136878c6816369de441e314d5a44ce2e",
+        "baseline-request.json": "b9982921d6a4252d03fc1e82cb62ff9c5d5378b1d83042ff34a2c8dc82cdf0ef",
+        "learned-request-v9.json": "af09a8756b571a0ae40f7c9d184c435fb2c41dab3b437efb86ccdf174a30eb75",
+        "openai-payload-v9-grounded.json": "e05c028e83498cf0d2ec562b70173beadaf4df2fb5316c30d94ed214e67137e2",
+        "structure-evidence-v2.json": "c14afc72b8a335778ea70030e0d8a69b2a9ed6856c3724ad0d8b520dd0da2641"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 39,
+      "stem": "47275398",
+      "v9PayloadBytes": 50562,
+      "v9PayloadSha256": "e05c028e83498cf0d2ec562b70173beadaf4df2fb5316c30d94ed214e67137e2"
+    },
+    {
+      "analysisJsonSha256": "9f3f5923d41b2d10ee7f182ccf1619bd8e2d869e52fbfc1e614de2b7a9ce5b1b",
+      "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "6e042fb6271075b054a891476ff395404002a7f7566c8f0bbd8e895ebbe79348",
+        "baseline-request.json": "abe768714108d9f43322a0f30a94363a951dce032158a65a1a8cbed63bc11c03",
+        "learned-request-v9.json": "90fefebeb43e3bdbfb6b466508746ddddeaeaad54684c527f222b3297b7557de",
+        "openai-payload-v9-grounded.json": "2d514ce63313ae3be5e35dbcc398cdef691672ff62c13ed5f0915f55605f4d54",
+        "structure-evidence-v2.json": "7579d6f16b3452f3baad6d19c932e5e51f7bf00c2a65b5095dc47d2b3a7372b6"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 40,
+      "stem": "91165591",
+      "v9PayloadBytes": 42001,
+      "v9PayloadSha256": "2d514ce63313ae3be5e35dbcc398cdef691672ff62c13ed5f0915f55605f4d54"
+    },
+    {
+      "analysisJsonSha256": "c51708dd8c2471a0dd7b9b6bb1a47f0df1379d660edbdacd2b04e183855f77c1",
+      "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "a59459a02461554505c95fd6a12bb18bdcaa08e68566ecb4abc65521a060f27c",
+        "baseline-request.json": "c4289e1ac7a7f080f01d71fad93893c1d191522909feb5179d60a86fa349fd4c",
+        "learned-request-v9.json": "634b8c9d56dc796fcc745a33f51a9799826cb319cd4e42811e48d3e4ede8dbfb",
+        "openai-payload-v9-grounded.json": "34439c2a9f91a26e63c228fe0d00fdced5773979d709a098ab2154ad9a6162e9",
+        "structure-evidence-v2.json": "5fab48ce338a5d7502bd1ebdd8962837bf506863f7542bbad094d2f308cf2e4b"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 41,
+      "stem": "79678819",
+      "v9PayloadBytes": 49056,
+      "v9PayloadSha256": "34439c2a9f91a26e63c228fe0d00fdced5773979d709a098ab2154ad9a6162e9"
+    },
+    {
+      "analysisJsonSha256": "da4a585c85adcd48cc1148c8f617d4bb3ba7c787a87f52ed461d071cf809c4f7",
+      "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "627af357d3932085d5ce15c8256fb03b15d60f13e99546aa33d1b3ba056b5cb6",
+        "baseline-request.json": "f9cf9d9c8baa57766aca916725d555bf55d493d7968fc55f09705c6840c348d5",
+        "learned-request-v9.json": "41747c92ac9cbd36cc6977362e9b2197232f5471336fa872cbd88c0743d7ba8f",
+        "openai-payload-v9-grounded.json": "96026cf196c1519145482743fc14642bbd20d5766d587cad508aaecf1c118252",
+        "structure-evidence-v2.json": "fedd709aaed00244801ddf498973016c01c4b9cd9dac1c7481c955b0321e6336"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 42,
+      "stem": "60529832",
+      "v9PayloadBytes": 49901,
+      "v9PayloadSha256": "96026cf196c1519145482743fc14642bbd20d5766d587cad508aaecf1c118252"
+    },
+    {
+      "analysisJsonSha256": "0d66f88e0ab1d658dde9b1838626bef921c364f6d3bb4e3c442ce4cecbffe7dd",
+      "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "f94e0e9e0e8e48a32c3f368b14084cbc25e1177ed9365591ab74177481651ef5",
+        "baseline-request.json": "977be7e5975ce00f5593cdbac3ba2f41dd98590780a08de5f48bb98a0119ad54",
+        "learned-request-v9.json": "2db1882b31350481187ee9d31cecbebd1b8ee3c846618a4fd0a0d84b21ffdeb8",
+        "openai-payload-v9-grounded.json": "22f615d645b9a91446e111f251ef2c085bc818dad5b767b24892ef958be2ca9c",
+        "structure-evidence-v2.json": "43ca23725cf9f62aab6df722511b253ca009c46d10a9bac17b80bcb40c5afecb"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 43,
+      "stem": "65673638",
+      "v9PayloadBytes": 47739,
+      "v9PayloadSha256": "22f615d645b9a91446e111f251ef2c085bc818dad5b767b24892ef958be2ca9c"
+    },
+    {
+      "analysisJsonSha256": "9224e74411a45eb4130eaf7bf8789b909636b4a9f8c2273c477e2e519507441d",
+      "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "454a778174add760be9cfffdead72ace48257ba24dbb287bbfb8ba7dd918ebea",
+        "baseline-request.json": "60af870ffeef02db59a834c1f66d6f472fc5d19a3718db42cc21ab8d9e80bad9",
+        "learned-request-v9.json": "5a91afd15dff8ef01be5d7a488f5a27595a78aa8877b0397b214246ae80faa92",
+        "openai-payload-v9-grounded.json": "20903f4bbe5bfe89bb827396d0be952ff751425327f8e3f543055d022c717d1b",
+        "structure-evidence-v2.json": "b2176bcb287fd15209b730153d636b0ced51fb07c270bc72b31b638cc8671637"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 44,
+      "stem": "32339733",
+      "v9PayloadBytes": 61607,
+      "v9PayloadSha256": "20903f4bbe5bfe89bb827396d0be952ff751425327f8e3f543055d022c717d1b"
+    },
+    {
+      "analysisJsonSha256": "04688a123735d3bf5d3c10c72184f59393542500f8b2734c6590197d599b09cc",
+      "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "12d05c71db4f894b3bf540b542ce08b0de970809f062eed5380550a2fa93bb69",
+        "baseline-request.json": "d4ef07a05fdc365e9773549c4357ab399bf00dc71548338c26ee762804a1d017",
+        "learned-request-v9.json": "15ae0ba2ba2450c6c9cad0c5623abb8d6961c1a44b0a32528668c300d07bb183",
+        "openai-payload-v9-grounded.json": "f09ee795155f2be290153420ad44a264e7f56fe64331a62327e27c0b6c7e7e95",
+        "structure-evidence-v2.json": "a0a60580dbe60b3f861f8d3e19bbd66227d9fc0d9714cf3aca23516028d5f3b4"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 45,
+      "stem": "37088222",
+      "v9PayloadBytes": 51415,
+      "v9PayloadSha256": "f09ee795155f2be290153420ad44a264e7f56fe64331a62327e27c0b6c7e7e95"
+    },
+    {
+      "analysisJsonSha256": "ae143806eaddf50398804eb80124a6b3ce8cf56a718b2ef2c051001546cfd3dc",
+      "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "0a0d86a7f4498d539f08b6589ca31de9e69c87de3a904bce4a05f2d398658604",
+        "baseline-request.json": "0df09f2fe9cf5ce6a54e45bdcd85ad7c990bc5b8dcd494c0b49093c6b2f57ea0",
+        "learned-request-v9.json": "0ec6d75827644bd307bb62b50413f6cbc6e0f0d4fb995de535557a6a9aa42655",
+        "openai-payload-v9-grounded.json": "cf0bc6253dc7954b18b4ca348ab39bb128cd441378bbec24b8a167ecfe487502",
+        "structure-evidence-v2.json": "aad2535b15b659688fb64ae4cdcba29f1ae1b68086c9bb1915e72d770571b23f"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 46,
+      "stem": "34226765",
+      "v9PayloadBytes": 46502,
+      "v9PayloadSha256": "cf0bc6253dc7954b18b4ca348ab39bb128cd441378bbec24b8a167ecfe487502"
+    },
+    {
+      "analysisJsonSha256": "3ec07cb705114364111511f07e70e64f6f382ef941856991bb9067565e482560",
+      "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "103fa18f3ffae8a2da3af76984c159bbca10140179b1163a7f2b48b8ce7106d6",
+        "baseline-request.json": "5c85ed19b66942d06a8932f2f172c56b4678593e53b7dd67227144eb9d47ea9e",
+        "learned-request-v9.json": "70489dba84fa070d8f4d83ae7221466e36ad7d0ab2c3e33ec6be4817c081d337",
+        "openai-payload-v9-grounded.json": "6a71f761261185ebf88e9850e3d4bf832d526c39d9468f572526abc0fe004b76",
+        "structure-evidence-v2.json": "10fe3d3fd53152738d203611ee796eb862addc259c16c98b3f5dae9cc94ff8e6"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 47,
+      "stem": "84747227",
+      "v9PayloadBytes": 44654,
+      "v9PayloadSha256": "6a71f761261185ebf88e9850e3d4bf832d526c39d9468f572526abc0fe004b76"
+    },
+    {
+      "analysisJsonSha256": "f27341f4de8d675725df89eef481cd9d77eba109aacfab7ef1af8d1e2c35dcb7",
+      "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "88e5e2450bb063a7b01491919a411f4dc106e07a24a424867f6521299af7f9c6",
+        "baseline-request.json": "13c8bc69c5596c3487ff60e53ce143d0baa09a405cdfbca9c3124ec34b6f7b55",
+        "learned-request-v9.json": "10df53eaa15c375abc10f314a0ebe1a294ba307b015e30bacd17ec9c4f3cee00",
+        "openai-payload-v9-grounded.json": "ce8425f37afa61380c3a21902703119b95b854fbd49d41521cdf1397ac10e8d4",
+        "structure-evidence-v2.json": "844b7b78ab3aa4b52fc0479ce910361aad5952c1885aed2db9924d7d9b2f8c2e"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 48,
+      "stem": "57561267",
+      "v9PayloadBytes": 43757,
+      "v9PayloadSha256": "ce8425f37afa61380c3a21902703119b95b854fbd49d41521cdf1397ac10e8d4"
+    },
+    {
+      "analysisJsonSha256": "f0a3d388d50b418cf56c3252e8c80b0743d58be7c7a1579076dbb0e0c5162e98",
+      "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "e6f4ab67389f96a4677a4549e714c789f6d11217fe32a03fa07e1262d496f01f",
+        "baseline-request.json": "b911ac161c95c370997df30021ccdf93190556d50c21566b6b006cb969e7a7e8",
+        "learned-request-v9.json": "61a06d6792edf1907b4f143bb6b91816211e8444852d838294cc5dff131aea31",
+        "openai-payload-v9-grounded.json": "15a22d3c2689f67166aba20471e75fbc0957c1858bf674943ef7e83a047b4448",
+        "structure-evidence-v2.json": "09dc6a6d4b79ef0750d62c43eea8739a8c4cd4533d1a89bbe260bbecb5988dda"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 49,
+      "stem": "92251267",
+      "v9PayloadBytes": 48022,
+      "v9PayloadSha256": "15a22d3c2689f67166aba20471e75fbc0957c1858bf674943ef7e83a047b4448"
+    },
+    {
+      "analysisJsonSha256": "9ab09fcd26c96d048633220ea01261a711f134356e32497d34597176810363b1",
+      "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+      "inputHashes": {
+        "baseline-payload.json": "864591c215aac24ca1f2dec353753276464db53aedfd8d30f8f8acab3e548ca0",
+        "baseline-request.json": "23493de857836daaac63c3095ce6c8d8dcbac81b75a6066399eb24a0cc545ff4",
+        "learned-request-v9.json": "c705e477ecd7ca518e59e8f5b563357843e5565ea2e6de2f362001d4dfe787ab",
+        "openai-payload-v9-grounded.json": "7cd3421e1dbccacb969904427277a17232462a2ef3b9b30d154cf3e20ed0a3d9",
+        "structure-evidence-v2.json": "d4160e60fc7cb66bd26f61336b6840a5bc4b3bcb739ddf13877555968a372345"
+      },
+      "maxOutputTokens": 25000,
+      "ordinal": 50,
+      "stem": "57916551",
+      "v9PayloadBytes": 49213,
+      "v9PayloadSha256": "7cd3421e1dbccacb969904427277a17232462a2ef3b9b30d154cf3e20ed0a3d9"
+    }
+  ],
+  "flexManifestSha256": "a41fdd4e4138fdfda18cda20004f609eb089aeb64ed1be486ee2442b1241a713",
+  "labelsUsedForGeneration": false,
+  "providerCalls": 0,
+  "schema": "trackcade-stage1-v9-grounded-mapping-v1",
+  "sourceManifestSha256": "455602ea8c5a721fac9b3381aca46285fe3c14f1fbcc36f0d08b4ffec01be875",
+  "version": "stage1-v9-decisive-impact-evidence-grounding-v1"
+}
