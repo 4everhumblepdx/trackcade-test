@@ -1,0 +1,513 @@
+{
+  "schema": "trackcade-stage1-mixed-v7-v8-authorized-raw-scoring-contract-v1",
+  "dateLocal": "2026-10-03",
+  "authorization": "Nicholas Cunningham explicit attached instructions: score frozen Stage1 once using established RAW Drop event metrics; Stage1-only reveal after this contract commit; no terminal access.",
+  "status": "pre-label-frozen-scoring-authorized-once",
+  "predictionManifest": {
+    "path": "research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_PREDICTION_MANIFEST_V1.json",
+    "commit": "4205d8bd01e074bdb76dd2561acfd5d8a8d79c88",
+    "sha256": "2486614f9e02be0d01306c6df18119957cba4e29f7fd645b1eae1cad866ac8a0",
+    "caseCount": 50,
+    "artifactDigestsAndProposalHashesVerified": 50,
+    "V7Ordinals": [
+      1,
+      2,
+      3
+    ],
+    "V8Ordinals": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ],
+    "incompleteV7Ordinal4ArtifactsExcluded": [
+      11197856837,
+      11200315147
+    ]
+  },
+  "proposalHashes": [
+    {
+      "ordinal": 1,
+      "sha256": "c17a246384f8ee9fe50c130b0bc589dfeab80dc0175acd62a0b7b310ff987ecf"
+    },
+    {
+      "ordinal": 2,
+      "sha256": "3df7707a75fe4cc4b39c1db006f2b367c37205ae33986d5fdd437bfa10e7c61f"
+    },
+    {
+      "ordinal": 3,
+      "sha256": "85dbdac21b3fed494fddad390ac49bc69c28f3145ecb42417823e1290a72498d"
+    },
+    {
+      "ordinal": 4,
+      "sha256": "f2177dc9cadf235f8acf1564c63d3e3db4382302193daa97c6d095838c3d16a0"
+    },
+    {
+      "ordinal": 5,
+      "sha256": "6c7b1f973a741307f9e0c8a44443c9b1f3f26c778ac6564b0259620d8603c8a6"
+    },
+    {
+      "ordinal": 6,
+      "sha256": "2bbfba7be186bc538740ea815371112cfb6ba980bda4ada12e40455acae1bf08"
+    },
+    {
+      "ordinal": 7,
+      "sha256": "bea08afdd952b9902d9e4a18deefe1ad54eabaad38683620f1019b20f9003119"
+    },
+    {
+      "ordinal": 8,
+      "sha256": "0309c07fadf2aa1679de2730cb028cc91d3c228259995c1235617e6265677d30"
+    },
+    {
+      "ordinal": 9,
+      "sha256": "d0557a7c1f2830a69f520556c2b9830d305bbb187a2d216def4923a05b804ff2"
+    },
+    {
+      "ordinal": 10,
+      "sha256": "1f940e3294bd7d416cf04815fec9e56d4f6026bb8fb480992c0e880c1d90b134"
+    },
+    {
+      "ordinal": 11,
+      "sha256": "24052f070df9b3377cdcd5c49ef2c0eb5614be10125fcb5a42b6fc8de0d70739"
+    },
+    {
+      "ordinal": 12,
+      "sha256": "07d876a8e62675a6807fd3fc47a2c535cc0752cca92c615af4e981f2eec69375"
+    },
+    {
+      "ordinal": 13,
+      "sha256": "79afd4d5dcbc653e88279b15420d77f108e7fecb0c7a291a581168252d6769db"
+    },
+    {
+      "ordinal": 14,
+      "sha256": "f78ea160692c597da4b160952abe0b06c2025c9c78dc29ad407211c1812d7774"
+    },
+    {
+      "ordinal": 15,
+      "sha256": "17f61f5ac5fdbac01ef9b3728b63b91b4b24402e881b85ae8c4c2b2c2506b2ab"
+    },
+    {
+      "ordinal": 16,
+      "sha256": "e6b8c49a8fc06f56a619d73aa5ea9a3e6f3d870e0a650d98d6ebf7f890f995b8"
+    },
+    {
+      "ordinal": 17,
+      "sha256": "6d1662ef4ae9695c7389f125a8c8e6128c3bf7a48e7f7440babd2f79113f9206"
+    },
+    {
+      "ordinal": 18,
+      "sha256": "3ba0e138b46f61eab9afdd92c5539cc22153bda9c455b783d6d33901f03d9986"
+    },
+    {
+      "ordinal": 19,
+      "sha256": "6f625ecb0f74c8fa3bce29312d00c087eb4a357db8325fda3bbee9192137e22a"
+    },
+    {
+      "ordinal": 20,
+      "sha256": "ecbc5fe9719bf976ecb7cfd0305a14316dfb0f55d7067bdc32320d38debfa457"
+    },
+    {
+      "ordinal": 21,
+      "sha256": "329f9b0a054847d8de7cda8f2162e4edaf0e51981343892e327626b2c3ada147"
+    },
+    {
+      "ordinal": 22,
+      "sha256": "77cc52491013fc62260a306da42ce4861714e77d7b7ead634c7c9764119864c4"
+    },
+    {
+      "ordinal": 23,
+      "sha256": "9788884be648be23fc03017634f3cda057868ef2a15196b09340c7b9093275b3"
+    },
+    {
+      "ordinal": 24,
+      "sha256": "33927750fbba66f4fcdbd882979580d098b8ae283af3499eddd0e33f595c582a"
+    },
+    {
+      "ordinal": 25,
+      "sha256": "c8cf0e718e8f6a658b8f132a9c438048fd4fbb69bdc197f244a1d4c2d987e977"
+    },
+    {
+      "ordinal": 26,
+      "sha256": "9d297b63f203695ead801f78c8b0b577c73636ebd2b75496519e2500599b5d8c"
+    },
+    {
+      "ordinal": 27,
+      "sha256": "42e7b48cf32bccbe6e75a9b29603840dca8b420f1bd4bb6a2c6d5558c6776dea"
+    },
+    {
+      "ordinal": 28,
+      "sha256": "7fb3bdf8274b8f4ab48a5c8d842db45e4fdb4ab31d59ee3964706df3cb3b8cd2"
+    },
+    {
+      "ordinal": 29,
+      "sha256": "5df00927944e7b3f79567d7c1c4cd85533da68d6dd2ecb9282acdd6f6228cf74"
+    },
+    {
+      "ordinal": 30,
+      "sha256": "d5938e3a4fab78f07f86f3b6aeca4449192440e5e0fb7a413ae49af415fd10b5"
+    },
+    {
+      "ordinal": 31,
+      "sha256": "3f90af7020393dc22f628210ff9b6ec07644db790d315e92ed42c47e33fc6dc1"
+    },
+    {
+      "ordinal": 32,
+      "sha256": "646cf8a5c80af5ca15638ed2682aa8c17a53bf0aebb9bda1dc58e112c64efc4d"
+    },
+    {
+      "ordinal": 33,
+      "sha256": "6a7c398cb45298c5ff2edc95300b1ec414d13f226aa1f6af7fd396db371f81ac"
+    },
+    {
+      "ordinal": 34,
+      "sha256": "fa6d65763f7506391cd23e707ae9159e767d8eb4936106fc8a6bb9f549f645f0"
+    },
+    {
+      "ordinal": 35,
+      "sha256": "2d8dd72cf98cce9c495ab60d92c305a89b4c4c4708f5e4b359c502ea82f36426"
+    },
+    {
+      "ordinal": 36,
+      "sha256": "0bdc0e4ffadf9f306abd0facf2f58d9c356a955789a7df31b7f583007f34656f"
+    },
+    {
+      "ordinal": 37,
+      "sha256": "82225d634ec976735a6b516c1e1d7124a3937e05c2e3db5b1e0631505d708a85"
+    },
+    {
+      "ordinal": 38,
+      "sha256": "fb304f724dad07ede0c2489f1adfe6cae03b2abf27550b90ec318d4f4e84e23f"
+    },
+    {
+      "ordinal": 39,
+      "sha256": "ad167c27fc4db65dfe6869f005814fead4df71bc51482e52a656bdab3fbd92e5"
+    },
+    {
+      "ordinal": 40,
+      "sha256": "dbaa8099c8338de15962b06551a93d27f9603cf0705dd1f8987dd8e35e9ce728"
+    },
+    {
+      "ordinal": 41,
+      "sha256": "bb9c6601a986653d9736bb8ee1e980dbdbb185c26a2112c545828715ffbc1beb"
+    },
+    {
+      "ordinal": 42,
+      "sha256": "1c54caf006937d777a38ebae2d68ddc96106a199c68163e8650f59ce996171f1"
+    },
+    {
+      "ordinal": 43,
+      "sha256": "8075f24b76858c8d156dfb2d329583220d73ee6783cd84f41de5a426d7b9eb6e"
+    },
+    {
+      "ordinal": 44,
+      "sha256": "2a22b297bc6e8a6caf6ae8a12a2aef39453ba79e3704ba2c107d07d352074281"
+    },
+    {
+      "ordinal": 45,
+      "sha256": "8a8be669659476285e21b2e21fb1034dd3594fe061f998c2732e7a7395d18f47"
+    },
+    {
+      "ordinal": 46,
+      "sha256": "4f553344461f5534d306f1983d27951d74497172255d22d71ca1f67c96845163"
+    },
+    {
+      "ordinal": 47,
+      "sha256": "379bf8930cfd90861dbc76296b8c20341735dfc6e45a45f8655f3b6f9cc76fdb"
+    },
+    {
+      "ordinal": 48,
+      "sha256": "a9f78adaeeb3226b2ad83f4f90d59ce926026dc05f02409b5f12c2adb55b912a"
+    },
+    {
+      "ordinal": 49,
+      "sha256": "3da7d905ec27f6089972466d6709d0663aefc28b72852c4c0812b8cda1e1b579"
+    },
+    {
+      "ordinal": 50,
+      "sha256": "66ce454bb472d3f4605f10aad3e8e7ce7d8aa41ff84e1199cef894d9f66e39c5"
+    }
+  ],
+  "executionSources": [
+    {
+      "path": "research/semantic-external-holdout-v1/isolate_stage1_reference_v1.py",
+      "sha256": "c129f7cd57c8cd580dd2fae50a80e7d9473ababb0affb1ac6683d1a34b70925a"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/test_isolate_stage1_reference_v1.py",
+      "sha256": "14c2063f563d45d2326c121f67fb2916ed8adf4f89660eec5471fcc331087f6f"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/score_stage1_mixed_raw_v1.py",
+      "sha256": "10c69f940aebfa44a83ce2fa4fb5a6d6b8b8df0cd1716feffe6400789913ecfd"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/test_stage1_mixed_raw_v1.py",
+      "sha256": "057b38205e1c5637c640dda4957707922d37c02f7155caa30fdf2e433a1845f9"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py",
+      "sha256": "da92ab573d79b9da47c2897498463b182d6d85b4251923e3c14854c1a300cf26"
+    }
+  ],
+  "historicalScoringSources": [
+    {
+      "path": "research/semantic-external-holdout-v1/DROP_EVALUATION_V1.md",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "c5840c8c0871656bb8ed789687551f6faeae4d82",
+      "sha256": "c66d3c89791bae56a8d575e299c4f4994d18a02bb6ecf3efbd4abd5b09462813"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/PROTOCOL_V1.md",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "8556a3abf043b63454309e07b8e6383b78e656f2",
+      "sha256": "0d8bd1c63b7b5d265e3a8e5ee470eade0d510c4d28314834dcadf882ebd075f2"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/evaluate_drop_stage1_v1.py",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "802bb3c6e9092ee176164c840bb997f5d8973233",
+      "sha256": "4f14c8fafc899c73f784a69ab16a1f2ed79ead0c285656f13a7a6e0cc31ed0de"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+      "sha256": "90aefb42a868553c75de4c3cca26bb646fc4706e8fbd09892e4a412323b62bb8"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/evaluate_stage1_v6_raw_v1.py",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "2eadafe97cdfb873fe385c8a1078975dad709dd4",
+      "sha256": "91a72b5c3ce363f20de48f95fc35e9b82e1b2d9ffcea1c9b51942a738794fd84"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/test_stage1_v6_raw_scorer_v1.py",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "e7f3abd0541a022f0e1f6af1406272670ecfeb1e",
+      "sha256": "d709c2925c482b9c10aebbe6a2ad7e268bbabd81cb398977543a6cb5b8e91780"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V6_DEVELOPMENT_REPORTING_CONTRACT_V1.md",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "11cbb8ba19e140b56d54a72304ec4ba4f8a77de7",
+      "sha256": "7f0cc3a36718b41ac71cbd79c2dd306fbf741e45567a7c139466ef70c46603ca"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V7_DEVELOPMENT_PROTOCOL.md",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "8c0b0ff470b43f4fa9f8ce5ff953b2e09bd23ee3",
+      "sha256": "4b8715e983a3446b02e0d019ce5166b4cb013620f83bdc88a337f900b092de4c"
+    }
+  ],
+  "historicalMatcher": {
+    "path": "research/semantic-external-holdout-v1/evaluate_stage1_drop_v1.py",
+    "commit": "81985328360e7cd0f70c03ea2b3c63fa94f1d14f",
+    "gitBlobSha": "3d74996281ec260e170ea10929bd0115a6d4ac70",
+    "sha256": "90aefb42a868553c75de4c3cca26bb646fc4706e8fbd09892e4a412323b62bb8"
+  },
+  "matcherFunctionsASTVerifiedIdentical": [
+    "metric_values",
+    "better",
+    "match_one_to_one",
+    "timing_summary",
+    "score_track",
+    "aggregate"
+  ],
+  "candidateExtraction": "Every normalized frozen event with kind exactly drop, resolve evidence anchor index to anchors[index][0] in its hash-bound frozen packet; retain duplicates, sort timestamps. No normalization rerun, confidence threshold, movement, caps, deduplication or compiler.",
+  "primaryToleranceSeconds": 2.0,
+  "sensitivityToleranceSeconds": [
+    1.0,
+    5.0
+  ],
+  "matcher": "Unchanged historical one-to-one max-cardinality, min-total-absolute-error, lexical pair-index tie-break.",
+  "metrics": "Historical per-track and summed micro TP/FP/FN, precision/recall/F1, macro mean precision/recall/F1 with existing zero-count conventions, matched timing MAE/median/max. No binary correct-track metric.",
+  "subgroups": {
+    "V7": [
+      1,
+      2,
+      3
+    ],
+    "V8": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50
+    ]
+  },
+  "developmentBaselines": {
+    "V3RawAt2Seconds": {
+      "TP": 19,
+      "FP": 64,
+      "FN": 27,
+      "f1PercentAsPreviouslyReported": "29.46"
+    },
+    "V5RawAt2Seconds": {
+      "TP": 19,
+      "FP": 83,
+      "FN": 27,
+      "f1PercentAsPreviouslyReported": "25.68"
+    },
+    "source": {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V6_DEVELOPMENT_REPORTING_CONTRACT_V1.md",
+      "commit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+      "gitBlobSha": "11cbb8ba19e140b56d54a72304ec4ba4f8a77de7",
+      "sha256": "7f0cc3a36718b41ac71cbd79c2dd306fbf741e45567a7c139466ef70c46603ca"
+    }
+  },
+  "baselineComparison": "Use RAW \u00b12s V3/V5 only; F1 pp differences from reported 29.46/25.68, plus exact count-derived comparison. TP/FP/FN differences only with identical reference support.",
+  "unsupportedBinaryClaimsExcludedFromPrimaryComparison": [
+    {
+      "fraction": "14/50",
+      "percent": 28
+    },
+    {
+      "fraction": "15/50",
+      "percent": 30
+    },
+    {
+      "fraction": "20/50",
+      "percent": 40
+    }
+  ],
+  "referenceSource": {
+    "path": "research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json",
+    "repositoryCommit": "56146a88b398ebbbde5e1b57e33836a8b83232e8",
+    "gitBlobSha": "b35bb9762679d436a40bb7cc8ce9d5f3c163b697",
+    "expectedSha256CitedByExistingV6Scorer": "1b74d185d47ea52db62d4c23cdbd44375b6ba0a05cf3824c4278e88646db9d1c",
+    "contentReadOrHashedThisTask": false,
+    "sha256IndependentlyVerifiedThisTask": false
+  },
+  "stage1Isolation": {
+    "status": "safe-stage1-prefix-before-label-values",
+    "path": "/4everhumblepdx/trackcade-test/3acc6808e4b54f1e0fa7a0d61085a22ebfc2494b/research/semantic-external-holdout-v1/REFERENCE_DROPS_V3.json",
+    "sourceSizeBytes": 12465,
+    "sourceETag": "\"d3ddefcee77f81a3b30c269d89bd1ca0ad30179a4f61613cc4959e367a79b9b7\"",
+    "stage1ValueStartOffset": 185,
+    "byteRangeRequests": 185,
+    "metadata": {
+      "eventKind": "drop",
+      "labelScope": "expert Drop timestamps only; Build/Break are not evaluation targets",
+      "schema": "trackcade-semantic-external-drop-references-v3"
+    },
+    "stage1LabelValuesRead": false,
+    "terminalLabelValuesRead": false
+  },
+  "isolationMechanism": "Exact one-byte HTTP ranges from pinned immutable Git commit path. Require HTTP206, exact Content-Range, Content-Length1, pinned ETag and identity encoding before reading. Stage1 prefix scanner rejects terminal/unknown fields before their values. Stop all reads immediately on Stage1 closing bracket. No whole-file read/parser/download. No retries or alternative isolation method.",
+  "referenceVerificationLimit": "Whole-file SHA256 is historical citation, not recomputed: doing so would require reading terminal bytes. Source bound by frozen commit/blob metadata and pinned immutable URL/ETag; independently hash isolated exact Stage1 bytes after authorized reveal.",
+  "stage1OnlyHistoricalSource": "No independently proven existing isolated Stage1 reference source identified in repository reference names/history. Streaming source used instead.",
+  "syntheticAudits": {
+    "poisonedTerminalIsolationPassed": 9,
+    "mixedScoringPassed": 3,
+    "historicalMatcherPassed": 8,
+    "failures": 0,
+    "errors": 0,
+    "realLabelValuesRead": false,
+    "deterministicSynthetic50CasesVerified": true,
+    "all50RealPredictionAnchorsStructurallyVerifiedBeforeLabels": true
+  },
+  "proofOrder": [
+    "50 exact predictions committed at 4205d8bd01e074bdb76dd2561acfd5d8a8d79c88",
+    "Scoring-rule source hashes reverified and isolation tests passed",
+    "Actual metadata prefix inspected without label values; stopped at byte185",
+    "Commit this contract and exact wrapper/isolation source before Stage1 values",
+    "Create one-use scoring lock before reveal",
+    "Reveal Stage1 only, freeze primary results before qualitative error analysis"
+  ],
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "providerCredentialAccess": false,
+  "terminalAccessAuthorized": false,
+  "analyzerAuthorized": false,
+  "compilerAuthorized": false,
+  "predictionModificationAuthorized": false,
+  "scoringExecutionsAuthorized": 1,
+  "historicalLabelInformedDevelopment": true,
+  "firstEverGlobalLabelRevealClaimed": false,
+  "nonDropGameplayActionability": "Preserved; unmatched semantic Drops or non-Drops do not determine gameplay usefulness."
+}
