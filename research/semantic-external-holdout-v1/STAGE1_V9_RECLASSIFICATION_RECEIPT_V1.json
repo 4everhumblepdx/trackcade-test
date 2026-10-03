@@ -1,0 +1,2188 @@
+{
+  "schema": "trackcade-stage1-v9-provider-free-reclassification-receipt-v1",
+  "status": "frozen-analysis-stop-after-publication",
+  "sourceFrozenHead": "e06de28e8d5bc2d062a766ab6d133b2edd1140c9",
+  "baselineName": "V7/V8 accepted50 baseline",
+  "baselineV7Ordinals": [
+    1,
+    2,
+    3
+  ],
+  "baselineV8Ordinals": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50
+  ],
+  "sources": {
+    "startCommit": "e06de28e8d5bc2d062a766ab6d133b2edd1140c9",
+    "baselineManifestCommit": "4205d8bd01e074bdb76dd2561acfd5d8a8d79c88",
+    "baselineRawResultCommit": "44c3fe1d2ab50f905bbb54367b5cb6d517c94420",
+    "v9PredictionFreezeCommit": "288dec76ba93632e238622ef080d561109a6dca1",
+    "v9ScoringContractCommit": "1a959b3f0bffff1a073f38461abf4a598fcd6a5c",
+    "paidRunId": 37145954313,
+    "hashByteAuthority": "Immutable Git blob bytes for repo manifests/results; exact artifact bytes for packets/proposals. Working-tree CRLF permitted only when LF-normalized bytes equal Git blob; no prediction bytes normalized or changed.",
+    "manifestHashes": {
+      "STAGE1_MIXED_V7_V8_PREDICTION_MANIFEST_V1.json": "383f937020bd6433667cce8b309528ae7e6025e191b28ea75c6d1258624ba2c5",
+      "STAGE1_V9_GROUNDED_PREDICTION_MANIFEST_V1.json": "79d68032c2da15fd124aea77fa2df199ac833849b176e46ea52a03441894ba07"
+    },
+    "rawResultHashes": {
+      "STAGE1_MIXED_V7_V8_RAW_RESULT_V1.json": "a017c7af9868fe28b66c6007666f098efd80a51d02f91dbc5d5623404e8fd627",
+      "STAGE1_V9_GROUNDED_RAW_RESULT_V1.json": "99a932cf1a80842a8db6c5213eaf636f2c14381c25c86aa95672ea35736c8028"
+    },
+    "referenceSha256": "0f2d546c90d522d266c99cf5311c0efaeb7f5750e736ba5dac08f3b42b0c6859",
+    "referenceIsolationProof": {
+      "method": "one-byte HTTP 206 ranges, pinned immutable commit path, exact Content-Range/Content-Length and ETag; stop on Stage1 closing bracket",
+      "startOffset": 185,
+      "endOffsetExclusive": 6080,
+      "labelValueByteRequests": 5895,
+      "terminalBytesRequestedOrRead": 0,
+      "fullReferenceFileDownloadedOrParsed": false,
+      "completeReferenceSha256IndependentlyComputed": false,
+      "wholeReferenceSha256IsHistoricalCitationOnly": true
+    },
+    "perCaseHashesAndArtifactProvenance": [
+      {
+        "ordinal": 1,
+        "id": "mp3s_soundcloud_cc_event_detection/86533027.mp3",
+        "stem": "86533027",
+        "baselineSemanticVersion": "V7",
+        "baselineProposalSha256": "c17a246384f8ee9fe50c130b0bc589dfeab80dc0175acd62a0b7b310ff987ecf",
+        "v9ProposalSha256": "31953b9bc619761249b9bcbbaec72d7e788b93c80ed9f8e7aadaa830ce197d5b",
+        "packetSha256": "494db1ded32c5b25086237665c03da148f5406e66d53a25ce609b95e28cf8f86",
+        "baselineResultArtifact": {
+          "id": 11191938588,
+          "name": "trackcade-semantic-external-stage1-v7-canary-v1-case-01-completed-valid",
+          "digest": "sha256:5b3995aa95e4f92af0c2d7b25f9418445bc292a691b7b029165ffe0340b96b4a",
+          "runId": 36922442091,
+          "headSha": "34b6bac66dff5072816d3399cdd397085f944a59"
+        },
+        "v9ResultArtifact": {
+          "id": 11282255193,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjI1NTE5Mw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-01-result",
+          "size_in_bytes": 86389,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282255193",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282255193/zip",
+          "expired": false,
+          "digest": "sha256:7c233a0c253726e03a157360594a149e2aa612ea9ebd0ac7b0c5dd7d0566c3ae",
+          "created_at": "2026-10-03T18:55:08Z",
+          "updated_at": "2026-10-03T18:55:08Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "id": "mp3s_soundcloud_cc_event_detection/54634175.mp3",
+        "stem": "54634175",
+        "baselineSemanticVersion": "V7",
+        "baselineProposalSha256": "3df7707a75fe4cc4b39c1db006f2b367c37205ae33986d5fdd437bfa10e7c61f",
+        "v9ProposalSha256": "af5815fb609de7a08c2630271a382b44a4a87abdc35cf41657cd7e18b16ab9c0",
+        "packetSha256": "4d320b4e8ab4b7e9ab9555deb1a49b59f8ba962c9b294bb016530e5ff2d37f36",
+        "baselineResultArtifact": {
+          "id": 11198475219,
+          "name": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-02-completed-valid",
+          "digest": "sha256:812c35b7d41ab0436f16e3a7dae8527826a16589863f39bb9f2d4e24da655e46",
+          "runId": 36935550063,
+          "headSha": "f769925b33f9656b86a071796d4951d3c05b9b46"
+        },
+        "v9ResultArtifact": {
+          "id": 11281997771,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MTk5Nzc3MQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-02-result",
+          "size_in_bytes": 72041,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281997771",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281997771/zip",
+          "expired": false,
+          "digest": "sha256:58443bc65ecb7b84ec1a4e79a195d58df80527f7cc6bd7d5a4f45d430abe0a00",
+          "created_at": "2026-10-03T18:55:37Z",
+          "updated_at": "2026-10-03T18:55:37Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 3,
+        "id": "mp3s_soundcloud_cc_event_detection/41211831.mp3",
+        "stem": "41211831",
+        "baselineSemanticVersion": "V7",
+        "baselineProposalSha256": "85dbdac21b3fed494fddad390ac49bc69c28f3145ecb42417823e1290a72498d",
+        "v9ProposalSha256": "359f5e110545874c008a11fafc81de9a8996964a316ad9d42a661738ffe0d2b8",
+        "packetSha256": "218b7a9eec89451663eeac9128a46dfab8f024399efa72524a55d30c31ad1fcd",
+        "baselineResultArtifact": {
+          "id": 11198401517,
+          "name": "trackcade-semantic-external-stage1-v7-remaining49-v1-case-03-completed-valid",
+          "digest": "sha256:40bd3964d0818772ad3e79ca1682227af5e1b142dd466027bea0bcc4323f13a7",
+          "runId": 36935550063,
+          "headSha": "f769925b33f9656b86a071796d4951d3c05b9b46"
+        },
+        "v9ResultArtifact": {
+          "id": 11282320198,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjMyMDE5OA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-03-result",
+          "size_in_bytes": 70313,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282320198",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282320198/zip",
+          "expired": false,
+          "digest": "sha256:7f8b5bc4c320f9206dd5ff768dd6126f1cd5b4690c3246a3a5e4887cb9116ba7",
+          "created_at": "2026-10-03T18:56:04Z",
+          "updated_at": "2026-10-03T18:56:04Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "id": "mp3s_soundcloud_cc_event_detection/87619325.mp3",
+        "stem": "87619325",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "f2177dc9cadf235f8acf1564c63d3e3db4382302193daa97c6d095838c3d16a0",
+        "v9ProposalSha256": "e45bcdc4ab341a0f6f3cf3ae5eb4040f3d456dbecdbf69167df2a5b36a34d637",
+        "packetSha256": "558b2b110e5c342b49da7d38f2ffa215ee6f442e1ff0c2a879c3d923171c58f7",
+        "baselineResultArtifact": {
+          "id": 11203065070,
+          "name": "trackcade-stage1-v8-ordinal04-budget-v1-result",
+          "digest": "sha256:41f951b9264afb5bb6f943bfaf42d9eeef7a8f79e6bef4e0b36e86f9067cb9be",
+          "runId": 36947107596,
+          "headSha": "c9fa3b9498b1618536628ca9f79db2ff42ce8b06"
+        },
+        "v9ResultArtifact": {
+          "id": 11281954330,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MTk1NDMzMA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-04-result",
+          "size_in_bytes": 84184,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281954330",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281954330/zip",
+          "expired": false,
+          "digest": "sha256:c8897e23032d2e106878f9de492c2a0d738a273736b3f6c1d1352ad87e4212f5",
+          "created_at": "2026-10-03T18:56:52Z",
+          "updated_at": "2026-10-03T18:56:52Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "id": "mp3s_soundcloud_cc_event_detection/73229079.mp3",
+        "stem": "73229079",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "6c7b1f973a741307f9e0c8a44443c9b1f3f26c778ac6564b0259620d8603c8a6",
+        "v9ProposalSha256": "6a1a23acdcaff146dc9328b1d34b1f08b7f4b88cc01afbe4f19a4eb60c720e23",
+        "packetSha256": "9da0ce23d902216825aaa7f0c905a500bec2f093d2617e4b1c5d134661f67d26",
+        "baselineResultArtifact": {
+          "id": 11254441728,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-05-result",
+          "digest": "sha256:1102c7858920133c5c322278e62f6ed6eed488e950475ece18e48bb45f24fc0c",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11281919525,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MTkxOTUyNQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-05-result",
+          "size_in_bytes": 81047,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281919525",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281919525/zip",
+          "expired": false,
+          "digest": "sha256:9d9cb636697eb7a63bffe093f223ffaa2c93cff11c20d259409650f22bf41a24",
+          "created_at": "2026-10-03T18:57:24Z",
+          "updated_at": "2026-10-03T18:57:24Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "id": "mp3s_soundcloud_cc_event_detection/45052168.mp3",
+        "stem": "45052168",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "2bbfba7be186bc538740ea815371112cfb6ba980bda4ada12e40455acae1bf08",
+        "v9ProposalSha256": "b40ec75ac78145c0e0279ce123a0f8ec657038ce18f8e985e04cef6e52956300",
+        "packetSha256": "ff7b811de67cc03e6b8f12daa755ea951b87e45feecb950292c3c9ad5ef730cc",
+        "baselineResultArtifact": {
+          "id": 11254252436,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-06-result",
+          "digest": "sha256:cbfecfc9a7f8fc570dd15938606486b5f28f0ee9a5063c152be6fde5b365c58f",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282670244,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjY3MDI0NA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-06-result",
+          "size_in_bytes": 69367,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282670244",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282670244/zip",
+          "expired": false,
+          "digest": "sha256:1a7dbbb8361b38d1a0d5c965639bbcb298c86cdafeb68706fc16729d32c898e3",
+          "created_at": "2026-10-03T18:57:50Z",
+          "updated_at": "2026-10-03T18:57:50Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 7,
+        "id": "mp3s_soundcloud_cc_event_detection/97169237.mp3",
+        "stem": "97169237",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "bea08afdd952b9902d9e4a18deefe1ad54eabaad38683620f1019b20f9003119",
+        "v9ProposalSha256": "582942b8bdb563b8af460650356585bd3935e49a23240866b7aebd41a13177c7",
+        "packetSha256": "debcf0679178121811d8529ba36d05f607292881c1469a99632046facc3ab415",
+        "baselineResultArtifact": {
+          "id": 11253833220,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-07-result",
+          "digest": "sha256:6c3be65e9c57fce1d8bb72cb8fac13b67580420af960f56d84c1bc6f5dcd6235",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282685321,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjY4NTMyMQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-07-result",
+          "size_in_bytes": 80922,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282685321",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282685321/zip",
+          "expired": false,
+          "digest": "sha256:9296ed2b0d6d0f55fd97686f300c9b7e500194acb3b51ce7c307ca4830c5d017",
+          "created_at": "2026-10-03T18:58:27Z",
+          "updated_at": "2026-10-03T18:58:27Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 8,
+        "id": "mp3s_soundcloud_cc_event_detection/39637970.mp3",
+        "stem": "39637970",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "0309c07fadf2aa1679de2730cb028cc91d3c228259995c1235617e6265677d30",
+        "v9ProposalSha256": "9700d7c4af2871014c68933dba744cb6605aa480a452d028f5cdd8dbc997b448",
+        "packetSha256": "cef184a0dd25418a1fa531d4bcb0ceed9a53294c047cc9c7a1be389c386851b7",
+        "baselineResultArtifact": {
+          "id": 11254117953,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-08-result",
+          "digest": "sha256:f33e632adb8c81b7f68de5ddc3fc331baefdf7a296aba1542fec576d7bd4a31f",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11281974552,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MTk3NDU1Mg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-08-result",
+          "size_in_bytes": 66242,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281974552",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281974552/zip",
+          "expired": false,
+          "digest": "sha256:5820fa6579c94c0673ae2a28e9b0bf870018afcf8c6c820bc78256b1ff6a6bcb",
+          "created_at": "2026-10-03T18:58:49Z",
+          "updated_at": "2026-10-03T18:58:49Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 9,
+        "id": "mp3s_soundcloud_cc_event_detection/60170982.mp3",
+        "stem": "60170982",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "d0557a7c1f2830a69f520556c2b9830d305bbb187a2d216def4923a05b804ff2",
+        "v9ProposalSha256": "48c2ce77bf534344e91feb7c053e5c25d6a6dbfd1dd6f51f5690a48128f660e9",
+        "packetSha256": "875bfecc98e13603fb92d2ce75abab40982725610a79aaf27e8a7f6320476362",
+        "baselineResultArtifact": {
+          "id": 11253918252,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-09-result",
+          "digest": "sha256:3bb47e14b8358c903c6bf6cee1bb42ee32921636b7a7a9d90a089097ea8c9e39",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11281808351,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MTgwODM1MQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-09-result",
+          "size_in_bytes": 98953,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281808351",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281808351/zip",
+          "expired": false,
+          "digest": "sha256:848721a314ffd083f717839d4a76b559559e9726a0144d4efb86fe8a643df15a",
+          "created_at": "2026-10-03T18:59:15Z",
+          "updated_at": "2026-10-03T18:59:15Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 10,
+        "id": "mp3s_soundcloud_cc_event_detection/60779381.mp3",
+        "stem": "60779381",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "1f940e3294bd7d416cf04815fec9e56d4f6026bb8fb480992c0e880c1d90b134",
+        "v9ProposalSha256": "93d4945d2b4910398414e289b5877a6294aecf8397e75f34a8357bcfdeee71b0",
+        "packetSha256": "e11baee5f8075ccb9ce05728eb96afe8460e0f3a97b8ef3a265dc9450e35391f",
+        "baselineResultArtifact": {
+          "id": 11253918315,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-10-result",
+          "digest": "sha256:c89da9246c91d8a6b6807d9b6a531e39ae16b033bfe2098c1414e514703845a6",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282165782,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjE2NTc4Mg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-10-result",
+          "size_in_bytes": 80084,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282165782",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282165782/zip",
+          "expired": false,
+          "digest": "sha256:88040447f93821174e51914023fb55f3106c047dcbd1c8bd5e6d562975e321b3",
+          "created_at": "2026-10-03T18:59:54Z",
+          "updated_at": "2026-10-03T18:59:54Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 11,
+        "id": "mp3s_soundcloud_cc_event_detection/98468953.mp3",
+        "stem": "98468953",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "24052f070df9b3377cdcd5c49ef2c0eb5614be10125fcb5a42b6fc8de0d70739",
+        "v9ProposalSha256": "0d9fbf03e1647849a49ca01dd4dbfc104d4a893fed5d1b3fbf9ad61895133e4c",
+        "packetSha256": "f82f41173ab6b87244f3f478e372744422f20ffa789eb6547f51c1fb2d562327",
+        "baselineResultArtifact": {
+          "id": 11254707295,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-11-result",
+          "digest": "sha256:cf68a0d7f5d74036c45bb0cc00924819b9a5024187407e2eadda117982bcfaf7",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282495819,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjQ5NTgxOQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-11-result",
+          "size_in_bytes": 83932,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282495819",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282495819/zip",
+          "expired": false,
+          "digest": "sha256:adab3238708300b9aa01a0b6a7948ba6db3ea20874e7c0ee73a241e6adfacc93",
+          "created_at": "2026-10-03T19:00:23Z",
+          "updated_at": "2026-10-03T19:00:23Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 12,
+        "id": "mp3s_soundcloud_cc_event_detection/91570090.mp3",
+        "stem": "91570090",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "07d876a8e62675a6807fd3fc47a2c535cc0752cca92c615af4e981f2eec69375",
+        "v9ProposalSha256": "4b2dbd092b734bc1ea2008582b087219662a88a6ec30a235132f4fd4cb7b3df1",
+        "packetSha256": "353069bdbd7de2e1a9604a1a43b93f8caf1d4fee9df735d5946c4364722aebcd",
+        "baselineResultArtifact": {
+          "id": 11254352833,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-12-result",
+          "digest": "sha256:8bcad59cbc6a93ee1206c60e383bdb4d27522d5399ed77750cb600caa68b7b89",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282024763,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjAyNDc2Mw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-12-result",
+          "size_in_bytes": 68078,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282024763",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282024763/zip",
+          "expired": false,
+          "digest": "sha256:a57bd0b692d3733874b55630ed90f753f711c6ab2e5acbe10ce50d60c5bd3643",
+          "created_at": "2026-10-03T19:00:46Z",
+          "updated_at": "2026-10-03T19:00:46Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 13,
+        "id": "mp3s_soundcloud_cc_event_detection/125282679.mp3",
+        "stem": "125282679",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "79afd4d5dcbc653e88279b15420d77f108e7fecb0c7a291a581168252d6769db",
+        "v9ProposalSha256": "835ed93fbc94519ad543eae55882743654d7ed75351de2d667e3cf58af54df6b",
+        "packetSha256": "9237151bd13fc9330bb6ad01b228e6951d3c57432e707b47dce0070e52f23db7",
+        "baselineResultArtifact": {
+          "id": 11253813992,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-13-result",
+          "digest": "sha256:559127b37efed109701549a2a521a0df41e91708d16f716a0c5e42c55c641a2f",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282700581,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjcwMDU4MQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-13-result",
+          "size_in_bytes": 93951,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282700581",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282700581/zip",
+          "expired": false,
+          "digest": "sha256:6c6e118b3fffc49449b4755b3c54c35b8430d395adcfccaa8fae0786d1196dca",
+          "created_at": "2026-10-03T19:01:36Z",
+          "updated_at": "2026-10-03T19:01:36Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 14,
+        "id": "mp3s_soundcloud_cc_event_detection/121885015.mp3",
+        "stem": "121885015",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "f78ea160692c597da4b160952abe0b06c2025c9c78dc29ad407211c1812d7774",
+        "v9ProposalSha256": "ac4b9334f5c7c7fea9b62b4dbf97b25da3ca7700c31daa2cf0c022cecf22eb2a",
+        "packetSha256": "16be08847577b98f847d917ecfe159a120cbf52defd32276a928866f1f339281",
+        "baselineResultArtifact": {
+          "id": 11254987411,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-14-result",
+          "digest": "sha256:77679df24691fc9a219f1a28bac71b06fc8e3b5d46c816ae1336a6d533439218",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282640812,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjY0MDgxMg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-14-result",
+          "size_in_bytes": 71710,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282640812",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282640812/zip",
+          "expired": false,
+          "digest": "sha256:32aa1c98dab4431b2341f48e99d195a45b0e5dc242d7e765bd108ab5562068b7",
+          "created_at": "2026-10-03T19:02:08Z",
+          "updated_at": "2026-10-03T19:02:08Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 15,
+        "id": "mp3s_soundcloud_cc_event_detection/53652782.mp3",
+        "stem": "53652782",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "17f61f5ac5fdbac01ef9b3728b63b91b4b24402e881b85ae8c4c2b2c2506b2ab",
+        "v9ProposalSha256": "02b8e4b584a0027eb80095d99be8f7f53583c79ed0e21083f4cc9142d6b1f52b",
+        "packetSha256": "7ab93028870cc521529aadee56fb392b2bde2bb92aa22af557f662f1f9b79514",
+        "baselineResultArtifact": {
+          "id": 11254987710,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-15-result",
+          "digest": "sha256:ed5c019c3c5a02834486aac59004fffb0b4b61706f7bf6e495efe2def1e54fb5",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282206666,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjIwNjY2Ng==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-15-result",
+          "size_in_bytes": 82094,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282206666",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282206666/zip",
+          "expired": false,
+          "digest": "sha256:819b9a9130811b1b76b120a2935f5229c23fa891fec9c6a6ddde548b953c4b8e",
+          "created_at": "2026-10-03T19:02:56Z",
+          "updated_at": "2026-10-03T19:02:56Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 16,
+        "id": "mp3s_soundcloud_cc_event_detection/48207706.mp3",
+        "stem": "48207706",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "e6b8c49a8fc06f56a619d73aa5ea9a3e6f3d870e0a650d98d6ebf7f890f995b8",
+        "v9ProposalSha256": "a20d91b96a8e61cb98ec0a986d9cf763a15dc8e08e65e4046bee97c098503a05",
+        "packetSha256": "e7240a7c140d676b128b58e39a225d59286ad60e5f7acb6d820b4353d31243a7",
+        "baselineResultArtifact": {
+          "id": 11254643477,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-16-result",
+          "digest": "sha256:0d5c358bcf540a1724d33f98cea0357a2fa5e7a18f5fe440e7cdc862400b3715",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282094672,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjA5NDY3Mg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-16-result",
+          "size_in_bytes": 90775,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282094672",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282094672/zip",
+          "expired": false,
+          "digest": "sha256:e8564cf51cd293aba08fa4cdc7bfaaa8df8de374042739b197bb61bb1a3d6525",
+          "created_at": "2026-10-03T19:03:38Z",
+          "updated_at": "2026-10-03T19:03:38Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 17,
+        "id": "mp3s_soundcloud_cc_event_detection/81381341.mp3",
+        "stem": "81381341",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "6d1662ef4ae9695c7389f125a8c8e6128c3bf7a48e7f7440babd2f79113f9206",
+        "v9ProposalSha256": "62a119d0564a62c5ae5aa0125418f744c852d5be52142fc82a40cd47683206bf",
+        "packetSha256": "062d93eca9693ccb3d90621382c39a00a0af0270da7dd49b19607c86ce38b33a",
+        "baselineResultArtifact": {
+          "id": 11254394097,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-17-result",
+          "digest": "sha256:909c64ff46a9bb70caba1139662cfcab3632d6fc1ff6a2967d2a6f84d3acd716",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283090380,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzA5MDM4MA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-17-result",
+          "size_in_bytes": 75392,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283090380",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283090380/zip",
+          "expired": false,
+          "digest": "sha256:09d027f6dfde5ed6092b49534601abeb50ec4355e1c83fd04d314c248e2af452",
+          "created_at": "2026-10-03T19:04:17Z",
+          "updated_at": "2026-10-03T19:04:17Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 18,
+        "id": "mp3s_soundcloud_cc_event_detection/91744869.mp3",
+        "stem": "91744869",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "3ba0e138b46f61eab9afdd92c5539cc22153bda9c455b783d6d33901f03d9986",
+        "v9ProposalSha256": "a8e632b6b5fbe29a155bb7be5632af1511f43255752ed3b0e83c7005c596ae3f",
+        "packetSha256": "048bdb1f311daad6a196d9aaa2cefe4913e250fe31b74406dfc1229793fb41e5",
+        "baselineResultArtifact": {
+          "id": 11253969366,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-18-result",
+          "digest": "sha256:4893af69585d7639ecd109d79cf774ca503ab7b5eced2e1f7baa34cfcea2859e",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282560532,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjU2MDUzMg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-18-result",
+          "size_in_bytes": 86474,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282560532",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282560532/zip",
+          "expired": false,
+          "digest": "sha256:6944b6a3663da1a2046881cb15cc2ca7f9a27ab73c3452e49173481b1f7598a0",
+          "created_at": "2026-10-03T19:05:01Z",
+          "updated_at": "2026-10-03T19:05:01Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 19,
+        "id": "mp3s_soundcloud_cc_event_detection/70906479.mp3",
+        "stem": "70906479",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "6f625ecb0f74c8fa3bce29312d00c087eb4a357db8325fda3bbee9192137e22a",
+        "v9ProposalSha256": "8b08f5a19561a5e3d00a67b83439f644b0536197c28ceb774922adf192e4c8c5",
+        "packetSha256": "a94050ceec59700b0102a01da621f5af1bd9008aad19e41f48d6990d0a8612ea",
+        "baselineResultArtifact": {
+          "id": 11254484056,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-19-result",
+          "digest": "sha256:3f549fbbd4b9e1cc52f7221eb25dfcf150618a79e6b75ba651df4d42bdc5c6dd",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282835946,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjgzNTk0Ng==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-19-result",
+          "size_in_bytes": 81640,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282835946",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282835946/zip",
+          "expired": false,
+          "digest": "sha256:b2b147f4946c479eb2b24f01a053bcff5826650eb5428f2255220b2b7bbae8df",
+          "created_at": "2026-10-03T19:05:27Z",
+          "updated_at": "2026-10-03T19:05:27Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 20,
+        "id": "mp3s_soundcloud_cc_event_detection/109446919.mp3",
+        "stem": "109446919",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "ecbc5fe9719bf976ecb7cfd0305a14316dfb0f55d7067bdc32320d38debfa457",
+        "v9ProposalSha256": "0bdfce5b0068f0fd6157023effa68223aa0a99515ff5020367b2bfa89a4b112b",
+        "packetSha256": "685b9b9fbb2e63993f667d0f2c546751b6fdfffc7173be0ba83f411dcf496dfa",
+        "baselineResultArtifact": {
+          "id": 11255048473,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-20-result",
+          "digest": "sha256:24d9f33affa5694abce74428ed409c43b54fb57ccd416981c8cb086661b5567f",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283105362,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzEwNTM2Mg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-20-result",
+          "size_in_bytes": 73995,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283105362",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283105362/zip",
+          "expired": false,
+          "digest": "sha256:fd29af97a4512de6f7f66b5d27022302e838f8a173b20a0737c85869f8b0eb19",
+          "created_at": "2026-10-03T19:05:48Z",
+          "updated_at": "2026-10-03T19:05:48Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 21,
+        "id": "mp3s_soundcloud_cc_event_detection/85840934.mp3",
+        "stem": "85840934",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "329f9b0a054847d8de7cda8f2162e4edaf0e51981343892e327626b2c3ada147",
+        "v9ProposalSha256": "e3c17977d622a301ed5ad212644741e6d757442ac54866d0daf52d94254b6a86",
+        "packetSha256": "96e376545a5443192dce769f7b1fd2db88e533b55ade325c5c197f1c181c62db",
+        "baselineResultArtifact": {
+          "id": 11254239324,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-21-result",
+          "digest": "sha256:392ca99a503ce01276efd45c6180abab334a7361351c87a3a5e4dc12050776cc",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282870855,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4Mjg3MDg1NQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-21-result",
+          "size_in_bytes": 77449,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282870855",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282870855/zip",
+          "expired": false,
+          "digest": "sha256:b7bdd5d7160940c64d1db1e6c69942a4f54baec7b8d21b74f6c97460700e567b",
+          "created_at": "2026-10-03T19:06:17Z",
+          "updated_at": "2026-10-03T19:06:17Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 22,
+        "id": "mp3s_soundcloud_cc_event_detection/126290034.mp3",
+        "stem": "126290034",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "77cc52491013fc62260a306da42ce4861714e77d7b7ead634c7c9764119864c4",
+        "v9ProposalSha256": "ef973c19d64eaaa9840e5f92961269e1c402c2c4445f2ab6a2df5cc146380662",
+        "packetSha256": "4612d582b791057be467e978912349cfed3bebc2abaf02174d8a127148f82f2f",
+        "baselineResultArtifact": {
+          "id": 11254399674,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-22-result",
+          "digest": "sha256:1dba8cd98b50b777c9d742266125b98f56a120ccc4e91ccae8072d59547e39d0",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282885466,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4Mjg4NTQ2Ng==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-22-result",
+          "size_in_bytes": 78190,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282885466",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282885466/zip",
+          "expired": false,
+          "digest": "sha256:9ef64a6a2326268e67e5a40bf9557aea078779b7731e289abece3c1e95aaa073",
+          "created_at": "2026-10-03T19:06:47Z",
+          "updated_at": "2026-10-03T19:06:47Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 23,
+        "id": "mp3s_soundcloud_cc_event_detection/84061701.mp3",
+        "stem": "84061701",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "9788884be648be23fc03017634f3cda057868ef2a15196b09340c7b9093275b3",
+        "v9ProposalSha256": "40dcf73295c75a5ed9037816916bb3d780faef6345212499d535c47efb3f8de5",
+        "packetSha256": "9d9a5f6c6a9dda5d1ac1de8977725f5f3346e64033957afe0df1784a5470f756",
+        "baselineResultArtifact": {
+          "id": 11254649607,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-23-result",
+          "digest": "sha256:9a0e4e2519c118a0607814098678cced8e1dc50bd9214beedd2f15e92cf73f12",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282920950,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjkyMDk1MA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-23-result",
+          "size_in_bytes": 94991,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282920950",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282920950/zip",
+          "expired": false,
+          "digest": "sha256:d7f0e2ff7ae61042051fb033b51c44cb0e066e1ba15d97f67d6845a53c6bd83d",
+          "created_at": "2026-10-03T19:07:43Z",
+          "updated_at": "2026-10-03T19:07:43Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 24,
+        "id": "mp3s_soundcloud_cc_event_detection/74937346.mp3",
+        "stem": "74937346",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "33927750fbba66f4fcdbd882979580d098b8ae283af3499eddd0e33f595c582a",
+        "v9ProposalSha256": "7ce3f8c567579fc03507523df695a1e4acc92d7be438fba4bbcb23b912173caf",
+        "packetSha256": "f18b20fb5f9a6e5cf8fc3adf918a28f277b6c62146778264eed57a09be89572b",
+        "baselineResultArtifact": {
+          "id": 11254489766,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-24-result",
+          "digest": "sha256:154f906d5bbe180d63995242f060f6aef622ded2de5c744364c5abe268ac7fe3",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282331939,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjMzMTkzOQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-24-result",
+          "size_in_bytes": 80779,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282331939",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282331939/zip",
+          "expired": false,
+          "digest": "sha256:f58f1c338fd3a748797398bf2cd16073744c1678a4ef16b14b1555affd289045",
+          "created_at": "2026-10-03T19:08:07Z",
+          "updated_at": "2026-10-03T19:08:07Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 25,
+        "id": "mp3s_soundcloud_cc_event_detection/32192109.mp3",
+        "stem": "32192109",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "c8cf0e718e8f6a658b8f132a9c438048fd4fbb69bdc197f244a1d4c2d987e977",
+        "v9ProposalSha256": "d5fd3d58e642570fc0caac16cc15a92f6eb558f6cab704d0b01019fd3d155cde",
+        "packetSha256": "1e0f9770ca8c1e67b64c42549a7046497fcc267e93658e845b5f41f2f5ead25e",
+        "baselineResultArtifact": {
+          "id": 11254689941,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-25-result",
+          "digest": "sha256:df52772ed7f8ea9cba9ac3968c0de3dde4c337c895b7bd9d94e66c20caebb522",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282496678,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjQ5NjY3OA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-25-result",
+          "size_in_bytes": 75365,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282496678",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282496678/zip",
+          "expired": false,
+          "digest": "sha256:b2c272eec4418ffa4d2cfe64bb010007dedcd8def276fffbaa2eb9fded3543a9",
+          "created_at": "2026-10-03T19:08:32Z",
+          "updated_at": "2026-10-03T19:08:32Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 26,
+        "id": "mp3s_soundcloud_cc_event_detection/60864932.mp3",
+        "stem": "60864932",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "9d297b63f203695ead801f78c8b0b577c73636ebd2b75496519e2500599b5d8c",
+        "v9ProposalSha256": "d0fad31373af9a11cf1dfcda1814510bb6607276782bed6d98727c46e0c4a5d9",
+        "packetSha256": "56e9f8811698ca6dd3d91019631e3d77ef2105b0fc9de3a549ef2fff1566401e",
+        "baselineResultArtifact": {
+          "id": 11255625198,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-26-result",
+          "digest": "sha256:c7af7995e37678e002aaa4bfca830155c9f8b3317a033c6dfc94c75b2491c046",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282461680,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjQ2MTY4MA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-26-result",
+          "size_in_bytes": 79689,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282461680",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282461680/zip",
+          "expired": false,
+          "digest": "sha256:f640cab08f77b5acdb5a66270512b3a3b44da2b29345cf2792e1474318a7fb46",
+          "created_at": "2026-10-03T19:09:04Z",
+          "updated_at": "2026-10-03T19:09:04Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 27,
+        "id": "mp3s_soundcloud_cc_event_detection/39970700.mp3",
+        "stem": "39970700",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "42e7b48cf32bccbe6e75a9b29603840dca8b420f1bd4bb6a2c6d5558c6776dea",
+        "v9ProposalSha256": "aa1f123ef191c3226de2248019331018e8b6d46b87267cd1aec121c5fa33ed43",
+        "packetSha256": "8c03c93e7718e5c943b2b4185f7b1ad970d961be717cca6d8c67df5e0b33b3f6",
+        "baselineResultArtifact": {
+          "id": 11255775161,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-27-result",
+          "digest": "sha256:b33c8e0e0539c768f8211c99e49d146f845b34eeeeae0fce036699a8664582a5",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283230405,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzIzMDQwNQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-27-result",
+          "size_in_bytes": 85950,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283230405",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283230405/zip",
+          "expired": false,
+          "digest": "sha256:ec206ca36df1cec97c47abb7a43fce734de01a5abc78798117c1180fab6aa3f9",
+          "created_at": "2026-10-03T19:09:49Z",
+          "updated_at": "2026-10-03T19:09:49Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 28,
+        "id": "mp3s_soundcloud_cc_event_detection/126774902.mp3",
+        "stem": "126774902",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "7fb3bdf8274b8f4ab48a5c8d842db45e4fdb4ab31d59ee3964706df3cb3b8cd2",
+        "v9ProposalSha256": "3ee57347160c509ceea76892b33b650d891c0b453f0239361bf7ea1dc727c05c",
+        "packetSha256": "9f0da0ac0879ef9dc56c3042b3bac72346d650b0c8d60f89deafa051ada2fa06",
+        "baselineResultArtifact": {
+          "id": 11255715314,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-28-result",
+          "digest": "sha256:f079b1805032324d90e91de1ebafc2e8c6e3a5beef250f60829c6607e1145f35",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282986119,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4Mjk4NjExOQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-28-result",
+          "size_in_bytes": 86812,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282986119",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282986119/zip",
+          "expired": false,
+          "digest": "sha256:22bcee100f18f0c6516eff81fa86fd4c641f66076defdc9bcc28122ec37c1556",
+          "created_at": "2026-10-03T19:10:24Z",
+          "updated_at": "2026-10-03T19:10:24Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 29,
+        "id": "mp3s_soundcloud_cc_event_detection/76926936.mp3",
+        "stem": "76926936",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "5df00927944e7b3f79567d7c1c4cd85533da68d6dd2ecb9282acdd6f6228cf74",
+        "v9ProposalSha256": "e03be48941da2fc77a5df1170abca81afb37a14b384d72d2ce63131383c1ce66",
+        "packetSha256": "2c5a94c0a6a996c1a4335033b53baf76bcbf1f4adbe56fb30dc41c9912a8f464",
+        "baselineResultArtifact": {
+          "id": 11255695424,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-29-result",
+          "digest": "sha256:18544f433c6f23c22e9bbdf3e517786a10b8ee48968f08258417215910c354ec",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282352183,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjM1MjE4Mw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-29-result",
+          "size_in_bytes": 81796,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282352183",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282352183/zip",
+          "expired": false,
+          "digest": "sha256:18c2618bb66b26d8a2b52e43f5fef2ce752d81905f1a7adf432032d2fcf6c5b3",
+          "created_at": "2026-10-03T19:10:47Z",
+          "updated_at": "2026-10-03T19:10:47Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 30,
+        "id": "mp3s_soundcloud_cc_event_detection/60368032.mp3",
+        "stem": "60368032",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "d5938e3a4fab78f07f86f3b6aeca4449192440e5e0fb7a413ae49af415fd10b5",
+        "v9ProposalSha256": "1cdb0cc27170834df7d4d46fa0f77dd895146b0306a559eb266feb577e136ab6",
+        "packetSha256": "da573c9b366062e5cae9cb66ff7641211c759c3f659ea3cc21c781479259c507",
+        "baselineResultArtifact": {
+          "id": 11255059623,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-30-result",
+          "digest": "sha256:05ca6f3dea2ff605cc63565c70b4b6da6709a67c085dd13767b001100ab95e28",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282236407,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjIzNjQwNw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-30-result",
+          "size_in_bytes": 102442,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282236407",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282236407/zip",
+          "expired": false,
+          "digest": "sha256:a692e9c51d35a992c13addc8ade6121001cd232b836ce650d5686d1e37e590d2",
+          "created_at": "2026-10-03T19:11:37Z",
+          "updated_at": "2026-10-03T19:11:37Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 31,
+        "id": "mp3s_soundcloud_cc_event_detection/60809730.mp3",
+        "stem": "60809730",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "3f90af7020393dc22f628210ff9b6ec07644db790d315e92ed42c47e33fc6dc1",
+        "v9ProposalSha256": "4859fbe1115009f179e9eae08127f287d613395094d0a3ff506fa71a95ddfc63",
+        "packetSha256": "1a9bb8e69b04ded6614da42aceb045a0aa84916dc0dafe1b2aff556e93034459",
+        "baselineResultArtifact": {
+          "id": 11255024946,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-31-result",
+          "digest": "sha256:d6fc39f621c8f1239b16e3a40cc21bcf0e244ce99a867ac709d3808f4db6caa4",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282831632,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjgzMTYzMg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-31-result",
+          "size_in_bytes": 90788,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282831632",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282831632/zip",
+          "expired": false,
+          "digest": "sha256:045f3299c2c595847fdbd5085f3b58e8c7b5e4e78a9a70e8ae013707fb10b8bc",
+          "created_at": "2026-10-03T19:12:19Z",
+          "updated_at": "2026-10-03T19:12:19Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 32,
+        "id": "mp3s_soundcloud_cc_event_detection/57232773.mp3",
+        "stem": "57232773",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "646cf8a5c80af5ca15638ed2682aa8c17a53bf0aebb9bda1dc58e112c64efc4d",
+        "v9ProposalSha256": "4a7ebcf9a8b07e9926c22cdd8758bfabf3c50b0d23cda0b8023515cc147f8e3d",
+        "packetSha256": "6e0cdeafac5d5addebaaaf508e672643a9008779ddc7b1a98ba97f3e4a56cbd6",
+        "baselineResultArtifact": {
+          "id": 11255391124,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-32-result",
+          "digest": "sha256:3ebd8aecc881e1fa6982e69f0c094f8133c7ff87c47cbb2ae25393d4ce8d24ed",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283081160,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzA4MTE2MA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-32-result",
+          "size_in_bytes": 76567,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283081160",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283081160/zip",
+          "expired": false,
+          "digest": "sha256:dd00b12d321e6b03f267f9444ca2eb3832c7b0a9e512e113e58ed65e4b5b2476",
+          "created_at": "2026-10-03T19:12:50Z",
+          "updated_at": "2026-10-03T19:12:50Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 33,
+        "id": "mp3s_soundcloud_cc_event_detection/37942877.mp3",
+        "stem": "37942877",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "6a7c398cb45298c5ff2edc95300b1ec414d13f226aa1f6af7fd396db371f81ac",
+        "v9ProposalSha256": "5354b04c3e6122a9394fa2d3f6da22e2ab7de9318ada79f71b998d67a924479e",
+        "packetSha256": "14dd5784dec94a2a728499cf6b618cb30da26fd7548afd7a6ab8d0a1be865a2a",
+        "baselineResultArtifact": {
+          "id": 11255825857,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-33-result",
+          "digest": "sha256:5fd581465c6de7feabbb2223cbdce372fe74e6cf3c2eba6f175abdb25844f596",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11281999080,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MTk5OTA4MA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-33-result",
+          "size_in_bytes": 74556,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281999080",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11281999080/zip",
+          "expired": false,
+          "digest": "sha256:6cf80ae6b5764847e5ac792b71d6c09283f7320ed7933d34b892f2aaa11c6f87",
+          "created_at": "2026-10-03T19:13:21Z",
+          "updated_at": "2026-10-03T19:13:21Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 34,
+        "id": "mp3s_soundcloud_cc_event_detection/57931601.mp3",
+        "stem": "57931601",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "fa6d65763f7506391cd23e707ae9159e767d8eb4936106fc8a6bb9f549f645f0",
+        "v9ProposalSha256": "36cc10a3245f0eb75ec4133e2bc872704f1f26a9e3d33edc78b1b0c421caa97b",
+        "packetSha256": "298e6e58f74181b7d6e8cabd743315d1b93f43252ee2a072c34a4a0ff7af1cb5",
+        "baselineResultArtifact": {
+          "id": 11255660485,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-34-result",
+          "digest": "sha256:918c0ccc94b88c6e5a712bbb9127c070ff87d6aa758af503e7bb6fa97f1c629b",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282231640,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjIzMTY0MA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-34-result",
+          "size_in_bytes": 95758,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282231640",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282231640/zip",
+          "expired": false,
+          "digest": "sha256:fbab5ee2a2d75bd0fadca3273ff8dd4ad4c86990f2bb6c8538c4b451b12727c2",
+          "created_at": "2026-10-03T19:14:03Z",
+          "updated_at": "2026-10-03T19:14:03Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 35,
+        "id": "mp3s_soundcloud_cc_event_detection/96730252.mp3",
+        "stem": "96730252",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "2d8dd72cf98cce9c495ab60d92c305a89b4c4c4708f5e4b359c502ea82f36426",
+        "v9ProposalSha256": "e4ab885fb25ee84425f2230613d55101ca442946280e2f555e3a962b7bbbef8d",
+        "packetSha256": "b6735d3b387e9b6a73c7e2dfdfc0056dd578bb14383c9638dbdb0832ab6c3cdd",
+        "baselineResultArtifact": {
+          "id": 11255091239,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-35-result",
+          "digest": "sha256:c1bd7cb014a955914214c73951d66936cc6ec0711d04e39af2d5995139d92e9c",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283076526,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzA3NjUyNg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-35-result",
+          "size_in_bytes": 86993,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283076526",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283076526/zip",
+          "expired": false,
+          "digest": "sha256:0c199981997ddafb67bedac43a1bc19229f8c1b4a147147ade6ee3f2f1e22dec",
+          "created_at": "2026-10-03T19:14:46Z",
+          "updated_at": "2026-10-03T19:14:46Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 36,
+        "id": "mp3s_soundcloud_cc_event_detection/53719180.mp3",
+        "stem": "53719180",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "0bdc0e4ffadf9f306abd0facf2f58d9c356a955789a7df31b7f583007f34656f",
+        "v9ProposalSha256": "62b57c4c31f8aef252d5107d7b98fd9c0217a359edf58626b8eba63126a7aff5",
+        "packetSha256": "41d7178accff38daa4bdb22ab3596faf15a25618d57771d5d5c4d363de975d96",
+        "baselineResultArtifact": {
+          "id": 11255885503,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-36-result",
+          "digest": "sha256:aec61213a0979703a20396355ede43d14ad571325b99fadc77719d4b3bd8a8c6",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282207873,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjIwNzg3Mw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-36-result",
+          "size_in_bytes": 76712,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282207873",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282207873/zip",
+          "expired": false,
+          "digest": "sha256:d6c11b9e28e2d115929b368385bc1b77eb86083c01c50aa876e5e3ea0ea99b2d",
+          "created_at": "2026-10-03T19:15:21Z",
+          "updated_at": "2026-10-03T19:15:21Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 37,
+        "id": "mp3s_soundcloud_cc_event_detection/72517913.mp3",
+        "stem": "72517913",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "82225d634ec976735a6b516c1e1d7124a3937e05c2e3db5b1e0631505d708a85",
+        "v9ProposalSha256": "ce17a4e372f4e6329268182c45dda1c5d58c62c3d4b9957a7b2f63061c73aa79",
+        "packetSha256": "67396d31527f97dca0fe31477f97eca256a676cac8ac7dc43af0b3dd3f2ff5f4",
+        "baselineResultArtifact": {
+          "id": 11255461797,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-37-result",
+          "digest": "sha256:61c85c84c6b0d53aff696de2dd7d5a283e279f5f9179a32a2d40eafd57caf6fc",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282678116,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjY3ODExNg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-37-result",
+          "size_in_bytes": 107012,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282678116",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282678116/zip",
+          "expired": false,
+          "digest": "sha256:eedeb4e538d78d0f0aa615a9a8468e574cfe0dc65ae5f28bdbaebd5fa71b4fcd",
+          "created_at": "2026-10-03T19:16:13Z",
+          "updated_at": "2026-10-03T19:16:13Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 38,
+        "id": "mp3s_soundcloud_cc_event_detection/127164225.mp3",
+        "stem": "127164225",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "fb304f724dad07ede0c2489f1adfe6cae03b2abf27550b90ec318d4f4e84e23f",
+        "v9ProposalSha256": "40a77ff05e8a9965827300941f33d18b8f1e0f60deeb6cd182467168032b7eb5",
+        "packetSha256": "f882a517d7a223293b727ec0f1f8b073443dc6a1d63ed053eba2d2af79051540",
+        "baselineResultArtifact": {
+          "id": 11256231064,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-38-result",
+          "digest": "sha256:d81f0fc718a6bdb566f286cf613a049f0ad87483ee1833484b9150a26131af3a",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283011755,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzAxMTc1NQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-38-result",
+          "size_in_bytes": 79151,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283011755",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283011755/zip",
+          "expired": false,
+          "digest": "sha256:affd08c2fbaf58211fb43cb0adff42082a95cd5068377a7933e24414527ed406",
+          "created_at": "2026-10-03T19:16:45Z",
+          "updated_at": "2026-10-03T19:16:45Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 39,
+        "id": "mp3s_soundcloud_cc_event_detection/47275398.mp3",
+        "stem": "47275398",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "ad167c27fc4db65dfe6869f005814fead4df71bc51482e52a656bdab3fbd92e5",
+        "v9ProposalSha256": "186f1a377e5c8a1304003f039dd25715d3ed69cc3b30938ff17ceddfeb8cff43",
+        "packetSha256": "c14afc72b8a335778ea70030e0d8a69b2a9ed6856c3724ad0d8b520dd0da2641",
+        "baselineResultArtifact": {
+          "id": 11256006585,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-39-result",
+          "digest": "sha256:bb1421d5462b4bcc0703b5ad57ca582018c7f7ca3e443dc4ab4b093fc9bd1f4e",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282652331,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjY1MjMzMQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-39-result",
+          "size_in_bytes": 86278,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282652331",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282652331/zip",
+          "expired": false,
+          "digest": "sha256:1778a079afde019f3a658b07d9da5d4bc71b204a15341e7a6b0b6511ee55d038",
+          "created_at": "2026-10-03T19:17:18Z",
+          "updated_at": "2026-10-03T19:17:18Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 40,
+        "id": "mp3s_soundcloud_cc_event_detection/91165591.mp3",
+        "stem": "91165591",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "dbaa8099c8338de15962b06551a93d27f9603cf0705dd1f8987dd8e35e9ce728",
+        "v9ProposalSha256": "4d2661973534a4570f8a3386b5d5e7bda25d1e8f3b9d3d955eb567a15926d256",
+        "packetSha256": "7579d6f16b3452f3baad6d19c932e5e51f7bf00c2a65b5095dc47d2b3a7372b6",
+        "baselineResultArtifact": {
+          "id": 11255596190,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-40-result",
+          "digest": "sha256:c8d17a9c26942a546ba3bac2ddfe9cc2bd8f44ebe94d543f4cca40c5cb81ef5a",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282771364,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4Mjc3MTM2NA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-40-result",
+          "size_in_bytes": 75562,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282771364",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282771364/zip",
+          "expired": false,
+          "digest": "sha256:9d6edbb6ca3ddb164e362ea10b7a8db999fa93717fc71a92433976eecc8d51f7",
+          "created_at": "2026-10-03T19:17:46Z",
+          "updated_at": "2026-10-03T19:17:46Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 41,
+        "id": "mp3s_soundcloud_cc_event_detection/79678819.mp3",
+        "stem": "79678819",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "bb9c6601a986653d9736bb8ee1e980dbdbb185c26a2112c545828715ffbc1beb",
+        "v9ProposalSha256": "424cfd34162be8c95161c7712a09c6521a098a8802f5ed1d8b90eb0f6eb8bc51",
+        "packetSha256": "5fab48ce338a5d7502bd1ebdd8962837bf506863f7542bbad094d2f308cf2e4b",
+        "baselineResultArtifact": {
+          "id": 11255111880,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-41-result",
+          "digest": "sha256:7d123a3a82b36a8a2f9cdde3e36b85ed2424129ff009cd69bb858e1745ec87ea",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282886323,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4Mjg4NjMyMw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-41-result",
+          "size_in_bytes": 77787,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282886323",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282886323/zip",
+          "expired": false,
+          "digest": "sha256:bb97b90825cc724847fc48e2b51515d8272a03283733f37dc1a7b10b18d59283",
+          "created_at": "2026-10-03T19:18:12Z",
+          "updated_at": "2026-10-03T19:18:12Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 42,
+        "id": "mp3s_soundcloud_cc_event_detection/60529832.mp3",
+        "stem": "60529832",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "1c54caf006937d777a38ebae2d68ddc96106a199c68163e8650f59ce996171f1",
+        "v9ProposalSha256": "0ded604f896841a92a2b89db38741be64428188ce54b8fbe9f13a2a582f19171",
+        "packetSha256": "fedd709aaed00244801ddf498973016c01c4b9cd9dac1c7481c955b0321e6336",
+        "baselineResultArtifact": {
+          "id": 11255431813,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-42-result",
+          "digest": "sha256:53a4dc89dcf0fa20a0917e3327f3a9c94e5ef9b9441dba288ebead03a3988228",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283116755,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzExNjc1NQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-42-result",
+          "size_in_bytes": 88994,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283116755",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283116755/zip",
+          "expired": false,
+          "digest": "sha256:2c9d8da4681ceb3a71b454710700072411f8aab41c6a968aa261c48dd880615d",
+          "created_at": "2026-10-03T19:18:53Z",
+          "updated_at": "2026-10-03T19:18:53Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 43,
+        "id": "mp3s_soundcloud_cc_event_detection/65673638.mp3",
+        "stem": "65673638",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "8075f24b76858c8d156dfb2d329583220d73ee6783cd84f41de5a426d7b9eb6e",
+        "v9ProposalSha256": "4a28e0ead46fc77953c116ab9b729b410110f3c7c0d5901bacdfb524552c05ec",
+        "packetSha256": "43ca23725cf9f62aab6df722511b253ca009c46d10a9bac17b80bcb40c5afecb",
+        "baselineResultArtifact": {
+          "id": 11256077349,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-43-result",
+          "digest": "sha256:0af9b218af7dd0904694157d1bdae3ccac751fa9cabc77c3c1eed8cdfbe6f7a8",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282672389,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjY3MjM4OQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-43-result",
+          "size_in_bytes": 73773,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282672389",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282672389/zip",
+          "expired": false,
+          "digest": "sha256:439250fb34e07300d3f8305099cce71f40c400c471d9b4c38f577783d3dfdd36",
+          "created_at": "2026-10-03T19:19:10Z",
+          "updated_at": "2026-10-03T19:19:10Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 44,
+        "id": "mp3s_soundcloud_cc_event_detection/32339733.mp3",
+        "stem": "32339733",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "2a22b297bc6e8a6caf6ae8a12a2aef39453ba79e3704ba2c107d07d352074281",
+        "v9ProposalSha256": "200c6f25d5ad842ce6f4ddff6bc940e43b79212691e96c281f3150d2e40652bd",
+        "packetSha256": "b2176bcb287fd15209b730153d636b0ced51fb07c270bc72b31b638cc8671637",
+        "baselineResultArtifact": {
+          "id": 11255793194,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-44-result",
+          "digest": "sha256:79566904e3818aa37dffd3759cb4f5650fcf3c5f5cc4f4e61587cdf6f149ab8f",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282442710,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjQ0MjcxMA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-44-result",
+          "size_in_bytes": 99880,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282442710",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282442710/zip",
+          "expired": false,
+          "digest": "sha256:112434a5526ade79f73793118cc1493dfd1f6930f76a15dbfa4a7fab9401093b",
+          "created_at": "2026-10-03T19:19:45Z",
+          "updated_at": "2026-10-03T19:19:45Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 45,
+        "id": "mp3s_soundcloud_cc_event_detection/37088222.mp3",
+        "stem": "37088222",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "8a8be669659476285e21b2e21fb1034dd3594fe061f998c2732e7a7395d18f47",
+        "v9ProposalSha256": "10a0a45b6ce0a72a049a2f64d2e59c0fdaa75b1caf05756b77ffaa7fcf9c47e2",
+        "packetSha256": "a0a60580dbe60b3f861f8d3e19bbd66227d9fc0d9714cf3aca23516028d5f3b4",
+        "baselineResultArtifact": {
+          "id": 11256232769,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-45-result",
+          "digest": "sha256:e4138145370be319ba610796dfddc6738ae4160fb305c56d378034d538290f12",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282117791,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjExNzc5MQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-45-result",
+          "size_in_bytes": 98513,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282117791",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282117791/zip",
+          "expired": false,
+          "digest": "sha256:528137ea338291672fe25b486a40a08e7b0a293f6974b115c7e25dea59d9b835",
+          "created_at": "2026-10-03T19:20:31Z",
+          "updated_at": "2026-10-03T19:20:31Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 46,
+        "id": "mp3s_soundcloud_cc_event_detection/34226765.mp3",
+        "stem": "34226765",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "4f553344461f5534d306f1983d27951d74497172255d22d71ca1f67c96845163",
+        "v9ProposalSha256": "5512d66566a2e159f913d38de6a8242e029c36eb4d67660f1c536e5b6c0b0dd7",
+        "packetSha256": "aad2535b15b659688fb64ae4cdcba29f1ae1b68086c9bb1915e72d770571b23f",
+        "baselineResultArtifact": {
+          "id": 11256078394,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-46-result",
+          "digest": "sha256:a92285479cc9e7b0bac83adbe6481dcae7a27907bde3e69b53fa28438751acd5",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282338220,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjMzODIyMA==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-46-result",
+          "size_in_bytes": 97266,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282338220",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282338220/zip",
+          "expired": false,
+          "digest": "sha256:9fb32d45238fafdf28dea6fe80a441bcf5b8e08227a849bf3f8902015505d20c",
+          "created_at": "2026-10-03T19:21:19Z",
+          "updated_at": "2026-10-03T19:21:19Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 47,
+        "id": "mp3s_soundcloud_cc_event_detection/84747227.mp3",
+        "stem": "84747227",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "379bf8930cfd90861dbc76296b8c20341735dfc6e45a45f8655f3b6f9cc76fdb",
+        "v9ProposalSha256": "ed4b19a77e1aa8c39e0a754633eecc916d65bbdd49bacc067a4c2bec2ed26df0",
+        "packetSha256": "10fe3d3fd53152738d203611ee796eb862addc259c16c98b3f5dae9cc94ff8e6",
+        "baselineResultArtifact": {
+          "id": 11255469441,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-47-result",
+          "digest": "sha256:9e0fe1b2040c5819a89a39855e72e958ba0a99ae1295e8e0d5a5a956242e86df",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282473046,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjQ3MzA0Ng==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-47-result",
+          "size_in_bytes": 92581,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282473046",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282473046/zip",
+          "expired": false,
+          "digest": "sha256:34292d40d1074d9a7362b13a166d6122b146ffaf30326fb957f095fd1903a916",
+          "created_at": "2026-10-03T19:22:08Z",
+          "updated_at": "2026-10-03T19:22:08Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 48,
+        "id": "mp3s_soundcloud_cc_event_detection/57561267.mp3",
+        "stem": "57561267",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "a9f78adaeeb3226b2ad83f4f90d59ce926026dc05f02409b5f12c2adb55b912a",
+        "v9ProposalSha256": "39a7d64ffd9a988d49dc27be6a96c0ad57496c7a03b3385abff32b5c11feb7ac",
+        "packetSha256": "844b7b78ab3aa4b52fc0479ce910361aad5952c1885aed2db9924d7d9b2f8c2e",
+        "baselineResultArtifact": {
+          "id": 11255124979,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-48-result",
+          "digest": "sha256:d3125636f9f9801f63f8b291a544e33df288396bd8d5efaf7a8bebd7e58ee540",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282632936,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjYzMjkzNg==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-48-result",
+          "size_in_bytes": 70604,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282632936",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282632936/zip",
+          "expired": false,
+          "digest": "sha256:215ac943ee8304f54746d5ac8fd277a439c074312bf09ea253ce66b0e4e4267d",
+          "created_at": "2026-10-03T19:22:31Z",
+          "updated_at": "2026-10-03T19:22:31Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 49,
+        "id": "mp3s_soundcloud_cc_event_detection/92251267.mp3",
+        "stem": "92251267",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "3da7d905ec27f6089972466d6709d0663aefc28b72852c4c0812b8cda1e1b579",
+        "v9ProposalSha256": "ece6926a3e40dee209002ea057394002d9150b12f4aff496f62a351731dc5a56",
+        "packetSha256": "09dc6a6d4b79ef0750d62c43eea8739a8c4cd4533d1a89bbe260bbecb5988dda",
+        "baselineResultArtifact": {
+          "id": 11255844306,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-49-result",
+          "digest": "sha256:a1cbfd7be0699dac792a6062a4a14c349f54f980a3d320d6418cd7584e3032ef",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11283191941,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MzE5MTk0MQ==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-49-result",
+          "size_in_bytes": 84945,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283191941",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11283191941/zip",
+          "expired": false,
+          "digest": "sha256:4b7912aaee65bd5711fdfe94c73a2cef16f0803b693d79cd45ef42dcf873acd6",
+          "created_at": "2026-10-03T19:23:03Z",
+          "updated_at": "2026-10-03T19:23:03Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      },
+      {
+        "ordinal": 50,
+        "id": "mp3s_soundcloud_cc_event_detection/57916551.mp3",
+        "stem": "57916551",
+        "baselineSemanticVersion": "V8",
+        "baselineProposalSha256": "66ce454bb472d3f4605f10aad3e8e7ce7d8aa41ff84e1199cef894d9f66e39c5",
+        "v9ProposalSha256": "7ff558424e14fbc5b408324246dea4782698e6de495fff06a5ba4a6c918cf228",
+        "packetSha256": "d4160e60fc7cb66bd26f61336b6840a5bc4b3bcb739ddf13877555968a372345",
+        "baselineResultArtifact": {
+          "id": 11255844421,
+          "name": "trackcade-stage1-v8-remaining46-v1-case-50-result",
+          "digest": "sha256:3d325e28586de60eff3d0dcf7c1a13fada7afea0440ec746a68a0b4fb59d322b",
+          "runId": 37070370544,
+          "headSha": "0badee205b40d857ba91d617abf38266092e21a1"
+        },
+        "v9ResultArtifact": {
+          "id": 11282343387,
+          "node_id": "MDg6QXJ0aWZhY3QxMTI4MjM0MzM4Nw==",
+          "name": "trackcade-stage1-v9-grounded-v1-case-50-result",
+          "size_in_bytes": 97414,
+          "url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282343387",
+          "archive_download_url": "https://api.github.com/repos/4everhumblepdx/trackcade-test/actions/artifacts/11282343387/zip",
+          "expired": false,
+          "digest": "sha256:49eeb1e96c5fcf339cd4bc0b811245c3acb93e53f3f7c55300bf9a3ea2eed0ed",
+          "created_at": "2026-10-03T19:23:51Z",
+          "updated_at": "2026-10-03T19:23:51Z",
+          "expires_at": "2027-01-01T18:54:23Z",
+          "workflow_run": {
+            "id": 37145954313,
+            "repository_id": 1380714386,
+            "head_repository_id": 1380714386,
+            "head_branch": "trackcade-semantic-external-holdout-v1",
+            "head_sha": "3c0d371598e1676f8e8503649e50e75c531320dd"
+          }
+        }
+      }
+    ]
+  },
+  "summary": {
+    "baselineTP21": {
+      "rawDropTPRetained": 11,
+      "rawDropTPLost": 10,
+      "nearestEventPrimary2": {
+        "absent_within_5": 1,
+        "drop": 11,
+        "energy": 7,
+        "peak": 1,
+        "section": 1
+      },
+      "retentionAwarePrimary2": {
+        "absent_within_5": 1,
+        "energy": 7,
+        "peak": 1,
+        "retained_raw_drop_tp": 11,
+        "section": 1
+      },
+      "nearestEventSensitivity5": {
+        "absent_within_5": 1,
+        "drop": 11,
+        "energy": 7,
+        "peak": 1,
+        "section": 1
+      },
+      "retentionAwareSensitivity5": {
+        "absent_within_5": 1,
+        "energy": 7,
+        "peak": 1,
+        "retained_raw_drop_tp": 11,
+        "section": 1
+      }
+    },
+    "baselineFP60": {
+      "nearestEventPrimary2": {
+        "absent_within_5": 2,
+        "drop": 10,
+        "energy": 28,
+        "only_2_to_5": 1,
+        "section": 19
+      },
+      "nearestEventSensitivity5": {
+        "absent_within_5": 2,
+        "drop": 10,
+        "energy": 28,
+        "section": 20
+      },
+      "dropEliminatedPrimary2": 50,
+      "dropEliminatedSensitivity5": 50,
+      "eliminatedPrimary2Transitions": {
+        "absent_within_5": 2,
+        "energy": 28,
+        "only_2_to_5": 1,
+        "section": 19
+      },
+      "eliminatedSensitivity5Transitions": {
+        "absent_within_5": 2,
+        "energy": 28,
+        "section": 20
+      }
+    },
+    "v9FN35": {
+      "primary2": {
+        "peak": 1,
+        "absent_within_5": 7,
+        "only_2_to_5": 13,
+        "energy": 11,
+        "section": 3
+      },
+      "sensitivity5": {
+        "peak": 2,
+        "absent_within_5": 7,
+        "section": 9,
+        "energy": 17
+      },
+      "coveredWithin2": 15,
+      "coveredWithin5": 28,
+      "lostBaselineTPs": 10,
+      "baselineAlreadyMissedStillV9FN": 25,
+      "newV9TPsAmongBaselineFNs": 0
+    },
+    "lostBaselineTPs": {
+      "count": 10,
+      "within2": 9,
+      "within5": 9,
+      "primary2": {
+        "absent_within_5": 1,
+        "energy": 7,
+        "peak": 1,
+        "section": 1
+      },
+      "sensitivity5": {
+        "absent_within_5": 1,
+        "energy": 7,
+        "peak": 1,
+        "section": 1
+      }
+    },
+    "all46ReferenceCoverage": {
+      "1": {
+        "name": "semantic-event coverage around expert Drop references",
+        "referenceCount": 46,
+        "covered": 19,
+        "nearestEventKindCountsAmongCovered": {
+          "energy": 8,
+          "drop": 9,
+          "section": 2
+        },
+        "nearbyKindPresenceCountsNonexclusive": {
+          "drop": 9,
+          "peak": 0,
+          "energy": 8,
+          "section": 2
+        }
+      },
+      "2": {
+        "name": "semantic-event coverage around expert Drop references",
+        "referenceCount": 46,
+        "covered": 26,
+        "nearestEventKindCountsAmongCovered": {
+          "peak": 1,
+          "energy": 11,
+          "drop": 11,
+          "section": 3
+        },
+        "nearbyKindPresenceCountsNonexclusive": {
+          "drop": 11,
+          "peak": 2,
+          "energy": 12,
+          "section": 3
+        }
+      },
+      "5": {
+        "name": "semantic-event coverage around expert Drop references",
+        "referenceCount": 46,
+        "covered": 39,
+        "nearestEventKindCountsAmongCovered": {
+          "peak": 2,
+          "section": 9,
+          "energy": 17,
+          "drop": 11
+        },
+        "nearbyKindPresenceCountsNonexclusive": {
+          "drop": 11,
+          "peak": 7,
+          "energy": 18,
+          "section": 11
+        }
+      }
+    },
+    "v9EventCountsNearReferences": {
+      "drop": {
+        "total": 21,
+        "within2": 11,
+        "within5": 11
+      },
+      "peak": {
+        "total": 84,
+        "within2": 2,
+        "within5": 7
+      },
+      "energy": {
+        "total": 113,
+        "within2": 12,
+        "within5": 18
+      },
+      "section": {
+        "total": 242,
+        "within2": 3,
+        "within5": 11
+      }
+    },
+    "rawOverlap": {
+      "retained": 11,
+      "lost": 10,
+      "newV9TP": 0,
+      "baselineFNStillFN": 25
+    }
+  },
+  "conclusions": {
+    "reclassificationVsDisappearance": "Mostly semantic relabeling for lost baseline TPs and eliminated baseline FPs; timing/coverage remain limitations across all references.",
+    "lostBaselineTPsWithin2": 9,
+    "lostBaselineTPsWithin5": 9,
+    "lostNearestKindsAt2": {
+      "energy": 7,
+      "peak": 1,
+      "section": 1,
+      "other": 0
+    },
+    "lostAbsentWithin5": 1,
+    "eliminatedFPsWithin2": 47,
+    "eliminatedFPsWithin5": 48,
+    "eliminatedFPsAbsentWithin5": 2,
+    "gameplayReadiness": "Evidence supports preserving non-Drop events as gameplay candidates and makes loss-of-moments less concerning for the ten lost TPs. It does not establish gameplay readiness: only 26/46 expert Drop references have any event within \u00b12s, mapping/playtesting are absent, and Drop preregistration still fails.",
+    "mainIssue": "For incremental baseline TP loss: semantic classification (9/10 retain moment). Across all 46 references: mixture of classification, timing (13 reference moments only at 2\u20135s), and event coverage (7 absent within \u00b15s).",
+    "recommendedDevelopmentHypothesis": {
+      "id": "H1",
+      "status": "label-informed-unimplemented",
+      "text": "Separate anchor-timing uncertainty from musical impact absence in grounded semantic judgments: prepared, sustained transitions with a nearby sampled rise may be conservatively demoted because the frozen anchor does not coincide exactly with an independently resolved attack. A future development study could test whether evaluating existing local temporal evidence jointly preserves true Drops while retaining resistance to ordinary re-entry overcalling.",
+      "support": "Nine lost baseline TPs retained as non-Drops; all nine nearby V9 assessments cite weak/unclear impact despite sustained stronger passage; several sampled rises precede or straddle the chosen anchor.",
+      "counterevidence": "Eliminated FPs frequently show the same evidence. No clean separating rule is established; no predicted improvement, new threshold, or unseen validation claim.",
+      "implemented": false
+    },
+    "alternativeHypotheses": [],
+    "overfitCaution": "Stage1 development labels inform this hypothesis. Repeated Stage1 tuning increases overfit risk. Terminal holdout remains untouched; no preparation or claim of unseen validation."
+  },
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "providerCredentialAccessed": false,
+  "predictionsChanged": false,
+  "scoringContractChanged": false,
+  "rawScoringRerun": false,
+  "V9GenerationRerun": false,
+  "semanticTreatmentChanged": false,
+  "promptEdited": false,
+  "newModelCreated": false,
+  "V10Created": false,
+  "terminalAccessed": false,
+  "terminalMetadataInspected": false,
+  "terminalEvaluationPrepared": false,
+  "AnalyzerInvoked": false,
+  "AnalyzerModified": false,
+  "compilerInvoked": false,
+  "labelInformedDevelopmentAnalysis": true,
+  "unseenValidationClaimed": false,
+  "offlineAudit": {
+    "checksPassed": 20,
+    "failures": 0,
+    "originalAuditedSourceHashesVerified": 28,
+    "proposalFileHashesVerified": 100,
+    "packetFileHashesVerified": 100,
+    "immutableV9ResultZipDigestsVerified": 50,
+    "generationRunId": 37145954313
+  },
+  "artifacts": [
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_FN_ANY_EVENT_TABLE_V1.csv",
+      "sha256": "fc1e14cdbecbe52005d0c853cd3b4559357f3b1923af12d1bed980d016a166d0",
+      "bytes": 30098
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_LOST_TP_FOCUSED_TABLE_V1.csv",
+      "sha256": "0672a12db274c071186a0a92cb9b5b6b9730b4a0f891cebac62ba52ecacc622e",
+      "bytes": 70513
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_RECLASSIFICATION_EVENT_TABLE_V1.csv",
+      "sha256": "a2939e4902deea3209110414b1dd5f66b885c43bdae2a1efd8301ce9e8304afd",
+      "bytes": 121518
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_RECLASSIFICATION_FORENSICS_V1.json",
+      "sha256": "ba6875476aafc4cdc61986ff0a3244533f2aa1954c8151d7caabdde024ba8acc",
+      "bytes": 832180
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_RECLASSIFICATION_OFFLINE_AUDIT_V1.json",
+      "sha256": "807c99c37613e481e50bcf1bdd3cd2ce4b8cd5c47e7fc6308f4716a9d07036c5",
+      "bytes": 1725
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_RECLASSIFICATION_REPORT_V1.md",
+      "sha256": "bef556b8059c9ee2f035c9cc81f6c0bd2be333be4e3d96948ffb1be132bbb7cb",
+      "bytes": 29550
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_REFERENCE_ANY_EVENT_COVERAGE_V1.csv",
+      "sha256": "fd39e1641743571ad204abfc0a5ac7cb44f209fcb41456ad4287961bc850fc9b",
+      "bytes": 22715
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/STAGE1_V9_TRACK_COVERAGE_V1.csv",
+      "sha256": "4759cababcccd6a547f31258e0c42992c62fcf4daf8fa55e9fbef4219e3a5e67",
+      "bytes": 4623
+    }
+  ],
+  "analysisSourceFiles": [
+    {
+      "path": "research/semantic-external-holdout-v1/forensics/v9-reclassification-v1/analyze_v9_reclassification_v1.py",
+      "sha256": "950f43cf861fd69fab50579c95784080d3175fd26ed3dff3c99a322dd754e6d7"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/forensics/v9-reclassification-v1/summarize_v9_forensic_features.py",
+      "sha256": "f605b5a990d7455feac343485d746a8fe97b784362cbfc19abeb31b683a494b2"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/forensics/v9-reclassification-v1/complete_v9_forensic_report_v1.py",
+      "sha256": "7511cd1292c89be785373b09541c43f9bb4db63c2e2f0be7146dc4e530cf3e60"
+    },
+    {
+      "path": "research/semantic-external-holdout-v1/forensics/v9-reclassification-v1/verify_v9_reclassification_v1.py",
+      "sha256": "fcb0bb10866a628b6f7bdf95f45bee148b19e56ac6aa34d2f9a00e70870128a1"
+    }
+  ],
+  "outputByteConvention": "Forensic outputs are UTF-8; CSV uses LF. Frozen proposals/packets remain byte-identical.",
+  "reproduction": "Provider-free scripts accept absolute WORK directory as their sole optional argument, containing trackcade-test, stage1-mixed-collection, v9-paid-evidence/collection, immutable V9 ZIP archives and previously isolated Stage1 excerpt. Run analyze, summarize, complete, verify in order on a clean descendant of source HEAD. CSV presentation appends nearest event name/rationale; JSON contains exact fields. No provider transport exists in these scripts.",
+  "stopInstruction": "Analysis only. Stop after commit/push. H1 remains unimplemented; no generation, prompt change, V10, terminal work or scoring change authorized by this receipt.",
+  "finalHeadBinding": "Containing forensic commit is final state; do not rewrite historical V9 final state."
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "trackcade-stage1-v9-provider-free-forensic-verification-v1",
+  "status": "PASS",
+  "checksPassed": 20,
+  "failures": 0,
+  "checks": [
+    "81 baseline transition rows partition into 21 frozen TPs and 60 frozen FPs",
+    "Frozen matched reference intersection is 11 retained, ten lost, no new V9 TPs",
+    "Independent nearest-event enumeration verifies every TP/FP/FN/reference row and window",
+    "All 46 references and all 35 V9 FNs are represented",
+    "Coverage monotonicity and 19/26/39 closure",
+    "FN coverage 15 at \u00b12 and 28 at \u00b15",
+    "Lost baseline TP coverage nine at both windows, one absent",
+    "50 eliminated FP identities independently verified, not inferred from net count",
+    "Retained FP correspondences are ten distinct V9 Drop events",
+    "All ten retained nearby FP Drops have frozen V9 unmatched-candidate identity",
+    "Full track totals preserve frozen baseline and V9 RAW counts",
+    "V9 event kind totals and no empty semantic track",
+    "Event-near-reference counts distinguish events from covered references",
+    "All 28 audited semantic/execution/template source Git hashes unchanged",
+    "Frozen prediction manifests and original RAW result Git bytes unchanged",
+    "Only exact previously isolated Stage1 reference hash used",
+    "All 100 proposal and 100 packet file hashes match frozen manifests",
+    "All 50 V9 immutable result ZIP digests and proposal entry hashes verified",
+    "All five CSV row counts and partition closures verified",
+    "Scientific conclusions retain failed Drop preregistration and label-informed limitation"
+  ],
+  "providerCalls": 0,
+  "providerSpendUsd": "0",
+  "rawScoringExecuted": false,
+  "terminalAccessed": false
+}
