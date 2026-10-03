@@ -1,0 +1,3141 @@
+{
+  "name": "Trackcade V9 single-use serial execution",
+  "on": {
+    "push": {
+      "branches": [
+        "trackcade-semantic-external-holdout-v1"
+      ],
+      "paths": [
+        "research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_ACTIVATE_V1.json"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "concurrency": {
+    "group": "trackcade-stage1-v9-grounded-v1-paid",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "serial": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 360,
+      "env": {
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "E": "research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py",
+        "V9_SOURCE_PREP": "/tmp/v9-grounded-prep",
+        "V9_WORK": "/tmp/v9-grounded"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v4",
+          "with": {
+            "fetch-depth": 0,
+            "persist-credentials": false,
+            "sparse-checkout-cone-mode": false,
+            "sparse-checkout": "/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml\n/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-v1.yml\n/research/learned-interpretation-v1/build_learned_request_v1.py\n/research/learned-interpretation-v1/build_learned_request_v2.py\n/research/learned-interpretation-v1/build_learned_request_v3.py\n/research/learned-interpretation-v1/build_learned_request_v5.py\n/research/learned-interpretation-v1/build_learned_request_v6.py\n/research/learned-interpretation-v1/build_learned_request_v7.py\n/research/learned-interpretation-v1/openai_responses_adapter_v1.py\n/research/learned-interpretation-v1/validate_learned_proposal_v1.py\n/research/learned-interpretation-v1/validate_learned_proposal_v3.py\n/research/learned-interpretation-v1/validate_learned_proposal_v7.py\n/research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_PREDICTION_MANIFEST_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V9_EXECUTION_POLICY_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_ACTIVATE_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_AUTHORIZATION_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_CONTRACT_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_MAPPING_V1.json\n/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_SEMANTIC_DIFF_V1.patch\n/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py\n/research/semantic-external-holdout-v1/build_stage1_v9_grounded_v1.py\n/research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py\n/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py\n/research/semantic-external-holdout-v1/run_stage1_v9_grounded_v1.py\n/research/semantic-external-holdout-v1/stage_stage1_v9_grounded_v1.py\n/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py\n/research/semantic-external-holdout-v1/test_stage1_v9_grounded_contract_v1.py\n/research/semantic-external-holdout-v1/test_stage1_v9_grounded_execution_v1.py"
+          }
+        },
+        {
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "trackcade-semantic-external-stage1-v7-prep-v1",
+            "path": "/tmp/v9-source-original",
+            "repository": "${{ github.repository }}",
+            "run-id": 36915758639,
+            "github-token": "${{ github.token }}"
+          }
+        },
+        {
+          "uses": "actions/download-artifact@v4",
+          "with": {
+            "name": "trackcade-semantic-external-stage1-v7-flex8192-prep-v1",
+            "path": "/tmp/v9-flex-original",
+            "repository": "${{ github.repository }}",
+            "run-id": 36920081360,
+            "github-token": "${{ github.token }}"
+          }
+        },
+        {
+          "name": "Rebuild exact frozen private V9 prep without credential",
+          "run": "python -B \"$E\" prep"
+        },
+        {
+          "name": "One-use audited source and authorization preflight",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "run": "python -B \"$E\" preflight"
+        },
+        {
+          "id": "prep01",
+          "name": "Reserve 01 or stop cleanly at budget",
+          "if": "${{ success() }}",
+          "run": "python -B \"$E\" prepare 1"
+        },
+        {
+          "id": "lock01",
+          "if": "${{ success() && steps.prep01.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-01-attempt-lock",
+            "path": "/tmp/v9-grounded/01-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify01",
+          "name": "Verify immutable lock 01 before credential",
+          "if": "${{ success() && steps.prep01.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock01.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 1"
+        },
+        {
+          "id": "live01",
+          "name": "One provider attempt 01",
+          "if": "${{ success() && steps.verify01.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock01.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 1"
+        },
+        {
+          "id": "result01",
+          "if": "${{ always() && steps.live01.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-01-result",
+            "path": "/tmp/v9-grounded/01",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate01",
+          "name": "Require uploaded valid result before progression 01",
+          "if": "${{ success() && steps.live01.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock01.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result01.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 1"
+        },
+        {
+          "id": "prep02",
+          "name": "Reserve 02 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate01.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 2"
+        },
+        {
+          "id": "lock02",
+          "if": "${{ success() && steps.prep02.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-02-attempt-lock",
+            "path": "/tmp/v9-grounded/02-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify02",
+          "name": "Verify immutable lock 02 before credential",
+          "if": "${{ success() && steps.prep02.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock02.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 2"
+        },
+        {
+          "id": "live02",
+          "name": "One provider attempt 02",
+          "if": "${{ success() && steps.verify02.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock02.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 2"
+        },
+        {
+          "id": "result02",
+          "if": "${{ always() && steps.live02.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-02-result",
+            "path": "/tmp/v9-grounded/02",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate02",
+          "name": "Require uploaded valid result before progression 02",
+          "if": "${{ success() && steps.live02.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock02.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result02.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 2"
+        },
+        {
+          "id": "prep03",
+          "name": "Reserve 03 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate02.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 3"
+        },
+        {
+          "id": "lock03",
+          "if": "${{ success() && steps.prep03.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-03-attempt-lock",
+            "path": "/tmp/v9-grounded/03-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify03",
+          "name": "Verify immutable lock 03 before credential",
+          "if": "${{ success() && steps.prep03.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock03.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 3"
+        },
+        {
+          "id": "live03",
+          "name": "One provider attempt 03",
+          "if": "${{ success() && steps.verify03.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock03.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 3"
+        },
+        {
+          "id": "result03",
+          "if": "${{ always() && steps.live03.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-03-result",
+            "path": "/tmp/v9-grounded/03",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate03",
+          "name": "Require uploaded valid result before progression 03",
+          "if": "${{ success() && steps.live03.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock03.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result03.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 3"
+        },
+        {
+          "id": "prep04",
+          "name": "Reserve 04 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate03.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 4"
+        },
+        {
+          "id": "lock04",
+          "if": "${{ success() && steps.prep04.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-04-attempt-lock",
+            "path": "/tmp/v9-grounded/04-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify04",
+          "name": "Verify immutable lock 04 before credential",
+          "if": "${{ success() && steps.prep04.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock04.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 4"
+        },
+        {
+          "id": "live04",
+          "name": "One provider attempt 04",
+          "if": "${{ success() && steps.verify04.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock04.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 4"
+        },
+        {
+          "id": "result04",
+          "if": "${{ always() && steps.live04.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-04-result",
+            "path": "/tmp/v9-grounded/04",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate04",
+          "name": "Require uploaded valid result before progression 04",
+          "if": "${{ success() && steps.live04.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock04.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result04.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 4"
+        },
+        {
+          "id": "prep05",
+          "name": "Reserve 05 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate04.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 5"
+        },
+        {
+          "id": "lock05",
+          "if": "${{ success() && steps.prep05.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-05-attempt-lock",
+            "path": "/tmp/v9-grounded/05-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify05",
+          "name": "Verify immutable lock 05 before credential",
+          "if": "${{ success() && steps.prep05.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock05.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 5"
+        },
+        {
+          "id": "live05",
+          "name": "One provider attempt 05",
+          "if": "${{ success() && steps.verify05.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock05.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 5"
+        },
+        {
+          "id": "result05",
+          "if": "${{ always() && steps.live05.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-05-result",
+            "path": "/tmp/v9-grounded/05",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate05",
+          "name": "Require uploaded valid result before progression 05",
+          "if": "${{ success() && steps.live05.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock05.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result05.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 5"
+        },
+        {
+          "id": "prep06",
+          "name": "Reserve 06 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate05.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 6"
+        },
+        {
+          "id": "lock06",
+          "if": "${{ success() && steps.prep06.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-06-attempt-lock",
+            "path": "/tmp/v9-grounded/06-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify06",
+          "name": "Verify immutable lock 06 before credential",
+          "if": "${{ success() && steps.prep06.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock06.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 6"
+        },
+        {
+          "id": "live06",
+          "name": "One provider attempt 06",
+          "if": "${{ success() && steps.verify06.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock06.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 6"
+        },
+        {
+          "id": "result06",
+          "if": "${{ always() && steps.live06.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-06-result",
+            "path": "/tmp/v9-grounded/06",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate06",
+          "name": "Require uploaded valid result before progression 06",
+          "if": "${{ success() && steps.live06.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock06.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result06.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 6"
+        },
+        {
+          "id": "prep07",
+          "name": "Reserve 07 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate06.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 7"
+        },
+        {
+          "id": "lock07",
+          "if": "${{ success() && steps.prep07.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-07-attempt-lock",
+            "path": "/tmp/v9-grounded/07-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify07",
+          "name": "Verify immutable lock 07 before credential",
+          "if": "${{ success() && steps.prep07.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock07.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 7"
+        },
+        {
+          "id": "live07",
+          "name": "One provider attempt 07",
+          "if": "${{ success() && steps.verify07.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock07.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 7"
+        },
+        {
+          "id": "result07",
+          "if": "${{ always() && steps.live07.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-07-result",
+            "path": "/tmp/v9-grounded/07",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate07",
+          "name": "Require uploaded valid result before progression 07",
+          "if": "${{ success() && steps.live07.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock07.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result07.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 7"
+        },
+        {
+          "id": "prep08",
+          "name": "Reserve 08 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate07.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 8"
+        },
+        {
+          "id": "lock08",
+          "if": "${{ success() && steps.prep08.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-08-attempt-lock",
+            "path": "/tmp/v9-grounded/08-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify08",
+          "name": "Verify immutable lock 08 before credential",
+          "if": "${{ success() && steps.prep08.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock08.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 8"
+        },
+        {
+          "id": "live08",
+          "name": "One provider attempt 08",
+          "if": "${{ success() && steps.verify08.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock08.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 8"
+        },
+        {
+          "id": "result08",
+          "if": "${{ always() && steps.live08.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-08-result",
+            "path": "/tmp/v9-grounded/08",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate08",
+          "name": "Require uploaded valid result before progression 08",
+          "if": "${{ success() && steps.live08.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock08.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result08.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 8"
+        },
+        {
+          "id": "prep09",
+          "name": "Reserve 09 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate08.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 9"
+        },
+        {
+          "id": "lock09",
+          "if": "${{ success() && steps.prep09.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-09-attempt-lock",
+            "path": "/tmp/v9-grounded/09-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify09",
+          "name": "Verify immutable lock 09 before credential",
+          "if": "${{ success() && steps.prep09.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock09.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 9"
+        },
+        {
+          "id": "live09",
+          "name": "One provider attempt 09",
+          "if": "${{ success() && steps.verify09.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock09.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 9"
+        },
+        {
+          "id": "result09",
+          "if": "${{ always() && steps.live09.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-09-result",
+            "path": "/tmp/v9-grounded/09",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate09",
+          "name": "Require uploaded valid result before progression 09",
+          "if": "${{ success() && steps.live09.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock09.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result09.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 9"
+        },
+        {
+          "id": "prep10",
+          "name": "Reserve 10 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate09.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 10"
+        },
+        {
+          "id": "lock10",
+          "if": "${{ success() && steps.prep10.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-10-attempt-lock",
+            "path": "/tmp/v9-grounded/10-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify10",
+          "name": "Verify immutable lock 10 before credential",
+          "if": "${{ success() && steps.prep10.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock10.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 10"
+        },
+        {
+          "id": "live10",
+          "name": "One provider attempt 10",
+          "if": "${{ success() && steps.verify10.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock10.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 10"
+        },
+        {
+          "id": "result10",
+          "if": "${{ always() && steps.live10.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-10-result",
+            "path": "/tmp/v9-grounded/10",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate10",
+          "name": "Require uploaded valid result before progression 10",
+          "if": "${{ success() && steps.live10.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock10.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result10.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 10"
+        },
+        {
+          "id": "prep11",
+          "name": "Reserve 11 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate10.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 11"
+        },
+        {
+          "id": "lock11",
+          "if": "${{ success() && steps.prep11.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-11-attempt-lock",
+            "path": "/tmp/v9-grounded/11-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify11",
+          "name": "Verify immutable lock 11 before credential",
+          "if": "${{ success() && steps.prep11.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock11.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 11"
+        },
+        {
+          "id": "live11",
+          "name": "One provider attempt 11",
+          "if": "${{ success() && steps.verify11.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock11.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 11"
+        },
+        {
+          "id": "result11",
+          "if": "${{ always() && steps.live11.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-11-result",
+            "path": "/tmp/v9-grounded/11",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate11",
+          "name": "Require uploaded valid result before progression 11",
+          "if": "${{ success() && steps.live11.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock11.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result11.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 11"
+        },
+        {
+          "id": "prep12",
+          "name": "Reserve 12 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate11.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 12"
+        },
+        {
+          "id": "lock12",
+          "if": "${{ success() && steps.prep12.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-12-attempt-lock",
+            "path": "/tmp/v9-grounded/12-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify12",
+          "name": "Verify immutable lock 12 before credential",
+          "if": "${{ success() && steps.prep12.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock12.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 12"
+        },
+        {
+          "id": "live12",
+          "name": "One provider attempt 12",
+          "if": "${{ success() && steps.verify12.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock12.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 12"
+        },
+        {
+          "id": "result12",
+          "if": "${{ always() && steps.live12.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-12-result",
+            "path": "/tmp/v9-grounded/12",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate12",
+          "name": "Require uploaded valid result before progression 12",
+          "if": "${{ success() && steps.live12.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock12.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result12.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 12"
+        },
+        {
+          "id": "prep13",
+          "name": "Reserve 13 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate12.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 13"
+        },
+        {
+          "id": "lock13",
+          "if": "${{ success() && steps.prep13.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-13-attempt-lock",
+            "path": "/tmp/v9-grounded/13-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify13",
+          "name": "Verify immutable lock 13 before credential",
+          "if": "${{ success() && steps.prep13.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock13.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 13"
+        },
+        {
+          "id": "live13",
+          "name": "One provider attempt 13",
+          "if": "${{ success() && steps.verify13.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock13.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 13"
+        },
+        {
+          "id": "result13",
+          "if": "${{ always() && steps.live13.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-13-result",
+            "path": "/tmp/v9-grounded/13",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate13",
+          "name": "Require uploaded valid result before progression 13",
+          "if": "${{ success() && steps.live13.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock13.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result13.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 13"
+        },
+        {
+          "id": "prep14",
+          "name": "Reserve 14 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate13.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 14"
+        },
+        {
+          "id": "lock14",
+          "if": "${{ success() && steps.prep14.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-14-attempt-lock",
+            "path": "/tmp/v9-grounded/14-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify14",
+          "name": "Verify immutable lock 14 before credential",
+          "if": "${{ success() && steps.prep14.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock14.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 14"
+        },
+        {
+          "id": "live14",
+          "name": "One provider attempt 14",
+          "if": "${{ success() && steps.verify14.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock14.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 14"
+        },
+        {
+          "id": "result14",
+          "if": "${{ always() && steps.live14.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-14-result",
+            "path": "/tmp/v9-grounded/14",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate14",
+          "name": "Require uploaded valid result before progression 14",
+          "if": "${{ success() && steps.live14.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock14.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result14.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 14"
+        },
+        {
+          "id": "prep15",
+          "name": "Reserve 15 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate14.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 15"
+        },
+        {
+          "id": "lock15",
+          "if": "${{ success() && steps.prep15.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-15-attempt-lock",
+            "path": "/tmp/v9-grounded/15-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify15",
+          "name": "Verify immutable lock 15 before credential",
+          "if": "${{ success() && steps.prep15.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock15.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 15"
+        },
+        {
+          "id": "live15",
+          "name": "One provider attempt 15",
+          "if": "${{ success() && steps.verify15.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock15.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 15"
+        },
+        {
+          "id": "result15",
+          "if": "${{ always() && steps.live15.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-15-result",
+            "path": "/tmp/v9-grounded/15",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate15",
+          "name": "Require uploaded valid result before progression 15",
+          "if": "${{ success() && steps.live15.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock15.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result15.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 15"
+        },
+        {
+          "id": "prep16",
+          "name": "Reserve 16 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate15.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 16"
+        },
+        {
+          "id": "lock16",
+          "if": "${{ success() && steps.prep16.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-16-attempt-lock",
+            "path": "/tmp/v9-grounded/16-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify16",
+          "name": "Verify immutable lock 16 before credential",
+          "if": "${{ success() && steps.prep16.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock16.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 16"
+        },
+        {
+          "id": "live16",
+          "name": "One provider attempt 16",
+          "if": "${{ success() && steps.verify16.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock16.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 16"
+        },
+        {
+          "id": "result16",
+          "if": "${{ always() && steps.live16.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-16-result",
+            "path": "/tmp/v9-grounded/16",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate16",
+          "name": "Require uploaded valid result before progression 16",
+          "if": "${{ success() && steps.live16.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock16.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result16.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 16"
+        },
+        {
+          "id": "prep17",
+          "name": "Reserve 17 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate16.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 17"
+        },
+        {
+          "id": "lock17",
+          "if": "${{ success() && steps.prep17.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-17-attempt-lock",
+            "path": "/tmp/v9-grounded/17-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify17",
+          "name": "Verify immutable lock 17 before credential",
+          "if": "${{ success() && steps.prep17.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock17.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 17"
+        },
+        {
+          "id": "live17",
+          "name": "One provider attempt 17",
+          "if": "${{ success() && steps.verify17.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock17.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 17"
+        },
+        {
+          "id": "result17",
+          "if": "${{ always() && steps.live17.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-17-result",
+            "path": "/tmp/v9-grounded/17",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate17",
+          "name": "Require uploaded valid result before progression 17",
+          "if": "${{ success() && steps.live17.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock17.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result17.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 17"
+        },
+        {
+          "id": "prep18",
+          "name": "Reserve 18 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate17.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 18"
+        },
+        {
+          "id": "lock18",
+          "if": "${{ success() && steps.prep18.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-18-attempt-lock",
+            "path": "/tmp/v9-grounded/18-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify18",
+          "name": "Verify immutable lock 18 before credential",
+          "if": "${{ success() && steps.prep18.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock18.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 18"
+        },
+        {
+          "id": "live18",
+          "name": "One provider attempt 18",
+          "if": "${{ success() && steps.verify18.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock18.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 18"
+        },
+        {
+          "id": "result18",
+          "if": "${{ always() && steps.live18.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-18-result",
+            "path": "/tmp/v9-grounded/18",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate18",
+          "name": "Require uploaded valid result before progression 18",
+          "if": "${{ success() && steps.live18.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock18.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result18.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 18"
+        },
+        {
+          "id": "prep19",
+          "name": "Reserve 19 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate18.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 19"
+        },
+        {
+          "id": "lock19",
+          "if": "${{ success() && steps.prep19.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-19-attempt-lock",
+            "path": "/tmp/v9-grounded/19-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify19",
+          "name": "Verify immutable lock 19 before credential",
+          "if": "${{ success() && steps.prep19.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock19.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 19"
+        },
+        {
+          "id": "live19",
+          "name": "One provider attempt 19",
+          "if": "${{ success() && steps.verify19.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock19.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 19"
+        },
+        {
+          "id": "result19",
+          "if": "${{ always() && steps.live19.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-19-result",
+            "path": "/tmp/v9-grounded/19",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate19",
+          "name": "Require uploaded valid result before progression 19",
+          "if": "${{ success() && steps.live19.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock19.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result19.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 19"
+        },
+        {
+          "id": "prep20",
+          "name": "Reserve 20 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate19.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 20"
+        },
+        {
+          "id": "lock20",
+          "if": "${{ success() && steps.prep20.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-20-attempt-lock",
+            "path": "/tmp/v9-grounded/20-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify20",
+          "name": "Verify immutable lock 20 before credential",
+          "if": "${{ success() && steps.prep20.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock20.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 20"
+        },
+        {
+          "id": "live20",
+          "name": "One provider attempt 20",
+          "if": "${{ success() && steps.verify20.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock20.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 20"
+        },
+        {
+          "id": "result20",
+          "if": "${{ always() && steps.live20.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-20-result",
+            "path": "/tmp/v9-grounded/20",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate20",
+          "name": "Require uploaded valid result before progression 20",
+          "if": "${{ success() && steps.live20.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock20.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result20.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 20"
+        },
+        {
+          "id": "prep21",
+          "name": "Reserve 21 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate20.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 21"
+        },
+        {
+          "id": "lock21",
+          "if": "${{ success() && steps.prep21.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-21-attempt-lock",
+            "path": "/tmp/v9-grounded/21-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify21",
+          "name": "Verify immutable lock 21 before credential",
+          "if": "${{ success() && steps.prep21.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock21.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 21"
+        },
+        {
+          "id": "live21",
+          "name": "One provider attempt 21",
+          "if": "${{ success() && steps.verify21.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock21.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 21"
+        },
+        {
+          "id": "result21",
+          "if": "${{ always() && steps.live21.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-21-result",
+            "path": "/tmp/v9-grounded/21",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate21",
+          "name": "Require uploaded valid result before progression 21",
+          "if": "${{ success() && steps.live21.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock21.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result21.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 21"
+        },
+        {
+          "id": "prep22",
+          "name": "Reserve 22 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate21.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 22"
+        },
+        {
+          "id": "lock22",
+          "if": "${{ success() && steps.prep22.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-22-attempt-lock",
+            "path": "/tmp/v9-grounded/22-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify22",
+          "name": "Verify immutable lock 22 before credential",
+          "if": "${{ success() && steps.prep22.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock22.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 22"
+        },
+        {
+          "id": "live22",
+          "name": "One provider attempt 22",
+          "if": "${{ success() && steps.verify22.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock22.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 22"
+        },
+        {
+          "id": "result22",
+          "if": "${{ always() && steps.live22.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-22-result",
+            "path": "/tmp/v9-grounded/22",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate22",
+          "name": "Require uploaded valid result before progression 22",
+          "if": "${{ success() && steps.live22.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock22.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result22.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 22"
+        },
+        {
+          "id": "prep23",
+          "name": "Reserve 23 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate22.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 23"
+        },
+        {
+          "id": "lock23",
+          "if": "${{ success() && steps.prep23.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-23-attempt-lock",
+            "path": "/tmp/v9-grounded/23-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify23",
+          "name": "Verify immutable lock 23 before credential",
+          "if": "${{ success() && steps.prep23.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock23.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 23"
+        },
+        {
+          "id": "live23",
+          "name": "One provider attempt 23",
+          "if": "${{ success() && steps.verify23.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock23.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 23"
+        },
+        {
+          "id": "result23",
+          "if": "${{ always() && steps.live23.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-23-result",
+            "path": "/tmp/v9-grounded/23",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate23",
+          "name": "Require uploaded valid result before progression 23",
+          "if": "${{ success() && steps.live23.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock23.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result23.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 23"
+        },
+        {
+          "id": "prep24",
+          "name": "Reserve 24 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate23.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 24"
+        },
+        {
+          "id": "lock24",
+          "if": "${{ success() && steps.prep24.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-24-attempt-lock",
+            "path": "/tmp/v9-grounded/24-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify24",
+          "name": "Verify immutable lock 24 before credential",
+          "if": "${{ success() && steps.prep24.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock24.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 24"
+        },
+        {
+          "id": "live24",
+          "name": "One provider attempt 24",
+          "if": "${{ success() && steps.verify24.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock24.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 24"
+        },
+        {
+          "id": "result24",
+          "if": "${{ always() && steps.live24.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-24-result",
+            "path": "/tmp/v9-grounded/24",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate24",
+          "name": "Require uploaded valid result before progression 24",
+          "if": "${{ success() && steps.live24.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock24.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result24.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 24"
+        },
+        {
+          "id": "prep25",
+          "name": "Reserve 25 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate24.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 25"
+        },
+        {
+          "id": "lock25",
+          "if": "${{ success() && steps.prep25.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-25-attempt-lock",
+            "path": "/tmp/v9-grounded/25-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify25",
+          "name": "Verify immutable lock 25 before credential",
+          "if": "${{ success() && steps.prep25.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock25.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 25"
+        },
+        {
+          "id": "live25",
+          "name": "One provider attempt 25",
+          "if": "${{ success() && steps.verify25.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock25.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 25"
+        },
+        {
+          "id": "result25",
+          "if": "${{ always() && steps.live25.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-25-result",
+            "path": "/tmp/v9-grounded/25",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate25",
+          "name": "Require uploaded valid result before progression 25",
+          "if": "${{ success() && steps.live25.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock25.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result25.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 25"
+        },
+        {
+          "id": "prep26",
+          "name": "Reserve 26 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate25.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 26"
+        },
+        {
+          "id": "lock26",
+          "if": "${{ success() && steps.prep26.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-26-attempt-lock",
+            "path": "/tmp/v9-grounded/26-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify26",
+          "name": "Verify immutable lock 26 before credential",
+          "if": "${{ success() && steps.prep26.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock26.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 26"
+        },
+        {
+          "id": "live26",
+          "name": "One provider attempt 26",
+          "if": "${{ success() && steps.verify26.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock26.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 26"
+        },
+        {
+          "id": "result26",
+          "if": "${{ always() && steps.live26.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-26-result",
+            "path": "/tmp/v9-grounded/26",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate26",
+          "name": "Require uploaded valid result before progression 26",
+          "if": "${{ success() && steps.live26.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock26.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result26.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 26"
+        },
+        {
+          "id": "prep27",
+          "name": "Reserve 27 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate26.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 27"
+        },
+        {
+          "id": "lock27",
+          "if": "${{ success() && steps.prep27.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-27-attempt-lock",
+            "path": "/tmp/v9-grounded/27-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify27",
+          "name": "Verify immutable lock 27 before credential",
+          "if": "${{ success() && steps.prep27.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock27.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 27"
+        },
+        {
+          "id": "live27",
+          "name": "One provider attempt 27",
+          "if": "${{ success() && steps.verify27.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock27.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 27"
+        },
+        {
+          "id": "result27",
+          "if": "${{ always() && steps.live27.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-27-result",
+            "path": "/tmp/v9-grounded/27",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate27",
+          "name": "Require uploaded valid result before progression 27",
+          "if": "${{ success() && steps.live27.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock27.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result27.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 27"
+        },
+        {
+          "id": "prep28",
+          "name": "Reserve 28 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate27.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 28"
+        },
+        {
+          "id": "lock28",
+          "if": "${{ success() && steps.prep28.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-28-attempt-lock",
+            "path": "/tmp/v9-grounded/28-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify28",
+          "name": "Verify immutable lock 28 before credential",
+          "if": "${{ success() && steps.prep28.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock28.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 28"
+        },
+        {
+          "id": "live28",
+          "name": "One provider attempt 28",
+          "if": "${{ success() && steps.verify28.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock28.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 28"
+        },
+        {
+          "id": "result28",
+          "if": "${{ always() && steps.live28.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-28-result",
+            "path": "/tmp/v9-grounded/28",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate28",
+          "name": "Require uploaded valid result before progression 28",
+          "if": "${{ success() && steps.live28.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock28.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result28.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 28"
+        },
+        {
+          "id": "prep29",
+          "name": "Reserve 29 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate28.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 29"
+        },
+        {
+          "id": "lock29",
+          "if": "${{ success() && steps.prep29.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-29-attempt-lock",
+            "path": "/tmp/v9-grounded/29-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify29",
+          "name": "Verify immutable lock 29 before credential",
+          "if": "${{ success() && steps.prep29.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock29.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 29"
+        },
+        {
+          "id": "live29",
+          "name": "One provider attempt 29",
+          "if": "${{ success() && steps.verify29.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock29.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 29"
+        },
+        {
+          "id": "result29",
+          "if": "${{ always() && steps.live29.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-29-result",
+            "path": "/tmp/v9-grounded/29",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate29",
+          "name": "Require uploaded valid result before progression 29",
+          "if": "${{ success() && steps.live29.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock29.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result29.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 29"
+        },
+        {
+          "id": "prep30",
+          "name": "Reserve 30 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate29.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 30"
+        },
+        {
+          "id": "lock30",
+          "if": "${{ success() && steps.prep30.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-30-attempt-lock",
+            "path": "/tmp/v9-grounded/30-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify30",
+          "name": "Verify immutable lock 30 before credential",
+          "if": "${{ success() && steps.prep30.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock30.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 30"
+        },
+        {
+          "id": "live30",
+          "name": "One provider attempt 30",
+          "if": "${{ success() && steps.verify30.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock30.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 30"
+        },
+        {
+          "id": "result30",
+          "if": "${{ always() && steps.live30.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-30-result",
+            "path": "/tmp/v9-grounded/30",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate30",
+          "name": "Require uploaded valid result before progression 30",
+          "if": "${{ success() && steps.live30.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock30.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result30.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 30"
+        },
+        {
+          "id": "prep31",
+          "name": "Reserve 31 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate30.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 31"
+        },
+        {
+          "id": "lock31",
+          "if": "${{ success() && steps.prep31.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-31-attempt-lock",
+            "path": "/tmp/v9-grounded/31-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify31",
+          "name": "Verify immutable lock 31 before credential",
+          "if": "${{ success() && steps.prep31.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock31.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 31"
+        },
+        {
+          "id": "live31",
+          "name": "One provider attempt 31",
+          "if": "${{ success() && steps.verify31.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock31.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 31"
+        },
+        {
+          "id": "result31",
+          "if": "${{ always() && steps.live31.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-31-result",
+            "path": "/tmp/v9-grounded/31",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate31",
+          "name": "Require uploaded valid result before progression 31",
+          "if": "${{ success() && steps.live31.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock31.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result31.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 31"
+        },
+        {
+          "id": "prep32",
+          "name": "Reserve 32 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate31.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 32"
+        },
+        {
+          "id": "lock32",
+          "if": "${{ success() && steps.prep32.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-32-attempt-lock",
+            "path": "/tmp/v9-grounded/32-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify32",
+          "name": "Verify immutable lock 32 before credential",
+          "if": "${{ success() && steps.prep32.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock32.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 32"
+        },
+        {
+          "id": "live32",
+          "name": "One provider attempt 32",
+          "if": "${{ success() && steps.verify32.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock32.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 32"
+        },
+        {
+          "id": "result32",
+          "if": "${{ always() && steps.live32.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-32-result",
+            "path": "/tmp/v9-grounded/32",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate32",
+          "name": "Require uploaded valid result before progression 32",
+          "if": "${{ success() && steps.live32.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock32.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result32.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 32"
+        },
+        {
+          "id": "prep33",
+          "name": "Reserve 33 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate32.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 33"
+        },
+        {
+          "id": "lock33",
+          "if": "${{ success() && steps.prep33.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-33-attempt-lock",
+            "path": "/tmp/v9-grounded/33-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify33",
+          "name": "Verify immutable lock 33 before credential",
+          "if": "${{ success() && steps.prep33.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock33.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 33"
+        },
+        {
+          "id": "live33",
+          "name": "One provider attempt 33",
+          "if": "${{ success() && steps.verify33.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock33.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 33"
+        },
+        {
+          "id": "result33",
+          "if": "${{ always() && steps.live33.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-33-result",
+            "path": "/tmp/v9-grounded/33",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate33",
+          "name": "Require uploaded valid result before progression 33",
+          "if": "${{ success() && steps.live33.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock33.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result33.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 33"
+        },
+        {
+          "id": "prep34",
+          "name": "Reserve 34 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate33.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 34"
+        },
+        {
+          "id": "lock34",
+          "if": "${{ success() && steps.prep34.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-34-attempt-lock",
+            "path": "/tmp/v9-grounded/34-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify34",
+          "name": "Verify immutable lock 34 before credential",
+          "if": "${{ success() && steps.prep34.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock34.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 34"
+        },
+        {
+          "id": "live34",
+          "name": "One provider attempt 34",
+          "if": "${{ success() && steps.verify34.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock34.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 34"
+        },
+        {
+          "id": "result34",
+          "if": "${{ always() && steps.live34.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-34-result",
+            "path": "/tmp/v9-grounded/34",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate34",
+          "name": "Require uploaded valid result before progression 34",
+          "if": "${{ success() && steps.live34.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock34.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result34.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 34"
+        },
+        {
+          "id": "prep35",
+          "name": "Reserve 35 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate34.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 35"
+        },
+        {
+          "id": "lock35",
+          "if": "${{ success() && steps.prep35.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-35-attempt-lock",
+            "path": "/tmp/v9-grounded/35-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify35",
+          "name": "Verify immutable lock 35 before credential",
+          "if": "${{ success() && steps.prep35.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock35.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 35"
+        },
+        {
+          "id": "live35",
+          "name": "One provider attempt 35",
+          "if": "${{ success() && steps.verify35.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock35.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 35"
+        },
+        {
+          "id": "result35",
+          "if": "${{ always() && steps.live35.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-35-result",
+            "path": "/tmp/v9-grounded/35",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate35",
+          "name": "Require uploaded valid result before progression 35",
+          "if": "${{ success() && steps.live35.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock35.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result35.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 35"
+        },
+        {
+          "id": "prep36",
+          "name": "Reserve 36 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate35.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 36"
+        },
+        {
+          "id": "lock36",
+          "if": "${{ success() && steps.prep36.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-36-attempt-lock",
+            "path": "/tmp/v9-grounded/36-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify36",
+          "name": "Verify immutable lock 36 before credential",
+          "if": "${{ success() && steps.prep36.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock36.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 36"
+        },
+        {
+          "id": "live36",
+          "name": "One provider attempt 36",
+          "if": "${{ success() && steps.verify36.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock36.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 36"
+        },
+        {
+          "id": "result36",
+          "if": "${{ always() && steps.live36.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-36-result",
+            "path": "/tmp/v9-grounded/36",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate36",
+          "name": "Require uploaded valid result before progression 36",
+          "if": "${{ success() && steps.live36.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock36.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result36.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 36"
+        },
+        {
+          "id": "prep37",
+          "name": "Reserve 37 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate36.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 37"
+        },
+        {
+          "id": "lock37",
+          "if": "${{ success() && steps.prep37.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-37-attempt-lock",
+            "path": "/tmp/v9-grounded/37-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify37",
+          "name": "Verify immutable lock 37 before credential",
+          "if": "${{ success() && steps.prep37.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock37.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 37"
+        },
+        {
+          "id": "live37",
+          "name": "One provider attempt 37",
+          "if": "${{ success() && steps.verify37.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock37.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 37"
+        },
+        {
+          "id": "result37",
+          "if": "${{ always() && steps.live37.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-37-result",
+            "path": "/tmp/v9-grounded/37",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate37",
+          "name": "Require uploaded valid result before progression 37",
+          "if": "${{ success() && steps.live37.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock37.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result37.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 37"
+        },
+        {
+          "id": "prep38",
+          "name": "Reserve 38 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate37.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 38"
+        },
+        {
+          "id": "lock38",
+          "if": "${{ success() && steps.prep38.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-38-attempt-lock",
+            "path": "/tmp/v9-grounded/38-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify38",
+          "name": "Verify immutable lock 38 before credential",
+          "if": "${{ success() && steps.prep38.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock38.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 38"
+        },
+        {
+          "id": "live38",
+          "name": "One provider attempt 38",
+          "if": "${{ success() && steps.verify38.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock38.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 38"
+        },
+        {
+          "id": "result38",
+          "if": "${{ always() && steps.live38.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-38-result",
+            "path": "/tmp/v9-grounded/38",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate38",
+          "name": "Require uploaded valid result before progression 38",
+          "if": "${{ success() && steps.live38.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock38.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result38.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 38"
+        },
+        {
+          "id": "prep39",
+          "name": "Reserve 39 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate38.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 39"
+        },
+        {
+          "id": "lock39",
+          "if": "${{ success() && steps.prep39.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-39-attempt-lock",
+            "path": "/tmp/v9-grounded/39-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify39",
+          "name": "Verify immutable lock 39 before credential",
+          "if": "${{ success() && steps.prep39.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock39.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 39"
+        },
+        {
+          "id": "live39",
+          "name": "One provider attempt 39",
+          "if": "${{ success() && steps.verify39.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock39.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 39"
+        },
+        {
+          "id": "result39",
+          "if": "${{ always() && steps.live39.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-39-result",
+            "path": "/tmp/v9-grounded/39",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate39",
+          "name": "Require uploaded valid result before progression 39",
+          "if": "${{ success() && steps.live39.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock39.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result39.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 39"
+        },
+        {
+          "id": "prep40",
+          "name": "Reserve 40 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate39.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 40"
+        },
+        {
+          "id": "lock40",
+          "if": "${{ success() && steps.prep40.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-40-attempt-lock",
+            "path": "/tmp/v9-grounded/40-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify40",
+          "name": "Verify immutable lock 40 before credential",
+          "if": "${{ success() && steps.prep40.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock40.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 40"
+        },
+        {
+          "id": "live40",
+          "name": "One provider attempt 40",
+          "if": "${{ success() && steps.verify40.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock40.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 40"
+        },
+        {
+          "id": "result40",
+          "if": "${{ always() && steps.live40.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-40-result",
+            "path": "/tmp/v9-grounded/40",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate40",
+          "name": "Require uploaded valid result before progression 40",
+          "if": "${{ success() && steps.live40.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock40.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result40.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 40"
+        },
+        {
+          "id": "prep41",
+          "name": "Reserve 41 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate40.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 41"
+        },
+        {
+          "id": "lock41",
+          "if": "${{ success() && steps.prep41.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-41-attempt-lock",
+            "path": "/tmp/v9-grounded/41-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify41",
+          "name": "Verify immutable lock 41 before credential",
+          "if": "${{ success() && steps.prep41.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock41.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 41"
+        },
+        {
+          "id": "live41",
+          "name": "One provider attempt 41",
+          "if": "${{ success() && steps.verify41.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock41.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 41"
+        },
+        {
+          "id": "result41",
+          "if": "${{ always() && steps.live41.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-41-result",
+            "path": "/tmp/v9-grounded/41",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate41",
+          "name": "Require uploaded valid result before progression 41",
+          "if": "${{ success() && steps.live41.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock41.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result41.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 41"
+        },
+        {
+          "id": "prep42",
+          "name": "Reserve 42 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate41.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 42"
+        },
+        {
+          "id": "lock42",
+          "if": "${{ success() && steps.prep42.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-42-attempt-lock",
+            "path": "/tmp/v9-grounded/42-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify42",
+          "name": "Verify immutable lock 42 before credential",
+          "if": "${{ success() && steps.prep42.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock42.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 42"
+        },
+        {
+          "id": "live42",
+          "name": "One provider attempt 42",
+          "if": "${{ success() && steps.verify42.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock42.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 42"
+        },
+        {
+          "id": "result42",
+          "if": "${{ always() && steps.live42.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-42-result",
+            "path": "/tmp/v9-grounded/42",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate42",
+          "name": "Require uploaded valid result before progression 42",
+          "if": "${{ success() && steps.live42.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock42.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result42.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 42"
+        },
+        {
+          "id": "prep43",
+          "name": "Reserve 43 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate42.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 43"
+        },
+        {
+          "id": "lock43",
+          "if": "${{ success() && steps.prep43.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-43-attempt-lock",
+            "path": "/tmp/v9-grounded/43-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify43",
+          "name": "Verify immutable lock 43 before credential",
+          "if": "${{ success() && steps.prep43.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock43.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 43"
+        },
+        {
+          "id": "live43",
+          "name": "One provider attempt 43",
+          "if": "${{ success() && steps.verify43.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock43.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 43"
+        },
+        {
+          "id": "result43",
+          "if": "${{ always() && steps.live43.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-43-result",
+            "path": "/tmp/v9-grounded/43",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate43",
+          "name": "Require uploaded valid result before progression 43",
+          "if": "${{ success() && steps.live43.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock43.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result43.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 43"
+        },
+        {
+          "id": "prep44",
+          "name": "Reserve 44 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate43.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 44"
+        },
+        {
+          "id": "lock44",
+          "if": "${{ success() && steps.prep44.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-44-attempt-lock",
+            "path": "/tmp/v9-grounded/44-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify44",
+          "name": "Verify immutable lock 44 before credential",
+          "if": "${{ success() && steps.prep44.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock44.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 44"
+        },
+        {
+          "id": "live44",
+          "name": "One provider attempt 44",
+          "if": "${{ success() && steps.verify44.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock44.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 44"
+        },
+        {
+          "id": "result44",
+          "if": "${{ always() && steps.live44.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-44-result",
+            "path": "/tmp/v9-grounded/44",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate44",
+          "name": "Require uploaded valid result before progression 44",
+          "if": "${{ success() && steps.live44.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock44.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result44.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 44"
+        },
+        {
+          "id": "prep45",
+          "name": "Reserve 45 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate44.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 45"
+        },
+        {
+          "id": "lock45",
+          "if": "${{ success() && steps.prep45.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-45-attempt-lock",
+            "path": "/tmp/v9-grounded/45-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify45",
+          "name": "Verify immutable lock 45 before credential",
+          "if": "${{ success() && steps.prep45.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock45.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 45"
+        },
+        {
+          "id": "live45",
+          "name": "One provider attempt 45",
+          "if": "${{ success() && steps.verify45.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock45.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 45"
+        },
+        {
+          "id": "result45",
+          "if": "${{ always() && steps.live45.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-45-result",
+            "path": "/tmp/v9-grounded/45",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate45",
+          "name": "Require uploaded valid result before progression 45",
+          "if": "${{ success() && steps.live45.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock45.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result45.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 45"
+        },
+        {
+          "id": "prep46",
+          "name": "Reserve 46 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate45.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 46"
+        },
+        {
+          "id": "lock46",
+          "if": "${{ success() && steps.prep46.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-46-attempt-lock",
+            "path": "/tmp/v9-grounded/46-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify46",
+          "name": "Verify immutable lock 46 before credential",
+          "if": "${{ success() && steps.prep46.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock46.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 46"
+        },
+        {
+          "id": "live46",
+          "name": "One provider attempt 46",
+          "if": "${{ success() && steps.verify46.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock46.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 46"
+        },
+        {
+          "id": "result46",
+          "if": "${{ always() && steps.live46.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-46-result",
+            "path": "/tmp/v9-grounded/46",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate46",
+          "name": "Require uploaded valid result before progression 46",
+          "if": "${{ success() && steps.live46.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock46.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result46.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 46"
+        },
+        {
+          "id": "prep47",
+          "name": "Reserve 47 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate46.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 47"
+        },
+        {
+          "id": "lock47",
+          "if": "${{ success() && steps.prep47.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-47-attempt-lock",
+            "path": "/tmp/v9-grounded/47-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify47",
+          "name": "Verify immutable lock 47 before credential",
+          "if": "${{ success() && steps.prep47.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock47.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 47"
+        },
+        {
+          "id": "live47",
+          "name": "One provider attempt 47",
+          "if": "${{ success() && steps.verify47.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock47.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 47"
+        },
+        {
+          "id": "result47",
+          "if": "${{ always() && steps.live47.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-47-result",
+            "path": "/tmp/v9-grounded/47",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate47",
+          "name": "Require uploaded valid result before progression 47",
+          "if": "${{ success() && steps.live47.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock47.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result47.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 47"
+        },
+        {
+          "id": "prep48",
+          "name": "Reserve 48 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate47.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 48"
+        },
+        {
+          "id": "lock48",
+          "if": "${{ success() && steps.prep48.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-48-attempt-lock",
+            "path": "/tmp/v9-grounded/48-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify48",
+          "name": "Verify immutable lock 48 before credential",
+          "if": "${{ success() && steps.prep48.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock48.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 48"
+        },
+        {
+          "id": "live48",
+          "name": "One provider attempt 48",
+          "if": "${{ success() && steps.verify48.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock48.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 48"
+        },
+        {
+          "id": "result48",
+          "if": "${{ always() && steps.live48.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-48-result",
+            "path": "/tmp/v9-grounded/48",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate48",
+          "name": "Require uploaded valid result before progression 48",
+          "if": "${{ success() && steps.live48.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock48.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result48.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 48"
+        },
+        {
+          "id": "prep49",
+          "name": "Reserve 49 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate48.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 49"
+        },
+        {
+          "id": "lock49",
+          "if": "${{ success() && steps.prep49.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-49-attempt-lock",
+            "path": "/tmp/v9-grounded/49-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify49",
+          "name": "Verify immutable lock 49 before credential",
+          "if": "${{ success() && steps.prep49.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock49.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 49"
+        },
+        {
+          "id": "live49",
+          "name": "One provider attempt 49",
+          "if": "${{ success() && steps.verify49.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock49.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 49"
+        },
+        {
+          "id": "result49",
+          "if": "${{ always() && steps.live49.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-49-result",
+            "path": "/tmp/v9-grounded/49",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate49",
+          "name": "Require uploaded valid result before progression 49",
+          "if": "${{ success() && steps.live49.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock49.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result49.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 49"
+        },
+        {
+          "id": "prep50",
+          "name": "Reserve 50 or stop cleanly at budget",
+          "if": "${{ success() && steps.gate49.outcome == 'success' }}",
+          "run": "python -B \"$E\" prepare 50"
+        },
+        {
+          "id": "lock50",
+          "if": "${{ success() && steps.prep50.outputs.eligible == 'true' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-50-attempt-lock",
+            "path": "/tmp/v9-grounded/50-lock/attempt-lock.json",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "verify50",
+          "name": "Verify immutable lock 50 before credential",
+          "if": "${{ success() && steps.prep50.outputs.eligible == 'true' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock50.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" lock 50"
+        },
+        {
+          "id": "live50",
+          "name": "One provider attempt 50",
+          "if": "${{ success() && steps.verify50.outcome == 'success' }}",
+          "env": {
+            "OPENAI_API_KEY": "${{ secrets.OPENAI_API_KEY }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock50.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" live 50"
+        },
+        {
+          "id": "result50",
+          "if": "${{ always() && steps.live50.outcome != 'skipped' }}",
+          "uses": "actions/upload-artifact@v4",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-case-50-result",
+            "path": "/tmp/v9-grounded/50",
+            "if-no-files-found": "error",
+            "retention-days": 90,
+            "overwrite": false
+          }
+        },
+        {
+          "id": "gate50",
+          "name": "Require uploaded valid result before progression 50",
+          "if": "${{ success() && steps.live50.outcome == 'success' }}",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}",
+            "LOCK_ARTIFACT_ID": "${{ steps.lock50.outputs.artifact-id }}",
+            "RESULT_ARTIFACT_ID": "${{ steps.result50.outputs.artifact-id }}"
+          },
+          "run": "python -B \"$E\" advance 50"
+        },
+        {
+          "name": "Freeze final execution summary without credential",
+          "if": "${{ always() }}",
+          "run": "python -B \"$E\" summary"
+        },
+        {
+          "uses": "actions/upload-artifact@v4",
+          "if": "${{ always() }}",
+          "with": {
+            "name": "trackcade-stage1-v9-grounded-v1-execution-summary",
+            "path": "/tmp/v9-grounded/execution-summary.json",
+            "if-no-files-found": "error",
+            "overwrite": false,
+            "retention-days": 90
+          }
+        }
+      ]
+    }
+  }
+}
