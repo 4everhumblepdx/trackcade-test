@@ -1,0 +1,288 @@
+﻿2026-10-03T17:42:20.3488578Z Current runner version: '2.337.0'
+2026-10-03T17:42:20.3514287Z ##[group]Runner Image Provisioner
+2026-10-03T17:42:20.3515139Z Hosted Compute Agent
+2026-10-03T17:42:20.3516041Z Version: 20260901.588
+2026-10-03T17:42:20.3516752Z Commit: f88ec8081b781fac6c440065ac7ff9e710ce3d0b
+2026-10-03T17:42:20.3517491Z Build Date: 2026-09-01T19:56:44Z
+2026-10-03T17:42:20.3518669Z Worker ID: {caaded9d-1f65-4246-98e5-a67f0ce4c11f}
+2026-10-03T17:42:20.3519395Z Azure Region: eastus
+2026-10-03T17:42:20.3519989Z ##[endgroup]
+2026-10-03T17:42:20.3521558Z ##[group]Operating System
+2026-10-03T17:42:20.3522191Z Ubuntu
+2026-10-03T17:42:20.3522786Z 24.04.5
+2026-10-03T17:42:20.3523294Z LTS
+2026-10-03T17:42:20.3523782Z ##[endgroup]
+2026-10-03T17:42:20.3524421Z ##[group]Runner Image
+2026-10-03T17:42:20.3525055Z Image: ubuntu-24.04
+2026-10-03T17:42:20.3526134Z Version: 20260927.320.1
+2026-10-03T17:42:20.3527434Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260927.320/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-03T17:42:20.3529153Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260927.320
+2026-10-03T17:42:20.3530117Z ##[endgroup]
+2026-10-03T17:42:20.3531394Z ##[group]GITHUB_TOKEN Permissions
+2026-10-03T17:42:20.3533560Z Actions: read
+2026-10-03T17:42:20.3534318Z Contents: read
+2026-10-03T17:42:20.3534887Z Metadata: read
+2026-10-03T17:42:20.3535698Z ##[endgroup]
+2026-10-03T17:42:20.3537884Z Secret source: Actions
+2026-10-03T17:42:20.3538940Z Cache mode: write
+2026-10-03T17:42:20.3539956Z Prepare workflow directory
+2026-10-03T17:42:20.3936902Z Prepare all required actions
+2026-10-03T17:42:20.3986238Z Getting action download info
+2026-10-03T17:42:20.6230059Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-10-03T17:42:20.7353073Z Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+2026-10-03T17:42:20.9169134Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-10-03T17:42:21.1315392Z Complete job name: audit
+2026-10-03T17:42:21.2090078Z ##[group]Run actions/checkout@v4
+2026-10-03T17:42:21.2090992Z with:
+2026-10-03T17:42:21.2091411Z   fetch-depth: 0
+2026-10-03T17:42:21.2091873Z   persist-credentials: false
+2026-10-03T17:42:21.2092405Z   sparse-checkout-cone-mode: false
+2026-10-03T17:42:21.2104245Z   sparse-checkout: /.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml
+/.github/workflows/trackcade-semantic-external-stage1-v9-grounded-v1.yml
+/research/learned-interpretation-v1/build_learned_request_v1.py
+/research/learned-interpretation-v1/build_learned_request_v2.py
+/research/learned-interpretation-v1/build_learned_request_v3.py
+/research/learned-interpretation-v1/build_learned_request_v5.py
+/research/learned-interpretation-v1/build_learned_request_v6.py
+/research/learned-interpretation-v1/build_learned_request_v7.py
+/research/learned-interpretation-v1/openai_responses_adapter_v1.py
+/research/learned-interpretation-v1/validate_learned_proposal_v1.py
+/research/learned-interpretation-v1/validate_learned_proposal_v3.py
+/research/learned-interpretation-v1/validate_learned_proposal_v7.py
+/research/semantic-external-holdout-v1/STAGE1_MIXED_V7_V8_PREDICTION_MANIFEST_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_EXECUTION_POLICY_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_CONTRACT_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_MAPPING_V1.json
+/research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_SEMANTIC_DIFF_V1.patch
+/research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py
+/research/semantic-external-holdout-v1/build_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/run_stage1_v7_remaining49_case_v1.py
+/research/semantic-external-holdout-v1/run_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/stage_stage1_v9_grounded_v1.py
+/research/semantic-external-holdout-v1/test_stage1_v9_execution_v1.py
+/research/semantic-external-holdout-v1/test_stage1_v9_grounded_contract_v1.py
+/research/semantic-external-holdout-v1/test_stage1_v9_grounded_execution_v1.py
+2026-10-03T17:42:21.2116602Z   repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:42:21.2120293Z   token: ***
+2026-10-03T17:42:21.2120730Z   ssh-strict: true
+2026-10-03T17:42:21.2121158Z   ssh-user: git
+2026-10-03T17:42:21.2121566Z   clean: true
+2026-10-03T17:42:21.2121980Z   fetch-tags: false
+2026-10-03T17:42:21.2122422Z   show-progress: true
+2026-10-03T17:42:21.2122859Z   lfs: false
+2026-10-03T17:42:21.2123263Z   submodules: false
+2026-10-03T17:42:21.2123705Z   set-safe-directory: true
+2026-10-03T17:42:21.2124205Z   allow-unsafe-pr-checkout: false
+2026-10-03T17:42:21.2125070Z env:
+2026-10-03T17:42:21.2125773Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:42:21.2126509Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:42:21.2127290Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:42:21.2127856Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:42:21.2128332Z ##[endgroup]
+2026-10-03T17:42:21.3180909Z Syncing repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:42:21.3183495Z ##[group]Getting Git version info
+2026-10-03T17:42:21.3184720Z Working directory is '/home/runner/work/trackcade-test/trackcade-test'
+2026-10-03T17:42:21.3186745Z [command]/usr/bin/git version
+2026-10-03T17:42:21.3263572Z git version 2.55.0
+2026-10-03T17:42:21.3287516Z ##[endgroup]
+2026-10-03T17:42:21.3303065Z Temporarily overriding HOME='/home/runner/work/_temp/996df598-da5a-4f67-8c3e-dcd770272029' before making global git config changes
+2026-10-03T17:42:21.3305785Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:42:21.3310766Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/trackcade-test/trackcade-test
+2026-10-03T17:42:21.3383239Z Deleting the contents of '/home/runner/work/trackcade-test/trackcade-test'
+2026-10-03T17:42:21.3387312Z ##[group]Initializing the repository
+2026-10-03T17:42:21.3391824Z [command]/usr/bin/git init /home/runner/work/trackcade-test/trackcade-test
+2026-10-03T17:42:21.3500658Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-03T17:42:21.3502180Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-03T17:42:21.3503550Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-03T17:42:21.3504588Z hint: call:
+2026-10-03T17:42:21.3505367Z hint:
+2026-10-03T17:42:21.3506645Z hint: 	git config --global init.defaultBranch <name>
+2026-10-03T17:42:21.3507589Z hint:
+2026-10-03T17:42:21.3509940Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-03T17:42:21.3511614Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-03T17:42:21.3512700Z hint:
+2026-10-03T17:42:21.3513574Z hint: 	git branch -m <name>
+2026-10-03T17:42:21.3514453Z hint:
+2026-10-03T17:42:21.3515865Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-03T17:42:21.3519335Z Initialized empty Git repository in /home/runner/work/trackcade-test/trackcade-test/.git/
+2026-10-03T17:42:21.3536244Z [command]/usr/bin/git remote add origin https://github.com/4everhumblepdx/trackcade-test
+2026-10-03T17:42:21.3589264Z ##[endgroup]
+2026-10-03T17:42:21.3590781Z ##[group]Disabling automatic garbage collection
+2026-10-03T17:42:21.3593535Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-03T17:42:21.3633014Z ##[endgroup]
+2026-10-03T17:42:21.3634713Z ##[group]Setting up auth
+2026-10-03T17:42:21.3647039Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:42:21.3682509Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:42:21.4150718Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:42:21.4203837Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:42:21.4470215Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:42:21.4512276Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:42:21.4741060Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-03T17:42:21.4786890Z ##[endgroup]
+2026-10-03T17:42:21.4787852Z ##[group]Fetching the repository
+2026-10-03T17:42:21.4797415Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules --filter=blob:none origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-10-03T17:42:22.1759190Z From https://github.com/4everhumblepdx/trackcade-test
+2026-10-03T17:42:22.1787316Z  * [new branch]      __do_not_use_more_branch_ops -> origin/__do_not_use_more_branch_ops
+2026-10-03T17:42:22.1797544Z  * [new branch]      __noop_should_not_create -> origin/__noop_should_not_create
+2026-10-03T17:42:22.1799642Z  * [new branch]      __placeholder           -> origin/__placeholder
+2026-10-03T17:42:22.1801525Z  * [new branch]      analyzer-stress-ci      -> origin/analyzer-stress-ci
+2026-10-03T17:42:22.1803524Z  * [new branch]      analyzer-stress-v015-experiment -> origin/analyzer-stress-v015-experiment
+2026-10-03T17:42:22.1806093Z  * [new branch]      analyzer-stress-v016-volume -> origin/analyzer-stress-v016-volume
+2026-10-03T17:42:22.1808451Z  * [new branch]      analyzer-stress-v017-volume -> origin/analyzer-stress-v017-volume
+2026-10-03T17:42:22.1811092Z  * [new branch]      analyzer-stress-v018-ballroom -> origin/analyzer-stress-v018-ballroom
+2026-10-03T17:42:22.1813680Z  * [new branch]      analyzer-v020-phase-context -> origin/analyzer-v020-phase-context
+2026-10-03T17:42:22.1816333Z  * [new branch]      main                    -> origin/main
+2026-10-03T17:42:22.1818333Z  * [new branch]      release/analyzer-v0.19  -> origin/release/analyzer-v0.19
+2026-10-03T17:42:22.1820660Z  * [new branch]      release/analyzer-v0.19-rc1 -> origin/release/analyzer-v0.19-rc1
+2026-10-03T17:42:22.1822875Z  * [new branch]      trackcade-analyzer-stress -> origin/trackcade-analyzer-stress
+2026-10-03T17:42:22.1827322Z  * [new branch]      trackcade-art-assets-v1 -> origin/trackcade-art-assets-v1
+2026-10-03T17:42:22.1828933Z  * [new branch]      trackcade-gameplay-difficulty-v1 -> origin/trackcade-gameplay-difficulty-v1
+2026-10-03T17:42:22.1830588Z  * [new branch]      trackcade-learned-interpretation-v1 -> origin/trackcade-learned-interpretation-v1
+2026-10-03T17:42:22.1832599Z  * [new branch]      trackcade-musical-interpretation-v1 -> origin/trackcade-musical-interpretation-v1
+2026-10-03T17:42:22.1834798Z  * [new branch]      trackcade-musical-structure-v1 -> origin/trackcade-musical-structure-v1
+2026-10-03T17:42:22.1837277Z  * [new branch]      trackcade-openai-infra-diagnostic-v1 -> origin/trackcade-openai-infra-diagnostic-v1
+2026-10-03T17:42:22.1838893Z  * [new branch]      trackcade-openai-live-v1-freeze -> origin/trackcade-openai-live-v1-freeze
+2026-10-03T17:42:22.1840326Z  * [new branch]      trackcade-openai-sol-v1-freeze -> origin/trackcade-openai-sol-v1-freeze
+2026-10-03T17:42:22.1841702Z  * [new branch]      trackcade-openai-sol-v1-work -> origin/trackcade-openai-sol-v1-work
+2026-10-03T17:42:22.1843154Z  * [new branch]      trackcade-semantic-external-holdout-v1 -> origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:42:22.1844953Z  * [new branch]      trackcade-semantic-internal-holdout-v1 -> origin/trackcade-semantic-internal-holdout-v1
+2026-10-03T17:42:22.1848283Z  * [new branch]      trackcade-semantic-internal-holdout-v1-freeze -> origin/trackcade-semantic-internal-holdout-v1-freeze
+2026-10-03T17:42:22.1851341Z  * [new branch]      trackcade-semantic-quality-v1 -> origin/trackcade-semantic-quality-v1
+2026-10-03T17:42:22.1853571Z  * [new branch]      trackcade-v3-offline-collection -> origin/trackcade-v3-offline-collection
+2026-10-03T17:42:22.1856412Z  * [new branch]      trackcade-visual-world-v1 -> origin/trackcade-visual-world-v1
+2026-10-03T17:42:22.1859145Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-13 -> trackcade-v3-provider-attempt-ordinal-13
+2026-10-03T17:42:22.1862007Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-23 -> trackcade-v3-provider-attempt-ordinal-23
+2026-10-03T17:42:22.1864762Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-31 -> trackcade-v3-provider-attempt-ordinal-31
+2026-10-03T17:42:22.1867778Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-35 -> trackcade-v3-provider-attempt-ordinal-35
+2026-10-03T17:42:22.1870612Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-38 -> trackcade-v3-provider-attempt-ordinal-38
+2026-10-03T17:42:22.1872287Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-42 -> trackcade-v3-provider-attempt-ordinal-42
+2026-10-03T17:42:22.1873834Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-44 -> trackcade-v3-provider-attempt-ordinal-44
+2026-10-03T17:42:22.1875348Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-45 -> trackcade-v3-provider-attempt-ordinal-45
+2026-10-03T17:42:22.1878508Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-46 -> trackcade-v3-provider-attempt-ordinal-46
+2026-10-03T17:42:22.1881034Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-47 -> trackcade-v3-provider-attempt-ordinal-47
+2026-10-03T17:42:22.1883463Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-48 -> trackcade-v3-provider-attempt-ordinal-48
+2026-10-03T17:42:22.1886297Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-49 -> trackcade-v3-provider-attempt-ordinal-49
+2026-10-03T17:42:22.1888863Z  * [new tag]         trackcade-v3-provider-attempt-ordinal-50 -> trackcade-v3-provider-attempt-ordinal-50
+2026-10-03T17:42:22.1898171Z  * [new tag]         trackcade-v3-retry-ordinal-42-evidence-11028077891-v1 -> trackcade-v3-retry-ordinal-42-evidence-11028077891-v1
+2026-10-03T17:42:22.1900722Z  * [new tag]         trackcade-v3-retry-ordinal-46-evidence-11030495842-v1 -> trackcade-v3-retry-ordinal-46-evidence-11030495842-v1
+2026-10-03T17:42:22.1903495Z [command]/usr/bin/git branch --list --remote origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:42:22.1904575Z   origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:42:22.1906507Z [command]/usr/bin/git rev-parse refs/remotes/origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:42:22.1907573Z d593639919a72dc3b56e68d5c1dd66d12a3797b0
+2026-10-03T17:42:22.1909040Z ##[endgroup]
+2026-10-03T17:42:22.1909776Z ##[group]Determining the checkout info
+2026-10-03T17:42:22.1910622Z ##[endgroup]
+2026-10-03T17:42:22.1912135Z ##[group]Setting up sparse checkout
+2026-10-03T17:42:22.1913332Z [command]/usr/bin/git config core.sparseCheckout true
+2026-10-03T17:42:22.1942638Z [command]/usr/bin/git rev-parse --git-path info/sparse-checkout
+2026-10-03T17:42:22.1971391Z .git/info/sparse-checkout
+2026-10-03T17:42:22.1979387Z ##[endgroup]
+2026-10-03T17:42:22.1980269Z ##[group]Checking out the ref
+2026-10-03T17:42:22.1986579Z [command]/usr/bin/git checkout --progress --force -B trackcade-semantic-external-holdout-v1 refs/remotes/origin/trackcade-semantic-external-holdout-v1
+2026-10-03T17:42:22.4435281Z Switched to a new branch 'trackcade-semantic-external-holdout-v1'
+2026-10-03T17:42:22.4440964Z branch 'trackcade-semantic-external-holdout-v1' set up to track 'origin/trackcade-semantic-external-holdout-v1'.
+2026-10-03T17:42:22.4448221Z ##[endgroup]
+2026-10-03T17:42:22.4493552Z [command]/usr/bin/git log -1 --format=%H
+2026-10-03T17:42:22.4520911Z d593639919a72dc3b56e68d5c1dd66d12a3797b0
+2026-10-03T17:42:22.4531628Z ##[group]Removing auth
+2026-10-03T17:42:22.4536807Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:42:22.4571646Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:42:22.4876921Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:42:22.4880219Z http.https://github.com/.extraheader
+2026-10-03T17:42:22.4888150Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-10-03T17:42:22.4899360Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:42:22.5120029Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:42:22.5156044Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:42:22.5374305Z ##[endgroup]
+2026-10-03T17:42:22.5641272Z ##[group]Run actions/download-artifact@v4
+2026-10-03T17:42:22.5642133Z with:
+2026-10-03T17:42:22.5642830Z   name: trackcade-semantic-external-stage1-v7-prep-v1
+2026-10-03T17:42:22.5643853Z   path: /tmp/v9-source-original
+2026-10-03T17:42:22.5644641Z   repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:42:22.5645650Z   run-id: 36915758639
+2026-10-03T17:42:22.5654400Z   github-token: ***
+2026-10-03T17:42:22.5654976Z   merge-multiple: false
+2026-10-03T17:42:22.5655745Z env:
+2026-10-03T17:42:22.5656252Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:42:22.5657416Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:42:22.5658731Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:42:22.5659515Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:42:22.5660140Z ##[endgroup]
+2026-10-03T17:42:22.7177253Z Downloading single artifact
+2026-10-03T17:42:22.7251904Z (node:2400) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-03T17:42:22.7254246Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-03T17:42:22.7462806Z (node:2400) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-03T17:42:22.8843426Z Preparing to download the following artifacts:
+2026-10-03T17:42:22.8847823Z - trackcade-semantic-external-stage1-v7-prep-v1 (ID: 11189967853, Size: 1815072, Expected Digest: sha256:4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a)
+2026-10-03T17:42:22.8877676Z Downloading artifact '11189967853' from '4everhumblepdx/trackcade-test'
+2026-10-03T17:42:23.0741456Z Redirecting to blob download url: https://productionresultssa8.blob.core.windows.net/actions-results/f2bbb9b9-6b1b-81de-b180-fbc175fbf803/workflow-job-run-1a46a708-ebb7-5c62-8a56-f52e82b10e57/artifacts/57808eddb381302156b8d9b42185ab703dd36f4f3528c7ea6973d58f3b8e16e6.zip
+2026-10-03T17:42:23.0748689Z Starting download of artifact to: /tmp/v9-source-original
+2026-10-03T17:42:23.1478764Z (node:2400) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-03T17:42:23.3447667Z SHA256 digest of downloaded artifact is 4da778967c39796fa6fc475552b82b07594bcf8208a52cc479da43506fa8026a
+2026-10-03T17:42:23.3450203Z Artifact download completed successfully.
+2026-10-03T17:42:23.3452049Z Total of 1 artifact(s) downloaded
+2026-10-03T17:42:23.3453736Z Download artifact has finished successfully
+2026-10-03T17:42:23.3736980Z ##[group]Run actions/download-artifact@v4
+2026-10-03T17:42:23.3738218Z with:
+2026-10-03T17:42:23.3739463Z   name: trackcade-semantic-external-stage1-v7-flex8192-prep-v1
+2026-10-03T17:42:23.3741000Z   path: /tmp/v9-flex-original
+2026-10-03T17:42:23.3742482Z   repository: 4everhumblepdx/trackcade-test
+2026-10-03T17:42:23.3743718Z   run-id: 36920081360
+2026-10-03T17:42:23.3752104Z   github-token: ***
+2026-10-03T17:42:23.3753145Z   merge-multiple: false
+2026-10-03T17:42:23.3754163Z env:
+2026-10-03T17:42:23.3755100Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:42:23.3756828Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:42:23.3758516Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:42:23.3759699Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:42:23.3760749Z ##[endgroup]
+2026-10-03T17:42:23.5262888Z Downloading single artifact
+2026-10-03T17:42:23.5344049Z (node:2413) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-10-03T17:42:23.5346963Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-10-03T17:42:23.5557333Z (node:2413) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-10-03T17:42:23.6814257Z Preparing to download the following artifacts:
+2026-10-03T17:42:23.6819457Z - trackcade-semantic-external-stage1-v7-flex8192-prep-v1 (ID: 11191402965, Size: 2424937, Expected Digest: sha256:ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95)
+2026-10-03T17:42:23.6851264Z Downloading artifact '11191402965' from '4everhumblepdx/trackcade-test'
+2026-10-03T17:42:23.8638943Z Redirecting to blob download url: https://productionresultssa0.blob.core.windows.net/actions-results/3c98a025-30f0-8b3e-9f98-57fd51405fb4/workflow-job-run-eddfaff9-7c00-5a40-a326-dfa1ea7a9088/artifacts/e009d6b09a9bc1aab3d24d7feb1f84058f31790b524dc4cf786ff05ab2c34a1f.zip
+2026-10-03T17:42:23.8641996Z Starting download of artifact to: /tmp/v9-flex-original
+2026-10-03T17:42:23.9203795Z (node:2413) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+2026-10-03T17:42:24.1387088Z SHA256 digest of downloaded artifact is ff315c7433213cf8de4a475fcdbc95c88a7c4dfbf5685077a9a8112f3a3fdb95
+2026-10-03T17:42:24.1388632Z Artifact download completed successfully.
+2026-10-03T17:42:24.1389523Z Total of 1 artifact(s) downloaded
+2026-10-03T17:42:24.1394285Z Download artifact has finished successfully
+2026-10-03T17:42:24.1586125Z ##[group]Run python -B "$E" prep
+2026-10-03T17:42:24.1586582Z [36;1mpython -B "$E" prep[0m
+2026-10-03T17:42:24.1843682Z shell: /usr/bin/bash -e {0}
+2026-10-03T17:42:24.1844010Z env:
+2026-10-03T17:42:24.1844263Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:42:24.1844737Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:42:24.1845257Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:42:24.1845844Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:42:24.1846131Z ##[endgroup]
+2026-10-03T17:42:24.9113789Z ##[group]Run python -B research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py --report /tmp/v9-execution-audit.json
+2026-10-03T17:42:24.9114897Z [36;1mpython -B research/semantic-external-holdout-v1/audit_stage1_v9_execution_v1.py --report /tmp/v9-execution-audit.json[0m
+2026-10-03T17:42:24.9179551Z shell: /usr/bin/bash -e {0}
+2026-10-03T17:42:24.9179807Z env:
+2026-10-03T17:42:24.9180018Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-03T17:42:24.9180412Z   E: research/semantic-external-holdout-v1/execute_stage1_v9_grounded_v1.py
+2026-10-03T17:42:24.9180837Z   V9_SOURCE_PREP: /tmp/v9-grounded-prep
+2026-10-03T17:42:24.9181120Z   V9_WORK: /tmp/v9-grounded
+2026-10-03T17:42:24.9181350Z ##[endgroup]
+2026-10-03T17:42:31.5545729Z {"schema": "trackcade-stage1-v9-execution-audit-v1", "headSha": "d593639919a72dc3b56e68d5c1dd66d12a3797b0", "runId": "37141488404", "testsRun": 83, "passed": 82, "failures": 0, "errors": 1, "result": "FAIL", "realNetworkAttempts": 0, "providerCalls": 0, "providerSpendUsd": "0", "credentialExposed": false, "semanticSource": "3ee7028529e69950d514537f1d6e16841519bad9", "semanticTreatmentUnchanged": true, "structuralOrdinalGroupsVerified": 50, "realAuthorizationExists": false, "realActivationExists": false, "terminalAccessed": false}
+2026-10-03T17:42:31.5733795Z ##[error]Process completed with exit code 1.
+2026-10-03T17:42:31.5876949Z Post job cleanup.
+2026-10-03T17:42:31.6735217Z [command]/usr/bin/git version
+2026-10-03T17:42:31.6778481Z git version 2.55.0
+2026-10-03T17:42:31.6817824Z Temporarily overriding HOME='/home/runner/work/_temp/92e65052-27d2-4dc8-99ae-b1f81daaa396' before making global git config changes
+2026-10-03T17:42:31.6819365Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-03T17:42:31.6823338Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/trackcade-test/trackcade-test
+2026-10-03T17:42:31.6863540Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-03T17:42:31.6900460Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-03T17:42:31.7167265Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-03T17:42:31.7208505Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-03T17:42:31.7480199Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-03T17:42:31.7520699Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-03T17:42:31.7917287Z Cleaning up orphan processes
+2026-10-03T17:42:31.8205865Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/download-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+

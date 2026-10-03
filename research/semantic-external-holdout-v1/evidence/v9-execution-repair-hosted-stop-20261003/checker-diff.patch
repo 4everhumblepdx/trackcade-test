@@ -1,0 +1,31 @@
+--- quarantine/execute_stage1_v9_grounded_v1.py
++++ execute_stage1_v9_grounded_v1.py
+@@ -42,6 +42,19 @@
+ def wiring(wf):
+     steps=wf['jobs']['serial']['steps'];by={s['id']:s for s in steps if 'id' in s}
+     if len(by)!=sum('id' in s for s in steps):raise ValueError('duplicate step id')
++    expected_secret_ids=[f'live{n:02d}' for n in range(1,51)]
++    secret_steps=[]
++    for step in steps:
++        if 'secrets.' not in json.dumps(step):continue
++        sid=step.get('id')
++        if not sid or sid not in expected_secret_ids:raise ValueError('secret exposed outside identified live step')
++        if step.get('env',{}).get('OPENAI_API_KEY')!='${{ secrets.OPENAI_API_KEY }}':raise ValueError('credential wiring drift')
++        remainder=dict(step);remainder['env']=dict(step['env']);remainder['env'].pop('OPENAI_API_KEY')
++        if 'secrets.' in json.dumps(remainder):raise ValueError('additional secret reference')
++        secret_steps.append(sid)
++    if secret_steps!=expected_secret_ids:raise ValueError('secret exposed outside ordered live steps')
++    required={f'{prefix}{n:02d}' for n in range(1,51) for prefix in ['prep','lock','verify','live','result','gate']}
++    if not required.issubset(by):raise ValueError('missing required ordinal step')
+     for n in range(1,51):
+         tag=f'{n:02d}';lock='${{ steps.lock'+tag+'.outputs.artifact-id }}';result='${{ steps.result'+tag+'.outputs.artifact-id }}'
+         for prefix in ['verify','live','gate']:
+@@ -55,8 +68,6 @@
+             if by[prefix+tag]['with']['overwrite'] is not False:raise ValueError('mutable artifact')
+         expected='${{ success() }}' if n==1 else '${{ success() && steps.gate'+f'{n-1:02d}'+".outcome == 'success' }}"
+         if by['prep'+tag]['if']!=expected:raise ValueError('serial predecessor bypass')
+-    secret_steps=[s['id'] for s in steps if 'secrets.' in json.dumps(s)]
+-    if secret_steps!=[f'live{n:02d}' for n in range(1,51)]:raise ValueError('secret exposed outside live steps')
+     if wf['on']!={'push':{'branches':['trackcade-semantic-external-holdout-v1'],'paths':['research/semantic-external-holdout-v1/STAGE1_V9_GROUNDED_ACTIVATE_V1.json']}}:raise ValueError('unexpected trigger')
+     return 50
+ 

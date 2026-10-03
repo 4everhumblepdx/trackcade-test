@@ -1,0 +1,48 @@
+--- quarantine/test_stage1_v9_execution_v1.py
++++ test_stage1_v9_execution_v1.py
+@@ -59,4 +59,45 @@
+         self.assertFalse(any(any(k in p.lower() for k in ['reference_drops','terminal','forensic','scor','analyzer','compiler']) for p in paths))
+     def test_no_provider_key_in_audit_workflow(self):self.assertNotIn('secrets.',json.dumps(e.r.load(e.ROOT/e.AUDIT_WF)))
+ 
++class SecretIntegrityRegressionTests(unittest.TestCase):
++    def wf(self):return e.r.load(e.ROOT/e.WF)
++    def test_every_unnamed_step_secret_is_value_error(self):
++        wf=self.wf()
++        for index,step in enumerate(wf['jobs']['serial']['steps']):
++            if 'id' in step:continue
++            bad=copy.deepcopy(wf);bad['jobs']['serial']['steps'][index]['env']={'INJECTED':'${{ secrets.FAKE }}'}
++            with self.subTest(index=index),self.assertRaises(ValueError):e.wiring(bad)
++    def test_each_nonlive_group_secret_is_value_error(self):
++        for n in range(1,51):
++            for prefix in ['prep','lock','verify','result','gate']:
++                bad=self.wf();step=next(s for s in bad['jobs']['serial']['steps'] if s.get('id')==f'{prefix}{n:02d}');step.setdefault('env',{})['INJECTED']='${{ secrets.FAKE }}'
++                with self.subTest(n=n,prefix=prefix),self.assertRaises(ValueError):e.wiring(bad)
++    def test_live_id_missing_duplicate_or_step_missing(self):
++        for n in range(1,51):
++            for mode in ['missing-id','duplicate-id','missing-step']:
++                bad=self.wf();steps=bad['jobs']['serial']['steps'];step=next(s for s in steps if s.get('id')==f'live{n:02d}')
++                if mode=='missing-id':step.pop('id')
++                elif mode=='duplicate-id':step['id']='live02' if n==1 else 'live01'
++                else:steps.remove(step)
++                with self.subTest(n=n,mode=mode),self.assertRaises(ValueError):e.wiring(bad)
++    def test_extra_secret_steps_named_or_unnamed(self):
++        for sid in [None,'extra','live51']:
++            bad=self.wf();step={'run':'true','env':{'INJECTED':'${{ secrets.FAKE }}'}}
++            if sid is not None:step['id']=sid
++            bad['jobs']['serial']['steps'].append(step)
++            with self.subTest(id=sid),self.assertRaises(ValueError):e.wiring(bad)
++    def test_exact_ordered_secret_set(self):
++        self.assertEqual([s.get('id') for s in self.wf()['jobs']['serial']['steps'] if 'secrets.' in json.dumps(s)],[f'live{n:02d}' for n in range(1,51)])
++        bad=self.wf();steps=bad['jobs']['serial']['steps'];a=next(i for i,s in enumerate(steps) if s.get('id')=='live01');b=next(i for i,s in enumerate(steps) if s.get('id')=='live02');steps[a],steps[b]=steps[b],steps[a]
++        with self.assertRaises(ValueError):e.wiring(bad)
++    def test_each_live_matching_verifier_and_lock_and_exact_secret(self):
++        for n in range(1,51):
++            for mode in ['verifier','lock','secret','extra-secret']:
++                bad=self.wf();step=next(s for s in bad['jobs']['serial']['steps'] if s.get('id')==f'live{n:02d}')
++                if mode=='verifier':step['if']="${{ success() && steps.verify99.outcome == 'success' }}"
++                elif mode=='lock':step['env']['LOCK_ARTIFACT_ID']='${{ steps.lock99.outputs.artifact-id }}'
++                elif mode=='secret':step['env']['OPENAI_API_KEY']='${{ secrets.FAKE }}'
++                else:step['run']+=' # ${{ secrets.FAKE }}'
++                with self.subTest(n=n,mode=mode),self.assertRaises(ValueError):e.wiring(bad)
++
+ if __name__=='__main__':unittest.main()
