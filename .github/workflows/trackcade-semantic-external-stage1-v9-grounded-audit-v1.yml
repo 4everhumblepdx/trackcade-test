@@ -69,10 +69,11 @@
           "uses": "actions/upload-artifact@v4",
           "with": {
             "name": "trackcade-stage1-v9-execution-provider-free-audit-v1",
-            "path": "/tmp/v9-execution-audit.json",
+            "path": "/tmp/v9-execution-audit.json\n/tmp/v9-execution-audit.log",
             "if-no-files-found": "error",
             "retention-days": 90
-          }
+          },
+          "if": "always()"
         }
       ]
     }

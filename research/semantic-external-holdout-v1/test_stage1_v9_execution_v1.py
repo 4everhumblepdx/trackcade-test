@@ -100,4 +100,54 @@ class SecretIntegrityRegressionTests(unittest.TestCase):
                 else:step['run']+=' # ${{ secrets.FAKE }}'
                 with self.subTest(n=n,mode=mode),self.assertRaises(ValueError):e.wiring(bad)
 
+class AuditObservabilityTests(unittest.TestCase):
+    def synthetic(self,kind):
+        import audit_stage1_v9_execution_v1 as audit
+        import contextlib,io
+        class Synthetic(unittest.TestCase):
+            def test_diagnostic(self):
+                if kind=='error':raise ValueError('synthetic observability error')
+                if kind=='failure':self.fail('synthetic observability assertion')
+        suite=unittest.defaultTestLoader.loadTestsFromTestCase(Synthetic)
+        emitted=io.StringIO()
+        with tempfile.TemporaryDirectory() as temp:
+            report=Path(temp)/'audit.json'
+            with contextlib.redirect_stdout(emitted):
+                if kind=='pass':audit.run_audit(suite,report)
+                else:
+                    with self.assertRaises(SystemExit) as raised:audit.run_audit(suite,report)
+                    self.assertEqual(raised.exception.code,1)
+            data=json.loads(report.read_text());log=report.with_suffix('.log').read_text()
+        self.assertIn(log,emitted.getvalue())
+        self.assertEqual(json.loads(emitted.getvalue().splitlines()[-1]),data)
+        self.assertEqual(data['realNetworkAttempts'],0)
+        return data,log
+    def test_synthetic_error_is_identified_logged_emitted_and_nonzero(self):
+        data,log=self.synthetic('error')
+        self.assertEqual(data['result'],'FAIL');self.assertEqual(data['errors'],1)
+        self.assertEqual(len(data['errorTests']),1);self.assertTrue(data['errorTests'][0].endswith('Synthetic.test_diagnostic'))
+        self.assertEqual(data['failureTests'],[])
+        self.assertIn('Traceback (most recent call last)',log);self.assertIn('ValueError: synthetic observability error',log)
+    def test_synthetic_failure_is_identified_logged_emitted_and_nonzero(self):
+        data,log=self.synthetic('failure')
+        self.assertEqual(data['result'],'FAIL');self.assertEqual(data['failures'],1)
+        self.assertEqual(len(data['failureTests']),1);self.assertTrue(data['failureTests'][0].endswith('Synthetic.test_diagnostic'))
+        self.assertEqual(data['errorTests'],[])
+        self.assertIn('Traceback (most recent call last)',log);self.assertIn('AssertionError: synthetic observability assertion',log)
+    def test_success_still_writes_report_and_log(self):
+        data,log=self.synthetic('pass')
+        self.assertEqual(data['result'],'PASS');self.assertEqual(data['testsRun'],1)
+        self.assertEqual(data['failureTests'],[]);self.assertEqual(data['errorTests'],[])
+        self.assertIn('OK',log)
+    def test_hosted_failure_upload_is_always_without_failure_bypass_or_secret(self):
+        wf=e.r.load(e.ROOT/e.AUDIT_WF);steps=wf['jobs']['audit']['steps']
+        upload=steps[-1]
+        self.assertEqual(upload['uses'],'actions/upload-artifact@v4');self.assertEqual(upload['if'],'always()')
+        self.assertEqual(upload['with']['path'].splitlines(),['/tmp/v9-execution-audit.json','/tmp/v9-execution-audit.log'])
+        self.assertEqual(upload['with']['if-no-files-found'],'error')
+        self.assertTrue(any('audit_stage1_v9_execution_v1.py --report' in step.get('run','') for step in steps))
+        self.assertFalse(any('continue-on-error' in step for step in steps))
+        self.assertNotIn('continue-on-error',wf['jobs']['audit'])
+        self.assertNotIn('secrets.',json.dumps(wf));self.assertNotIn('OPENAI_API_KEY',json.dumps(wf))
+
 if __name__=='__main__':unittest.main()
