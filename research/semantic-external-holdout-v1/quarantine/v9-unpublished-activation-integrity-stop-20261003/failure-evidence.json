@@ -1,0 +1,12 @@
+{
+  "activationPublished": false,
+  "authorizationCommit": "723c1ae9e166da1ad7b6e1920138996888fbba1c",
+  "commandBatchObservation": "PowerShell continued after the Python command exited nonzero and committed a local activation candidate. It was not uploaded to GitHub. A backup branch preserves it; active branch will return to the published authorization parent before freezing this stop.",
+  "context": "The provider-free verification used mock.patch.dict(os.environ,...,clear=True), dropping inherited sandbox Git configuration while testing canonical GitHub event fields. Git subprocess could not verify audited source blobs under the resulting local ownership environment. No approved source was changed. No provider step executed.",
+  "exceptionType": "subprocess.CalledProcessError",
+  "failedCheck": "execute_stage1_v9_grounded_v1.approval() during provider-free activation-integrity verification",
+  "gitError": "fatal: detected dubious ownership in repository",
+  "localActivationCandidateCommit": "382564df45c71cf28175e76e818a3d22f7c0cbdc",
+  "rawActivationSha256": "9efcf9b56bd914dc8108572eab14837fcee3f9acbfd716cd83eac7e0382fbcdc",
+  "returncode": 128
+}

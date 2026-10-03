@@ -1,0 +1,15 @@
+fatal: detected dubious ownership in repository at 'C:/Users/Nicholas Cunningham/Documents/Codex/2026-10-01/continue-trackcade-exactly-from-the-current-3/work/trackcade-test'
+'C:/Users/Nicholas Cunningham/Documents/Codex/2026-10-01/continue-trackcade-exactly-from-the-current-3/work/trackcade-test' is owned by:
+	DRM-WHS-NICK/CodexSandboxOnline (S-1-5-21-350803529-773035461-4211584024-1008)
+but the current user is:
+	DRM-WHS-NICK/CodexSandboxOffline (S-1-5-21-350803529-773035461-4211584024-1007)
+Traceback (most recent call last):
+  File "<stdin>", line 10, in <module>
+  File "C:\Users\Nicholas Cunningham\Documents\Codex\2026-10-01\continue-trackcade-exactly-from-the-current-3\work\trackcade-test\research\semantic-external-holdout-v1\execute_stage1_v9_grounded_v1.py", line 92, in approval
+    if hashlib.sha256(subprocess.check_output(['git','show',x['auditedSourceCommit']+':'+path],cwd=ROOT)).hexdigest()!=h:raise ValueError('audited source differs')
+  File "C:\Users\Nicholas Cunningham\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "C:\Users\Nicholas Cunningham\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'show', '7a86a4a3fca400a5071806b844ecb5d286147d97:.github/workflows/trackcade-semantic-external-stage1-v9-grounded-audit-v1.yml']' returned non-zero exit status 128.
+
