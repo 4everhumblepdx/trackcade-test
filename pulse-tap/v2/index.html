@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <title>Pulse Tap v2.1 - ALLDAT</title>
+  <title>Pulse Tap v2.2 - ALLDAT</title>
   <style>
     :root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px)}
     html,body{overscroll-behavior:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;margin:0;width:100%;height:100%;overflow:hidden;background:#050714;font-family:Arial,Helvetica,sans-serif}
@@ -12,9 +12,11 @@
     #error h1{font-size:24px;margin:0 0 12px;color:#ff4d8d} #error p{line-height:1.45;color:#cbd4ff;word-break:break-word}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
-  <script src="./timing.js?v=2.1"></script>
-  <script src="./difficulty.js?v=2.1"></script>
-  <script src="./ending.js?v=2.1"></script>
+  <script src="./timing.js?v=2.2"></script>
+  <script src="./difficulty.js?v=2.2"></script>
+  <script src="./ending.js?v=2.2"></script>
+  <script src="./action.js?v=2.2"></script>
+  <script src="./impact.js?v=2.2"></script>
 </head>
 <body>
 <div id="game"></div><div id="error"><h1>Pulse Tap couldn't load this track.</h1><p id="errorText"></p></div>
@@ -45,6 +47,17 @@
     const missing = required.filter(k => track[k] === undefined || track[k] === null || track[k] === '');
     if (missing.length) { fail(`The track manifest is missing: ${missing.join(', ')}.`); return; }
 
+    let actionEvidence=null;
+    const entry=track.pulseTapIntegration?.sourceEntry;
+    const evidenceFile=entry==='alldat-auto-safe-v1.json'?'alldat-action-evidence-v22.json':entry==='cvb-gemf-auto-safe-v1.json'?'cvb-action-evidence-v22.json':null;
+    if(evidenceFile){
+      try{
+        const url=new URL(evidenceFile,new URL(manifestUrl,location.href));url.searchParams.set('v','2.2');
+        const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('Frozen action evidence could not load.');
+        actionEvidence=PulseAction.validate(await r.json(),PulseTiming.createTiming(track).times,track.songLength);
+      }catch(e){fail(e.message);return;}
+    }
+
     const audio = new Audio();
     audio.src = new URL(track.audioUrl, new URL(manifestUrl, location.href)).href;
     audio.preload = 'auto';
@@ -74,8 +87,15 @@
         this.lastHitDelta=null; this.section=null; this.sectionNumber=0; this.spawnedCount=0; this.maxTargets=0;
         this.selectedCount=0;this.skippedSelection=0;this.lastPosition=null;this.presentation=[];
         this.ending=PulseEnding.detect(track,audio.duration);
+        this.buildActionPlan();this.lastHit=null;this.hitHistory=[];this.frameIntervals=[];this.lastFrameWall=null;
         const style=getComputedStyle(document.documentElement);this.insets={};
         for(const side of ['top','bottom','left','right'])this.insets[side]=parseFloat(style.getPropertyValue('--safe-'+side))||0;
+      }
+
+      buildActionPlan(){
+        const times=this.timing.times||[];
+        if(!this.timing.times&&Number.isFinite(this.ending.playableEndTime))for(let i=0;this.timing.timeAt(i)<this.ending.playableEndTime;i++)times.push(this.timing.timeAt(i));
+        this.actionPlan=PulseAction.plan(times,this.ending.playableEndTime,track,actionEvidence,PulseDifficulty,t=>this.energyAt(t),this.ending.releaseGap);
       }
 
       create(){
@@ -87,7 +107,7 @@
         this.fx=this.add.graphics();
         this.targetLayer=this.add.container();
 
-        this.title=this.add.text(w/2,56,'PULSE TAP v2.1',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff',stroke:'#000000',strokeThickness:3}).setOrigin(.5);
+        this.title=this.add.text(w/2,56,'PULSE TAP v2.2',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff',stroke:'#000000',strokeThickness:3}).setOrigin(.5);
         this.song=this.add.text(w/2,92,`${track.artist} — ${track.title}`,{fontFamily:'Arial',fontSize:'16px',color:'#cbd4ff',align:'center',wordWrap:{width:w-48}}).setOrigin(.5);
         this.scoreText=this.add.text(20,20,'0',{fontFamily:'Arial',fontSize:'22px',fontStyle:'bold',color:'#ffffff'});
         this.comboText=this.add.text(w-20,22,'',{fontFamily:'Arial',fontSize:'18px',fontStyle:'bold',color:'#ffd147'}).setOrigin(1,0);
@@ -116,7 +136,7 @@
         const audioError=()=>fail('The song audio could not be loaded from the manifest audioUrl.');
         audio.addEventListener('ended',ended);audio.addEventListener('error',audioError);
         this.events.once('shutdown',()=>{audio.pause();this.scale.off('resize',resize);audio.removeEventListener('ended',ended);audio.removeEventListener('error',audioError);});
-        if(debug)window.pulseTapDebug={audio,scene:this,snapshot:()=>this.debugSnapshot()};
+        if(debug)window.pulseTapDebug={audio,scene:this,snapshot:()=>this.debugSnapshot(),candidates:(time=audio.currentTime,span=2)=>this.actionPlan.filter(r=>Math.abs(r.musicalImpactTime-time)<=span),hits:()=>this.hitHistory.slice()};
         this.relayout(w,h);this.showDebug();this.drawBackdrop(0);
       }
 
@@ -151,19 +171,15 @@
         return PulseTiming.energyAt(track,t,declaredLength || audio.duration || 1);
       }
 
-      isDrop(t){
-        return events.some(e => e.kind==='drop' && t>=Number(e.t||0) && t<=Number(e.t||0)+Number(e.duration||10));
-      }
-
       spawnTarget(targetTime, accent=false, spawnAhead=.4, beatIndex=null, profile){
         if(!this.started||this.finished||!PulseEnding.canPlay(audio.currentTime,this.ending.playableEndTime)||!PulseEnding.targetFits(targetTime,profile.window,this.ending))return;
         const {x,y}=PulseDifficulty.position(this.selectedCount++,profile,this.scale.width,this.scale.height,this.lastPosition,this.insets);
         this.lastPosition={x,y,targetTime};
         const color=accent?C.secondary:C.primary;
-        const core=this.add.circle(x,y,profile.radius,color,.24).setStrokeStyle(3,color,1);
-        const ring=this.add.circle(x,y,profile.radius*1.75,color,.05).setStrokeStyle(4,color,.95);
-        const dot=this.add.circle(x,y,7,C.white,.95);
-        const target={x,y,targetTime,spawnAhead,beatIndex,profile,core,ring,dot,color,hit:false,missed:false};
+        const core=this.add.circle(x,y,profile.radius,color,.12).setStrokeStyle(3,color,.45);
+        const ring=this.add.circle(x,y,profile.radius*1.75,color,.02).setStrokeStyle(3,color,.45);
+        const dot=this.add.circle(x,y,7,C.white,.15);
+        const target={x,y,targetTime,musicalImpactTime:targetTime,presentationStartTime:targetTime-spawnAhead,presentationLead:spawnAhead,actualPresentationTime:audio.currentTime,spawnAhead,beatIndex,profile,core,ring,dot,color,hit:false,missed:false,impactPresented:false};
         this.targets.push(target);
         this.spawnedCount++;this.maxTargets=Math.max(this.maxTargets,this.targets.length);
         this.targetLayer.add([core,ring,dot]);
@@ -179,14 +195,14 @@
           if(d<target.profile.hitRadius && d<bestDist){ best=target; bestDist=d; }
         }
         if(!best){ this.flashText('MISS',C.danger); this.combo=0; return; }
-        this.lastHitDelta=t-best.targetTime;
+        this.lastHitDelta=t-best.musicalImpactTime;
         const delta=Math.abs(this.lastHitDelta);
         if(delta>best.profile.window){ this.flashText('EARLY / LATE',C.danger); this.combo=0; return; }
         best.hit=true;
-        let base,label,color;
-        if(delta<=best.profile.window*.30){base=120;label='PERFECT';color=C.gold;}
-        else if(delta<=best.profile.window*.65){base=80;label='GREAT';color=C.primary;}
-        else{base=45;label='GOOD';color=C.secondary;}
+        const judgement=PulseImpact.judge(t,best.musicalImpactTime,best.profile.window);
+        const base=judgement.timingScore,label=judgement.label,color=label==='PERFECT'?C.gold:label==='GREAT'?C.primary:C.secondary;
+        this.lastHit={actualHitTime:t,musicalImpactTime:best.musicalImpactTime,presentationStartTime:best.presentationStartTime,presentationLead:best.presentationLead,hitDelta:judgement.delta,timingScore:base,sourceIndex:best.beatIndex,stage:best.profile.name};
+        this.hitHistory.push(this.lastHit);if(this.hitHistory.length>500)this.hitHistory.shift();
         this.combo++;
         this.bestCombo=Math.max(this.bestCombo,this.combo);
         const mult=Math.min(3,1+Math.floor(this.combo/10)*.25);
@@ -223,7 +239,7 @@
         const b=this.timing.indexAt(t);
         if(b<0 || b===this.lastPulseBeat) return;
         this.lastPulseBeat=b;
-        const energy=this.energyAt(t); const color=this.isDrop(t)?C.secondary:C.primary;
+        const energy=this.energyAt(t); const color=C.primary;
         const ring=this.add.circle(this.scale.width/2,this.scale.height/2,40,color,0).setStrokeStyle(3,color,.35+energy*.25);
         this.presentation.push(ring);
         this.tweens.add({targets:ring,scale:8,alpha:0,duration:Math.max(260,this.timing.intervalAt(b)*650),onComplete:()=>ring.destroy()});
@@ -233,15 +249,21 @@
         const t=audio.currentTime,index=this.timing.indexAt(t)+1;
         const profile=PulseDifficulty.profile(t,this.ending.playableEndTime,this.energyAt(t));
         const nextTime=this.timing.timeAt(index);
-        const selection=PulseDifficulty.decision(index,nextTime??t,this.ending.playableEndTime,this.energyAt(nextTime??t),this.ending.releaseGap);
+        const selection={...(this.actionPlan[index]||PulseDifficulty.decision(index,nextTime??t,this.ending.playableEndTime,this.energyAt(nextTime??t),this.ending.releaseGap))};
         if(nextTime===null)selection.selected=false;
-        return {rawAudioDuration:this.ending.rawDuration,playableEndTime:this.ending.playableEndTime,remainingPlayableTime:Math.max(0,this.ending.playableEndTime-t),endingSource:this.ending.source,endingReason:this.ending.reason,progress:profile.progress,difficultyStage:profile.name,selectionDensity:selection.density,beatSelected:selection.selected,hitWindow:profile.window,targetRadius:profile.radius,hitRadius:profile.hitRadius,maxTravel:profile.travel,skippedSelection:this.skippedSelection,audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
+        const target=this.targets.find(x=>!x.hit&&!x.missed)||null;
+        const selected=target?this.actionPlan[target.beatIndex]:this.actionPlan.find(r=>r.selected&&r.musicalImpactTime>=t);
+        const inspect=selected?{...selected,audioTime:t,timeUntilImpact:selected.musicalImpactTime-t,actualPresentationTime:target?.actualPresentationTime??null,impactFrameTime:target?.impactFrameTime??null}:null;
+        const intervals=this.frameIntervals;
+        return {activeOrNext:inspect,lastHit:this.lastHit,nearbyCandidates:this.actionPlan.filter(r=>Math.abs(r.musicalImpactTime-(selected?.musicalImpactTime??t))<=1.5),latencyDiagnostics:{clock:'HTMLMediaElement.currentTime',offsetApplied:0,outputLatency:null,displayLatency:null,physicalLatencyMeasured:false,userAgent:navigator.userAgent,frameIntervalMs:intervals.length?intervals.reduce((a,b)=>a+b,0)/intervals.length:null,maxFrameIntervalMs:intervals.length?Math.max(...intervals):null,playbackRate:audio.playbackRate,readyState:audio.readyState,seeking:audio.seeking,visibility:document.visibilityState},rawAudioDuration:this.ending.rawDuration,playableEndTime:this.ending.playableEndTime,remainingPlayableTime:Math.max(0,this.ending.playableEndTime-t),endingSource:this.ending.source,endingReason:this.ending.reason,progress:profile.progress,difficultyStage:profile.name,selectionDensity:selection.density,beatSelected:selection.selected,hitWindow:profile.window,targetRadius:profile.radius,hitRadius:profile.hitRadius,maxTravel:profile.travel,skippedSelection:this.skippedSelection,audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
       }
 
       showDebug(){
         if(!this.debugText)return;
         const d=this.debugSnapshot(),f=v=>v===null?'—':v.toFixed(3);
-        this.debugText.setText(`${(d.progress*100).toFixed(1)}% ${d.difficultyStage}\nraw ${f(d.rawAudioDuration)}s  end ${f(d.playableEndTime)}s\nremain ${f(d.remainingPlayableTime)}s ${d.endingReason}\naudio ${f(d.audioTime)}s target ${f(d.upcomingBeat)}s\nsource beat #${d.beatIndex} ${d.beatSelected?'selected':'skipped'}\ndensity ${(d.selectionDensity*100).toFixed(0)}% window +/-${f(d.hitWindow)}s\nradius ${d.targetRadius.toFixed(0)}px travel <=${d.maxTravel.toFixed(0)}px\nenergy ${f(d.energy)} hit delta ${d.hitDelta===null?'--':(d.hitDelta*1000).toFixed(0)+'ms'}\n${d.endingSource} live ${d.activeTargets}`);
+        const a=d.activeOrNext;
+        this.debugText.setText(`v2.2 ${(d.progress*100).toFixed(1)}% ${d.difficultyStage}\nend ${f(d.playableEndTime)} audio ${f(d.audioTime)}\n${a?`prepare ${f(a.presentationStartTime)} lead ${f(a.presentationLead)}\nIMPACT ${f(a.musicalImpactTime)} in ${f(a.timeUntilImpact)}\n#${a.originalBeatIndex} salience ${f(a.actionSalience.total)}\n${a.selectionReason} low demand ${a.actionSalience.lowDemand}`:'no upcoming target'}\nhit ${d.lastHit?f(d.lastHit.actualHitTime):'--'} delta ${d.hitDelta===null?'--':(d.hitDelta*1000).toFixed(0)+'ms'}\ntiming points ${d.lastHit?d.lastHit.timingScore.toFixed(1):'--'}\nlatency unmeasured; offset 0\ninspect pulseTapDebug.candidates()/hits()`);
+
       }
 
       finishRun(){
@@ -260,9 +282,10 @@
 
       update(){
         if(!this.started||this.finished||this.paused) return;
+        const wall=performance.now();if(this.lastFrameWall!==null){this.frameIntervals.push(wall-this.lastFrameWall);if(this.frameIntervals.length>120)this.frameIntervals.shift();}this.lastFrameWall=wall;
         const t=audio.currentTime;
         const duration=Number.isFinite(audio.duration)&&audio.duration>0?audio.duration:declaredLength;
-        if(duration!==this.ending.rawDuration)this.ending=PulseEnding.detect(track,duration);
+        if(duration!==this.ending.rawDuration){this.ending=PulseEnding.detect(track,duration);this.buildActionPlan();}
         if(!PulseEnding.canPlay(t,this.ending.playableEndTime)){this.finishRun();return;}
         this.presentation=this.presentation.filter(o=>o.active);
         const section=PulseTiming.sectionAt(events,t);
@@ -270,19 +293,20 @@
         this.drawBackdrop(t); this.pulseBackdrop(t);
 
         for(const next of this.timing.drain(t,this.ending.playableEndTime,.36,(_index,time)=>PulseDifficulty.profile(time,this.ending.playableEndTime,this.energyAt(time)).lead)){
-          const d=PulseDifficulty.decision(next.index,next.targetTime,this.ending.playableEndTime,this.energyAt(next.targetTime),this.ending.releaseGap);
+          const d=this.actionPlan[next.index]||PulseDifficulty.decision(next.index,next.targetTime,this.ending.playableEndTime,this.energyAt(next.targetTime),this.ending.releaseGap);
           if(!d.selected){this.skippedSelection++;continue;}
           if(t>next.targetTime+d.window)continue;
-          this.spawnTarget(next.targetTime,this.isDrop(next.targetTime)||next.index%4===0,next.spawnAhead,next.index,d);
+          this.spawnTarget(next.targetTime,d.actionSalience?.total>=.50||next.index%4===0,next.spawnAhead,next.index,d);
         }
 
         for(const target of [...this.targets]){
           if(target.hit||target.missed) continue;
-          const delta=target.targetTime-t;
-          const phase=Phaser.Math.Clamp(delta/target.spawnAhead,0,1);
-          const scale=1/1.75 + phase*.75;
-          target.ring.setScale(scale);
-          target.core.setAlpha(.20 + (1-phase)*.35);
+          const visual=PulseImpact.visual(t,target.musicalImpactTime,target.presentationLead);
+          target.ring.setScale(visual.ringScale);target.core.setAlpha(visual.coreAlpha);target.dot.setAlpha(visual.dotAlpha);
+          if(visual.atImpact&&!target.impactPresented){
+            target.impactPresented=true;target.impactFrameTime=t;
+            target.core.setStrokeStyle(4,target.color,1);target.ring.setStrokeStyle(4,target.color,1);
+          }
           if(t>target.targetTime+target.profile.window){
             target.missed=true; this.combo=0; this.comboText.setText('');
             this.flashText('MISS',C.danger,target.x,target.y-42);

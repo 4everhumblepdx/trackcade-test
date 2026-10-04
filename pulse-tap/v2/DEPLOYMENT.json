@@ -1,28 +1,54 @@
 {
-  "version": "Pulse Tap v2.1",
+  "schema": "trackcade-pulse-tap-static-deployment-v22",
+  "version": "2.2",
   "sourceBranch": "trackcade-semantic-external-holdout-v1",
-  "sourceCommit": "54d01e34dab87f8e1236cb5e549cd1283d99f402",
-  "sourceBeatTimestampsChanged": false,
-  "alldat": {
-    "sourceBeats": 590,
-    "selectedTargets": 282,
-    "declaredRawDuration": 196.075102,
-    "playableEndTime": 190.357,
-    "endingSource": "frozen-energy-terminal-suffix",
-    "lastTarget": 188.855,
-    "releaseGap": 1.502
-  },
-  "cvb": {
-    "sourceBeats": 812,
-    "selectedTargets": 401,
-    "playableEndTime": 309.420408,
-    "endingSource": "duration-fallback",
-    "lastTarget": 306.629
-  },
+  "sourceCommit": "b5908b1865ec45451ba02e53a10bc8a263527bd8",
+  "path": "pulse-tap/v2/",
+  "hosting": "existing main-branch GitHub Pages",
+  "musicalTimestampsChanged": false,
+  "manifestDeploymentChange": "audioUrl relative path only",
   "providerCalls": 0,
-  "spendUsd": 0,
-  "manifestAdaptation": "Relative audioUrl only; frozen source timing and existing root audio unchanged",
-  "normalUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.1",
-  "debugUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.1&debug=1",
-  "cacheProtection": "Versioned HTML link and script URLs"
+  "spendUSD": 0,
+  "files": [
+    {
+      "name": "index.html",
+      "sha256": "f2b4de56316539e51485cadedaa7d9ec8838e546fbc0874bac5ff138a9beaa28"
+    },
+    {
+      "name": "timing.js",
+      "sha256": "82c08214f4dee84e112fe73ebe48317669a19f282194e34b753b1aab01a29e57"
+    },
+    {
+      "name": "difficulty.js",
+      "sha256": "201dd39179045663462382cbcf82edbb87c3958bcaff84a4c2d9a5cc85c11605"
+    },
+    {
+      "name": "ending.js",
+      "sha256": "e1ba5ff11b841dc7aa6f99eaf8b469f07caa7bbf56a13133b9b820103337f355"
+    },
+    {
+      "name": "action.js",
+      "sha256": "8a5be412db1fe8594dc4aede56a2d68722b8a0c494d6c41247cbeeaf26d2815d"
+    },
+    {
+      "name": "impact.js",
+      "sha256": "df7e297924c0111dd6c5605d02d389ba25f576ecabe41800438ad519e750efef"
+    },
+    {
+      "name": "alldat-analyzer-test.json",
+      "sha256": "c350241942cb6aeff2af5a2b2139e46b1290d81fabf26dd5d6527b88e3d7e4a2"
+    },
+    {
+      "name": "cvb-analyzer-test.json",
+      "sha256": "a1b5a084f08378232e1022ddf9124e4928af450637ecc39cb4e59ecdcf87ff9d"
+    },
+    {
+      "name": "alldat-action-evidence-v22.json",
+      "sha256": "9249ec5cfe66f33383501b8d03089463daee4480e4b3c4abb39281ba1d5ebcc3"
+    },
+    {
+      "name": "cvb-action-evidence-v22.json",
+      "sha256": "0797d4722b5c3b079701add88788ba671aabe8ea05200b0e3df3d931c0b5436b"
+    }
+  ]
 }

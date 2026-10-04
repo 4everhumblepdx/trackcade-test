@@ -9,12 +9,17 @@
     {name:'mid-hard-push',start:.50,end:.63,window:.27,radius:34,travel:210,spread:.82,lead:.60},
     {name:'relief',start:.63,end:.72,window:.30,radius:38,travel:170,spread:.74,lead:.66},
     {name:'final-build',start:.72,end:.82,window:.28,radius:35,travel:205,spread:.84,lead:.60,to:{window:.25,radius:31,travel:240,lead:.56}},
-    {name:'final-climax',start:.82,end:.94,window:.23,radius:29,travel:250,spread:.90,lead:.54},
+    {name:'final-climax',start:.82,end:.94,window:.23,radius:28,travel:255,spread:.90,lead:.54},
     {name:'landing',start:.94,end:1,window:.34,radius:42,travel:110,spread:.55,lead:.78}
   ];
+  function stageDefinitions(duration){
+    const tutorialEnd=Math.min(6,duration*.30)/Math.max(duration,1);
+    return stages.map(s=>s.name==='opening'?{...s,end:tutorialEnd}:s.name==='build'?{...s,start:tutorialEnd}:s);
+  }
   function profile(t,duration,energy=.5){
     const progress=clamp(t/Math.max(duration,1),0,1);
-    const stage=stages.find(s=>progress<s.end)||stages[stages.length-1];
+    const effective=stageDefinitions(duration);
+    const stage=effective.find(s=>progress<s.end)||effective[effective.length-1];
     const phase=clamp((progress-stage.start)/(stage.end-stage.start),0,1);
     const p={...stage,progress,phase,energy:clamp(energy,0,1)};
     for(const [key,value] of Object.entries(stage.to||{}))p[key]=stage[key]+(value-stage[key])*phase;
@@ -61,7 +66,7 @@
   }
   function summary(times,duration,energyAt,releaseGap=1.25){
     const targets=select(times,duration,energyAt,releaseGap);
-    return {sourceBeats:times.length,playableEndTime:duration,selectedTargets:targets.length,finalTarget:targets.at(-1)?.targetTime??null,releaseGap:targets.length?duration-targets.at(-1).targetTime:null,stages:stages.map(s=>{
+    return {sourceBeats:times.length,playableEndTime:duration,selectedTargets:targets.length,finalTarget:targets.at(-1)?.targetTime??null,releaseGap:targets.length?duration-targets.at(-1).targetTime:null,stages:stageDefinitions(duration).map(s=>{
       const chosen=targets.filter(d=>d.name===s.name),intervals=chosen.slice(1).map((d,i)=>d.targetTime-chosen[i].targetTime);
       const sourceCount=times.filter(t=>t<duration&&profile(t,duration).name===s.name).length;
       const range=key=>[Math.min(s[key],s.to?.[key]??s[key]),Math.max(s[key],s.to?.[key]??s[key])];
