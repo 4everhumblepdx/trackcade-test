@@ -41,9 +41,9 @@ Patterns vary deterministically across blocks. Final Climax allows at most five 
 
 ## Play and verify
 
-Normal phone URL: https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/
+Normal phone URL: https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.1
 
-Debug URL: https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?debug=1
+Debug URL: https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.1&debug=1
 
 The same public v2 path now serves v2.1. ALLDAT remains the default. Portrait, one-touch play, safe-area controls, reachable targets, pause/resume and replay are retained. Debug adds raw duration, playable end, remaining time, detector source/reason, playable progress, stage, density, window/radius/travel, energy, original beat index/selected state, target/audio times and hit delta. Normal mode has no debug clutter.
 
