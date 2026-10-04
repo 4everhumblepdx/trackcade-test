@@ -1,0 +1,108 @@
+{
+  "schema": "pulse-tap-v23-prepublication-receipt",
+  "baseHead": "ff5e658dd5ee18ab8405cbc403d447d09ba65cd9",
+  "state": "Local validation passed; publication pending. See PULSE_TAP_V23_PUBLICATION.json for final state.",
+  "tutorialSeconds": 5,
+  "deterministicTests": {
+    "pass": 115,
+    "fail": 0
+  },
+  "localBrowser": {
+    "passGroups": 5,
+    "failGroups": 0,
+    "resultSha256": "9b825847dc70246c99ce69fc880c2079467194e92883fe8fd9a672d464e94664",
+    "tracks": [
+      {
+        "name": "cvb",
+        "spawnedTargets": 402,
+        "maxLive": 4,
+        "ending": {
+          "rawDuration": 309.420408,
+          "playableEndTime": 309.420408,
+          "releaseGap": 1.5,
+          "source": "duration-fallback",
+          "reason": "terminal-collapse-not-sufficiently-sustained",
+          "evidence": null
+        },
+        "maximumRun": {
+          "hits": 402,
+          "score": 135285,
+          "expectedScore": 135285,
+          "bestCombo": 402,
+          "finished": true,
+          "toleranceSeconds": 0.005,
+          "testHitErrorSeconds": 0.003
+        },
+        "boundaryProbe": {
+          "activeBefore": 1,
+          "cleared": true,
+          "preFrameInputBlocked": true,
+          "postEndingInputBlocked": true
+        }
+      },
+      {
+        "name": "alldat",
+        "spawnedTargets": 289,
+        "maxLive": 4,
+        "ending": {
+          "rawDuration": 196.075102,
+          "playableEndTime": 190.357,
+          "releaseGap": 1.328000000000003,
+          "source": "frozen-energy-terminal-suffix",
+          "reason": "sustained-terminal-collapse",
+          "evidence": {
+            "firstLowSampleIndex": 233,
+            "firstLowSampleTime": 190.357,
+            "lowSampleCount": 7,
+            "observedLowSpan": 4.901999999999987,
+            "lastSampleTime": 195.259,
+            "threshold": 0.1,
+            "activeLevel": 0.8694,
+            "precedingContrastingSamples": 8,
+            "medianEnergyInterval": 0.8170000000000002,
+            "medianBeatInterval": 0.33200000000000074,
+            "policy": "terminal suffix only; >=4 samples; >=max(2.5s,2 sample intervals); final 15%; complete tail coverage; local contrast"
+          }
+        },
+        "maximumRun": {
+          "hits": 289,
+          "score": 94230,
+          "expectedScore": 94230,
+          "bestCombo": 289,
+          "finished": true,
+          "toleranceSeconds": 0.005,
+          "testHitErrorSeconds": 0.003
+        },
+        "boundaryProbe": {
+          "activeBefore": 1,
+          "cleared": true,
+          "preFrameInputBlocked": true,
+          "postEndingInputBlocked": true
+        }
+      }
+    ]
+  },
+  "frozenFileSha256": {
+    "timing.js": "82c08214f4dee84e112fe73ebe48317669a19f282194e34b753b1aab01a29e57",
+    "ending.js": "e1ba5ff11b841dc7aa6f99eaf8b469f07caa7bbf56a13133b9b820103337f355",
+    "alldat-analyzer-test.json": "e2e5196789f460c8facc6171f1efa19ac8b48e12d089e163415de8a0f45dc012",
+    "cvb-analyzer-test.json": "d9f0dd836e6d7d45913410493f3c9f4af54e192832ede9ee410ee6a31fde6365",
+    "alldat-action-evidence-v22.json": "9249ec5cfe66f33383501b8d03089463daee4480e4b3c4abb39281ba1d5ebcc3",
+    "cvb-action-evidence-v22.json": "0797d4722b5c3b079701add88788ba671aabe8ea05200b0e3df3d931c0b5436b"
+  },
+  "landingSelectionsAndSettingsPreserved": true,
+  "landingCoordinatesCaveat": "Earlier serial count/entry position can change exact route coordinates; Landing travel cap/settings unchanged.",
+  "visualArchitecture": "partial",
+  "remainingLimitation": "D provisional; physical playtest needed",
+  "providerCalls": 0,
+  "spendUSD": 0,
+  "analyzerInvoked": false,
+  "analyzerModified": false,
+  "compilerInvoked": false,
+  "semanticV9Changed": false,
+  "stage1LabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "musicalTimestampsChanged": false,
+  "offbeatPositionsAdded": 0,
+  "genreInferenceAdded": false
+}

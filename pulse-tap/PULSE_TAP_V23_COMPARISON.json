@@ -1,0 +1,5627 @@
+{
+  "schema": "pulse-tap-v23-comparison",
+  "method": "Inversion: salience loss >=.025, skipped beat within +/-2 indices, same four-beat quota window and stage, replaceable without illegal time, <.18s interval or burst violation. Tutorial/landing excluded. Objective values are diagnostics, not subjective correctness. Travel model 375x667 CSS pixels, no insets.",
+  "tracks": {
+    "alldat": {
+      "sourceCandidates": 590,
+      "selectedV22": 283,
+      "selectedV23": 289,
+      "unchanged": 227,
+      "v22Only": [
+        46,
+        58,
+        60,
+        64,
+        84,
+        97,
+        100,
+        110,
+        144,
+        160,
+        174,
+        176,
+        186,
+        204,
+        218,
+        222,
+        232,
+        247,
+        253,
+        262,
+        270,
+        278,
+        295,
+        326,
+        332,
+        337,
+        348,
+        362,
+        380,
+        402,
+        404,
+        414,
+        417,
+        421,
+        424,
+        428,
+        433,
+        440,
+        444,
+        449,
+        454,
+        460,
+        465,
+        471,
+        476,
+        480,
+        486,
+        492,
+        498,
+        503,
+        509,
+        513,
+        519,
+        524,
+        529,
+        534
+      ],
+      "v23Only": [
+        47,
+        59,
+        63,
+        67,
+        85,
+        99,
+        102,
+        111,
+        146,
+        162,
+        175,
+        177,
+        185,
+        207,
+        216,
+        223,
+        235,
+        245,
+        255,
+        261,
+        271,
+        277,
+        293,
+        296,
+        303,
+        309,
+        319,
+        325,
+        328,
+        333,
+        335,
+        339,
+        347,
+        349,
+        351,
+        357,
+        363,
+        383,
+        403,
+        405,
+        415,
+        431,
+        432,
+        447,
+        451,
+        453,
+        459,
+        463,
+        467,
+        473,
+        479,
+        484,
+        490,
+        495,
+        501,
+        507,
+        511,
+        516,
+        522,
+        527,
+        533,
+        536
+      ],
+      "meanSelectedSalience": 0.20325920626141086,
+      "meanSkippedSalience": 0.1108484108082648,
+      "meanSelectedV22Salience": 0.19676633129167542,
+      "meanSelectedLocalRank": 2.2768166089965396,
+      "inversionsV22": {
+        "threshold": 0.025,
+        "eligibleSelected": 271,
+        "count": 19,
+        "rate": 0.07011070110701106,
+        "meanSalienceLoss": 0.1032013965120307,
+        "records": [
+          {
+            "selectedIndex": 97,
+            "selectedTime": 32.435,
+            "skippedIndex": 99,
+            "skippedTime": 33.099,
+            "selectedSalience": 0.2591360507469893,
+            "skippedSalience": 0.28442857843373737,
+            "loss": 0.025292527686748056,
+            "selectedReason": "salience",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 100,
+            "selectedTime": 33.431,
+            "skippedIndex": 102,
+            "skippedTime": 34.095,
+            "selectedSalience": 0.2595687312329311,
+            "skippedSalience": 0.2943494208995984,
+            "loss": 0.03478068966666731,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 110,
+            "selectedTime": 36.752,
+            "skippedIndex": 111,
+            "skippedTime": 37.084,
+            "selectedSalience": 0.21335323484337199,
+            "skippedSalience": 0.41035575864658314,
+            "loss": 0.19700252380321115,
+            "selectedReason": "salience",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 144,
+            "selectedTime": 48.044,
+            "skippedIndex": 146,
+            "skippedTime": 48.708,
+            "selectedSalience": 0.16843179395582164,
+            "skippedSalience": 0.2060341466827309,
+            "loss": 0.03760235272690926,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 160,
+            "selectedTime": 53.357,
+            "skippedIndex": 162,
+            "skippedTime": 54.022,
+            "selectedSalience": 0.16421903453815165,
+            "skippedSalience": 0.2102862671164668,
+            "loss": 0.04606723257831516,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 173,
+            "selectedTime": 57.675,
+            "skippedIndex": 175,
+            "skippedTime": 58.339,
+            "selectedSalience": 0.1728505439759022,
+            "skippedSalience": 0.49521082973494557,
+            "loss": 0.3223602857590434,
+            "selectedReason": "salience",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 174,
+            "selectedTime": 58.007,
+            "skippedIndex": 175,
+            "skippedTime": 58.339,
+            "selectedSalience": 0.15462998737349637,
+            "skippedSalience": 0.49521082973494557,
+            "loss": 0.3405808423614492,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 253,
+            "selectedTime": 84.243,
+            "skippedIndex": 255,
+            "skippedTime": 84.907,
+            "selectedSalience": 0.1274670443132548,
+            "skippedSalience": 0.20476006387951745,
+            "loss": 0.07729301956626264,
+            "selectedReason": "salience",
+            "stage": "developing"
+          },
+          {
+            "selectedIndex": 270,
+            "selectedTime": 89.889,
+            "skippedIndex": 271,
+            "skippedTime": 90.221,
+            "selectedSalience": 0.10431835339758995,
+            "skippedSalience": 0.1403995045783136,
+            "loss": 0.03608115118072365,
+            "selectedReason": "both",
+            "stage": "developing"
+          },
+          {
+            "selectedIndex": 278,
+            "selectedTime": 92.546,
+            "skippedIndex": 277,
+            "skippedTime": 92.213,
+            "selectedSalience": 0.13936425657658455,
+            "skippedSalience": 0.1681308684899594,
+            "loss": 0.028766611913374845,
+            "selectedReason": "both",
+            "stage": "developing"
+          },
+          {
+            "selectedIndex": 318,
+            "selectedTime": 105.83,
+            "skippedIndex": 319,
+            "skippedTime": 106.162,
+            "selectedSalience": 0.1263970968755033,
+            "skippedSalience": 0.21331968192770817,
+            "loss": 0.08692258505220488,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 332,
+            "selectedTime": 110.479,
+            "skippedIndex": 333,
+            "skippedTime": 110.811,
+            "selectedSalience": 0.0759796231927708,
+            "skippedSalience": 0.10446867636947671,
+            "loss": 0.028489053176705914,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 350,
+            "selectedTime": 116.457,
+            "skippedIndex": 351,
+            "skippedTime": 116.789,
+            "selectedSalience": 0.16407338359035756,
+            "skippedSalience": 0.2823859091887581,
+            "loss": 0.11831252559840055,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 355,
+            "selectedTime": 118.117,
+            "skippedIndex": 353,
+            "skippedTime": 117.453,
+            "selectedSalience": 0.16288266642570223,
+            "skippedSalience": 0.19257087493976477,
+            "loss": 0.029688208514062536,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 362,
+            "selectedTime": 120.442,
+            "skippedIndex": 363,
+            "skippedTime": 120.774,
+            "selectedSalience": 0.2438765946345283,
+            "skippedSalience": 0.27702596106024086,
+            "loss": 0.03314936642571256,
+            "selectedReason": "both",
+            "stage": "relief"
+          },
+          {
+            "selectedIndex": 381,
+            "selectedTime": 126.752,
+            "skippedIndex": 383,
+            "skippedTime": 127.416,
+            "selectedSalience": 0.24151125202811352,
+            "skippedSalience": 0.34325565024899884,
+            "loss": 0.10174439822088532,
+            "selectedReason": "salience",
+            "stage": "relief"
+          },
+          {
+            "selectedIndex": 446,
+            "selectedTime": 148.339,
+            "skippedIndex": 447,
+            "skippedTime": 148.671,
+            "selectedSalience": 0.17134269289156373,
+            "skippedSalience": 0.21949818926504566,
+            "loss": 0.04815549637348193,
+            "selectedReason": "both",
+            "stage": "final-build"
+          },
+          {
+            "selectedIndex": 461,
+            "selectedTime": 153.32,
+            "skippedIndex": 463,
+            "skippedTime": 153.985,
+            "selectedSalience": 0.0728354891566264,
+            "skippedSalience": 0.2575833253453462,
+            "loss": 0.18474783618871982,
+            "selectedReason": "both",
+            "stage": "final-build"
+          },
+          {
+            "selectedIndex": 462,
+            "selectedTime": 153.652,
+            "skippedIndex": 463,
+            "skippedTime": 153.985,
+            "selectedSalience": 0.07379349840964126,
+            "skippedSalience": 0.2575833253453462,
+            "loss": 0.18378982693570495,
+            "selectedReason": "both",
+            "stage": "final-build"
+          }
+        ]
+      },
+      "inversionsV23": {
+        "threshold": 0.025,
+        "eligibleSelected": 278,
+        "count": 0,
+        "rate": 0,
+        "meanSalienceLoss": 0,
+        "records": []
+      },
+      "priorInversionsCorrected": 11,
+      "priorInversionsResolved": 19,
+      "continuityReplacements": [],
+      "highSalienceMissed": [
+        {
+          "index": 539,
+          "time": 179.224,
+          "salience": 0.5206220448433719,
+          "reason": "preserved tutorial/landing pattern"
+        }
+      ],
+      "weakChoicesRetained": [
+        {
+          "index": 4,
+          "time": 1.549,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 8,
+          "time": 2.878,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 12,
+          "time": 4.206,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 16,
+          "time": 5.535,
+          "reason": "both"
+        },
+        {
+          "index": 20,
+          "time": 6.863,
+          "reason": "both"
+        },
+        {
+          "index": 24,
+          "time": 8.191,
+          "reason": "both"
+        },
+        {
+          "index": 28,
+          "time": 9.52,
+          "reason": "both"
+        },
+        {
+          "index": 32,
+          "time": 10.848,
+          "reason": "both"
+        },
+        {
+          "index": 36,
+          "time": 12.177,
+          "reason": "both"
+        },
+        {
+          "index": 40,
+          "time": 13.505,
+          "reason": "both"
+        },
+        {
+          "index": 59,
+          "time": 19.815,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 63,
+          "time": 21.143,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 67,
+          "time": 22.472,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 85,
+          "time": 28.45,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 118,
+          "time": 39.409,
+          "reason": "both"
+        },
+        {
+          "index": 133,
+          "time": 44.391,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 141,
+          "time": 47.047,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 142,
+          "time": 47.38,
+          "reason": "both"
+        },
+        {
+          "index": 164,
+          "time": 54.686,
+          "reason": "both"
+        },
+        {
+          "index": 173,
+          "time": 57.675,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 180,
+          "time": 59.999,
+          "reason": "both"
+        },
+        {
+          "index": 183,
+          "time": 60.996,
+          "reason": "both"
+        },
+        {
+          "index": 184,
+          "time": 61.328,
+          "reason": "both"
+        },
+        {
+          "index": 185,
+          "time": 61.66,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 207,
+          "time": 68.966,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 212,
+          "time": 70.627,
+          "reason": "both"
+        },
+        {
+          "index": 213,
+          "time": 70.959,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 216,
+          "time": 71.955,
+          "reason": "both"
+        },
+        {
+          "index": 219,
+          "time": 72.951,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 220,
+          "time": 73.284,
+          "reason": "both"
+        },
+        {
+          "index": 223,
+          "time": 74.28,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 234,
+          "time": 77.933,
+          "reason": "both"
+        },
+        {
+          "index": 235,
+          "time": 78.265,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 242,
+          "time": 80.59,
+          "reason": "both"
+        },
+        {
+          "index": 245,
+          "time": 81.586,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 254,
+          "time": 84.575,
+          "reason": "both"
+        },
+        {
+          "index": 261,
+          "time": 86.9,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 266,
+          "time": 88.56,
+          "reason": "both"
+        },
+        {
+          "index": 267,
+          "time": 88.892,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 268,
+          "time": 89.225,
+          "reason": "both"
+        },
+        {
+          "index": 271,
+          "time": 90.221,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 272,
+          "time": 90.553,
+          "reason": "both"
+        },
+        {
+          "index": 275,
+          "time": 91.549,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 276,
+          "time": 91.881,
+          "reason": "both"
+        },
+        {
+          "index": 277,
+          "time": 92.213,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 284,
+          "time": 94.538,
+          "reason": "both"
+        },
+        {
+          "index": 288,
+          "time": 95.867,
+          "reason": "both"
+        },
+        {
+          "index": 289,
+          "time": 96.199,
+          "reason": "both"
+        },
+        {
+          "index": 291,
+          "time": 96.863,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 293,
+          "time": 97.527,
+          "reason": "both"
+        },
+        {
+          "index": 294,
+          "time": 97.859,
+          "reason": "both"
+        },
+        {
+          "index": 300,
+          "time": 99.852,
+          "reason": "both"
+        },
+        {
+          "index": 301,
+          "time": 100.184,
+          "reason": "both"
+        },
+        {
+          "index": 303,
+          "time": 100.848,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 304,
+          "time": 101.18,
+          "reason": "both"
+        },
+        {
+          "index": 305,
+          "time": 101.512,
+          "reason": "both"
+        },
+        {
+          "index": 307,
+          "time": 102.177,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 308,
+          "time": 102.509,
+          "reason": "both"
+        },
+        {
+          "index": 309,
+          "time": 102.841,
+          "reason": "both"
+        },
+        {
+          "index": 310,
+          "time": 103.173,
+          "reason": "both"
+        },
+        {
+          "index": 312,
+          "time": 103.837,
+          "reason": "both"
+        },
+        {
+          "index": 313,
+          "time": 104.169,
+          "reason": "both"
+        },
+        {
+          "index": 314,
+          "time": 104.501,
+          "reason": "both"
+        },
+        {
+          "index": 318,
+          "time": 105.83,
+          "reason": "both"
+        },
+        {
+          "index": 320,
+          "time": 106.494,
+          "reason": "both"
+        },
+        {
+          "index": 322,
+          "time": 107.158,
+          "reason": "both"
+        },
+        {
+          "index": 324,
+          "time": 107.822,
+          "reason": "both"
+        },
+        {
+          "index": 325,
+          "time": 108.154,
+          "reason": "both"
+        },
+        {
+          "index": 328,
+          "time": 109.151,
+          "reason": "both"
+        },
+        {
+          "index": 333,
+          "time": 110.811,
+          "reason": "both"
+        },
+        {
+          "index": 334,
+          "time": 111.143,
+          "reason": "both"
+        },
+        {
+          "index": 335,
+          "time": 111.475,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 336,
+          "time": 111.808,
+          "reason": "both"
+        },
+        {
+          "index": 338,
+          "time": 112.472,
+          "reason": "both"
+        },
+        {
+          "index": 339,
+          "time": 112.804,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 342,
+          "time": 113.8,
+          "reason": "both"
+        },
+        {
+          "index": 343,
+          "time": 114.132,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 345,
+          "time": 114.796,
+          "reason": "both"
+        },
+        {
+          "index": 346,
+          "time": 115.129,
+          "reason": "both"
+        },
+        {
+          "index": 347,
+          "time": 115.461,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 349,
+          "time": 116.125,
+          "reason": "both"
+        },
+        {
+          "index": 350,
+          "time": 116.457,
+          "reason": "both"
+        },
+        {
+          "index": 355,
+          "time": 118.117,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 356,
+          "time": 118.45,
+          "reason": "both"
+        },
+        {
+          "index": 357,
+          "time": 118.782,
+          "reason": "both"
+        },
+        {
+          "index": 360,
+          "time": 119.778,
+          "reason": "both"
+        },
+        {
+          "index": 370,
+          "time": 123.099,
+          "reason": "both"
+        },
+        {
+          "index": 378,
+          "time": 125.756,
+          "reason": "both"
+        },
+        {
+          "index": 388,
+          "time": 129.077,
+          "reason": "both"
+        },
+        {
+          "index": 390,
+          "time": 129.741,
+          "reason": "both"
+        },
+        {
+          "index": 398,
+          "time": 132.398,
+          "reason": "both"
+        },
+        {
+          "index": 403,
+          "time": 134.058,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 405,
+          "time": 134.723,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 406,
+          "time": 135.055,
+          "reason": "both"
+        },
+        {
+          "index": 408,
+          "time": 135.719,
+          "reason": "both"
+        },
+        {
+          "index": 412,
+          "time": 137.047,
+          "reason": "both"
+        },
+        {
+          "index": 419,
+          "time": 139.372,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 422,
+          "time": 140.368,
+          "reason": "both"
+        },
+        {
+          "index": 423,
+          "time": 140.7,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 425,
+          "time": 141.365,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 430,
+          "time": 143.025,
+          "reason": "both"
+        },
+        {
+          "index": 431,
+          "time": 143.357,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 432,
+          "time": 143.689,
+          "reason": "both"
+        },
+        {
+          "index": 434,
+          "time": 144.354,
+          "reason": "both"
+        },
+        {
+          "index": 439,
+          "time": 146.014,
+          "reason": "both"
+        },
+        {
+          "index": 441,
+          "time": 146.678,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 446,
+          "time": 148.339,
+          "reason": "both"
+        },
+        {
+          "index": 450,
+          "time": 149.667,
+          "reason": "both"
+        },
+        {
+          "index": 451,
+          "time": 149.999,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 459,
+          "time": 152.656,
+          "reason": "both"
+        },
+        {
+          "index": 461,
+          "time": 153.32,
+          "reason": "both"
+        },
+        {
+          "index": 462,
+          "time": 153.652,
+          "reason": "both"
+        },
+        {
+          "index": 464,
+          "time": 154.317,
+          "reason": "both"
+        },
+        {
+          "index": 472,
+          "time": 156.973,
+          "reason": "both"
+        },
+        {
+          "index": 473,
+          "time": 157.306,
+          "reason": "both"
+        },
+        {
+          "index": 474,
+          "time": 157.638,
+          "reason": "both"
+        },
+        {
+          "index": 475,
+          "time": 157.97,
+          "reason": "both"
+        },
+        {
+          "index": 479,
+          "time": 159.298,
+          "reason": "both"
+        },
+        {
+          "index": 481,
+          "time": 159.962,
+          "reason": "both"
+        },
+        {
+          "index": 482,
+          "time": 160.295,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 483,
+          "time": 160.627,
+          "reason": "both"
+        },
+        {
+          "index": 484,
+          "time": 160.959,
+          "reason": "both"
+        },
+        {
+          "index": 490,
+          "time": 162.951,
+          "reason": "both"
+        },
+        {
+          "index": 491,
+          "time": 163.283,
+          "reason": "both"
+        },
+        {
+          "index": 493,
+          "time": 163.948,
+          "reason": "both"
+        },
+        {
+          "index": 495,
+          "time": 164.612,
+          "reason": "both"
+        },
+        {
+          "index": 499,
+          "time": 165.94,
+          "reason": "both"
+        },
+        {
+          "index": 500,
+          "time": 166.272,
+          "reason": "both"
+        },
+        {
+          "index": 501,
+          "time": 166.604,
+          "reason": "both"
+        },
+        {
+          "index": 502,
+          "time": 166.937,
+          "reason": "both"
+        },
+        {
+          "index": 504,
+          "time": 167.601,
+          "reason": "both"
+        },
+        {
+          "index": 505,
+          "time": 167.933,
+          "reason": "both"
+        },
+        {
+          "index": 506,
+          "time": 168.265,
+          "reason": "both"
+        },
+        {
+          "index": 507,
+          "time": 168.597,
+          "reason": "both"
+        },
+        {
+          "index": 510,
+          "time": 169.593,
+          "reason": "both"
+        },
+        {
+          "index": 511,
+          "time": 169.925,
+          "reason": "both"
+        },
+        {
+          "index": 512,
+          "time": 170.258,
+          "reason": "both"
+        },
+        {
+          "index": 514,
+          "time": 170.922,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 515,
+          "time": 171.254,
+          "reason": "both"
+        },
+        {
+          "index": 516,
+          "time": 171.586,
+          "reason": "both"
+        },
+        {
+          "index": 517,
+          "time": 171.918,
+          "reason": "both"
+        },
+        {
+          "index": 521,
+          "time": 173.247,
+          "reason": "both"
+        },
+        {
+          "index": 522,
+          "time": 173.579,
+          "reason": "both"
+        },
+        {
+          "index": 523,
+          "time": 173.911,
+          "reason": "both"
+        },
+        {
+          "index": 525,
+          "time": 174.575,
+          "reason": "both"
+        },
+        {
+          "index": 526,
+          "time": 174.907,
+          "reason": "both"
+        },
+        {
+          "index": 527,
+          "time": 175.239,
+          "reason": "both"
+        },
+        {
+          "index": 528,
+          "time": 175.571,
+          "reason": "both"
+        },
+        {
+          "index": 530,
+          "time": 176.235,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 531,
+          "time": 176.568,
+          "reason": "both"
+        },
+        {
+          "index": 532,
+          "time": 176.9,
+          "reason": "both"
+        },
+        {
+          "index": 533,
+          "time": 177.232,
+          "reason": "both"
+        },
+        {
+          "index": 535,
+          "time": 177.896,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 536,
+          "time": 178.228,
+          "reason": "both"
+        },
+        {
+          "index": 544,
+          "time": 180.885,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 548,
+          "time": 182.213,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 552,
+          "time": 183.542,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 560,
+          "time": 186.199,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 564,
+          "time": 187.527,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 568,
+          "time": 188.855,
+          "reason": "rhythmic continuity"
+        }
+      ],
+      "neighborhoodV22": {
+        "eligibleSelected": 271,
+        "selectedWithStrongerAdjacentSkipped": 31,
+        "selectedWithWeakerAttack": 20,
+        "selectedWithWeakerOnset": 25,
+        "selectedNotLocalPeak": 194,
+        "examples": [
+          {
+            "selectedIndex": 60,
+            "time": 20.147,
+            "stage": "build",
+            "salience": 0.11660876350602387,
+            "attack": 0.016460085,
+            "onset": 0.009114678506023863,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 59,
+                "time": 19.815,
+                "salience": 0.19783942933333387,
+                "attack": 0.064230048,
+                "onset": 0.04257538133333387,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 64,
+            "time": 21.476,
+            "stage": "build",
+            "salience": 0.07881798163163152,
+            "attack": 0.0254736,
+            "onset": 0.012236381631631512,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 63,
+                "time": 21.143,
+                "salience": 0.15569554339357505,
+                "attack": 0.05004325500000001,
+                "onset": 0.026680288393575054,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 84,
+            "time": 28.118,
+            "stage": "build",
+            "salience": 0.11810018,
+            "attack": 0.030446130000000002,
+            "onset": 0.02635605,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 83,
+                "time": 27.786,
+                "salience": 0.16300730985585682,
+                "attack": 0.023684205,
+                "onset": 0.05761910485585683,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 110,
+            "time": 36.752,
+            "stage": "build",
+            "salience": 0.21335323484337199,
+            "attack": 0.07049163600000001,
+            "onset": 0.05971959884337199,
+            "reason": "salience",
+            "strongerNeighbors": [
+              {
+                "index": 111,
+                "time": 37.084,
+                "salience": 0.41035575864658314,
+                "attack": 0.15085827899999998,
+                "onset": 0.10017130494778742,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 164,
+            "time": 54.686,
+            "stage": "build",
+            "salience": 0.145885177040161,
+            "attack": 0.045264386999999996,
+            "onset": 0.030476790040160975,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 163,
+                "time": 54.354,
+                "salience": 0.2086090922891569,
+                "attack": 0.11585069999999997,
+                "onset": 0.02641839228915691,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 174,
+            "time": 58.007,
+            "stage": "build",
+            "salience": 0.15462998737349637,
+            "attack": 0,
+            "onset": 0.03464798737349637,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 175,
+                "time": 58.339,
+                "salience": 0.49521082973494557,
+                "attack": 0.211172742,
+                "onset": 0.18535008773494557,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 176,
+            "time": 58.671,
+            "stage": "build",
+            "salience": 0.2665359811084349,
+            "attack": 0.09031478400000001,
+            "onset": 0.0775331971084349,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 175,
+                "time": 58.339,
+                "salience": 0.49521082973494557,
+                "attack": 0.211172742,
+                "onset": 0.18535008773494557,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 180,
+            "time": 59.999,
+            "stage": "build",
+            "salience": 0.09776645640963962,
+            "attack": 0.035442749999999995,
+            "onset": 0.016513706409639617,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 179,
+                "time": 59.667,
+                "salience": 0.1465878752289143,
+                "attack": 0.057963312,
+                "onset": 0.045016563228914314,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 212,
+            "time": 70.627,
+            "stage": "developing",
+            "salience": 0.12744910138553922,
+            "attack": 0.034741485,
+            "onset": 0.018973616385540307,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 211,
+                "time": 70.295,
+                "salience": 0.19524182027309553,
+                "attack": 0.070248624,
+                "onset": 0.060917196273094464,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 232,
+            "time": 77.269,
+            "stage": "developing",
+            "salience": 0.06986068368674815,
+            "attack": 0.012167477999999999,
+            "onset": 0.007757205686748147,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 231,
+                "time": 76.937,
+                "salience": 0.11188582841767118,
+                "attack": 0.035559336,
+                "onset": 0.026390492417671184,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 270,
+            "time": 89.889,
+            "stage": "developing",
+            "salience": 0.10431835339758995,
+            "attack": 0.016469076,
+            "onset": 0.00908727739758995,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 271,
+                "time": 90.221,
+                "salience": 0.1403995045783136,
+                "attack": 0.06513058199999999,
+                "onset": 0.00835092257831362,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 272,
+            "time": 90.553,
+            "stage": "developing",
+            "salience": 0.10858586024096323,
+            "attack": 0.030590208,
+            "onset": 0.017929652240963226,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 271,
+                "time": 90.221,
+                "salience": 0.1403995045783136,
+                "attack": 0.06513058199999999,
+                "onset": 0.00835092257831362,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          }
+        ]
+      },
+      "neighborhoodV23": {
+        "eligibleSelected": 278,
+        "selectedWithStrongerAdjacentSkipped": 11,
+        "selectedWithWeakerAttack": 9,
+        "selectedWithWeakerOnset": 8,
+        "selectedNotLocalPeak": 186,
+        "examples": [
+          {
+            "selectedIndex": 67,
+            "time": 22.472,
+            "stage": "build",
+            "salience": 0.09166767874698817,
+            "attack": 0.027728291999999998,
+            "onset": 0.017387386746988177,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 68,
+                "time": 22.804,
+                "salience": 0.16910740036144475,
+                "attack": 0.059403149999999995,
+                "onset": 0.03636825036144475,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 164,
+            "time": 54.686,
+            "stage": "build",
+            "salience": 0.145885177040161,
+            "attack": 0.045264386999999996,
+            "onset": 0.030476790040160975,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 163,
+                "time": 54.354,
+                "salience": 0.2086090922891569,
+                "attack": 0.11585069999999997,
+                "onset": 0.02641839228915691,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 180,
+            "time": 59.999,
+            "stage": "build",
+            "salience": 0.09776645640963962,
+            "attack": 0.035442749999999995,
+            "onset": 0.016513706409639617,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 179,
+                "time": 59.667,
+                "salience": 0.1465878752289143,
+                "attack": 0.057963312,
+                "onset": 0.045016563228914314,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 212,
+            "time": 70.627,
+            "stage": "developing",
+            "salience": 0.12744910138553922,
+            "attack": 0.034741485,
+            "onset": 0.018973616385540307,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 211,
+                "time": 70.295,
+                "salience": 0.19524182027309553,
+                "attack": 0.070248624,
+                "onset": 0.060917196273094464,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 223,
+            "time": 74.28,
+            "stage": "developing",
+            "salience": 0.10729578534939754,
+            "attack": 0.032235096,
+            "onset": 0.027568689349397546,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 224,
+                "time": 74.612,
+                "salience": 0.13236030697992004,
+                "attack": 0,
+                "onset": 0.05565230697992006,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 235,
+            "time": 78.265,
+            "stage": "developing",
+            "salience": 0.09918630734939624,
+            "attack": 0.00706197,
+            "onset": 0.027418337349396246,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 236,
+                "time": 78.597,
+                "salience": 0.1376290357590359,
+                "attack": 0.00649278,
+                "onset": 0.027240255759035905,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 450,
+            "time": 149.667,
+            "stage": "final-build",
+            "salience": 0.08776512277108393,
+            "attack": 0.03480192,
+            "onset": 0.012255202771083943,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 449,
+                "time": 149.335,
+                "salience": 0.11878984404819562,
+                "attack": 0.038592504,
+                "onset": 0.01973134004819562,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 453,
+            "time": 150.664,
+            "stage": "final-build",
+            "salience": 0.21423179339339238,
+            "attack": 0.08422383,
+            "onset": 0.05124796339339237,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 454,
+                "time": 150.996,
+                "salience": 0.2593780479919709,
+                "attack": 0.091005516,
+                "onset": 0.08961253199197089,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 472,
+            "time": 156.973,
+            "stage": "final-climax",
+            "salience": 0.09427360035341234,
+            "attack": 0.028963751999999995,
+            "onset": 0.01674784835341235,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 471,
+                "time": 156.641,
+                "salience": 0.13302074855421467,
+                "attack": 0.037947348,
+                "onset": 0.028799400554214684,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 475,
+            "time": 157.97,
+            "stage": "final-climax",
+            "salience": 0.0818473918554234,
+            "attack": 0.025000632000000002,
+            "onset": 0.014464759855423401,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 476,
+                "time": 158.302,
+                "salience": 0.1373000468915659,
+                "attack": 0.010472681999999999,
+                "onset": 0.010615364891565922,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 512,
+            "time": 170.258,
+            "stage": "final-climax",
+            "salience": 0.04786450183783761,
+            "attack": 0,
+            "onset": 0.002970501837837612,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 513,
+                "time": 170.59,
+                "salience": 0.09639584047791297,
+                "attack": 0.030720359999999995,
+                "onset": 0.02078148047791297,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          }
+        ]
+      },
+      "challengeV22": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 6,
+          "targets": 4,
+          "sourceCandidates": 18,
+          "density": 0.2222222222222222,
+          "targetsPerSecond": 0.6666666666666666,
+          "targetIntervals": {
+            "count": 3,
+            "mean": 1.3286666666666667,
+            "min": 1.3280000000000003,
+            "p10": 1.3280000000000003,
+            "median": 1.3289999999999997,
+            "p90": 1.3289999999999997,
+            "max": 1.3290000000000002
+          },
+          "recoveryGapSeconds": {
+            "count": 3,
+            "mean": 1.3286666666666667,
+            "min": 1.3280000000000003,
+            "p10": 1.3280000000000003,
+            "median": 1.3289999999999997,
+            "p90": 1.3289999999999997,
+            "max": 1.3290000000000002
+          },
+          "recoverySkippedBeats": {
+            "count": 3,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 4,
+            "mean": 60.6822291065116,
+            "min": 0,
+            "p10": 0,
+            "median": 70.72891642604641,
+            "p90": 86,
+            "max": 86.00000000000001
+          },
+          "runHistogram": {
+            "single": 4,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.5,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 480,
+          "maximumPointsWithUnbrokenCombo": 480,
+          "overallHitWindow": 0.36
+        },
+        {
+          "stage": "build",
+          "startSeconds": 6,
+          "endSeconds": 60.91424,
+          "targets": 48,
+          "sourceCandidates": 165,
+          "density": 0.2909090909090909,
+          "targetsPerSecond": 0.8740902177650096,
+          "targetIntervals": {
+            "count": 47,
+            "mean": 1.1447021276595746,
+            "min": 0.33200000000000074,
+            "p10": 0.33200000000000074,
+            "median": 1.3280000000000012,
+            "p90": 1.9920000000000009,
+            "max": 2.3240000000000016
+          },
+          "recoveryGapSeconds": {
+            "count": 40,
+            "mean": 1.2868999999999997,
+            "min": 0.6639999999999944,
+            "p10": 0.6639999999999979,
+            "median": 1.328000000000003,
+            "p90": 1.9920000000000044,
+            "max": 2.3240000000000016
+          },
+          "recoverySkippedBeats": {
+            "count": 40,
+            "mean": 2.875,
+            "min": 1,
+            "p10": 1,
+            "median": 3,
+            "p90": 5,
+            "max": 6
+          },
+          "travelPixels": {
+            "count": 48,
+            "mean": 101.4127954035629,
+            "min": 25.18298671919753,
+            "p10": 53.32713248696855,
+            "median": 110.00000000000001,
+            "p90": 131.0818723886555,
+            "max": 144.41666496704684
+          },
+          "runHistogram": {
+            "single": 35,
+            "two": 5,
+            "three": 1,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 3,
+          "multiHitRunsPerSecond": 0.1092612772206262,
+          "recoveryEventsPerSecond": 0.7284085148041747,
+          "longRunActionsPerSecond": 0.0546306386103131,
+          "actionsInRunsAtLeast3": 3,
+          "baseMaximumPoints": 5760,
+          "maximumPointsWithUnbrokenCombo": 9210,
+          "overallHitWindow": 0.33968569172586205
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 60.91424,
+          "endSeconds": 95.1785,
+          "targets": 53,
+          "sourceCandidates": 103,
+          "density": 0.5145631067961165,
+          "targetsPerSecond": 1.546801244211899,
+          "targetIntervals": {
+            "count": 52,
+            "mean": 0.6450384615384614,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.6639999999999944,
+            "p90": 1.3279999999999887,
+            "max": 1.6610000000000014
+          },
+          "recoveryGapSeconds": {
+            "count": 28,
+            "mean": 0.9131785714285721,
+            "min": 0.6639999999999873,
+            "p10": 0.6640000000000015,
+            "median": 0.6649999999999991,
+            "p90": 1.328000000000003,
+            "max": 1.6610000000000014
+          },
+          "recoverySkippedBeats": {
+            "count": 28,
+            "mean": 1.75,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 3,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 53,
+            "mean": 114.87264442896793,
+            "min": 29.455556486402614,
+            "p10": 54.33159708003064,
+            "median": 110,
+            "p90": 167.92262258108008,
+            "max": 189.43921158665032
+          },
+          "runHistogram": {
+            "single": 16,
+            "two": 5,
+            "three": 5,
+            "four": 3,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.3794040787689563,
+          "recoveryEventsPerSecond": 0.8171780158100598,
+          "longRunActionsPerSecond": 0.7879930866739863,
+          "actionsInRunsAtLeast3": 27,
+          "baseMaximumPoints": 6360,
+          "maximumPointsWithUnbrokenCombo": 17550,
+          "overallHitWindow": 0.3099522768038767
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 95.1785,
+          "endSeconds": 119.92491,
+          "targets": 47,
+          "sourceCandidates": 75,
+          "density": 0.6266666666666667,
+          "targetsPerSecond": 1.8992653883937103,
+          "targetIntervals": {
+            "count": 46,
+            "mean": 0.5342608695652176,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.6640000000000015,
+            "p90": 0.6650000000000063,
+            "max": 0.9969999999999999
+          },
+          "recoveryGapSeconds": {
+            "count": 25,
+            "mean": 0.7040400000000011,
+            "min": 0.6639999999999873,
+            "p10": 0.6640000000000015,
+            "median": 0.6640000000000015,
+            "p90": 0.6650000000000063,
+            "max": 0.9969999999999999
+          },
+          "recoverySkippedBeats": {
+            "count": 25,
+            "mean": 1.12,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 2
+          },
+          "travelPixels": {
+            "count": 47,
+            "mean": 134.4712824505967,
+            "min": 59.99494810479772,
+            "p10": 94.7742332093203,
+            "median": 113.80565706616949,
+            "p90": 209.99999999999997,
+            "max": 210.00000000000003
+          },
+          "runHistogram": {
+            "single": 11,
+            "two": 10,
+            "three": 4,
+            "four": 1,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.6061485282107586,
+          "recoveryEventsPerSecond": 1.010247547017931,
+          "longRunActionsPerSecond": 0.6465584300914758,
+          "actionsInRunsAtLeast3": 16,
+          "baseMaximumPoints": 5640,
+          "maximumPointsWithUnbrokenCombo": 16920,
+          "overallHitWindow": 0.27
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 119.92491,
+          "endSeconds": 137.05704,
+          "targets": 26,
+          "sourceCandidates": 52,
+          "density": 0.5,
+          "targetsPerSecond": 1.517616315075826,
+          "targetIntervals": {
+            "count": 25,
+            "mean": 0.6642000000000001,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.6639999999999873,
+            "p90": 0.9960000000000093,
+            "max": 1.6610000000000014
+          },
+          "recoveryGapSeconds": {
+            "count": 15,
+            "mean": 0.8856000000000033,
+            "min": 0.6639999999999873,
+            "p10": 0.6639999999999873,
+            "median": 0.6650000000000205,
+            "p90": 0.9970000000000141,
+            "max": 1.6610000000000014
+          },
+          "recoverySkippedBeats": {
+            "count": 15,
+            "mean": 1.6666666666666667,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 2,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 26,
+            "mean": 116.84859612680033,
+            "min": 34.03651490322849,
+            "p10": 69.5554507698189,
+            "median": 110.00000000000001,
+            "p90": 159.90106287899,
+            "max": 170.00000000000006
+          },
+          "runHistogram": {
+            "single": 10,
+            "two": 4,
+            "three": 0,
+            "four": 2,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.3502191496328829,
+          "recoveryEventsPerSecond": 0.8755478740822072,
+          "longRunActionsPerSecond": 0.46695886617717725,
+          "actionsInRunsAtLeast3": 8,
+          "baseMaximumPoints": 3120,
+          "maximumPointsWithUnbrokenCombo": 9360,
+          "overallHitWindow": 0.3
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 137.05704,
+          "endSeconds": 156.09274,
+          "targets": 41,
+          "sourceCandidates": 57,
+          "density": 0.7192982456140351,
+          "targetsPerSecond": 2.15384777024223,
+          "targetIntervals": {
+            "count": 40,
+            "mean": 0.4566250000000004,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.33199999999999363,
+            "p90": 0.6640000000000157,
+            "max": 0.9959999999999809
+          },
+          "recoveryGapSeconds": {
+            "count": 14,
+            "mean": 0.6879285714285756,
+            "min": 0.6639999999999873,
+            "p10": 0.6639999999999873,
+            "median": 0.6640000000000157,
+            "p90": 0.6650000000000205,
+            "max": 0.9959999999999809
+          },
+          "recoverySkippedBeats": {
+            "count": 14,
+            "mean": 1.0714285714285714,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 2
+          },
+          "travelPixels": {
+            "count": 41,
+            "mean": 116.48268677911723,
+            "min": 26.13334598680276,
+            "p10": 61.51286498040052,
+            "median": 110,
+            "p90": 184.67230504386822,
+            "max": 205.55647653097435
+          },
+          "runHistogram": {
+            "single": 4,
+            "two": 3,
+            "three": 4,
+            "four": 1,
+            "fivePlus": 3
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.5778615968942568,
+          "recoveryEventsPerSecond": 0.735460214229054,
+          "longRunActionsPerSecond": 1.6285190457929053,
+          "actionsInRunsAtLeast3": 31,
+          "baseMaximumPoints": 4920,
+          "maximumPointsWithUnbrokenCombo": 14760,
+          "overallHitWindow": 0.27896779209590405
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 156.09274,
+          "endSeconds": 178.93558,
+          "targets": 56,
+          "sourceCandidates": 69,
+          "density": 0.8115942028985508,
+          "targetsPerSecond": 2.4515340474301794,
+          "targetIntervals": {
+            "count": 55,
+            "mean": 0.41059999999999997,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.33199999999999363,
+            "p90": 0.6639999999999873,
+            "max": 0.6650000000000205
+          },
+          "recoveryGapSeconds": {
+            "count": 13,
+            "mean": 0.6642307692307685,
+            "min": 0.6639999999999873,
+            "p10": 0.6639999999999873,
+            "median": 0.6639999999999873,
+            "p90": 0.664999999999992,
+            "max": 0.6650000000000205
+          },
+          "recoverySkippedBeats": {
+            "count": 13,
+            "mean": 1,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 1
+          },
+          "travelPixels": {
+            "count": 56,
+            "mean": 115.36680480373094,
+            "min": 25.318547155620077,
+            "p10": 90.78530276172862,
+            "median": 110,
+            "p90": 151.52478335465457,
+            "max": 230.24083708447455
+          },
+          "runHistogram": {
+            "single": 0,
+            "two": 2,
+            "three": 2,
+            "four": 4,
+            "fivePlus": 6
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.6128835118575449,
+          "recoveryEventsPerSecond": 0.5691061181534346,
+          "longRunActionsPerSecond": 2.2764244726137384,
+          "actionsInRunsAtLeast3": 52,
+          "baseMaximumPoints": 6720,
+          "maximumPointsWithUnbrokenCombo": 20160,
+          "overallHitWindow": 0.23
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 178.93558,
+          "endSeconds": 190.357,
+          "targets": 8,
+          "sourceCandidates": 34,
+          "density": 0.23529411764705882,
+          "targetsPerSecond": 0.700438299265765,
+          "targetIntervals": {
+            "count": 7,
+            "mean": 1.3284285714285684,
+            "min": 1.3279999999999745,
+            "p10": 1.3279999999999745,
+            "median": 1.328000000000003,
+            "p90": 1.3290000000000077,
+            "max": 1.3290000000000077
+          },
+          "recoveryGapSeconds": {
+            "count": 7,
+            "mean": 1.3284285714285684,
+            "min": 1.3279999999999745,
+            "p10": 1.3279999999999745,
+            "median": 1.328000000000003,
+            "p90": 1.3290000000000077,
+            "max": 1.3290000000000077
+          },
+          "recoverySkippedBeats": {
+            "count": 7,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 8,
+            "mean": 95.69305251259028,
+            "min": 73.15051134297633,
+            "p10": 73.15051134297633,
+            "median": 96.7821773722519,
+            "p90": 109.99999999999999,
+            "max": 110.00000000000003
+          },
+          "runHistogram": {
+            "single": 8,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.6128835118575443,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 960,
+          "maximumPointsWithUnbrokenCombo": 2880,
+          "overallHitWindow": 0.34
+        }
+      ],
+      "challengeV23": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 5,
+          "targets": 3,
+          "sourceCandidates": 15,
+          "density": 0.2,
+          "targetsPerSecond": 0.6,
+          "targetIntervals": {
+            "count": 2,
+            "mean": 1.3285000000000002,
+            "min": 1.3280000000000003,
+            "p10": 1.3280000000000003,
+            "median": 1.3280000000000003,
+            "p90": 1.3280000000000003,
+            "max": 1.3290000000000002
+          },
+          "recoveryGapSeconds": {
+            "count": 2,
+            "mean": 1.3285000000000002,
+            "min": 1.3280000000000003,
+            "p10": 1.3280000000000003,
+            "median": 1.3280000000000003,
+            "p90": 1.3280000000000003,
+            "max": 1.3290000000000002
+          },
+          "recoverySkippedBeats": {
+            "count": 2,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 3,
+            "mean": 52.242972142015475,
+            "min": 0,
+            "p10": 0,
+            "median": 70.72891642604641,
+            "p90": 70.72891642604641,
+            "max": 86.00000000000001
+          },
+          "runHistogram": {
+            "single": 3,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.4,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 360,
+          "maximumPointsWithUnbrokenCombo": 360,
+          "overallHitWindow": 0.36
+        },
+        {
+          "stage": "build",
+          "startSeconds": 5,
+          "endSeconds": 60.91424,
+          "targets": 49,
+          "sourceCandidates": 168,
+          "density": 0.2916666666666667,
+          "targetsPerSecond": 0.8763420552617723,
+          "targetIntervals": {
+            "count": 48,
+            "mean": 1.1485208333333334,
+            "min": 0.33200000000000074,
+            "p10": 0.33200000000000074,
+            "median": 1.3279999999999959,
+            "p90": 1.6610000000000014,
+            "max": 2.325000000000003
+          },
+          "recoveryGapSeconds": {
+            "count": 41,
+            "mean": 1.2878780487804877,
+            "min": 0.6639999999999979,
+            "p10": 0.6640000000000015,
+            "median": 1.3280000000000003,
+            "p90": 1.6610000000000014,
+            "max": 2.325000000000003
+          },
+          "recoverySkippedBeats": {
+            "count": 41,
+            "mean": 2.8780487804878048,
+            "min": 1,
+            "p10": 1,
+            "median": 3,
+            "p90": 4,
+            "max": 6
+          },
+          "travelPixels": {
+            "count": 49,
+            "mean": 102.58778222524366,
+            "min": 25.188171560922566,
+            "p10": 53.364384121166594,
+            "median": 110.00000000000001,
+            "p90": 134.1872708048253,
+            "max": 144.4270976409587
+          },
+          "runHistogram": {
+            "single": 36,
+            "two": 5,
+            "three": 1,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 3,
+          "multiHitRunsPerSecond": 0.10730719044021701,
+          "recoveryEventsPerSecond": 0.733265801341483,
+          "longRunActionsPerSecond": 0.053653595220108506,
+          "actionsInRunsAtLeast3": 3,
+          "baseMaximumPoints": 5880,
+          "maximumPointsWithUnbrokenCombo": 9330,
+          "overallHitWindow": 0.33980863551038165
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 60.91424,
+          "endSeconds": 95.1785,
+          "targets": 53,
+          "sourceCandidates": 103,
+          "density": 0.5145631067961165,
+          "targetsPerSecond": 1.546801244211899,
+          "targetIntervals": {
+            "count": 52,
+            "mean": 0.6450384615384614,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.3330000000000126,
+            "p90": 0.9960000000000093,
+            "max": 1.6610000000000014
+          },
+          "recoveryGapSeconds": {
+            "count": 25,
+            "mean": 0.9829200000000003,
+            "min": 0.6639999999999873,
+            "p10": 0.6640000000000015,
+            "median": 0.9959999999999951,
+            "p90": 1.6599999999999966,
+            "max": 1.6610000000000014
+          },
+          "recoverySkippedBeats": {
+            "count": 25,
+            "mean": 1.96,
+            "min": 1,
+            "p10": 1,
+            "median": 2,
+            "p90": 4,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 53,
+            "mean": 109.2571755978485,
+            "min": 18.478459494064715,
+            "p10": 43.867847596697764,
+            "median": 110,
+            "p90": 167.28367256923542,
+            "max": 189.43921158665032
+          },
+          "runHistogram": {
+            "single": 9,
+            "two": 9,
+            "three": 6,
+            "four": 2,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.4961437953132506,
+          "recoveryEventsPerSecond": 0.7296232284018391,
+          "longRunActionsPerSecond": 0.7588081575379126,
+          "actionsInRunsAtLeast3": 26,
+          "baseMaximumPoints": 6360,
+          "maximumPointsWithUnbrokenCombo": 17550,
+          "overallHitWindow": 0.3099522768038767
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 95.1785,
+          "endSeconds": 119.92491,
+          "targets": 56,
+          "sourceCandidates": 75,
+          "density": 0.7466666666666667,
+          "targetsPerSecond": 2.2629545053201654,
+          "targetIntervals": {
+            "count": 55,
+            "mean": 0.44683636363636375,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.33200000000000784,
+            "p90": 0.6640000000000015,
+            "max": 0.9960000000000093
+          },
+          "recoveryGapSeconds": {
+            "count": 18,
+            "mean": 0.6827222222222239,
+            "min": 0.6639999999999873,
+            "p10": 0.6640000000000015,
+            "median": 0.6640000000000015,
+            "p90": 0.6650000000000063,
+            "max": 0.9960000000000093
+          },
+          "recoverySkippedBeats": {
+            "count": 18,
+            "mean": 1.0555555555555556,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 2
+          },
+          "travelPixels": {
+            "count": 56,
+            "mean": 142.46843891357437,
+            "min": 64.18311899692478,
+            "p10": 105.19415261940601,
+            "median": 135,
+            "p90": 205.72995319389275,
+            "max": 245.00000000000006
+          },
+          "runHistogram": {
+            "single": 3,
+            "two": 3,
+            "three": 5,
+            "four": 8,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.6465584300914758,
+          "recoveryEventsPerSecond": 0.7273782338529103,
+          "longRunActionsPerSecond": 1.8992653883937103,
+          "actionsInRunsAtLeast3": 47,
+          "baseMaximumPoints": 6720,
+          "maximumPointsWithUnbrokenCombo": 20160,
+          "overallHitWindow": 0.27
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 119.92491,
+          "endSeconds": 137.05704,
+          "targets": 26,
+          "sourceCandidates": 52,
+          "density": 0.5,
+          "targetsPerSecond": 1.517616315075826,
+          "targetIntervals": {
+            "count": 25,
+            "mean": 0.6509199999999998,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.6639999999999873,
+            "p90": 0.9960000000000093,
+            "max": 1.6610000000000014
+          },
+          "recoveryGapSeconds": {
+            "count": 15,
+            "mean": 0.8634666666666694,
+            "min": 0.6639999999999873,
+            "p10": 0.6639999999999873,
+            "median": 0.6650000000000063,
+            "p90": 0.9970000000000141,
+            "max": 1.6610000000000014
+          },
+          "recoverySkippedBeats": {
+            "count": 15,
+            "mean": 1.6,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 2,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 26,
+            "mean": 122.8089740217962,
+            "min": 49.78092077705477,
+            "p10": 69.29119904815745,
+            "median": 110.00000000000001,
+            "p90": 170,
+            "max": 170.00000000000006
+          },
+          "runHistogram": {
+            "single": 9,
+            "two": 5,
+            "three": 1,
+            "four": 1,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.40858900790503005,
+          "recoveryEventsPerSecond": 0.8755478740822072,
+          "longRunActionsPerSecond": 0.40858900790503005,
+          "actionsInRunsAtLeast3": 7,
+          "baseMaximumPoints": 3120,
+          "maximumPointsWithUnbrokenCombo": 9360,
+          "overallHitWindow": 0.3
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 137.05704,
+          "endSeconds": 152.28560000000002,
+          "targets": 28,
+          "sourceCandidates": 45,
+          "density": 0.6222222222222222,
+          "targetsPerSecond": 1.8386505355726328,
+          "targetIntervals": {
+            "count": 27,
+            "mean": 0.5165925925925918,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.33199999999999363,
+            "p90": 0.9959999999999809,
+            "max": 0.9970000000000141
+          },
+          "recoveryGapSeconds": {
+            "count": 11,
+            "mean": 0.7850000000000069,
+            "min": 0.6639999999999873,
+            "p10": 0.6639999999999873,
+            "median": 0.6650000000000205,
+            "p90": 0.9960000000000093,
+            "max": 0.9970000000000141
+          },
+          "recoverySkippedBeats": {
+            "count": 11,
+            "mean": 1.3636363636363635,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 2,
+            "max": 2
+          },
+          "travelPixels": {
+            "count": 28,
+            "mean": 124.50551327803713,
+            "min": 0.9850169951553056,
+            "p10": 41.16892797091038,
+            "median": 129.0660837268921,
+            "p90": 183.2215231311303,
+            "max": 217.38281229479335
+          },
+          "runHistogram": {
+            "single": 4,
+            "two": 3,
+            "three": 2,
+            "four": 3,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.5253287244493237,
+          "recoveryEventsPerSecond": 0.72232699611782,
+          "longRunActionsPerSecond": 1.1819896300109782,
+          "actionsInRunsAtLeast3": 18,
+          "baseMaximumPoints": 3360,
+          "maximumPointsWithUnbrokenCombo": 10080,
+          "overallHitWindow": 0.29805570585794056
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 152.28560000000002,
+          "endSeconds": 178.93558,
+          "targets": 66,
+          "sourceCandidates": 81,
+          "density": 0.8148148148148148,
+          "targetsPerSecond": 2.476549700975387,
+          "targetIntervals": {
+            "count": 65,
+            "mean": 0.4087384615384613,
+            "min": 0.33199999999999363,
+            "p10": 0.33199999999999363,
+            "median": 0.33199999999999363,
+            "p90": 0.6639999999999873,
+            "max": 0.6650000000000205
+          },
+          "recoveryGapSeconds": {
+            "count": 15,
+            "mean": 0.6640666666666618,
+            "min": 0.6639999999999873,
+            "p10": 0.6639999999999873,
+            "median": 0.6639999999999873,
+            "p90": 0.6640000000000157,
+            "max": 0.6650000000000205
+          },
+          "recoverySkippedBeats": {
+            "count": 15,
+            "mean": 1,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 1
+          },
+          "travelPixels": {
+            "count": 66,
+            "mean": 147.20166413115007,
+            "min": 39.114990340729555,
+            "p10": 85.72158392154128,
+            "median": 149.39999999999716,
+            "p90": 200.8147577440735,
+            "max": 279.3163519438512
+          },
+          "runHistogram": {
+            "single": 0,
+            "two": 1,
+            "three": 2,
+            "four": 7,
+            "fivePlus": 6
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.6003756850849423,
+          "recoveryEventsPerSecond": 0.5628522047671334,
+          "longRunActionsPerSecond": 2.4015027403397693,
+          "actionsInRunsAtLeast3": 64,
+          "baseMaximumPoints": 7920,
+          "maximumPointsWithUnbrokenCombo": 23760,
+          "overallHitWindow": 0.23
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 178.93558,
+          "endSeconds": 190.357,
+          "targets": 8,
+          "sourceCandidates": 34,
+          "density": 0.23529411764705882,
+          "targetsPerSecond": 0.700438299265765,
+          "targetIntervals": {
+            "count": 7,
+            "mean": 1.3284285714285684,
+            "min": 1.3279999999999745,
+            "p10": 1.3279999999999745,
+            "median": 1.328000000000003,
+            "p90": 1.3290000000000077,
+            "max": 1.3290000000000077
+          },
+          "recoveryGapSeconds": {
+            "count": 7,
+            "mean": 1.3284285714285684,
+            "min": 1.3279999999999745,
+            "p10": 1.3279999999999745,
+            "median": 1.328000000000003,
+            "p90": 1.3290000000000077,
+            "max": 1.3290000000000077
+          },
+          "recoverySkippedBeats": {
+            "count": 7,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 8,
+            "mean": 92.84629572449576,
+            "min": 67.90510586485838,
+            "p10": 67.90510586485838,
+            "median": 94.16974957576726,
+            "p90": 109.99999999999999,
+            "max": 109.99999999999999
+          },
+          "runHistogram": {
+            "single": 8,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.6128835118575443,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 960,
+          "maximumPointsWithUnbrokenCombo": 2880,
+          "overallHitWindow": 0.34
+        }
+      ],
+      "ending": {
+        "rawDuration": 196.075102,
+        "playableEndTime": 190.357,
+        "releaseGap": 1.328000000000003,
+        "source": "frozen-energy-terminal-suffix",
+        "reason": "sustained-terminal-collapse",
+        "evidence": {
+          "firstLowSampleIndex": 233,
+          "firstLowSampleTime": 190.357,
+          "lowSampleCount": 7,
+          "observedLowSpan": 4.901999999999987,
+          "lastSampleTime": 195.259,
+          "threshold": 0.1,
+          "activeLevel": 0.8694,
+          "precedingContrastingSamples": 8,
+          "medianEnergyInterval": 0.8170000000000002,
+          "medianBeatInterval": 0.33200000000000074,
+          "policy": "terminal suffix only; >=4 samples; >=max(2.5s,2 sample intervals); final 15%; complete tail coverage; local contrast"
+        }
+      },
+      "visualIdentity": {
+        "schema": "pulse-tap-artist-visual-config-v1",
+        "palette": {
+          "bg": "#070a1e",
+          "panel": "#121831",
+          "primary": "#19e3ff",
+          "secondary": "#ff2fb0",
+          "gold": "#ffd147",
+          "danger": "#ff4d6d",
+          "white": "#ffffff",
+          "muted": "#a7b0d8"
+        },
+        "themeDirection": "",
+        "assets": {
+          "cover": "",
+          "logo": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/neon-dash/logo-82e76a85b8.png"
+        },
+        "backgroundIntensityScale": 1,
+        "pulseIntensityScale": 1,
+        "artistDirectionOnly": true,
+        "renderedTreatments": {
+          "background": "grid",
+          "target": "circle",
+          "impact": "ring-close",
+          "ambient": "beat-pulse",
+          "sectionTransition": "alternate-grid"
+        },
+        "futureTreatments": null,
+        "architectureStatus": "partial: palette and restrained intensity are configurable; art and alternate treatments need later renderer work"
+      }
+    },
+    "cvb": {
+      "sourceCandidates": 812,
+      "selectedV22": 389,
+      "selectedV23": 402,
+      "unchanged": 311,
+      "v22Only": [
+        24,
+        52,
+        68,
+        84,
+        101,
+        113,
+        116,
+        128,
+        132,
+        136,
+        144,
+        152,
+        160,
+        176,
+        190,
+        192,
+        200,
+        214,
+        216,
+        222,
+        224,
+        232,
+        236,
+        244,
+        248,
+        288,
+        302,
+        310,
+        312,
+        318,
+        322,
+        346,
+        350,
+        356,
+        360,
+        370,
+        380,
+        400,
+        428,
+        437,
+        444,
+        448,
+        456,
+        461,
+        477,
+        484,
+        488,
+        493,
+        502,
+        506,
+        548,
+        566,
+        587,
+        588,
+        594,
+        597,
+        602,
+        618,
+        620,
+        657,
+        663,
+        669,
+        675,
+        679,
+        684,
+        690,
+        695,
+        700,
+        706,
+        711,
+        716,
+        722,
+        727,
+        732,
+        737,
+        742,
+        748,
+        752
+      ],
+      "v23Only": [
+        27,
+        54,
+        70,
+        85,
+        102,
+        115,
+        119,
+        131,
+        134,
+        138,
+        147,
+        154,
+        163,
+        179,
+        191,
+        195,
+        202,
+        213,
+        219,
+        223,
+        227,
+        234,
+        237,
+        247,
+        249,
+        289,
+        301,
+        311,
+        313,
+        317,
+        323,
+        345,
+        351,
+        359,
+        361,
+        369,
+        383,
+        403,
+        405,
+        415,
+        425,
+        430,
+        431,
+        436,
+        441,
+        447,
+        450,
+        454,
+        458,
+        463,
+        473,
+        479,
+        485,
+        489,
+        491,
+        495,
+        500,
+        503,
+        507,
+        551,
+        565,
+        591,
+        622,
+        623,
+        625,
+        630,
+        633,
+        637,
+        641,
+        645,
+        649,
+        655,
+        656,
+        662,
+        666,
+        671,
+        676,
+        682,
+        687,
+        693,
+        699,
+        703,
+        709,
+        715,
+        719,
+        725,
+        730,
+        735,
+        741,
+        746,
+        751
+      ],
+      "meanSelectedSalience": 0.20240311376467898,
+      "meanSkippedSalience": 0.14065742271469864,
+      "meanSelectedV22Salience": 0.20343071708099067,
+      "meanSelectedLocalRank": 2.2761194029850746,
+      "inversionsV22": {
+        "threshold": 0.025,
+        "eligibleSelected": 375,
+        "count": 16,
+        "rate": 0.042666666666666665,
+        "meanSalienceLoss": 0.0423623090556152,
+        "records": [
+          {
+            "selectedIndex": 24,
+            "selectedTime": 9.29,
+            "skippedIndex": 26,
+            "skippedTime": 10.04,
+            "selectedSalience": 0.08593510751999986,
+            "skippedSalience": 0.13043388706666648,
+            "loss": 0.04449877954666662,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 52,
+            "selectedTime": 19.791,
+            "skippedIndex": 54,
+            "skippedTime": 20.541,
+            "selectedSalience": 0.19265967310666626,
+            "skippedSalience": 0.22954958923999952,
+            "loss": 0.036889916133333256,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 113,
+            "selectedTime": 42.667,
+            "skippedIndex": 115,
+            "skippedTime": 43.418,
+            "selectedSalience": 0.21318371871999986,
+            "skippedSalience": 0.24480363239361816,
+            "loss": 0.0316199136736183,
+            "selectedReason": "salience",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 132,
+            "selectedTime": 49.793,
+            "skippedIndex": 134,
+            "skippedTime": 50.543,
+            "selectedSalience": 0.1416368446666671,
+            "skippedSalience": 0.20045379616889014,
+            "loss": 0.05881695150222305,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 136,
+            "selectedTime": 51.293,
+            "skippedIndex": 138,
+            "skippedTime": 52.043,
+            "selectedSalience": 0.1376522509777773,
+            "skippedSalience": 0.17835888266666733,
+            "loss": 0.04070663168889002,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 152,
+            "selectedTime": 57.294,
+            "skippedIndex": 154,
+            "skippedTime": 58.044,
+            "selectedSalience": 0.1261676010666666,
+            "skippedSalience": 0.18098506071111034,
+            "loss": 0.05481745964444373,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 200,
+            "selectedTime": 75.295,
+            "skippedIndex": 202,
+            "skippedTime": 76.045,
+            "selectedSalience": 0.12723714779555645,
+            "skippedSalience": 0.16478926968889013,
+            "loss": 0.03755212189333368,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 216,
+            "selectedTime": 81.296,
+            "skippedIndex": 217,
+            "skippedTime": 81.671,
+            "selectedSalience": 0.09270848700000048,
+            "skippedSalience": 0.11860014923555266,
+            "loss": 0.025891662235552185,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 222,
+            "selectedTime": 83.546,
+            "skippedIndex": 221,
+            "skippedTime": 83.171,
+            "selectedSalience": 0.07107751100000047,
+            "skippedSalience": 0.10155868835555427,
+            "loss": 0.030481177355553807,
+            "selectedReason": "both",
+            "stage": "build"
+          },
+          {
+            "selectedIndex": 381,
+            "selectedTime": 145.812,
+            "skippedIndex": 383,
+            "skippedTime": 146.562,
+            "selectedSalience": 0.21607002655999075,
+            "skippedSalience": 0.31431916591556225,
+            "loss": 0.0982491393555715,
+            "selectedReason": "salience",
+            "stage": "developing"
+          },
+          {
+            "selectedIndex": 414,
+            "selectedTime": 158.182,
+            "skippedIndex": 415,
+            "skippedTime": 158.557,
+            "selectedSalience": 0.28949531171557186,
+            "skippedSalience": 0.3180524019022064,
+            "loss": 0.02855709018663455,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 445,
+            "selectedTime": 169.802,
+            "skippedIndex": 447,
+            "skippedTime": 170.551,
+            "selectedSalience": 0.15433119160889,
+            "skippedSalience": 0.2065547564666725,
+            "loss": 0.05222356485778251,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 446,
+            "selectedTime": 170.176,
+            "skippedIndex": 447,
+            "skippedTime": 170.551,
+            "selectedSalience": 0.16727601657931565,
+            "skippedSalience": 0.2065547564666725,
+            "loss": 0.03927873988735686,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 478,
+            "selectedTime": 182.171,
+            "skippedIndex": 479,
+            "skippedTime": 182.546,
+            "selectedSalience": 0.14981872236000038,
+            "skippedSalience": 0.19247949596444136,
+            "loss": 0.04266077360444098,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 484,
+            "selectedTime": 184.42,
+            "skippedIndex": 485,
+            "skippedTime": 184.795,
+            "selectedSalience": 0.1020116487199994,
+            "skippedSalience": 0.13055896859999827,
+            "loss": 0.028547319879998867,
+            "selectedReason": "both",
+            "stage": "mid-hard-push"
+          },
+          {
+            "selectedIndex": 745,
+            "selectedTime": 284.507,
+            "skippedIndex": 746,
+            "skippedTime": 284.882,
+            "selectedSalience": 0.13870407151110903,
+            "skippedSalience": 0.16570977495555245,
+            "loss": 0.02700570344444342,
+            "selectedReason": "both",
+            "stage": "final-climax"
+          }
+        ]
+      },
+      "inversionsV23": {
+        "threshold": 0.025,
+        "eligibleSelected": 388,
+        "count": 0,
+        "rate": 0,
+        "meanSalienceLoss": 0,
+        "records": []
+      },
+      "priorInversionsCorrected": 7,
+      "priorInversionsResolved": 16,
+      "continuityReplacements": [],
+      "highSalienceMissed": [],
+      "weakChoicesRetained": [
+        {
+          "index": 8,
+          "time": 3.289,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 27,
+          "time": 10.415,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 64,
+          "time": 24.291,
+          "reason": "both"
+        },
+        {
+          "index": 85,
+          "time": 32.167,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 104,
+          "time": 39.292,
+          "reason": "both"
+        },
+        {
+          "index": 124,
+          "time": 46.793,
+          "reason": "both"
+        },
+        {
+          "index": 138,
+          "time": 52.043,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 148,
+          "time": 55.794,
+          "reason": "both"
+        },
+        {
+          "index": 154,
+          "time": 58.044,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 168,
+          "time": 63.294,
+          "reason": "both"
+        },
+        {
+          "index": 172,
+          "time": 64.794,
+          "reason": "both"
+        },
+        {
+          "index": 174,
+          "time": 65.544,
+          "reason": "both"
+        },
+        {
+          "index": 182,
+          "time": 68.545,
+          "reason": "both"
+        },
+        {
+          "index": 186,
+          "time": 70.045,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 202,
+          "time": 76.045,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 212,
+          "time": 79.795,
+          "reason": "both"
+        },
+        {
+          "index": 213,
+          "time": 80.17,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 219,
+          "time": 82.421,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 220,
+          "time": 82.796,
+          "reason": "both"
+        },
+        {
+          "index": 223,
+          "time": 83.921,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 227,
+          "time": 85.421,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 228,
+          "time": 85.796,
+          "reason": "both"
+        },
+        {
+          "index": 230,
+          "time": 86.546,
+          "reason": "both"
+        },
+        {
+          "index": 234,
+          "time": 88.046,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 237,
+          "time": 89.171,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 238,
+          "time": 89.546,
+          "reason": "both"
+        },
+        {
+          "index": 240,
+          "time": 90.296,
+          "reason": "both"
+        },
+        {
+          "index": 247,
+          "time": 92.922,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 249,
+          "time": 93.672,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 253,
+          "time": 95.172,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 256,
+          "time": 96.297,
+          "reason": "both"
+        },
+        {
+          "index": 266,
+          "time": 101.042,
+          "reason": "both"
+        },
+        {
+          "index": 272,
+          "time": 104.043,
+          "reason": "both"
+        },
+        {
+          "index": 289,
+          "time": 111.328,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 295,
+          "time": 113.577,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 300,
+          "time": 115.451,
+          "reason": "both"
+        },
+        {
+          "index": 301,
+          "time": 115.826,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 307,
+          "time": 118.075,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 309,
+          "time": 118.824,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 311,
+          "time": 119.574,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 313,
+          "time": 120.324,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 317,
+          "time": 121.823,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 320,
+          "time": 122.947,
+          "reason": "both"
+        },
+        {
+          "index": 323,
+          "time": 124.072,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 325,
+          "time": 124.822,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 327,
+          "time": 125.571,
+          "reason": "both"
+        },
+        {
+          "index": 328,
+          "time": 125.946,
+          "reason": "both"
+        },
+        {
+          "index": 330,
+          "time": 126.696,
+          "reason": "both"
+        },
+        {
+          "index": 332,
+          "time": 127.445,
+          "reason": "both"
+        },
+        {
+          "index": 334,
+          "time": 128.195,
+          "reason": "both"
+        },
+        {
+          "index": 338,
+          "time": 129.694,
+          "reason": "both"
+        },
+        {
+          "index": 339,
+          "time": 130.069,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 344,
+          "time": 131.943,
+          "reason": "both"
+        },
+        {
+          "index": 345,
+          "time": 132.318,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 348,
+          "time": 133.443,
+          "reason": "both"
+        },
+        {
+          "index": 351,
+          "time": 134.567,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 359,
+          "time": 137.566,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 361,
+          "time": 138.316,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 365,
+          "time": 139.815,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 366,
+          "time": 140.19,
+          "reason": "both"
+        },
+        {
+          "index": 368,
+          "time": 140.939,
+          "reason": "both"
+        },
+        {
+          "index": 369,
+          "time": 141.314,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 375,
+          "time": 143.563,
+          "reason": "both"
+        },
+        {
+          "index": 386,
+          "time": 147.686,
+          "reason": "both"
+        },
+        {
+          "index": 394,
+          "time": 150.685,
+          "reason": "both"
+        },
+        {
+          "index": 403,
+          "time": 154.059,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 404,
+          "time": 154.433,
+          "reason": "both"
+        },
+        {
+          "index": 405,
+          "time": 154.808,
+          "reason": "both"
+        },
+        {
+          "index": 411,
+          "time": 157.057,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 416,
+          "time": 158.931,
+          "reason": "both"
+        },
+        {
+          "index": 419,
+          "time": 160.056,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 421,
+          "time": 160.806,
+          "reason": "both"
+        },
+        {
+          "index": 422,
+          "time": 161.18,
+          "reason": "both"
+        },
+        {
+          "index": 423,
+          "time": 161.555,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 425,
+          "time": 162.305,
+          "reason": "both"
+        },
+        {
+          "index": 427,
+          "time": 163.055,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 430,
+          "time": 164.179,
+          "reason": "both"
+        },
+        {
+          "index": 431,
+          "time": 164.554,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 433,
+          "time": 165.304,
+          "reason": "both"
+        },
+        {
+          "index": 436,
+          "time": 166.428,
+          "reason": "both"
+        },
+        {
+          "index": 445,
+          "time": 169.802,
+          "reason": "both"
+        },
+        {
+          "index": 446,
+          "time": 170.176,
+          "reason": "both"
+        },
+        {
+          "index": 449,
+          "time": 171.301,
+          "reason": "both"
+        },
+        {
+          "index": 450,
+          "time": 171.676,
+          "reason": "both"
+        },
+        {
+          "index": 451,
+          "time": 172.051,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 458,
+          "time": 174.674,
+          "reason": "both"
+        },
+        {
+          "index": 462,
+          "time": 176.174,
+          "reason": "both"
+        },
+        {
+          "index": 463,
+          "time": 176.549,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 464,
+          "time": 176.923,
+          "reason": "both"
+        },
+        {
+          "index": 465,
+          "time": 177.298,
+          "reason": "both"
+        },
+        {
+          "index": 473,
+          "time": 180.297,
+          "reason": "both"
+        },
+        {
+          "index": 474,
+          "time": 180.672,
+          "reason": "both"
+        },
+        {
+          "index": 478,
+          "time": 182.171,
+          "reason": "both"
+        },
+        {
+          "index": 479,
+          "time": 182.546,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 485,
+          "time": 184.795,
+          "reason": "both"
+        },
+        {
+          "index": 489,
+          "time": 186.294,
+          "reason": "both"
+        },
+        {
+          "index": 490,
+          "time": 186.669,
+          "reason": "both"
+        },
+        {
+          "index": 491,
+          "time": 187.044,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 492,
+          "time": 187.419,
+          "reason": "both"
+        },
+        {
+          "index": 494,
+          "time": 188.168,
+          "reason": "both"
+        },
+        {
+          "index": 495,
+          "time": 188.543,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 498,
+          "time": 189.668,
+          "reason": "both"
+        },
+        {
+          "index": 500,
+          "time": 190.417,
+          "reason": "both"
+        },
+        {
+          "index": 503,
+          "time": 191.542,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 504,
+          "time": 191.917,
+          "reason": "both"
+        },
+        {
+          "index": 505,
+          "time": 192.292,
+          "reason": "both"
+        },
+        {
+          "index": 507,
+          "time": 193.041,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 509,
+          "time": 193.791,
+          "reason": "both"
+        },
+        {
+          "index": 512,
+          "time": 194.915,
+          "reason": "both"
+        },
+        {
+          "index": 525,
+          "time": 199.788,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 526,
+          "time": 200.163,
+          "reason": "both"
+        },
+        {
+          "index": 530,
+          "time": 201.662,
+          "reason": "both"
+        },
+        {
+          "index": 531,
+          "time": 202.037,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 536,
+          "time": 203.911,
+          "reason": "both"
+        },
+        {
+          "index": 537,
+          "time": 204.286,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 546,
+          "time": 207.66,
+          "reason": "both"
+        },
+        {
+          "index": 547,
+          "time": 208.035,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 551,
+          "time": 209.534,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 553,
+          "time": 210.284,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 554,
+          "time": 210.658,
+          "reason": "both"
+        },
+        {
+          "index": 564,
+          "time": 214.407,
+          "reason": "both"
+        },
+        {
+          "index": 565,
+          "time": 214.782,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 568,
+          "time": 215.906,
+          "reason": "both"
+        },
+        {
+          "index": 569,
+          "time": 216.281,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 572,
+          "time": 217.405,
+          "reason": "both"
+        },
+        {
+          "index": 578,
+          "time": 219.654,
+          "reason": "both"
+        },
+        {
+          "index": 579,
+          "time": 220.029,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 586,
+          "time": 222.653,
+          "reason": "both"
+        },
+        {
+          "index": 591,
+          "time": 224.527,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 593,
+          "time": 225.277,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 595,
+          "time": 226.027,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 603,
+          "time": 229.025,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 610,
+          "time": 231.649,
+          "reason": "both"
+        },
+        {
+          "index": 611,
+          "time": 232.024,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 612,
+          "time": 232.399,
+          "reason": "both"
+        },
+        {
+          "index": 614,
+          "time": 233.148,
+          "reason": "both"
+        },
+        {
+          "index": 615,
+          "time": 233.523,
+          "reason": "both"
+        },
+        {
+          "index": 616,
+          "time": 233.898,
+          "reason": "both"
+        },
+        {
+          "index": 617,
+          "time": 234.273,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 622,
+          "time": 236.147,
+          "reason": "both"
+        },
+        {
+          "index": 623,
+          "time": 236.522,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 624,
+          "time": 236.897,
+          "reason": "both"
+        },
+        {
+          "index": 625,
+          "time": 237.272,
+          "reason": "both"
+        },
+        {
+          "index": 628,
+          "time": 238.396,
+          "reason": "both"
+        },
+        {
+          "index": 630,
+          "time": 239.146,
+          "reason": "both"
+        },
+        {
+          "index": 632,
+          "time": 239.895,
+          "reason": "both"
+        },
+        {
+          "index": 633,
+          "time": 240.27,
+          "reason": "both"
+        },
+        {
+          "index": 636,
+          "time": 241.395,
+          "reason": "both"
+        },
+        {
+          "index": 637,
+          "time": 241.77,
+          "reason": "both"
+        },
+        {
+          "index": 640,
+          "time": 242.894,
+          "reason": "both"
+        },
+        {
+          "index": 641,
+          "time": 243.269,
+          "reason": "both"
+        },
+        {
+          "index": 644,
+          "time": 244.393,
+          "reason": "both"
+        },
+        {
+          "index": 645,
+          "time": 244.768,
+          "reason": "both"
+        },
+        {
+          "index": 648,
+          "time": 245.893,
+          "reason": "both"
+        },
+        {
+          "index": 649,
+          "time": 246.268,
+          "reason": "both"
+        },
+        {
+          "index": 654,
+          "time": 248.142,
+          "reason": "both"
+        },
+        {
+          "index": 655,
+          "time": 248.517,
+          "reason": "both"
+        },
+        {
+          "index": 656,
+          "time": 249.04,
+          "reason": "both"
+        },
+        {
+          "index": 660,
+          "time": 251.04,
+          "reason": "both"
+        },
+        {
+          "index": 662,
+          "time": 252.04,
+          "reason": "both"
+        },
+        {
+          "index": 664,
+          "time": 253.04,
+          "reason": "both"
+        },
+        {
+          "index": 670,
+          "time": 256.04,
+          "reason": "both"
+        },
+        {
+          "index": 671,
+          "time": 256.54,
+          "reason": "both"
+        },
+        {
+          "index": 672,
+          "time": 257.04,
+          "reason": "both"
+        },
+        {
+          "index": 674,
+          "time": 258.04,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 676,
+          "time": 258.635,
+          "reason": "both"
+        },
+        {
+          "index": 677,
+          "time": 259.01,
+          "reason": "both"
+        },
+        {
+          "index": 680,
+          "time": 260.135,
+          "reason": "both"
+        },
+        {
+          "index": 681,
+          "time": 260.51,
+          "reason": "both"
+        },
+        {
+          "index": 682,
+          "time": 260.885,
+          "reason": "both"
+        },
+        {
+          "index": 686,
+          "time": 262.384,
+          "reason": "both"
+        },
+        {
+          "index": 687,
+          "time": 262.759,
+          "reason": "both"
+        },
+        {
+          "index": 688,
+          "time": 263.134,
+          "reason": "both"
+        },
+        {
+          "index": 689,
+          "time": 263.509,
+          "reason": "both"
+        },
+        {
+          "index": 692,
+          "time": 264.634,
+          "reason": "both"
+        },
+        {
+          "index": 693,
+          "time": 265.009,
+          "reason": "both"
+        },
+        {
+          "index": 694,
+          "time": 265.384,
+          "reason": "both"
+        },
+        {
+          "index": 696,
+          "time": 266.134,
+          "reason": "both"
+        },
+        {
+          "index": 698,
+          "time": 266.884,
+          "reason": "both"
+        },
+        {
+          "index": 699,
+          "time": 267.259,
+          "reason": "both"
+        },
+        {
+          "index": 702,
+          "time": 268.384,
+          "reason": "both"
+        },
+        {
+          "index": 703,
+          "time": 268.759,
+          "reason": "both"
+        },
+        {
+          "index": 709,
+          "time": 271.008,
+          "reason": "both"
+        },
+        {
+          "index": 710,
+          "time": 271.383,
+          "reason": "both"
+        },
+        {
+          "index": 712,
+          "time": 272.133,
+          "reason": "both"
+        },
+        {
+          "index": 713,
+          "time": 272.508,
+          "reason": "both"
+        },
+        {
+          "index": 714,
+          "time": 272.883,
+          "reason": "both"
+        },
+        {
+          "index": 715,
+          "time": 273.258,
+          "reason": "both"
+        },
+        {
+          "index": 718,
+          "time": 274.383,
+          "reason": "both"
+        },
+        {
+          "index": 723,
+          "time": 276.258,
+          "reason": "both"
+        },
+        {
+          "index": 724,
+          "time": 276.633,
+          "reason": "both"
+        },
+        {
+          "index": 725,
+          "time": 277.008,
+          "reason": "both"
+        },
+        {
+          "index": 728,
+          "time": 278.132,
+          "reason": "both"
+        },
+        {
+          "index": 729,
+          "time": 278.507,
+          "reason": "both"
+        },
+        {
+          "index": 730,
+          "time": 278.882,
+          "reason": "both"
+        },
+        {
+          "index": 731,
+          "time": 279.257,
+          "reason": "both"
+        },
+        {
+          "index": 733,
+          "time": 280.007,
+          "reason": "both"
+        },
+        {
+          "index": 734,
+          "time": 280.382,
+          "reason": "both"
+        },
+        {
+          "index": 735,
+          "time": 280.757,
+          "reason": "both"
+        },
+        {
+          "index": 738,
+          "time": 281.882,
+          "reason": "local musical preference"
+        },
+        {
+          "index": 739,
+          "time": 282.257,
+          "reason": "both"
+        },
+        {
+          "index": 740,
+          "time": 282.632,
+          "reason": "both"
+        },
+        {
+          "index": 741,
+          "time": 283.007,
+          "reason": "both"
+        },
+        {
+          "index": 744,
+          "time": 284.132,
+          "reason": "both"
+        },
+        {
+          "index": 745,
+          "time": 284.507,
+          "reason": "both"
+        },
+        {
+          "index": 746,
+          "time": 284.882,
+          "reason": "both"
+        },
+        {
+          "index": 747,
+          "time": 285.256,
+          "reason": "both"
+        },
+        {
+          "index": 749,
+          "time": 286.006,
+          "reason": "both"
+        },
+        {
+          "index": 750,
+          "time": 286.381,
+          "reason": "both"
+        },
+        {
+          "index": 751,
+          "time": 286.756,
+          "reason": "both"
+        },
+        {
+          "index": 755,
+          "time": 288.256,
+          "reason": "both"
+        },
+        {
+          "index": 756,
+          "time": 288.631,
+          "reason": "both"
+        },
+        {
+          "index": 758,
+          "time": 289.381,
+          "reason": "both"
+        },
+        {
+          "index": 761,
+          "time": 290.506,
+          "reason": "both"
+        },
+        {
+          "index": 764,
+          "time": 291.631,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 772,
+          "time": 294.63,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 776,
+          "time": 296.13,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 780,
+          "time": 297.63,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 788,
+          "time": 300.629,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 792,
+          "time": 302.129,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 796,
+          "time": 303.629,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 800,
+          "time": 305.129,
+          "reason": "rhythmic continuity"
+        },
+        {
+          "index": 804,
+          "time": 306.629,
+          "reason": "rhythmic continuity"
+        }
+      ],
+      "neighborhoodV22": {
+        "eligibleSelected": 375,
+        "selectedWithStrongerAdjacentSkipped": 33,
+        "selectedWithWeakerAttack": 22,
+        "selectedWithWeakerOnset": 14,
+        "selectedNotLocalPeak": 257,
+        "examples": [
+          {
+            "selectedIndex": 20,
+            "time": 7.79,
+            "stage": "build",
+            "salience": 0.29902129999999993,
+            "attack": 0.1308879,
+            "onset": 0.11232539999999999,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 19,
+                "time": 7.415,
+                "salience": 0.3685139512000002,
+                "attack": 0.167457663,
+                "onset": 0.1611902882000002,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 24,
+            "time": 9.29,
+            "stage": "build",
+            "salience": 0.08593510751999986,
+            "attack": 0.024131844,
+            "onset": 0.017385263519999857,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 23,
+                "time": 8.915,
+                "salience": 0.14311825662222194,
+                "attack": 0.054556046999999996,
+                "onset": 0.03292820962222199,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 84,
+            "time": 31.792,
+            "stage": "build",
+            "salience": 0.1892867257599996,
+            "attack": 0.05248022399999999,
+            "onset": 0.04555050175999962,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 83,
+                "time": 31.417,
+                "salience": 0.2531046316595742,
+                "attack": 0.050189412,
+                "onset": 0.03917921965957418,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 116,
+            "time": 43.793,
+            "stage": "build",
+            "salience": 0.19252183195111003,
+            "attack": 0.06232865099999999,
+            "onset": 0.05969118095111005,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 115,
+                "time": 43.418,
+                "salience": 0.24480363239361816,
+                "attack": 0.091366965,
+                "onset": 0.08432666739361817,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 124,
+            "time": 46.793,
+            "stage": "build",
+            "salience": 0.19382069607999977,
+            "attack": 0.022160628,
+            "onset": 0.012906568079999788,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 123,
+                "time": 46.418,
+                "salience": 0.24342497854666678,
+                "attack": 0.008896439999999999,
+                "onset": 0.00211753854666678,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 132,
+            "time": 49.793,
+            "stage": "build",
+            "salience": 0.1416368446666671,
+            "attack": 0.0366282,
+            "onset": 0.034198644666667104,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 131,
+                "time": 49.418,
+                "salience": 0.20827248340888793,
+                "attack": 0.072323631,
+                "onset": 0.06513885240888795,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 136,
+            "time": 51.293,
+            "stage": "build",
+            "salience": 0.1376522509777773,
+            "attack": 0.032835243,
+            "onset": 0.03141900797777729,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 135,
+                "time": 50.918,
+                "salience": 0.180949374093334,
+                "attack": 0.057863231999999994,
+                "onset": 0.04968814209333398,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 148,
+            "time": 55.794,
+            "stage": "build",
+            "salience": 0.1943518693191489,
+            "attack": 0.025379754,
+            "onset": 0.021004615319148923,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 147,
+                "time": 55.418,
+                "salience": 0.26676243720000015,
+                "attack": 0.03242833800000001,
+                "onset": 0.01925109920000014,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 180,
+            "time": 67.794,
+            "stage": "build",
+            "salience": 0.2499857859999993,
+            "attack": 0.10179537599999999,
+            "onset": 0.0862444099999993,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 179,
+                "time": 67.419,
+                "salience": 0.283368656,
+                "attack": 0.11385441599999999,
+                "onset": 0.10756824,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 192,
+            "time": 72.295,
+            "stage": "build",
+            "salience": 0.18599353205333485,
+            "attack": 0.063258786,
+            "onset": 0.05436074605333483,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 191,
+                "time": 71.92,
+                "salience": 0.212323846968887,
+                "attack": 0.078309,
+                "onset": 0.061376846968887,
+                "skipReason": "readable burst gap"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 200,
+            "time": 75.295,
+            "stage": "build",
+            "salience": 0.12723714779555645,
+            "attack": 0.03211068,
+            "onset": 0.03125046779555643,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 199,
+                "time": 74.92,
+                "salience": 0.19562371799999864,
+                "attack": 0.087359643,
+                "onset": 0.044898074999998636,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 216,
+            "time": 81.296,
+            "stage": "build",
+            "salience": 0.09270848700000048,
+            "attack": 0.013861361999999999,
+            "onset": 0.0087471250000005,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 215,
+                "time": 80.921,
+                "salience": 0.1186054732088883,
+                "attack": 0.025072163999999997,
+                "onset": 0.02098330920888829,
+                "skipReason": "local salience / continuity quota"
+              },
+              {
+                "index": 217,
+                "time": 81.671,
+                "salience": 0.11860014923555266,
+                "attack": 0.022999236000000003,
+                "onset": 0.028032913235552667,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          }
+        ]
+      },
+      "neighborhoodV23": {
+        "eligibleSelected": 388,
+        "selectedWithStrongerAdjacentSkipped": 16,
+        "selectedWithWeakerAttack": 15,
+        "selectedWithWeakerOnset": 9,
+        "selectedNotLocalPeak": 248,
+        "examples": [
+          {
+            "selectedIndex": 20,
+            "time": 7.79,
+            "stage": "build",
+            "salience": 0.29902129999999993,
+            "attack": 0.1308879,
+            "onset": 0.11232539999999999,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 19,
+                "time": 7.415,
+                "salience": 0.3685139512000002,
+                "attack": 0.167457663,
+                "onset": 0.1611902882000002,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 27,
+            "time": 10.415,
+            "stage": "build",
+            "salience": 0.17060048879999948,
+            "attack": 0.06850529999999999,
+            "onset": 0.060709188799999494,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 28,
+                "time": 10.79,
+                "salience": 0.293110495,
+                "attack": 0.136527534,
+                "onset": 0.117632961,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 124,
+            "time": 46.793,
+            "stage": "build",
+            "salience": 0.19382069607999977,
+            "attack": 0.022160628,
+            "onset": 0.012906568079999788,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 123,
+                "time": 46.418,
+                "salience": 0.24342497854666678,
+                "attack": 0.008896439999999999,
+                "onset": 0.00211753854666678,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 311,
+            "time": 119.574,
+            "stage": "developing",
+            "salience": 0.1271576170799998,
+            "attack": 0.027537279,
+            "onset": 0.02643833807999981,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 312,
+                "time": 119.949,
+                "salience": 0.16325305432000115,
+                "attack": 0.049636313999999994,
+                "onset": 0.041860740320001144,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 411,
+            "time": 157.057,
+            "stage": "mid-hard-push",
+            "salience": 0.1776230241600058,
+            "attack": 0.08744587500000002,
+            "onset": 0.05892914916000578,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 412,
+                "time": 157.432,
+                "salience": 0.2343454995200163,
+                "attack": 0.10274884199999999,
+                "onset": 0.09643665752001632,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 436,
+            "time": 166.428,
+            "stage": "mid-hard-push",
+            "salience": 0.16566660591110932,
+            "attack": 0.05044301399999999,
+            "onset": 0.04165359191110932,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 437,
+                "time": 166.803,
+                "salience": 0.2607126119199971,
+                "attack": 0.16311672,
+                "onset": 0.02868189191999708,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 462,
+            "time": 176.174,
+            "stage": "mid-hard-push",
+            "salience": 0.15445345759999762,
+            "attack": 0.039956184,
+            "onset": 0.03513527359999758,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 461,
+                "time": 175.799,
+                "salience": 0.23039706839999968,
+                "attack": 0.039446357999999994,
+                "onset": 0.04168121039999966,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 478,
+            "time": 182.171,
+            "stage": "mid-hard-push",
+            "salience": 0.14981872236000038,
+            "attack": 0.055368983999999996,
+            "onset": 0.014513738360000382,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 477,
+                "time": 181.796,
+                "salience": 0.21469281531111478,
+                "attack": 0.071556201,
+                "onset": 0.06166461431111479,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 512,
+            "time": 194.915,
+            "stage": "mid-hard-push",
+            "salience": 0.11607227037076615,
+            "attack": 0.039378375,
+            "onset": 0.007865895370766157,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 511,
+                "time": 194.541,
+                "salience": 0.19281137895999984,
+                "attack": 0.065784099,
+                "onset": 0.055287279959999845,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 656,
+            "time": 249.04,
+            "stage": "final-climax",
+            "salience": 0.09644730000000105,
+            "attack": 0.012235859999999998,
+            "onset": 0.009397440000001069,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 657,
+                "time": 249.54,
+                "salience": 0.2376846958000019,
+                "attack": 0.086232888,
+                "onset": 0.07663780780000191,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 658,
+            "time": 250.04,
+            "stage": "final-climax",
+            "salience": 0.2044187692000069,
+            "attack": 0.071592906,
+            "onset": 0.05933786320000692,
+            "reason": "local musical preference",
+            "strongerNeighbors": [
+              {
+                "index": 657,
+                "time": 249.54,
+                "salience": 0.2376846958000019,
+                "attack": 0.086232888,
+                "onset": 0.07663780780000191,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          },
+          {
+            "selectedIndex": 670,
+            "time": 256.04,
+            "stage": "final-climax",
+            "salience": 0.12664738100000356,
+            "attack": 0.033775248,
+            "onset": 0.009002132999999643,
+            "reason": "both",
+            "strongerNeighbors": [
+              {
+                "index": 669,
+                "time": 255.54,
+                "salience": 0.2753371797500011,
+                "attack": 0.11105469,
+                "onset": 0.01177998975000112,
+                "skipReason": "local salience / continuity quota"
+              }
+            ]
+          }
+        ]
+      },
+      "challengeV22": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 6,
+          "targets": 3,
+          "sourceCandidates": 16,
+          "density": 0.1875,
+          "targetsPerSecond": 0.5,
+          "targetIntervals": {
+            "count": 2,
+            "mean": 1.5,
+            "min": 1.4999999999999996,
+            "p10": 1.4999999999999996,
+            "median": 1.4999999999999996,
+            "p90": 1.4999999999999996,
+            "max": 1.5000000000000002
+          },
+          "recoveryGapSeconds": {
+            "count": 2,
+            "mean": 1.5,
+            "min": 1.4999999999999996,
+            "p10": 1.4999999999999996,
+            "median": 1.4999999999999996,
+            "p90": 1.4999999999999996,
+            "max": 1.5000000000000002
+          },
+          "recoverySkippedBeats": {
+            "count": 2,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 3,
+            "mean": 52.242972142015475,
+            "min": 0,
+            "p10": 0,
+            "median": 70.72891642604641,
+            "p90": 70.72891642604641,
+            "max": 86.00000000000001
+          },
+          "runHistogram": {
+            "single": 3,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.3333333333333333,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 360,
+          "maximumPointsWithUnbrokenCombo": 360,
+          "overallHitWindow": 0.36
+        },
+        {
+          "stage": "build",
+          "startSeconds": 6,
+          "endSeconds": 99.01453056000001,
+          "targets": 71,
+          "sourceCandidates": 246,
+          "density": 0.2886178861788618,
+          "targetsPerSecond": 0.7633215968788952,
+          "targetIntervals": {
+            "count": 70,
+            "mean": 1.3125000000000002,
+            "min": 0.375,
+            "p10": 0.75,
+            "median": 1.5,
+            "p90": 1.875,
+            "max": 2.25
+          },
+          "recoveryGapSeconds": {
+            "count": 68,
+            "mean": 1.340073529411765,
+            "min": 0.75,
+            "p10": 0.75,
+            "median": 1.5,
+            "p90": 1.875,
+            "max": 2.25
+          },
+          "recoverySkippedBeats": {
+            "count": 68,
+            "mean": 2.5588235294117645,
+            "min": 1,
+            "p10": 1,
+            "median": 3,
+            "p90": 4,
+            "max": 5
+          },
+          "travelPixels": {
+            "count": 71,
+            "mean": 104.02898271289203,
+            "min": 14.982534724917352,
+            "p10": 48.090587876551574,
+            "median": 112.64904847142198,
+            "p90": 139.17941942683063,
+            "max": 143.55411225761932
+          },
+          "runHistogram": {
+            "single": 67,
+            "two": 2,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 2,
+          "multiHitRunsPerSecond": 0.021502016813490007,
+          "recoveryEventsPerSecond": 0.7310685716586602,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 8520,
+          "maximumPointsWithUnbrokenCombo": 15870,
+          "overallHitWindow": 0.3398570115881903
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 99.01453056000001,
+          "endSeconds": 154.710204,
+          "targets": 75,
+          "sourceCandidates": 143,
+          "density": 0.5244755244755245,
+          "targetsPerSecond": 1.34660370128743,
+          "targetIntervals": {
+            "count": 74,
+            "mean": 0.7417837837837837,
+            "min": 0.3739999999999952,
+            "p10": 0.375,
+            "median": 0.7490000000000094,
+            "p90": 1.125,
+            "max": 1.8739999999999952
+          },
+          "recoveryGapSeconds": {
+            "count": 46,
+            "mean": 0.9508043478260871,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 0.75,
+            "p90": 1.125,
+            "max": 1.8739999999999952
+          },
+          "recoverySkippedBeats": {
+            "count": 46,
+            "mean": 1.4565217391304348,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 2,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 75,
+            "mean": 128.26834382206832,
+            "min": 14.477966854993046,
+            "p10": 78.10191274552497,
+            "median": 125.95527843109406,
+            "p90": 172.8910207715409,
+            "max": 189.44724395812958
+          },
+          "runHistogram": {
+            "single": 29,
+            "two": 12,
+            "three": 3,
+            "four": 2,
+            "fivePlus": 1
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.3231848883089832,
+          "recoveryEventsPerSecond": 0.8259169367896236,
+          "longRunActionsPerSecond": 0.39500375237764607,
+          "actionsInRunsAtLeast3": 22,
+          "baseMaximumPoints": 9000,
+          "maximumPointsWithUnbrokenCombo": 26850,
+          "overallHitWindow": 0.30981094781426166
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 154.710204,
+          "endSeconds": 194.93485704,
+          "targets": 72,
+          "sourceCandidates": 108,
+          "density": 0.6666666666666666,
+          "targetsPerSecond": 1.7899470737112915,
+          "targetIntervals": {
+            "count": 71,
+            "mean": 0.5543239436619718,
+            "min": 0.3739999999999952,
+            "p10": 0.3739999999999952,
+            "median": 0.375,
+            "p90": 0.75,
+            "max": 1.5
+          },
+          "recoveryGapSeconds": {
+            "count": 29,
+            "mean": 0.8144137931034491,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 0.75,
+            "p90": 1.125,
+            "max": 1.5
+          },
+          "recoverySkippedBeats": {
+            "count": 29,
+            "mean": 1.1724137931034482,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 2,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 72,
+            "mean": 124.75417623980866,
+            "min": 42.06802321684477,
+            "p10": 76.41955779684434,
+            "median": 110.00000000000001,
+            "p90": 188.24830419236918,
+            "max": 210
+          },
+          "runHistogram": {
+            "single": 8,
+            "two": 8,
+            "three": 9,
+            "four": 4,
+            "fivePlus": 1
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.5469282725228946,
+          "recoveryEventsPerSecond": 0.7209509046892701,
+          "longRunActionsPerSecond": 1.193298049140861,
+          "actionsInRunsAtLeast3": 48,
+          "baseMaximumPoints": 8640,
+          "maximumPointsWithUnbrokenCombo": 25920,
+          "overallHitWindow": 0.27
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 194.93485704,
+          "endSeconds": 222.78269376,
+          "targets": 37,
+          "sourceCandidates": 74,
+          "density": 0.5,
+          "targetsPerSecond": 1.3286489852702645,
+          "targetIntervals": {
+            "count": 36,
+            "mean": 0.73925,
+            "min": 0.3739999999999952,
+            "p10": 0.375,
+            "median": 0.7489999999999952,
+            "p90": 1.125,
+            "max": 1.8739999999999952
+          },
+          "recoveryGapSeconds": {
+            "count": 19,
+            "mean": 1.0653157894736849,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 1.1239999999999952,
+            "p90": 1.5,
+            "max": 1.8739999999999952
+          },
+          "recoverySkippedBeats": {
+            "count": 19,
+            "mean": 1.8421052631578947,
+            "min": 1,
+            "p10": 1,
+            "median": 2,
+            "p90": 3,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 37,
+            "mean": 118.26619200280443,
+            "min": 21.270617585150678,
+            "p10": 57.80231041509317,
+            "median": 110.00000000000001,
+            "p90": 170,
+            "max": 170.00000000000003
+          },
+          "runHistogram": {
+            "single": 4,
+            "two": 15,
+            "three": 1,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 3,
+          "multiHitRunsPerSecond": 0.5745509125493036,
+          "recoveryEventsPerSecond": 0.6822792086522981,
+          "longRunActionsPerSecond": 0.10772829610299443,
+          "actionsInRunsAtLeast3": 3,
+          "baseMaximumPoints": 4440,
+          "maximumPointsWithUnbrokenCombo": 13320,
+          "overallHitWindow": 0.3
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 222.78269376,
+          "endSeconds": 253.72473456,
+          "targets": 42,
+          "sourceCandidates": 79,
+          "density": 0.5316455696202531,
+          "targetsPerSecond": 1.3573765308977295,
+          "targetIntervals": {
+            "count": 41,
+            "mean": 0.7441951219512195,
+            "min": 0.3739999999999952,
+            "p10": 0.375,
+            "median": 0.5,
+            "p90": 1.4989999999999952,
+            "max": 1.5
+          },
+          "recoveryGapSeconds": {
+            "count": 16,
+            "mean": 1.2742500000000003,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 1.4989999999999952,
+            "p90": 1.5,
+            "max": 1.5
+          },
+          "recoverySkippedBeats": {
+            "count": 16,
+            "mean": 2.3125,
+            "min": 1,
+            "p10": 1,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 42,
+            "mean": 132.0572272404183,
+            "min": 71.30762205098131,
+            "p10": 109.99999999999996,
+            "median": 110.00000000000003,
+            "p90": 167.7441227171201,
+            "max": 239.7910380365085
+          },
+          "runHistogram": {
+            "single": 8,
+            "two": 0,
+            "three": 5,
+            "four": 1,
+            "fivePlus": 3
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.2908663994780849,
+          "recoveryEventsPerSecond": 0.5170958212943731,
+          "longRunActionsPerSecond": 1.098828620250543,
+          "actionsInRunsAtLeast3": 34,
+          "baseMaximumPoints": 5040,
+          "maximumPointsWithUnbrokenCombo": 15120,
+          "overallHitWindow": 0.27976216219067235
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 253.72473456,
+          "endSeconds": 290.85518351999997,
+          "targets": 78,
+          "sourceCandidates": 96,
+          "density": 0.8125,
+          "targetsPerSecond": 2.10070177400839,
+          "targetIntervals": {
+            "count": 77,
+            "mean": 0.46709090909090883,
+            "min": 0.21999999999997044,
+            "p10": 0.375,
+            "median": 0.375,
+            "p90": 0.75,
+            "max": 1
+          },
+          "recoveryGapSeconds": {
+            "count": 17,
+            "mean": 0.7645882352941171,
+            "min": 0.7489999999999668,
+            "p10": 0.7490000000000236,
+            "median": 0.75,
+            "p90": 0.75,
+            "max": 1
+          },
+          "recoverySkippedBeats": {
+            "count": 17,
+            "mean": 1,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 1
+          },
+          "travelPixels": {
+            "count": 78,
+            "mean": 107.91971857106772,
+            "min": 8.125029297095196,
+            "p10": 56.871840383932316,
+            "median": 110,
+            "p90": 152.6481307534715,
+            "max": 232.08428881338742
+          },
+          "runHistogram": {
+            "single": 0,
+            "two": 0,
+            "three": 2,
+            "four": 8,
+            "fivePlus": 8
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.4847773324634747,
+          "recoveryEventsPerSecond": 0.4578452584377261,
+          "longRunActionsPerSecond": 2.10070177400839,
+          "actionsInRunsAtLeast3": 78,
+          "baseMaximumPoints": 9360,
+          "maximumPointsWithUnbrokenCombo": 28080,
+          "overallHitWindow": 0.23
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 290.85518351999997,
+          "endSeconds": 309.420408,
+          "targets": 11,
+          "sourceCandidates": 50,
+          "density": 0.22,
+          "targetsPerSecond": 0.5925056285664686,
+          "targetIntervals": {
+            "count": 10,
+            "mean": 1.4998000000000047,
+            "min": 1.4990000000000236,
+            "p10": 1.4990000000000236,
+            "median": 1.5,
+            "p90": 1.5,
+            "max": 1.5
+          },
+          "recoveryGapSeconds": {
+            "count": 10,
+            "mean": 1.4998000000000047,
+            "min": 1.4990000000000236,
+            "p10": 1.4990000000000236,
+            "median": 1.5,
+            "p90": 1.5,
+            "max": 1.5
+          },
+          "recoverySkippedBeats": {
+            "count": 10,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 11,
+            "mean": 89.78031963931022,
+            "min": 29.848451865931974,
+            "p10": 34.18966685663333,
+            "median": 110,
+            "p90": 110,
+            "max": 110.00000000000003
+          },
+          "runHistogram": {
+            "single": 11,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.5386414805149715,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 1320,
+          "maximumPointsWithUnbrokenCombo": 3960,
+          "overallHitWindow": 0.34
+        }
+      ],
+      "challengeV23": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 5,
+          "targets": 3,
+          "sourceCandidates": 13,
+          "density": 0.23076923076923078,
+          "targetsPerSecond": 0.6,
+          "targetIntervals": {
+            "count": 2,
+            "mean": 1.5,
+            "min": 1.4999999999999996,
+            "p10": 1.4999999999999996,
+            "median": 1.4999999999999996,
+            "p90": 1.4999999999999996,
+            "max": 1.5000000000000002
+          },
+          "recoveryGapSeconds": {
+            "count": 2,
+            "mean": 1.5,
+            "min": 1.4999999999999996,
+            "p10": 1.4999999999999996,
+            "median": 1.4999999999999996,
+            "p90": 1.4999999999999996,
+            "max": 1.5000000000000002
+          },
+          "recoverySkippedBeats": {
+            "count": 2,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 3,
+            "mean": 52.242972142015475,
+            "min": 0,
+            "p10": 0,
+            "median": 70.72891642604641,
+            "p90": 70.72891642604641,
+            "max": 86.00000000000001
+          },
+          "runHistogram": {
+            "single": 3,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.4,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 360,
+          "maximumPointsWithUnbrokenCombo": 360,
+          "overallHitWindow": 0.36
+        },
+        {
+          "stage": "build",
+          "startSeconds": 5,
+          "endSeconds": 99.01453056000001,
+          "targets": 71,
+          "sourceCandidates": 249,
+          "density": 0.285140562248996,
+          "targetsPerSecond": 0.7552024094263583,
+          "targetIntervals": {
+            "count": 70,
+            "mean": 1.3125000000000002,
+            "min": 0.375,
+            "p10": 0.375,
+            "median": 1.125,
+            "p90": 2.25,
+            "max": 2.6259999999999906
+          },
+          "recoveryGapSeconds": {
+            "count": 60,
+            "mean": 1.4687333333333334,
+            "min": 0.75,
+            "p10": 0.75,
+            "median": 1.5,
+            "p90": 2.25,
+            "max": 2.6259999999999906
+          },
+          "recoverySkippedBeats": {
+            "count": 60,
+            "mean": 2.9,
+            "min": 1,
+            "p10": 1,
+            "median": 3,
+            "p90": 5,
+            "max": 6
+          },
+          "travelPixels": {
+            "count": 71,
+            "mean": 101.45312013242771,
+            "min": 4.634332775823485,
+            "p10": 48.07926583773722,
+            "median": 110.00000000000003,
+            "p90": 136.44883705942746,
+            "max": 143.56949166475738
+          },
+          "runHistogram": {
+            "single": 52,
+            "two": 8,
+            "three": 1,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 3,
+          "multiHitRunsPerSecond": 0.09572988288503133,
+          "recoveryEventsPerSecond": 0.6381992192335422,
+          "longRunActionsPerSecond": 0.03190996096167711,
+          "actionsInRunsAtLeast3": 3,
+          "baseMaximumPoints": 8520,
+          "maximumPointsWithUnbrokenCombo": 15870,
+          "overallHitWindow": 0.3396457994333254
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 99.01453056000001,
+          "endSeconds": 154.710204,
+          "targets": 75,
+          "sourceCandidates": 143,
+          "density": 0.5244755244755245,
+          "targetsPerSecond": 1.34660370128743,
+          "targetIntervals": {
+            "count": 74,
+            "mean": 0.7417837837837837,
+            "min": 0.3739999999999952,
+            "p10": 0.375,
+            "median": 0.7489999999999952,
+            "p90": 1.4989999999999952,
+            "max": 1.5010000000000048
+          },
+          "recoveryGapSeconds": {
+            "count": 40,
+            "mean": 1.0372250000000005,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 1.1239999999999952,
+            "p90": 1.5,
+            "max": 1.5010000000000048
+          },
+          "recoverySkippedBeats": {
+            "count": 40,
+            "mean": 1.675,
+            "min": 1,
+            "p10": 1,
+            "median": 2,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 75,
+            "mean": 124.75846318533362,
+            "min": 14.477966854993046,
+            "p10": 78.10191274552497,
+            "median": 113.52600801587243,
+            "p90": 171.47816416815016,
+            "max": 187.62986760287208
+          },
+          "runHistogram": {
+            "single": 20,
+            "two": 13,
+            "three": 4,
+            "four": 3,
+            "fivePlus": 1
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.37704903636048037,
+          "recoveryEventsPerSecond": 0.7181886406866292,
+          "longRunActionsPerSecond": 0.5206867644978062,
+          "actionsInRunsAtLeast3": 29,
+          "baseMaximumPoints": 9000,
+          "maximumPointsWithUnbrokenCombo": 26850,
+          "overallHitWindow": 0.30981094781426166
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 154.710204,
+          "endSeconds": 194.93485704,
+          "targets": 81,
+          "sourceCandidates": 108,
+          "density": 0.75,
+          "targetsPerSecond": 2.0136904579252026,
+          "targetIntervals": {
+            "count": 80,
+            "mean": 0.5013375,
+            "min": 0.3739999999999952,
+            "p10": 0.3739999999999952,
+            "median": 0.375,
+            "p90": 0.75,
+            "max": 0.75
+          },
+          "recoveryGapSeconds": {
+            "count": 27,
+            "mean": 0.7497407407407416,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 0.75,
+            "p90": 0.75,
+            "max": 0.75
+          },
+          "recoverySkippedBeats": {
+            "count": 27,
+            "mean": 1,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 1
+          },
+          "travelPixels": {
+            "count": 81,
+            "mean": 128.30820280074067,
+            "min": 12.093541900250976,
+            "p10": 65.39443792738255,
+            "median": 135,
+            "p90": 172.54946249881888,
+            "max": 245.00000000000003
+          },
+          "runHistogram": {
+            "single": 6,
+            "two": 1,
+            "three": 11,
+            "four": 10,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.5469282725228946,
+          "recoveryEventsPerSecond": 0.6712301526417342,
+          "longRunActionsPerSecond": 1.8148074497350593,
+          "actionsInRunsAtLeast3": 73,
+          "baseMaximumPoints": 9720,
+          "maximumPointsWithUnbrokenCombo": 29160,
+          "overallHitWindow": 0.27
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 194.93485704,
+          "endSeconds": 222.78269376,
+          "targets": 37,
+          "sourceCandidates": 74,
+          "density": 0.5,
+          "targetsPerSecond": 1.3286489852702645,
+          "targetIntervals": {
+            "count": 36,
+            "mean": 0.73925,
+            "min": 0.3739999999999952,
+            "p10": 0.375,
+            "median": 0.375,
+            "p90": 1.125,
+            "max": 1.8739999999999952
+          },
+          "recoveryGapSeconds": {
+            "count": 18,
+            "mean": 1.1036111111111115,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 1.1239999999999952,
+            "p90": 1.5,
+            "max": 1.8739999999999952
+          },
+          "recoverySkippedBeats": {
+            "count": 18,
+            "mean": 1.9444444444444444,
+            "min": 1,
+            "p10": 1,
+            "median": 2,
+            "p90": 3,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 37,
+            "mean": 116.2905761434801,
+            "min": 36.31594728363476,
+            "p10": 72.41383962129454,
+            "median": 110,
+            "p90": 165.58258619348175,
+            "max": 170.00000000000006
+          },
+          "runHistogram": {
+            "single": 2,
+            "two": 16,
+            "three": 1,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 3,
+          "multiHitRunsPerSecond": 0.6104603445836351,
+          "recoveryEventsPerSecond": 0.6463697766179666,
+          "longRunActionsPerSecond": 0.10772829610299443,
+          "actionsInRunsAtLeast3": 3,
+          "baseMaximumPoints": 4440,
+          "maximumPointsWithUnbrokenCombo": 13320,
+          "overallHitWindow": 0.3
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 222.78269376,
+          "endSeconds": 247.5363264,
+          "targets": 35,
+          "sourceCandidates": 66,
+          "density": 0.5303030303030303,
+          "targetsPerSecond": 1.4139338863518,
+          "targetIntervals": {
+            "count": 34,
+            "mean": 0.6945294117647061,
+            "min": 0.375,
+            "p10": 0.375,
+            "median": 0.375,
+            "p90": 1.1240000000000236,
+            "max": 1.8739999999999952
+          },
+          "recoveryGapSeconds": {
+            "count": 17,
+            "mean": 1.0140588235294121,
+            "min": 0.7489999999999952,
+            "p10": 0.7489999999999952,
+            "median": 1.1239999999999952,
+            "p90": 1.125,
+            "max": 1.8739999999999952
+          },
+          "recoverySkippedBeats": {
+            "count": 17,
+            "mean": 1.7058823529411764,
+            "min": 1,
+            "p10": 1,
+            "median": 2,
+            "p90": 2,
+            "max": 4
+          },
+          "travelPixels": {
+            "count": 35,
+            "mean": 138.91055492917693,
+            "min": 76.93404522225714,
+            "p10": 101.72785990214132,
+            "median": 129.17628264519638,
+            "p90": 188.91330354654568,
+            "max": 240.02095382150742
+          },
+          "runHistogram": {
+            "single": 8,
+            "two": 6,
+            "three": 1,
+            "four": 3,
+            "fivePlus": 0
+          },
+          "longestRun": 4,
+          "multiHitRunsPerSecond": 0.4039811103862286,
+          "recoveryEventsPerSecond": 0.6867678876565886,
+          "longRunActionsPerSecond": 0.6059716655793428,
+          "actionsInRunsAtLeast3": 15,
+          "baseMaximumPoints": 4200,
+          "maximumPointsWithUnbrokenCombo": 12600,
+          "overallHitWindow": 0.2987937452399714
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 247.5363264,
+          "endSeconds": 290.85518351999997,
+          "targets": 89,
+          "sourceCandidates": 109,
+          "density": 0.8165137614678899,
+          "targetsPerSecond": 2.054532504249966,
+          "targetIntervals": {
+            "count": 88,
+            "mean": 0.48567045454545427,
+            "min": 0.3739999999999668,
+            "p10": 0.375,
+            "median": 0.375,
+            "p90": 0.75,
+            "max": 1.0000000000000284
+          },
+          "recoveryGapSeconds": {
+            "count": 20,
+            "mean": 0.7796999999999983,
+            "min": 0.5949999999999704,
+            "p10": 0.7489999999999668,
+            "median": 0.75,
+            "p90": 1,
+            "max": 1.0000000000000284
+          },
+          "recoverySkippedBeats": {
+            "count": 20,
+            "mean": 1,
+            "min": 1,
+            "p10": 1,
+            "median": 1,
+            "p90": 1,
+            "max": 1
+          },
+          "travelPixels": {
+            "count": 89,
+            "mean": 155.3602182381365,
+            "min": 18.169220004791516,
+            "p10": 82.30828491864963,
+            "median": 155,
+            "p90": 219.4998660169098,
+            "max": 280
+          },
+          "runHistogram": {
+            "single": 0,
+            "two": 0,
+            "three": 2,
+            "four": 12,
+            "fivePlus": 7
+          },
+          "longestRun": 5,
+          "multiHitRunsPerSecond": 0.4847773324634751,
+          "recoveryEventsPerSecond": 0.461692697584262,
+          "longRunActionsPerSecond": 2.054532504249966,
+          "actionsInRunsAtLeast3": 89,
+          "baseMaximumPoints": 10680,
+          "maximumPointsWithUnbrokenCombo": 32040,
+          "overallHitWindow": 0.23
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 290.85518351999997,
+          "endSeconds": 309.420408,
+          "targets": 11,
+          "sourceCandidates": 50,
+          "density": 0.22,
+          "targetsPerSecond": 0.5925056285664686,
+          "targetIntervals": {
+            "count": 10,
+            "mean": 1.4998000000000047,
+            "min": 1.4990000000000236,
+            "p10": 1.4990000000000236,
+            "median": 1.5,
+            "p90": 1.5,
+            "max": 1.5
+          },
+          "recoveryGapSeconds": {
+            "count": 10,
+            "mean": 1.4998000000000047,
+            "min": 1.4990000000000236,
+            "p10": 1.4990000000000236,
+            "median": 1.5,
+            "p90": 1.5,
+            "max": 1.5
+          },
+          "recoverySkippedBeats": {
+            "count": 10,
+            "mean": 3,
+            "min": 3,
+            "p10": 3,
+            "median": 3,
+            "p90": 3,
+            "max": 3
+          },
+          "travelPixels": {
+            "count": 11,
+            "mean": 93.78193473696874,
+            "min": 41.38209829646328,
+            "p10": 52.899630448505334,
+            "median": 103.85281291660802,
+            "p90": 110,
+            "max": 110.00000000000001
+          },
+          "runHistogram": {
+            "single": 11,
+            "two": 0,
+            "three": 0,
+            "four": 0,
+            "fivePlus": 0
+          },
+          "longestRun": 1,
+          "multiHitRunsPerSecond": 0,
+          "recoveryEventsPerSecond": 0.5386414805149715,
+          "longRunActionsPerSecond": 0,
+          "actionsInRunsAtLeast3": 0,
+          "baseMaximumPoints": 1320,
+          "maximumPointsWithUnbrokenCombo": 3960,
+          "overallHitWindow": 0.34
+        }
+      ],
+      "ending": {
+        "rawDuration": 309.420408,
+        "playableEndTime": 309.420408,
+        "releaseGap": 1.5,
+        "source": "duration-fallback",
+        "reason": "terminal-collapse-not-sufficiently-sustained",
+        "evidence": null
+      },
+      "visualIdentity": {
+        "schema": "pulse-tap-artist-visual-config-v1",
+        "palette": {
+          "bg": "#070a1e",
+          "panel": "#121831",
+          "primary": "#19e3ff",
+          "secondary": "#ff2fb0",
+          "gold": "#ffd147",
+          "danger": "#ff4d6d",
+          "white": "#ffffff",
+          "muted": "#a7b0d8"
+        },
+        "themeDirection": "",
+        "assets": {
+          "cover": "",
+          "logo": "https://gameblocks.nyc3.digitaloceanspaces.com/FYoTdwL3Q16/art/neon-dash/logo-82e76a85b8.png"
+        },
+        "backgroundIntensityScale": 1,
+        "pulseIntensityScale": 1,
+        "artistDirectionOnly": true,
+        "renderedTreatments": {
+          "background": "grid",
+          "target": "circle",
+          "impact": "ring-close",
+          "ambient": "beat-pulse",
+          "sectionTransition": "alternate-grid"
+        },
+        "futureTreatments": null,
+        "architectureStatus": "partial: palette and restrained intensity are configurable; art and alternate treatments need later renderer work"
+      }
+    }
+  }
+}

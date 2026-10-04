@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <title>Pulse Tap v2.2 - ALLDAT</title>
+  <title>Pulse Tap v2.3 - ALLDAT</title>
   <style>
     :root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px)}
     html,body{overscroll-behavior:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;margin:0;width:100%;height:100%;overflow:hidden;background:#050714;font-family:Arial,Helvetica,sans-serif}
@@ -12,11 +12,13 @@
     #error h1{font-size:24px;margin:0 0 12px;color:#ff4d8d} #error p{line-height:1.45;color:#cbd4ff;word-break:break-word}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
-  <script src="./timing.js?v=2.2"></script>
-  <script src="./difficulty.js?v=2.2"></script>
-  <script src="./ending.js?v=2.2"></script>
-  <script src="./action.js?v=2.2"></script>
-  <script src="./impact.js?v=2.2"></script>
+  <script src="./timing.js?v=2.3"></script>
+  <script src="./difficulty.js?v=2.3"></script>
+  <script src="./ending.js?v=2.3"></script>
+  <script src="./choice.js?v=2.3"></script>
+  <script src="./action.js?v=2.3"></script>
+  <script src="./visual.js?v=2.3"></script>
+  <script src="./impact.js?v=2.3"></script>
 </head>
 <body>
 <div id="game"></div><div id="error"><h1>Pulse Tap couldn't load this track.</h1><p id="errorText"></p></div>
@@ -52,7 +54,7 @@
     const evidenceFile=entry==='alldat-auto-safe-v1.json'?'alldat-action-evidence-v22.json':entry==='cvb-gemf-auto-safe-v1.json'?'cvb-action-evidence-v22.json':null;
     if(evidenceFile){
       try{
-        const url=new URL(evidenceFile,new URL(manifestUrl,location.href));url.searchParams.set('v','2.2');
+        const url=new URL(evidenceFile,new URL(manifestUrl,location.href));url.searchParams.set('v','2.3');
         const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw Error('Frozen action evidence could not load.');
         actionEvidence=PulseAction.validate(await r.json(),PulseTiming.createTiming(track).times,track.songLength);
       }catch(e){fail(e.message);return;}
@@ -63,17 +65,9 @@
     audio.preload = 'auto';
     audio.crossOrigin = 'anonymous';
 
-    const palette = track.palette || {};
-    const C = {
-      bg: hex(palette.skyTop, '#050714'),
-      panel: hex(palette.roadAlt, '#11162f'),
-      primary: hex(palette.primary, '#19e3ff'),
-      secondary: hex(palette.secondary, '#ff2fb0'),
-      gold: hex(palette.collectible, '#ffd147'),
-      danger: hex(palette.hazard, '#ff4d6d'),
-      white: 0xffffff,
-      muted: 0xa7b0d8
-    };
+    let visualIdentity;
+    try{visualIdentity=PulseVisual.resolve(track);}catch(e){fail(e.message);return;}
+    const C=Object.fromEntries(Object.entries(visualIdentity.palette).map(([k,v])=>[k,hex(v)]));
 
     const declaredLength = Number(track.songLength) || 0;
     const events = Array.isArray(track.events) ? track.events.slice().sort((a,b)=>(a.t||0)-(b.t||0)) : [];
@@ -107,7 +101,7 @@
         this.fx=this.add.graphics();
         this.targetLayer=this.add.container();
 
-        this.title=this.add.text(w/2,56,'PULSE TAP v2.2',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff',stroke:'#000000',strokeThickness:3}).setOrigin(.5);
+        this.title=this.add.text(w/2,56,'PULSE TAP v2.3',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff',stroke:'#000000',strokeThickness:3}).setOrigin(.5);
         this.song=this.add.text(w/2,92,`${track.artist} — ${track.title}`,{fontFamily:'Arial',fontSize:'16px',color:'#cbd4ff',align:'center',wordWrap:{width:w-48}}).setOrigin(.5);
         this.scoreText=this.add.text(20,20,'0',{fontFamily:'Arial',fontSize:'22px',fontStyle:'bold',color:'#ffffff'});
         this.comboText=this.add.text(w-20,22,'',{fontFamily:'Arial',fontSize:'18px',fontStyle:'bold',color:'#ffd147'}).setOrigin(1,0);
@@ -174,12 +168,13 @@
       spawnTarget(targetTime, accent=false, spawnAhead=.4, beatIndex=null, profile){
         if(!this.started||this.finished||!PulseEnding.canPlay(audio.currentTime,this.ending.playableEndTime)||!PulseEnding.targetFits(targetTime,profile.window,this.ending))return;
         const {x,y}=PulseDifficulty.position(this.selectedCount++,profile,this.scale.width,this.scale.height,this.lastPosition,this.insets);
+        const targetTravel=this.lastPosition?Math.hypot(x-this.lastPosition.x,y-this.lastPosition.y):0;
         this.lastPosition={x,y,targetTime};
         const color=accent?C.secondary:C.primary;
         const core=this.add.circle(x,y,profile.radius,color,.12).setStrokeStyle(3,color,.45);
         const ring=this.add.circle(x,y,profile.radius*1.75,color,.02).setStrokeStyle(3,color,.45);
         const dot=this.add.circle(x,y,7,C.white,.15);
-        const target={x,y,targetTime,musicalImpactTime:targetTime,presentationStartTime:targetTime-spawnAhead,presentationLead:spawnAhead,actualPresentationTime:audio.currentTime,spawnAhead,beatIndex,profile,core,ring,dot,color,hit:false,missed:false,impactPresented:false};
+        const target={x,y,targetTime,musicalImpactTime:targetTime,presentationStartTime:targetTime-spawnAhead,presentationLead:spawnAhead,actualPresentationTime:audio.currentTime,spawnAhead,beatIndex,profile,core,ring,dot,color,hit:false,missed:false,impactPresented:false,targetTravel};
         this.targets.push(target);
         this.spawnedCount++;this.maxTargets=Math.max(this.maxTargets,this.targets.length);
         this.targetLayer.add([core,ring,dot]);
@@ -201,7 +196,7 @@
         best.hit=true;
         const judgement=PulseImpact.judge(t,best.musicalImpactTime,best.profile.window);
         const base=judgement.timingScore,label=judgement.label,color=label==='PERFECT'?C.gold:label==='GREAT'?C.primary:C.secondary;
-        this.lastHit={actualHitTime:t,musicalImpactTime:best.musicalImpactTime,presentationStartTime:best.presentationStartTime,presentationLead:best.presentationLead,hitDelta:judgement.delta,timingScore:base,sourceIndex:best.beatIndex,stage:best.profile.name};
+        this.lastHit={actualHitTime:t,musicalImpactTime:best.musicalImpactTime,presentationStartTime:best.presentationStartTime,presentationLead:best.presentationLead,hitDelta:judgement.delta,timingScore:base,sourceIndex:best.beatIndex,stage:best.profile.name,maximumTimingReward:judgement.maximumTimingReward,maximumTolerance:judgement.maximumTolerance};
         this.hitHistory.push(this.lastHit);if(this.hitHistory.length>500)this.hitHistory.shift();
         this.combo++;
         this.bestCombo=Math.max(this.bestCombo,this.combo);
@@ -229,7 +224,7 @@
         const w=this.scale.width,h=this.scale.height, energy=this.energyAt(t);
         this.bg.clear();
         this.bg.fillStyle(C.bg,1).fillRect(0,0,w,h);
-        this.bg.lineStyle(1,this.sectionNumber%2?C.secondary:C.primary,.08+.12*energy);
+        this.bg.lineStyle(1,this.sectionNumber%2?C.secondary:C.primary,Math.min(1,(.08+.12*energy)*visualIdentity.backgroundIntensityScale));
         const gap=42;
         for(let x=0;x<w;x+=gap)this.bg.lineBetween(x,120,x,h);
         for(let y=120;y<h;y+=gap)this.bg.lineBetween(0,y,w,y);
@@ -240,7 +235,7 @@
         if(b<0 || b===this.lastPulseBeat) return;
         this.lastPulseBeat=b;
         const energy=this.energyAt(t); const color=C.primary;
-        const ring=this.add.circle(this.scale.width/2,this.scale.height/2,40,color,0).setStrokeStyle(3,color,.35+energy*.25);
+        const ring=this.add.circle(this.scale.width/2,this.scale.height/2,40,color,0).setStrokeStyle(3,color,Math.min(1,(.35+energy*.25)*visualIdentity.pulseIntensityScale));
         this.presentation.push(ring);
         this.tweens.add({targets:ring,scale:8,alpha:0,duration:Math.max(260,this.timing.intervalAt(b)*650),onComplete:()=>ring.destroy()});
       }
@@ -253,16 +248,16 @@
         if(nextTime===null)selection.selected=false;
         const target=this.targets.find(x=>!x.hit&&!x.missed)||null;
         const selected=target?this.actionPlan[target.beatIndex]:this.actionPlan.find(r=>r.selected&&r.musicalImpactTime>=t);
-        const inspect=selected?{...selected,audioTime:t,timeUntilImpact:selected.musicalImpactTime-t,actualPresentationTime:target?.actualPresentationTime??null,impactFrameTime:target?.impactFrameTime??null}:null;
+        const inspect=selected?{...selected,audioTime:t,timeUntilImpact:selected.musicalImpactTime-t,actualPresentationTime:target?.actualPresentationTime??null,targetTravel:target?.targetTravel??null,impactFrameTime:target?.impactFrameTime??null}:null;
         const intervals=this.frameIntervals;
-        return {activeOrNext:inspect,lastHit:this.lastHit,nearbyCandidates:this.actionPlan.filter(r=>Math.abs(r.musicalImpactTime-(selected?.musicalImpactTime??t))<=1.5),latencyDiagnostics:{clock:'HTMLMediaElement.currentTime',offsetApplied:0,outputLatency:null,displayLatency:null,physicalLatencyMeasured:false,userAgent:navigator.userAgent,frameIntervalMs:intervals.length?intervals.reduce((a,b)=>a+b,0)/intervals.length:null,maxFrameIntervalMs:intervals.length?Math.max(...intervals):null,playbackRate:audio.playbackRate,readyState:audio.readyState,seeking:audio.seeking,visibility:document.visibilityState},rawAudioDuration:this.ending.rawDuration,playableEndTime:this.ending.playableEndTime,remainingPlayableTime:Math.max(0,this.ending.playableEndTime-t),endingSource:this.ending.source,endingReason:this.ending.reason,progress:profile.progress,difficultyStage:profile.name,selectionDensity:selection.density,beatSelected:selection.selected,hitWindow:profile.window,targetRadius:profile.radius,hitRadius:profile.hitRadius,maxTravel:profile.travel,skippedSelection:this.skippedSelection,audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
+        return {visualIdentity,activeOrNext:inspect,lastHit:this.lastHit,nearbyCandidates:this.actionPlan.filter(r=>Math.abs(r.musicalImpactTime-(selected?.musicalImpactTime??t))<=1.5),latencyDiagnostics:{clock:'HTMLMediaElement.currentTime',offsetApplied:0,outputLatency:null,displayLatency:null,physicalLatencyMeasured:false,userAgent:navigator.userAgent,frameIntervalMs:intervals.length?intervals.reduce((a,b)=>a+b,0)/intervals.length:null,maxFrameIntervalMs:intervals.length?Math.max(...intervals):null,playbackRate:audio.playbackRate,readyState:audio.readyState,seeking:audio.seeking,visibility:document.visibilityState},rawAudioDuration:this.ending.rawDuration,playableEndTime:this.ending.playableEndTime,remainingPlayableTime:Math.max(0,this.ending.playableEndTime-t),endingSource:this.ending.source,endingReason:this.ending.reason,progress:profile.progress,difficultyStage:profile.name,selectionDensity:selection.density,beatSelected:selection.selected,hitWindow:profile.window,targetRadius:profile.radius,hitRadius:profile.hitRadius,maxTravel:profile.travel,skippedSelection:this.skippedSelection,audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
       }
 
       showDebug(){
         if(!this.debugText)return;
         const d=this.debugSnapshot(),f=v=>v===null?'—':v.toFixed(3);
         const a=d.activeOrNext;
-        this.debugText.setText(`v2.2 ${(d.progress*100).toFixed(1)}% ${d.difficultyStage}\nend ${f(d.playableEndTime)} audio ${f(d.audioTime)}\n${a?`prepare ${f(a.presentationStartTime)} lead ${f(a.presentationLead)}\nIMPACT ${f(a.musicalImpactTime)} in ${f(a.timeUntilImpact)}\n#${a.originalBeatIndex} salience ${f(a.actionSalience.total)}\n${a.selectionReason} low demand ${a.actionSalience.lowDemand}`:'no upcoming target'}\nhit ${d.lastHit?f(d.lastHit.actualHitTime):'--'} delta ${d.hitDelta===null?'--':(d.hitDelta*1000).toFixed(0)+'ms'}\ntiming points ${d.lastHit?d.lastHit.timingScore.toFixed(1):'--'}\nlatency unmeasured; offset 0\ninspect pulseTapDebug.candidates()/hits()`);
+        this.debugText.setText(`v2.3 ${(d.progress*100).toFixed(1)}% ${d.difficultyStage}\nend ${f(d.playableEndTime)} audio ${f(d.audioTime)}\n${a?`prepare ${f(a.presentationStartTime)} lead ${f(a.presentationLead)}\nIMPACT ${f(a.musicalImpactTime)} in ${f(a.timeUntilImpact)}\n#${a.originalBeatIndex} salience ${f(a.actionSalience.total)} rank ${a.localPreference.rank}\nlocal pref ${f(a.localActionPreference)} quota ${a.actionQuota}\nrun ${a.runPosition}/${a.consecutiveRunLength} travel ${a.targetTravel===null?'--':a.targetTravel.toFixed(0)}px\n${a.selectionReason} inversion ${!!a.localChoiceInversion}`:'no upcoming target'}\nhit ${d.lastHit?f(d.lastHit.actualHitTime):'--'} delta ${d.hitDelta===null?'--':(d.hitDelta*1000).toFixed(0)+'ms'}\ntiming points ${d.lastHit?d.lastHit.timingScore.toFixed(1):'--'}\nlatency unmeasured; offset 0\ninspect pulseTapDebug.candidates()/hits()`);
 
       }
 

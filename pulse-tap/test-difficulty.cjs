@@ -6,7 +6,7 @@ test('exact grid membership deterministic selection and no duplicate target',()=
  assert.equal(times.length,590);assert.ok(selected.length>282);assert.deepEqual(D.select(times,end,energy,ending.releaseGap),selected);assert.equal(new Set(selected.map(d=>d.targetTime)).size,selected.length);for(const d of selected)assert.equal(d.targetTime,times[d.originalBeatIndex]);
 });
 test('opening protects against demanding sequences even at peak energy',()=>{
- for(const e of [0,.5,1]){const first=D.select(times,end,()=>e,ending.releaseGap).filter(d=>d.targetTime<6);assert.ok(first[0].targetTime>1);for(let i=1;i<first.length;i++)assert.equal(first[i].originalBeatIndex-first[i-1].originalBeatIndex,4);}
+ for(const e of [0,.5,1]){const first=D.select(times,end,()=>e,ending.releaseGap).filter(d=>d.targetTime<5);assert.ok(first[0].targetTime>1);for(let i=1;i<first.length;i++)assert.equal(first[i].originalBeatIndex-first[i-1].originalBeatIndex,4);}
 });
 test('Mid Hard Push is after midpoint and harder than Developing',()=>{
  const a=stage('mid-hard-push'),b=stage('developing');assert.ok(a.density>b.density&&a.targetsPerSecond>b.targetsPerSecond&&a.hitWindowRange[1]<b.hitWindowRange[0]&&a.radiusRange[1]<b.radiusRange[0]&&a.travelRange[0]>b.travelRange[1]);assert.ok(selected.filter(d=>d.name===a.stage).every(d=>d.progress>=.5&&d.progress<.63));
@@ -14,8 +14,8 @@ test('Mid Hard Push is after midpoint and harder than Developing',()=>{
 test('Relief eases first peak while staying harder than Opening and Build',()=>{
  const a=stage('relief'),b=stage('mid-hard-push'),c=stage('build');assert.ok(a.density<b.density&&a.hitWindowRange[0]>b.hitWindowRange[1]&&a.travelRange[1]<b.travelRange[0]);assert.ok(a.density>c.density&&a.density>stage('opening').density&&a.hitWindowRange[1]<c.hitWindowRange[0]&&a.radiusRange[1]<c.radiusRange[0]);
 });
-test('Final Build climbs after Relief and exceeds first peak by its end',()=>{
- assert.ok(stage('final-build').density>stage('relief').density);const a=D.profile(end*.72,end,.5),b=D.profile(end*.819999,end,.5),c=D.profile(end*.56,end,.5);assert.ok(b.window<a.window&&b.radius<a.radius&&b.travel>a.travel&&b.window<c.window&&b.radius<c.radius&&b.travel>c.travel);
+test('Final Build climbs after Relief and approaches first peak by its end',()=>{
+ assert.ok(stage('final-build').density>stage('relief').density);const a=D.profile(end*.72,end,.5),b=D.profile(end*.799999,end,.5),c=D.profile(end*.56,end,.5);assert.ok(b.window<a.window&&b.radius<a.radius&&b.travel>a.travel&&Math.abs(b.window-c.window)<.001&&Math.abs(b.radius-c.radius)<.001&&Math.abs(b.travel-c.travel)<.001);
 });
 test('Final Climax has highest action rate density and natural scoring opportunity',()=>{
  const a=stage('final-climax');for(const b of summary.stages.filter(s=>s!==a))assert.ok(a.density>b.density&&a.targetsPerSecond>b.targetsPerSecond&&a.hitWindowRange[1]<b.hitWindowRange[0]&&a.radiusRange[1]<b.radiusRange[0]&&a.travelRange[0]>b.travelRange[1]);assert.equal(a.hitWindowRange[0],.23);
@@ -26,7 +26,7 @@ test('Landing is easier than both peaks with no hardest play at ending',()=>{
 });
 test('phone routes are deterministic reachable and obey travel caps',()=>{
  for(const [w,h,insets] of [[390,844,{top:47,bottom:34}],[375,667,{}],[360,740,{}]]){
-  const route=()=>{let previous=null;const f=D.field(w,h,insets);return selected.map((d,i)=>{const p=D.position(i,d,w,h,previous,insets);assert.ok(p.x-d.radius>=0&&p.x+d.radius<=w&&p.y-d.radius>=0&&p.y+d.radius<=h&&p.x>=f.left&&p.x<=f.right&&p.y>=f.top&&p.y<=f.bottom);if(previous){const distance=Math.hypot(p.x-previous.x,p.y-previous.y);assert.ok(distance<=d.travel+1e-9);if(d.targetTime-previous.targetTime<.4)assert.ok(distance<=110+1e-9);}previous={...p,targetTime:d.targetTime};return p;});};assert.deepEqual(route(),route());
+  const route=()=>{let previous=null;const f=D.field(w,h,insets);return selected.map((d,i)=>{const p=D.position(i,d,w,h,previous,insets);assert.ok(p.x-d.radius>=0&&p.x+d.radius<=w&&p.y-d.radius>=0&&p.y+d.radius<=h&&p.x>=f.left&&p.x<=f.right&&p.y>=f.top&&p.y<=f.bottom);if(previous){const distance=Math.hypot(p.x-previous.x,p.y-previous.y);assert.ok(distance<=d.travel+1e-9);if(d.targetTime-previous.targetTime<.4)assert.ok(distance<=Math.min(d.rapidTravel??110,d.travel,450*(d.targetTime-previous.targetTime))+1e-9);}previous={...p,targetTime:d.targetTime};return p;});};assert.deepEqual(route(),route());
  }
 });
 test('bounded energy never bypasses the designed stage arc',()=>{

@@ -36,7 +36,7 @@ fs.mkdirSync(out,{recursive:true});
   const replayButton=await page.evaluate(()=>({x:window.pulseTapDebug.scene.replayHit.x,y:window.pulseTapDebug.scene.replayHit.y}));
   await page.mouse.click(replayButton.x,replayButton.y);await page.waitForFunction(()=>!window.pulseTapDebug.scene.finished&&!window.pulseTapDebug.scene.started);
   const replay=await page.evaluate(()=>window.pulseTapDebug.snapshot());
-  const fullRuntime=await page.evaluate(()=>{
+  const fullRuntime=await page.evaluate(finishBonus=>{
     const {audio,scene}=window.pulseTapDebug;audio.pause();scene.sys.game.loop.stop();
     scene.targets.forEach(t=>scene.destroyTarget(t));scene.resetRun();scene.started=true;
     const getDelta=scene.tweens.getDelta;scene.tweens.getDelta=()=>1000/60;
@@ -65,9 +65,22 @@ fs.mkdirSync(out,{recursive:true});
       clock=Math.min(i/60,audio.duration);scene.update();scene.tweens.update(i*1000/60,1000/60);
       if(scene.finished&&firstFinishedTime===null)firstFinishedTime=clock;
     }
-    const result=scene.debugSnapshot();delete audio.currentTime;scene.tweens.getDelta=getDelta;scene.spawnTarget=spawn;
+    const result=scene.debugSnapshot();scene.spawnTarget=spawn;
+    scene.resetRun();scene.started=true;clock=0;let expectedMaximum=0,perfectCombo=0;
+    for(const row of scene.actionPlan.filter(r=>r.selected)){
+      clock=row.presentationStartTime;scene.update();clock=row.musicalImpactTime+.003;scene.update();
+      const target=scene.targets.find(t=>t.beatIndex===row.originalBeatIndex&&!t.hit&&!t.missed);
+      if(!target)throw Error('Maximum-run target missing: '+row.originalBeatIndex);
+      scene.tryHit(target.x,target.y);perfectCombo++;expectedMaximum+=Math.round(120*Math.min(3,1+Math.floor(perfectCombo/10)*.25));
+      if(scene.combo!==perfectCombo||scene.lastHit.timingScore!==120)throw Error('Maximum run cannot preserve perfectCombo');
+      scene.tweens.update(clock*1000,1000);scene.targets=scene.targets.filter(t=>t.core.active);
+    }
+    clock=scene.ending.playableEndTime;scene.update();expectedMaximum+=Math.round(finishBonus*Math.min(1.5,1+perfectCombo/100));
+    const maximumRun={hits:perfectCombo,score:scene.score,expectedScore:expectedMaximum,bestCombo:scene.bestCombo,finished:scene.finished,toleranceSeconds:.005,testHitErrorSeconds:.003};
+    if(maximumRun.score!==expectedMaximum||maximumRun.bestCombo!==perfectCombo||!maximumRun.finished)throw Error(JSON.stringify(maximumRun));
+    result.maximumRun=maximumRun;delete audio.currentTime;scene.tweens.getDelta=getDelta;scene.spawnTarget=spawn;
     return {...result,impactProbe,boundaryProbe,firstFinishedTime,lastSpawnAudioTime,selectedTimes,sourceIndices};
-  });
+  },Number(manifest.finishBonus)||500);
   if(fullRuntime.spawnedTargets!==expected||!fullRuntime.finished||fullRuntime.maxTargets>8||fullRuntime.activeTargets!==0)throw Error(JSON.stringify(fullRuntime));
   if(JSON.stringify(fullRuntime.selectedTimes)!==JSON.stringify(plan.map(d=>d.targetTime))||JSON.stringify(fullRuntime.sourceIndices)!==JSON.stringify(plan.map(d=>d.originalBeatIndex)))throw Error('Runtime selected grid differs from exact plan');
   if(fullRuntime.firstFinishedTime<ending.playableEndTime||fullRuntime.firstFinishedTime-ending.playableEndTime>1/60+.00001||fullRuntime.lastSpawnAudioTime>=ending.playableEndTime)throw Error('Ending boundary violated');
@@ -98,5 +111,5 @@ fs.mkdirSync(out,{recursive:true});
   await phone.screenshot({path:path.join(out,`mobile-${viewport.width}.png`)});phones.push({viewport,hit,pause,errors});await phone.close();
  }
  await browser.close();fs.writeFileSync(path.join(out,'browser-results.json'),JSON.stringify({results,normal,defaultAudio,phones,method:'Real MP3 playback, pause/resume, playable-end completion after seek, ordinary post-ending taps unchanged, explicit replay, two portrait touch emulations, default ALLDAT. Full 60fps Phaser timelines with exact selected times and source indices, cutoff cleanup/input probes and test-only clock. Not a new physical Safari/Android test or a musical-placement judgment.'},null,2));
- console.log(JSON.stringify({pass:5,fail:0,results:results.map(r=>({name:r.name,playableEnd:r.ending.playableEndTime,source:r.ending.source,selected:r.fullRuntime.spawnedTargets,lastTarget:r.fullRuntime.selectedTimes.at(-1),maxLive:r.fullRuntime.maxTargets,finishedAt:r.fullRuntime.firstFinishedTime,boundaryProbe:r.fullRuntime.boundaryProbe,postEndingTapUnchanged:r.postEndingTapUnchanged,errors:r.errors})),normal,defaultAudio,phones}));
+ console.log(JSON.stringify({pass:5,fail:0,results:results.map(r=>({name:r.name,playableEnd:r.ending.playableEndTime,source:r.ending.source,selected:r.fullRuntime.spawnedTargets,lastTarget:r.fullRuntime.selectedTimes.at(-1),maxLive:r.fullRuntime.maxTargets,finishedAt:r.fullRuntime.firstFinishedTime,boundaryProbe:r.fullRuntime.boundaryProbe,maximumRun:r.fullRuntime.maximumRun,postEndingTapUnchanged:r.postEndingTapUnchanged,errors:r.errors})),normal,defaultAudio,phones}));
 })().catch(e=>{console.error(e);process.exit(1)});
