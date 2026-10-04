@@ -1,0 +1,123 @@
+{
+  "schema": "pulse-tap-v22-prepublication-receipt",
+  "baseHead": "1229ce87e82af6a6bc53b2a4bc29ad0e316b5756",
+  "tutorialSeconds": 6,
+  "landingSelectionsPreserved": true,
+  "endingModuleUnchanged": true,
+  "timingModuleUnchanged": true,
+  "sourceManifestsUnchanged": true,
+  "providerCalls": 0,
+  "spendUSD": 0,
+  "analyzerInvoked": false,
+  "compilerInvoked": false,
+  "semanticV9Changed": false,
+  "stage1LabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "deterministicTests": {
+    "pass": 72,
+    "fail": 0
+  },
+  "localBrowser": {
+    "passGroups": 5,
+    "failGroups": 0,
+    "method": "Real MP3 playback, pause/resume, playable-end completion after seek, ordinary post-ending taps unchanged, explicit replay, two portrait touch emulations, default ALLDAT. Full 60fps Phaser timelines with exact selected times and source indices, cutoff cleanup/input probes and test-only clock. Not a new physical Safari/Android test or a musical-placement judgment.",
+    "fullResultSha256": "54f87a76930e6cb1b3afb8f806cff8228d32754e09fcedcd43c8fb78e98bab3e",
+    "tracks": [
+      {
+        "playableEndTime": 309.420408,
+        "spawnedTargets": 389,
+        "maxTargets": 4,
+        "firstFinishedTime": 309.420408,
+        "boundaryProbe": {
+          "activeBefore": 1,
+          "cleared": true,
+          "preFrameInputBlocked": true,
+          "postEndingInputBlocked": true
+        },
+        "impactProbe": {
+          "geometry": 1,
+          "impactTime": 1.789,
+          "appearanceTime": 0.969,
+          "actualFrame": 1.789,
+          "hit": {
+            "actualHitTime": 1.789,
+            "musicalImpactTime": 1.789,
+            "presentationStartTime": 0.969,
+            "presentationLead": 0.82,
+            "hitDelta": 0,
+            "timingScore": 120,
+            "sourceIndex": 4,
+            "stage": "opening"
+          },
+          "score": 120
+        }
+      },
+      {
+        "playableEndTime": 190.357,
+        "spawnedTargets": 283,
+        "maxTargets": 4,
+        "firstFinishedTime": 190.36666666666667,
+        "boundaryProbe": {
+          "activeBefore": 1,
+          "cleared": true,
+          "preFrameInputBlocked": true,
+          "postEndingInputBlocked": true
+        },
+        "impactProbe": {
+          "geometry": 1,
+          "impactTime": 1.549,
+          "appearanceTime": 0.729,
+          "actualFrame": 1.549,
+          "hit": {
+            "actualHitTime": 1.549,
+            "musicalImpactTime": 1.549,
+            "presentationStartTime": 0.729,
+            "presentationLead": 0.82,
+            "hitDelta": 0,
+            "timingScore": 120,
+            "sourceIndex": 4,
+            "stage": "opening"
+          },
+          "score": 120
+        }
+      }
+    ],
+    "phones": [
+      {
+        "viewport": {
+          "width": 375,
+          "height": 667
+        },
+        "hit": {
+          "score": 120,
+          "delta": 0.0033810000000000784,
+          "paused": false
+        },
+        "pause": {
+          "x": 331,
+          "y": 609,
+          "size": 56
+        },
+        "errors": []
+      },
+      {
+        "viewport": {
+          "width": 360,
+          "height": 740
+        },
+        "hit": {
+          "score": 120,
+          "delta": -0.0004830000000000112,
+          "paused": false
+        },
+        "pause": {
+          "x": 316,
+          "y": 682,
+          "size": 56
+        },
+        "errors": []
+      }
+    ]
+  },
+  "next": "Publish unchanged audited static assets on existing Pages path, verify hosted, freeze publication receipt; then stop."
+}

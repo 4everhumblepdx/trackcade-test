@@ -1,0 +1,21 @@
+from pathlib import Path
+import json,hashlib,subprocess
+import argparse
+ap=argparse.ArgumentParser(description='Derive allowlisted gameplay evidence from already frozen objective artifacts; no analysis or network.')
+ap.add_argument('--frozen-source-dir',type=Path,required=True)
+args=ap.parse_args();p=Path(__file__).resolve().parent;src=args.frozen_source_dir
+for artifact,digest in [('10918484114','6d494c7c3ac9e7d0096833c67f13c102a67b104b8e8eb7c99fd1b5f5906e0682'),('10919375182','3d4364ab01ee51b4b244f0033aeb5ca598393164e805c6149d4f25c37d9805fc')]:
+ assert hashlib.sha256((src/(artifact+'.zip')).read_bytes()).hexdigest()==digest
+inventory={'schema':'pulse-tap-v22-frozen-evidence-inventory','rawArtifact':{'run':36280612767,'id':10918484114,'sha256':'6d494c7c3ac9e7d0096833c67f13c102a67b104b8e8eb7c99fd1b5f5906e0682'},'structureArtifact':{'run':36281298997,'id':10919375182,'sha256':'3d4364ab01ee51b4b244f0033aeb5ca598393164e805c6149d4f25c37d9805fc'},'tracks':{}}
+for stem,rawname,evname,sha in [('alldat','alldat-v019.json','alldat-structure-evidence-v1.json','a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405'),('cvb','cvb-gemf-v019.json','cvb-gemf-structure-evidence-v1.json','35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c')]:
+ b=(src/rawname).read_bytes();assert hashlib.sha256(b).hexdigest()==sha
+ a=json.loads(b);ev=json.loads((src/evname).read_bytes());m=json.loads((p/(stem+'-analyzer-test.json')).read_bytes())
+ beats=[x['t'] for x in m['events'] if x['kind']=='beat'];assert beats==a['beatTimes'];assert ev['source']['analysisJsonSha256']==sha
+ assert m['energyCurve']==[x['energy'] for x in a['energyCurve']]
+ def only(row,keys):return {k:row[k] for k in keys if k in row}
+ out={'schema':'pulse-tap-frozen-action-evidence-v22','provenance':{**inventory['rawArtifact'],'analysisJsonSha256':sha,'rawEntry':'analysis/'+rawname,'structureEvidenceSha256':hashlib.sha256((src/evname).read_bytes()).hexdigest(),'timestampsChanged':False},'duration':a['duration'],'beatTimes':beats,'beatEvidence':[only(x,['time','strength','confidence','salience','interactionScore','attackTime','attackOffsetMs','strictTimingCandidate','recommendedHalfWindowMs']) for x in a['beatGrid']],'onsets':[only(x,['time','strength','confidence','interactionScore','strictTimingCandidate','recommendedHalfWindowMs']) for x in a['onsetEvents']],'landmarks':[only(x,['index','time','intensity']) for x in ev['landmarks']],'boundaries':[only(x,['time','incomingSectionConfidence','energyDelta']) for x in ev['boundaries']],'lowDemandWindows':ev['lowDemandWindows'],'timingTrust':ev['timingTrust'],'structureTrust':ev['structureTrust'],'vocalEvidence':None,'microEventPolicy':'Loose timing: onset evidence ranks existing beats; no additional legal timestamps.'}
+ assert len(out['beatEvidence'])==len(beats) and all(x['time']==t for x,t in zip(out['beatEvidence'],beats))
+ (p/(stem+'-action-evidence-v22.json')).write_bytes((json.dumps(out,separators=(',',':'))+'\n').encode())
+ inventory['tracks'][stem]={'analysisJsonSha256':sha,'rawTopLevelFields':list(a),'nestedFieldInventory':{k:sorted({key for row in a[k] for key in row}) for k in ['beatGrid','onsetEvents','interactionCandidates','events','sections']},'counts':{k:len(a[k]) for k in ['beatTimes','beatGrid','onsetEvents','interactionCandidates','energyCurve','sections','events','lowDemandWindows','tempoMap','tempoCurve','meterMap']},'timingTrust':ev['timingTrust'],'structureTrust':ev['structureTrust'],'vocalCapability':'generic onset/transient evidence may capture vocals but cannot reliably identify them','vocalSpecificEvidence':False,'onsetsStrict':sum(x['strictTimingCandidate'] for x in a['onsetEvents']),'legalMicroEventsAdded':0,'directSpectralNoveltySeries':False,'instrumentOrStemClassification':False,'noteOrVocalPhraseBoundaries':False,'beatAttackEvidence':True,'rhythmicEvidence':'per-beat strength/confidence/salience, meter summary, pulse/tactus candidates; meterMap may be empty under loose timing','sourceManifestSha256':hashlib.sha256((p/(stem+'-analyzer-test.json')).read_bytes()).hexdigest()}
+(p/'PULSE_TAP_V22_EVIDENCE_INVENTORY.json').write_bytes((json.dumps(inventory,indent=2)+'\n').encode())
+print(json.dumps({k:v['counts'] for k,v in inventory['tracks'].items()}))

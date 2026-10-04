@@ -1,0 +1,260 @@
+{
+  "schema": "pulse-tap-v22-frozen-evidence-inventory",
+  "rawArtifact": {
+    "run": 36280612767,
+    "id": 10918484114,
+    "sha256": "6d494c7c3ac9e7d0096833c67f13c102a67b104b8e8eb7c99fd1b5f5906e0682"
+  },
+  "structureArtifact": {
+    "run": 36281298997,
+    "id": 10919375182,
+    "sha256": "3d4364ab01ee51b4b244f0033aeb5ca598393164e805c6149d4f25c37d9805fc"
+  },
+  "tracks": {
+    "alldat": {
+      "analysisJsonSha256": "a95621998fcd296bd382c553f43853cc71aa98f019914cb2b9f90cdcb7c0d405",
+      "rawTopLevelFields": [
+        "duration",
+        "bpm",
+        "beatOffset",
+        "tempoMap",
+        "tempoCurve",
+        "pulseCandidates",
+        "tactusCandidates",
+        "beatTimes",
+        "beatGrid",
+        "meter",
+        "meterMap",
+        "timingConfidence",
+        "timingInput",
+        "timingGuardrail",
+        "timingDiagnostics",
+        "energy",
+        "energyCurve",
+        "sections",
+        "structureConfidence",
+        "structureDiagnostics",
+        "lowDemandWindows",
+        "onsetEvents",
+        "interactionCandidates",
+        "events",
+        "assumptions",
+        "sourceFingerprint"
+      ],
+      "nestedFieldInventory": {
+        "beatGrid": [
+          "attackOffsetMs",
+          "attackTime",
+          "confidence",
+          "interactionScore",
+          "recommendedHalfWindowMs",
+          "role",
+          "salience",
+          "strength",
+          "strictTimingCandidate",
+          "time"
+        ],
+        "onsetEvents": [
+          "beatRelation",
+          "confidence",
+          "interactionScore",
+          "nearestBeatMs",
+          "recommendedHalfWindowMs",
+          "strength",
+          "strictTimingCandidate",
+          "time"
+        ],
+        "interactionCandidates": [
+          "confidence",
+          "priority",
+          "recommendedHalfWindowMs",
+          "salience",
+          "source",
+          "strictTimingCandidate",
+          "time"
+        ],
+        "events": [
+          "intensity",
+          "time",
+          "type"
+        ],
+        "sections": [
+          "activity",
+          "confidence",
+          "end",
+          "energy",
+          "label",
+          "start"
+        ]
+      },
+      "counts": {
+        "beatTimes": 590,
+        "beatGrid": 590,
+        "onsetEvents": 1141,
+        "interactionCandidates": 312,
+        "energyCurve": 240,
+        "sections": 14,
+        "events": 24,
+        "lowDemandWindows": 2,
+        "tempoMap": 1,
+        "tempoCurve": 148,
+        "meterMap": 0
+      },
+      "timingTrust": {
+        "timingConfidence": 0.5383,
+        "tier": "loose",
+        "strictScoringAllowed": false,
+        "recommendedGlobalHalfWindowMs": 117,
+        "reasons": [
+          "overall-timing-confidence-below-strict-threshold",
+          "native-detectors-disagree",
+          "beat-snap-dispersion-too-wide-for-strict-scoring",
+          "pulse-family-ambiguity-too-high-for-strict",
+          "whole-track-phase-coherence-below-strict-threshold",
+          "metrical-grid-coherence-below-strict-threshold",
+          "metrical-hierarchy-ambiguity-too-high-for-standard"
+        ]
+      },
+      "structureTrust": {
+        "structureConfidence": 0.6664,
+        "structureDiagnostics": {
+          "boundaryCount": 13,
+          "recurrenceEvidence": 0.1829,
+          "medianBoundaryConfidence": 0.6154
+        }
+      },
+      "vocalCapability": "generic onset/transient evidence may capture vocals but cannot reliably identify them",
+      "vocalSpecificEvidence": false,
+      "onsetsStrict": 0,
+      "legalMicroEventsAdded": 0,
+      "directSpectralNoveltySeries": false,
+      "instrumentOrStemClassification": false,
+      "noteOrVocalPhraseBoundaries": false,
+      "beatAttackEvidence": true,
+      "rhythmicEvidence": "per-beat strength/confidence/salience, meter summary, pulse/tactus candidates; meterMap may be empty under loose timing",
+      "sourceManifestSha256": "e2e5196789f460c8facc6171f1efa19ac8b48e12d089e163415de8a0f45dc012"
+    },
+    "cvb": {
+      "analysisJsonSha256": "35947abc72e8efdeb238db06b2159073af6d5878c899ddcf26759a9d2fa6b00c",
+      "rawTopLevelFields": [
+        "duration",
+        "bpm",
+        "beatOffset",
+        "tempoMap",
+        "tempoCurve",
+        "pulseCandidates",
+        "tactusCandidates",
+        "beatTimes",
+        "beatGrid",
+        "meter",
+        "meterMap",
+        "timingConfidence",
+        "timingInput",
+        "timingGuardrail",
+        "timingDiagnostics",
+        "energy",
+        "energyCurve",
+        "sections",
+        "structureConfidence",
+        "structureDiagnostics",
+        "lowDemandWindows",
+        "onsetEvents",
+        "interactionCandidates",
+        "events",
+        "assumptions",
+        "sourceFingerprint"
+      ],
+      "nestedFieldInventory": {
+        "beatGrid": [
+          "attackOffsetMs",
+          "attackTime",
+          "confidence",
+          "interactionScore",
+          "recommendedHalfWindowMs",
+          "role",
+          "salience",
+          "strength",
+          "strictTimingCandidate",
+          "time"
+        ],
+        "onsetEvents": [
+          "beatRelation",
+          "confidence",
+          "interactionScore",
+          "nearestBeatMs",
+          "recommendedHalfWindowMs",
+          "strength",
+          "strictTimingCandidate",
+          "time"
+        ],
+        "interactionCandidates": [
+          "confidence",
+          "priority",
+          "recommendedHalfWindowMs",
+          "salience",
+          "source",
+          "strictTimingCandidate",
+          "time"
+        ],
+        "events": [
+          "intensity",
+          "time",
+          "type"
+        ],
+        "sections": [
+          "activity",
+          "confidence",
+          "end",
+          "energy",
+          "label",
+          "start"
+        ]
+      },
+      "counts": {
+        "beatTimes": 812,
+        "beatGrid": 812,
+        "onsetEvents": 2447,
+        "interactionCandidates": 589,
+        "energyCurve": 240,
+        "sections": 8,
+        "events": 26,
+        "lowDemandWindows": 2,
+        "tempoMap": 5,
+        "tempoCurve": 204,
+        "meterMap": 0
+      },
+      "timingTrust": {
+        "timingConfidence": 0.6417,
+        "tier": "loose",
+        "strictScoringAllowed": false,
+        "recommendedGlobalHalfWindowMs": 122,
+        "reasons": [
+          "overall-timing-confidence-below-strict-threshold",
+          "native-detectors-disagree",
+          "beat-snap-dispersion-too-wide-for-strict-scoring",
+          "pulse-family-ambiguity-too-high-for-strict",
+          "whole-track-phase-coherence-below-strict-threshold",
+          "metrical-hierarchy-ambiguity-too-high-for-standard"
+        ]
+      },
+      "structureTrust": {
+        "structureConfidence": 0.8323,
+        "structureDiagnostics": {
+          "boundaryCount": 7,
+          "recurrenceEvidence": 0.2608,
+          "medianBoundaryConfidence": 0.8583
+        }
+      },
+      "vocalCapability": "generic onset/transient evidence may capture vocals but cannot reliably identify them",
+      "vocalSpecificEvidence": false,
+      "onsetsStrict": 0,
+      "legalMicroEventsAdded": 0,
+      "directSpectralNoveltySeries": false,
+      "instrumentOrStemClassification": false,
+      "noteOrVocalPhraseBoundaries": false,
+      "beatAttackEvidence": true,
+      "rhythmicEvidence": "per-beat strength/confidence/salience, meter summary, pulse/tactus candidates; meterMap may be empty under loose timing",
+      "sourceManifestSha256": "d9f0dd836e6d7d45913410493f3c9f4af54e192832ede9ee410ee6a31fde6365"
+    }
+  }
+}
