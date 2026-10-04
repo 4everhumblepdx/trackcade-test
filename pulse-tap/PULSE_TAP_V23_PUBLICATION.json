@@ -1,0 +1,233 @@
+{
+  "schema": "pulse-tap-v23-publication-receipt",
+  "state": "Published and verified; STOP. Physical v2.3 phone playtest remains pending. No automatic Analyzer, micro-event, visual-generation or engine experiment.",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "baseHead": "ff5e658dd5ee18ab8405cbc403d447d09ba65cd9",
+  "auditedRuntimeCommit": "a4e88bdcfa81f60677cc92ea793ed2d7978e0ffc",
+  "auditedRuntimeTree": "198c1c5997aa2537ab7be41a3befc30c9c0e33f3",
+  "pagesBranch": "main",
+  "pagesCommit": "1da66279704f85bdf7117250f35350fdf828793a",
+  "pagesTree": "07400e9418bd5ca044b3ed041929a7658b06cd16",
+  "pagesWorkflow": {
+    "id": 37211741352,
+    "name": "pages build and deployment",
+    "conclusion": "success",
+    "url": "https://github.com/4everhumblepdx/trackcade-test/actions/runs/37211741352"
+  },
+  "tests": {
+    "deterministic": {
+      "pass": 115,
+      "fail": 0,
+      "v23SpecificTests": 43
+    },
+    "localBrowserGroups": {
+      "pass": 5,
+      "fail": 0
+    },
+    "hostedBrowserGroups": {
+      "pass": 5,
+      "fail": 0
+    },
+    "versionedPublicMobileAndFallbackGroups": {
+      "pass": 5,
+      "fail": 0
+    },
+    "publishedAssetChecks": {
+      "pass": 13,
+      "fail": 0,
+      "canonicalIndexMatches": true
+    }
+  },
+  "hostedTracks": [
+    {
+      "name": "cvb",
+      "targets": 402,
+      "playableEndTime": 309.420408,
+      "finishedAt": 309.420408,
+      "lastTarget": 306.629,
+      "maxLive": 4,
+      "maximumRun": {
+        "hits": 402,
+        "score": 135285,
+        "expectedScore": 135285,
+        "bestCombo": 402,
+        "finished": true,
+        "toleranceSeconds": 0.005,
+        "testHitErrorSeconds": 0.003
+      },
+      "impactProbe": {
+        "geometry": 1,
+        "impactTime": 1.789,
+        "appearanceTime": 0.969,
+        "actualFrame": 1.789,
+        "hit": {
+          "actualHitTime": 1.789,
+          "musicalImpactTime": 1.789,
+          "presentationStartTime": 0.969,
+          "presentationLead": 0.82,
+          "hitDelta": 0,
+          "timingScore": 120,
+          "sourceIndex": 4,
+          "stage": "opening",
+          "maximumTimingReward": true,
+          "maximumTolerance": 0.005
+        },
+        "score": 120
+      },
+      "boundaryProbe": {
+        "activeBefore": 1,
+        "cleared": true,
+        "preFrameInputBlocked": true,
+        "postEndingInputBlocked": true
+      },
+      "exactSourceIndicesAndTimesMatchLocal": true,
+      "postEndingTapUnchanged": true,
+      "browserErrors": []
+    },
+    {
+      "name": "alldat",
+      "targets": 289,
+      "playableEndTime": 190.357,
+      "finishedAt": 190.36666666666667,
+      "lastTarget": 188.855,
+      "maxLive": 4,
+      "maximumRun": {
+        "hits": 289,
+        "score": 94230,
+        "expectedScore": 94230,
+        "bestCombo": 289,
+        "finished": true,
+        "toleranceSeconds": 0.005,
+        "testHitErrorSeconds": 0.003
+      },
+      "impactProbe": {
+        "geometry": 1,
+        "impactTime": 1.549,
+        "appearanceTime": 0.729,
+        "actualFrame": 1.549,
+        "hit": {
+          "actualHitTime": 1.549,
+          "musicalImpactTime": 1.549,
+          "presentationStartTime": 0.729,
+          "presentationLead": 0.82,
+          "hitDelta": 0,
+          "timingScore": 120,
+          "sourceIndex": 4,
+          "stage": "opening",
+          "maximumTimingReward": true,
+          "maximumTolerance": 0.005
+        },
+        "score": 120
+      },
+      "boundaryProbe": {
+        "activeBefore": 1,
+        "cleared": true,
+        "preFrameInputBlocked": true,
+        "postEndingInputBlocked": true
+      },
+      "exactSourceIndicesAndTimesMatchLocal": true,
+      "postEndingTapUnchanged": true,
+      "browserErrors": []
+    }
+  ],
+  "urls": [
+    "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.3",
+    "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.3&debug=1",
+    "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.3&track=./cvb-analyzer-test.json",
+    "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.3&track=./cvb-analyzer-test.json&debug=1"
+  ],
+  "hostedVsLocalDiscrepancy": "None in source indices/times, counts, endings, impact and maximum score. Real playback/frame/touch timings vary by environment. Chrome mobile emulation does not prove physical latency, subjective musical placement or human difficulty.",
+  "sourceFilesChanged": [
+    "pulse-tap/PULSE_TAP_V23_COMPARISON.json",
+    "pulse-tap/PULSE_TAP_V23_METRICS.md",
+    "pulse-tap/PULSE_TAP_V23_PLAYTEST.md",
+    "pulse-tap/PULSE_TAP_V23_RECEIPT.json",
+    "pulse-tap/action.js",
+    "pulse-tap/choice.js",
+    "pulse-tap/compare-v23.cjs",
+    "pulse-tap/difficulty.js",
+    "pulse-tap/impact.js",
+    "pulse-tap/index.html",
+    "pulse-tap/test-baseline-v22-action.cjs",
+    "pulse-tap/test-baseline-v22-difficulty.cjs",
+    "pulse-tap/test-baseline-v22-impact.cjs",
+    "pulse-tap/test-browser.cjs",
+    "pulse-tap/test-difficulty.cjs",
+    "pulse-tap/test-v22.cjs",
+    "pulse-tap/test-v23.cjs",
+    "pulse-tap/visual.js"
+  ],
+  "publicationReceiptFile": "pulse-tap/PULSE_TAP_V23_PUBLICATION.json",
+  "pagesFilesChanged": [
+    "pulse-tap/v2/DEPLOYMENT.json",
+    "pulse-tap/v2/action.js",
+    "pulse-tap/v2/choice.js",
+    "pulse-tap/v2/difficulty.js",
+    "pulse-tap/v2/impact.js",
+    "pulse-tap/v2/index.html",
+    "pulse-tap/v2/visual.js"
+  ],
+  "triggerAudit": {
+    "changed": [
+      "pulse-tap/PULSE_TAP_V23_COMPARISON.json",
+      "pulse-tap/PULSE_TAP_V23_METRICS.md",
+      "pulse-tap/PULSE_TAP_V23_PLAYTEST.md",
+      "pulse-tap/PULSE_TAP_V23_RECEIPT.json",
+      "pulse-tap/action.js",
+      "pulse-tap/choice.js",
+      "pulse-tap/compare-v23.cjs",
+      "pulse-tap/difficulty.js",
+      "pulse-tap/impact.js",
+      "pulse-tap/index.html",
+      "pulse-tap/test-baseline-v22-action.cjs",
+      "pulse-tap/test-baseline-v22-difficulty.cjs",
+      "pulse-tap/test-baseline-v22-impact.cjs",
+      "pulse-tap/test-browser.cjs",
+      "pulse-tap/test-difficulty.cjs",
+      "pulse-tap/test-v22.cjs",
+      "pulse-tap/test-v23.cjs",
+      "pulse-tap/visual.js"
+    ],
+    "workflowMatches": [],
+    "nonJsonTriggersParsed": 121,
+    "totalWorkflowsChecked": 131
+  },
+  "mainWorkflowAudit": "All three existing registration/refusal workflows remain manual-only; no provider workflow or activation changes. Pages publication only.",
+  "musicalInputSha256": {
+    "timing.js": "82c08214f4dee84e112fe73ebe48317669a19f282194e34b753b1aab01a29e57",
+    "ending.js": "e1ba5ff11b841dc7aa6f99eaf8b469f07caa7bbf56a13133b9b820103337f355",
+    "alldat-analyzer-test.json": "e2e5196789f460c8facc6171f1efa19ac8b48e12d089e163415de8a0f45dc012",
+    "cvb-analyzer-test.json": "d9f0dd836e6d7d45913410493f3c9f4af54e192832ede9ee410ee6a31fde6365",
+    "alldat-action-evidence-v22.json": "9249ec5cfe66f33383501b8d03089463daee4480e4b3c4abb39281ba1d5ebcc3",
+    "cvb-action-evidence-v22.json": "0797d4722b5c3b079701add88788ba671aabe8ea05200b0e3df3d931c0b5436b"
+  },
+  "tutorialSeconds": 5,
+  "landingExactSelectionsAndSettingsPreserved": true,
+  "landingRouteCaveat": "Earlier serial count and entry position can change exact coordinates; Landing travel cap/settings preserved.",
+  "maximumChallenge": "Final Climax exceeds Mid on both tracks in rate, density, longest runs, sustained-run actions/sec, mean travel and total scoring. Run-start frequency decreases with longer runs; CVB recovery duration in seconds is slightly longer due frozen grid variation. Physical feel unverified.",
+  "precisionMaximumToleranceSeconds": 0.005,
+  "musicalImpactContractPreserved": true,
+  "vocalCapability": "Generic onsets eligible; vocal identity absent/unknown.",
+  "trustedOffbeatTiming": "Absent; zero promoted offbeat positions.",
+  "visualArchitecture": "Partially supported: artist palette and restrained intensity rendered, art/theme/treatments metadata preserved; alternate renderers/shared asset separation remain later work. Current test appearance preserved.",
+  "remainingLimitation": "D provisional: on-beat local-choice ambiguity plus missing trusted micro-event vocabulary.",
+  "sourceTimestampsChanged": false,
+  "providerCalls": 0,
+  "spendUSD": 0,
+  "analyzerInvoked": false,
+  "analyzerModified": false,
+  "compilerInvoked": false,
+  "semanticV9Changed": false,
+  "stage1LabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "genreInferenceAdded": false,
+  "historicalExperimentalRecordsChanged": false,
+  "artifactHashes": {
+    "pulse-v23-unit-tests.txt": "702c693b29993ce315d0e5f7238a4103c267103fe6b39aeee3b0849226ab29e1",
+    "pulse-v23-local/browser-results.json": "9b825847dc70246c99ce69fc880c2079467194e92883fe8fd9a672d464e94664",
+    "pulse-v23-https/browser-results.json": "ac6ffbbeae42704637f3943476f54adf7b736beff4652fe0873c404f5d57a846",
+    "pulse-v23-versioned-phone-result.json": "42cf4deda7ecf25a9c85aeebf31cc9b34fdfcaa7b2edf695e80cf6ce7bb95ae9",
+    "pulse-v23-public-assets.json": "76299e2f48c1470f8c14ce9d9b14e97940e605ba981a0271af44b99f4b68bf30",
+    "pulse-v23-trigger-audit.json": "98b5cd594c9fa74fab622335e84bbe332e71407ebbee5631bf22ba67e00406b1"
+  }
+}
