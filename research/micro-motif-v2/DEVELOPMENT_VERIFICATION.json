@@ -1,0 +1,21 @@
+{
+  "methodTestsPassed": 41,
+  "methodTestsFailed": 0,
+  "fullSyntheticSearchAndNullDistributionsByteRepeatable": true,
+  "developmentDecodeMatchesV1PcmHashes": true,
+  "developmentInputHashes": [
+    {
+      "id": "alldat",
+      "inputAudioSha256": "d8f73630ba1acf3db816ac0e1674588c3002df9d2436f5417b270ac434a57c7a",
+      "decodedPcmSha256": "2735def511c8da418edec9ef7b29e324cd9aa85014657a46a090b9ea8cef68d7"
+    },
+    {
+      "id": "cvb",
+      "inputAudioSha256": "fbdc3cb2d30abc3403626f5b808bbafc44b0fd834f64524bca2fb646817b13bb",
+      "decodedPcmSha256": "7c7ce88ff17759057c57470d25b4d48dd8240b911130e02cb3b456dd12f7a6b8"
+    }
+  ],
+  "externalAudioBytesRead": false,
+  "providerCalls": 0,
+  "spendUSD": 0
+}

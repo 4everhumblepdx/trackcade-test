@@ -1,0 +1,100 @@
+{
+  "version": "trackcade-micro-motif-v2.0-frozen",
+  "sampleRate": 22050,
+  "hopSamples": 128,
+  "fftSizes": [
+    1024,
+    2048
+  ],
+  "noveltyLocalSeconds": 0.4,
+  "minimumEventSeparationSeconds": 0.08,
+  "peakThresholdMad": 2.5,
+  "minimumNormalizedStrength": 0.1,
+  "timingAgreementSeconds": 0.015,
+  "maximumTimingUncertaintySeconds": 0.02,
+  "minimumTimingConfidence": 0.75,
+  "nearBeatSeconds": 0.02,
+  "patternEventLengths": [
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "patternDurationSeconds": [
+    0.16,
+    3.0
+  ],
+  "minimumOccurrenceSeparationSeconds": 1.0,
+  "minimumRecurrences": 4,
+  "rhythmRelativeTolerance": 0.13,
+  "strengthContourTolerance": 0.22,
+  "acousticCosineMinimum": 0.86,
+  "chromaCosineMinimum": 0.82,
+  "minimumDistinctiveness": 0.16,
+  "maximumFamilies": 12,
+  "minimumProminence": 0.55,
+  "simulationMinimumIntervalSeconds": 0.18,
+  "productionIntegrationAuthorized": false,
+  "seedWindowsPerLength": 16,
+  "targetWindowsPerLength": 384,
+  "maximumAlignmentCost": 0.19,
+  "gapPenalty": 0.1,
+  "nullSeeds": [
+    1729,
+    1730,
+    1731,
+    1732,
+    1733,
+    1734,
+    1735,
+    1736,
+    1737,
+    1738,
+    1739,
+    1740,
+    1741,
+    1742,
+    1743,
+    1744,
+    1745,
+    1746,
+    1747,
+    1748,
+    1749,
+    1750,
+    1751,
+    1752,
+    1753,
+    1754,
+    1755,
+    1756,
+    1757,
+    1758,
+    1759
+  ],
+  "calibrationDevelopmentSeeds": [
+    1009,
+    1013,
+    1019
+  ],
+  "calibrationValidationSeeds": [
+    9001,
+    9007,
+    9011
+  ],
+  "calibrationGate": {
+    "minimumPrecision": 0.85,
+    "minimumRecall": 0.85,
+    "maximumP95Seconds": 0.02,
+    "maximumBiasSeconds": 0.01
+  },
+  "maximumTempoRatio": [
+    0.8,
+    1.25
+  ],
+  "falseDiscoveryAlpha": 0.05,
+  "hpMedianFrames": 9,
+  "hpMedianBins": 9,
+  "externalTrackSpecificHandling": false
+}
