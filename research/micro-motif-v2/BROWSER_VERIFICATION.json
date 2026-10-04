@@ -1,0 +1,41 @@
+{
+  "schema": "v2-private-review-browser-verification",
+  "fiveSongGroupsPassed": 5,
+  "routeIsolationPassed": true,
+  "pageErrors": [],
+  "checks": [
+    {
+      "id": "/audio/alldat",
+      "duration": 196.0751,
+      "families": 1,
+      "noOverflow": true,
+      "occurrenceSeekPassed": true
+    },
+    {
+      "id": "/audio/cvb",
+      "duration": 309.420408,
+      "families": 3,
+      "noOverflow": true,
+      "occurrenceSeekPassed": true
+    },
+    {
+      "id": "/audio/laid-back",
+      "duration": 171.0626,
+      "families": 0,
+      "noOverflow": true
+    },
+    {
+      "id": "/audio/need-a-bag",
+      "duration": 233.1545,
+      "families": 0,
+      "noOverflow": true
+    },
+    {
+      "id": "/audio/wanna-get-lit",
+      "duration": 230.3096,
+      "families": 2,
+      "noOverflow": true,
+      "occurrenceSeekPassed": true
+    }
+  ]
+}
