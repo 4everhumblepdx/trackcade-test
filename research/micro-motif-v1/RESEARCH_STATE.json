@@ -1,0 +1,269 @@
+{
+  "schema": "trackcade-micro-motif-v1-frozen-research-state",
+  "state": "Completed negative-control research; STOP. No integration authorized or performed.",
+  "sourceCommit": "b981d270a098a91619168dfd904f19713c66d4c1",
+  "classification": "D",
+  "reason": "Both datasets fail descriptor-shuffle specificity control; real-mixture timing uncalibrated.",
+  "configSha256": "961c6298ab88c35cb3c5dbce7750b12d51f3f682cd46dba78c394d42528494df",
+  "codeFileSha256": {
+    "analyze.py": "faf759a12234424f0270f92f3c3be71758433a1ccefde109fadc69628f2a32cf",
+    "build_review.py": "9d9c5dbab2ccec4e918f619d629eba5b69ce4f5b6e47954f626c70dea9efeaf5",
+    "decode.cjs": "8119561021a9bb1379ec810bc5134c6d069ac257fac3521e2b2feaff2dcd3b11",
+    "export-v23.cjs": "58b98a0d7e9b72724bb8f5a97a721fcb8477b1b5753b0e009cdc924023686e7b",
+    "review-server.cjs": "fedfce419d956e680de1290433225ed746c8d7ff1bf253ad5920f5bebb2092ca",
+    "review-test.cjs": "40b976d3fca77256c9188d418500d5e0128adb7b2fadd5c8d5571337d5a71924",
+    "test_research.py": "8eed6de7489743c9c2c50a5d4c1979434c1b5c8e9b45f529d171ee019025dfc0",
+    "verify_results.py": "2214b268b27d5939dc0295fda0f9aa5e6870b8d79e9ae2502dd54d32260d07a9"
+  },
+  "analysisCodeBundleSha256": "81a88d272a8a0cee4a3a2fb3d33ba345dd42295b47b0ea6e356e3d094123096a",
+  "inputs": {
+    "browser": "153.0.8010.53",
+    "decoder": "Chrome WebAudio OfflineAudioContext; mono 22050Hz float32 little-endian, no trimming or beat alignment",
+    "records": [
+      {
+        "decodedPcmSha256": "2735def511c8da418edec9ef7b29e324cd9aa85014657a46a090b9ea8cef68d7",
+        "duration": 196.07510204081632,
+        "filename": "ALLDAT_ruffmix.mp3",
+        "inputAudioSha256": "d8f73630ba1acf3db816ac0e1674588c3002df9d2436f5417b270ac434a57c7a",
+        "pcmFile": "ALLDAT_ruffmix.mp3.f32",
+        "sampleRate": 22050,
+        "samples": 4323456
+      },
+      {
+        "decodedPcmSha256": "7c7ce88ff17759057c57470d25b4d48dd8240b911130e02cb3b456dd12f7a6b8",
+        "duration": 309.4204081632653,
+        "filename": "cvb-gemf-sample.mp3",
+        "inputAudioSha256": "fbdc3cb2d30abc3403626f5b808bbafc44b0fd834f64524bca2fb646817b13bb",
+        "pcmFile": "cvb-gemf-sample.mp3.f32",
+        "sampleRate": 22050,
+        "samples": 6822720
+      }
+    ],
+    "schema": "micro-motif-v1-local-decode"
+  },
+  "tracks": {
+    "alldat": {
+      "summary": {
+        "anchorEligibleFamilyCount": 0,
+        "descriptorShuffleNull": {
+          "anchorEligible": 0,
+          "families": 12,
+          "topProminence": 0.793951
+        },
+        "eventCount": 972,
+        "familyCount": 12,
+        "nearBeatCount": 131,
+        "offbeatCount": 841,
+        "pitchAblation": {
+          "noteLevelPitchValidated": false,
+          "withChromaFamilies": 12,
+          "withChromaOccurrences": 136,
+          "withoutChromaFamilies": 12,
+          "withoutChromaOccurrences": 147
+        },
+        "productionValidatedTimingCount": 0,
+        "proposedOffbeatHits": 0,
+        "provisionalTimingGateCount": 220,
+        "threeEventFamilies": [
+          "motif-eb660115479f"
+        ]
+      },
+      "coverage": {
+        "occurrences": 136,
+        "v23Partial": 35,
+        "v23Full": 0,
+        "v23EventHitsOccurrenceWeighted": 35,
+        "v23EventMissesOccurrenceWeighted": 245,
+        "proposedCoverage": 0,
+        "proposedOffbeatHits": 0
+      },
+      "uniqueCandidateMotifEvents": 230,
+      "uniqueNearBeatEvents": 33,
+      "uniqueOutside20msBeatTolerance": 197,
+      "strongestFamilies": [
+        {
+          "id": "motif-eb28d5e25baf",
+          "events": 2,
+          "occurrences": 14,
+          "similarity": 0.947289,
+          "prominence": 0.762538,
+          "firstStarts": [
+            26.9338322,
+            33.9782766,
+            43.0112925,
+            53.1885714,
+            54.5083447,
+            60.0827211
+          ]
+        },
+        {
+          "id": "motif-a3018d92302e",
+          "events": 2,
+          "occurrences": 17,
+          "similarity": 0.959724,
+          "prominence": 0.752323,
+          "firstStarts": [
+            22.547483,
+            29.4345578,
+            46.7054875,
+            54.6887982,
+            62.2028571,
+            76.0173243
+          ]
+        },
+        {
+          "id": "motif-12e0307b5a48",
+          "events": 2,
+          "occurrences": 11,
+          "similarity": 0.954053,
+          "prominence": 0.752263,
+          "firstStarts": [
+            42.440907,
+            69.6103855,
+            86.4871202,
+            96.8880272,
+            121.6429478,
+            128.4911565
+          ]
+        }
+      ]
+    },
+    "cvb": {
+      "summary": {
+        "anchorEligibleFamilyCount": 0,
+        "descriptorShuffleNull": {
+          "anchorEligible": 5,
+          "families": 12,
+          "topProminence": 0.859407
+        },
+        "eventCount": 1893,
+        "familyCount": 12,
+        "nearBeatCount": 298,
+        "offbeatCount": 1595,
+        "pitchAblation": {
+          "noteLevelPitchValidated": false,
+          "withChromaFamilies": 12,
+          "withChromaOccurrences": 380,
+          "withoutChromaFamilies": 12,
+          "withoutChromaOccurrences": 382
+        },
+        "productionValidatedTimingCount": 0,
+        "proposedOffbeatHits": 0,
+        "provisionalTimingGateCount": 501,
+        "threeEventFamilies": [
+          "motif-a1789288fe20",
+          "motif-9bc5270ec349",
+          "motif-0f9279c5f7fd",
+          "motif-1bf797bc2b01",
+          "motif-480b5969eb43",
+          "motif-119671222736",
+          "motif-d955f84e82c6"
+        ]
+      },
+      "coverage": {
+        "occurrences": 380,
+        "v23Partial": 71,
+        "v23Full": 0,
+        "v23EventHitsOccurrenceWeighted": 75,
+        "v23EventMissesOccurrenceWeighted": 806,
+        "proposedCoverage": 0,
+        "proposedOffbeatHits": 0
+      },
+      "uniqueCandidateMotifEvents": 556,
+      "uniqueNearBeatEvents": 94,
+      "uniqueOutside20msBeatTolerance": 462,
+      "strongestFamilies": [
+        {
+          "id": "motif-a1789288fe20",
+          "events": 3,
+          "occurrences": 17,
+          "similarity": 0.938772,
+          "prominence": 0.809253,
+          "firstStarts": [
+            22.027483,
+            23.5576871,
+            26.0574603,
+            27.5587302,
+            75.4001361,
+            77.3851701
+          ]
+        },
+        {
+          "id": "motif-fced585fc7b0",
+          "events": 2,
+          "occurrences": 20,
+          "similarity": 0.949374,
+          "prominence": 0.806255,
+          "firstStarts": [
+            0.3172789,
+            15.3094331,
+            17.9968254,
+            22.7560998,
+            25.0056236,
+            40.7932426
+          ]
+        },
+        {
+          "id": "motif-9bc5270ec349",
+          "events": 3,
+          "occurrences": 14,
+          "similarity": 0.92503,
+          "prominence": 0.802492,
+          "firstStarts": [
+            22.5680726,
+            27.0369615,
+            36.1480726,
+            75.1986395,
+            135.5370522,
+            145.0369161
+          ]
+        }
+      ]
+    }
+  },
+  "tests": {
+    "syntheticPass": 31,
+    "syntheticFail": 0,
+    "completeFixtureAnalyses": 2,
+    "identicalRepeatResultFiles": 8,
+    "decodedPcmRepeatIdentical": true,
+    "reviewBrowserGroupsPass": 3,
+    "reviewBrowserGroupsFail": 0
+  },
+  "artifactSha256": {
+    "analyze.py": "faf759a12234424f0270f92f3c3be71758433a1ccefde109fadc69628f2a32cf",
+    "build_review.py": "9d9c5dbab2ccec4e918f619d629eba5b69ce4f5b6e47954f626c70dea9efeaf5",
+    "config.json": "961c6298ab88c35cb3c5dbce7750b12d51f3f682cd46dba78c394d42528494df",
+    "decode.cjs": "8119561021a9bb1379ec810bc5134c6d069ac257fac3521e2b2feaff2dcd3b11",
+    "export-v23.cjs": "58b98a0d7e9b72724bb8f5a97a721fcb8477b1b5753b0e009cdc924023686e7b",
+    "POLICY.json": "f387516e8681228e727cf26c901f83ddd89c2ac0271632a30253586b5a711e02",
+    "PREFLIGHT.json": "0ac2cc610620ae41265a861a43319b189518a7e7ea5356ee1556ae52df76cb63",
+    "README.md": "0125f9169f1b542e515e808726b070aeb6abe89b14eb37b7e6af739aced187b6",
+    "REPORT.html": "30684a287ae5f67035d0edf69ed0c30216d99f95e7268091656b0cace15a3eb0",
+    "results/alldat-anchors.json": "5408281c4706cccaee4d75479973d7652d374a018f80ce6e1f7f5c25014d4162",
+    "results/alldat-events.json": "2be7f33eb7bbcf84a5fb1d29539d9f54ca97031e8ba25a65a94fbd4a144d7743",
+    "results/alldat-motifs.json": "30041d5abe20c91bd9153d9141058583fc4bbb4d050978f0b7ec2c0831c988c9",
+    "results/alldat-summary.json": "e75562320d4e9e7aaefc695ad1eaded035dc1ab8cf4a19cbf021fe5fa6ba38ed",
+    "results/cvb-anchors.json": "67f224a02a9c9dbcfb4735334f88abdd5ceb39c0bd0dc1224affae731cce7533",
+    "results/cvb-events.json": "8c13062f168c3cfed45e46eed98b83fd43afec5a4c9c50fff7a386b5feba1a91",
+    "results/cvb-motifs.json": "93d64319caadc2b4eee48eacba513c1420b13c540b2a0ed70736daa5012c4ff2",
+    "results/cvb-summary.json": "f2f3556f97ea78ea279db49a506bc85c09b60f28b4825a9b18e7c988bde1686e",
+    "results/PROVENANCE.json": "543d46984f74671f0ab86d2ef9b29cf55d1f9fcf9850d4b916fbc70e6154178f",
+    "review-server.cjs": "fedfce419d956e680de1290433225ed746c8d7ff1bf253ad5920f5bebb2092ca",
+    "review-test.cjs": "40b976d3fca77256c9188d418500d5e0128adb7b2fadd5c8d5571337d5a71924",
+    "test_research.py": "8eed6de7489743c9c2c50a5d4c1979434c1b5c8e9b45f529d171ee019025dfc0",
+    "VERIFICATION.json": "8e1776902fc3b42ca21173a1ba48587363e62e95a11ccc2984a6d61c5213fa64",
+    "verify_results.py": "2214b268b27d5939dc0295fda0f9aa5e6870b8d79e9ae2502dd54d32260d07a9"
+  },
+  "providerCalls": 0,
+  "spendUSD": 0,
+  "sourceV23RuntimeChanged": false,
+  "frozenV019Changed": false,
+  "semanticV9Changed": false,
+  "stage1LabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "manualSongTimestampHints": false,
+  "genreInferenceAdded": false,
+  "liveIntegration": false,
+  "productionValidatedTimingEvents": 0
+}

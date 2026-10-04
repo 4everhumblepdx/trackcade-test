@@ -1,0 +1,34 @@
+{
+  "schema": "trackcade-anchor-event-flow-research-policy-v1",
+  "status": "Research specification; not a live selector or integration authorization",
+  "priority": ["reserve validated recurring anchors", "place important one-off event actions", "determine stage capacity", "fill remaining capacity with flow", "enforce timing/interval/burst/spatial safety", "preserve Landing and ending"],
+  "activationRequirements": ["recurrence exceeds appropriate surrogate controls", "mix timing calibrated independently", "auditory family review", "explicit integration checkpoint"],
+  "coverage": {
+    "universalPercentage": null,
+    "principle": "Enumerate every eligible occurrence; allocate stage capacity deliberately to recurring families instead of letting marginal beat salience erase them.",
+    "priority": ["family prominence", "occurrence similarity", "timing trust", "local event contrast"],
+    "accounting": ["eligible occurrences", "represented occurrences", "partial occurrences", "full occurrences", "rejections by reason", "protected-stage exclusions", "collision losses"],
+    "currentResult": "No accepted families, so coverage is zero; do not weaken gates to manufacture anchors."
+  },
+  "transformations": {
+    "reduced": "Use strongest event position(s) of the canonical family, with original occurrence event times.",
+    "partial": "Use a consistent subset of canonical positions; difficulty determines subset size.",
+    "full": "Use all trusted occurrence events if interval/burst/capacity constraints pass.",
+    "expanded": "Full motif plus independently trusted nearby one-off event actions; never insert a synthetic note or time.",
+    "simulationScope": "Current anchor-only simulation explores strength-ranked reduced/partial/full cases, with per-occurrence capacity. It does not implement expanded event/flow scheduling or a global stage optimizer. A full canonical-position consistency policy remains an integration requirement."
+  },
+  "collisionRules": {
+    "sameEvent": "One hit may serve several motif/landmark roles; deduplicate exact event identity/time.",
+    "overlappingFamilies": "Higher prominence first; deterministic family ID tie-break. Record suppressed occurrence rather than silently losing coverage.",
+    "landmarkOverlap": "Merge provenance for same trusted event; otherwise compare priority within total stage capacity.",
+    "lowDemand": "Reduced representation and local capacity cap; preserve musical breathing.",
+    "tooDense": "Reduce/partially represent before rejecting; record failed trust, burst, interval, spatial or capacity constraint.",
+    "landing": "Locked; research simulation inserts no anchors.",
+    "ending": "No inserted event may cross the existing hit-window or release boundary."
+  },
+  "variation": "Recognizable relative timing/event-position identity within anchors; context-dependent representation, event/flow choices and bounded deterministic spatial variation between anchors. No compulsory identical positions, sizes or density.",
+  "semanticProductRule": "Semantic non-Drop events remain eligible for gameplay/action mapping; motif/event evidence does not redefine semantic Drop classification.",
+  "productionIntegration": false,
+  "providerCalls": 0,
+  "spendUSD": 0
+}

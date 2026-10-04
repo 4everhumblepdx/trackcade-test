@@ -1,0 +1,10 @@
+{
+  "sourceCommit": "b981d270a098a91619168dfd904f19713c66d4c1",
+  "configSha256": "961c6298ab88c35cb3c5dbce7750b12d51f3f682cd46dba78c394d42528494df",
+  "configurationFixedBeforeFixtureDsp": true,
+  "syntheticTestsPassed": 30,
+  "syntheticTestsFailed": 0,
+  "manualSongOccurrenceHintsUsed": false,
+  "providerCalls": 0,
+  "spendUSD": 0
+}
