@@ -1,0 +1,11 @@
+{
+  "library": "Phaser",
+  "version": "3.90.0",
+  "source": "https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js",
+  "sha256": "e92ddef111ba42e92d316979c732311757093688ea1810591cb7aa2858eba7a7",
+  "bytes": 1196122,
+  "location": "local scratch outside repository; explicitly supplied to private server",
+  "artAssetsDownloaded": 0,
+  "providerCalls": 0,
+  "spendUSD": 0
+}

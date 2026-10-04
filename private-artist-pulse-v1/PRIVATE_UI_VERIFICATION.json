@@ -1,0 +1,43 @@
+{
+  "checks": [
+    {
+      "id": "laid-back",
+      "focusedPreview": true,
+      "localPreviewListenSeek": true
+    },
+    {
+      "id": "laid-back",
+      "portraitTouchHit": true,
+      "score": 120,
+      "delta": -0.0032616000000000867,
+      "errors": []
+    },
+    {
+      "id": "wanna-get-lit",
+      "focusedPreview": true,
+      "localPreviewListenSeek": true
+    },
+    {
+      "id": "wanna-get-lit",
+      "portraitTouchHit": true,
+      "score": 120,
+      "delta": 0.002985400000000027,
+      "errors": []
+    },
+    {
+      "id": "need-a-bag",
+      "focusedPreview": true,
+      "localPreviewListenSeek": true
+    },
+    {
+      "id": "need-a-bag",
+      "portraitTouchHit": true,
+      "score": 118,
+      "delta": 0.011380500000000016,
+      "errors": []
+    }
+  ],
+  "passed": 6,
+  "failed": 0,
+  "limitations": "Emulated Chrome touch; not physical phone/audio timing calibration."
+}

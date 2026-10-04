@@ -1,0 +1,33 @@
+{
+  "changed": [
+    "private-artist-pulse-v1/BROWSER_VERIFICATION.json",
+    "private-artist-pulse-v1/CONTRACT_VERIFICATION.json",
+    "private-artist-pulse-v1/PRIVATE_UI_VERIFICATION.json",
+    "private-artist-pulse-v1/REPORT.md",
+    "private-artist-pulse-v1/STATE.json",
+    "private-artist-pulse-v1/VENDOR_RECEIPT.json",
+    "private-artist-pulse-v1/brief.json",
+    "private-artist-pulse-v1/build_report.cjs",
+    "private-artist-pulse-v1/index.html",
+    "private-artist-pulse-v1/manifests.cjs",
+    "private-artist-pulse-v1/play.html",
+    "private-artist-pulse-v1/prepare.py",
+    "private-artist-pulse-v1/preview.html",
+    "private-artist-pulse-v1/preview.js",
+    "private-artist-pulse-v1/private-plan.js",
+    "private-artist-pulse-v1/serve.cjs",
+    "private-artist-pulse-v1/test_browser.cjs",
+    "private-artist-pulse-v1/test_contract.cjs",
+    "private-artist-pulse-v1/test_private_ui.cjs",
+    "private-artist-pulse-v1/tracks/laid-back.json",
+    "private-artist-pulse-v1/tracks/need-a-bag.json",
+    "private-artist-pulse-v1/tracks/wanna-get-lit.json",
+    "private-artist-pulse-v1/visuals/laid-back.json",
+    "private-artist-pulse-v1/visuals/need-a-bag.json",
+    "private-artist-pulse-v1/visuals/wanna-get-lit.json",
+    "private-artist-pulse-v1/world.js"
+  ],
+  "workflowMatches": [],
+  "nonJsonTriggersParsed": 121,
+  "totalWorkflowsChecked": 131
+}

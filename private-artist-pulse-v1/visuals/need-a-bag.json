@@ -1,0 +1,80 @@
+{
+  "schema": "trackcade-private-first-pass-artist-visual-v1",
+  "id": "need-a-bag",
+  "style": "signal-towers",
+  "originalArtistInput": {
+    "vision": "Cartoonish Fortnite type vibe.",
+    "mustHave": "graffiti",
+    "mustNotHave": "zesty"
+  },
+  "trackcadeInterpretation": {
+    "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+    "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+    "zesty": {
+      "originalConstraint": "zesty",
+      "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+      "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+      "influencedDecisions": [
+        "limited simultaneous effects",
+        "no glitter showers",
+        "bold architectural shapes rather than ornate decoration"
+      ],
+      "identityInference": "none; no gender, sexuality or genre assumptions"
+    }
+  },
+  "sharedDNA": {
+    "geometry": "exaggerated bevels and thick charcoal outlines",
+    "materials": "matte painted slabs with warm off-white edge highlights",
+    "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+    "targets": "readable circular impact centers and unaltered closing rings",
+    "feedback": "small paint marks with bounded life and intensity",
+    "visualPriority": "clear central playfield; architecture frames the sides"
+  },
+  "name": "Paint Signal Garden",
+  "environment": "a stepped field of offset painted monoliths around a clear central lane",
+  "composition": "vertical side towers, staggered depth, stepped pedestal floor",
+  "graffiti": "vertical sprayed glyph stacks climbing separate tower faces; paint caps glow in sequence",
+  "motion": "bounded vertical lifts and slow depth parallax; no constant full-screen flash",
+  "transition": "one paint band climbs the tower stack at objective contrast changes",
+  "target": "four compact dashed paint caps around the closing ring",
+  "impact": "a short upward paint spray",
+  "energyResponse": "tower lift and glyph reveal respond to smoothed energy; accents only every fourth pulse",
+  "density": "compact repeated vertical marks",
+  "lighting": "rim-lit caps with flat dark side planes",
+  "mood": "structured, bold, kinetic",
+  "palette": {
+    "bg": "#182726",
+    "panel": "#2a4037",
+    "primary": "#b9dc70",
+    "secondary": "#61cbd7",
+    "gold": "#f4d586",
+    "white": "#fff1d6",
+    "muted": "#bdccc6",
+    "danger": "#e96662"
+  },
+  "objectiveInfluence": {
+    "selectionRule": "highest measured broad attack density; most regular pulse strengthens bounded vertical rhythm",
+    "measurements": {
+      "broadAttackDensityPerSecond": 4.413382542477199,
+      "coarseContrastBoundaries": [
+        27.5,
+        54,
+        96,
+        136.5,
+        178.5,
+        219.5
+      ],
+      "dynamicContrastRatio": 2.935209209833753,
+      "estimatedPulseIntervalSeconds": 0.42956916099773246,
+      "gridNoveltySupportFraction": 0.5322283609576427,
+      "meanRms": 0.32837328756710393,
+      "productionValidated": false,
+      "pulseWindowAgreementWithin40ms": 1,
+      "rmsCoefficientOfVariation": 0.3524855203421356,
+      "sourceIdentity": "UNKNOWN"
+    }
+  },
+  "sourceIdentity": "UNKNOWN",
+  "titleDrivenTheme": false,
+  "genreInference": false
+}

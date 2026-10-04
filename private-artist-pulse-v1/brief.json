@@ -1,0 +1,29 @@
+{
+  "originalArtistInput": {
+    "vision": "Cartoonish Fortnite type vibe.",
+    "mustHave": "graffiti",
+    "mustNotHave": "zesty"
+  },
+  "trackcadeInterpretation": {
+    "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+    "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+    "zesty": {
+      "originalConstraint": "zesty",
+      "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+      "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+      "influencedDecisions": ["limited simultaneous effects", "no glitter showers", "bold architectural shapes rather than ornate decoration"],
+      "identityInference": "none; no gender, sexuality or genre assumptions"
+    }
+  },
+  "sharedDNA": {
+    "geometry": "exaggerated bevels and thick charcoal outlines",
+    "materials": "matte painted slabs with warm off-white edge highlights",
+    "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+    "targets": "readable circular impact centers and unaltered closing rings",
+    "feedback": "small paint marks with bounded life and intensity",
+    "visualPriority": "clear central playfield; architecture frames the sides"
+  },
+  "firstPassOnly": true,
+  "providerCalls": 0,
+  "spendUSD": 0
+}

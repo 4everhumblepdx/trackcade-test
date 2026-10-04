@@ -1,0 +1,79 @@
+{
+  "schema": "trackcade-private-first-pass-artist-visual-v1",
+  "id": "laid-back",
+  "style": "ribbon-terraces",
+  "originalArtistInput": {
+    "vision": "Cartoonish Fortnite type vibe.",
+    "mustHave": "graffiti",
+    "mustNotHave": "zesty"
+  },
+  "trackcadeInterpretation": {
+    "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+    "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+    "zesty": {
+      "originalConstraint": "zesty",
+      "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+      "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+      "influencedDecisions": [
+        "limited simultaneous effects",
+        "no glitter showers",
+        "bold architectural shapes rather than ornate decoration"
+      ],
+      "identityInference": "none; no gender, sexuality or genre assumptions"
+    }
+  },
+  "sharedDNA": {
+    "geometry": "exaggerated bevels and thick charcoal outlines",
+    "materials": "matte painted slabs with warm off-white edge highlights",
+    "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+    "targets": "readable circular impact centers and unaltered closing rings",
+    "feedback": "small paint marks with bounded life and intensity",
+    "visualPriority": "clear central playfield; architecture frames the sides"
+  },
+  "name": "Paint Terraces",
+  "environment": "wide suspended terraces over a deep sculpted basin",
+  "composition": "horizontal foreground shelves, curved horizon and distant stacked islands",
+  "graffiti": "large wrapped wall glyphs, broad brushed ribbons and soft short drips",
+  "motion": "slow opposing terrace drift with low-amplitude paint-band breathing",
+  "transition": "a painted horizon ribbon travels across the terraces at objective contrast changes",
+  "target": "two broad chalk brackets outside the closing ring",
+  "impact": "a flattened short paint swipe",
+  "energyResponse": "subtle shelf lift and mural brightness; broad movement capped",
+  "density": "sparse broad strokes",
+  "lighting": "warm beveled upper edges and soft long shadows",
+  "mood": "spacious, graphic, grounded",
+  "palette": {
+    "bg": "#182033",
+    "panel": "#263549",
+    "primary": "#50d8c9",
+    "secondary": "#f08053",
+    "gold": "#f9d184",
+    "white": "#fff1d6",
+    "muted": "#c1c8ce",
+    "danger": "#e96662"
+  },
+  "objectiveInfluence": {
+    "selectionRule": "remaining broad-space interpretation: lower broad attack density, slower pulse and lower contrast than atrium",
+    "measurements": {
+      "broadAttackDensityPerSecond": 3.94592388985085,
+      "coarseContrastBoundaries": [
+        10,
+        40,
+        79,
+        109,
+        159
+      ],
+      "dynamicContrastRatio": 5.6044470632965,
+      "estimatedPulseIntervalSeconds": 0.6153287981859411,
+      "gridNoveltySupportFraction": 0.5251798561151079,
+      "meanRms": 0.3105483589811115,
+      "productionValidated": false,
+      "pulseWindowAgreementWithin40ms": 0.5555555555555556,
+      "rmsCoefficientOfVariation": 0.4941539533597984,
+      "sourceIdentity": "UNKNOWN"
+    }
+  },
+  "sourceIdentity": "UNKNOWN",
+  "titleDrivenTheme": false,
+  "genreInference": false
+}

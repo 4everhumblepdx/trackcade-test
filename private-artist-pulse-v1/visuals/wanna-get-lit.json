@@ -1,0 +1,78 @@
+{
+  "schema": "trackcade-private-first-pass-artist-visual-v1",
+  "id": "wanna-get-lit",
+  "style": "hinge-atrium",
+  "originalArtistInput": {
+    "vision": "Cartoonish Fortnite type vibe.",
+    "mustHave": "graffiti",
+    "mustNotHave": "zesty"
+  },
+  "trackcadeInterpretation": {
+    "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+    "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+    "zesty": {
+      "originalConstraint": "zesty",
+      "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+      "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+      "influencedDecisions": [
+        "limited simultaneous effects",
+        "no glitter showers",
+        "bold architectural shapes rather than ornate decoration"
+      ],
+      "identityInference": "none; no gender, sexuality or genre assumptions"
+    }
+  },
+  "sharedDNA": {
+    "geometry": "exaggerated bevels and thick charcoal outlines",
+    "materials": "matte painted slabs with warm off-white edge highlights",
+    "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+    "targets": "readable circular impact centers and unaltered closing rings",
+    "feedback": "small paint marks with bounded life and intensity",
+    "visualPriority": "clear central playfield; architecture frames the sides"
+  },
+  "name": "Folded Paint Hall",
+  "environment": "a sculpted atrium with oversized hinged panels and open arches",
+  "composition": "diagonal foreground wedges, alternating side shutters and a central arch",
+  "graffiti": "cutout spray stencils split across hinged surfaces; paint appears as panels open",
+  "motion": "slow hinged panel opening, with stronger contrast-driven expansion",
+  "transition": "opposed shutters reveal a fresh stencil panel at objective contrast changes",
+  "target": "three directional paint wedges around the closing ring",
+  "impact": "a small angular stencil stamp",
+  "energyResponse": "panel openness follows smoothed energy; contrast changes release one stencil",
+  "density": "medium, localized bursts",
+  "lighting": "crisp edge highlights and deep cel-shaded recesses",
+  "mood": "sculptural, responsive, deliberate",
+  "palette": {
+    "bg": "#211a34",
+    "panel": "#392850",
+    "primary": "#b5a0f4",
+    "secondary": "#efb553",
+    "gold": "#fbe3a1",
+    "white": "#fff1d6",
+    "muted": "#c9bfd3",
+    "danger": "#e96662"
+  },
+  "objectiveInfluence": {
+    "selectionRule": "highest dynamic contrast among remaining tracks: revealing panels respond to quiet/busy change",
+    "measurements": {
+      "broadAttackDensityPerSecond": 4.203037997547649,
+      "coarseContrastBoundaries": [
+        15,
+        90,
+        110,
+        210
+      ],
+      "dynamicContrastRatio": 20.784661276640676,
+      "estimatedPulseIntervalSeconds": 0.46439909297052157,
+      "gridNoveltySupportFraction": 0.42943548387096775,
+      "meanRms": 0.2929527038193812,
+      "productionValidated": false,
+      "pulseWindowAgreementWithin40ms": 0.75,
+      "rmsCoefficientOfVariation": 0.5019522442159171,
+      "sourceIdentity": "UNKNOWN"
+    }
+  },
+  "sourceIdentity": "UNKNOWN",
+  "titleDrivenTheme": false,
+  "genreInference": false
+}

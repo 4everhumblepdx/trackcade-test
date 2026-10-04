@@ -1,0 +1,804 @@
+{
+  "schema": "trackcade-three-song-private-artist-first-pass-v1",
+  "sourceCommit": "eb82fd67d49e8bab67415519af576d4aee8d95b2",
+  "originalArtistInput": {
+    "vision": "Cartoonish Fortnite type vibe.",
+    "mustHave": "graffiti",
+    "mustNotHave": "zesty"
+  },
+  "sharedDNA": {
+    "geometry": "exaggerated bevels and thick charcoal outlines",
+    "materials": "matte painted slabs with warm off-white edge highlights",
+    "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+    "targets": "readable circular impact centers and unaltered closing rings",
+    "feedback": "small paint marks with bounded life and intensity",
+    "visualPriority": "clear central playfield; architecture frames the sides"
+  },
+  "zestyInterpretation": {
+    "originalConstraint": "zesty",
+    "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+    "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+    "influencedDecisions": [
+      "limited simultaneous effects",
+      "no glitter showers",
+      "bold architectural shapes rather than ornate decoration"
+    ],
+    "identityInference": "none; no gender, sexuality or genre assumptions"
+  },
+  "reports": [
+    {
+      "id": "laid-back",
+      "title": "Laid Back",
+      "duration": 171.0626,
+      "ending": {
+        "rawDuration": 171.0626,
+        "playableEndTime": 168.5,
+        "releaseGap": 2.4613152000000014,
+        "source": "frozen-energy-terminal-suffix",
+        "reason": "sustained-terminal-collapse",
+        "evidence": {
+          "firstLowSampleIndex": 337,
+          "firstLowSampleTime": 168.5,
+          "lowSampleCount": 7,
+          "observedLowSpan": 2.5626000000000033,
+          "lastSampleTime": 171.0626,
+          "threshold": 0.1,
+          "activeLevel": 0.974761,
+          "precedingContrastingSamples": 13,
+          "medianEnergyInterval": 0.5,
+          "medianBeatInterval": 0.6153288000000003,
+          "policy": "terminal suffix only; >=4 samples; >=max(2.5s,2 sample intervals); final 15%; complete tail coverage; local contrast"
+        }
+      },
+      "targetCount": 133,
+      "lastTarget": 165.1867574,
+      "estimatedBpm": 97.50884433962263,
+      "timingSource": "deterministic spectral-novelty autocorrelation fixed-pulse proposal; HTMLMediaElement.currentTime playback clock",
+      "evidenceLimitations": "Exploratory constant pulse grid; tempo/phase, half/double-time ambiguity, source-to-media mapping and physical latency unvalidated. PERFECT centers refer to the proposal grid, not proven musical-event truth. No motif attacks or subjective timestamps.",
+      "measurements": {
+        "broadAttackDensityPerSecond": 3.94592388985085,
+        "coarseContrastBoundaries": [
+          10,
+          40,
+          79,
+          109,
+          159
+        ],
+        "dynamicContrastRatio": 5.6044470632965,
+        "estimatedPulseIntervalSeconds": 0.6153287981859411,
+        "gridNoveltySupportFraction": 0.5251798561151079,
+        "meanRms": 0.3105483589811115,
+        "productionValidated": false,
+        "pulseWindowAgreementWithin40ms": 0.5555555555555556,
+        "rmsCoefficientOfVariation": 0.4941539533597984,
+        "sourceIdentity": "UNKNOWN"
+      },
+      "stages": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 5,
+          "targets": 1,
+          "hitWindowSeconds": 0.36,
+          "radius": 44
+        },
+        {
+          "stage": "build",
+          "startSeconds": 5,
+          "endSeconds": 53.92,
+          "targets": 22,
+          "hitWindowSeconds": 0.34,
+          "radius": 42
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 53.92,
+          "endSeconds": 84.25,
+          "targets": 25,
+          "hitWindowSeconds": 0.31,
+          "radius": 38
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 84.25,
+          "endSeconds": 106.155,
+          "targets": 26,
+          "hitWindowSeconds": 0.27,
+          "radius": 30
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 106.155,
+          "endSeconds": 121.32,
+          "targets": 12,
+          "hitWindowSeconds": 0.3,
+          "radius": 38
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 121.32,
+          "endSeconds": 134.8,
+          "targets": 14,
+          "hitWindowSeconds": 0.3,
+          "radius": 38
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 134.8,
+          "endSeconds": 158.39,
+          "targets": 30,
+          "hitWindowSeconds": 0.23,
+          "radius": 24
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 158.39,
+          "endSeconds": 168.5,
+          "targets": 3,
+          "hitWindowSeconds": 0.34,
+          "radius": 42
+        }
+      ],
+      "visualManifest": {
+        "schema": "trackcade-private-first-pass-artist-visual-v1",
+        "id": "laid-back",
+        "style": "ribbon-terraces",
+        "originalArtistInput": {
+          "vision": "Cartoonish Fortnite type vibe.",
+          "mustHave": "graffiti",
+          "mustNotHave": "zesty"
+        },
+        "trackcadeInterpretation": {
+          "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+          "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+          "zesty": {
+            "originalConstraint": "zesty",
+            "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+            "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+            "influencedDecisions": [
+              "limited simultaneous effects",
+              "no glitter showers",
+              "bold architectural shapes rather than ornate decoration"
+            ],
+            "identityInference": "none; no gender, sexuality or genre assumptions"
+          }
+        },
+        "sharedDNA": {
+          "geometry": "exaggerated bevels and thick charcoal outlines",
+          "materials": "matte painted slabs with warm off-white edge highlights",
+          "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+          "targets": "readable circular impact centers and unaltered closing rings",
+          "feedback": "small paint marks with bounded life and intensity",
+          "visualPriority": "clear central playfield; architecture frames the sides"
+        },
+        "name": "Paint Terraces",
+        "environment": "wide suspended terraces over a deep sculpted basin",
+        "composition": "horizontal foreground shelves, curved horizon and distant stacked islands",
+        "graffiti": "large wrapped wall glyphs, broad brushed ribbons and soft short drips",
+        "motion": "slow opposing terrace drift with low-amplitude paint-band breathing",
+        "transition": "a painted horizon ribbon travels across the terraces at objective contrast changes",
+        "target": "two broad chalk brackets outside the closing ring",
+        "impact": "a flattened short paint swipe",
+        "energyResponse": "subtle shelf lift and mural brightness; broad movement capped",
+        "density": "sparse broad strokes",
+        "lighting": "warm beveled upper edges and soft long shadows",
+        "mood": "spacious, graphic, grounded",
+        "palette": {
+          "bg": "#182033",
+          "panel": "#263549",
+          "primary": "#50d8c9",
+          "secondary": "#f08053",
+          "gold": "#f9d184",
+          "white": "#fff1d6",
+          "muted": "#c1c8ce",
+          "danger": "#e96662"
+        },
+        "objectiveInfluence": {
+          "selectionRule": "remaining broad-space interpretation: lower broad attack density, slower pulse and lower contrast than atrium",
+          "measurements": {
+            "broadAttackDensityPerSecond": 3.94592388985085,
+            "coarseContrastBoundaries": [
+              10,
+              40,
+              79,
+              109,
+              159
+            ],
+            "dynamicContrastRatio": 5.6044470632965,
+            "estimatedPulseIntervalSeconds": 0.6153287981859411,
+            "gridNoveltySupportFraction": 0.5251798561151079,
+            "meanRms": 0.3105483589811115,
+            "productionValidated": false,
+            "pulseWindowAgreementWithin40ms": 0.5555555555555556,
+            "rmsCoefficientOfVariation": 0.4941539533597984,
+            "sourceIdentity": "UNKNOWN"
+          }
+        },
+        "sourceIdentity": "UNKNOWN",
+        "titleDrivenTheme": false,
+        "genreInference": false
+      },
+      "originalArtistInput": {
+        "vision": "Cartoonish Fortnite type vibe.",
+        "mustHave": "graffiti",
+        "mustNotHave": "zesty"
+      },
+      "audioProvenance": {
+        "decodedPcmSha256": "1e103bcd43ba854e8db96ad0fce64f3e5e01940d3342faae3711802b3ff3ad6f",
+        "filename": "Laid Back (REST100) Final (1).mp3",
+        "inputAudioSha256": "c46ae2b7d4fa8faa0997a99d9b19c04410b51b838a1880557b2ded6ced97a9e6"
+      },
+      "handoffRecoveryIndices": [
+        8,
+        88,
+        137,
+        173,
+        197,
+        219,
+        257
+      ]
+    },
+    {
+      "id": "wanna-get-lit",
+      "title": "Wanna get lit",
+      "duration": 230.3096,
+      "ending": {
+        "rawDuration": 230.3096,
+        "playableEndTime": 230.3096,
+        "releaseGap": 1.8575964000000056,
+        "source": "duration-fallback",
+        "reason": "terminal-collapse-lacks-local-contrast",
+        "evidence": null
+      },
+      "targetCount": 246,
+      "lastTarget": 227.0331066,
+      "estimatedBpm": 129.19921875,
+      "timingSource": "deterministic spectral-novelty autocorrelation fixed-pulse proposal; HTMLMediaElement.currentTime playback clock",
+      "evidenceLimitations": "Exploratory constant pulse grid; tempo/phase, half/double-time ambiguity, source-to-media mapping and physical latency unvalidated. PERFECT centers refer to the proposal grid, not proven musical-event truth. No motif attacks or subjective timestamps.",
+      "measurements": {
+        "broadAttackDensityPerSecond": 4.203037997547649,
+        "coarseContrastBoundaries": [
+          15,
+          90,
+          110,
+          210
+        ],
+        "dynamicContrastRatio": 20.784661276640676,
+        "estimatedPulseIntervalSeconds": 0.46439909297052157,
+        "gridNoveltySupportFraction": 0.42943548387096775,
+        "meanRms": 0.2929527038193812,
+        "productionValidated": false,
+        "pulseWindowAgreementWithin40ms": 0.75,
+        "rmsCoefficientOfVariation": 0.5019522442159171,
+        "sourceIdentity": "UNKNOWN"
+      },
+      "stages": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 5,
+          "targets": 2,
+          "hitWindowSeconds": 0.36,
+          "radius": 44
+        },
+        {
+          "stage": "build",
+          "startSeconds": 5,
+          "endSeconds": 73.699072,
+          "targets": 43,
+          "hitWindowSeconds": 0.34,
+          "radius": 42
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 73.699072,
+          "endSeconds": 115.1548,
+          "targets": 46,
+          "hitWindowSeconds": 0.31,
+          "radius": 38
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 115.1548,
+          "endSeconds": 145.095048,
+          "targets": 47,
+          "hitWindowSeconds": 0.27,
+          "radius": 30
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 145.095048,
+          "endSeconds": 165.82291199999997,
+          "targets": 22,
+          "hitWindowSeconds": 0.3,
+          "radius": 38
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 165.82291199999997,
+          "endSeconds": 184.24768,
+          "targets": 23,
+          "hitWindowSeconds": 0.3,
+          "radius": 38
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 184.24768,
+          "endSeconds": 216.49102399999998,
+          "targets": 57,
+          "hitWindowSeconds": 0.23,
+          "radius": 24
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 216.49102399999998,
+          "endSeconds": 230.3096,
+          "targets": 6,
+          "hitWindowSeconds": 0.34,
+          "radius": 42
+        }
+      ],
+      "visualManifest": {
+        "schema": "trackcade-private-first-pass-artist-visual-v1",
+        "id": "wanna-get-lit",
+        "style": "hinge-atrium",
+        "originalArtistInput": {
+          "vision": "Cartoonish Fortnite type vibe.",
+          "mustHave": "graffiti",
+          "mustNotHave": "zesty"
+        },
+        "trackcadeInterpretation": {
+          "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+          "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+          "zesty": {
+            "originalConstraint": "zesty",
+            "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+            "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+            "influencedDecisions": [
+              "limited simultaneous effects",
+              "no glitter showers",
+              "bold architectural shapes rather than ornate decoration"
+            ],
+            "identityInference": "none; no gender, sexuality or genre assumptions"
+          }
+        },
+        "sharedDNA": {
+          "geometry": "exaggerated bevels and thick charcoal outlines",
+          "materials": "matte painted slabs with warm off-white edge highlights",
+          "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+          "targets": "readable circular impact centers and unaltered closing rings",
+          "feedback": "small paint marks with bounded life and intensity",
+          "visualPriority": "clear central playfield; architecture frames the sides"
+        },
+        "name": "Folded Paint Hall",
+        "environment": "a sculpted atrium with oversized hinged panels and open arches",
+        "composition": "diagonal foreground wedges, alternating side shutters and a central arch",
+        "graffiti": "cutout spray stencils split across hinged surfaces; paint appears as panels open",
+        "motion": "slow hinged panel opening, with stronger contrast-driven expansion",
+        "transition": "opposed shutters reveal a fresh stencil panel at objective contrast changes",
+        "target": "three directional paint wedges around the closing ring",
+        "impact": "a small angular stencil stamp",
+        "energyResponse": "panel openness follows smoothed energy; contrast changes release one stencil",
+        "density": "medium, localized bursts",
+        "lighting": "crisp edge highlights and deep cel-shaded recesses",
+        "mood": "sculptural, responsive, deliberate",
+        "palette": {
+          "bg": "#211a34",
+          "panel": "#392850",
+          "primary": "#b5a0f4",
+          "secondary": "#efb553",
+          "gold": "#fbe3a1",
+          "white": "#fff1d6",
+          "muted": "#c9bfd3",
+          "danger": "#e96662"
+        },
+        "objectiveInfluence": {
+          "selectionRule": "highest dynamic contrast among remaining tracks: revealing panels respond to quiet/busy change",
+          "measurements": {
+            "broadAttackDensityPerSecond": 4.203037997547649,
+            "coarseContrastBoundaries": [
+              15,
+              90,
+              110,
+              210
+            ],
+            "dynamicContrastRatio": 20.784661276640676,
+            "estimatedPulseIntervalSeconds": 0.46439909297052157,
+            "gridNoveltySupportFraction": 0.42943548387096775,
+            "meanRms": 0.2929527038193812,
+            "productionValidated": false,
+            "pulseWindowAgreementWithin40ms": 0.75,
+            "rmsCoefficientOfVariation": 0.5019522442159171,
+            "sourceIdentity": "UNKNOWN"
+          }
+        },
+        "sourceIdentity": "UNKNOWN",
+        "titleDrivenTheme": false,
+        "genreInference": false
+      },
+      "originalArtistInput": {
+        "vision": "Cartoonish Fortnite type vibe.",
+        "mustHave": "graffiti",
+        "mustNotHave": "zesty"
+      },
+      "audioProvenance": {
+        "decodedPcmSha256": "7d14b046d006e557fe5e0be46fc4897866cd5f48f7f5455edc9b8e0c8b8c0159",
+        "filename": "Wanna get lit (REST100) Final.mp3",
+        "inputAudioSha256": "09aefc0d77d4b3ac2c2e23bad60f887973d57bc29e39cd6c06347908b2ee42cb"
+      },
+      "handoffRecoveryIndices": [
+        10,
+        158,
+        248,
+        312,
+        357,
+        396,
+        466
+      ]
+    },
+    {
+      "id": "need-a-bag",
+      "title": "Need A Bag",
+      "duration": 233.1545,
+      "ending": {
+        "rawDuration": 233.1545,
+        "playableEndTime": 233.1545,
+        "releaseGap": 1.7182767999999982,
+        "source": "duration-fallback",
+        "reason": "terminal-collapse-not-sufficiently-sustained",
+        "evidence": null
+      },
+      "targetCount": 269,
+      "lastTarget": 230.3303401,
+      "estimatedBpm": 139.67483108108107,
+      "timingSource": "deterministic spectral-novelty autocorrelation fixed-pulse proposal; HTMLMediaElement.currentTime playback clock",
+      "evidenceLimitations": "Exploratory constant pulse grid; tempo/phase, half/double-time ambiguity, source-to-media mapping and physical latency unvalidated. PERFECT centers refer to the proposal grid, not proven musical-event truth. No motif attacks or subjective timestamps.",
+      "measurements": {
+        "broadAttackDensityPerSecond": 4.413382542477199,
+        "coarseContrastBoundaries": [
+          27.5,
+          54,
+          96,
+          136.5,
+          178.5,
+          219.5
+        ],
+        "dynamicContrastRatio": 2.935209209833753,
+        "estimatedPulseIntervalSeconds": 0.42956916099773246,
+        "gridNoveltySupportFraction": 0.5322283609576427,
+        "meanRms": 0.32837328756710393,
+        "productionValidated": false,
+        "pulseWindowAgreementWithin40ms": 1,
+        "rmsCoefficientOfVariation": 0.3524855203421356,
+        "sourceIdentity": "UNKNOWN"
+      },
+      "stages": [
+        {
+          "stage": "opening",
+          "startSeconds": 0,
+          "endSeconds": 5,
+          "targets": 2,
+          "hitWindowSeconds": 0.36,
+          "radius": 44
+        },
+        {
+          "stage": "build",
+          "startSeconds": 5,
+          "endSeconds": 74.60944,
+          "targets": 46,
+          "hitWindowSeconds": 0.34,
+          "radius": 42
+        },
+        {
+          "stage": "developing",
+          "startSeconds": 74.60944,
+          "endSeconds": 116.57725,
+          "targets": 49,
+          "hitWindowSeconds": 0.31,
+          "radius": 38
+        },
+        {
+          "stage": "mid-hard-push",
+          "startSeconds": 116.57725,
+          "endSeconds": 146.887335,
+          "targets": 52,
+          "hitWindowSeconds": 0.27,
+          "radius": 30
+        },
+        {
+          "stage": "relief",
+          "startSeconds": 146.887335,
+          "endSeconds": 167.87124,
+          "targets": 24,
+          "hitWindowSeconds": 0.3,
+          "radius": 38
+        },
+        {
+          "stage": "final-build",
+          "startSeconds": 167.87124,
+          "endSeconds": 186.52360000000002,
+          "targets": 28,
+          "hitWindowSeconds": 0.3,
+          "radius": 38
+        },
+        {
+          "stage": "final-climax",
+          "startSeconds": 186.52360000000002,
+          "endSeconds": 219.16523,
+          "targets": 61,
+          "hitWindowSeconds": 0.23,
+          "radius": 24
+        },
+        {
+          "stage": "landing",
+          "startSeconds": 219.16523,
+          "endSeconds": 233.1545,
+          "targets": 7,
+          "hitWindowSeconds": 0.34,
+          "radius": 42
+        }
+      ],
+      "visualManifest": {
+        "schema": "trackcade-private-first-pass-artist-visual-v1",
+        "id": "need-a-bag",
+        "style": "signal-towers",
+        "originalArtistInput": {
+          "vision": "Cartoonish Fortnite type vibe.",
+          "mustHave": "graffiti",
+          "mustNotHave": "zesty"
+        },
+        "trackcadeInterpretation": {
+          "vision": "Original sculpted cartoon spaces, chunky outlined surfaces, readable silhouettes and responsive painted materials.",
+          "graffiti": "Original abstract spray-glyph language woven into architecture and impact effects; no lyrics, logos or source naming.",
+          "zesty": {
+            "originalConstraint": "zesty",
+            "workingInterpretation": "Avoid overly fussy decorative excess; use grounded bold forms and restrained accents.",
+            "confidence": "low: ambiguous slang; this preview is a first-pass interpretation, not a confirmed definition",
+            "influencedDecisions": [
+              "limited simultaneous effects",
+              "no glitter showers",
+              "bold architectural shapes rather than ornate decoration"
+            ],
+            "identityInference": "none; no gender, sexuality or genre assumptions"
+          }
+        },
+        "sharedDNA": {
+          "geometry": "exaggerated bevels and thick charcoal outlines",
+          "materials": "matte painted slabs with warm off-white edge highlights",
+          "graffitiLanguage": "original angular spray glyphs, rough paint underlays and short drips",
+          "targets": "readable circular impact centers and unaltered closing rings",
+          "feedback": "small paint marks with bounded life and intensity",
+          "visualPriority": "clear central playfield; architecture frames the sides"
+        },
+        "name": "Paint Signal Garden",
+        "environment": "a stepped field of offset painted monoliths around a clear central lane",
+        "composition": "vertical side towers, staggered depth, stepped pedestal floor",
+        "graffiti": "vertical sprayed glyph stacks climbing separate tower faces; paint caps glow in sequence",
+        "motion": "bounded vertical lifts and slow depth parallax; no constant full-screen flash",
+        "transition": "one paint band climbs the tower stack at objective contrast changes",
+        "target": "four compact dashed paint caps around the closing ring",
+        "impact": "a short upward paint spray",
+        "energyResponse": "tower lift and glyph reveal respond to smoothed energy; accents only every fourth pulse",
+        "density": "compact repeated vertical marks",
+        "lighting": "rim-lit caps with flat dark side planes",
+        "mood": "structured, bold, kinetic",
+        "palette": {
+          "bg": "#182726",
+          "panel": "#2a4037",
+          "primary": "#b9dc70",
+          "secondary": "#61cbd7",
+          "gold": "#f4d586",
+          "white": "#fff1d6",
+          "muted": "#bdccc6",
+          "danger": "#e96662"
+        },
+        "objectiveInfluence": {
+          "selectionRule": "highest measured broad attack density; most regular pulse strengthens bounded vertical rhythm",
+          "measurements": {
+            "broadAttackDensityPerSecond": 4.413382542477199,
+            "coarseContrastBoundaries": [
+              27.5,
+              54,
+              96,
+              136.5,
+              178.5,
+              219.5
+            ],
+            "dynamicContrastRatio": 2.935209209833753,
+            "estimatedPulseIntervalSeconds": 0.42956916099773246,
+            "gridNoveltySupportFraction": 0.5322283609576427,
+            "meanRms": 0.32837328756710393,
+            "productionValidated": false,
+            "pulseWindowAgreementWithin40ms": 1,
+            "rmsCoefficientOfVariation": 0.3524855203421356,
+            "sourceIdentity": "UNKNOWN"
+          }
+        },
+        "sourceIdentity": "UNKNOWN",
+        "titleDrivenTheme": false,
+        "genreInference": false
+      },
+      "originalArtistInput": {
+        "vision": "Cartoonish Fortnite type vibe.",
+        "mustHave": "graffiti",
+        "mustNotHave": "zesty"
+      },
+      "audioProvenance": {
+        "decodedPcmSha256": "1c1adb921434ee06df046e63cb5d158e313c9e8872c713b8a2a30c3aa8b68901",
+        "filename": "Need A Bag (REST100) Final.mp3",
+        "inputAudioSha256": "f7fc89b87881d5201a3830465a7d1680f63b9aee147e24221313c6c3c1a29548"
+      },
+      "handoffRecoveryIndices": [
+        12,
+        174,
+        272,
+        342,
+        391,
+        435,
+        511
+      ]
+    }
+  ],
+  "pairwiseDifferences": [
+    {
+      "pair": [
+        "laid-back",
+        "wanna-get-lit"
+      ],
+      "differences": [
+        {
+          "dimension": "environment",
+          "a": "wide suspended terraces over a deep sculpted basin",
+          "b": "a sculpted atrium with oversized hinged panels and open arches"
+        },
+        {
+          "dimension": "composition",
+          "a": "horizontal foreground shelves, curved horizon and distant stacked islands",
+          "b": "diagonal foreground wedges, alternating side shutters and a central arch"
+        },
+        {
+          "dimension": "graffiti",
+          "a": "large wrapped wall glyphs, broad brushed ribbons and soft short drips",
+          "b": "cutout spray stencils split across hinged surfaces; paint appears as panels open"
+        },
+        {
+          "dimension": "motion",
+          "a": "slow opposing terrace drift with low-amplitude paint-band breathing",
+          "b": "slow hinged panel opening, with stronger contrast-driven expansion"
+        },
+        {
+          "dimension": "transition",
+          "a": "a painted horizon ribbon travels across the terraces at objective contrast changes",
+          "b": "opposed shutters reveal a fresh stencil panel at objective contrast changes"
+        },
+        {
+          "dimension": "target",
+          "a": "two broad chalk brackets outside the closing ring",
+          "b": "three directional paint wedges around the closing ring"
+        },
+        {
+          "dimension": "impact",
+          "a": "a flattened short paint swipe",
+          "b": "a small angular stencil stamp"
+        }
+      ],
+      "atLeastThreeBeyondColor": true
+    },
+    {
+      "pair": [
+        "laid-back",
+        "need-a-bag"
+      ],
+      "differences": [
+        {
+          "dimension": "environment",
+          "a": "wide suspended terraces over a deep sculpted basin",
+          "b": "a stepped field of offset painted monoliths around a clear central lane"
+        },
+        {
+          "dimension": "composition",
+          "a": "horizontal foreground shelves, curved horizon and distant stacked islands",
+          "b": "vertical side towers, staggered depth, stepped pedestal floor"
+        },
+        {
+          "dimension": "graffiti",
+          "a": "large wrapped wall glyphs, broad brushed ribbons and soft short drips",
+          "b": "vertical sprayed glyph stacks climbing separate tower faces; paint caps glow in sequence"
+        },
+        {
+          "dimension": "motion",
+          "a": "slow opposing terrace drift with low-amplitude paint-band breathing",
+          "b": "bounded vertical lifts and slow depth parallax; no constant full-screen flash"
+        },
+        {
+          "dimension": "transition",
+          "a": "a painted horizon ribbon travels across the terraces at objective contrast changes",
+          "b": "one paint band climbs the tower stack at objective contrast changes"
+        },
+        {
+          "dimension": "target",
+          "a": "two broad chalk brackets outside the closing ring",
+          "b": "four compact dashed paint caps around the closing ring"
+        },
+        {
+          "dimension": "impact",
+          "a": "a flattened short paint swipe",
+          "b": "a short upward paint spray"
+        }
+      ],
+      "atLeastThreeBeyondColor": true
+    },
+    {
+      "pair": [
+        "wanna-get-lit",
+        "need-a-bag"
+      ],
+      "differences": [
+        {
+          "dimension": "environment",
+          "a": "a sculpted atrium with oversized hinged panels and open arches",
+          "b": "a stepped field of offset painted monoliths around a clear central lane"
+        },
+        {
+          "dimension": "composition",
+          "a": "diagonal foreground wedges, alternating side shutters and a central arch",
+          "b": "vertical side towers, staggered depth, stepped pedestal floor"
+        },
+        {
+          "dimension": "graffiti",
+          "a": "cutout spray stencils split across hinged surfaces; paint appears as panels open",
+          "b": "vertical sprayed glyph stacks climbing separate tower faces; paint caps glow in sequence"
+        },
+        {
+          "dimension": "motion",
+          "a": "slow hinged panel opening, with stronger contrast-driven expansion",
+          "b": "bounded vertical lifts and slow depth parallax; no constant full-screen flash"
+        },
+        {
+          "dimension": "transition",
+          "a": "opposed shutters reveal a fresh stencil panel at objective contrast changes",
+          "b": "one paint band climbs the tower stack at objective contrast changes"
+        },
+        {
+          "dimension": "target",
+          "a": "three directional paint wedges around the closing ring",
+          "b": "four compact dashed paint caps around the closing ring"
+        },
+        {
+          "dimension": "impact",
+          "a": "a small angular stencil stamp",
+          "b": "a short upward paint spray"
+        }
+      ],
+      "atLeastThreeBeyondColor": true
+    }
+  ],
+  "visualVerdict": "A",
+  "visualVerdictScope": "Manual first-pass comparison: strong shared graphic/material DNA and clearly different horizontal/hinged/vertical architecture. This is not artist approval, validated musical timing, or production 3D art quality.",
+  "styleRevisionsAfterFirstVisualInspection": 0,
+  "privateAudioCommitted": false,
+  "privateAudioPublished": false,
+  "pagesChanged": false,
+  "microMotifV1V2Integrated": false,
+  "semanticV9Changed": false,
+  "stage1LabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "providerCalls": 0,
+  "spendUSD": 0,
+  "analysisCodeSha256": {
+    "build_report.cjs": "c834839c2a2793ac7f2319ece55f35042bc57defea2338e8be777ed1c873cd06",
+    "index.html": "7bb4e5af4d7cdd1fad9162d8a09895bd92019d064afc44de55c6b875fa588e3b",
+    "manifests.cjs": "5fc55e03eeabc2358b180d2b16e6f59f9d8d8cde7faadf55a3b4b1b586f77a78",
+    "play.html": "8d9a212cdb3164ce797a5b3c7d243ac46e9313f8bd35ef79417b192cbfbc3194",
+    "prepare.py": "26a6c573db3a9236dcdac3bb93a83b3abd0a66782f87a331bdc6285f4e591735",
+    "preview.html": "b93a5156391af4007ae94bfbe20305890ea771f8f7097c76f0bc99420351a018",
+    "preview.js": "e05c4e5892b818a8fa71ac46a33c6d2c3636472fe80988f35c2493048055286f",
+    "private-plan.js": "98ffea2d5d3ed09a91ce6781a831c1e9baa78bbc1d39e85232c7b4b24b332e04",
+    "serve.cjs": "1dec1ca4246e1141ab79d3fc12008f1d60d4e5c83ae93127a10118e4942ded9a",
+    "test_browser.cjs": "bb9de805f020f8c6e38eb3018bcf2b069002e87c937d9efc0d78144e5f2cdee6",
+    "test_contract.cjs": "5de331af40c01a9fb1ef52de1ff799890de8db49768f66c3549598949fe7cd6e",
+    "test_private_ui.cjs": "ceb67d4b34ff14b7e6ffb8b9a4aba06c2a3bc8d940dbdc786c7b5ec82de46e0c",
+    "world.js": "38d288ddb098ba82214611c69fa59ff364b04b2b17599289085e5644546abce0"
+  },
+  "status": "STOP; first-pass preview only; no automatic revisions"
+}
