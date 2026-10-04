@@ -11,6 +11,7 @@
     #error h1{font-size:24px;margin:0 0 12px;color:#ff4d8d} #error p{line-height:1.45;color:#cbd4ff;word-break:break-word}
   </style>
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
+  <script src="./timing.js"></script>
 </head>
 <body>
 <div id="game"></div><div id="error"><h1>Pulse Tap couldn't load this track.</h1><p id="errorText"></p></div>
@@ -18,6 +19,7 @@
 (() => {
   const params = new URLSearchParams(location.search);
   const manifestUrl = params.get('track');
+  const debug = params.get('debug')==='1';
   const errorBox = document.getElementById('error');
   const errorText = document.getElementById('errorText');
   function fail(message){ errorText.textContent = message; errorBox.style.display='block'; }
@@ -36,12 +38,12 @@
       track = await response.json();
     } catch (e) { fail(e.message || 'Unable to fetch the track manifest.'); return; }
 
-    const required = ['artist','title','audioUrl','bpm'];
+    const required = ['artist','title','audioUrl'];
     const missing = required.filter(k => track[k] === undefined || track[k] === null || track[k] === '');
     if (missing.length) { fail(`The track manifest is missing: ${missing.join(', ')}.`); return; }
 
     const audio = new Audio();
-    audio.src = track.audioUrl;
+    audio.src = new URL(track.audioUrl, new URL(manifestUrl, location.href)).href;
     audio.preload = 'auto';
     audio.crossOrigin = 'anonymous';
 
@@ -57,17 +59,20 @@
       muted: 0xa7b0d8
     };
 
-    const bpm = Math.max(40, Math.min(240, Number(track.bpm) || 120));
-    const beat = 60 / bpm;
-    const beatOffset = Number(track.beatOffset) || 0;
     const declaredLength = Number(track.songLength) || 0;
     const events = Array.isArray(track.events) ? track.events.slice().sort((a,b)=>(a.t||0)-(b.t||0)) : [];
-    const energyCurve = Array.isArray(track.energyCurve) && track.energyCurve.length ? track.energyCurve : [0.55];
 
     class PulseScene extends Phaser.Scene {
-      constructor(){ super('pulse'); this.started=false; this.finished=false; this.paused=false; this.score=0; this.combo=0; this.bestCombo=0; this.targets=[]; this.nextBeat=beatOffset; this.spawnAhead=Math.min(0.62, beat*0.82); this.hitWindow=0.30; this.lastPulseBeat=-1; }
+      constructor(){ super('pulse'); this.resetRun(); }
+
+      resetRun(){
+        this.started=false; this.finished=false; this.paused=false; this.score=0; this.combo=0; this.bestCombo=0;
+        this.targets=[]; this.timing=PulseTiming.createTiming(track); this.hitWindow=0.30; this.lastPulseBeat=-1;
+        this.lastHitDelta=null; this.section=null; this.sectionNumber=0; this.spawnedCount=0; this.maxTargets=0;
+      }
 
       create(){
+        this.resetRun();
         const w=this.scale.width,h=this.scale.height;
         this.cameras.main.setBackgroundColor(C.bg);
         this.bg=this.add.graphics();
@@ -84,6 +89,8 @@
         this.progress=this.add.rectangle(20,h-18,0,5,C.primary,1).setOrigin(0,.5);
         this.pauseBtn=this.add.text(w-20,h-50,'Ⅱ',{fontFamily:'Arial',fontSize:'24px',fontStyle:'bold',color:'#ffffff'}).setOrigin(1,.5).setInteractive({useHandCursor:true});
         this.pauseBtn.on('pointerdown',()=>this.togglePause());
+        this.sectionText=this.add.text(w/2,117,'',{fontSize:'11px',color:'#a7b0d8'}).setOrigin(.5);
+        if(debug)this.debugText=this.add.text(12,140,'',{fontFamily:'monospace',fontSize:'10px',color:'#cbd4ff',backgroundColor:'#080b1acc',padding:{x:5,y:4}}).setDepth(20);
 
         this.input.on('pointerdown',(p)=>{
           if (!this.started) { this.startRun(); return; }
@@ -91,9 +98,13 @@
           if (p.y > h-85 && p.x > w-80) return;
           this.tryHit(p.x,p.y);
         });
-        this.scale.on('resize',(size)=>this.relayout(size.width,size.height));
-        audio.addEventListener('ended',()=>this.finishRun());
-        audio.addEventListener('error',()=>fail('The song audio could not be loaded from the manifest audioUrl.'));
+        const resize=(size)=>this.relayout(size.width,size.height);
+        this.scale.on('resize',resize);
+        const ended=()=>this.finishRun();
+        const audioError=()=>fail('The song audio could not be loaded from the manifest audioUrl.');
+        audio.addEventListener('ended',ended);audio.addEventListener('error',audioError);
+        this.events.once('shutdown',()=>{audio.pause();this.scale.off('resize',resize);audio.removeEventListener('ended',ended);audio.removeEventListener('error',audioError);});
+        if(debug)window.pulseTapDebug={audio,scene:this,snapshot:()=>this.debugSnapshot()};
         this.drawBackdrop(0);
       }
 
@@ -102,12 +113,13 @@
         this.comboText.setPosition(w-20,22); this.status.setPosition(w/2,h*.72); this.help.setPosition(w/2,h*.78);
         this.progressBg.setPosition(w/2,h-18).setSize(w-40,5); this.progress.setPosition(20,h-18);
         this.pauseBtn.setPosition(w-20,h-50);
+        this.sectionText.setPosition(w/2,117);
       }
 
       async startRun(){
         if (this.started) return;
         this.started=true; this.status.setText(''); this.help.setText('');
-        this.score=0; this.combo=0; this.bestCombo=0; this.targets=[]; this.nextBeat=Math.max(beatOffset,0.6);
+        this.score=0; this.combo=0; this.bestCombo=0; this.targets=[];
         try { audio.currentTime=0; await audio.play(); }
         catch(e){ this.started=false; this.status.setText('TAP TO START'); this.help.setText('Audio playback was blocked — tap again'); return; }
       }
@@ -116,19 +128,11 @@
         if (!this.started || this.finished) return;
         this.paused=!this.paused;
         if(this.paused){ audio.pause(); this.status.setText('PAUSED'); this.help.setText('Tap Ⅱ to resume'); }
-        else { audio.play(); this.status.setText(''); this.help.setText(''); }
+        else { audio.play().catch(()=>{this.paused=true;this.status.setText('PAUSED');this.help.setText('Tap Ⅱ to resume');}); this.status.setText(''); this.help.setText(''); }
       }
 
       energyAt(t){
-        const duration = declaredLength || audio.duration || 1;
-        const idx=Math.max(0,Math.min(energyCurve.length-1,Math.floor((t/duration)*energyCurve.length)));
-        return Number(energyCurve[idx]) || .5;
-      }
-
-      eventAt(t){
-        let current=null;
-        for(const e of events){ if(Number(e.t)<=t) current=e; else break; }
-        return current;
+        return PulseTiming.energyAt(track,t,declaredLength || audio.duration || 1);
       }
 
       isDrop(t){
@@ -144,14 +148,15 @@
         return {x,y};
       }
 
-      spawnTarget(targetTime, accent=false){
+      spawnTarget(targetTime, accent=false, spawnAhead=.4, beatIndex=null){
         const {x,y}=this.randomSpot();
         const color=accent?C.secondary:C.primary;
         const core=this.add.circle(x,y,30,color,.24).setStrokeStyle(3,color,1);
         const ring=this.add.circle(x,y,57,color,.05).setStrokeStyle(4,color,.95);
         const dot=this.add.circle(x,y,7,C.white,.95);
-        const target={x,y,targetTime,core,ring,dot,color,hit:false,missed:false};
+        const target={x,y,targetTime,spawnAhead,beatIndex,core,ring,dot,color,hit:false,missed:false};
         this.targets.push(target);
+        this.spawnedCount++;this.maxTargets=Math.max(this.maxTargets,this.targets.length);
         this.targetLayer.add([core,ring,dot]);
       }
 
@@ -164,7 +169,8 @@
           if(d<48 && d<bestDist){ best=target; bestDist=d; }
         }
         if(!best){ this.flashText('MISS',C.danger); this.combo=0; return; }
-        const delta=Math.abs(t-best.targetTime);
+        this.lastHitDelta=t-best.targetTime;
+        const delta=Math.abs(this.lastHitDelta);
         if(delta>this.hitWindow){ this.flashText('EARLY / LATE',C.danger); this.combo=0; return; }
         best.hit=true;
         let base,label,color;
@@ -195,19 +201,30 @@
         const w=this.scale.width,h=this.scale.height, energy=this.energyAt(t);
         this.bg.clear();
         this.bg.fillStyle(C.bg,1).fillRect(0,0,w,h);
-        this.bg.lineStyle(1,C.primary,.08+.12*energy);
+        this.bg.lineStyle(1,this.sectionNumber%2?C.secondary:C.primary,.08+.12*energy);
         const gap=42;
         for(let x=0;x<w;x+=gap)this.bg.lineBetween(x,120,x,h);
         for(let y=120;y<h;y+=gap)this.bg.lineBetween(0,y,w,y);
       }
 
       pulseBackdrop(t){
-        const b=Math.floor((t-beatOffset)/beat);
-        if(b===this.lastPulseBeat) return;
+        const b=this.timing.indexAt(t);
+        if(b<0 || b===this.lastPulseBeat) return;
         this.lastPulseBeat=b;
         const energy=this.energyAt(t); const color=this.isDrop(t)?C.secondary:C.primary;
         const ring=this.add.circle(this.scale.width/2,this.scale.height/2,40,color,0).setStrokeStyle(3,color,.35+energy*.25);
-        this.tweens.add({targets:ring,scale:8,alpha:0,duration:Math.max(260,beat*650),onComplete:()=>ring.destroy()});
+        this.tweens.add({targets:ring,scale:8,alpha:0,duration:Math.max(260,this.timing.intervalAt(b)*650),onComplete:()=>ring.destroy()});
+      }
+
+      debugSnapshot(){
+        const t=audio.currentTime,index=this.timing.indexAt(t)+1;
+        return {audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
+      }
+
+      showDebug(){
+        if(!this.debugText)return;
+        const d=this.debugSnapshot(),f=v=>v===null?'—':v.toFixed(3);
+        this.debugText.setText(`${d.timingSource}\naudio ${f(d.audioTime)}s  beat #${d.beatIndex}\nnext ${f(d.upcomingBeat)}s  interval ${f(d.beatInterval)}s\nenergy ${f(d.energy)}  passage ${f(d.sectionTimestamp)}s\nhit Δ ${d.hitDelta===null?'—':(d.hitDelta*1000).toFixed(0)+'ms'}  targets ${d.activeTargets}`);
       }
 
       finishRun(){
@@ -217,26 +234,25 @@
         this.score+=bonus; this.scoreText.setText(String(this.score));
         this.status.setText('TRACK COMPLETE');
         this.help.setText(`Score ${this.score.toLocaleString()}  •  Best combo ${this.bestCombo}x\nTap anywhere to replay`);
+        this.showDebug();
         this.input.once('pointerdown',()=>{ this.scene.restart(); });
       }
 
       update(){
         if(!this.started||this.finished||this.paused) return;
         const t=audio.currentTime;
-        const duration=declaredLength||audio.duration||0;
+        const duration=Number.isFinite(audio.duration)&&audio.duration>0?audio.duration:declaredLength;
+        const section=PulseTiming.sectionAt(events,t);
+        if(section!==this.section){this.section=section;this.sectionNumber=events.filter(e=>e.kind==='section'&&e.t<=t).length;this.sectionText.setText(section?`PASSAGE ${this.sectionNumber}`:'');}
         this.drawBackdrop(t); this.pulseBackdrop(t);
 
-        while(this.nextBeat - this.spawnAhead <= t){
-          const accent=this.isDrop(this.nextBeat) || (Math.round((this.nextBeat-beatOffset)/beat)%4===0);
-          this.spawnTarget(this.nextBeat,accent);
-          this.nextBeat+=beat;
-          if(this.isDrop(t) && this.energyAt(t)>.82 && Math.random()<.35){ this.spawnTarget(this.nextBeat-beat*.5,true); }
-        }
+        for(const next of this.timing.drain(t,duration||Infinity,this.hitWindow))
+          this.spawnTarget(next.targetTime,this.isDrop(next.targetTime)||next.index%4===0,next.spawnAhead,next.index);
 
         for(const target of [...this.targets]){
           if(target.hit||target.missed) continue;
           const delta=target.targetTime-t;
-          const phase=Phaser.Math.Clamp(delta/this.spawnAhead,0,1);
+          const phase=Phaser.Math.Clamp(delta/target.spawnAhead,0,1);
           const scale=.52 + phase*.75;
           target.ring.setScale(scale);
           target.core.setAlpha(.20 + (1-phase)*.35);
@@ -247,7 +263,8 @@
           }
         }
         this.targets=this.targets.filter(x=>!(x.hit||x.missed) || (x.core&&x.core.active));
-        if(duration>0){ this.progress.width=(this.scale.width-40)*Phaser.Math.Clamp(t/duration,0,1); if(t>=duration-.08)this.finishRun(); }
+        this.showDebug();
+        if(duration>0){ this.progress.width=(this.scale.width-40)*Phaser.Math.Clamp(t/duration,0,1); if(t>=duration)this.finishRun(); }
       }
     }
 
