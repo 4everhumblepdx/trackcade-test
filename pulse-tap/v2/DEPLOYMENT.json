@@ -1,7 +1,7 @@
 {
   "version": "Pulse Tap v2.1",
   "sourceBranch": "trackcade-semantic-external-holdout-v1",
-  "sourceCommit": "d7926803101634efea3f94149c4b083f182c6402",
+  "sourceCommit": "54d01e34dab87f8e1236cb5e549cd1283d99f402",
   "sourceBeatTimestampsChanged": false,
   "alldat": {
     "sourceBeats": 590,
@@ -22,6 +22,7 @@
   "providerCalls": 0,
   "spendUsd": 0,
   "manifestAdaptation": "Relative audioUrl only; frozen source timing and existing root audio unchanged",
-  "normalUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/",
-  "debugUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?debug=1"
+  "normalUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.1",
+  "debugUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.1&debug=1",
+  "cacheProtection": "Versioned HTML link and script URLs"
 }
