@@ -1,5 +1,5 @@
 /* Objective evidence ranks immutable legal beats; no semantic command mapping. */
-(function(root,factory){const api=factory();if(typeof module==='object'&&module.exports)module.exports=api;else root.PulseAction=api;})(globalThis,function(){
+(function(root,factory){const api=factory(typeof module==='object'&&module.exports?require('./choice.js'):root.PulseChoice);if(typeof module==='object'&&module.exports)module.exports=api;else root.PulseAction=api;})(globalThis,function(Choice){
  'use strict';
  const clamp=n=>Math.max(0,Math.min(1,n));
  const nearest=(rows,t)=>rows.reduce((best,row)=>!best||Math.abs(row.time-t)<Math.abs(best.time-t)?row:best,null);
@@ -26,7 +26,8 @@
   return {total:clamp(Object.values(components).reduce((a,b)=>a+b,0)),components,energy,energyDelta,contrast,lowDemand,nearestLandmark:landmark?{...landmark,distance:Math.abs(t-landmark.time)}:null,nearestOnset:onset?{...onset,distance:Math.abs(t-onset.time)}:null,sectionBoundary:boundary?{...boundary,distance:Math.abs(t-boundary.time)}:null,beatAttack:beat,vocalEvidence:null};
  }
  function plan(times,duration,track,e,D,energyAt,releaseGap){
-  const rows=times.map((t,i)=>({...D.decision(i,t,duration,energyAt(t),releaseGap),musicalImpactTime:t,presentationStartTime:t-D.profile(t,duration,energyAt(t)).lead,presentationLead:D.profile(t,duration,energyAt(t)).lead,actionSalience:salience(i,t,track,e,energyAt),selectionReason:'not selected',skippedReason:'difficulty quota'}));
+  const rows=times.map((t,i)=>({...D.decision(i,t,duration,energyAt(t),releaseGap),musicalImpactTime:t,presentationStartTime:t-D.profile(t,duration,energyAt(t)).lead,presentationLead:D.profile(t,duration,energyAt(t)).lead,actionSalience:salience(i,t,track,e,energyAt),playableEnd:duration,releaseGap,selectionReason:'not selected',skippedReason:'difficulty quota'}));
+  Choice.annotate(rows);
   // Each quota is local to four source beats, split at stage boundaries.
   // Dynamic programming carries only the trailing burst length across windows.
   // It prevents greedy choices from forcing an unreadable later burst; it never
@@ -35,29 +36,33 @@
   while(start<rows.length){
    let end=start+1;while(end<rows.length&&Math.floor(end/4)===Math.floor(start/4)&&rows[end].name===rows[start].name)end++;
    const group=rows.slice(start,end),original=group.filter(r=>r.selected),protectedStage=['opening','landing'].includes(group[0].name);
-   const eligible=group.filter(r=>r.originalBeatIndex>=4&&r.targetTime+r.window<=duration&&r.targetTime<=duration-releaseGap&&(protectedStage||r.originalBeatIndex%16!==15));
+   const eligible=group.filter(r=>r.originalBeatIndex>=4&&r.targetTime+r.window<=duration&&r.targetTime<=duration-releaseGap);
    const low=group.every(r=>r.actionSalience.lowDemand);
-   const quota=protectedStage?original.length:Math.min(original.length,low?1:original.length);
+   const quota=protectedStage?original.length:Math.min(original.length,low?2:original.length);
+   for(const r of group){r.actionQuota=quota;r.localWindow={startIndex:start,endIndex:end-1};}
    const options=[];
    if(protectedStage)options.push(original);
    else for(let mask=0;mask<(1<<eligible.length);mask++){const subset=eligible.filter((_,j)=>mask&(1<<j));if(subset.length===quota)options.push(subset);}
    const nextStates=new Map();
    for(const [tail,state] of states)for(const subset of options){
     let run=tail,valid=true;
-    for(const r of group){run=subset.includes(r)?run+1:0;if(run>5)valid=false;}
+    for(const r of group){run=subset.includes(r)?run+1:0;if(run>(r.maxBurstLength??5))valid=false;}
     if(!valid)continue;
-    const value=state.value+subset.reduce((v,r)=>v+r.actionSalience.total-.035*Math.min(...original.map(o=>Math.abs(o.originalBeatIndex-r.originalBeatIndex)),4),0);
+    const value=state.value+subset.reduce((v,r)=>v+r.localActionPreference-.000001*Math.min(...original.map(o=>Math.abs(o.originalBeatIndex-r.originalBeatIndex)),4),0);
     if(!nextStates.has(run)||value>nextStates.get(run).value+1e-12)nextStates.set(run,{value,path:[...state.path,{group,subset,original,protectedStage,low}]});
    }
-   if(!nextStates.size)throw Error('No readable selection can satisfy the frozen local quota.');
+   if(!nextStates.size)throw Error('No readable selection can satisfy local quota at '+start+' '+group[0].name);
    states=nextStates;start=end;
   }
   const best=[...states.values()].reduce((a,b)=>b.value>a.value+1e-12?b:a);
   for(const {group,subset,original,protectedStage,low} of best.path)for(const r of group){
    r.selected=subset.includes(r);
-   r.selectionReason=r.selected?(protectedStage?'rhythmic continuity':original.includes(r)?'both':'salience'):'not selected';
-   r.skippedReason=r.selected?null:r.originalBeatIndex<4?'beginner safety':r.targetTime+r.window>duration||r.targetTime>duration-releaseGap?'ending safety':protectedStage?'preserved tutorial/landing pattern':r.originalBeatIndex%16===15?'readable burst gap':low?'low-demand quota':'local salience / continuity quota';
+   r.selectionReason=r.selected?(protectedStage?'rhythmic continuity':original.includes(r)?'both':'local musical preference'):'not selected';
+   r.skippedReason=r.selected?null:r.originalBeatIndex<4?'beginner safety':r.targetTime+r.window>duration||r.targetTime>duration-releaseGap?'ending safety':protectedStage?'preserved tutorial/landing pattern':low?'low-demand quota':'local salience / continuity quota';
   }
+  const corrected=Choice.improve(rows);
+  Choice.annotateSelection(rows);
+  for(const r of rows)r.continuityReplacement=corrected.find(c=>c.skippedIndex===r.originalBeatIndex)||null;
   return rows;
  }
  return {validate,salience,plan};

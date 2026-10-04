@@ -1,8 +1,8 @@
 {
-  "schema": "trackcade-pulse-tap-static-deployment-v22",
-  "version": "2.2",
+  "schema": "trackcade-pulse-tap-static-deployment-v23",
+  "version": "2.3",
   "sourceBranch": "trackcade-semantic-external-holdout-v1",
-  "sourceCommit": "b5908b1865ec45451ba02e53a10bc8a263527bd8",
+  "sourceCommit": "a4e88bdcfa81f60677cc92ea793ed2d7978e0ffc",
   "path": "pulse-tap/v2/",
   "hosting": "existing main-branch GitHub Pages",
   "musicalTimestampsChanged": false,
@@ -12,7 +12,7 @@
   "files": [
     {
       "name": "index.html",
-      "sha256": "f2b4de56316539e51485cadedaa7d9ec8838e546fbc0874bac5ff138a9beaa28"
+      "sha256": "1d1aa9ee25a1d255ace186868d45c4b71690f0b6ae5b64e6abbe95f92d69e03b"
     },
     {
       "name": "timing.js",
@@ -20,19 +20,27 @@
     },
     {
       "name": "difficulty.js",
-      "sha256": "201dd39179045663462382cbcf82edbb87c3958bcaff84a4c2d9a5cc85c11605"
+      "sha256": "ff7478fa9fba88ae3dba4ca9aadea48c6694c5277318f9f4671883e4aa5d5865"
     },
     {
       "name": "ending.js",
       "sha256": "e1ba5ff11b841dc7aa6f99eaf8b469f07caa7bbf56a13133b9b820103337f355"
     },
     {
+      "name": "choice.js",
+      "sha256": "768f88ee5e520daca3cbdc0c482e880a931b947302eea150b9f71582447f6349"
+    },
+    {
       "name": "action.js",
-      "sha256": "8a5be412db1fe8594dc4aede56a2d68722b8a0c494d6c41247cbeeaf26d2815d"
+      "sha256": "c4d4501434a8c433122868e4eb0a8b71462320529ecb31261d1b225925058ecd"
+    },
+    {
+      "name": "visual.js",
+      "sha256": "dc397f7a9b89284bdb6a5dcb0ff8185397371d75b713fcfcda13e41f95204ad0"
     },
     {
       "name": "impact.js",
-      "sha256": "df7e297924c0111dd6c5605d02d389ba25f576ecabe41800438ad519e750efef"
+      "sha256": "8d0af04570e5ebfd9a6f21bbfbdded56f14b215da99064351c162d9dcaf2f99a"
     },
     {
       "name": "alldat-analyzer-test.json",
