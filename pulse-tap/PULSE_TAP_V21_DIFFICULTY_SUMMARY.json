@@ -1,0 +1,477 @@
+{
+  "version": "2.1",
+  "fixtures": [
+    {
+      "name": "alldat",
+      "ending": {
+        "rawDuration": 196.075102,
+        "playableEndTime": 190.357,
+        "releaseGap": 1.328000000000003,
+        "source": "frozen-energy-terminal-suffix",
+        "reason": "sustained-terminal-collapse",
+        "evidence": {
+          "firstLowSampleIndex": 233,
+          "firstLowSampleTime": 190.357,
+          "lowSampleCount": 7,
+          "observedLowSpan": 4.901999999999987,
+          "lastSampleTime": 195.259,
+          "threshold": 0.1,
+          "activeLevel": 0.8694,
+          "precedingContrastingSamples": 8,
+          "medianEnergyInterval": 0.8170000000000002,
+          "medianBeatInterval": 0.33200000000000074,
+          "policy": "terminal suffix only; >=4 samples; >=max(2.5s,2 sample intervals); final 15%; complete tail coverage; local contrast"
+        }
+      },
+      "sourceBeats": 590,
+      "playableEndTime": 190.357,
+      "selectedTargets": 282,
+      "finalTarget": 188.855,
+      "releaseGap": 1.5020000000000095,
+      "stages": [
+        {
+          "stage": "opening",
+          "progress": [
+            0,
+            0.12
+          ],
+          "sourceBeats": 69,
+          "targets": 17,
+          "density": 0.2463768115942029,
+          "targetsPerSecond": 0.7442156929698759,
+          "averageInterval": 1.3284374999999997,
+          "minimumInterval": 1.3279999999999994,
+          "hitWindowRange": [
+            0.36,
+            0.36
+          ],
+          "radiusRange": [
+            44,
+            44
+          ],
+          "travelRange": [
+            86,
+            86
+          ],
+          "basePerfectPoints": 2040
+        },
+        {
+          "stage": "build",
+          "progress": [
+            0.12,
+            0.32
+          ],
+          "sourceBeats": 114,
+          "targets": 34,
+          "density": 0.2982456140350877,
+          "targetsPerSecond": 0.893058831563851,
+          "averageInterval": 1.107030303030303,
+          "minimumInterval": 0.6639999999999944,
+          "hitWindowRange": [
+            0.32,
+            0.34
+          ],
+          "radiusRange": [
+            40,
+            42
+          ],
+          "travelRange": [
+            110,
+            145
+          ],
+          "basePerfectPoints": 4080
+        },
+        {
+          "stage": "developing",
+          "progress": [
+            0.32,
+            0.5
+          ],
+          "sourceBeats": 103,
+          "targets": 53,
+          "density": 0.5145631067961165,
+          "targetsPerSecond": 1.546801244211899,
+          "averageInterval": 0.6450384615384614,
+          "minimumInterval": 0.33199999999999363,
+          "hitWindowRange": [
+            0.29,
+            0.31
+          ],
+          "radiusRange": [
+            36,
+            38
+          ],
+          "travelRange": [
+            160,
+            190
+          ],
+          "basePerfectPoints": 6360
+        },
+        {
+          "stage": "mid-hard-push",
+          "progress": [
+            0.5,
+            0.63
+          ],
+          "sourceBeats": 75,
+          "targets": 47,
+          "density": 0.6266666666666667,
+          "targetsPerSecond": 1.8992653883937103,
+          "averageInterval": 0.5342608695652176,
+          "minimumInterval": 0.33199999999999363,
+          "hitWindowRange": [
+            0.27,
+            0.27
+          ],
+          "radiusRange": [
+            34,
+            34
+          ],
+          "travelRange": [
+            210,
+            210
+          ],
+          "basePerfectPoints": 5640
+        },
+        {
+          "stage": "relief",
+          "progress": [
+            0.63,
+            0.72
+          ],
+          "sourceBeats": 52,
+          "targets": 26,
+          "density": 0.5,
+          "targetsPerSecond": 1.517616315075826,
+          "averageInterval": 0.6642000000000001,
+          "minimumInterval": 0.6639999999999873,
+          "hitWindowRange": [
+            0.3,
+            0.3
+          ],
+          "radiusRange": [
+            38,
+            38
+          ],
+          "travelRange": [
+            170,
+            170
+          ],
+          "basePerfectPoints": 3120
+        },
+        {
+          "stage": "final-build",
+          "progress": [
+            0.72,
+            0.82
+          ],
+          "sourceBeats": 57,
+          "targets": 41,
+          "density": 0.7192982456140351,
+          "targetsPerSecond": 2.15384777024223,
+          "averageInterval": 0.4566250000000004,
+          "minimumInterval": 0.33199999999999363,
+          "hitWindowRange": [
+            0.25,
+            0.28
+          ],
+          "radiusRange": [
+            31,
+            35
+          ],
+          "travelRange": [
+            205,
+            240
+          ],
+          "basePerfectPoints": 4920
+        },
+        {
+          "stage": "final-climax",
+          "progress": [
+            0.82,
+            0.94
+          ],
+          "sourceBeats": 69,
+          "targets": 56,
+          "density": 0.8115942028985508,
+          "targetsPerSecond": 2.4515340474301794,
+          "averageInterval": 0.40456363636363646,
+          "minimumInterval": 0.33199999999999363,
+          "hitWindowRange": [
+            0.23,
+            0.23
+          ],
+          "radiusRange": [
+            29,
+            29
+          ],
+          "travelRange": [
+            250,
+            250
+          ],
+          "basePerfectPoints": 6720
+        },
+        {
+          "stage": "landing",
+          "progress": [
+            0.94,
+            1
+          ],
+          "sourceBeats": 34,
+          "targets": 8,
+          "density": 0.23529411764705882,
+          "targetsPerSecond": 0.700438299265765,
+          "averageInterval": 1.3284285714285684,
+          "minimumInterval": 1.3279999999999745,
+          "hitWindowRange": [
+            0.34,
+            0.34
+          ],
+          "radiusRange": [
+            42,
+            42
+          ],
+          "travelRange": [
+            110,
+            110
+          ],
+          "basePerfectPoints": 960
+        }
+      ],
+      "hitWindowRange": [
+        0.23,
+        0.36
+      ]
+    },
+    {
+      "name": "cvb",
+      "ending": {
+        "rawDuration": 309.420408,
+        "playableEndTime": 309.420408,
+        "releaseGap": 1.5,
+        "source": "duration-fallback",
+        "reason": "terminal-collapse-not-sufficiently-sustained",
+        "evidence": null
+      },
+      "sourceBeats": 812,
+      "playableEndTime": 309.420408,
+      "selectedTargets": 401,
+      "finalTarget": 306.629,
+      "releaseGap": 2.79140799999999,
+      "stages": [
+        {
+          "stage": "opening",
+          "progress": [
+            0,
+            0.12
+          ],
+          "sourceBeats": 99,
+          "targets": 24,
+          "density": 0.24242424242424243,
+          "targetsPerSecond": 0.6463697766179662,
+          "averageInterval": 1.5001304347826088,
+          "minimumInterval": 1.4999999999999991,
+          "hitWindowRange": [
+            0.36,
+            0.36
+          ],
+          "radiusRange": [
+            44,
+            44
+          ],
+          "travelRange": [
+            86,
+            86
+          ],
+          "basePerfectPoints": 2880
+        },
+        {
+          "stage": "build",
+          "progress": [
+            0.12,
+            0.32
+          ],
+          "sourceBeats": 163,
+          "targets": 47,
+          "density": 0.2883435582822086,
+          "targetsPerSecond": 0.7594844875261104,
+          "averageInterval": 1.3097391304347827,
+          "minimumInterval": 0.75,
+          "hitWindowRange": [
+            0.32,
+            0.34
+          ],
+          "radiusRange": [
+            40,
+            42
+          ],
+          "travelRange": [
+            110,
+            145
+          ],
+          "basePerfectPoints": 5640
+        },
+        {
+          "stage": "developing",
+          "progress": [
+            0.32,
+            0.5
+          ],
+          "sourceBeats": 143,
+          "targets": 75,
+          "density": 0.5244755244755245,
+          "targetsPerSecond": 1.34660370128743,
+          "averageInterval": 0.7485405405405405,
+          "minimumInterval": 0.375,
+          "hitWindowRange": [
+            0.29,
+            0.31
+          ],
+          "radiusRange": [
+            36,
+            38
+          ],
+          "travelRange": [
+            160,
+            190
+          ],
+          "basePerfectPoints": 9000
+        },
+        {
+          "stage": "mid-hard-push",
+          "progress": [
+            0.5,
+            0.63
+          ],
+          "sourceBeats": 108,
+          "targets": 72,
+          "density": 0.6666666666666666,
+          "targetsPerSecond": 1.7899470737112915,
+          "averageInterval": 0.5596056338028169,
+          "minimumInterval": 0.3739999999999952,
+          "hitWindowRange": [
+            0.27,
+            0.27
+          ],
+          "radiusRange": [
+            34,
+            34
+          ],
+          "travelRange": [
+            210,
+            210
+          ],
+          "basePerfectPoints": 8640
+        },
+        {
+          "stage": "relief",
+          "progress": [
+            0.63,
+            0.72
+          ],
+          "sourceBeats": 74,
+          "targets": 37,
+          "density": 0.5,
+          "targetsPerSecond": 1.3286489852702645,
+          "averageInterval": 0.7496666666666667,
+          "minimumInterval": 0.7489999999999952,
+          "hitWindowRange": [
+            0.3,
+            0.3
+          ],
+          "radiusRange": [
+            38,
+            38
+          ],
+          "travelRange": [
+            170,
+            170
+          ],
+          "basePerfectPoints": 4440
+        },
+        {
+          "stage": "final-build",
+          "progress": [
+            0.72,
+            0.82
+          ],
+          "sourceBeats": 79,
+          "targets": 57,
+          "density": 0.7215189873417721,
+          "targetsPerSecond": 1.8421538633612045,
+          "averageInterval": 0.5448571428571428,
+          "minimumInterval": 0.3739999999999952,
+          "hitWindowRange": [
+            0.25,
+            0.28
+          ],
+          "radiusRange": [
+            31,
+            35
+          ],
+          "travelRange": [
+            205,
+            240
+          ],
+          "basePerfectPoints": 6840
+        },
+        {
+          "stage": "final-climax",
+          "progress": [
+            0.82,
+            0.94
+          ],
+          "sourceBeats": 96,
+          "targets": 78,
+          "density": 0.8125,
+          "targetsPerSecond": 2.10070177400839,
+          "averageInterval": 0.46709090909090883,
+          "minimumInterval": 0.21999999999997044,
+          "hitWindowRange": [
+            0.23,
+            0.23
+          ],
+          "radiusRange": [
+            29,
+            29
+          ],
+          "travelRange": [
+            250,
+            250
+          ],
+          "basePerfectPoints": 9360
+        },
+        {
+          "stage": "landing",
+          "progress": [
+            0.94,
+            1
+          ],
+          "sourceBeats": 50,
+          "targets": 11,
+          "density": 0.22,
+          "targetsPerSecond": 0.5925056285664686,
+          "averageInterval": 1.4998000000000047,
+          "minimumInterval": 1.4990000000000236,
+          "hitWindowRange": [
+            0.34,
+            0.34
+          ],
+          "radiusRange": [
+            42,
+            42
+          ],
+          "travelRange": [
+            110,
+            110
+          ],
+          "basePerfectPoints": 1320
+        }
+      ],
+      "hitWindowRange": [
+        0.23,
+        0.36
+      ]
+    }
+  ]
+}
