@@ -1,0 +1,360 @@
+{
+  "schema": "pulse-tap-v22-publication-receipt",
+  "state": "Published and verified; STOP. No new Analyzer/micro-event experiment authorized.",
+  "branch": "trackcade-semantic-external-holdout-v1",
+  "baseHead": "1229ce87e82af6a6bc53b2a4bc29ad0e316b5756",
+  "auditedRuntimeCommit": "b5908b1865ec45451ba02e53a10bc8a263527bd8",
+  "auditedRuntimeTree": "6e79945476f74dfc195b9b3aa7fe11913d21e923",
+  "pagesBranch": "main",
+  "pagesCommit": "20c4d35b3436ce8819e36e3bb8fc9e35accce148",
+  "pagesWorkflow": {
+    "id": 37206375179,
+    "name": "pages build and deployment",
+    "conclusion": "success",
+    "url": "https://github.com/4everhumblepdx/trackcade-test/actions/runs/37206375179"
+  },
+  "tests": {
+    "deterministic": {
+      "pass": 72,
+      "fail": 0
+    },
+    "localBrowserGroups": {
+      "pass": 5,
+      "fail": 0
+    },
+    "hostedBrowserGroups": {
+      "pass": 5,
+      "fail": 0
+    },
+    "versionedPublicPhoneAndFallbackGroups": {
+      "pass": 5,
+      "fail": 0
+    }
+  },
+  "hostedTracks": [
+    {
+      "track": "cvb",
+      "spawnedTargets": 389,
+      "playableEndTime": 309.420408,
+      "firstFinishedTime": 309.420408,
+      "maxTargets": 4,
+      "impactProbe": {
+        "geometry": 1,
+        "impactTime": 1.789,
+        "appearanceTime": 0.969,
+        "actualFrame": 1.789,
+        "hit": {
+          "actualHitTime": 1.789,
+          "musicalImpactTime": 1.789,
+          "presentationStartTime": 0.969,
+          "presentationLead": 0.82,
+          "hitDelta": 0,
+          "timingScore": 120,
+          "sourceIndex": 4,
+          "stage": "opening"
+        },
+        "score": 120
+      },
+      "boundaryProbe": {
+        "activeBefore": 1,
+        "cleared": true,
+        "preFrameInputBlocked": true,
+        "postEndingInputBlocked": true
+      },
+      "exactSelectedTimesAndIndicesMatchLocal": true,
+      "postEndingTapUnchanged": true
+    },
+    {
+      "track": "alldat",
+      "spawnedTargets": 283,
+      "playableEndTime": 190.357,
+      "firstFinishedTime": 190.36666666666667,
+      "maxTargets": 4,
+      "impactProbe": {
+        "geometry": 1,
+        "impactTime": 1.549,
+        "appearanceTime": 0.729,
+        "actualFrame": 1.549,
+        "hit": {
+          "actualHitTime": 1.549,
+          "musicalImpactTime": 1.549,
+          "presentationStartTime": 0.729,
+          "presentationLead": 0.82,
+          "hitDelta": 0,
+          "timingScore": 120,
+          "sourceIndex": 4,
+          "stage": "opening"
+        },
+        "score": 120
+      },
+      "boundaryProbe": {
+        "activeBefore": 1,
+        "cleared": true,
+        "preFrameInputBlocked": true,
+        "postEndingInputBlocked": true
+      },
+      "exactSelectedTimesAndIndicesMatchLocal": true,
+      "postEndingTapUnchanged": true
+    }
+  ],
+  "versionedPhoneUrls": [
+    {
+      "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.2",
+      "name": "alldat",
+      "debug": false,
+      "state": {
+        "debug": false,
+        "error": false
+      },
+      "hit": null,
+      "scripts": [
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/timing.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/difficulty.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/ending.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/action.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/impact.js?v=2.2"
+      ],
+      "errors": []
+    },
+    {
+      "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.2&debug=1",
+      "name": "alldat",
+      "debug": true,
+      "state": {
+        "debug": true,
+        "error": false
+      },
+      "hit": {
+        "actualHitTime": 1.537641,
+        "musicalImpactTime": 1.549,
+        "presentationStartTime": 0.729,
+        "presentationLead": 0.82,
+        "hitDelta": -0.011358999999999897,
+        "timingScore": 118.42236111111113,
+        "sourceIndex": 4,
+        "stage": "opening"
+      },
+      "scripts": [
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/timing.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/difficulty.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/ending.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/action.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/impact.js?v=2.2"
+      ],
+      "errors": []
+    },
+    {
+      "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.2&track=./cvb-analyzer-test.json",
+      "name": "cvb",
+      "debug": false,
+      "state": {
+        "debug": false,
+        "error": false
+      },
+      "hit": null,
+      "scripts": [
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/timing.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/difficulty.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/ending.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/action.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/impact.js?v=2.2"
+      ],
+      "errors": []
+    },
+    {
+      "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?v=2.2&track=./cvb-analyzer-test.json&debug=1",
+      "name": "cvb",
+      "debug": true,
+      "state": {
+        "debug": true,
+        "error": false
+      },
+      "hit": {
+        "actualHitTime": 1.790894,
+        "musicalImpactTime": 1.789,
+        "presentationStartTime": 0.969,
+        "presentationLead": 0.82,
+        "hitDelta": 0.0018940000000000623,
+        "timingScore": 119.73694444444443,
+        "sourceIndex": 4,
+        "stage": "opening"
+      },
+      "scripts": [
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/timing.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/difficulty.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/ending.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/action.js?v=2.2",
+        "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/impact.js?v=2.2"
+      ],
+      "errors": []
+    }
+  ],
+  "bpmFallback": {
+    "source": "bpm-fallback",
+    "targets": [
+      {
+        "impact": 2.6,
+        "index": 4,
+        "salience": 0.04
+      }
+    ]
+  },
+  "publicAssetVerification": {
+    "normalUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/",
+    "debugUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?debug=1",
+    "canonicalIndexMatches": true,
+    "files": [
+      {
+        "file": "action.js",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/action.js",
+        "status": 200,
+        "sha256": "8a5be412db1fe8594dc4aede56a2d68722b8a0c494d6c41247cbeeaf26d2815d",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "alldat-action-evidence-v22.json",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/alldat-action-evidence-v22.json",
+        "status": 200,
+        "sha256": "9249ec5cfe66f33383501b8d03089463daee4480e4b3c4abb39281ba1d5ebcc3",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "alldat-analyzer-test.json",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/alldat-analyzer-test.json",
+        "status": 200,
+        "sha256": "c350241942cb6aeff2af5a2b2139e46b1290d81fabf26dd5d6527b88e3d7e4a2",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "cvb-action-evidence-v22.json",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/cvb-action-evidence-v22.json",
+        "status": 200,
+        "sha256": "0797d4722b5c3b079701add88788ba671aabe8ea05200b0e3df3d931c0b5436b",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "cvb-analyzer-test.json",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/cvb-analyzer-test.json",
+        "status": 200,
+        "sha256": "a1b5a084f08378232e1022ddf9124e4928af450637ecc39cb4e59ecdcf87ff9d",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "DEPLOYMENT.json",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/DEPLOYMENT.json",
+        "status": 200,
+        "sha256": "ebdbbb0343397ffb53f31c86b574207cecbdcc8152eeda6fa926c61ea7e51c40",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "difficulty.js",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/difficulty.js",
+        "status": 200,
+        "sha256": "201dd39179045663462382cbcf82edbb87c3958bcaff84a4c2d9a5cc85c11605",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "ending.js",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/ending.js",
+        "status": 200,
+        "sha256": "e1ba5ff11b841dc7aa6f99eaf8b469f07caa7bbf56a13133b9b820103337f355",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "impact.js",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/impact.js",
+        "status": 200,
+        "sha256": "df7e297924c0111dd6c5605d02d389ba25f576ecabe41800438ad519e750efef",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "index.html",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/index.html",
+        "status": 200,
+        "sha256": "f2b4de56316539e51485cadedaa7d9ec8838e546fbc0874bac5ff138a9beaa28",
+        "exactBytesMatch": true
+      },
+      {
+        "file": "timing.js",
+        "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/timing.js",
+        "status": 200,
+        "sha256": "82c08214f4dee84e112fe73ebe48317669a19f282194e34b753b1aab01a29e57",
+        "exactBytesMatch": true
+      }
+    ]
+  },
+  "localHostedDiscrepancy": "None in exact selections, source indices, impact geometry/scoring, cutoff, cleanup or maximum live targets. Real touch errors vary naturally; physical latency remains unmeasured.",
+  "physicalPhoneTestPerformed": false,
+  "latencyOffsetApplied": 0,
+  "triggerAudit": {
+    "changed": [
+      "pulse-tap/PULSE_TAP_V22_COMPARISON.json",
+      "pulse-tap/PULSE_TAP_V22_EVIDENCE_INVENTORY.json",
+      "pulse-tap/PULSE_TAP_V22_PLAYTEST.md",
+      "pulse-tap/PULSE_TAP_V22_RECEIPT.json",
+      "pulse-tap/action.js",
+      "pulse-tap/alldat-action-evidence-v22.json",
+      "pulse-tap/compare-v22.cjs",
+      "pulse-tap/cvb-action-evidence-v22.json",
+      "pulse-tap/difficulty.js",
+      "pulse-tap/freeze-action-evidence-v22.py",
+      "pulse-tap/impact.js",
+      "pulse-tap/index.html",
+      "pulse-tap/test-baseline-v21.cjs",
+      "pulse-tap/test-browser.cjs",
+      "pulse-tap/test-difficulty.cjs",
+      "pulse-tap/test-v22.cjs"
+    ],
+    "workflowMatches": [],
+    "nonJsonTriggersParsed": 121,
+    "totalWorkflowsChecked": 131
+  },
+  "mainWorkflowAudit": "All three existing registration workflows reviewed at 3f75b3ecd7b345822a140af4d3ab3da34e23a3b6; workflow_dispatch only, registration-only refusal. No workflow changes or activation.",
+  "sourceFilesChanged": [
+    "pulse-tap/PULSE_TAP_V22_COMPARISON.json",
+    "pulse-tap/PULSE_TAP_V22_EVIDENCE_INVENTORY.json",
+    "pulse-tap/PULSE_TAP_V22_PLAYTEST.md",
+    "pulse-tap/PULSE_TAP_V22_RECEIPT.json",
+    "pulse-tap/action.js",
+    "pulse-tap/alldat-action-evidence-v22.json",
+    "pulse-tap/compare-v22.cjs",
+    "pulse-tap/cvb-action-evidence-v22.json",
+    "pulse-tap/difficulty.js",
+    "pulse-tap/freeze-action-evidence-v22.py",
+    "pulse-tap/impact.js",
+    "pulse-tap/index.html",
+    "pulse-tap/test-baseline-v21.cjs",
+    "pulse-tap/test-browser.cjs",
+    "pulse-tap/test-difficulty.cjs",
+    "pulse-tap/test-v22.cjs"
+  ],
+  "publicationReceiptFile": "pulse-tap/PULSE_TAP_V22_PUBLICATION.json",
+  "historicalFilesChanged": false,
+  "landingExactSelectionsPreserved": true,
+  "endingModuleChanged": false,
+  "timingModuleChanged": false,
+  "sourceManifestsChanged": false,
+  "sourceTimestampsChanged": false,
+  "providerCalls": 0,
+  "spendUSD": 0,
+  "analyzerInvoked": false,
+  "analyzerModified": false,
+  "compilerInvoked": false,
+  "semanticV9Changed": false,
+  "stage1LabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "newMicroEventPositions": 0,
+  "evidenceProjectionRegeneratedIdentically": true,
+  "evidenceRecordFiles": [
+    "PULSE_TAP_V22_EVIDENCE_INVENTORY.json",
+    "PULSE_TAP_V22_COMPARISON.json",
+    "PULSE_TAP_V22_PLAYTEST.md",
+    "PULSE_TAP_V22_RECEIPT.json"
+  ],
+  "artifactHashes": {
+    "pulse-v22-local-smoke/browser-results.json": "54f87a76930e6cb1b3afb8f806cff8228d32754e09fcedcd43c8fb78e98bab3e",
+    "pulse-v22-https-smoke/browser-results.json": "5f76e7c0bba77aa11acf7d84d8db5ecbca633ac856257cb346a705bf036c19a6",
+    "pulse-v22-versioned-phone-result.json": "823ab181f6f5e020a7139733552e3c2bcf484d614a5993fa13316e000305aeb4",
+    "pulse-v22-public-assets.json": "1fc06022be3ef5199503fb06b8abd2b2413436359851437b2c0f7daae92457bb"
+  }
+}
