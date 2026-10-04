@@ -14,7 +14,7 @@ fs.mkdirSync(out,{recursive:true});
   const manifest=JSON.parse(fs.readFileSync(path.join(__dirname,`${name}-analyzer-test.json`)));
   const expected=D.select(T.createTiming(manifest).times,manifest.songLength,t=>T.energyAt(manifest,t,manifest.songLength)).length;
   const url=`${base}?track=./${name}-analyzer-test.json&debug=1`;
-  await page.goto(url);await page.waitForFunction(()=>window.pulseTapDebug?.audio.readyState>=2,{timeout:30000});
+  await page.goto(url);await page.waitForFunction(()=>window.pulseTapDebug?.audio.readyState>=2,null,{timeout:60000});
   await page.mouse.click(195,607);await page.waitForFunction(()=>window.pulseTapDebug.audio.currentTime>2);
   const start=await page.evaluate(()=>window.pulseTapDebug.snapshot());
   await page.evaluate(()=>window.pulseTapDebug.scene.togglePause());

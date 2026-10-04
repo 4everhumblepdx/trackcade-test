@@ -1,0 +1,384 @@
+{
+  "schema": "trackcade-pulse-tap-v2-progression-mobile-receipt-v1",
+  "recordedAtUtc": "2026-10-04T03:04:38.845281+00:00",
+  "startHead": "1a0f42c442ebd433c99f3ff47ce268b88603f03f",
+  "runtimeSourceCommit": "7087628253e6d520c5d6eec584ba94ff90a3975c",
+  "sourceBeatTimestampsChanged": false,
+  "frozenManifestBytesUnchanged": true,
+  "musicalSelection": "deterministic subset of exact source beat positions; no note/onset judgments",
+  "progression": {
+    "sourceBeats": 590,
+    "selectedTargets": 302,
+    "stages": [
+      {
+        "stage": "opening",
+        "sourceBeats": 71,
+        "targets": 17,
+        "density": 0.23943661971830985,
+        "averageInterval": 1.3284374999999997,
+        "minimumInterval": 1.3279999999999994,
+        "hitWindow": 0.36,
+        "radius": 44,
+        "hitRadius": 54,
+        "maxTravel": 86
+      },
+      {
+        "stage": "early",
+        "sourceBeats": 106,
+        "targets": 33,
+        "density": 0.3113207547169811,
+        "averageInterval": 1.0793437499999998,
+        "minimumInterval": 0.6639999999999944,
+        "hitWindow": 0.34,
+        "radius": 42,
+        "hitRadius": 52,
+        "maxTravel": 122
+      },
+      {
+        "stage": "developing",
+        "sourceBeats": 148,
+        "targets": 76,
+        "density": 0.5135135135135135,
+        "averageInterval": 0.6464933333333334,
+        "minimumInterval": 0.33199999999999363,
+        "hitWindow": 0.3,
+        "radius": 38,
+        "hitRadius": 48,
+        "maxTravel": 165
+      },
+      {
+        "stage": "hard",
+        "sourceBeats": 147,
+        "targets": 92,
+        "density": 0.6258503401360545,
+        "averageInterval": 0.529175824175824,
+        "minimumInterval": 0.33199999999999363,
+        "hitWindow": 0.27,
+        "radius": 34,
+        "hitRadius": 44,
+        "maxTravel": 210
+      },
+      {
+        "stage": "finale",
+        "sourceBeats": 118,
+        "targets": 84,
+        "density": 0.711864406779661,
+        "averageInterval": 0.464144578313253,
+        "minimumInterval": 0.33199999999999363,
+        "hitWindow": 0.24,
+        "radius": 30,
+        "hitRadius": 40,
+        "maxTravel": 245
+      }
+    ],
+    "hitWindowRange": [
+      0.24,
+      0.36
+    ]
+  },
+  "deterministicTests": {
+    "passed": 22,
+    "failed": 0,
+    "command": "node --test pulse-tap/test-timing.cjs pulse-tap/test-difficulty.cjs"
+  },
+  "browserChecks": {
+    "local": {
+      "groupsPassed": 5,
+      "groupsFailed": 0,
+      "method": "Real MP3 playback, pause/resume, natural endings after seek, replay reset, two portrait touch emulations with successful hits, normal ALLDAT default. Complete Phaser timelines simulated at 60fps with test-only audio clock and tween delta. Not a physical Safari/Android test or subjective musical judgment.",
+      "defaultAlldat": true,
+      "normalDebugHidden": true,
+      "completeRuntime": [
+        {
+          "name": "cvb",
+          "duration": 309.420408,
+          "fullRuntime": {
+            "progress": 1,
+            "difficultyStage": "finale",
+            "selectionDensity": 0.625,
+            "beatSelected": false,
+            "hitWindow": 0.24,
+            "targetRadius": 30,
+            "hitRadius": 40,
+            "maxTravel": 245,
+            "skippedSelection": 400,
+            "audioTime": 309.420408,
+            "upcomingBeat": null,
+            "beatIndex": 812,
+            "timingSource": "explicit-beat-grid",
+            "beatInterval": 0.375,
+            "energy": 0.0731,
+            "sectionTimestamp": 301.754,
+            "hitDelta": null,
+            "spawnedTargets": 412,
+            "activeTargets": 0,
+            "maxTargets": 3,
+            "skippedExpired": 0,
+            "finished": true
+          },
+          "pauseStable": true,
+          "errors": []
+        },
+        {
+          "name": "alldat",
+          "duration": 196.0751,
+          "fullRuntime": {
+            "progress": 0.9999999897998268,
+            "difficultyStage": "finale",
+            "selectionDensity": 0.625,
+            "beatSelected": false,
+            "hitWindow": 0.24,
+            "targetRadius": 30,
+            "hitRadius": 40,
+            "maxTravel": 245,
+            "skippedSelection": 288,
+            "audioTime": 196.0751,
+            "upcomingBeat": null,
+            "beatIndex": 590,
+            "timingSource": "explicit-beat-grid",
+            "beatInterval": 0.33199999999999363,
+            "energy": 0.0002,
+            "sectionTimestamp": 187.195,
+            "hitDelta": null,
+            "spawnedTargets": 302,
+            "activeTargets": 0,
+            "maxTargets": 4,
+            "skippedExpired": 0,
+            "finished": true
+          },
+          "pauseStable": true,
+          "errors": []
+        }
+      ],
+      "phoneChecks": [
+        {
+          "viewport": {
+            "width": 375,
+            "height": 667
+          },
+          "hit": {
+            "score": 120,
+            "delta": 0.00409499999999996,
+            "paused": false
+          },
+          "pause": {
+            "x": 331,
+            "y": 609,
+            "size": 56
+          },
+          "errors": []
+        },
+        {
+          "viewport": {
+            "width": 360,
+            "height": 740
+          },
+          "hit": {
+            "score": 120,
+            "delta": -0.02667699999999984,
+            "paused": false
+          },
+          "pause": {
+            "x": 316,
+            "y": 682,
+            "size": 56
+          },
+          "errors": []
+        }
+      ],
+      "completionAfterSeekAndReplayReset": true
+    },
+    "publicHttps": {
+      "groupsPassed": 5,
+      "groupsFailed": 0,
+      "method": "Real MP3 playback, pause/resume, natural endings after seek, replay reset, two portrait touch emulations with successful hits, normal ALLDAT default. Complete Phaser timelines simulated at 60fps with test-only audio clock and tween delta. Not a physical Safari/Android test or subjective musical judgment.",
+      "defaultAlldat": true,
+      "normalDebugHidden": true,
+      "completeRuntime": [
+        {
+          "name": "cvb",
+          "duration": 309.420408,
+          "fullRuntime": {
+            "progress": 1,
+            "difficultyStage": "finale",
+            "selectionDensity": 0.625,
+            "beatSelected": false,
+            "hitWindow": 0.24,
+            "targetRadius": 30,
+            "hitRadius": 40,
+            "maxTravel": 245,
+            "skippedSelection": 400,
+            "audioTime": 309.420408,
+            "upcomingBeat": null,
+            "beatIndex": 812,
+            "timingSource": "explicit-beat-grid",
+            "beatInterval": 0.375,
+            "energy": 0.0731,
+            "sectionTimestamp": 301.754,
+            "hitDelta": null,
+            "spawnedTargets": 412,
+            "activeTargets": 0,
+            "maxTargets": 3,
+            "skippedExpired": 0,
+            "finished": true
+          },
+          "pauseStable": true,
+          "errors": []
+        },
+        {
+          "name": "alldat",
+          "duration": 196.0751,
+          "fullRuntime": {
+            "progress": 0.9999999897998268,
+            "difficultyStage": "finale",
+            "selectionDensity": 0.625,
+            "beatSelected": false,
+            "hitWindow": 0.24,
+            "targetRadius": 30,
+            "hitRadius": 40,
+            "maxTravel": 245,
+            "skippedSelection": 288,
+            "audioTime": 196.0751,
+            "upcomingBeat": null,
+            "beatIndex": 590,
+            "timingSource": "explicit-beat-grid",
+            "beatInterval": 0.33199999999999363,
+            "energy": 0.0002,
+            "sectionTimestamp": 187.195,
+            "hitDelta": null,
+            "spawnedTargets": 302,
+            "activeTargets": 0,
+            "maxTargets": 4,
+            "skippedExpired": 0,
+            "finished": true
+          },
+          "pauseStable": true,
+          "errors": []
+        }
+      ],
+      "phoneChecks": [
+        {
+          "viewport": {
+            "width": 375,
+            "height": 667
+          },
+          "hit": {
+            "score": 120,
+            "delta": 0.0008860000000001644,
+            "paused": false
+          },
+          "pause": {
+            "x": 331,
+            "y": 609,
+            "size": 56
+          },
+          "errors": []
+        },
+        {
+          "viewport": {
+            "width": 360,
+            "height": 740
+          },
+          "hit": {
+            "score": 120,
+            "delta": -0.00886600000000004,
+            "paused": false
+          },
+          "pause": {
+            "x": 316,
+            "y": 682,
+            "size": 56
+          },
+          "errors": []
+        }
+      ],
+      "completionAfterSeekAndReplayReset": true
+    }
+  },
+  "initialPublicSmokeNote": "First HTTPS run timed out at media readiness after 30 seconds. Independent diagnostic then verified HTTP 200 runtime/manifest, HTTP 206 MP3, audio readyState 4, and no page error. Corrected the test timeout argument and allowed 60 seconds for public media readiness; final five-group public run passed. Root cause of the initial timing delay was not established. Runtime assets were unchanged.",
+  "publicDeployment": {
+    "mechanism": "existing GitHub Pages source on main; six added static assets only under pulse-tap/v2",
+    "mainParent": "0e51afc904da5774eb65f106cd467604ee83ef9c",
+    "mainCommit": "d1029cd29e1c5c33e97c00a19d36b53b1aa02dbf",
+    "pagesRunId": 37172615908,
+    "pagesConclusion": "success",
+    "assetVerification": {
+      "normalUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/",
+      "debugUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?debug=1",
+      "canonicalIndexMatches": true,
+      "files": [
+        {
+          "file": "alldat-analyzer-test.json",
+          "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/alldat-analyzer-test.json",
+          "status": 200,
+          "sha256": "c350241942cb6aeff2af5a2b2139e46b1290d81fabf26dd5d6527b88e3d7e4a2",
+          "exactBytesMatch": true
+        },
+        {
+          "file": "cvb-analyzer-test.json",
+          "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/cvb-analyzer-test.json",
+          "status": 200,
+          "sha256": "a1b5a084f08378232e1022ddf9124e4928af450637ecc39cb4e59ecdcf87ff9d",
+          "exactBytesMatch": true
+        },
+        {
+          "file": "DEPLOYMENT.json",
+          "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/DEPLOYMENT.json",
+          "status": 200,
+          "sha256": "19e4e62b44b03bf1d224083f8f8a6eff258fdda681bb31baae2c5b117beaa42c",
+          "exactBytesMatch": true
+        },
+        {
+          "file": "difficulty.js",
+          "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/difficulty.js",
+          "status": 200,
+          "sha256": "827113c544e69d14115c0a3c343a5a1ce9db9164add46f918b3686c508791dca",
+          "exactBytesMatch": true
+        },
+        {
+          "file": "index.html",
+          "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/index.html",
+          "status": 200,
+          "sha256": "0c0c722117489d03bf0b0c8dcd6e57aa13e4cec0be33ab6231941bf206d5c4c8",
+          "exactBytesMatch": true
+        },
+        {
+          "file": "timing.js",
+          "url": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/timing.js",
+          "status": 200,
+          "sha256": "82c08214f4dee84e112fe73ebe48317669a19f282194e34b753b1aab01a29e57",
+          "exactBytesMatch": true
+        }
+      ]
+    },
+    "runtimeCopiedExactly": true,
+    "manifestOnlyDeploymentChange": "audioUrl relative path ../ -> ../../",
+    "existingAudioBlobIdentityVerified": true,
+    "mainWorkflowAudit": "all 3 workflows manual-dispatch only; none activated"
+  },
+  "experimentBranchWorkflowAudit": {
+    "changed": [
+      "pulse-tap/ALLDAT_V2_PROGRESSION_SUMMARY.json",
+      "pulse-tap/PULSE_TAP_V2_PLAYTEST.md",
+      "pulse-tap/difficulty.js",
+      "pulse-tap/index.html",
+      "pulse-tap/test-browser.cjs",
+      "pulse-tap/test-difficulty.cjs",
+      "pulse-tap/timing.js"
+    ],
+    "workflowMatches": [],
+    "nonJsonTriggersParsed": 121,
+    "totalWorkflowsChecked": 131
+  },
+  "manualFeedbackClass": "future gameplay-interpreter / salient-action-selection investigation",
+  "manualFeedbackAction": "recorded only; no salient-note fix",
+  "manualPhoneFeel": "pending Nicholas; Chromium touch emulation is not a physical Safari/Android test",
+  "providerCalls": 0,
+  "spendUsd": 0,
+  "analyzerInvoked": false,
+  "compilerInvoked": false,
+  "semanticV9Changed": false,
+  "stage1ReferenceLabelsAccessed": false,
+  "terminalHoldoutAccessed": false,
+  "state": "ready for Nicholas normal phone playtest; stop after delivery"
+}
