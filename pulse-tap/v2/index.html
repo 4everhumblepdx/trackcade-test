@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
-  <title>Pulse Tap v2 - ALLDAT</title>
+  <title>Pulse Tap v2.1 - ALLDAT</title>
   <style>
     :root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);--safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px)}
     html,body{overscroll-behavior:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;margin:0;width:100%;height:100%;overflow:hidden;background:#050714;font-family:Arial,Helvetica,sans-serif}
@@ -14,6 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/phaser@3.90.0/dist/phaser.min.js"></script>
   <script src="./timing.js"></script>
   <script src="./difficulty.js"></script>
+  <script src="./ending.js"></script>
 </head>
 <body>
 <div id="game"></div><div id="error"><h1>Pulse Tap couldn't load this track.</h1><p id="errorText"></p></div>
@@ -71,7 +72,8 @@
         this.started=false; this.finished=false; this.paused=false; this.score=0; this.combo=0; this.bestCombo=0;
         this.targets=[]; this.timing=PulseTiming.createTiming(track); this.hitWindow=0.30; this.lastPulseBeat=-1;
         this.lastHitDelta=null; this.section=null; this.sectionNumber=0; this.spawnedCount=0; this.maxTargets=0;
-        this.selectedCount=0;this.skippedSelection=0;this.lastPosition=null;
+        this.selectedCount=0;this.skippedSelection=0;this.lastPosition=null;this.presentation=[];
+        this.ending=PulseEnding.detect(track,audio.duration);
         const style=getComputedStyle(document.documentElement);this.insets={};
         for(const side of ['top','bottom','left','right'])this.insets[side]=parseFloat(style.getPropertyValue('--safe-'+side))||0;
       }
@@ -85,7 +87,7 @@
         this.fx=this.add.graphics();
         this.targetLayer=this.add.container();
 
-        this.title=this.add.text(w/2,56,'PULSE TAP v2',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff',stroke:'#000000',strokeThickness:3}).setOrigin(.5);
+        this.title=this.add.text(w/2,56,'PULSE TAP v2.1',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff',stroke:'#000000',strokeThickness:3}).setOrigin(.5);
         this.song=this.add.text(w/2,92,`${track.artist} — ${track.title}`,{fontFamily:'Arial',fontSize:'16px',color:'#cbd4ff',align:'center',wordWrap:{width:w-48}}).setOrigin(.5);
         this.scoreText=this.add.text(20,20,'0',{fontFamily:'Arial',fontSize:'22px',fontStyle:'bold',color:'#ffffff'});
         this.comboText=this.add.text(w-20,22,'',{fontFamily:'Arial',fontSize:'18px',fontStyle:'bold',color:'#ffd147'}).setOrigin(1,0);
@@ -96,8 +98,11 @@
         this.pauseHit=this.add.rectangle(w-44,h-58,56,56,C.panel,.95).setStrokeStyle(1,C.muted,.5).setInteractive({useHandCursor:true});
         this.pauseBtn=this.add.text(w-44,h-58,'II',{fontFamily:'Arial',fontSize:'28px',fontStyle:'bold',color:'#ffffff'}).setOrigin(.5);
         this.pauseHit.on('pointerdown',()=>this.togglePause());
+        this.replayHit=this.add.rectangle(w/2,h*.86,180,54,C.panel,1).setStrokeStyle(2,C.primary).setInteractive({useHandCursor:true}).setVisible(false);
+        this.replayText=this.add.text(w/2,h*.86,'REPLAY',{fontSize:'18px',fontStyle:'bold',color:'#19e3ff'}).setOrigin(.5).setVisible(false);
+        this.replayHit.on('pointerdown',()=>{if(this.finished)this.scene.restart();});
         this.sectionText=this.add.text(w/2,117,'',{fontSize:'11px',color:'#a7b0d8'}).setOrigin(.5);
-        if(debug)this.debugText=this.add.text(12,140,'',{fontFamily:'monospace',fontSize:'10px',color:'#cbd4ff',backgroundColor:'#080b1acc',padding:{x:5,y:4}}).setDepth(20);
+        if(debug)this.debugText=this.add.text(12,140,'',{fontFamily:'monospace',fontSize:'9px',color:'#cbd4ff',backgroundColor:'#080b1acc',padding:{x:5,y:4}}).setDepth(20);
 
         this.input.on('pointerdown',(p)=>{
           if (!this.started) { this.startRun(); return; }
@@ -123,7 +128,8 @@
         this.progressBg.y=h-18-this.insets.bottom;this.progress.y=this.progressBg.y;
         this.title.y=56+this.insets.top;this.song.y=92+this.insets.top;
         this.scoreText.y=20+this.insets.top;this.comboText.y=22+this.insets.top;
-        this.sectionText.setPosition(w/2,117);
+        this.sectionText.setPosition(w/2,117+this.insets.top);
+        this.replayHit.setPosition(w/2,h*.86-this.insets.bottom);this.replayText.setPosition(this.replayHit.x,this.replayHit.y);
       }
 
       async startRun(){
@@ -150,6 +156,7 @@
       }
 
       spawnTarget(targetTime, accent=false, spawnAhead=.4, beatIndex=null, profile){
+        if(!this.started||this.finished||!PulseEnding.canPlay(audio.currentTime,this.ending.playableEndTime)||!PulseEnding.targetFits(targetTime,profile.window,this.ending))return;
         const {x,y}=PulseDifficulty.position(this.selectedCount++,profile,this.scale.width,this.scale.height,this.lastPosition,this.insets);
         this.lastPosition={x,y,targetTime};
         const color=accent?C.secondary:C.primary;
@@ -164,6 +171,7 @@
 
       tryHit(x,y){
         const t=audio.currentTime;
+        if(!this.started||this.finished||this.paused||!PulseEnding.canPlay(t,this.ending.playableEndTime))return;
         let best=null,bestDist=Infinity;
         for(const target of this.targets){
           if(target.hit||target.missed) continue;
@@ -194,8 +202,10 @@
       }
 
       flashText(text,color,x=this.scale.width/2,y=this.scale.height*.62){
+        if(this.finished||!PulseEnding.canPlay(audio.currentTime,this.ending.playableEndTime))return;
         const c='#'+color.toString(16).padStart(6,'0');
         const label=this.add.text(x,y,text,{fontFamily:'Arial',fontSize:'18px',fontStyle:'bold',color:c,stroke:'#000000',strokeThickness:3}).setOrigin(.5);
+        this.presentation.push(label);
         this.tweens.add({targets:label,y:y-24,alpha:0,duration:420,onComplete:()=>label.destroy()});
       }
 
@@ -215,45 +225,52 @@
         this.lastPulseBeat=b;
         const energy=this.energyAt(t); const color=this.isDrop(t)?C.secondary:C.primary;
         const ring=this.add.circle(this.scale.width/2,this.scale.height/2,40,color,0).setStrokeStyle(3,color,.35+energy*.25);
+        this.presentation.push(ring);
         this.tweens.add({targets:ring,scale:8,alpha:0,duration:Math.max(260,this.timing.intervalAt(b)*650),onComplete:()=>ring.destroy()});
       }
 
       debugSnapshot(){
         const t=audio.currentTime,index=this.timing.indexAt(t)+1;
-        const profile=PulseDifficulty.profile(t,declaredLength||audio.duration,this.energyAt(t));
+        const profile=PulseDifficulty.profile(t,this.ending.playableEndTime,this.energyAt(t));
         const nextTime=this.timing.timeAt(index);
-        const selection=PulseDifficulty.decision(index,nextTime??t,declaredLength||audio.duration,this.energyAt(nextTime??t));
+        const selection=PulseDifficulty.decision(index,nextTime??t,this.ending.playableEndTime,this.energyAt(nextTime??t),this.ending.releaseGap);
         if(nextTime===null)selection.selected=false;
-        return {progress:profile.progress,difficultyStage:profile.name,selectionDensity:selection.density,beatSelected:selection.selected,hitWindow:profile.window,targetRadius:profile.radius,hitRadius:profile.hitRadius,maxTravel:profile.travel,skippedSelection:this.skippedSelection,audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
+        return {rawAudioDuration:this.ending.rawDuration,playableEndTime:this.ending.playableEndTime,remainingPlayableTime:Math.max(0,this.ending.playableEndTime-t),endingSource:this.ending.source,endingReason:this.ending.reason,progress:profile.progress,difficultyStage:profile.name,selectionDensity:selection.density,beatSelected:selection.selected,hitWindow:profile.window,targetRadius:profile.radius,hitRadius:profile.hitRadius,maxTravel:profile.travel,skippedSelection:this.skippedSelection,audioTime:t,upcomingBeat:this.timing.timeAt(index),beatIndex:index,timingSource:this.timing.source,beatInterval:this.timing.intervalAt(index),energy:this.energyAt(t),sectionTimestamp:this.section?.t??null,hitDelta:this.lastHitDelta,spawnedTargets:this.spawnedCount,activeTargets:this.targets.length,maxTargets:this.maxTargets,skippedExpired:this.timing.skippedExpired,finished:this.finished};
       }
 
       showDebug(){
         if(!this.debugText)return;
         const d=this.debugSnapshot(),f=v=>v===null?'—':v.toFixed(3);
-        this.debugText.setText(`${d.timingSource}  ${(d.progress*100).toFixed(1)}% ${d.difficultyStage}\naudio ${f(d.audioTime)}s  beat #${d.beatIndex} ${d.beatSelected?'select':'skip'}\ntarget ${f(d.upcomingBeat)}s  density ${(d.selectionDensity*100).toFixed(0)}%\nwindow +/-${f(d.hitWindow)}s  radius ${d.targetRadius}px\ntravel <=${d.maxTravel}px  energy ${f(d.energy)}\nhit delta ${d.hitDelta===null?'--':(d.hitDelta*1000).toFixed(0)+'ms'}  live ${d.activeTargets}`);
+        this.debugText.setText(`${(d.progress*100).toFixed(1)}% ${d.difficultyStage}\nraw ${f(d.rawAudioDuration)}s  end ${f(d.playableEndTime)}s\nremain ${f(d.remainingPlayableTime)}s ${d.endingReason}\naudio ${f(d.audioTime)}s target ${f(d.upcomingBeat)}s\nsource beat #${d.beatIndex} ${d.beatSelected?'selected':'skipped'}\ndensity ${(d.selectionDensity*100).toFixed(0)}% window +/-${f(d.hitWindow)}s\nradius ${d.targetRadius.toFixed(0)}px travel <=${d.maxTravel.toFixed(0)}px\nenergy ${f(d.energy)} hit delta ${d.hitDelta===null?'--':(d.hitDelta*1000).toFixed(0)+'ms'}\n${d.endingSource} live ${d.activeTargets}`);
       }
 
       finishRun(){
         if(this.finished) return;
-        this.finished=true; this.targets.forEach(t=>this.destroyTarget(t)); this.targets=[];
+        this.finished=true;this.tweens.killAll();this.presentation.forEach(o=>{if(o.active)o.destroy();});this.presentation=[];
+        this.targets.forEach(t=>this.destroyTarget(t));this.targets=[];
+        this.pauseHit.disableInteractive().setVisible(false);this.pauseBtn.setVisible(false);
+        this.replayHit.setVisible(true);this.replayText.setVisible(true);this.progress.width=this.scale.width-40;
         const bonus=Math.round((Number(track.finishBonus)||500) * Math.min(1.5,1+this.bestCombo/100));
         this.score+=bonus; this.scoreText.setText(String(this.score));
         this.status.setText('TRACK COMPLETE');
-        this.help.setText(`Score ${this.score.toLocaleString()}  •  Best combo ${this.bestCombo}x\nTap anywhere to replay`);
+        this.help.setText(`Score ${this.score.toLocaleString()}  •  Best combo ${this.bestCombo}x\nTap REPLAY to reset`);
         this.showDebug();
-        this.input.once('pointerdown',()=>{ this.scene.restart(); });
+
       }
 
       update(){
         if(!this.started||this.finished||this.paused) return;
         const t=audio.currentTime;
         const duration=Number.isFinite(audio.duration)&&audio.duration>0?audio.duration:declaredLength;
+        if(duration!==this.ending.rawDuration)this.ending=PulseEnding.detect(track,duration);
+        if(!PulseEnding.canPlay(t,this.ending.playableEndTime)){this.finishRun();return;}
+        this.presentation=this.presentation.filter(o=>o.active);
         const section=PulseTiming.sectionAt(events,t);
         if(section!==this.section){this.section=section;this.sectionNumber=events.filter(e=>e.kind==='section'&&e.t<=t).length;this.sectionText.setText(section?`PASSAGE ${this.sectionNumber}`:'');}
         this.drawBackdrop(t); this.pulseBackdrop(t);
 
-        for(const next of this.timing.drain(t,duration||Infinity,.36,(_index,time)=>PulseDifficulty.profile(time,declaredLength||duration,this.energyAt(time)).lead)){
-          const d=PulseDifficulty.decision(next.index,next.targetTime,declaredLength||duration,this.energyAt(next.targetTime));
+        for(const next of this.timing.drain(t,this.ending.playableEndTime,.36,(_index,time)=>PulseDifficulty.profile(time,this.ending.playableEndTime,this.energyAt(time)).lead)){
+          const d=PulseDifficulty.decision(next.index,next.targetTime,this.ending.playableEndTime,this.energyAt(next.targetTime),this.ending.releaseGap);
           if(!d.selected){this.skippedSelection++;continue;}
           if(t>next.targetTime+d.window)continue;
           this.spawnTarget(next.targetTime,this.isDrop(next.targetTime)||next.index%4===0,next.spawnAhead,next.index,d);
@@ -274,7 +291,7 @@
         }
         this.targets=this.targets.filter(x=>!(x.hit||x.missed) || (x.core&&x.core.active));
         this.showDebug();
-        if(duration>0){ this.progress.width=(this.scale.width-40)*Phaser.Math.Clamp(t/duration,0,1); if(t>=duration)this.finishRun(); }
+        if(this.ending.playableEndTime>0)this.progress.width=(this.scale.width-40)*Phaser.Math.Clamp(t/this.ending.playableEndTime,0,1);
       }
     }
 

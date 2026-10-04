@@ -1,13 +1,27 @@
 {
-  "version": "Pulse Tap v2",
+  "version": "Pulse Tap v2.1",
   "sourceBranch": "trackcade-semantic-external-holdout-v1",
-  "sourceCommit": "7087628253e6d520c5d6eec584ba94ff90a3975c",
-  "sourceBeats": 590,
-  "selectedTargets": 302,
-  "sourceTimestampsChanged": false,
+  "sourceCommit": "d7926803101634efea3f94149c4b083f182c6402",
+  "sourceBeatTimestampsChanged": false,
+  "alldat": {
+    "sourceBeats": 590,
+    "selectedTargets": 282,
+    "declaredRawDuration": 196.075102,
+    "playableEndTime": 190.357,
+    "endingSource": "frozen-energy-terminal-suffix",
+    "lastTarget": 188.855,
+    "releaseGap": 1.502
+  },
+  "cvb": {
+    "sourceBeats": 812,
+    "selectedTargets": 401,
+    "playableEndTime": 309.420408,
+    "endingSource": "duration-fallback",
+    "lastTarget": 306.629
+  },
   "providerCalls": 0,
   "spendUsd": 0,
-  "manifestAdaptation": "Relative audioUrl only; existing root audio unchanged",
+  "manifestAdaptation": "Relative audioUrl only; frozen source timing and existing root audio unchanged",
   "normalUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/",
   "debugUrl": "https://4everhumblepdx.github.io/trackcade-test/pulse-tap/v2/?debug=1"
 }
