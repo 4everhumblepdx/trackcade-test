@@ -1,0 +1,70 @@
+{
+  "sourceBeats": 590,
+  "selectedTargets": 302,
+  "stages": [
+    {
+      "stage": "opening",
+      "sourceBeats": 71,
+      "targets": 17,
+      "density": 0.23943661971830985,
+      "averageInterval": 1.3284374999999997,
+      "minimumInterval": 1.3279999999999994,
+      "hitWindow": 0.36,
+      "radius": 44,
+      "hitRadius": 54,
+      "maxTravel": 86
+    },
+    {
+      "stage": "early",
+      "sourceBeats": 106,
+      "targets": 33,
+      "density": 0.3113207547169811,
+      "averageInterval": 1.0793437499999998,
+      "minimumInterval": 0.6639999999999944,
+      "hitWindow": 0.34,
+      "radius": 42,
+      "hitRadius": 52,
+      "maxTravel": 122
+    },
+    {
+      "stage": "developing",
+      "sourceBeats": 148,
+      "targets": 76,
+      "density": 0.5135135135135135,
+      "averageInterval": 0.6464933333333334,
+      "minimumInterval": 0.33199999999999363,
+      "hitWindow": 0.3,
+      "radius": 38,
+      "hitRadius": 48,
+      "maxTravel": 165
+    },
+    {
+      "stage": "hard",
+      "sourceBeats": 147,
+      "targets": 92,
+      "density": 0.6258503401360545,
+      "averageInterval": 0.529175824175824,
+      "minimumInterval": 0.33199999999999363,
+      "hitWindow": 0.27,
+      "radius": 34,
+      "hitRadius": 44,
+      "maxTravel": 210
+    },
+    {
+      "stage": "finale",
+      "sourceBeats": 118,
+      "targets": 84,
+      "density": 0.711864406779661,
+      "averageInterval": 0.464144578313253,
+      "minimumInterval": 0.33199999999999363,
+      "hitWindow": 0.24,
+      "radius": 30,
+      "hitRadius": 40,
+      "maxTravel": 245
+    }
+  ],
+  "hitWindowRange": [
+    0.24,
+    0.36
+  ]
+}

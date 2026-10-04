@@ -34,14 +34,16 @@
       source:explicit?'explicit-beat-grid':'bpm-fallback',times:explicit?times.slice():null,
       timeAt,intervalAt,indexAt,leadAt,
       get nextIndex(){return nextIndex;},get skippedExpired(){return skippedExpired;},
-      drain(t,duration=Infinity,hitWindow=0.30){
+      drain(t,duration=Infinity,hitWindow=0.30,presentationLead=null){
         const due=[];
         for(;;){
           const targetTime=timeAt(nextIndex);
-          if(targetTime===null || targetTime>duration || targetTime-leadAt(nextIndex)>t)break;
+          if(targetTime===null || targetTime>duration)break;
+          const spawnAhead=presentationLead?clamp(presentationLead(nextIndex,targetTime),.08,.9):leadAt(nextIndex);
+          if(targetTime-spawnAhead>t)break;
           const index=nextIndex++; // consume exactly once, even after a delayed frame
           if(t>targetTime+hitWindow){skippedExpired++;continue;}
-          due.push({index,targetTime,spawnAhead:leadAt(index)});
+          due.push({index,targetTime,spawnAhead});
         }
         return due;
       }
